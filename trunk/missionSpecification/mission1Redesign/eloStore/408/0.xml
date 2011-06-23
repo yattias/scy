@@ -1,25 +1,6 @@
 <elo>
 <metadata>
   <lom>
-    <technical>
-      <format>scy/interview</format>
-      <customElements>
-        <dateCreated>1267436401212</dateCreated>
-        <dateLastModified>1267436401227</dateLastModified>
-      </customElements>
-    </technical>
-    <general>
-      <title>
-        <string language="en">Empty interview</string>
-        <string language="fr">Nouvelle interview</string>
-      </title>
-      <mission>co2Mission</mission>
-      <las>startPage</las>
-      <identifier>
-        <catalog>memory</catalog>
-        <entry>roolo://memory/408/0/Empty_interview.scyinterview</entry>
-      </identifier>
-    </general>
     <lifecycle>
       <contribute>
         <role>
@@ -31,27 +12,29 @@
           <dateTime>2010-03-01T10:40:01.212+0100</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>9</version>
     </lifecycle>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_versioned_by</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
+    <technical>
+      <customElements>
+        <dateCreated>1267436401212</dateCreated>
+        <dateLastModified>1267436401227</dateLastModified>
+      </customElements>
+      <format>scy/interview</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/408/0/Empty_interview.scyinterview</entry>
+      </identifier>
+      <las>startPage</las>
+      <mission>co2Mission</mission>
+      <title>
+        <string language="en">Empty interview</string>
+        <string language="fr">Nouvelle interview</string>
+      </title>
+    </general>
   </lom>
+  <template>true</template>
 </metadata>
 <content languageIndependent="true" contentType="xml">
 <interview>

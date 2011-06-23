@@ -12,7 +12,7 @@
           <dateTime>2010-12-15T10:50:32.379+0100</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>6</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -34,19 +34,11 @@
         <string language="nl">Empty YouTube video</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
+  <template>true</template>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-	<youtuber/>
+<youtuber />
 </content>
 <resources>
 <resource languageIndependent="true" contentType="binary" name="thumbnail" technicalFormat="scy/png">

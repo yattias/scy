@@ -1,24 +1,6 @@
 <elo>
 <metadata>
   <lom>
-    <technical>
-      <format>scy/drawing</format>
-      <customElements>
-        <dateCreated>1267436238493</dateCreated>
-        <dateLastModified>1267436238493</dateLastModified>
-      </customElements>
-    </technical>
-    <general>
-      <title>
-        <string language="en">First ideas</string>
-      </title>
-      <mission>co2Mission</mission>
-      <las>startPage</las>
-      <identifier>
-        <catalog>memory</catalog>
-        <entry>roolo://memory/500/0/First+ideas.scydraw</entry>
-      </identifier>
-    </general>
     <lifecycle>
       <contribute>
         <role>
@@ -30,31 +12,32 @@
           <dateTime>2010-03-01T10:37:18.493+0100</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>3</version>
     </lifecycle>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_versioned_by</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
+    <technical>
+      <customElements>
+        <dateCreated>1267436238493</dateCreated>
+        <dateLastModified>1267436238493</dateLastModified>
+      </customElements>
+      <format>scy/drawing</format>
+    </technical>
     <annotation>
       <entity>icon</entity>
       <iconType>ard/idea</iconType>
     </annotation>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/500/0/First+ideas.scydraw</entry>
+      </identifier>
+      <las>startPage</las>
+      <mission>co2Mission</mission>
+      <title>
+        <string language="en">First ideas</string>
+      </title>
+    </general>
   </lom>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>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</base64>

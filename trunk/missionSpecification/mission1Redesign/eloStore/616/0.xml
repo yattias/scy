@@ -1,28 +1,6 @@
 <elo>
 <metadata>
   <lom>
-    <general>
-      <title>
-        <string language="en">Concept map of my field expertise</string>
-      </title>
-      <description>
-        <string language="en" />
-      </description>
-      <structure>conceptMap</structure>
-      <mission>co2Mission</mission>
-      <las>experimentDesign</las>
-      <identifier>
-        <catalog>memory</catalog>
-        <entry>roolo://memory/616/0/Expert_concept_map.scymapping</entry>
-      </identifier>
-    </general>
-    <technical>
-      <format>scy/mapping</format>
-      <customElements>
-        <dateCreated>1266921376285</dateCreated>
-        <dateLastModified>1266921421719</dateLastModified>
-      </customElements>
-    </technical>
     <lifecycle>
       <contribute>
         <role>
@@ -34,35 +12,40 @@
           <dateTime>2010-02-23T11:37:01.719+0100</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>3</version>
     </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1266921376285</dateCreated>
+        <dateLastModified>1266921421719</dateLastModified>
+      </customElements>
+      <format>scy/mapping</format>
+    </technical>
+    <general>
+      <description>
+        <string language="en" />
+      </description>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/616/0/Expert_concept_map.scymapping</entry>
+      </identifier>
+      <las>experimentDesign</las>
+      <structure>conceptMap</structure>
+      <mission>co2Mission</mission>
+      <title>
+        <string language="en">Concept map of my field expertise</string>
+      </title>
+    </general>
     <educational>
       <learningResourceType>mapConcept</learningResourceType>
     </educational>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_versioned_by</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
     <annotation>
       <entity>icon</entity>
       <iconType>ard/concept_map</iconType>
     </annotation>
   </lom>
- <thumbnail>
+  <template>true</template>
+  <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAAeElEQVR42u3QMQEAAAwCIPuX1hDbCRFIOYkCgQIFCkSgQIECEShQoEAEChQoEIECBQpEoECBAhEoUKBABAoUKBCBAgUKRKBAgQIRKFCgQIEIFChQIAIFChSIQIECBSJQoECBCBQoUCACBQoUiECBAgUiUKBAgQj8M5Hzoc7Xq3ytAAAAAElFTkSuQmCC</base64>
   </thumbnail>
@@ -71,8 +54,8 @@
 <eu.scy.scymapper.impl.model.DefaultConceptMap>
   <name>Untitled</name>
   <diagram class="eu.scy.scymapper.impl.DiagramModel">
-    <nodes/>
-    <links/>
+    <nodes />
+    <links />
   </diagram>
 </eu.scy.scymapper.impl.model.DefaultConceptMap>
 </content>

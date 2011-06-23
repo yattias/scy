@@ -1,31 +1,6 @@
 <elo>
 <metadata>
   <lom>
-    <technical>
-      <format>scy/rtf</format>
-      <customElements>
-        <dateCreated>1266921130672</dateCreated>
-        <dateLastModified>1266921130673</dateLastModified>
-      </customElements>
-    </technical>
-    <general>
-      <title>
-        <string language="en">Conclusions</string>
-      </title>
-      <description>
-        <string language="en" />
-      </description>
-      <structure>plainText</structure>
-      <mission>co2Mission</mission>
-      <las>experimentDesign</las>
-      <identifier>
-        <catalog>memory</catalog>
-        <entry>roolo://memory/614/0/Conclusion_of_expert_experiments.rtf</entry>
-      </identifier>
-    </general>
-    <educational>
-      <learningResourceType>experimentConclusion</learningResourceType>
-    </educational>
     <lifecycle>
       <contribute>
         <role>
@@ -37,38 +12,46 @@
           <dateTime>2010-02-23T11:32:10.658+0100</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>3</version>
     </lifecycle>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_versioned_by</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
+    <technical>
+      <customElements>
+        <dateCreated>1266921130672</dateCreated>
+        <dateLastModified>1266921130673</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <general>
+      <description>
+        <string language="en" />
+      </description>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/614/0/Conclusion_of_expert_experiments.rtf</entry>
+      </identifier>
+      <las>experimentDesign</las>
+      <structure>plainText</structure>
+      <mission>co2Mission</mission>
+      <title>
+        <string language="en">Conclusions</string>
+      </title>
+    </general>
+    <educational>
+      <learningResourceType>experimentConclusion</learningResourceType>
+    </educational>
   </lom>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACRklEQVR42u3Uz4sSYRzH8flDOnTvD+jUtWt/QefOdYpY6JCXli792Cgy6VCBTWtLQVQEuxWyLpkXiWhnVXQhxUVNJZ0p5dt+n+UZdGbXii5zeH/gw8x8eR5n5oXqTKdT6fV6YbvdrjkOh0OZTCb0D3UUsN1ux6qAihltOp2eq+6PrslkMrFZNpuNzTzPi80Ou2+/35fxeJzIhoDDXlue5CqytzcPeOKkK6lbn2W7I+ELffjSlvP3D17e930J/JFs7Rz0Y9UPAe1Mq4CdTmf//Mf+msDMLODsOnvf2dlgMEhsQ8AzV+qSyn2X07dlDvDU2U25tDqUY8eXQ8BPxaKUy+XwG/Mz8OXl1q44jiNr770QMLfxVZ6988zRAr7YrMsD942ZWUA9v5haMUd731fFb7J09Z6Z6YPq3iTW0d+xgml26wM5t1Q01/rQ+iLXMm/lwuU1ufl4IwRcfr4tK693zLl+yORXINcfrsuNR+tmnQXUa1sLeHe1IHeeFsx6C2j3ai3g7F79CbdarUR24X/gYR2NRnNtNpuxNQoYnbmuG5vVarXYLAiC2Ez/axqNRiLrlEolyefzsRYKBalWq1KpVMwx2ujcXh+1PrrGNrrnb/Yv+qxFPeoZ//UdZ+sI+a8ACCCAAAJIAAQQQAAJgAACCCABEEAAASQAAggggARAAAEEkAAIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQwGTmNypv9UAhZZC0AAAAAElFTkSuQmCC</base64>
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil sansserif;}
-{\colortbl\red0\green0\blue0;\red0\green0\blue0;}
-
-\f1\fs24\i0\b0\cf1\par
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil sansserif;}&#xD;
+{\colortbl\red0\green0\blue0;\red0\green0\blue0;}&#xD;
+&#xD;
+\f1\fs24\i0\b0\cf1\par&#xD;
 }</RichText>
 </content>
 <resources>
