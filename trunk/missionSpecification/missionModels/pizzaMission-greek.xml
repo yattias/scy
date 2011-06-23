@@ -365,8 +365,8 @@
             </bean>
 		
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="foodAndExerciseDiary"/>
-               <property name="uri" value="roolo://memory/30004/0/Food+And+Exercise+Diary.scypds"/>
+               <property name="id" value="Ημερολόγιο Διατροφής και ’σκησης"/>
+               <property name="uri" value="roolo://memory/30191/0/Food+And+Exercise+Diary.scypds"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_B.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_04_foodAndExerciseDiary.html"/>
                <property name="resourcesUri" value=""/>
@@ -379,8 +379,8 @@
             </bean>
 		
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="dailyCalorieIntake"/>
-               <property name="uri" value="roolo://memory/30005/0/Daily+Calorie+Intake.scypds"/>
+               <property name="id" value="Ημερήσια Πρόσληψη Θερμίδων"/>
+               <property name="uri" value="roolo://memory/30192/0/Daily+Calorie+Intake.scypds"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_B.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_10_dailyCalorieIntake.html"/>
                <property name="resourcesUri" value=""/>
@@ -393,8 +393,8 @@
             </bean>
 		
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="estimatedEnergyRequirements"/>
-               <property name="uri" value="roolo://memory/30008/0/Estimated+Energy+Requirements+%28Health+Passport%29.scypds"/>
+               <property name="id" value="Ενδεικτικές Ενεργειακές Ανάγκες"/>
+               <property name="uri" value="roolo://memory/30193/0/Estimated+Energy+Requirements+%28Health+Passport%29.scypds"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_B.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_14_estimatedEnergyRequirements.html"/>
                <property name="resourcesUri" value=""/>
@@ -598,8 +598,8 @@
             </bean>
 		
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="criteriaTable"/>
-               <property name="uri" value="roolo://memory/30038/0/Criteria+Table.scypds"/>
+               <property name="id" value="Πίνακας Κριτηρίων"/>
+               <property name="uri" value="roolo://memory/30187/0/Criteria+Table.scypds"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_I.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_24_criteriaTable.html"/>
                <property name="resourcesUri" value=""/>
@@ -612,8 +612,8 @@
             </bean>
 				
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="criteriaWeightTable"/>
-               <property name="uri" value="roolo://memory/30039/0/Criteria+Weight+Table.scypds"/>
+               <property name="id" value="Πίνακας Βαρύτητας Κριτηρίων"/>
+               <property name="uri" value="roolo://memory/30190/0/Criteria+Weight+Table.scypds"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_I.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_25_criteriaWeightTable.html"/>
                <property name="resourcesUri" value=""/>
@@ -626,8 +626,8 @@
             </bean>
 				
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="criteriaFinalTable"/>
-               <property name="uri" value="roolo://memory/30040/0/Criteria+Final+Table.scypds"/>
+               <property name="id" value="Τελικός Πίνακας Κριτηρίων"/>
+               <property name="uri" value="roolo://memory/30189/0/Criteria+Final+Table.scypds"/>
 			   <property name="iconType" value="Conclusion"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_I.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_26_criteriaFinalTable.html"/>
@@ -669,8 +669,8 @@
             </bean>
 				
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="tasteScores"/>
-               <property name="uri" value="roolo://memory/30043/0/Taste+Scores.scypds"/>
+               <property name="id" value="Διαγωνισμός Γεύσης"/>
+               <property name="uri" value="roolo://memory/30188/0/Taste+Scores.scypds"/>
 			   <property name="iconType" value="Hypothese"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_K.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_30_tasteScores.html"/>
