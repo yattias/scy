@@ -9,7 +9,7 @@
         </role>
         <entity>Caspar</entity>
         <date>
-          <dateTime>2011-01-18T16:05:53.640+0100</dateTime>
+          <dateTime>2011-01-18T17:05:53.640+0200</dateTime>
         </date>
       </contribute>
       <version>8</version>
@@ -34,6 +34,18 @@
         <string language="en">Food And Exercise Diary</string>
       </title>
     </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_forked_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/30191/0/Food+And+Exercise+Diary.scypds</entry>
+        </identifier>
+      </resource>
+    </relation>
   </lom>
   <template>true</template>
   <thumbnail>

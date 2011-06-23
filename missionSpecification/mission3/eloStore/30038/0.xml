@@ -9,7 +9,7 @@
         </role>
         <entity>Caspar</entity>
         <date>
-          <dateTime>2011-03-03T14:40:04.005+0100</dateTime>
+          <dateTime>2011-03-03T15:40:04.005+0200</dateTime>
         </date>
       </contribute>
       <contribute>
@@ -19,7 +19,7 @@
         </role>
         <entity>Caspar</entity>
         <date>
-          <dateTime>2011-03-03T14:40:00.334+0100</dateTime>
+          <dateTime>2011-03-03T15:40:00.334+0200</dateTime>
         </date>
       </contribute>
       <version>10</version>
@@ -49,6 +49,18 @@
         <string language="en">Criteria Table</string>
       </title>
     </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_forked_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/30187/0/Criteria+Table.scypds</entry>
+        </identifier>
+      </resource>
+    </relation>
   </lom>
   <template>true</template>
   <thumbnail>
