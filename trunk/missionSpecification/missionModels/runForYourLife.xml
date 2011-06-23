@@ -8,6 +8,11 @@
 
    <bean name="missionConfigInput" class="eu.scy.client.desktop.scydesktop.tools.mission.springimport.BasicMissionConfigInput">
 
+      <property name="missionId" value="mini1"/>
+      <property name="missionTitle" value="Run for your life!"/>
+      <property name="languageId" value="en"/>
+      <property name="xhtmlVersionId" value=""/>
+
       <property name="missionDescriptionUri" value="http://www.scy-lab.eu/content/en/mission5/curtain_MISSION.html"/>
 
       <property name="colorSchemesEloUri" value="roolo://memory/50010/0/colorschemes1.colorschemes"/>
