@@ -1,25 +1,6 @@
 <elo>
 <metadata>
   <lom>
-    <technical>
-      <format>scy/dataset</format>
-      <customElements>
-        <dateCreated>1267436210274</dateCreated>
-        <dateLastModified>1267436210274</dateLastModified>
-      </customElements>
-    </technical>
-    <general>
-      <title>
-        <string language="en">Empty dataset</string>
-        <string language="fr">Nouveau jeu de données</string>
-      </title>
-      <mission>co2Mission</mission>
-      <las>startPage</las>
-      <identifier>
-        <catalog>memory</catalog>
-        <entry>roolo://memory/404/0/Empty_dataset.dataset</entry>
-      </identifier>
-    </general>
     <lifecycle>
       <contribute>
         <role>
@@ -31,27 +12,29 @@
           <dateTime>2010-03-01T10:36:50.274+0100</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>9</version>
     </lifecycle>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_versioned_by</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
+    <technical>
+      <customElements>
+        <dateCreated>1267436210274</dateCreated>
+        <dateLastModified>1267436210274</dateLastModified>
+      </customElements>
+      <format>scy/dataset</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/404/0/Empty_dataset.dataset</entry>
+      </identifier>
+      <las>startPage</las>
+      <mission>co2Mission</mission>
+      <title>
+        <string language="en">Empty dataset</string>
+        <string language="fr">Nouveau jeu de données</string>
+      </title>
+    </general>
   </lom>
+  <template>true</template>
 </metadata>
 <content languageIndependent="true" contentType="xml">
 <processDataset>

@@ -1,14 +1,6 @@
 <elo>
 <metadata>
   <lom>
-    <technical>
-      <format>scy/url</format>
-      <customElements>
-        <dateCreated>1266836817105</dateCreated>
-        <dateLastModified>1266836817106</dateLastModified>
-      </customElements>
-	  <mucId>startPageChat</mucId>
-    </technical>
     <lifecycle>
       <contribute>
         <role>
@@ -20,27 +12,8 @@
           <dateTime>2010-02-22T13:36:09.329+0100</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>3</version>
     </lifecycle>
-    <general>
-      <title>
-        <string language="en">Challenge</string>
-        <string language="fr">Challenge</string>
-      </title>
-      <description>
-        <string language="en" />
-      </description>
-      <structure>information</structure>
-      <mission>co2Mission</mission>
-      <las>startPage</las>
-      <identifier>
-        <catalog>memory</catalog>
-        <entry>roolo://memory/581/0/Challenge.url</entry>
-      </identifier>
-    </general>
-    <educational>
-      <learningResourceType>informationAssignment</learningResourceType>
-    </educational>
     <relation>
       <kind>
         <source>LOMv1.0</source>
@@ -53,29 +26,39 @@
         </identifier>
       </resource>
     </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_versioned_by</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
+    <technical>
+      <customElements>
+        <dateCreated>1266836817105</dateCreated>
+        <dateLastModified>1266836817106</dateLastModified>
+      </customElements>
+      <mucId>startPageChat</mucId>
+      <format>scy/url</format>
+    </technical>
+    <general>
+      <description>
+        <string language="en" />
+      </description>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/581/0/Challenge.url</entry>
+      </identifier>
+      <las>startPage</las>
+      <structure>information</structure>
+      <mission>co2Mission</mission>
+      <title>
+        <string language="en">Challenge</string>
+        <string language="fr">Challenge</string>
+      </title>
+    </general>
+    <educational>
+      <learningResourceType>informationAssignment</learningResourceType>
+    </educational>
     <annotation>
       <entity>icon</entity>
       <iconType>ard/assignment</iconType>
     </annotation>
   </lom>
+  <template>true</template>
 </metadata>
 <content languageIndependent="true" contentType="xml">
 <url>http://www.scy-lab.eu/content/en/mission1Redesign_UT/startPage/A_Challenge.html</url>

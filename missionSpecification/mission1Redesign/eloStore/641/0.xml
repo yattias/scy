@@ -1,53 +1,6 @@
 <elo>
 <metadata>
   <lom>
-    <technical>
-      <format>scy/skp</format>
-      <customElements>
-        <dateCreated>1266930344761</dateCreated>
-        <dateLastModified>1266930344763</dateLastModified>
-      </customElements>
-    </technical>
-    <annotation>
-      <entity>externalDoc</entity>
-      <description />
-      <date>
-        <dateTime>2010-02-23T14:05:44.769+0100</dateTime>
-      </date>
-      <file>
-        <assignment>To make your drawing, you have to :&#xD;
-- Go to GoogleSketchUp&#xD;
-- Make your drawing&#xD;
-- Save it in your computer&#xD;
-- Then come back here and click on the upload file button&#xD;
-- Select your drawing document&#xD;
-- Press "open"&#xD;
-- Save your drawing in SCY-Lab</assignment>
-        <description />
-        <name />
-        <path />
-        <lastModified>0</lastModified>
-        <size>-1</size>
-      </file>
-    </annotation>
-    <general>
-      <title>
-        <string language="en">House design</string>
-      </title>
-      <description>
-        <string language="en" />
-      </description>
-      <structure />
-      <mission>co2Mission</mission>
-      <las>startPage</las>
-      <identifier>
-        <catalog>memory</catalog>
-        <entry>roolo://memory/641/0/House_drawings.skp</entry>
-      </identifier>
-    </general>
-    <educational>
-      <learningResourceType>drawingDesign</learningResourceType>
-    </educational>
     <lifecycle>
       <contribute>
         <role>
@@ -59,32 +12,61 @@
           <dateTime>2010-02-23T14:05:44.759+0100</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>3</version>
     </lifecycle>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_versioned_by</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
+    <technical>
+      <customElements>
+        <dateCreated>1266930344761</dateCreated>
+        <dateLastModified>1266930344763</dateLastModified>
+      </customElements>
+      <format>scy/skp</format>
+    </technical>
+    <general>
+      <description>
+        <string language="en" />
+      </description>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/641/0/House_drawings.skp</entry>
+      </identifier>
+      <las>startPage</las>
+      <structure />
+      <mission>co2Mission</mission>
+      <title>
+        <string language="en">House design</string>
+      </title>
+    </general>
+    <annotation>
+      <entity>externalDoc</entity>
+      <date>
+        <dateTime>2011-06-23T16:34:03.937+0200</dateTime>
+      </date>
+      <file>
+        <assignment>To make your drawing, you have to :&#xD;&#xD;&#xD;
+- Go to GoogleSketchUp&#xD;&#xD;&#xD;
+- Make your drawing&#xD;&#xD;&#xD;
+- Save it in your computer&#xD;&#xD;&#xD;
+- Then come back here and click on the upload file button&#xD;&#xD;&#xD;
+- Select your drawing document&#xD;&#xD;&#xD;
+- Press "open"&#xD;&#xD;&#xD;
+- Save your drawing in SCY-Lab</assignment>
+        <description />
+        <name />
+        <path />
+        <lastModified>0</lastModified>
+        <size>-1</size>
+      </file>
+    </annotation>
+    <educational>
+      <learningResourceType>drawingDesign</learningResourceType>
+    </educational>
     <annotation>
       <entity>icon</entity>
       <iconType>ard/drawing</iconType>
     </annotation>
   </lom>
- <thumbnail>
+  <template>true</template>
+  <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAAAoCAYAAABpYH0BAAAFaklEQVR42u1a6S9eWRjvX6NfhPjik8SaIKmE2kqEEjTE1mYIRmsJmmo7kWmEINZU7KVCaos9Eq1d7Vutte8lDM/M75k5d94Rg2nN9XrdX/I4xz3nfe97f/c5z3bOHfoL+7+pyNHf/RNScB7u4M/4+Dg1NjZK0tDQIPWHhod54sbGBk1MTFwoIyMjdHh4eKm5p2VmZoYODg5oe3ubtra2uD2vf1owtru7Ky+B0LLi4mIqLS2liooKsrCwoMzMTLK3t+drGFs/IOrs7GQB2XZ2dpSbm0sxMTF8raSkhJ48ecL9wsJC2tnZ4f7wH+R7enqSg4MDxcfH04sXL8jDw4NsbGyor6+PPn78SL29vdTW1sbzcf+1tTVaWVmh5eVlfhmC2KWlJVpdXaXFxUUeRx9j/f393J+cnOTrENkJTElJodTUVNLX16f79+/zAxoYGPA1jIHA2tpaFiMjIyb37du35OzsTHV1daSrq0tOTk48npaWxpqAfn19Pfn7+5O5uTlFRETw5x48eEBmZmY8XlVVxdqenJzM/+fn5zNxc3NzNDs7yy2IRn96epplbGyM24WFBRocHGQC5+fnucV8iOxL+Kfol5Sa9OuZ8nP8LzwxLy+P3r17d6EIQHsvM/+sz05NTX23QBNlJ1CBQqDsgKa3trb+k0AYbXgzV1dXtnWAl5cX26nj42M22j+Cx48fS/3nz59LfdxTR0eHHU50dDRfg308OfkziIKzKSgooLKyMmn+o0ePuD80NESfPn3i5Yvv1NbW5ustLS307Nkztr+vX7++cgIFF0xgTU0Nk/Tt2ze++PTpU0pISJAeBEYcD4P2qoEXI1BZWcmtIO4sYAzy5s0bDq1Ur8utgYgeZF/C0B6B9fV1qQ9vrQrEg0BQUBDdu3eP+/DQAk1NTVRUVHRtSxih07UQCNOAhw8JCeEfILQHWi+8d2hoqLQaACzv8PBwXsYIWcS8xMREKi8vvxYC8fKvhcDLAPGjugPxL+yu7ARqaWmRpaUldXR0sA2DJnZ3d3P20tXVxdlLUlISDQwMsJ2JiopiG40spbm5WVq+6kAgHInsBOrp6VFgYCDdvXuXMwpkPQKRkZGcrQDwnCANGc779++ZXJAJHB0d3V4CNQXXQuDe3h45Ojqy8Q8LC+PlK2I5URWCl0bhAIUKFxcX6bOjo6OcTgqNhTamp6eTr68vFyqQg98KDezp6WH7JkIBVezv77Ng2aKIgMKBAEIYkCu8MKoyCPxRRBAvQG4C8cJlJxD26/9K+EUlRrwgZCOngSrORfj69Sttbm6qnwZCW7CMX716xaEKyESZC04Fgkzny5cvUjqHB0H6hnlIywCU0Xx8fFgj29vb6cOHD2RiYsJ1xOzsbE7xvL29yc/PT0rrBKGiqgRyUJdEmofvxUqAScH98BtwT5gGIC4u7sxngVPDKrn1TkTk1/8ViAENDQ3lIxC27XROe9OrMTARShjzg5CNQNWqi8YRiHgK+xgKvpNABKEIcLH7BWRkZLAXQ8yFWOwmJPcav4QR+KJ4oGmiOJGbooEaTSA20FVTF6RE4mRAQECAwtJFBKKAaWVlJXlikGZra8ukKgSqyRJG3vj582fOS9GeJapjl+n/2+fRqvYvc4/zfst5cxUbqDgRNQmkxeGe2NhYbkVJCVUHnKjKycnhABvbiChBKVAhMCsri9zc3HinDAEvgL1ZAHux2MtFLmttbU3u7u7SsQoFMi5hGGEUVDVNFBuoOBE1IBCOA2ehRdUYmYixsTGZmpryoR8cO8Pm9lUDB8JhUyFAdXW15MTwW7CD9/DhQ/UnEGeTBbBVh90mbPwEBwfzA2GP9qrP2J1V0r+JZf7fASyF5nRTmB2FAAAAAElFTkSuQmCC</base64>
   </thumbnail>

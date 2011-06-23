@@ -1,24 +1,6 @@
 <elo>
 <metadata>
   <lom>
-    <technical>
-      <format>scy/drawing</format>
-      <customElements>
-        <dateCreated>1267436238493</dateCreated>
-        <dateLastModified>1267436238493</dateLastModified>
-      </customElements>
-    </technical>
-    <general>
-      <title>
-        <string language="en">List of choices</string>
-      </title>
-      <mission>co2Mission</mission>
-      <las>startPage</las>
-      <identifier>
-        <catalog>memory</catalog>
-        <entry>roolo://memory/502/0/List+of+choices.scydraw</entry>
-      </identifier>
-    </general>
     <lifecycle>
       <contribute>
         <role>
@@ -30,27 +12,28 @@
           <dateTime>2010-03-01T10:37:18.493+0100</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>3</version>
     </lifecycle>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_versioned_by</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
+    <technical>
+      <customElements>
+        <dateCreated>1267436238493</dateCreated>
+        <dateLastModified>1267436238493</dateLastModified>
+      </customElements>
+      <format>scy/drawing</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/502/0/List+of+choices.scydraw</entry>
+      </identifier>
+      <las>startPage</las>
+      <mission>co2Mission</mission>
+      <title>
+        <string language="en">List of choices</string>
+      </title>
+    </general>
   </lom>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACCklEQVR42u3UO4taQRjG8VPb2lim2E5JK4v4NWKdOpXgfhcvWAhR0yTBzuxaRIlFIJtksbAJWEgIUbyi4nXf+E52DhnPkmLB7v/Aw5xXZ7z8vHiVxp3cdH7L9d0v0/f1piyXS6eLxcKZK5WKM+fz+cCZ01arVWdut9uBPZp/5+Fw6Myr1Uqi0ahfTTKZ9BuPx/37Go2G7Ha7s9cr33yX1x9u5cXLV1L/9tMAjkYjeXZxIW88T8bjsZl1nU6nZlVA7Xa7NW8il8uZ2zudjngPZ2ztGQXUNZVKyXw+l1arZWZ9jPvjG7fXkUjEP6uAuna7XbNOJhPzYdpqwuGwWfV5NbPZTGKxmJRKJWfvuepVHgC/3n7xAfXFvj2+oOeXlw6greIVi0VzfTgcDODpHm0mk3kUUFcLWKvV5PPVlQ9oz4ZCoUcB9TbbU8D9fi+JRELW67UUCgVn77lqABXu04+FWd/VPwYgTnHK5bIz22/g/85YQNtmsxk4s9lsnHkwGAT29Pt9v+YndISzTafT/n3ZbNbZe656vV5P6NP794+DPDkAAggggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAgggARBAAAEkAAIIIIAEQAABBJAACCCAABIAAQQQQAIggAACSAAEEEAASTB/AKtb5x3hEO9nAAAAAElFTkSuQmCC</base64>

@@ -12,7 +12,7 @@
           <dateTime>2010-12-09T14:26:53.790+0100</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>6</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -32,6 +32,7 @@
       </title>
     </general>
   </lom>
+  <template>true</template>
 </metadata>
 <content languageIndependent="true" contentType="xml">
 <form description="" title="" version="0" />

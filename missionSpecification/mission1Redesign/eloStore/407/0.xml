@@ -1,40 +1,6 @@
 <elo>
 <metadata>
   <lom>
-    <technical>
-      <format>scy/skp</format>
-      <customElements>
-        <dateCreated>1267436366602</dateCreated>
-        <dateLastModified>1267436366602</dateLastModified>
-      </customElements>
-    </technical>
-    <annotation>
-      <entity>externalDoc</entity>
-      <description />
-      <date>
-        <dateTime>2010-03-01T10:39:26.602+0100</dateTime>
-      </date>
-      <file>
-        <assignment />
-        <description />
-        <name />
-        <path />
-        <lastModified>0</lastModified>
-        <size>-1</size>
-      </file>
-    </annotation>
-    <general>
-      <title>
-        <string language="en">Google SketchUp document</string>
-        <string language="fr">Document Google SketchUp</string>
-      </title>
-      <mission>co2Mission</mission>
-      <las>startPage</las>
-      <identifier>
-        <catalog>memory</catalog>
-        <entry>roolo://memory/407/0/Google_SketchUp_document.skp</entry>
-      </identifier>
-    </general>
     <lifecycle>
       <contribute>
         <role>
@@ -46,27 +12,43 @@
           <dateTime>2010-03-01T10:39:26.602+0100</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>9</version>
     </lifecycle>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_versioned_by</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
+    <technical>
+      <customElements>
+        <dateCreated>1267436366602</dateCreated>
+        <dateLastModified>1267436366602</dateLastModified>
+      </customElements>
+      <format>scy/skp</format>
+    </technical>
+    <annotation>
+      <entity>externalDoc</entity>
+      <date>
+        <dateTime>2011-06-23T16:34:03.631+0200</dateTime>
+      </date>
+      <file>
+        <assignment />
+        <description />
+        <name />
+        <path />
+        <lastModified>0</lastModified>
+        <size>-1</size>
+      </file>
+    </annotation>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/407/0/Google_SketchUp_document.skp</entry>
+      </identifier>
+      <las>startPage</las>
+      <mission>co2Mission</mission>
+      <title>
+        <string language="en">Google SketchUp document</string>
+        <string language="fr">Document Google SketchUp</string>
+      </title>
+    </general>
   </lom>
+  <template>true</template>
 </metadata>
 <content languageIndependent="true">
 

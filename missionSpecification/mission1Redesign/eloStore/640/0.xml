@@ -1,33 +1,6 @@
 <elo>
 <metadata>
   <lom>
-    <technical>
-      <format>scy/simconfig</format>
-      <customElements>
-        <dateCreated>1266929624331</dateCreated>
-        <dateLastModified>1266929624332</dateLastModified>
-      </customElements>
-    </technical>
-    <general>
-      <title>
-        <string language="en">House data from the Thermal simulation</string>
-	<string language="fr">Données de la maison issues de la simulation sur l'énergie thermique</string>
-
-      </title>
-      <description>
-        <string language="en" />
-      </description>
-      <structure />
-      <mission>co2Mission</mission>
-      <las>startPage</las>
-      <identifier>
-        <catalog>memory</catalog>
-        <entry>roolo://memory/640/0/House_data_from_the_Thermal_simulation.scysimconfig</entry>
-      </identifier>
-    </general>
-    <educational>
-      <learningResourceType>sourceData</learningResourceType>
-    </educational>
     <lifecycle>
       <contribute>
         <role>
@@ -39,27 +12,36 @@
           <dateTime>2010-02-23T13:53:44.329+0100</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>3</version>
     </lifecycle>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_versioned_by</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
+    <technical>
+      <customElements>
+        <dateCreated>1266929624331</dateCreated>
+        <dateLastModified>1266929624332</dateLastModified>
+      </customElements>
+      <format>scy/simconfig</format>
+    </technical>
+    <general>
+      <description>
+        <string language="en" />
+      </description>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/640/0/House_data_from_the_Thermal_simulation.scysimconfig</entry>
+      </identifier>
+      <las>startPage</las>
+      <structure />
+      <mission>co2Mission</mission>
+      <title>
+        <string language="en">House data from the Thermal simulation</string>
+        <string language="fr">Données de la maison issues de la simulation sur l'énergie thermique</string>
+      </title>
+    </general>
+    <educational>
+      <learningResourceType>sourceData</learningResourceType>
+    </educational>
   </lom>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>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</base64>

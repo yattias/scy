@@ -12,7 +12,7 @@
           <dateTime>2010-12-09T11:08:03.085+0100</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>9</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -37,15 +37,6 @@
     <relation>
       <kind>
         <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
         <value>isbasedon</value>
       </kind>
       <resource>
@@ -56,9 +47,13 @@
       </resource>
     </relation>
   </lom>
+  <template>true</template>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<MathTool><map></map>></MathTool>
+<MathTool>
+  <map />
+  &gt;
+</MathTool>
 </content>
 <resources>
 <resource languageIndependent="true" contentType="binary" name="thumbnail" technicalFormat="scy/png">

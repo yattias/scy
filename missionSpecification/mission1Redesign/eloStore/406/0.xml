@@ -1,25 +1,6 @@
 <elo>
 <metadata>
   <lom>
-    <technical>
-      <format>scy/xproc</format>
-      <customElements>
-        <dateCreated>1267436266477</dateCreated>
-        <dateLastModified>1267436266477</dateLastModified>
-      </customElements>
-    </technical>
-    <general>
-      <title>
-        <string language="en">Empty experimental procedure</string>
-        <string language="fr">Nouveau protocole expérimental</string>
-      </title>
-      <mission>co2Mission</mission>
-      <las>startPage</las>
-      <identifier>
-        <catalog>memory</catalog>
-        <entry>roolo://memory/406/0/Empty_experimental_procedure.scyxproc</entry>
-      </identifier>
-    </general>
     <lifecycle>
       <contribute>
         <role>
@@ -31,27 +12,29 @@
           <dateTime>2010-03-01T10:37:46.477+0100</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>9</version>
     </lifecycle>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_versioned_by</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
+    <technical>
+      <customElements>
+        <dateCreated>1267436266477</dateCreated>
+        <dateLastModified>1267436266477</dateLastModified>
+      </customElements>
+      <format>scy/xproc</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/406/0/Empty_experimental_procedure.scyxproc</entry>
+      </identifier>
+      <las>startPage</las>
+      <mission>co2Mission</mission>
+      <title>
+        <string language="en">Empty experimental procedure</string>
+        <string language="fr">Nouveau protocole expérimental</string>
+      </title>
+    </general>
   </lom>
+  <template>true</template>
 </metadata>
 <content languageIndependent="true" contentType="xml">
 <experimental_procedure>
@@ -72,7 +55,7 @@
           <repeat_right>N</repeat_right>
         </task_right>
       </question>
-    <proc_hypothesis>
+      <proc_hypothesis>
         <hypothesis language="en" />
         <hypothesis language="fr" />
         <comment language="en" />
