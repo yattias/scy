@@ -9,7 +9,7 @@
         </role>
         <entity>arle</entity>
         <date>
-          <dateTime>2011-04-26T11:04:25.812+0300</dateTime>
+          <dateTime>2011-04-26T10:04:25.812+0200</dateTime>
         </date>
       </contribute>
       <contribute>
@@ -19,10 +19,10 @@
         </role>
         <entity>arle</entity>
         <date>
-          <dateTime>2011-04-26T11:04:25.812+0300</dateTime>
+          <dateTime>2011-04-26T10:04:25.812+0200</dateTime>
         </date>
       </contribute>
-      <version>2</version>
+      <version>4</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -49,31 +49,20 @@
         <string language="en">Initial field-specific decision animal protector</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAFDUlEQVR42u2W20tcVxTG5x9o6bMPPlR8qFBqEIQKihIj1qRp3oKmJcWXQkspvXg3KjaiRIUwTjPRUUeM9RKr1ku0qBXHKjG2ahKjNReJeGnVeIuOl/H21bXk7M44M0lJFUpZH3ycvdde+3J+5+x9js5sNuNl2t3dFbuxjgDOz89jbm4Os7OzfLUvW61WdHZ2uvTQ0BBsNpuTSe76lJeXu4zX1ta67dPf3+8ybrFY0NXV5XY8V2s7ajsAdGUC+Pz58/3XcAd7ytswV93C5OQkFhYWsLi4qDw1NYWtrS0uU559H4oNDAxw+57deNtbNgwODvJYjn12sLq6wg/KuW0by8vL2N52zCdnGcrQ2NiItbW1Y7cCGBz7EJH6Z1jeZ6UvGHUCaBlZwZ9LNszvt7/7+W/4ItXAAAnKJ6YBTCxuY2npAOD6+jrHu0dX0XF/Hh335rlMMXqbgD2uW4aX99ueofPBkgJIcb8Tb8N0o47LG+tWBZDqZJ1Ox1cNYN8Tq2ojn4qKZ4C07uO2Avj+pSf4tnIBX5tm8UEx8NE3gw4AqzseombQhu9vryP00gS+TLumABqu5qC4sADT09MMcGVlheN1lsd8s2Qqa28gqa7rMV57/Q2+/tAxqgBSXnjYSVwrvslt9gCpLctYjZ/vHZQ1gD/1PsXFT+ORX9XJfU5dSEBTUxPPd3iH2PtFbf80T1dSUsIAQ2NH8eNTIFpvxZvvPXB6A/XlXYgtmYal6z7CY3/HV+lGBTArIx3G6yZeNAHUBr9e3YPihn6YGwe4bA+Q4hQjf1f1iwJIdW+fE3jrHX/kFN1yAEhtxpvdqp8G8EbTr1w31d5Bfs1thF1I5LXQOX7cVgCn/5jFlObpWSeAJz+MR8j5OHbw+VgYzDUK4OEzkAamMuXZ99G2cPKVQhUnh11MVADt4+Q16yoDJJCHx9MAhn+c5NDns+SrDJB2xHFbAXzRR6SyshJVVVXKWn1mZgYTExNOpoHt8+zLZWVlDmNpbRUVFU59NI+Pj7sdz1U+xfr6+lyu7aitMxgMaGlpcevW1laMjY2J3ViXdCUff/u6m/Jh/x/z8l8pTwfRvxIDLCzcP9RDQpCeno7g4GAkJydz4+XLl7ns7++vYqTU1FRERUWpekpKCs6dO6dyent7+VpUVISkpCRkZmaqXMqrr6/ncmJiIh8RpPb2dnR3d2NnZwdGoxHauugMpg8MjUPzNDQ0oK2tjduHh4dhMpk4j9rCw8NVXnNzM+f4+fnxl19bW05ODrKzszmntLSUY3q9HmlpacjNzVXz0r8szRsQEMD3SyooKOC1UV8HgKS7d+/y1cPDA6GhoVymicPCwuDr68tXEn0Rz549ywe1ptOnT8PLy0vV6WtLevToEYKCghAXF6fa8vLy+PAlBQYG8oeIpP0W7O3t8dlLonkJaEJCAj/giIgIbGxs8E+yvSjvzJkz8PT05DrlaQ/Jx8dH3YemjIwMHu/gpx7qXrR5e3p6eF66D7pXMonm3dzc5PFjYmIOfmNkEx7BFqatGh0dDW9vb7X1RK8AUDtbIiMj+ToyMsJnjuglAEUCUAAKQAEoEoACUAAKQJEAFIACUACKBKAAFIACUCQABaAAFIAiASgABaAAFAlAASgABaBIAApAASgARQJQAApAASgSgAJQAApAASgSgAJQAApAkQAUgAJQAIoEoAAUgAJQJAAFoAAUgCIBKAAFoAAUCUAB+J/WX+oQOCBZL/SaAAAAAElFTkSuQmCC</base64>
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Write here your ethic-specific decision about whether it is reasonable to grow GMO salmon in our country. \par
-\li0\ri0\fi0\ul0\par
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Write here your ethic-specific decision about whether it is reasonable to grow GMO salmon in our country. \par&#xD;
+\li0\ri0\fi0\ul0\par&#xD;
 }</RichText>
 </content>
 <resources>

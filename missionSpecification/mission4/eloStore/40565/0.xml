@@ -22,7 +22,7 @@
           <dateTime>2011-05-19T11:54:17.612+0200</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>2</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -61,31 +61,20 @@
         </identifier>
       </resource>
     </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAB90lEQVR42u3UTWsTURTG8fl+Ll3MzqUbqUs/gAtBF0IhGMlOrS9McGFCKFLIVKKBJFIkFVyYwJjCGNMmQ8hLW5Nw7DkwUy9UCAhi4P/Aw50zd7gwP5jxxuOxjEYjp5rlcknXqKeAg8HA6Wq1krPTedY4jmU4HFonk4kBp3vHxycyn18+u1ycS61Wu5x/nkmhUHDOK5VKzqyZzWZWPSvtuveu6r86zwAfBt/sJW4+iDLA3VYsk4t32zv4boCvg1dS/Xoq0+nUnn37MZZr12/Ik8onO0xnz/Nk/3BogDpXD0cStk8MUOe9g76tCqjr/ufEVk2SJBtZA7z/IpLO0bk8ff4lA9zeCcX3n0nu5TsDvL11S3o/kgxQ72vvPnpjgOn8uPjBALd3qnLnXuFifm+A6b5WAX+fNf1+fyP7x0+4Xq9njaLIabvddvZbrZYzB0HgzLlczpnL5bIza3q93kbW63Q6clW73S5do56Qv4oB5vN5GxqNhhSLRfvPNZtN+/dpfN+XMAztulKp2N5isUAvBSQAAggggARAAAEEkAAIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAASQAAggggARAAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAAQSQAAgggAASAAH87/ILFaMDAKbK2x4AAAAASUVORK5CYII=</base64>
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Write your checklist here.\par
-\li0\ri0\fi0\ul0\par
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Write your checklist here.\par&#xD;
+\li0\ri0\fi0\ul0\par&#xD;
 }</RichText>
 </content>
 <resources>

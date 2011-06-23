@@ -22,7 +22,7 @@
           <dateTime>2011-04-22T14:43:49.409+0200</dateTime>
         </date>
       </contribute>
-      <version>1</version>
+      <version>3</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -49,31 +49,20 @@
         <string language="en">Official report</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACDklEQVR42u3Uz4tSURjG8fs36Z/RssW4atkmatnGXYugFsGAjOGumpq40iIlhmHEmbAENYZwhBYp3BRu5ly9iD9mJpV35rzgnQ5MIASR9H3g4fiecz1wP6DOcDiUwWBg1WQ+n9MV6hjAXq9ndbFYyNnpNKrv+9Lv97Wj0UiBl2cnJ4FMp1fPzmfnUiqVruafZ5LJZKz7crmcNZtMJhOtuWvZVfeu69+6TwGfuN/0JW4/9iLA3Zovo8t32z/6roBv3NdS/Hoq4/FYn9375MuNm7fk2bvPepmZHceRw+O+Apq5eDyQg3qggGbeP+rqagDNetgIdTUJw3Atq4CPXnnS7JzL85dfIsDN7QPZ2HghqZ33Cnjv7h1p/wgjQLNv+mDrrQIu56fZjwq4uV2U+w8zl/MHBVyemxrAX2eTbre7lv3tT7hcLkf1PM9qvV63zmu1mjW7rmvNqVTKmvP5vDWbtNvttazTbDblurZaLbpCHSF/FAVMp9M6VCoVyWaz+j9XrVZ1LxaL6VooFKIvmbPZbCaJREIajYYEQaD7yWRSOp2Ofo7H4/8PIAEQQAABJAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCAABIAAQQQQAIggAACSAAEEEAACYAAAgggARBAAAEkAAIIIIAEQAABBJAACOA/lwsN9PyvTAKbpgAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Write your report to the attorney here.\par
-\li0\ri0\fi0\ul0\par
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Write your report to the attorney here.\par&#xD;
+\li0\ri0\fi0\ul0\par&#xD;
 }</RichText>
 </content>
 <resources>
