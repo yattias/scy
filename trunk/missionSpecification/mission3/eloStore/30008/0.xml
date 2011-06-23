@@ -9,7 +9,7 @@
         </role>
         <entity>Caspar</entity>
         <date>
-          <dateTime>2011-03-03T15:21:50.787+0100</dateTime>
+          <dateTime>2011-03-03T16:21:50.787+0200</dateTime>
         </date>
       </contribute>
       <contribute>
@@ -19,7 +19,7 @@
         </role>
         <entity>Caspar</entity>
         <date>
-          <dateTime>2011-03-03T15:21:50.787+0100</dateTime>
+          <dateTime>2011-03-03T16:21:50.787+0200</dateTime>
         </date>
       </contribute>
       <version>7</version>
@@ -49,6 +49,18 @@
         <string language="en">Estimated Energy Requirements (Health Passport)</string>
       </title>
     </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_forked_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/30193/0/Estimated+Energy+Requirements+%28Health+Passport%29.scypds</entry>
+        </identifier>
+      </resource>
+    </relation>
   </lom>
   <template>true</template>
   <thumbnail>

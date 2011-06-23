@@ -9,7 +9,7 @@
         </role>
         <entity>Caspar</entity>
         <date>
-          <dateTime>2011-01-18T15:48:01.421+0100</dateTime>
+          <dateTime>2011-01-18T16:48:01.421+0200</dateTime>
         </date>
       </contribute>
       <version>8</version>
@@ -34,6 +34,18 @@
         <string language="en">Daily Calorie Intake</string>
       </title>
     </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_forked_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/30192/0/Daily+Calorie+Intake.scypds</entry>
+        </identifier>
+      </resource>
+    </relation>
   </lom>
   <template>true</template>
   <thumbnail>

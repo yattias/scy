@@ -9,7 +9,7 @@
         </role>
         <entity>Caspar</entity>
         <date>
-          <dateTime>2011-01-26T17:27:52.937+0100</dateTime>
+          <dateTime>2011-01-26T18:27:52.937+0200</dateTime>
         </date>
       </contribute>
       <version>6</version>
@@ -34,6 +34,18 @@
         <string language="en">Criteria Weight Table</string>
       </title>
     </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_forked_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/30190/0/Criteria+Weight+Table.scypds</entry>
+        </identifier>
+      </resource>
+    </relation>
   </lom>
   <template>true</template>
   <thumbnail>
