@@ -22,7 +22,7 @@
           <dateTime>2011-04-28T20:05:48.201+0200</dateTime>
         </date>
       </contribute>
-      <version>2</version>
+      <version>4</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -45,19 +45,8 @@
         <string language="en">Glucose Model</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAAeElEQVR42u3QMQEAAAwCIPuX1hDbCRFIOYkCgQIFCkSgQIECEShQoEAEChQoEIECBQpEoECBAhEoUKBABAoUKBCBAgUKRKBAgQIRKFCgQIEIFChQIAIFChSIQIECBSJQoECBCBQoUCACBQoUiECBAgUiUKBAgQj8M5Hzoc7Xq3ytAAAAAElFTkSuQmCC</base64>
@@ -478,8 +467,6 @@
     </links>
   </layout>
 </model>
-
-
 </content>
 <resources>
 </resources>

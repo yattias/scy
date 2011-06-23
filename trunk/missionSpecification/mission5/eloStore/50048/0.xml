@@ -22,7 +22,7 @@
           <dateTime>2011-05-26T15:43:54.861+0200</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>2</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -49,16 +49,8 @@
         <string language="en">Glucose level simulation</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAEgElEQVR42u2cz08bVxDH8/fACS5w4cI9iqLyOwQuPQEXQKiNVAmhIDlFhF8uTQStnESRImRUpS5SIYHEWIK6gIKSFjhgIkAFmxTbu/gXeG2mnglreddebG9o1pB50lfzPDvz1u/DvH0L2HvN5/MBS7+uMYQLAshNX2OADJABMkAGyAAZ4KUDePveb7pPalRuQQF0OOZ1n9So3IICOD+vfyJG5TJABsgAGWAuABtNNgbIFcgAGSADZIAMkAEywC8Q4Dfjr8mu7xyC1+vNKJyI1rFsMirX7/dfeC5XIC9hBsgAGSADZIAM8CoBXHUdkL3zsx2Wl5dhZWWFJPfR2u32NF+muELKPc+nPparjyuQlzADZIAMkAEyQAZ4lQBKsTjZ+OkpRKNRkCSJJPfR4kTUvkxxhZQbj8c149Txap+cq47jCuQlzAAZIANkgAyQAV4lgI9f/EX22as12NzcBJfLRZL7aHEial+muELK3dra0oxTx6t9cq46LiPAte1/uQJ5CTNABsgAGaA+gKsuDwPkCjQQYDASJYvfjMQ3nEn4/1mtY9lkVK7D4bjwXK5AXsIMkAEyQAb4+QHyMxM+ESA3Bnh5AeKNup6l+O1Pdt2517+zUp78S0I+7Tga08zVDTCXb7VnalU9v5D9IIR0/wD05Nb1/qr7nOflJgGO2Zzw4Pkf8PBMD1T2qvse6vTxEyy/9EeAer3pfT2+TOPl4rv0ACMRv25tuENJ5Zt746taylMA3PeHwRc5pX5bWxuMjIykvWGTyZTXBLcPRBL2W1tbobm5mfqhUAiKiorS4uvr6/MG+PVdO2zsibC+JyhsNl9qOwp4k0oFZZ5cU+TKutVQr9xEUM9/fwUlJSWwt++B6upqEEURdnd3YXp6mmw4HIbe3l7o7u4mX7bJHSXytz8ESdjH3KamJnC73QQwGAxCZ2cnLCwsQFlZGXg8HqiqqoKOjg7y5QowJokJCSBFBYXN5hPFA1jYFCAaFRO+ozOJCoA4dmpu6hh/H6oAHodDMPXScaFLTBQE0v+1hG/evAGjo8OJ/j6cnIhQV1cD799vwNOnFnjzxgmSFEj4Bc2lCCCl+TB/ePg+zM1Ng8MxmwB8RIU1NjZKMpsHk7GX/hrY0tJCK6KmpgacTicMDAxAIBCA0tJS0sTEBExOTuY15tTUFH0bvaurKwHLTGNUVFTQeNjGx8f5Qdx8G1MAOgxKSoCmHx7D7J/rZ/c5uBtFyGoNgB+ylmO1YswWK4muscfHievRSfJYLBajjUkrFx/0gFY4u4aedx4jlLYL+wInpH33x92wp6cHFhcXoby8nD6dhNeW2tpaWFpagsrKSto5cafG1t7eDkNDQzA4OKjYhYuLi0nY7+/vh4aGBpiZmSFwFouFcnBHR7Do7+vro/EbGxthZ2eHdmv8I6rVagWbzUa7tgzWaP3jiygBfv/jE5iYXU2rwNSP9eOE5KrA13gcffJtiVyVyQp8ZCVhH6EhKKzE1ArEXMxDP8JB4bllUBiHr7GfWsFG692uyNfAT9Hc2z34Dzc9zyaAyHVYAAAAAElFTkSuQmCC</base64>
