@@ -40,7 +40,7 @@ public class BackgroundGetReadyForUser implements Runnable
       {
 //         throw new IllegalStateException("testing");
          final ToolBrokerAPI tbi = toolBrokerLogin.getReadyForUser(loginResult);
-         final Missions missions = MissionLocatorUtils.findMissions(tbi);
+         final Missions missions = MissionLocatorUtils.findMissions(tbi, tbi.getLoginUserName());
          SwingUtilities.invokeLater(new Runnable()
          {
 
