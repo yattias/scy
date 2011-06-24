@@ -34,17 +34,16 @@ public class SCYSimulatorStandalone implements INotifiable {
 
 		// URI fileUri = new
 		// URI("http://www.scy-lab.eu/sqzx/RotatingPendulum.sqzx");
-		// URI fileUri = new URI("http://www.scy-lab.eu/sqzx/balance.sqzx");
+		 URI fileUri = new URI("http://www.scy-lab.eu/sqzx/balance.sqzx");
 		 //URI fileUri = new URI("http://www.scy-lab.eu/sqzx/co2_house.sqzx");
-		URI fileUri = new URI("http://www.scy-lab.eu/sqzx/pizzanl.sqzx");
+		//URI fileUri = new URI("http://www.scy-lab.eu/sqzx/pizzanl.sqzx");
 		// URI fileUri = new URI("http://alephnull.de/co2_house.sqzx");
 
 		// FileName fileName = new
-		// FileName("D:/projects/scy/sqzx/co2-converter/co2_converter.sqzx");
-		// FileName fileName = new
+		//FileName fileName = new FileName("D:/projects/scy/sqzx/co2-converter/co2_converter.sqzx");
 		// FileName("D:/projects/scy/sqzx/pizza/PizzaSimulation/pizza.sqx");
 		// URI fileUri = new URI("file:lib/sqzx/pizza.sqzx");
-		// URI fileUri = fileName.toURI();
+		 //URI fileUri = fileName.toURI();
 
 		LOGGER.log(Level.INFO, "trying to load: {0}", fileUri.toString());
 		simquestViewer.setFile(fileUri);
@@ -53,19 +52,24 @@ public class SCYSimulatorStandalone implements INotifiable {
 		dataCollector = null;
 
 		try {
-			simquestViewer.run();
-			dataCollector = new DataCollector(simquestViewer, tbi, "n/a");
-			simquestViewer.getInterfacePanel().setPreferredSize(simquestViewer.getRealSize());
 			JScrollPane scroller = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-			scroller.setViewportView(simquestViewer.getInterfacePanel());
+			simquestViewer.setContainer(scroller.getParent());
 			JSplitPane split = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 			split.setDividerLocation(0.75);
 			split.setResizeWeight(0.75);
-			split.setBottomComponent(dataCollector);
 			split.setTopComponent(scroller);
-			dataCollector.setPreferredSize(new Dimension(100, 300));
 			split.setEnabled(true);
 			simquestPanel.add(split, BorderLayout.CENTER);
+			simquestViewer.run();
+			simquestViewer.getInterfacePanel().setPreferredSize(simquestViewer.getRealSize());
+			scroller.setViewportView(simquestViewer.getInterfacePanel());
+			
+			dataCollector = new DataCollector(simquestViewer, tbi, "n/a");
+			dataCollector.setPreferredSize(new Dimension(100, 300));
+			
+			split.setBottomComponent(dataCollector);
+			simquestViewer.getInterface().updateVariables();
+			
 		} catch (java.lang.Exception e) {
 			LOGGER.severe(e.getMessage());
 			e.printStackTrace();
@@ -83,6 +87,7 @@ public class SCYSimulatorStandalone implements INotifiable {
 		mainFrame.setSize(800, 650);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setVisible(true);
+		simquestViewer.getInterface().updateVariables();
 		// addJXLayer(simquestPanel, mainFrame);
 		// String userName = dataCollector.getLogger().getUserName();
 		// String toolName = dataCollector.getLogger().getToolName();
