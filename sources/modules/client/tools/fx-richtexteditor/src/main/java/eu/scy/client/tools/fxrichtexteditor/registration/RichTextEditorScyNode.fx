@@ -48,6 +48,7 @@ import eu.scy.notification.api.INotification;
 import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.collaboration.api.CollaborationStartable;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactFrame;
+import java.lang.System;
 
 /**
  * @author kaido
@@ -218,17 +219,17 @@ public class RichTextEditorScyNode extends INotifiable, RichTextEditorNode, ScyT
    }
 
     public override function processNotification (notification: INotification) : Boolean {
+        System.out.println(notification.getSender());
+        System.out.println(notification.getMission());
+        System.out.println(notification.getUserId());
+        System.out.println(notification.getToolId());
+        System.out.println(notification.getFirstProperty("message"));
+
+
         if (notification.getSender().equals("eu.scy.agents.hypothesis.HypothesisDecisionMakerAgent")) {
             var messageFromAgent = notification.getFirstProperty("message");
-            var messageToUser = "";
-            if (messageFromAgent.equals("ok"))
-                messageToUser = ##"Your hypothesis text seems to be ok."
-            else if (messageFromAgent.equals("too few keywords or text too long"))
-                messageToUser = ##"Your text is too short, or it does not contain enough statements about the relevant concepts of the mission."
-            else if (messageFromAgent.equals("inter-relation between keywords"))
-                messageToUser = ##"Try to express the relations between mission concepts more descriptively.";
-            if (not messageToUser.equals(""))
-                javafx.stage.Alert.inform(messageToUser);
+            if (not messageFromAgent.equals(""))
+                javafx.stage.Alert.inform(messageFromAgent);
             return true;
         } else {
             return false;
