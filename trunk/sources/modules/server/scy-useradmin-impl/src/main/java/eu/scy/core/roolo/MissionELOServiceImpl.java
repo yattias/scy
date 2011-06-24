@@ -8,6 +8,7 @@ import eu.scy.common.mission.*;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.XMLTransferObjectService;
 import eu.scy.core.model.transfer.*;
+import eu.scy.core.roolo.util.EloComparator;
 import roolo.search.IQueryComponent;
 import roolo.search.MetadataQueryComponent;
 import roolo.search.IQuery;
@@ -20,6 +21,7 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -237,6 +239,37 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
         return missionAnchors;
     }
 
+
+    @Override
+    public List getObligatoryAnchorELOs(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlan){
+        List anchorElos = getAnchorELOs(missionSpecificationElo);
+        List returnList = new LinkedList();
+        for (int i = 0; i < anchorElos.size(); i++) {
+            ScyElo scyElo = (ScyElo) anchorElos.get(i);
+            if (getIsDefinedAsObligatoryInPedagogicalPlan(pedagogicalPlan, scyElo)) {
+                TransferElo transferElo = new TransferElo(scyElo);
+                returnList.add(transferElo);
+            }
+        }
+
+        return returnList;
+
+    }
+
+    private boolean getIsDefinedAsObligatoryInPedagogicalPlan(PedagogicalPlanTransfer pedagogicalPlan, ScyElo scyElo) {
+        List <LasTransfer> lasses = pedagogicalPlan.getMissionPlan().getLasTransfers();
+        for (int i = 0; i < lasses.size(); i++) {
+            LasTransfer lasTransfer = lasses.get(i);
+            if(lasTransfer.getAnchorElo() != null) {
+                if(lasTransfer.getAnchorElo().getObligatoryInPortfolio() != null) {
+                    if(lasTransfer.getAnchorElo().getObligatoryInPortfolio() && lasTransfer.getAnchorElo().getName().equals(scyElo.getTitle())) return true;    
+                }
+
+            }
+        }
+        return false;
+    }
+
     private RuntimeSettingsElo getRuntimeSettingsElo(MissionSpecificationElo missionSpecificationElo) {
         return RuntimeSettingsElo.loadLastVersionElo(missionSpecificationElo.getTypedContent().getRuntimeSettingsEloUri(), this);
     }
@@ -267,7 +300,9 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
                 if (xml != null) {
                     Portfolio portfolio = (Portfolio) getXmlTransferObjectService().getObject(xml);
                     portfolio.setMissionRuntimeURI(missionRuntimeElo.getUri().toString());
-                    if (portfolio.getIsPortfolioSubmitted() && portfolio.getIsPortfolioAssessed() == false) {
+                    boolean portfolioSubmitted = portfolio.getIsPortfolioSubmitted();
+                    boolean portfolioAssessed = portfolio.getIsPortfolioAssessed();
+                    if (portfolioSubmitted && !portfolioAssessed) {
                         returnList.add(portfolio);
                     } else {
                         log.info("PORTFOLIO " + portfolio.getOwner() + " STATUS: " + portfolio.getPortfolioStatus() + " :: " + portfolio.getIsPortfolioSubmitted());
@@ -298,6 +333,7 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
         NewestElos newestElos = new NewestElos();
 
         List feedbackList = getFeedback();
+        Collections.sort(feedbackList, new EloComparator());
         for (int i = 0; i < feedbackList.size(); i++) {
             ScyElo feedbackElo = (ScyElo) feedbackList.get(i);
             URI uri = feedbackElo.getFeedbackOnEloUri();
@@ -308,9 +344,13 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
                 transferElo.setFeedbackELO(feedbackElo);
                 newestElos.addElo(transferElo);
             }
-
-
         }
+
+        for (int i = 0; i < newestElos.getElos().size(); i++) {
+            TransferElo transferElo = (TransferElo) newestElos.getElos().get(i);
+            System.out.println(transferElo.getLastModified() + "  " + transferElo.getCatname());
+        }
+
 
         return newestElos;
     }
@@ -327,11 +367,7 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
         for (int i = 0; i < results.size(); i++) {
             ISearchResult searchResult = (ISearchResult) results.get(i);
             ScyElo scyELO = getElo(searchResult.getUri());
-
             String xmlString = scyELO.getElo().getContent().getXmlString();
-
-            //log.info("***************** FEEDBACK: " + xmlString);
-
             if (xmlString.startsWith("<feedback>")) xmlString = fixXml(xmlString, scyELO);
         }
 

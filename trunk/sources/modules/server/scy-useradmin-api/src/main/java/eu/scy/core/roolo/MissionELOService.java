@@ -6,6 +6,7 @@ import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.BaseELOService;
 import eu.scy.core.model.transfer.NewestElos;
+import eu.scy.core.model.transfer.PedagogicalPlanTransfer;
 import eu.scy.core.model.transfer.Portfolio;
 import eu.scy.core.model.transfer.TransferElo;
 import eu.scy.core.roolo.RooloAccessor;
@@ -38,6 +39,8 @@ public interface MissionELOService extends BaseELOService {
     List<Las> getLasses(MissionSpecificationElo missionSpecificationElo);
 
     List getAnchorELOs(MissionSpecificationElo missionSpecificationElo);
+
+    List getObligatoryAnchorELOs(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlan);
 
     void setTitle(ScyElo scyElo, Object value);
 
