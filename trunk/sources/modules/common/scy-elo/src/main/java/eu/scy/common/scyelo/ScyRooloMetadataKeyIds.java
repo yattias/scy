@@ -19,6 +19,7 @@ public enum ScyRooloMetadataKeyIds implements IMetadataKeyIdDefinition
    MISSION("mission"),
    MISSION_RUNNING("missionRunning"),
    MISSION_SPECIFICATION_ELO("missionSpecificationElo"),
+   MISSION_ID("missionId"),
    LAS("las"),
    ANCHOR_ID("anchorId"),
    ACTIVE_ANCHOR_ELO("activeAnchorElo"),
