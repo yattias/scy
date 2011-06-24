@@ -58,7 +58,7 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements
     public static final String NAME = HypothesisEvaluationAgent.class.getName();
     public static final String EVAL = "EvalHypothesis";
 
-    private static final String SCYED_XPATH = "/learner_proc/proc_hypothesis/hypothesis";
+    private static final String SCYED_XPATH = "//learner_proc/proc_hypothesis/hypothesis";
     private static final Logger logger = Logger.getLogger(HypothesisEvaluationAgent.class.getName());
 
     private AgentRooloServiceImpl rooloServices;

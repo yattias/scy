@@ -6,20 +6,7 @@
  */
 package eu.scy.agents.util;
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathException;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathFactory;
-
+import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Features;
 import org.apache.log4j.Logger;
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -29,10 +16,21 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
-import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Features;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathException;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathFactory;
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.Iterator;
+import java.util.List;
 
 public class Utilities {
 
@@ -131,7 +129,7 @@ public class Utilities {
       }
 
     }
-    return text;
+    return text.trim();
   }
 
 //  public static String getEloText(IELO elo, List<String> path, Logger logger) {
