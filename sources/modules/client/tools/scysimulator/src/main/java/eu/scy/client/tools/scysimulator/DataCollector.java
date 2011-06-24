@@ -39,6 +39,7 @@ import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 import sqv.ISimQuestViewer;
 import sqv.ModelVariable;
+import sqv.SimQuestViewer;
 import sqv.data.IDataClient;
 import eu.scy.actionlogging.*;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
@@ -97,7 +98,7 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
 	private String notificationSender;
 	private MODE mode = MODE.collect_data;
 
-	public DataCollector(ISimQuestViewer simquestViewer, ToolBrokerAPI tbi, String eloURI) {
+	public DataCollector(SimQuestViewer simquestViewer, ToolBrokerAPI tbi, String eloURI) {
 		this.bundle = new ResourceBundleWrapper(this);
 		// initialize the logger(s)
 		shownMessages = new Vector<String>();
@@ -187,7 +188,7 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
 		button.setActionCommand("cleardata");
 		button.addActionListener(this);
 		buttonPanel.add(button);
-
+		
 		notifyButton = new JButton("!");
 		notifyButton.setFont(notifyButton.getFont().deriveFont(Font.BOLD));
 		notifyButton.setVisible(false);
@@ -647,4 +648,5 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
 	private String getBundleString(String key) {
 		return this.bundle.getString(key);
 	}
+
 }

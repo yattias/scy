@@ -72,19 +72,19 @@ public class SimulatorNode
 	public var metadataTypeManager: IMetadataTypeManager;
 	public var repository: IRepository;
 	public var toolBrokerAPI: ToolBrokerAPI;
+	
 	public override var width on replace {
 				resizeContent()
 			};
 	public override var height on replace {
 				resizeContent()
 			};
+			
 	def rotation = bind scyWindow.rotate on replace {
 				if (dataCollector != null) {
-					//logger.info("setting rotation to {rotation}");
 					dataCollector.setRotation(rotation);
 				}
 			};
-	var fixedDimension = new Dimension(575, 275);
 	var displayComponent: JComponent;
 	var wrappedSimquestPanel: Node;
 	var technicalFormatKey: IMetadataKey;
@@ -116,11 +116,6 @@ public class SimulatorNode
 				tooltip: ##"SaveAs Dataset"
 			}
 
-//    var saveDatasetButton =
-//	    Button {text: ##"SaveAs Dataset"
-//	    action: function() {
-//	    doSaveAsDataset();
-//    }};
 	public override function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
 		if (windowContent) {
 			titleBarButtonManager.titleBarButtons = [
@@ -196,7 +191,7 @@ public class SimulatorNode
 		}
 	}
 
-	/* return true is scysimulator is synchronizing with fitex with this sessionID*/
+	/* return true if scysimulator is synchronizing with fitex with this sessionID*/
 	function isSynchronizingWith(fitex: ISynchronizable): Boolean {
 		if (fitex.getSessionID() != null and getSessionID() != null and getSessionID().equals(fitex.getSessionID())) {
 			return true;
@@ -346,7 +341,10 @@ public class SimulatorNode
 			}
 			logger.info("elo loaded");
 			eloSimconfig = newElo;
-		}
+			FX.deferAction(function() {
+		       simquestViewer.getInterface().updateVariables();
+			});
+        }
 	}
 
 	function loadSimulation(simConfig: SimConfig) {
@@ -365,7 +363,6 @@ public class SimulatorNode
 		dataCollector = null;
 		try {
 			simquestViewer.run();
-			//--- creating a splitpane
 			// creating the datacollector
 			dataCollector = new DataCollector(simquestViewer, toolBrokerAPI, (scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI());
 			var simulationViewer = simquestViewer.getInterfacePanel();
@@ -387,18 +384,10 @@ public class SimulatorNode
 			split.setBottomComponent(dataCollector);
 			split.setTopComponent(scroller);
 			dataCollector.setPreferredSize(new Dimension(100, 300));
-			// adding the splitcomponent to the simquestpanel
-
 			split.setEnabled(true);
-
-			//toolBrokerAPI.registerForNotifications(this as INotifiable);
-			fixedDimension = simquestViewer.getRealSize();
+			//var realSize = simquestViewer.getRealSize();
+			split.setPreferredSize(new Dimension(300, simquestViewer.getRealSize().height+100));
 			switchSwingDisplayComponent(split);
-
-			if (fixedDimension.width < 555) {
-				fixedDimension.width = 555;
-			}
-			fixedDimension.height = fixedDimension.height + 260;
 			scyWindow.open();
 			syncAttrib = DatasyncAttribute {
 						scyWindow: scyWindow
@@ -490,14 +479,6 @@ public class SimulatorNode
 		return eloSimconfig;
 	}
 
-//    function createNewDatasetElo(): IELO {
-//        if (eloDataset == null) {
-//            eloDataset = eloFactory.createELO();
-//            eloDataset.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(datasetType);
-//        }
-//        eloDataset.getContent().setXmlString(jdomStringConversion.xmlToString(dataCollector.getDataSet().toXML()));
-//        return eloDataset;
-//    }
 	override public function eloSaveCancelled(elo: IELO): Void { }
 
 	override public function eloSaved(elo: IELO): Void {
@@ -521,7 +502,6 @@ public class SimulatorNode
 					time: 0.01s
 					action: function(): Void {
 						split.setDividerLocation(0.75);
-					//                      split.setVisible(true);
 					}
 				}
 			];
@@ -533,29 +513,20 @@ public class SimulatorNode
 		Container.resizeNode(wrappedSimquestPanel, width, height);
 	}
 
-	public override function getPrefHeight(height: Number): Number {
-		return Container.getNodePrefHeight(wrappedSimquestPanel, height);
-	}
+    public override function getPrefHeight(width: Number): Number {
+        return Container.getNodePrefHeight(wrappedSimquestPanel, height);
+    }
 
-	public override function getPrefWidth(width: Number): Number {
-		Container.getNodePrefWidth(wrappedSimquestPanel, width);
-	}
-
+    public override function getPrefWidth(widthaaaaa: Number): Number {
+        return Container.getNodePrefWidth(wrappedSimquestPanel, width);
+    }
 
     public override function getMinWidth(): Number {
 		400;
 	}
 
 	public override function getMinHeight(): Number {
-		500;
-	}
-
-	public function getNodePrefWidth(): Number {
 		400;
-	}
-
-	public function getNodePrefHeight(): Number {
-		500;
 	}
 
 }
