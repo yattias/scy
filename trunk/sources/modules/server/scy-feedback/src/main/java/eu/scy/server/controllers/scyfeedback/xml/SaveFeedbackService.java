@@ -47,6 +47,26 @@ public class  SaveFeedbackService extends XMLStreamerController {
             FeedbackEloTransfer feedbackEloTransfer = (FeedbackEloTransfer) getXmlTransferObjectService().getObject(originalXMLFromFeedbackEloInRoolo);
             feedbackEloTransfer.addFeedback(feedbackTransfer);
 
+            List <FeedbackTransfer> feedbacks = feedbackEloTransfer.getFeedbacks();
+            Integer totalScore = 0;
+            for (int i = 0; i < feedbacks.size(); i++) {
+                FeedbackTransfer transfer = feedbacks.get(i);
+                if(transfer.getEvalu() != null) {
+                    Integer score = new Integer(transfer.getEvalu());
+                    totalScore += score;
+                }
+            }
+            if(feedbacks.size() > 0 ) {
+                feedbackEloTransfer.setScore(String.valueOf(totalScore / feedbacks.size()));
+                feedbackEloTransfer.setQuality(String.valueOf(totalScore / feedbacks.size()));
+                feedbackEloTransfer.setEvaluation(String.valueOf(totalScore / feedbacks.size()));
+            } else {
+                feedbackEloTransfer.setScore("0");
+                logger.info("SET SCORE TO 0!");
+            }
+
+
+
             String newXML = getXmlTransferObjectService().getXStreamInstance().toXML(feedbackEloTransfer);
 
             scyFeedbackElo.getContent().setXmlString(newXML);

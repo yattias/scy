@@ -53,11 +53,6 @@ public class FeedbackEloService extends XMLStreamerController {
 
                 FeedbackEloTransfer feedbackEloTransfer = (FeedbackEloTransfer) getXmlTransferObjectService().getObject(feedbackRepresentation);
                 feedbackEloTransfer.setUri(fURI);
-                feedbackEloTransfer.setScore("0");
-                feedbackEloTransfer.setQuality("0");
-                //feedbackEloTransfer.setShown("0");
-                feedbackEloTransfer.setEvaluation("0");
-
                 feedbackEloTransfer = updateNumberOfViews(feedbackEloTransfer, feedbackElo);
 
                 return feedbackEloTransfer;

@@ -8,8 +8,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLConnection;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,13 +28,28 @@ public class MissionDescriptionController extends BaseController {
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
-
-
         MissionSpecificationElo missionSpecificationElo = getMissionSpecification(request);
 
-        String descriptionURI = "/webapp/useradmin/LoadExternalPage.html?url=" + missionSpecificationElo.getTypedContent().getMissionDescriptionUri();
+        String descriptionURI = String.valueOf(missionSpecificationElo.getTypedContent().getMissionDescriptionUri());
         descriptionURI = localizeDescriptionURI(descriptionURI, getCurrentUser(request));
-        modelAndView.addObject("descriptionUrl", descriptionURI);
+
+        String content = "";
+        try {
+            URL u = new URL(descriptionURI);
+            URLConnection connection = u.openConnection();
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                content = content + inputLine;
+            }
+            content = content.replaceAll("'", "");
+
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+
+        modelAndView.addObject("content", content);
+
 
     }
 

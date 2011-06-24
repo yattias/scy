@@ -9,7 +9,9 @@ import eu.scy.core.XMLTransferObjectService;
 import eu.scy.server.controllers.xml.converters.LearningGoalConverter;
 import eu.scy.core.model.transfer.*;
 
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.net.URLEncoder;
 import java.util.LinkedList;
 import java.util.logging.Logger;
 
@@ -37,7 +39,7 @@ public class XMLTransferObjectServiceImpl implements XMLTransferObjectService {
 
             public HierarchicalStreamWriter createWriter(Writer out) {
 
-                return new PrettyPrintWriter(out) {
+                return new SCYPrintWriter(out) {
 
                     boolean cdata = false;
 
@@ -48,6 +50,16 @@ public class XMLTransferObjectServiceImpl implements XMLTransferObjectService {
                     }
 
                     protected void writeText(QuickWriter writer, String text) {
+
+                        if(text.indexOf("#") > -1) {
+                            try {
+                                text = URLEncoder.encode(text, "UTF-8");
+                            } catch (UnsupportedEncodingException e) {
+                                log.warning(e.getMessage());
+                            }
+                            log.info("NEW TEXT IS : " + text);
+                        }
+
                         if (cdata) {
                             writer.write("<![CDATA[");
                             writer.write(text);
@@ -76,7 +88,7 @@ public class XMLTransferObjectServiceImpl implements XMLTransferObjectService {
 
             public HierarchicalStreamWriter createWriter(Writer out) {
 
-                return new PrettyPrintWriter(out) {
+                return new SCYPrintWriter(out) {
 
                     boolean cdata = false;
 

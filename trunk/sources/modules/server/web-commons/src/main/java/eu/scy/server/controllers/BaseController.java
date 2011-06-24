@@ -14,8 +14,10 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Locale;
@@ -165,5 +167,14 @@ public abstract class BaseController extends AbstractController {
         }
         return null;
 
+    }
+
+    protected String getEncodedUri(String parameter) {
+        try {
+            return URLEncoder.encode(parameter, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            logger.error(e.getMessage(), e);
+        }
+        return null;
     }
 }

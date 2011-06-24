@@ -65,19 +65,14 @@ public class ObligatoryELOsInMission extends MissionRuntimeEnabledXMLService {
         }
 
 
-        List anchorElos = getMissionELOService().getAnchorELOs(missionSpecificationElo);
         PedagogicalPlanTransfer pedagogicalPlanTransfer = getPedagogicalPlanTransfer(missionSpecificationElo);
         ELOSearchResult eloSearchResult = new ELOSearchResult();
-        for (int i = 0; i < anchorElos.size(); i++) {
-            ScyElo o = (ScyElo) anchorElos.get(i);
-            logger.info("IS THIS OBLIGATORY IN PORTFOLIO: " + o.getTitle() + " " + o.getObligatoryInPortfolio());
-            if (o.getObligatoryInPortfolio() != null && o.getObligatoryInPortfolio()) {
-                TransferElo transferElo = new TransferElo(o);
-                eloSearchResult.getElos().add(transferElo);
-                String reflectionQuestion = pedagogicalPlanTransfer.getReflectionQuestionForURI(String.valueOf(o.getUri()));
-                transferElo.setReflectionQuestion(reflectionQuestion);
-                //eloSearchResult.getElos().add(new TransferElo(o));
-            }
+
+
+        List transferElos = getMissionELOService().getObligatoryAnchorELOs(missionSpecificationElo, pedagogicalPlanTransfer);
+        for (int i = 0; i < transferElos.size(); i++) {
+            TransferElo transferElo = (TransferElo) transferElos.get(i);
+            eloSearchResult.getElos().add(transferElo);
         }
         logger.info("ANCHOR ELOS: " + eloSearchResult.getElos().size());
         return eloSearchResult;

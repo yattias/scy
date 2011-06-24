@@ -2,6 +2,7 @@ package eu.scy.server.controllers;
 
 import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.mission.MissionSpecificationElo;
+import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.UserService;
 import eu.scy.core.model.User;
 import eu.scy.core.model.transfer.PedagogicalPlanTransfer;
@@ -34,12 +35,17 @@ public class ManageAssignedStudentController extends BaseController{
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
         String userName = request.getParameter("username");
         String missionURI = request.getParameter("eloURI");
+        String action = request.getParameter("action");
         User user = getUserService().getUser(userName);
         PedagogicalPlanTransfer pedagogicalPlanTransfer = getPedagogicalPlanELOService().getPedagogicalPlanForMission(getMissionELOService().getMissionSpecificationElo(missionURI));
+
+
+        if(action != null) {
+            if(action.equals("clearPortfolios")) clearPortfolios(userName);
+        }
+
         List runtimeElos = getRuntimeELOService().getRuntimeElosForUser(userName);
         List portfolios = new LinkedList();
-
-
         if(runtimeElos.size() > 0 ) {
             for (int i = 0; i < runtimeElos.size(); i++) {
                 MissionRuntimeElo runtimeElo = (MissionRuntimeElo) runtimeElos.get(i);
@@ -49,9 +55,24 @@ public class ManageAssignedStudentController extends BaseController{
 
         }
 
+
+
         modelAndView.addObject("portfolios", portfolios);
         modelAndView.addObject("user", user);
         modelAndView.addObject("pedagogicalPlan", pedagogicalPlanTransfer);
+        modelAndView.addObject(ELO_URI, getEncodedUri(missionURI) );
+    }
+
+    private void clearPortfolios(String userName) {
+        List runtimeElos = getRuntimeELOService().getRuntimeElosForUser(userName);
+        if(runtimeElos.size() > 0 ) {
+            for (int i = 0; i < runtimeElos.size(); i++) {
+                MissionRuntimeElo runtimeElo = (MissionRuntimeElo) runtimeElos.get(i);
+                ScyElo portfolioElo = ScyElo.loadLastVersionElo(runtimeElo.getTypedContent().getEPortfolioEloUri(), getMissionELOService());
+                portfolioElo.getContent().setXmlString("");
+                portfolioElo.updateElo();
+            }
+        }
     }
 
     public UserService getUserService() {
