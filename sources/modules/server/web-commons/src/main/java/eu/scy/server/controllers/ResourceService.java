@@ -9,6 +9,7 @@ import org.springframework.web.servlet.mvc.AbstractController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
+import java.net.URLDecoder;
 
 /**
  * Created by IntelliJ IDEA.
@@ -30,6 +31,8 @@ public class ResourceService extends AbstractController{
             logger.info("LOADING ELO IMAGE!");
 
             String u = httpServletRequest.getParameter("eloURI");
+            u = URLDecoder.decode(u, "UTF-8");
+
             URI uri = new URI(u);
 
             ScyElo scyElo = ScyElo.loadLastVersionElo(uri, getMissionELOService());

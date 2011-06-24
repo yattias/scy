@@ -4,9 +4,11 @@ import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.core.model.transfer.LasActivityInfo;
 import eu.scy.core.model.transfer.PedagogicalPlanTransfer;
+import eu.scy.core.model.transfer.Portfolio;
 import eu.scy.core.model.transfer.UserActivityInfo;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.core.roolo.PedagogicalPlanELOService;
+import eu.scy.core.roolo.RuntimeELOService;
 import eu.scy.core.runtime.SessionService;
 import eu.scy.server.controllers.BaseController;
 import info.collide.sqlspaces.client.TupleSpace;
@@ -32,6 +34,8 @@ public class CurrentActivityViewController extends BaseController {
 
     private MissionELOService missionELOService;
     private PedagogicalPlanELOService pedagogicalPlanELOService;
+    private RuntimeELOService runtimeELOService;
+
 
     private TupleSpace tupleSpace;
     private TupleSpace commandSpace;
@@ -39,24 +43,15 @@ public class CurrentActivityViewController extends BaseController {
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
-
-        MissionSpecificationElo missionSpecificationElo = null;
-        try {
-            URI uri = new URI(request.getParameter("eloURI"));
-            missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(uri, getMissionELOService());
-        } catch (URISyntaxException e) {
-            logger.error(e.getMessage(), e);
-        }
-
-        PedagogicalPlanTransfer pedagogicalPlanTransfer = getPedagogicalPlanELOService().getPedagogicalPlanForMission(missionSpecificationElo);
+        URI uri = getURI(request.getParameter(ELO_URI));
+        MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(uri, getMissionELOService());
 
         List<UserActivityInfo> userActivityInfo = getSessionService().getCurrentStudentActivity(missionSpecificationElo);
-        List<LasActivityInfo> lasActivityInfos = getSessionService().getActiveLasses(missionSpecificationElo);
-
-
-
         modelAndView.addObject("userActivityList", userActivityInfo);
-        //modelAndView.addObject("lasActivityList", lasActivityInfos);
+    }
+
+    private MissionRuntimeElo getMissionRuntime(HttpServletRequest request) {
+        return (MissionRuntimeElo) getRuntimeELOService().getRuntimeElosForUser(getCurrentUserName(request)).get(0);
     }
 
     public TupleSpace getTupleSpace() {
@@ -97,5 +92,13 @@ public class CurrentActivityViewController extends BaseController {
 
     public void setPedagogicalPlanELOService(PedagogicalPlanELOService pedagogicalPlanELOService) {
         this.pedagogicalPlanELOService = pedagogicalPlanELOService;
+    }
+
+    public RuntimeELOService getRuntimeELOService() {
+        return runtimeELOService;
+    }
+
+    public void setRuntimeELOService(RuntimeELOService runtimeELOService) {
+        this.runtimeELOService = runtimeELOService;
     }
 }

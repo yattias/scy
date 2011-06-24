@@ -39,14 +39,10 @@ public class ViewStudentsForPedagogicalPlanController extends BaseController {
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
-         
-        logger.info("VIEW STUDENTS!");
-
         String message = (String) request.getSession().getAttribute("message");
-        logger.info("MESSAGE IS : " + message);
 
         PedagogicalPlan pedagogicalPlan = null;
-        String missionURI = request.getParameter("eloURI");
+        String missionURI = request.getParameter(ELO_URI);
         try {
 
             if (missionURI != null) missionURI = URLDecoder.decode(missionURI, "UTF-8");
@@ -57,7 +53,7 @@ public class ViewStudentsForPedagogicalPlanController extends BaseController {
             try {
                 uri = new URI(missionURI);
             } catch (URISyntaxException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                e.printStackTrace();
             }
             MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(uri, getMissionELOService());
 
@@ -87,8 +83,10 @@ public class ViewStudentsForPedagogicalPlanController extends BaseController {
                 users.add(user);
 
             }
+            String encodedURI = getEncodedUri(request.getParameter(ELO_URI));
+
             modelAndView.addObject("users", users);
-            modelAndView.addObject("eloURI", getMissionELOService().getWebSafeTransporter(missionSpecificationElo));
+            modelAndView.addObject("eloURI", encodedURI);
 
             logger.info("DECODED URI: " + missionURI);
             if (missionURI != null && missionURI.length() > 0) {

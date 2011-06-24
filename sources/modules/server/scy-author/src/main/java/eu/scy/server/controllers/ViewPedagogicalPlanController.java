@@ -46,18 +46,16 @@ public class ViewPedagogicalPlanController extends BaseController {
 
         MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(uri, getMissionELOService());
         PedagogicalPlanTransfer pedagogicalPlanTransfer = null;
+        
 
         try {
             URI pedagogicalPlanUri = missionSpecificationElo.getTypedContent().getPedagogicalPlanSettingsEloUri();
-            logger.info("**** PEDAGOGICAL PLAN URI: " + pedagogicalPlanUri);
 
             ScyElo pedagogicalPlanELO = ScyElo.loadLastVersionElo(pedagogicalPlanUri, getMissionELOService());
             String pedagogicalPlanXML = pedagogicalPlanELO.getContent().getXmlString();
             if (pedagogicalPlanXML != null && pedagogicalPlanXML.length() > 0) {
-                logger.info("Found existing pedagigical plan!");
                 pedagogicalPlanTransfer = (PedagogicalPlanTransfer) getXmlTransferObjectService().getObject(pedagogicalPlanXML);
             } else {
-                logger.info("Did not find pedagogical plan - creating one....");
                 pedagogicalPlanTransfer = new PedagogicalPlanTransfer();
                 pedagogicalPlanTransfer.setName(missionSpecificationElo.getTitle());
                 pedagogicalPlanTransfer.setPedagogicalPlanURI(pedagogicalPlanUri.toString());
@@ -68,48 +66,16 @@ public class ViewPedagogicalPlanController extends BaseController {
 
 
         } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
-
-
-        Integer globalScaffoldingLevel = getMissionELOService().getGlobalMissionScaffoldingLevel(missionSpecificationElo);
-        //List portfoliosReadyForAssessment = getMissionELOService().getPortfoliosThatAreReadyForAssessment(missionSpecificationElo);
-        //List assignedUsernames = getMissionELOService().getAssignedUserNamesFor(missionSpecificationElo);
-
-        //modelAndView.addObject("numberOfStudentsAssigned" , assignedUsernames.size());
-        //modelAndView.addObject("numberOfPortfoliosReadyForAssessment", portfoliosReadyForAssessment.size());
         modelAndView.addObject("missionSpecificationTransporter", getMissionELOService().getWebSafeTransporter(missionSpecificationElo));
-        modelAndView.addObject("missionGlobalScaffoldingLevel", globalScaffoldingLevel);
         modelAndView.addObject("pedagogicalPlan", pedagogicalPlanTransfer);
 
-        String action = request.getParameter("action");
-        if (action != null) {
-            if (action.equals("increaseScaffoldingLevel")) {
-                increaseScaffoldingLevel(request, response, modelAndView, missionSpecificationElo);
-
-            }
-
-        }
-
-        List agentLevels = new LinkedList();
-        agentLevels.add("Low");
-        agentLevels.add("Medium");
-        agentLevels.add("High");
-        modelAndView.addObject("agentLevels", agentLevels);
-
-        modelAndView.addObject("scaffoldingLevel", globalScaffoldingLevel);
-        modelAndView.addObject("rooloServices", getMissionELOService());
 
 
     }
 
 
-    private void increaseScaffoldingLevel(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView, ScyElo elo) {
-        logger.info("INCREASING SCAFFOLDING LEVEL for " + elo.getTitle());
-        MissionSpecificationElo missionSpecificationElo = (MissionSpecificationElo) elo;
-        logger.info("LEVEL: " + getMissionELOService().getGlobalMissionScaffoldingLevel(missionSpecificationElo));
-        getMissionELOService().setGlobalMissionScaffoldingLevel((MissionSpecificationElo) elo, (4 + getMissionELOService().getGlobalMissionScaffoldingLevel(missionSpecificationElo)));
-    }
 
     public PedagogicalPlanPersistenceService getPedagogicalPlanPersistenceService() {
         return pedagogicalPlanPersistenceService;

@@ -1,1 +1,1 @@
-<a href="${descriptionUrl}">Mission</a>
+${content}

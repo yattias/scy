@@ -52,6 +52,7 @@ public class SavePortfolioController extends BaseController {
                 logger.info("DID I GET A PORTFOLIO NOW??: " + portfolioELO);
 
                 ScyElo portfolioElo = ScyElo.loadLastVersionElo(portfolioELO, getMissionELOService());
+                xmlContent = URLDecoder.decode(xmlContent, "UTF-8");
                 portfolioElo.getContent().setXmlString(xmlContent);
                 logger.info("SETTING THIS XML ON THE PORTFOLIO ELO: " + portfolioElo.getContent().getXmlString());
                 portfolioElo.updateElo();
