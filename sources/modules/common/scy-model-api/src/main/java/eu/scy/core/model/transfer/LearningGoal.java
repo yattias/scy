@@ -10,6 +10,7 @@ package eu.scy.core.model.transfer;
 public class LearningGoal extends BaseXMLTransfer{
 
     private String goal;
+    private Boolean use = Boolean.TRUE;
 
     public String getGoal() {
         return goal;
@@ -17,6 +18,14 @@ public class LearningGoal extends BaseXMLTransfer{
 
     public void setGoal(String goal) {
         this.goal = goal;
+    }
+
+    public Boolean getUse() {
+        return use;
+    }
+
+    public void setUse(Boolean use) {
+        this.use = use;
     }
 
     @Override

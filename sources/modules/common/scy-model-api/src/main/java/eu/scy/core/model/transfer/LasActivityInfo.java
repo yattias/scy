@@ -14,6 +14,7 @@ public class LasActivityInfo {
 
     private String lasName;
     private List <String> activeUsers;
+    private String humanReadableName;
 
     public String getLasName() {
         return lasName;
@@ -45,5 +46,13 @@ public class LasActivityInfo {
 
     public void setActiveUsers(List<String> activeUsers) {
         this.activeUsers = activeUsers;
+    }
+
+    public String getHumanReadableName() {
+        return humanReadableName;
+    }
+
+    public void setHumanReadableName(String humanReadableName) {
+        this.humanReadableName = humanReadableName;
     }
 }
