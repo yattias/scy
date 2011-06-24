@@ -22,12 +22,18 @@ import eu.scy.common.scyelo.ScyElo;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import org.apache.log4j.Logger;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
 import roolo.api.IRepository;
+import roolo.elo.api.IContent;
+import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataTypeManager;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.StringReader;
 import java.net.URI;
 import java.rmi.dgc.VMID;
 import java.util.ArrayList;
@@ -52,11 +58,8 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements
     public static final String NAME = HypothesisEvaluationAgent.class.getName();
     public static final String EVAL = "EvalHypothesis";
 
-    private static final String SCYED_XPATH = "//learner_proc/proc_hypothesis/hypothesis";
+    private static final String SCYED_XPATH = "/learner_proc/proc_hypothesis/hypothesis";
     private static final Logger logger = Logger.getLogger(HypothesisEvaluationAgent.class.getName());
-    private static final String RICHTEXT_XPATH = "/Richtext";
-
-    private boolean isStopped;
 
     private AgentRooloServiceImpl rooloServices;
 
@@ -88,13 +91,12 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements
 
     @Override
     protected Tuple getIdentifyTuple(String queryId) {
-        // TODO
         return null;
     }
 
     @Override
     public boolean isStopped() {
-        return isStopped;
+        return status != Status.Running;
     }
 
     @Override
@@ -116,7 +118,7 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements
 
             String text = "";
             if (isRichtextElo(elo)) {
-                text = Utilities.getEloText(elo.getElo(), RICHTEXT_XPATH, logger);
+                text = getRichtextEloText(elo.getElo());
             } else {
                 text = Utilities.getEloText(elo.getElo(), SCYED_XPATH, logger);
             }
@@ -172,6 +174,44 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements
             e.printStackTrace();
         }
 
+    }
+
+    //    private String getScyEdText(IELO elo) {
+    //        Element scyEdElement = getContentAsXML(elo);
+    //        if(scyEdElement == null) {
+    //            return "";
+    //        }
+    //        Element learnerProcElement = scyEdElement.getChild("learner_proc");
+    //        if(learnerProcElement)
+    //        Element hypothesisElement = learnerProcElement.getChild("proc_hypothesis").getChild("hypothesis");
+    //    }
+
+    private String getRichtextEloText(IELO elo) {
+        Element rootElement = getContentAsXML(elo);
+        if (rootElement == null) {
+            return "";
+        }
+        return rootElement.getTextTrim();
+    }
+
+    private Element getContentAsXML(IELO elo) {
+        IContent content = elo.getContent();
+        if (content == null) {
+            logger.fatal("Content of elo is null");
+            return null;
+        }
+        String contentText = content.getXmlString();
+        SAXBuilder builder = new SAXBuilder();
+        Element rootElement = new Element("empty");
+        try {
+            org.jdom.Document document = builder.build(new StringReader(contentText));
+            return document.getRootElement();
+        } catch (JDOMException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private boolean isRichtextElo(ScyElo elo) {
