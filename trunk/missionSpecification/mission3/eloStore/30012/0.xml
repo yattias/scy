@@ -9,7 +9,7 @@
         </role>
         <entity>costas</entity>
         <date>
-          <dateTime>2011-06-21T16:06:34.406+0300</dateTime>
+          <dateTime>2011-06-21T15:06:34.406+0200</dateTime>
         </date>
       </contribute>
       <contribute>
@@ -19,10 +19,10 @@
         </role>
         <entity>costas</entity>
         <date>
-          <dateTime>2011-06-21T16:06:34.406+0300</dateTime>
+          <dateTime>2011-06-21T15:06:34.406+0200</dateTime>
         </date>
       </contribute>
-      <version>8</version>
+      <version>10</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -50,33 +50,21 @@
         <string language="el">Ανθυγιεινή Διατροφή</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
-  <template>TRUE</template>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAB4UlEQVR42u3Tz0obURzF8XkL30Rw5aLgI7j3BeozlHTtQkWNXbXd1FoRAlZpxVVaF62NIW2lDZkJDcmEKUz+lNhAYk5zr8mYmCihXaV8DxxyfzOTOzMfGKfZLiiUd6uu5NNJ6jRbBQVBMNSw46rSgzQ162rnppd+buR8ODDXlFf+04doNq1734bmX/oxssfv7gNNWy1gNQxkkvWaEWBDvjpX0pNk076caaZ0pVLjQmHBvHROn8uS4zhqd681gMepsp0fbx0qn/po55N0YH/r3ne9OfPt+u1ZyQLWVdDc/II9Zu/R3XfaagFrlZ+KvW5p5sFFBHipsnb2U5pdUQS4tr6pRCKhonsN+PQgra3ddxHg86OM4q/e62HsmQXc3jvV4tKyPWYAN3aS2nyZtP/pA5pzj1Zf2P1LnntT9471uPmuY3/bSfbvzfd+woP1v5zL/5q2Lbq5kfPhrdkADs4GcHDuf8JD9+g+0LTVicfjGlc369IJ6oj8UwAEEEAAASQAAggggARAAAEEkAAIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAASQAAggggARAAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAAQSQAAgggP9l/gAb3PiI0eoYJQAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
 <content languages="en el" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1\par
-\par
-\li0\ri0\fi0\ul0\par
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1\par&#xD;
+\par&#xD;
+\li0\ri0\fi0\ul0\par&#xD;
 }</RichText>
 </content>
 <resources>
