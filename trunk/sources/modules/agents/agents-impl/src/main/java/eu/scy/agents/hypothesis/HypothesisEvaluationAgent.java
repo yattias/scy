@@ -40,24 +40,21 @@ import java.util.StringTokenizer;
 /**
  * @author Jörg Kindermann
  *         <p/>
- *         Workflow: extract Keywords based only on topic models and ontology
- *         (don't use the meta-data keywords, because they also contain key
- *         words found by the TFIDF workflow AND keywords from other parts of
- *         the ScyED ELOs) - tokenize text into sentences - determine
- *         keyword-per-sentence histogram: the idea is to check for co-occurring
- *         keywords in sentences. Output is a hashmap that stores the number of
- *         sentences which contain 0,1,2... keywords.
+ *         Workflow: extract Keywords based only on topic models and ontology (don't use the meta-data keywords, because they also contain
+ *         key words found by the TFIDF workflow AND keywords from other parts of the ScyED ELOs) - tokenize text into sentences -
+ *         determine
+ *         keyword-per-sentence histogram: the idea is to check for co-occurring keywords in sentences. Output is a hashmap that stores the
+ *         number of sentences which contain 0,1,2... keywords.
  */
 public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements
         IRepositoryAgent {
 
     public static final String NAME = HypothesisEvaluationAgent.class.getName();
+    public static final String EVAL = "EvalHypothesis";
 
-    public static final Object EVAL = "EvalHypothesis";
-    private static String XMLPATH = "//learner_proc/proc_hypothesis/hypothesis";
-
-    private static final Logger logger = Logger
-            .getLogger(HypothesisEvaluationAgent.class.getName());
+    private static final String SCYED_XPATH = "//learner_proc/proc_hypothesis/hypothesis";
+    private static final Logger logger = Logger.getLogger(HypothesisEvaluationAgent.class.getName());
+    private static final String RICHTEXT_XPATH = "/Richtext";
 
     private boolean isStopped;
 
@@ -66,7 +63,7 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements
     public HypothesisEvaluationAgent(Map<String, Object> map) {
         super(NAME, (String) map.get(AgentProtocol.PARAM_AGENT_ID),
                 (String) map.get(AgentProtocol.TS_HOST), (Integer) map
-                        .get(AgentProtocol.TS_PORT));
+                .get(AgentProtocol.TS_PORT));
         rooloServices = new AgentRooloServiceImpl();
     }
 
@@ -109,24 +106,32 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements
                 logger.warn(eloUri + " has no type");
             }
             mission = getSession().getMission(user).getName();
+            String language = getSession().getLanguage(user);
             ScyElo elo = ScyElo.loadElo(URI.create(eloUri), rooloServices);
+
 
             if (!isCorrectEloType(elo)) {
                 return;
             }
 
-            String text = Utilities.getEloText(elo.getElo(), XMLPATH, logger);
+            String text = "";
+            if (isRichtextElo(elo)) {
+                text = Utilities.getEloText(elo.getElo(), RICHTEXT_XPATH, logger);
+            } else {
+                text = Utilities.getEloText(elo.getElo(), SCYED_XPATH, logger);
+            }
+
             Set<String> topicKeywords = callKeywordsAgent(
                     ExtractTopicModelKeywordsAgent.EXTRACT_TOPIC_MODEL_KEYWORDS,
-                    text, mission, AgentProtocol.MINUTE * 3);
+                    text, mission, language, AgentProtocol.SECOND * 30);
             logger.debug("found in tm keywords: " + topicKeywords);
             Set<String> ontologyKeywords = callKeywordsAgent(
                     OntologyKeywordsAgent.EXTRACT_ONTOLOGY_KEYWORDS, text,
-                    mission, AgentProtocol.SECOND * 10);
+                    mission, language, AgentProtocol.SECOND * 10);
             logger.debug("found in ont keywords: " + ontologyKeywords);
             Set<String> keyPharses = callKeywordsAgent(
-                    ExtractKeyphrasesAgent.EXTRACT_KEYPHRASES, text, mission,
-                    AgentProtocol.SECOND * 10);
+                    ExtractKeyphrasesAgent.EXTRACT_KEYPHRASES, text, mission, language,
+                    AgentProtocol.SECOND * 30);
             logger.debug("found in keyphrases: " + keyPharses);
 
             Set<String> keywords = new HashSet<String>();
@@ -169,16 +174,26 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements
 
     }
 
-    private boolean isCorrectEloType(ScyElo elo) {
+    private boolean isRichtextElo(ScyElo elo) {
         String technicalFormat = elo.getTechnicalFormat();
-        if (EloTypes.SCY_XPROC.equals(technicalFormat)) {
-            return true;
-        } else if (EloTypes.SCY_RICHTEXT.equals(technicalFormat)) {
-            if(elo.getFunctionalRole() == EloFunctionalRole.HYPOTHESIS) {
+        if (EloTypes.SCY_RICHTEXT.equals(technicalFormat)) {
+            if (elo.getFunctionalRole() == EloFunctionalRole.HYPOTHESIS) {
                 return true;
             }
         }
         return false;
+    }
+
+    private boolean isScyEdElo(ScyElo elo) {
+        String technicalFormat = elo.getTechnicalFormat();
+        if (EloTypes.SCY_XPROC.equals(technicalFormat)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isCorrectEloType(ScyElo elo) {
+        return isRichtextElo(elo) || isScyEdElo(elo);
     }
 
     @Override
@@ -191,16 +206,14 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements
         rooloServices.setRepository(rep);
     }
 
-    // TODO: extract this method because it is a duplicate from
-    // ExtractKeywordsAgent
     private Set<String> callKeywordsAgent(String agent, String text,
-                                          String mission, int waitTime) {
+                                          String mission, String language, int waitTime) {
         String queryId = new VMID().toString();
         Set<String> result = new HashSet<String>();
         try {
             getCommandSpace().write(
                     new Tuple(agent, AgentProtocol.QUERY, queryId, text,
-                            mission, "en"));
+                            mission, language));
             Tuple response = getCommandSpace().waitToTake(
                     new Tuple(agent, AgentProtocol.RESPONSE, queryId,
                             String.class), waitTime);
