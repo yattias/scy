@@ -1,0 +1,213 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>zxc</entity>
+        <date>
+          <dateTime>2011-06-22T12:49:03.627+0300</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>zxc</entity>
+        <date>
+          <dateTime>2011-06-22T12:49:03.627+0300</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1295451139671</dateCreated>
+        <dateFirstUserSaveKey>1308736143627</dateFirstUserSaveKey>
+        <dateLastModified>1308736143627</dateLastModified>
+      </customElements>
+      <format>scy/pds</format>
+    </technical>
+    <educational>
+      <learningResourceType>dataset</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30182/0/Nutrition+Table.scypds</entry>
+      </identifier>
+      <las>conceptualization1</las>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30175/0/A+healthy+pizza.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Nutrition Table</string>
+        <string language="el">Πίνακας Θρεπτικών Ουσιών</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/30014/0/Nutrition+Table.scypds</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>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</base64>
+  </thumbnail>
+</metadata>
+<content languages="en el" contentType="xml">
+<processDataset>
+  <dataset>
+    <header language="en">
+      <column>
+        <symbol>Θρεπτικές Ουσίες</symbol>
+        <description />
+        <type>String</type>
+      </column>
+      <column>
+        <symbol>Λειτουργία</symbol>
+        <description />
+        <type>String</type>
+      </column>
+      <column>
+        <symbol>Λειτουργία</symbol>
+        <description />
+        <type>String</type>
+      </column>
+      <column>
+        <symbol>Λειτουργία</symbol>
+        <description />
+        <type>String</type>
+      </column>
+      <column>
+        <symbol>Παραδείγματα Τροφών</symbol>
+        <description />
+        <type>String</type>
+      </column>
+      <column>
+        <symbol>Απαραίτητη Ημερήσια Πρόσληψη</symbol>
+        <description />
+        <type>String</type>
+      </column>
+    </header>
+    <row>
+      <value />
+      <value>Η</value>
+      <value>Θ</value>
+      <value>I</value>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value>A</value>
+      <value />
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value>B</value>
+      <value />
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value>Γ</value>
+      <value />
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value>Δ</value>
+      <value />
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value>E</value>
+      <value />
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value>ΣΤ</value>
+      <value />
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+  </dataset>
+  <processed_dataset>
+    <name>Datasheet</name>
+    <processed_hedaer>
+      <column>0</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+    <processed_hedaer>
+      <column>1</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+    <processed_hedaer>
+      <column>2</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+    <processed_hedaer>
+      <column>3</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+    <processed_hedaer>
+      <column>4</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+    <processed_hedaer>
+      <column>5</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+  </processed_dataset>
+</processDataset>
+</content>
+<resources>
+</resources>
+</elo>

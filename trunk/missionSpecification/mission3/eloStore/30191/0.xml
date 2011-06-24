@@ -1,0 +1,247 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>zxc</entity>
+        <date>
+          <dateTime>2011-06-23T15:39:54.562+0300</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>zxc</entity>
+        <date>
+          <dateTime>2011-06-23T15:39:54.562+0300</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1295361019546</dateCreated>
+        <dateFirstUserSaveKey>1308832794562</dateFirstUserSaveKey>
+        <dateLastModified>1308832794562</dateLastModified>
+      </customElements>
+      <format>scy/pds</format>
+    </technical>
+    <educational>
+      <learningResourceType>dataset</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30191/0/Food+And+Exercise+Diary.scypds</entry>
+      </identifier>
+      <las>experiment</las>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30175/0/A+healthy+pizza.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Food And Exercise Diary</string>
+        <string language="el">Ημερολόγιο Διατροφής και Άσκησης</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/30004/0/Food+And+Exercise+Diary.scypds</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAKLklEQVR42u2caWwUyRXHR4DhE/shMgTWWTCsAcNyxKBgpIVIIIgEUj7wISwLEeEOhziFQCDETTgUJEQ4bCCIQxxhl4C4wWDDKpzeGGyzLBhfgNcHBhMI4YaX+VVUk5r22NP22OO21U966urq6qrq/9Tx3r+qxiNVlOTkFElI3CBbEuq3Jib+RZYuXRLyt3iqCuDZs0mSe/+qZOVcqtea//C6LFu2THLyr4SUTzUAPNdAALzWcAC8l3tZqdMB1PU061utLpxTAwB+8/dtciMjScqe/SjR0Z9J609/Li9eZYcNwDwF4FLbABY9SpeoqFbSKTZG4np29V4/l28Pb69bANNvnZdhX/1Wnv8nS16/y5f4Pj3l9t3vJOXit7Ltr3+WzQmrpKAoTR4W/lO2JK5Wcdt3rKuRHlBVAO9m/0NKy27Jv70/8sQ//l4ePbnlrce1uu3CAPOH0b/z3QNO5u0Ub9wwSU07rSr95Ze/ksjIn8mPWd/J9zdOy+cx0d7KZ9bZGPi/Og9zxhjILzjKC+Djpz/Ik3/dltFjvpLsvCu+CgJUjx5dpGnTCCkuTVfjTqy3C7kAGjpv/lQFUHx8nAz6za9Vl6WCgEWX6d69s0RENJGSxxkqrgG0wJoZA9H7BakS4wXE4/Golta1W6zqqgBKS2vb9heSdP5v8s2hrRLd7jP5ZdwX8sknzRWw4R4DTQAZtx0BoB6YaV0/Fd9QAzMtcNz4r1Ur4xlpzHSFJTfVfV0BSNmA6FhD+l7uJcn4IbnhGtL4wg+Lvle/IJpvaH2K+6kkTQH4sDC12vmhnoULF3qd6qU+XbJkidKK4riuXPknWbFiZb1WvoFvCTUfT0JCgmRnZ9vWffv2SUOR5cuXh5yHZ8uWLXL37l3bunfvXhdAF8AwApiVlSU5OTkVAjh//nyZMWOGuiJFRUUyffp0mTBhgrr/+PGj73rhwgWVdty4cb73SUd63tNpA4l+NmXKFKXIhw8f1HXr1q0B36EcyktJSVH3DFfcT5o0KTwAAl5SUpIqOBCAR48elZcvX6ow18uXL0vnzp3/n7nHf5IHKC3du3f3e26+V2FljfQ6zNVaDtKhQwdfGNBevXrlNcHO+uJmzpxZ+wDS8tatWyfbt28PCOCJEyfkyZMnKsz16tWrChgtTZs29SuMD9HSu3dvadasmR+gwcTMzwzHxcWVS2vmB1ivX79W9dUyb9688HTh69evqy4SbgCPHTsmR44csQVgIPAdAeCdO3ckMzNTdu3apcJWAE+ePCllZWUqzBUAe/ToYQvA+Ph4PwDN9/QP8vjxY1sAWt+1xmkAqW9YAbx//76MHDlSRowYIQ8ePCgHYF5engJFa3FxscyePVuFGe/WrFmj0kVGRvoA1M+wJ3lOmDjeCyYLFixQ6VHCyOTJk9UPMWfOHDUOjxo1SsXv3r3blzf6/v17v/L5sevcjLHOmoFm0Ypm1spmXLtiZ9Z27UCn24GuKxcigBAEsBJ2lfQU3BAUMiHUPFQLZDLQmpubq7SiuP3797st0B0DXQDrB4BMGvn5+conrghAfGUMVK6mkNYqDAGkPXz4sC8ObwMP4fnz57bMEjwU1PTHeR+PySqUQ3mUi5CGtLwTFgCx4Js0aSIHDx4M6IkAGmMjXghX7mE+IiIiZNGiReUKw4glLWAMGjRIWrVqJe/evVNxeCbBpEWLFvLixQulhAEAkgCv5dChQ/L06VNf2n79+qlyyFt7IqQhLQa3ngxrFUBaH95F69atpbS0NKgrZ7pKJvNSHVfOLpkASGhycrKf6+cIV46ue+7cOdmzZ48tX9isoAlWbfvCANinTx/n+cLYfcePH1fgBALQysaYbIcGS5OetcXG8B51dCQbs3btWunUqZNERUVJYWFhOQBTU1PVuMIvy5V7Ws358+dlyJAhPgKTIUADSFq6G2HSkJa4oUOHBq1s//795cyZM0oJA8zNmzcVMAD+9u1bGTNmjI9koBzyJh3PNmzYoNJSr507d4aP0q9sFmbgpoXqAZyK0hrNuGfPnqkrAz7xZtckTByTiR0hb93qdX46jq6sGXIzb9IhzPTm+64d6BQ70GxhLoBVBHDFihWyfv1627pq1Sq1yATw9VkTExMVmRDqt3jICHtPqyYQKopzyQR3DHQBrFcAWieYYGaM9m2tXkRtmDHmPSaKVercjMHhxpA+ffp0QE/EakgD9oABA9Q9BvLgwYPLuXI1aUhv27ZNERgYxxjJJoiOMKRZ1sQIxhN59OhRUFfO6lJZt1zU1s4EBFDNlukIVw73DRB27NgRsAsHIhM0b8e67Zs3b6pFJpi8oBkOBCBDB3UcOHCg88gETBdcI3g7O3QWLZBdVgDFTixNNVWHjWEH1sSJE223QIYCx9FZVSVU09LSJCYmptzEondKhYNQ1VvfHEGoVofSJ6xVszHXrl0LG6VPXR1D6bt2oAtg7QMIaYp/q5WtG2hFcRAKmAynTp2q18qQwzgY6reonQnsRNWq98BUFOfujXG7sAtggwHQzgbLYGZJTUhVNnbWCRsDa41fbAUQ4xkjVWtJSYk690EYo3n16tXlXDn9jHx4ruPsbPHlLIouS59LQdjO27VrV7+07Os2y2OLr1nXK1euhGdhHRcJXxNwgrlyprOOsMWjOr5wVcgEJjY2wlvJCEctrFM53B+7C+t9+/ZV7pvpFVSFjTG7n7kwbwXwwIEDCjykV69efmU5amGdDx0+fLgCxO7OhFDprI4dO0rbtm0rbYG4ZLzXs2dPadSokR8f6JiDNvfu3ZN27doF5AOtR70uXbqkgLECSItEauOol7XL6rHREUe9tBYUFARkYzTvR2X0uQ1NZ5lUFGUgFy9eVGnHjx/ve0Y60ts9bDh16lSl1q6uy4A910I5lAe1hrACyb1mbFw70DWkGwCAkAM0cXaW2lEOHmL/6U1H9VXhOdW/dnjNoFDy8WzatEmZAnYVoxUWmUmjPivjJy2Q1bpQ8nG7sDsGNmAyoTKzBA+jJgmFQPnXOYCs7DNpbN682ffHEyaAWP74tBixXM2FIW08mwJhQFpW7jDQObOLx4FRvXHjxqCVxXDv0qWLUsJ4Exz3J8/Y2Fg/T4S6Ug7PKJd6sfuBe4x2VvBqHcDRo0dLRkaGWlXTK3NWVy4QmdC8eXOZO3duucKsrlywY/tWMckJwosXL64wbbdu3SolE6hfWAAcO3asctHsHHPAzJk1a5avgtZuXNM7E9LT0/0oKr2JyDFsDPYeblz79u1t0VlwbPiofFzjxo2lZcuW1aazAv2dSWU7E8y6OAZAvTuLY1uBxkAWxc0/1jEXzPkPA9MnRaZNm+bHtpgAMV4Fa4FWMsH8wx19Ugm7FmnTpk05MoE0WvCnw7I7i5ZX2T8XsYWCX5urKfpDTAAxwklrflx0dLQa/8i7splTA8lkgWqBdSFPtrNZy6UcnsFOI6ThXjM1rh3oGtINAEDXFw7RF3bZmNDYmP8Cj0QFbhghOTcAAAAASUVORK5CYII=</base64>
+  </thumbnail>
+</metadata>
+<content languages="en el" contentType="xml">
+<processDataset>
+  <dataset>
+    <header language="en">
+      <column>
+        <symbol>Ώρα</symbol>
+        <description />
+        <type>String</type>
+      </column>
+      <column>
+        <symbol>Τροφές</symbol>
+        <description />
+        <type>String</type>
+      </column>
+      <column>
+        <symbol>Άσκηση</symbol>
+        <description />
+        <type>String</type>
+      </column>
+    </header>
+    <row>
+      <value>00.00 - 01.00</value>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value>01.00 - 02.00</value>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value>02.00 - 03.00</value>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value>03.00 - 04.00</value>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value>04.00 - 05.00</value>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value>05.00 - 06.00</value>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value>06.00 - 07.00</value>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value>07.00 - 08.00</value>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value>08.00 - 09.00</value>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value>09.00 - 10.00</value>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value>10.00 - 11.00</value>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value>11.00 - 12.00</value>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value>12.00 - 13.00</value>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value>13.00 - 14.00</value>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value>14.00 - 15.00</value>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value>15.00 - 16.00</value>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value>16.00 - 17.00</value>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value>17.00 - 18.00</value>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value>18.00 - 19.00</value>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value>19.00 - 20.00</value>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value>20.00 - 21.00</value>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value>21.00 - 22.00</value>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value>22.00 - 23.00</value>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value>23.00 - 00.00</value>
+      <value />
+      <value />
+    </row>
+  </dataset>
+  <processed_dataset>
+    <name>Datasheet</name>
+    <processed_hedaer>
+      <column>0</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+    <processed_hedaer>
+      <column>1</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+    <processed_hedaer>
+      <column>2</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+  </processed_dataset>
+</processDataset>
+</content>
+<resources>
+</resources>
+</elo>

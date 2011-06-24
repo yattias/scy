@@ -1,0 +1,200 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>zxc</entity>
+        <date>
+          <dateTime>2011-06-23T15:47:05.437+0300</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>zxc</entity>
+        <date>
+          <dateTime>2011-06-23T15:47:05.437+0300</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1295361682875</dateCreated>
+        <dateFirstUserSaveKey>1308833225437</dateFirstUserSaveKey>
+        <dateLastModified>1308833225437</dateLastModified>
+      </customElements>
+      <format>scy/pds</format>
+    </technical>
+    <educational>
+      <learningResourceType>datasetProcessed</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30192/0/Daily+Calorie+Intake.scypds</entry>
+      </identifier>
+      <las>experiment</las>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30175/0/A+healthy+pizza.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Daily Calorie Intake</string>
+        <string language="el">Ημερήσια Πρόσληψη Θερμίδων</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/30005/0/Daily+Calorie+Intake.scypds</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>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</base64>
+  </thumbnail>
+</metadata>
+<content languages="en el" contentType="xml">
+<processDataset>
+  <dataset>
+    <header language="en">
+      <column>
+        <symbol>Τροφές/Ροφήματα</symbol>
+        <description />
+        <type>String</type>
+      </column>
+      <column>
+        <symbol>Ποσότητα που καταναλώθηκε</symbol>
+        <description />
+        <type>double</type>
+        <unit>g ή ml</unit>
+      </column>
+      <column>
+        <symbol>Θερμιδική αξία</symbol>
+        <description />
+        <type>double</type>
+        <unit>kcal/g ή kcal/mL</unit>
+      </column>
+      <column>
+        <symbol>Θερμίδες που καταναλώθηκαν</symbol>
+        <description />
+        <type>double</type>
+        <unit>kcal</unit>
+      </column>
+    </header>
+    <row>
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value>ΣΥΝΟΛΟ</value>
+      <value />
+      <value />
+      <value />
+    </row>
+  </dataset>
+  <processed_dataset>
+    <name>Datasheet</name>
+    <processed_hedaer>
+      <column>0</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+    <processed_hedaer>
+      <column>1</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+    <processed_hedaer>
+      <column>2</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+    <processed_hedaer>
+      <column>3</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+  </processed_dataset>
+</processDataset>
+</content>
+<resources>
+</resources>
+</elo>

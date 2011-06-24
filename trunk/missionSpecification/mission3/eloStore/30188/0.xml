@@ -1,0 +1,202 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>zxc</entity>
+        <date>
+          <dateTime>2011-06-23T15:26:14.671+0300</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>zxc</entity>
+        <date>
+          <dateTime>2011-06-23T15:26:14.671+0300</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1296061515906</dateCreated>
+        <dateFirstUserSaveKey>1308831974671</dateFirstUserSaveKey>
+        <dateLastModified>1308831974671</dateLastModified>
+      </customElements>
+      <format>scy/pds</format>
+    </technical>
+    <educational>
+      <learningResourceType>dataset</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30188/0/Taste+Scores.scypds</entry>
+      </identifier>
+      <las>build</las>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30175/0/A+healthy+pizza.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Taste Scores</string>
+        <string language="el">Διαγωνισμός Γεύσης</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/30043/0/Taste+Scores.scypds</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>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</base64>
+  </thumbnail>
+</metadata>
+<content languages="en el" contentType="xml">
+<processDataset>
+  <dataset>
+    <header language="en">
+      <column>
+        <symbol>Ομάδα</symbol>
+        <description />
+        <type>String</type>
+      </column>
+      <column>
+        <symbol>Βαθμολογία γεύσης</symbol>
+        <description />
+        <type>double</type>
+        <unit />
+      </column>
+    </header>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+  </dataset>
+  <processed_dataset>
+    <name>Datasheet</name>
+    <processed_hedaer>
+      <column>0</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+    <processed_hedaer>
+      <column>1</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+  </processed_dataset>
+</processDataset>
+</content>
+<resources>
+</resources>
+</elo>
