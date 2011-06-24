@@ -1,0 +1,158 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>zxc</entity>
+        <date>
+          <dateTime>2011-06-23T15:28:27.781+0300</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>zxc</entity>
+        <date>
+          <dateTime>2011-06-23T15:28:27.781+0300</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1296059272937</dateCreated>
+        <dateFirstUserSaveKey>1308832107781</dateFirstUserSaveKey>
+        <dateLastModified>1308832107781</dateLastModified>
+      </customElements>
+      <format>scy/pds</format>
+    </technical>
+    <educational>
+      <learningResourceType>dataset</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30190/0/Criteria+Weight+Table.scypds</entry>
+      </identifier>
+      <las>reflection2</las>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30175/0/A+healthy+pizza.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Criteria Weight Table</string>
+        <string language="el">Πίνακας Βαρύτητας Κριτηρίων</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/30039/0/Criteria+Weight+Table.scypds</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAG10lEQVR42u2YaUxVRxTHXwLq18aYWBfcEDSWSumiSb+0TdN+ED+URtsIFrcGiEUwRtum1USLGqGlUSS+JyIWqEhbtQUUBWRTUWRfFZBFcENlCWiFCnp6/wfn9rGI8AS08UxyMnNnzjlz5jdn5t73DDTIkpKSSqa9QWQ0iUAMgwWYmJhE1bWZVFGVIaKJBQBPCcCRBni5+pwuzxpwXmHSM/m5WJ5O5ZVnhyxei45w1QABIoBVXy6hWbNsafbsmWRjM5Fqr2VbvHj4GzduLP3TWWuxj2DjdrqQE//E8YKiU3q806bZUFPLpecLcInrJ3QuM47uNJWwlJalU9bjBVTWnKeUtMMUGRWstc9xP7LDuHcHRfwaRHtMO6jueg79ErFT6/Nn/faOKzRh4nj2jTFTSEA3vX37f6LQsEDaf+BnbsMP/MFvyaVUCtH69ob+yPrwceTPUNq7L4AzEzFl552gQ78Z6XZjMd1rq6RFixdS1ZXzrAN/B7Q5rtfn87x4HvYjDDA7g37Qgk/TFtEVICbG2NUbueTts5IMBgO3ERzGL1WcJmtrKyooPkXhkbsoJf0wZeWe0BacQa1/V9AM26m8eK/V7lR8MUUbi9f1svNOUnLaHzxnYUky+4G/3PwEnqdCiwE2nl5fcEy7dvuxb3WsMT+gI56G5lLy8FxKY8e+wr4gVlZW9PW3X7EPzDXsABEYjozb0k951zGpOUD3ZYu1BZ6h6N+NNH36FM6y+juFNGrUKD7upzP+ouUrPuesArTJkydQXHwEL/qwlj1fuC+ixORo9gnfXRC65oA9/MAfwERF7+F4MO8a31UMFNlkHm+OZvv+B+/ynMuWf0YJSYf0WJQ/H80WPkbkJVJde4GcnBwYDABwBj6Gce1mHgPMyT9JkQd309vvOHK/OUBTiL+226lUczWL/Tm+8RodjQnjbMOmNLZc1I5YJgODH9ij7g3wZK/Mt7a21o+yihfxhZrF571mha6HedAGfIxBZ9jvwBkzptKbb72uv0QA9KOP3+NnW9tplJEZy3rjx4+jlnsVbFffUMTZAQD5RUkMDbaFxckUot1fAIDx0rI09jFp0qu8QdCDX9Swgz304A/HfI92FyqAK7WXGzZnpt10fmng5cEAtczGkVXx4fQoPeeFH7K/7773oTlz7FlnWAFCbtzK5wsZgpcIjpDqU8/Qu3m7UG+jxjhqyK2GLl2V0Wq87PIZ/eWENvTQj1rZKj/YJNgqgMhe9DW3ltHW7d8wcLXptxtLusWn+nDc0e/q5sIvGLRfyg9pvIyKSlN0YHmFiYOyhy18WHQH4rfw1Zs52p10geWKmbxsfRDDxo0bacuWLbps3ryZ5Ul9qLdt205bt24T0cRgMpmosrJywBIVFUVS/isGo9FI5eXlA5aDBw8KNQE4ggArKiqoqqpqSAE6ODjQhg0b6P79+wO2cXd3//8BBLykpCTCPTmUAB0dHfV2W1sbNTU1UUdHB7W0tHBfQ0MD90Hu3r1Lzc3NXDc2NlJnZ6eupzagtbWVx5Qt9FGjoK3GVEEffKP/wYMHPDeelY3ybz5HT1sVc78AkXmBgYEUGho6pADnzp2rt319fen48eN6/4IFCyg5OZni4+O1XxiTKCIigo4ePcrP0dHRlJWVRVOmTGF9b29vevToEQUFBVFcXBw9fPiQbfFrAfoFBQV05MgRiomJ6fEtm0jOzs6sC4AuLi6sj2fMb2Nj02fmZ2dnsz8VC+qnHmEEHBISMmwA169fzwtCmTdvHo0ZM6abXmZmpp5BqI8dO0apqamcuYCP7AsODmY9VUaPHs11bm4uw8dJ6lnWrl3bZzzK1t7enjfCvGCjzWN5KsCysjIqLi6m8PBwbg/HEcZCcCxQ5s+f3w0g9AAGxwWZ1t7ezouIjY3lcS8vL7YFJIDsCQHXT3V1dZ93rTlA83iUrZOTUy+AANYzln4B1tbWkpubG7m6ulJdXd2wAEQW+fj4cGB2dnYUEBDAz+hft24d1dfXcxvi6empH3e1OJWJq1ev1kGpsZqaGh7z8PDoFQN8qYJ5VBz+/v7cl5CQwHccYKmi/JnH8lw+YwAQgZkH96TyJB38TdWf/kD9D6b05e+5AMzPz+djiAvc0oJ78IX4jJGfcs8IsL8/Dvrq27RpE/n5+Yk8FkNkZKSk0bNkID5RpAhAASgABaAUASgABaAAlCIARxZgWFgY/6eG/9JEBi+Gy6VnqawoXcRCMXTeqyIRy0UACkABKAAFoIgAFIACUACKCEABKAAFoIgAFIACUACKCEABKAAFoIgAFIACUACKCEABKAAFoIgAFIACUACKCEABKAAFoIgAFIAviPwL8gpHgJv67jQAAAAASUVORK5CYII=</base64>
+  </thumbnail>
+</metadata>
+<content languages="en el" contentType="xml">
+<processDataset>
+  <dataset>
+    <header language="en">
+      <column>
+        <symbol>Συντελεστής Βαρύτητας</symbol>
+        <description />
+        <type>String</type>
+      </column>
+      <column>
+        <symbol>Λιπαρά</symbol>
+        <description />
+        <type>double</type>
+        <unit />
+      </column>
+      <column>
+        <symbol>Πρωτεΐνες</symbol>
+        <description />
+        <type>double</type>
+        <unit />
+      </column>
+      <column>
+        <symbol>Υδατάνθρακες</symbol>
+        <description />
+        <type>double</type>
+        <unit />
+      </column>
+      <column>
+        <symbol>Κόστος</symbol>
+        <description />
+        <type>double</type>
+        <unit />
+      </column>
+    </header>
+    <row>
+      <value>[εισάγετε τον αριθμό εδώ]</value>
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+  </dataset>
+  <processed_dataset>
+    <name>Datasheet</name>
+    <processed_hedaer>
+      <column>0</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+    <processed_hedaer>
+      <column>1</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+    <processed_hedaer>
+      <column>2</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+    <processed_hedaer>
+      <column>3</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+    <processed_hedaer>
+      <column>4</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+  </processed_dataset>
+</processDataset>
+</content>
+<resources>
+</resources>
+</elo>

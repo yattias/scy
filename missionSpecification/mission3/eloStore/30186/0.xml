@@ -1,0 +1,115 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>zxc</entity>
+        <date>
+          <dateTime>2011-06-22T16:51:26.984+0300</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>zxc</entity>
+        <date>
+          <dateTime>2011-06-22T16:51:26.984+0300</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1295539978062</dateCreated>
+        <dateFirstUserSaveKey>1308750686984</dateFirstUserSaveKey>
+        <dateLastModified>1308750686984</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <educational>
+      <learningResourceType>documentReflection</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30186/0/Personal+Comments.rtf</entry>
+      </identifier>
+      <las>reflection1</las>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30175/0/A+healthy+pizza.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Personal Comments</string>
+        <string language="el">Προβλήματα Υγείας που σχετίζονται με τη Διατροφή</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/30022/0/Personal+Comments.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAESklEQVR42u2aTUhjVxTHo6KC4hcuVERdCK5ciEKhbqqI9QsRN3UnVF2ptBtFEV2UqS5cVKilGetKuzFqKQr98IOCH22JMA0h0SjDvEw7GCWxEzND0tE0OZ1z7LtNjIKlXUzk/4fDPffe9+5775d3Xw7nXsNL+o285Iyy52GNvEHYXczw4jVAt9sdZQKQQZImdh2wK3Bzv1730VOyO82qznb80hFV13+4yDFO/tDizgz8IOfP3cR67HylAPrphMIhotndVwqQzRUil99Brt/5oZ+Q/ZTIYDDQn6+P5f5Ny6nUP374HdmfmqX+g9UtJQNcf3Qi/sYjlwB8Qc/o7XfelTYB6NXizgSgz+uhB98GKa/OoQAG6JRMX1vorU9IAZz+zEirq6vkcl8BnPvGSg+XflQAv/zeRjPLP9EHD+YF4Bdf/Uzvvf+htDHAz027ZFzclXN0gNz30acLVwA9WtyZALxtCkfa49NflD35Nbb/ujHAyDoDjKzf9O3VnmlxZ4aZmRm6yTSnBruDGQj6TwLA+wYwHA7HJ8DDw0PVGAqFqKysjAYHB8npdJLH4yGj0Ugmk0n6uY1VVFQk5crKCk1NTYmflpZGs7OztLOzQ8FgkCoqKmhgYED6EhMTpeSxWFlZWVE3Y7fbaWxsjHJzcyk5OVna5ubmlB+p9fV15aempkqp319BQYGUJSUllJCQQJWVlerY4+Njam9vv3p4wz/vj37O5uYmNTc3i69pWtS1tra2aHR0VHyfz0c1NTWYwvgGAiAAAiAEgG8GwO7ubgk/WGtrazQ+Pq76OPSoq6ujpKQk+csfHh6W9svLy6gBMzIyaH5+nqqqqlRfX1+flH6/Pyb00K/F4QaHCV1dXXgDMYUhAARAAARA6K4Az8/PY7IT5eXl1NnZKZmXs7MzyVK3tbWpPg5nONuhBvr7XD2r0djYGH0hQ+xvlZ2drXw946JnblgcDnF4w5mP/Px8Cau2t7clW8Tj8f3p6u3tVX5xcbHK+MT9G9jU1IQpDAEgAAIgAEL3AqDZbI5pKywsfHMANjQ0qNW26elpKTMzM6W02WzqOI7PbtPS0pKU6enpZLFYaHJykg4ODlSMGCm+Rmtrq8RuR0dHqp1jv42NDerp6ZE6rwzqS56cMtPvgePB0tJSvIGYwgAIASAAAuC90L/Z4KQA8oae21bEUlJSJD1UXV1NgUBA2niljUMPVn19vWzY4Y07kaEKhxh5eXlyrNVqlXMXFhZocXFRVuX08Eg/9ro6Ojro4uKCcnJypD40NCQrdyx9w0/kGMvLy8ofGRmhvb098Xlbsr6hiKVvhOKxIxW5aqhrYmIi6v6YkcPhEL+lpQVv4P82hff396m/v5+8Xi/V1taCDL6BAAiAAAgBIAACIABCAAiAAAiAEAACIAACIASAAAiAAAgBIAACIABCAAiAAAiAAAgBIAACIABCAAiAAAiAEAACYHzpL1Ei4VgTDqDkAAAAAElFTkSuQmCC</base64>
+  </thumbnail>
+</metadata>
+<content languages="en el" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Arial;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+\margl1417\margr1417\margt1417\margb1417\widowctrl
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0\par
+I. \u932 ?\u945 ? \u960 ?\u961 ?\u959 ?\u946 ?\u955 ?\u942 ?\u956 ?\u945 ?\u964 ?\u945 ? \u965 ?\u947 ?\u949 ?\u943 ?\u945 ?\u962 ? \u960 ?\u959 ?\u965 ? \u963 ?\u965 ?\u957 ?\u948 ?\u941 ?\u959 ?\u957 ?\u964 ?\u945 ?\u953 ? \u956 ?\u949 ? \u964 ?\u951 ? \u948 ?\u953 ?\u945 ?\u964 ?\u961 ?\u959 ?\u966 ?\u942 ?, \u972 ?\u960 ?\u969 ?\u962 ? \u951 ? \u960 ?\u945 ?\u967 ?\u965 ?\u963 ?\u945 ?\u961 ?\u954 ?\u943 ?\u945 ?, \u959 ? \u948 ?\u953 ?\u945 ?\u946 ?\u942 ?\u964 ?\u951 ?\u962 ? \u954 ?\u945 ?\u953 ? \u964 ?\u945 ? \u954 ?\u945 ?\u961 ?\u948 ?\u953 ?\u945 ?\u947 ?\u947 ?\u949 ?\u953 ?\u945 ?\u954 ?\u940 ? \u957 ?\u959 ?\u963 ?\u942 ?\u956 ?\u945 ?\u964 ?\u945 ? \u945 ?\u960 ?\u959 ?\u964 ?\u949 ?\u955 ?\u959 ?\u973 ?\u957 ? \u956 ?\u953 ?\u945 ? \u963 ?\u951 ?\u956 ?\u945 ?\u957 ?\u964 ?\u953 ?\u954 ?\u942 ? \u945 ?\u960 ?\u949 ?\u953 ?\u955 ?\u942 ? \u947 ?\u953 ?\u945 ? \u964 ?\u951 ?\u957 ? \u954 ?\u959 ?\u953 ?\u957 ?\u969 ?\u957 ?\u943 ?\u945 ? \u956 ?\u945 ?\u962 ?.\par
+\par
+\par
+\par
+II. \u932 ?\u959 ? \u957 ?\u945 ? \u964 ?\u961 ?\u974 ?\u964 ?\u949 ? \u965 ?\u947 ?\u953 ?\u949 ?\u953 ?\u957 ?\u940 ? \u949 ?\u943 ?\u957 ?\u945 ?\u953 ? \u945 ?\u960 ?\u959 ?\u954 ?\u955 ?\u949 ?\u953 ?\u963 ?\u964 ?\u953 ?\u954 ?\u940 ? \u948 ?\u953 ?\u954 ?\u942 ? \u963 ?\u945 ?\u962 ? \u949 ?\u965 ?\u952 ?\u973 ?\u957 ?\u951 ?.\par
+\par
+\par
+\par
+III. \u932 ?\u945 ? \u945 ?\u957 ?\u945 ?\u968 ?\u965 ?\u954 ?\u964 ?\u953 ?\u954 ?\u940 ? (\u972 ?\u960 ?\u969 ?\u962 ? CoCa Cola, Pepsi, \u954 ?.\u945 ?.) \u964 ?\u945 ?\u953 ?\u961 ?\u953 ?\u940 ?\u950 ?\u959 ?\u965 ?\u957 ? \u963 ?\u949 ? \u956 ?\u953 ?\u945 ? \u965 ?\u947 ?\u953 ?\u949 ?\u953 ?\u957 ?\u942 ? \u948 ?\u953 ?\u945 ?\u964 ?\u961 ?\u959 ?\u966 ?\u942 ?.\par
+\par
+\par
+\par
+IV. \u927 ?\u953 ? \u963 ?\u967 ?\u959 ?\u955 ?\u953 ?\u954 ?\u941 ?\u962 ? \u954 ?\u945 ?\u957 ?\u964 ?\u943 ?\u957 ?\u949 ?\u962 ? \u948 ?\u949 ? \u952 ?\u945 ? \u960 ?\u961 ?\u941 ?\u960 ?\u949 ?\u953 ? \u957 ?\u945 ? \u960 ?\u969 ?\u955 ?\u959 ?\u973 ?\u957 ? \u960 ?\u961 ?\u972 ?\u967 ?\u949 ?\u953 ?\u961 ?\u945 ? \u964 ?\u961 ?\u972 ?\u966 ?\u953 ?\u956 ?\u945 ? (fast food).\par
+\par
+\par
+\par
+V. \u932 ?\u945 ? \u949 ?\u963 ?\u964 ?\u953 ?\u945 ?\u964 ?\u972 ?\u961 ?\u953 ?\u945 ? \u960 ?\u959 ?\u965 ? \u966 ?\u964 ?\u953 ?\u940 ?\u967 ?\u957 ?\u959 ?\u965 ?\u957 ? \u960 ?\u961 ?\u972 ?\u967 ?\u949 ?\u953 ?\u961 ?\u945 ? \u966 ?\u945 ?\u947 ?\u951 ?\u964 ?\u940 ? (\u972 ?\u960 ?\u969 ?\u962 ? \u964 ?\u945 ? McDonalds), \u952 ?\u945 ? \u960 ?\u961 ?\u941 ?\u960 ?\u949 ?\u953 ? \u957 ?\u945 ? \u960 ?\u945 ?\u961 ?\u941 ?\u967 ?\u959 ?\u965 ?\u957 ? \u963 ?\u964 ?\u959 ?\u965 ?\u962 ? \u960 ?\u949 ?\u955 ?\u940 ?\u964 ?\u949 ?\u962 ? \u960 ?\u949 ?\u961 ?\u953 ?\u963 ?\u963 ?\u972 ?\u964 ?\u949 ?\u961 ?\u949 ?\u962 ? \u960 ?\u955 ?\u951 ?\u961 ?\u959 ?\u966 ?\u959 ?\u961 ?\u943 ?\u949 ?\u962 ? \u947 ?\u953 ?\u945 ? \u964 ?\u951 ? \u952 ?\u961 ?\u949 ?\u960 ?\u964 ?\u953 ?\u954 ?\u942 ? \u945 ?\u958 ?\u943 ?\u945 ? \u964 ?\u969 ?\u957 ? \u960 ?\u961 ?\u959 ?\u970 ?\u972 ?\u957 ?\u964 ?\u969 ?\u957 ?  \par
+     \u964 ?\u959 ?\u965 ?\u962 ?.\par
+\f1\cf1\par
+\par
+\li0\ri0\fi0\ul0\par
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>

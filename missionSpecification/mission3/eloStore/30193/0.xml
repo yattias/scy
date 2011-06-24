@@ -1,0 +1,200 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>zxc</entity>
+        <date>
+          <dateTime>2011-06-23T15:52:21.859+0300</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>zxc</entity>
+        <date>
+          <dateTime>2011-06-23T15:52:21.859+0300</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1295363261937</dateCreated>
+        <dateFirstUserSaveKey>1308833541859</dateFirstUserSaveKey>
+        <dateLastModified>1308833541859</dateLastModified>
+      </customElements>
+      <format>scy/pds</format>
+    </technical>
+    <educational>
+      <learningResourceType>datasetProcessed</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30193/0/Estimated+Energy+Requirements+%28Health+Passport%29.scypds</entry>
+      </identifier>
+      <las>experiment</las>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30175/0/A+healthy+pizza.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Estimated Energy Requirements (Health Passport)</string>
+        <string language="el">Ενδεικτικές Ενεργειακές Ανάγκες</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/30008/0/Estimated+Energy+Requirements+%28Health+Passport%29.scypds</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>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</base64>
+  </thumbnail>
+</metadata>
+<content languages="en el" contentType="xml">
+<processDataset>
+  <dataset>
+    <header language="en">
+      <column>
+        <symbol>Δραστηριότητα</symbol>
+        <description />
+        <type>String</type>
+      </column>
+      <column>
+        <symbol>Διάρκεια</symbol>
+        <description />
+        <type>double</type>
+        <unit>ώρες</unit>
+      </column>
+      <column>
+        <symbol>Θερμίδες ανά ώρα</symbol>
+        <description />
+        <type>double</type>
+        <unit>kcal/ώρα</unit>
+      </column>
+      <column>
+        <symbol>Θερμίδες που καταναλώθηκαν</symbol>
+        <description />
+        <type>double</type>
+        <unit>kcal</unit>
+      </column>
+    </header>
+    <row>
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+  </dataset>
+  <processed_dataset>
+    <name>Datasheet</name>
+    <processed_hedaer>
+      <column>0</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+    <processed_hedaer>
+      <column>1</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+    <processed_hedaer>
+      <column>2</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+    <processed_hedaer>
+      <column>3</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+  </processed_dataset>
+</processDataset>
+</content>
+<resources>
+</resources>
+</elo>
