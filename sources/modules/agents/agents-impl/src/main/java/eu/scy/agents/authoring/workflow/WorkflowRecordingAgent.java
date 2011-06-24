@@ -156,7 +156,6 @@ public class WorkflowRecordingAgent extends AbstractThreadedAgent implements
             super.call(command, seq, afterTuple, beforeTuple);
             return;
         }
-
     }
 
     private synchronized Path getPath(String user) {

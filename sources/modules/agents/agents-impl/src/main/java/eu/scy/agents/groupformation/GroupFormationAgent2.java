@@ -31,7 +31,6 @@ import roolo.elo.api.IMetadataTypeManager;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.rmi.dgc.VMID;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -41,9 +40,9 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-public class GroupFormationAgent2 extends AbstractRequestAgent
-        implements
-        IRepositoryAgent {
+public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepositoryAgent {
+
+    static final String NAME = GroupFormationAgent2.class.getName();
 
     private static final Logger LOGGER = Logger
             .getLogger(GroupFormationAgent2.class);
@@ -56,10 +55,7 @@ public class GroupFormationAgent2 extends AbstractRequestAgent
 
     private static final String LAS = "newLasId";
     private static final String OLD_LAS = "oldLasId";
-    private static final String STRATEGY = "strategy";
     private static final String FORM_GROUP = "form_group";
-    static final String NAME = GroupFormationAgent2.class.getName();
-    private static final String SCOPE = "scope";
 
     private static final String MIN_GROUP_SIZE_PARAMETER = "MinGroupSize";
     private static final String MAX_GROUP_SIZE_PARAMETER = "MaxGroupSize";
@@ -102,8 +98,7 @@ public class GroupFormationAgent2 extends AbstractRequestAgent
     }
 
     @Override
-    protected void doRun() throws TupleSpaceException, AgentLifecycleException,
-            InterruptedException {
+    protected void doRun() throws TupleSpaceException, AgentLifecycleException, InterruptedException {
         while (status == Status.Running) {
             sendAliveUpdate();
             try {
@@ -112,13 +107,6 @@ public class GroupFormationAgent2 extends AbstractRequestAgent
                 throw new AgentLifecycleException(e.getMessage(), e);
             }
         }
-    }
-
-    @Override
-    protected Tuple getListParameterTuple(String queryId) {
-        return AgentProtocol.getListParametersTupleResponse(NAME, queryId,
-                Arrays.asList(MIN_GROUP_SIZE_PARAMETER,
-                        MAX_GROUP_SIZE_PARAMETER));
     }
 
     @Override
@@ -222,38 +210,39 @@ public class GroupFormationAgent2 extends AbstractRequestAgent
         return activation;
     }
 
-    private void runGroupFormation(IAction action, GroupFormationActivation.GroupFormationInfo gfInfo)
-            throws
+    private void runGroupFormation(IAction action, GroupFormationActivation.GroupFormationInfo groupFormationInfo) throws
             TupleSpaceException {
-
         Mission mission = getSession().getMission(action.getUser());
         String las = action.getAttribute(LAS);
         String language = getSession().getLanguage(action.getUser());
-        IELO referenceElo = rooloServices.getRepository().retrieveELO(gfInfo.getReferenceElo());
+        IELO referenceElo = rooloServices.getRepository().retrieveELO(groupFormationInfo.getReferenceElo());
         Set<String> availableUsers = getAvailableUsers(mission, las, action.getUser());
+
         int n = 1;
 
         if (missionGroupsCache.contains(mission, las, action.getUser())) {
             // user was already assigned to a group in this las
             Set<String> group = missionGroupsCache.getGroup(mission, las, action.getUser());
             if (availableUsers.containsAll(group)) {
-                // if all user from this group are available send a new gf notification
+                Set<Set<String>> groups = new HashSet<Set<String>>();
+                groups.add(group);
+                sendGroupNotification(action, groups, language);
             } else {
-                // send a wait notification to wait for other members to join
+                sendWaitForExistingGroupNotification(action, language, group);
             }
         } else {
             // user was not assigned will be assigned.
-            if (availableUsers.size() < n * gfInfo.getMinimumUsers()) {
+            if (availableUsers.size() < n * groupFormationInfo.getMinimumUsers()) {
                 // to few user available to assign to a group
                 sendWaitNotification(action, language);
             } else {
                 // enough users available assign a new group
-                GroupFormationStrategy groupFormationStrategy = factory.getStrategy(gfInfo.getStrategy());
+                GroupFormationStrategy groupFormationStrategy = factory.getStrategy(groupFormationInfo.getStrategy());
                 groupFormationStrategy.setGroupFormationCache(missionGroupsCache.get(mission, las));
                 groupFormationStrategy.setLas(las);
                 groupFormationStrategy.setMission(mission.getName());
-                groupFormationStrategy.setMinimumGroupSize(gfInfo.getMinimumUsers());
-                groupFormationStrategy.setMaximumGroupSize(gfInfo.getMaximumUsers());
+                groupFormationStrategy.setMinimumGroupSize(groupFormationInfo.getMinimumUsers());
+                groupFormationStrategy.setMaximumGroupSize(groupFormationInfo.getMaximumUsers());
                 groupFormationStrategy.setAvailableUsers(availableUsers);
 
                 Collection<Set<String>> formedGroups = groupFormationStrategy.formGroup(referenceElo);
@@ -266,6 +255,20 @@ public class GroupFormationAgent2 extends AbstractRequestAgent
                     LOGGER.error("Could not write into Tuplespace", e);
                 }
             }
+        }
+    }
+
+    private void sendWaitForExistingGroupNotification(IAction action, String language, Set<String> group) {
+        ResourceBundle messages = ResourceBundle.getBundle("agent_messages", new Locale(language));
+        StringBuilder message = new StringBuilder();
+        message.append(messages.getString("GF_WAIT_GROUP_MESSAGE"));
+        message.append("\n");
+        message.append(createUserListString(action.getUser(), group));
+        Tuple notificationTuple = createMessageNotificationTuple(action, createId(), message.toString(), action.getUser());
+        try {
+            getCommandSpace().write(notificationTuple);
+        } catch (TupleSpaceException e) {
+            e.printStackTrace();
         }
     }
 
