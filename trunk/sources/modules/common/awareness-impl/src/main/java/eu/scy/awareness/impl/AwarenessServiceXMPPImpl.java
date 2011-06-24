@@ -412,7 +412,22 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
     public boolean doesRoomExist(String ELOUri) {
         RoomInfo info;
         try {
-            info = MultiUserChat.getRoomInfo(xmppConnection, URLEncoder.encode(ELOUri, "utf-8") + CONFERENCE_EXT);
+            String room = URLEncoder.encode(ELOUri, "utf-8") + CONFERENCE_EXT;
+            info = MultiUserChat.getRoomInfo(xmppConnection, room);
+        } catch (NumberFormatException e) {
+            /*
+             * This is a workaround for a stupid bug in openfire 3.7.0
+             * 
+             * It sends two fields for the occupants number, the first is "" and therefore
+             * a Integer.parseInt fails and throws this exception. In this case we now
+             * that the session exist, or at least, we can assume that.
+             * 
+             *  <field label="Number of occupants" var="muc#roominfo_occupants">
+             *    <value/>  <-- this throws the exception while parsing
+             *    <value>0</value>
+             *  </field>
+             */
+            return true;
         } catch (XMPPException e) {
             return false;
         } catch (UnsupportedEncodingException e) {
