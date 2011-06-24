@@ -11,6 +11,8 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -69,14 +71,16 @@ public class TransferElo extends BaseXMLTransfer {
         super();
         setMyname(scyElo.getTitle());
         setUri(scyElo.getUri().toString());
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM HH:mm");
         if (scyElo.getDateLastModified() != null) {
             Date lastModified = new Date(scyElo.getDateLastModified());
-            setLastModified(lastModified.toString());
-            setModified(lastModified.toString());
+            setLastModified(formatter.format(lastModified));
+            setModified(formatter.format(lastModified));
         }
         if (scyElo.getDateCreated() != null) {
             Date createDate = new Date(scyElo.getDateCreated());
-            setCreatedDate(createDate.toString());
+
+            setCreatedDate(formatter.format(createDate));
         }
 
         List authors = scyElo.getAuthors();
@@ -98,7 +102,7 @@ public class TransferElo extends BaseXMLTransfer {
 
         getRawData().setThumbnail("/webapp/components/resourceservice.html?eloURI=" + getUri());//Why go for less when you can have the double?
         getRawData().setFullScreen("/webapp/components/resourceservice.html?eloURI=" + getUri());
-        if (getTechnicalFormat() != null) {
+        /*if (getTechnicalFormat() != null) {
             if (getTechnicalFormat().contains("text") ||
                     getTechnicalFormat().contains("rtf")) {
                 String rtfString = scyElo.getContent().getXmlString();
@@ -110,12 +114,13 @@ public class TransferElo extends BaseXMLTransfer {
 
                 getRawData().setText(rtfString);
             }
-        }
+        } */
 
 
-        setStudentDescription("stydentdesc");
+        //setStudentDescription("stydentdesc");
         try {
-            setSnippeturl("scy-lab.jnlp?singleEloUri=" + URLEncoder.encode(getUri(), "UTF-8"));
+            //setSnippeturl("scy-lab.jnlp?singleEloUri=" + URLEncoder.encode(getUri(), "UTF-8"));
+            setSnippeturl("/webapp/util/OpenScyLabInSingleEloMode.html?eloURI=" + URLEncoder.encode(getUri(), "UTF-8"));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -403,7 +408,7 @@ public class TransferElo extends BaseXMLTransfer {
             String raw =  writer.toString();
             //return URLEncoder.encode(raw, "UTF-8");
             System.out.println("RAW: " + raw);
-            
+
             return raw;
         } catch (Exception ex) {
             return txt;
