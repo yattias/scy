@@ -33,6 +33,7 @@ public class EloToolConfigurationEditor extends EloXmlEditor {
                tbi: toolBrokerAPI
             }
          setContent(springConfigFileImporter.eloToolConfigsXml,springConfigFileImporter.errors);
+         missionId = springConfigFileImporter.missionId;
          language = springConfigFileImporter.language;
          suggestedTitle = springConfigFileImporter.missionTitle;
       }

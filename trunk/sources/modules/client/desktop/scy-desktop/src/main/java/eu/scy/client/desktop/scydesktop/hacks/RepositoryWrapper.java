@@ -44,12 +44,12 @@ public class RepositoryWrapper implements IRepository
    private IMetadataKey authorKey;
    private IMetadataKey dateCreatedKey;
    private IMetadataKey dateLastModifiedKey;
-   private IMetadataKey missionKey;
    private IMetadataKey lasKey;
    private IMetadataKey activeAnchorEloKey;
    private IMetadataKey missionRuntimeKey;
    private IMetadataKey missionRunningKey;
    private IMetadataKey templateKey;
+   private IMetadataKey missionIdKey;
 //	private IMetadataKey typeKey;
 //	private IMetadataKey annotatesRelationKey;
    private List<EloSavedListener> eloSavedListeners = new CopyOnWriteArrayList<EloSavedListener>();
@@ -167,12 +167,12 @@ public class RepositoryWrapper implements IRepository
       authorKey = getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR);
       dateCreatedKey = getMetadataKey(CoreRooloMetadataKeyIds.DATE_CREATED);
       dateLastModifiedKey = getMetadataKey(CoreRooloMetadataKeyIds.DATE_LAST_MODIFIED);
-      missionKey = getMetadataKey(ScyRooloMetadataKeyIds.MISSION);
       lasKey = getMetadataKey(ScyRooloMetadataKeyIds.LAS);
       activeAnchorEloKey = getMetadataKey(ScyRooloMetadataKeyIds.ACTIVE_ANCHOR_ELO);
       missionRuntimeKey = getMetadataKey(ScyRooloMetadataKeyIds.MISSION_RUNTIME);
       missionRunningKey = getMetadataKey(ScyRooloMetadataKeyIds.MISSION_RUNNING);
       templateKey = getMetadataKey(CoreRooloMetadataKeyIds.TEMPLATE);
+      missionIdKey = getMetadataKey(CoreRooloMetadataKeyIds.MISSION_ID);
    }
 
    private IMetadataKey getMetadataKey(IMetadataKeyIdDefinition keyId)
@@ -208,7 +208,7 @@ public class RepositoryWrapper implements IRepository
       elo.getMetadata().getMetadataValueContainer(dateLastModifiedKey).setValue(System.currentTimeMillis());
       if (missionId != null)
       {
-         elo.getMetadata().getMetadataValueContainer(missionKey).setValue(missionId);
+         elo.getMetadata().getMetadataValueContainer(missionIdKey).setValue(missionId);
       }
       if (missionRuntimeEloUri != null)
       {
