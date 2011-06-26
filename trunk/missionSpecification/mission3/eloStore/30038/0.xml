@@ -9,7 +9,7 @@
         </role>
         <entity>Caspar</entity>
         <date>
-          <dateTime>2011-03-03T15:40:04.005+0200</dateTime>
+          <dateTime>2011-03-03T14:40:04.005+0100</dateTime>
         </date>
       </contribute>
       <contribute>
@@ -19,10 +19,10 @@
         </role>
         <entity>Caspar</entity>
         <date>
-          <dateTime>2011-03-03T15:40:00.334+0200</dateTime>
+          <dateTime>2011-03-03T14:40:00.334+0100</dateTime>
         </date>
       </contribute>
-      <version>10</version>
+      <version>12</version>
     </lifecycle>
     <technical>
       <customElements>

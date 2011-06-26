@@ -22,7 +22,7 @@
           <dateTime>2011-06-22T14:28:48.187+0200</dateTime>
         </date>
       </contribute>
-      <version>2</version>
+      <version>3</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -75,7 +75,7 @@
   <diagram class="eu.scy.scymapper.impl.DiagramModel">
     <nodes>
       <eu.scy.scymapper.impl.model.NodeModel>
-        <label>παραγωγή&#xD;
+        <label>παραγωγή&#xD;&#xD;
 σάλιου</label>
         <shape class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle">
           <mode>0</mode>
@@ -259,7 +259,7 @@
         <id>87617a00-a180-4168-b3ba-3ca02bb081f4</id>
       </eu.scy.scymapper.impl.model.NodeModel>
       <eu.scy.scymapper.impl.model.NodeModel>
-        <label>κτύποι&#xD;
+        <label>κτύποι&#xD;&#xD;
  καρδιάς</label>
         <shape class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle" reference="../../eu.scy.scymapper.impl.model.NodeModel/shape" />
         <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
@@ -575,7 +575,7 @@
         <id>8a7c2406-7b5c-4612-a3cd-0e21a89176e5</id>
       </eu.scy.scymapper.impl.model.NodeModel>
       <eu.scy.scymapper.impl.model.NodeModel>
-        <label>κίνηση&#xD;
+        <label>κίνηση&#xD;&#xD;
 μυών</label>
         <shape class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle" reference="../../eu.scy.scymapper.impl.model.NodeModel/shape" />
         <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle">

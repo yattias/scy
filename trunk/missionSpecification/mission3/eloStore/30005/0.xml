@@ -9,10 +9,10 @@
         </role>
         <entity>Caspar</entity>
         <date>
-          <dateTime>2011-01-18T16:48:01.421+0200</dateTime>
+          <dateTime>2011-01-18T15:48:01.421+0100</dateTime>
         </date>
       </contribute>
-      <version>8</version>
+      <version>10</version>
     </lifecycle>
     <technical>
       <customElements>
