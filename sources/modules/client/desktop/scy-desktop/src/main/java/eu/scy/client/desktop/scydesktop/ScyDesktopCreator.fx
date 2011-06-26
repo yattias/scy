@@ -61,14 +61,7 @@ public class ScyDesktopCreator {
    public-init var eloConfigManager: EloConfigManager;
    var templateEloUris: URI[];
    def userNameKey = "userName";
-   var titleKey: IMetadataKey;
    var technicalFormatKey: IMetadataKey;
-   var missionIdKey: IMetadataKey;
-   var anchorIdKey: IMetadataKey;
-   var lasKey: IMetadataKey;
-   var containsAssignmentEloKey: IMetadataKey;
-   var functionalTypeKey: IMetadataKey;
-   var iconTypeKey: IMetadataKey;
    def toolBrokerAPI = missionRunConfigs.tbi;
    def userName = toolBrokerAPI.getLoginUserName();
 
@@ -156,14 +149,7 @@ public class ScyDesktopCreator {
    }
 
    function findMetadataKeys() {
-      titleKey = findMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
       technicalFormatKey = findMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
-      missionIdKey = findMetadataKey(ScyRooloMetadataKeyIds.MISSION.getId());
-      anchorIdKey = findMetadataKey(ScyRooloMetadataKeyIds.ANCHOR_ID.getId());
-      lasKey = findMetadataKey(ScyRooloMetadataKeyIds.LAS.getId());
-      containsAssignmentEloKey = findMetadataKey(ScyRooloMetadataKeyIds.CONTAINS_ASSIGMENT_ELO.getId());
-      functionalTypeKey = findMetadataKey(ScyRooloMetadataKeyIds.FUNCTIONAL_TYPE.getId());
-      iconTypeKey = findMetadataKey(ScyRooloMetadataKeyIds.ICON_TYPE.getId());
    }
 
    function findMetadataKey(id: String): IMetadataKey {

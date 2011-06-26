@@ -270,6 +270,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
          repositoryWrapper.setUserId(config.getToolBrokerAPI().getLoginUserName());
          repositoryWrapper.setMissionRuntimeEloUri(missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUriFirstVersion());
          repositoryWrapper.setMissionSpecificationEloUri(missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getMissionSpecificationElo());
+         repositoryWrapper.setMissionId(missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getTypedContent().getMissionId());
          logger.info("Added eloSavedActionHandler as EloSavedListener to the repositoryWrapper");
       }
       //      FX.addShutdownAction(scyDesktopShutdownAction);

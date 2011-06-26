@@ -71,6 +71,7 @@ public class MissionSpecificationEditor extends EloXmlEditor {
       missionSpecification.setMissionId(springConfigFileImporter.missionId);
       missionSpecification.setXhtmlVersionId(springConfigFileImporter.xhtmlVersionId);
       setContent(MissionSpecificationEloContentXmlUtils.missionSpecificationToXml(missionSpecification), springConfigFileImporter.errors);
+      missionId = springConfigFileImporter.missionId;
       language = springConfigFileImporter.language;
       suggestedTitle = springConfigFileImporter.missionTitle;
    }

@@ -61,6 +61,7 @@ public abstract class EloXmlEditor extends CustomNode, Resizable, ScyToolFX, Elo
    protected var elo: IELO;
    protected var technicalFormatKey: IMetadataKey;
    protected var titleKey: IMetadataKey;
+   protected var missionIdKey: IMetadataKey;
    def textBox: TextBox = TextBox {
          multiline: true
          editable: true
@@ -115,6 +116,7 @@ public abstract class EloXmlEditor extends CustomNode, Resizable, ScyToolFX, Elo
            }
    protected var language:Locale;
    protected var suggestedTitle:String;
+   protected var missionId:String;
 
    override protected function create(): Node {
       nodeBox = VBox {
@@ -142,6 +144,7 @@ public abstract class EloXmlEditor extends CustomNode, Resizable, ScyToolFX, Elo
    public override function initialize(windowContent: Boolean): Void {
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
       titleKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE);
+      missionIdKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.MISSION_ID);
    }
 
    public override function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
@@ -224,6 +227,10 @@ public abstract class EloXmlEditor extends CustomNode, Resizable, ScyToolFX, Elo
       }
 
       elo.getContent().setXmlString(eloXml);
+      if (missionId!=null){
+         elo.getMetadata().getMetadataValueContainer(missionIdKey).setValue(missionId);
+      }
+
       setContentLanguage(elo,language);
       setSuggestedTitle(elo,language,suggestedTitle);
       return elo;
