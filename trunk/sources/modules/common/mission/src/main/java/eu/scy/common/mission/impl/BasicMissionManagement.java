@@ -98,6 +98,7 @@ public class BasicMissionManagement implements MissionManagement
          missionRuntimeElo.setMissionSpecificationEloUri(missionSpecificationElo.getUri());
          missionRuntimeElo.setUserRunningMission(userName);
          missionRuntimeElo.setAuthor(userName);
+         missionRuntimeElo.setMissionId(missionSpecification.getMissionId());
          missionRuntimeElo.getTypedContent().setMissionId(missionSpecification.getMissionId());
          missionRuntimeElo.getTypedContent().setXhtmlVersionId(missionSpecification.getXhtmlVersionId());
          missionRuntimeElo.getContent().setLanguages(missionSpecificationElo.getContent().getLanguages());
@@ -111,6 +112,7 @@ public class BasicMissionManagement implements MissionManagement
          eloToolConfigsElo.setAuthor(userName);
          if (!runSpecificationElos)
          {
+            eloToolConfigsElo.setMissionId(missionSpecification.getMissionId());
             eloToolConfigsElo.saveAsForkedElo();
          }
          // create the personal mission map model
@@ -133,6 +135,7 @@ public class BasicMissionManagement implements MissionManagement
          templateElosElo.setAuthor(userName);
          if (!runSpecificationElos)
          {
+            templateElosElo.setMissionId(missionSpecification.getMissionId());
             templateElosElo.saveAsForkedElo();
          }
          // create an empty runtime settings elo
@@ -143,6 +146,7 @@ public class BasicMissionManagement implements MissionManagement
             runtimeSettingsElo.setTypeContent(new BasicRuntimeSettingsEloContent());
             if (!runSpecificationElos)
             {
+               runtimeSettingsElo.setMissionId(missionSpecification.getMissionId());
                runtimeSettingsElo.saveAsForkedElo();
             }
          }
@@ -152,7 +156,8 @@ public class BasicMissionManagement implements MissionManagement
             runtimeSettingsElo.setTitle(missionSpecificationElo.getTitle());
             if (!runSpecificationElos)
             {
-               runtimeSettingsElo.saveAsNewElo();
+              runtimeSettingsElo.setMissionId(missionSpecification.getMissionId());
+              runtimeSettingsElo.saveAsNewElo();
             }
          }
          runtimeSettingsElo.setAuthor(userName);
@@ -165,6 +170,7 @@ public class BasicMissionManagement implements MissionManagement
                   missionSpecification.getColorSchemesEloUri(), rooloServices);
                if (colorSchemesElo != null)
                {
+                  colorSchemesElo.setMissionId(missionSpecification.getMissionId());
                   colorSchemesElo.setAuthor(userName);
                   colorSchemesElo.saveAsForkedElo();
                }
@@ -189,6 +195,7 @@ public class BasicMissionManagement implements MissionManagement
                rooloServices);
             ePortfolioElo.setTitle(missionSpecificationElo.getTitle());
             ePortfolioElo.addAuthor(userName);
+            ePortfolioElo.setMissionId(missionSpecification.getMissionId());
             ePortfolioElo.saveAsNewElo();
             missionRuntimeElo.getTypedContent().setEPortfolioEloUri(ePortfolioElo.getUri());
          }
@@ -198,6 +205,7 @@ public class BasicMissionManagement implements MissionManagement
                MissionEloType.PADAGOGICAL_PLAN_SETTINGS.getType(), rooloServices);
             pedagogicalPlanSettings.setTitle(missionSpecificationElo.getTitle());
             pedagogicalPlanSettings.addAuthor(userName);
+            pedagogicalPlanSettings.setMissionId(missionSpecification.getMissionId());
             pedagogicalPlanSettings.saveAsNewElo();
             missionRuntimeElo.getTypedContent().setPedagogicalPlanSettingsEloUri(
                pedagogicalPlanSettings.getUri());
@@ -224,6 +232,7 @@ public class BasicMissionManagement implements MissionManagement
       missionModel.loadMetadata(rooloServices);
       makePersonalMissionModel(missionModel, userName, missionRuntimeEloUri,
          missionSpecificationEloUri, eloToolConfigsElo.getTypedContent());
+      missionModelElo.setMissionId(missionSpecification.getMissionId());
       missionModelElo.setAuthor(userName);
       missionModelElo.saveAsForkedElo();
       return missionModelElo;
@@ -286,6 +295,7 @@ public class BasicMissionManagement implements MissionManagement
             missionAnchor.getScyElo().setDateFirstUserSave(null);
             missionAnchor.getScyElo().setCreator(null);
             missionAnchor.getScyElo().setTemplate(true);
+            missionAnchor.getScyElo().setMissionId(missionSpecificationElo.getTypedContent().getMissionId());
             List<Locale> missionLanguages = missionSpecificationElo.getElo().getLanguages();
             if (missionLanguages==null){
                missionLanguages = new ArrayList<Locale>();

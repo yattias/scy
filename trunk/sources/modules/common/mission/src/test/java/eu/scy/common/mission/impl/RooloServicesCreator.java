@@ -161,6 +161,9 @@ public class RooloServicesCreator
 					"/lom/technical/mucId", I18nType.UNIVERSAL, MetadataValueCount.SINGLE, null);
 		IMetadataKey templateKey = new StringMetadataKey(CoreRooloMetadataKeyIds.TEMPLATE.getId(),
 					"/template", I18nType.UNIVERSAL, MetadataValueCount.SINGLE, null);
+		IMetadataKey missionIdKey = new StringMetadataKey(
+					CoreRooloMetadataKeyIds.MISSION_ID.getId(), "/lom/general/missionId",
+					I18nType.UNIVERSAL, MetadataValueCount.SINGLE, null);
 
 		metadataTypeManager.registerMetadataKey(identifierKey);
 		metadataTypeManager.registerMetadataKey(titleKey);
@@ -194,6 +197,7 @@ public class RooloServicesCreator
 		metadataTypeManager.registerMetadataKey(feedbackOnKey);
 		metadataTypeManager.registerMetadataKey(mucKey);
 		metadataTypeManager.registerMetadataKey(templateKey);
+		metadataTypeManager.registerMetadataKey(missionIdKey);
 
 		MockRepository repository = new MockRepository();
 		MockExtensionManager extensionManager = new MockExtensionManager();
