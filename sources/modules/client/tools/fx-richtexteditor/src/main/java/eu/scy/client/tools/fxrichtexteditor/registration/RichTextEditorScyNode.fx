@@ -48,7 +48,8 @@ import eu.scy.notification.api.INotification;
 import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.collaboration.api.CollaborationStartable;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactFrame;
-import java.lang.System;
+import javax.swing.text.StyleConstants;
+import java.awt.Color;
 
 /**
  * @author kaido
@@ -85,6 +86,24 @@ public class RichTextEditorScyNode extends INotifiable, RichTextEditorNode, ScyT
               actionId: TitleBarButton.saveAsActionId
               action: doSaveAsElo
            }
+   def openTitleBarButton = TitleBarButton {
+	  actionId: "open"
+	  iconType: "import"
+	  action: openFileAction
+	  tooltip: richTextEditor.fileToolbar.openButton.getToolTipText()
+    }
+   def saveRtfTitleBarButton = TitleBarButton {
+	  actionId: "save_rtf"
+	  iconType: "export"
+	  action: saveFileAction
+	  tooltip: richTextEditor.fileToolbar.saveButton.getToolTipText()
+    }
+   def printTitleBarButton = TitleBarButton {
+	  actionId: "print"
+	  iconType: "save_as_dataset"
+	  action: printAction
+	  tooltip: richTextEditor.fileToolbar.printButton.getToolTipText()
+    }
    public var syncSession: ISyncSession;
    var collaborative: Boolean = false;
 
@@ -112,11 +131,36 @@ public class RichTextEditorScyNode extends INotifiable, RichTextEditorNode, ScyT
 
    public override function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
       if (windowContent) {
-         titleBarButtonManager.titleBarButtons = [
-                    saveTitleBarButton,
-                    saveAsTitleBarButton
-                 ]
+         if (authorMode) {
+             titleBarButtonManager.titleBarButtons = [
+                        saveTitleBarButton,
+                        saveAsTitleBarButton,
+                        openTitleBarButton,
+                        saveRtfTitleBarButton,
+                        printTitleBarButton
+                     ]
+
+         } else {
+             titleBarButtonManager.titleBarButtons = [
+                        saveTitleBarButton,
+                        saveAsTitleBarButton,
+                        saveRtfTitleBarButton,
+                        printTitleBarButton
+                     ]
+         }
       }
+   }
+
+   function saveFileAction(){
+       richTextEditor.fileToolbar.saveFileAction();
+   }
+
+   function printAction(){
+       richTextEditor.fileToolbar.printAction();
+   }
+
+   function openFileAction(){
+       richTextEditor.fileToolbar.openFileAction();
    }
 
    public override function loadElo(uri:URI){
@@ -191,6 +235,9 @@ public class RichTextEditorScyNode extends INotifiable, RichTextEditorNode, ScyT
    public override function create(): Node {
       richTextEditor = new RichTextEditor(false, authorMode);
       richTextEditor.setTypingLogIntervalMs(typingLogIntervalMs);
+      openTitleBarButton.tooltip = richTextEditor.fileToolbar.openButton.getToolTipText();
+      saveRtfTitleBarButton.tooltip = richTextEditor.fileToolbar.saveButton.getToolTipText();
+      printTitleBarButton.tooltip = richTextEditor.fileToolbar.printButton.getToolTipText();
       wrappedRichTextEditor = ScySwingWrapper.wrap(richTextEditor,true);
    }
 
@@ -219,13 +266,6 @@ public class RichTextEditorScyNode extends INotifiable, RichTextEditorNode, ScyT
    }
 
     public override function processNotification (notification: INotification) : Boolean {
-        System.out.println(notification.getSender());
-        System.out.println(notification.getMission());
-        System.out.println(notification.getUserId());
-        System.out.println(notification.getToolId());
-        System.out.println(notification.getFirstProperty("message"));
-
-
         if (notification.getSender().equals("eu.scy.agents.hypothesis.HypothesisDecisionMakerAgent")) {
             var messageFromAgent = notification.getFirstProperty("message");
             if (not messageFromAgent.equals(""))

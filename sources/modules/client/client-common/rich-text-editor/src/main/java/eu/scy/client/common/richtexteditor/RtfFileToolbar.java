@@ -47,10 +47,10 @@ public class RtfFileToolbar extends JToolBar implements ActionListener {
     private ImageIcon pdfIcon = new ImageIcon(this.getClass().getResource(imagesLocation+"Button_pdf.png"));
     private ImageIcon openIcon = new ImageIcon(this.getClass().getResource(imagesLocation+"Button_open-qt.png"));
     private ResourceBundle messages = ResourceBundle.getBundle("eu.scy.client.common.richtexteditor.RichTextEditor");
-    private JButton openButton = new JButton(openIcon);
-    private JButton saveButton = new JButton(saveIcon);
-    private JButton printButton = new JButton(printIcon);
-    private JButton pdfButton = new JButton(pdfIcon);
+    public JButton openButton = new JButton(openIcon);
+    public JButton saveButton = new JButton(saveIcon);
+    public JButton printButton = new JButton(printIcon);
+    public JButton pdfButton = new JButton(pdfIcon);
 
     private RichTextEditor editorPanel;
     private FileSaveService fileSaveService = null;
@@ -59,6 +59,11 @@ public class RtfFileToolbar extends JToolBar implements ActionListener {
     private JFileChooser fc = new JFileChooser();
     private boolean html;
 
+    /**
+    * Creates file toolbar for rich text editor component
+    * @param richTextEditor reference to main component
+    * @param authoring is rich text editor component in authoring mode (open button showed/not showed)
+    */
     public RtfFileToolbar(RichTextEditor richTextEditor, boolean authoring) {
         super();
         this.editorPanel = richTextEditor;
@@ -66,10 +71,17 @@ public class RtfFileToolbar extends JToolBar implements ActionListener {
         initUI(authoring);
     }
 
+    /**
+     * Gets rich text editor main component
+     * @return rich text editor main component
+     */
     public RichTextEditor getRichTextEditor() {
         return editorPanel;
     }
 
+    /*
+     * Show error if it occurs in some place in rich text editor component.
+     */
     private void showError(String messageID, Throwable e) {
         logger. error(messages.getString(messageID), e);
         System.err.println(messages.getString(messageID) + " " + new Date());
@@ -78,6 +90,9 @@ public class RtfFileToolbar extends JToolBar implements ActionListener {
             ":\nMessage: " + e.getMessage(), null, JOptionPane.ERROR_MESSAGE);
     }
 
+    /*
+     * Initializes user interface.
+     */
     private void initUI(boolean authorMode) {
         this.setOrientation(SwingConstants.HORIZONTAL);
         this.setFloatable(false);
@@ -112,6 +127,10 @@ public class RtfFileToolbar extends JToolBar implements ActionListener {
         }
     }
 
+    /*
+     * Reads bytes from file.
+     * @param file file from where to read bytes
+     */
     private byte[] getBytesFromFile(File file) throws IOException {
         InputStream is = null;
         try{
@@ -138,6 +157,9 @@ public class RtfFileToolbar extends JToolBar implements ActionListener {
         }
     }
 
+    /*
+     * Assignes loaded text to main rich text editor component.
+     */
     private void bytesToEditor(byte[] bytes, String extension) {
         String content = new String(bytes);
         if (extension.equals("rtf")) {
@@ -147,8 +169,11 @@ public class RtfFileToolbar extends JToolBar implements ActionListener {
         }
     }
 
-    /** Load a file into the editing area.
-    @param is An input stream pointing to the desired file. */
+    /*
+     * Load a file into the editing area.
+     * @param is An input stream pointing to the desired file.
+     * @param extension rtf or txt or html file to load
+     */
     public void loadFile(InputStream is, String extension) throws IOException {
         byte[] buffer = new byte[1024];
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -161,6 +186,9 @@ public class RtfFileToolbar extends JToolBar implements ActionListener {
         bytesToEditor(baos.toByteArray(), extension);
     }
 
+    /*
+     * Opens file and sets text in main rich text editor component.
+     */
     private void openFile() {
         try {
             if (fileOpenService==null) {
@@ -196,6 +224,11 @@ public class RtfFileToolbar extends JToolBar implements ActionListener {
         }
     }
 
+    /*
+     * Saves file.
+     * @param extensions possible extensions for saving (txt, rtf, html)
+     * @param content text to save into file
+     */
     private void saveFile(String[] extensions, String content) {
         try {
             if (fileSaveService==null) {
@@ -232,6 +265,11 @@ public class RtfFileToolbar extends JToolBar implements ActionListener {
         }
     }
 
+    /*
+     * Saves PDF file.
+     * @param extensions possible extensions for saving
+     * @param content content to save into file
+     */
     private void savePDF(String[] extensions, ByteArrayOutputStream content) {
         try {
             if (fileSaveService==null) {
@@ -266,61 +304,97 @@ public class RtfFileToolbar extends JToolBar implements ActionListener {
         }
     }
 
+    /*
+     * Opens file. Can be invoked also from tool.
+     * In SCY Lab there is button in tool title bar which executes this command.
+     */
+    public void openFileAction() {
+        openFile();
+        if (editorPanel.getRichTextEditorLogger() != null)
+            editorPanel.getRichTextEditorLogger().logFileAction(RichTextEditorLogger.OPEN);
+
+    }
+
+    /*
+     * Saves file. Can be invoked also from tool.
+     * In SCY Lab there is button in tool title bar which executes this command.
+     */
+    public void saveFileAction() {
+        String[] xtnsRtf = {"rtf"};
+        String[] xtnsHtml = {"html"};
+        if (html) {
+            saveFile(xtnsHtml, editorPanel.getRtfText());
+        } else {
+            saveFile(xtnsRtf, editorPanel.getRtfText());
+        }
+        if (editorPanel.getRichTextEditorLogger() != null)
+            editorPanel.getRichTextEditorLogger().logFileAction(RichTextEditorLogger.SAVE_RTF);
+    }
+
+    /*
+     * Prints text. Can be invoked also from tool.
+     * In SCY Lab there is button in tool title bar which executes this command.
+     */
+    public void printAction() {
+        try {
+            if (printService==null) {
+                printService = (PrintService)ServiceManager.
+                    lookup("javax.jnlp.PrintService");
+                PageFormat pf = printService.showPageFormatDialog(printService.getDefaultPage());
+                Book book = new Book();
+                book.append((Printable) editorPanel,pf);
+                printService.print(book);
+            }
+        } catch (UnavailableServiceException doh) {
+            logger.info("No JNLP PrintService found, trying other method for printing");
+            PrinterJob printJob = PrinterJob.getPrinterJob();
+            printJob.setPrintable(editorPanel);
+            if (printJob.printDialog())
+              try {
+                printJob.print();
+              } catch(PrinterException pe) {
+                showError("printError", pe);
+              }
+        }
+        if (editorPanel.getRichTextEditorLogger() != null)
+            editorPanel.getRichTextEditorLogger().logFileAction(RichTextEditorLogger.PRINT);
+    }
+
+    /*
+     * Saves PDF file. Can be invoked also from tool.
+     * In SCY Lab there is button in tool title bar which executes this command.
+     */
+    public void pdfAction() {
+        String[] xtns = { "pdf" };
+        try {
+            Document document = new Document();
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            PdfWriter writer = PdfWriter.getInstance(document, bos);
+            document.open();
+            RtfParser parser = new RtfParser(null);
+            parser.convertRtfDocument(new ByteArrayInputStream(editorPanel.getRtfText().getBytes(Charset.forName("UTF-8"))), document);
+            document.close();
+            savePDF(xtns, bos);
+        } catch (Exception ex) {
+            showError("pdfError", ex);
+        }
+        if (editorPanel.getRichTextEditorLogger() != null)
+            editorPanel.getRichTextEditorLogger().logFileAction(RichTextEditorLogger.PDF);
+    }
+
+    /*
+     * Implementation of ActionListener interface.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("openfile")) {
-            openFile();
-            if (editorPanel.getRichTextEditorLogger() != null)
-                editorPanel.getRichTextEditorLogger().logFileAction(RichTextEditorLogger.OPEN);
+            openFileAction();
         } else if (e.getActionCommand().equals("savefile")) {
-            String[] xtnsRtf = {"rtf"};
-            String[] xtnsHtml = {"html"};
-            if (html) {
-                saveFile(xtnsHtml, editorPanel.getRtfText());
-            } else {
-                saveFile(xtnsRtf, editorPanel.getRtfText());
-            }
-            if (editorPanel.getRichTextEditorLogger() != null)
-                editorPanel.getRichTextEditorLogger().logFileAction(RichTextEditorLogger.SAVE_RTF);
+            saveFileAction();
         } else if (e.getActionCommand().equals("print")) {
-            try {
-                if (printService==null) {
-                    printService = (PrintService)ServiceManager.
-                        lookup("javax.jnlp.PrintService");
-                    PageFormat pf = printService.showPageFormatDialog(printService.getDefaultPage());
-                    Book book = new Book();
-                    book.append((Printable) editorPanel,pf);
-                    printService.print(book);
-                }
-            } catch (UnavailableServiceException doh) {
-                logger.info("No JNLP PrintService found, trying other method for printing");
-                PrinterJob printJob = PrinterJob.getPrinterJob();
-                printJob.setPrintable(editorPanel);
-                if (printJob.printDialog())
-                  try {
-                    printJob.print();
-                  } catch(PrinterException pe) {
-                    showError("printError", pe);
-                  }
-            }
-            if (editorPanel.getRichTextEditorLogger() != null)
-                editorPanel.getRichTextEditorLogger().logFileAction(RichTextEditorLogger.PRINT);
+            printAction();
         } else if (e.getActionCommand().equals("pdf")) {
-            String[] xtns = { "pdf" };
-            try {
-                Document document = new Document();
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                PdfWriter writer = PdfWriter.getInstance(document, bos);
-                document.open();
-                RtfParser parser = new RtfParser(null);
-                parser.convertRtfDocument(new ByteArrayInputStream(editorPanel.getRtfText().getBytes(Charset.forName("UTF-8"))), document);
-                document.close();
-                savePDF(xtns, bos);
-            } catch (Exception ex) {
-                showError("pdfError", ex);
-            }
-            if (editorPanel.getRichTextEditorLogger() != null)
-                editorPanel.getRichTextEditorLogger().logFileAction(RichTextEditorLogger.PDF);
+            pdfAction();
         }
     }
 }

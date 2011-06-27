@@ -440,7 +440,7 @@ function showIndicatorStatus(cell: InterviewTreeCell) {
     lowerNodes = null;
     refreshStage();
 }
-protected def schemaEditor:RichTextEditor = new RichTextEditor();
+protected def schemaEditor:RichTextEditor = new RichTextEditor(false, false, true);
 var wrappedSchemaEditor:SwingComponent;
 def zoomInImage:Image = Image {url: "{__DIR__}resources/Button_zoom_in.png"};
 def zoomOutImage:Image = Image {url: "{__DIR__}resources/Button_zoom_out.png"};
@@ -581,7 +581,7 @@ function showConductPreparation() {
     lowerNodes = null;
     refreshStage();
 }
-def guidelinesEditor:RichTextEditor = new RichTextEditor(true);
+def guidelinesEditor:RichTextEditor = new RichTextEditor(true, false, true);
 var wrappedGuidelinesEditor:SwingComponent;
 def guidelinesZoomInButton:ImageView = ImageView {
                 image:zoomInImage,

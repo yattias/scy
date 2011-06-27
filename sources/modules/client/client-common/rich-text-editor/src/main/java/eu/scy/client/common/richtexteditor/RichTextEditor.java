@@ -55,13 +55,14 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
     private JTextPane textPane;
     private RTFEditorKit rtfEditor;
     private HTMLEditorKit htmlEditor;
-    private RtfFileToolbar fileToolbar;
+    public RtfFileToolbar fileToolbar;
     private RtfFormatToolbar formatToolbar;
     private RichTextEditorLogger rtfLogger = null;
     private boolean html = false;
     private String oldText = "";
     private String insertedText = "";
     private boolean authorMode = false;
+    private boolean showFileToolBar = false;
     private int typingLogIntervalMs = 30000;
     private Timer timer = null;
     private int typingOldPos = 0;
@@ -73,6 +74,7 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
     /**
     * Creates rich text editor component for rtf format.
     * By default creates rtf format editor with authorMode = false
+    * and showFileToolbar = false
     */
     public RichTextEditor() {
         super();
@@ -80,7 +82,7 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
     }
 
     /**
-    * Creates rich text editor component for rtf or html format with no authoring mode.
+    * Creates rich text editor component for rtf or html format with no authoring mode, file toolbar is not shown.
     * @param html if true then then generates html format editor else generates rtf format editor
     */
     public RichTextEditor(boolean html) {
@@ -90,7 +92,7 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
     }
 
     /**
-    * Creates rich text editor component for rtf or html format in authoring mode or not.
+    * Creates rich text editor component for rtf or html format in authoring mode or not, file toolbar is not shown.
     * @param html if true then then generates html format editor else generates rtf format editor
     * @param authorMode if true then in authoring mode else non-authoring mode
     */
@@ -98,6 +100,20 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
         super();
         this.html = html;
         this.authorMode = authorMode;
+        initUI();
+    }
+
+    /**
+    * Creates rich text editor component for rtf or html format in authoring mode or not, showing file toolbar or not.
+    * @param html if true then then generates html format editor else generates rtf format editor
+    * @param authorMode if true then in authoring mode else non-authoring mode
+    * @param showFileToolBar if true then shows fileToolbar, important if integrated into tool as component, then file buttons not in SCY Tool Titlebar
+    */
+    public RichTextEditor(boolean html, boolean authorMode, boolean showFileToolBar) {
+        super();
+        this.html = html;
+        this.authorMode = authorMode;
+        this.showFileToolBar = showFileToolBar;
         initUI();
     }
 
@@ -275,6 +291,9 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
         syncSession = sess;
     }
 
+    /*
+     * Show error if it occurs in some place in rich text editor component.
+     */
     private void showError(String messageID, Throwable e) {
         logger.error(messages.getString(messageID), e);
         System.err.println(messages.getString(messageID) + " " + new Date());
@@ -283,6 +302,14 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
             ":\nMessage: " + e.getMessage(), null, JOptionPane.ERROR_MESSAGE);
     }
 
+    /*
+     * Initializes user interface.
+     * Uses also toolbars:
+     * <ul>
+     * <li>RtfFileToolbar
+     * <li>RtfFormatToolbar
+     * </ul>
+     */
     private void initUI() {
         this.setLayout(new BorderLayout());
         rtfEditor = new RTFEditorKit();
@@ -301,7 +328,9 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
         this.fileToolbar = new RtfFileToolbar(this, authorMode);
-        panel.add(fileToolbar, BorderLayout.WEST);
+        if (showFileToolBar) {
+            panel.add(fileToolbar, BorderLayout.WEST);
+        }
         if (!html) {
             this.formatToolbar = new RtfFormatToolbar(this);
             panel.add(formatToolbar, BorderLayout.CENTER);
@@ -310,6 +339,12 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
         textPane.setBackground(Color.white);
     }
 
+    /**
+     * Inserts collected text to actionlog
+     * Tools use that for example in onQuit action
+     * Because saving actionlog only after every typingLogIntervalMs can lead to
+     * unsaved actionlog (between last save and quitting tool)
+     */
     public void insertedTextToActionLog() {
         if (timer != null) {
             if (!insertedText.equals("")) {
@@ -322,6 +357,9 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
         }
     }
 
+    /*
+     * Helper function to create sync object.
+     */
     private SyncObject createSyncObject() {
         SyncObject syncObject = new SyncObject();
         syncObject.setToolname(TOOLNAME);
@@ -329,6 +367,14 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
         return syncObject;
     }
 
+    /*
+     * On insert text:
+     * <ul>
+     * <li>collects inserted text to inner variable
+     * <li>sends synchronization message to collaboration partners (if collaborative)
+     * </ul>
+     * @param synchronization session
+     */
     @Override
     public void insertUpdate(DocumentEvent e) {
         synchronized(this) {
@@ -362,6 +408,14 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
         }
     }
 
+    /*
+     * On delete text:
+     * <ul>
+     * <li>writes deleted text to actionlog
+     * <li>sends synchronization message to collaboration partners (if collaborative)
+     * </ul>
+     * @param synchronization session
+     */
     @Override
     public void removeUpdate(DocumentEvent e) {
         synchronized(this) {
@@ -381,27 +435,19 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
         }
     }
 
+    /*
+     * Removes syncing flag (important if working on collaboration ELO)
+     */
     @Override
     public void changedUpdate(DocumentEvent e) {
-/*
-        logger.debug("formatted: "+oldText.substring(e.getOffset(), e.getOffset()+e.getLength()));
-        AttributeSet attributeSet = ((StyledDocument) e.getDocument()).getCharacterElement(e.getOffset()).getAttributes();
-        logger.debug("italics: " + attributeSet.getAttribute(StyleConstants.Italic).toString());
-        logger.debug("bold: " + attributeSet.getAttribute(StyleConstants.Bold).toString());
-        String underlineLogValue = "null";
-        if (attributeSet.getAttribute(StyleConstants.Underline)!=null)
-            underlineLogValue = attributeSet.getAttribute(StyleConstants.Underline).toString();
-        logger.debug("underline: " + underlineLogValue);
-        String superscript = (StyleConstants.isSuperscript(rtfEditor.getInputAttributes())) ? "true" : "false";
-        logger.debug("superscript: " + superscript);
-        String subscript = (StyleConstants.isSubscript(rtfEditor.getInputAttributes())) ? "true" : "false";
-        logger.debug("subscript: " + subscript);
-*/
         synchronized(this) {
             syncing = false;
         }
     }
 
+    /*
+     * Implements Printable interface to enable printing
+     */
     @Override
     public int print(Graphics g, PageFormat pageFormat, int pageIndex) throws PrinterException {
         if (pageIndex > 0) {
@@ -418,6 +464,9 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
         }
     }
 
+    /*
+     * Helper function to update icons in format toolbar.
+     */
     private void updateIcons(int location) {
         AttributeSet attributeSet = textPane.getStyledDocument().getCharacterElement(location).getAttributes();
         String underlineValue = "false";
@@ -436,10 +485,15 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
             Boolean.parseBoolean(superscriptValue),
             Boolean.parseBoolean(subscriptValue)
         );
-        SimpleAttributeSet blue = new SimpleAttributeSet();
+        // some tests to add color to text
+        // best idea: every collaboration partner is shown with different color
+        // in titlebar and text typed by this user is shown with that color
+        // Wouter said that no coloring because then must implement that also
+        // in other tools
+/*        SimpleAttributeSet blue = new SimpleAttributeSet();
         StyleConstants.setForeground(blue, Color.blue);
         MutableAttributeSet inputAtts = rtfEditor.getInputAttributes();
-        inputAtts.removeAttributes(blue);
+        inputAtts.removeAttributes(blue);*/
 /*        SimpleAttributeSet black = new SimpleAttributeSet();
         StyleConstants.setForeground(black, Color.black);
 //        textPane.setCharacterAttributes(black, false);
@@ -447,6 +501,9 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
 //        textPane.setForeground(Color.black);
     }
 
+    /*
+     * Reflects current format in format toolbar
+     */
     @Override
     public void caretUpdate(CaretEvent e) {
         synchronized(this) {
@@ -463,17 +520,10 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
             }
         }
     }
-/*
-    @Override
-    protected void finalize() throws Throwable {
-        try {
-            insertedTextToActionLog();
-        } catch(Exception e) {
-        } finally {
-            super.finalize();
-        }
-    }
- */
+
+    /*
+     * Sends formatting synchronization message
+     */
     public void formatSync(String format, String text, int pos) {
         synchronized(this) {
             if (!syncing) {
@@ -489,17 +539,11 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
         }
     }
 
+    /*
+     * Consumes synchronization message for adding text
+     */
     @Override
     public void syncObjectAdded(ISyncObject syncObject) {
-logger.info(
-    "SyncObject. ID=" + syncObject.getID() + " creator=" + syncObject.getCreator() +
-    " lastModificator=" + syncObject.getLastModificator() +
-    " creationTime=" + syncObject.getCreationTime() +
-    " lastModificationTime=" + syncObject.getLastModificationTime() +
-    " SYNC_TOOL_INSTANCE_UUID=" + syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID) +
-    " received inserted text '" + syncObject.getProperty(SYNC_TEXT) +
-    "' at position '" + syncObject.getProperty(SYNC_POSITION_START) + "'."
-);
         synchronized(this) {
             if (syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID) == null ||
                 !syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID).equals(uuid.toString())) {
@@ -512,9 +556,11 @@ logger.info(
                     textPane.setEditable(false);
                     SimpleAttributeSet attributes = new SimpleAttributeSet();
                     attributes.addAttributes(textPane.getStyledDocument().getCharacterElement(Integer.parseInt(position)).getAttributes());
-                    StyleConstants.setForeground(attributes, Color.black);
-                    if (!syncObject.getCreator().substring(0, syncObject.getCreator().indexOf('@')).equals(user))
-                        StyleConstants.setForeground(attributes, Color.blue);
+                    // no colors said Wouter, because then must implement
+                    // such behaviour also in other tools
+                    // StyleConstants.setForeground(attributes, Color.black);
+                    // if (!syncObject.getCreator().substring(0, syncObject.getCreator().indexOf('@')).equals(user))
+                    //    StyleConstants.setForeground(attributes, Color.blue);
                     textPane.getStyledDocument().insertString(Integer.parseInt(position), text, attributes);
                     oldText = getPlainText();
                 } catch (Exception e) {
@@ -527,18 +573,11 @@ logger.info(
         }
     }
 
+    /*
+     * Consumes synchronization message for changing formatting
+     */
     @Override
     public void syncObjectChanged(ISyncObject syncObject) {
-logger.info(
-    "SyncObject. ID=" + syncObject.getID() + " creator=" + syncObject.getCreator() +
-    " lastModificator=" + syncObject.getLastModificator() +
-    " creationTime=" + syncObject.getCreationTime() +
-    " lastModificationTime=" + syncObject.getLastModificationTime() +
-    " SYNC_TOOL_INSTANCE_UUID=" + syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID) +
-    " received format change action '" + syncObject.getProperty(SYNC_FORMAT) +
-    "', text '" + syncObject.getProperty(SYNC_TEXT) +
-    "' at position '" + syncObject.getProperty(SYNC_POSITION_START) + "'."
-);
         synchronized(this) {
             if (syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID) == null ||
                 !syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID).equals(uuid.toString())) {
@@ -591,18 +630,11 @@ logger.info(
         }
     }
 
+    /*
+     * Consumes synchronization message for deleting text
+     */
     @Override
     public void syncObjectRemoved(ISyncObject syncObject) {
-logger.info(
-    "SyncObject. ID=" + syncObject.getID() + " creator=" + syncObject.getCreator() +
-    " lastModificator=" + syncObject.getLastModificator() +
-    " creationTime=" + syncObject.getCreationTime() +
-    " lastModificationTime=" + syncObject.getLastModificationTime() +
-    " SYNC_TOOL_INSTANCE_UUID=" + syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID) +
-    " received deleted text '" + syncObject.getProperty(SYNC_TEXT) +
-    "' at position '" + syncObject.getProperty(SYNC_POSITION_START) +
-    "', length='" + syncObject.getProperty(SYNC_LENGTH) + "."
-);
         synchronized(this) {
             if (syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID) == null ||
                 !syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID).equals(uuid.toString())) {
