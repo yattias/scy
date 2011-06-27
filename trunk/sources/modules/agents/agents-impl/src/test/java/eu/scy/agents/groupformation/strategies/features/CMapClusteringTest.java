@@ -1,6 +1,7 @@
 package eu.scy.agents.groupformation.strategies.features;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertArrayEquals;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -58,7 +59,7 @@ public class CMapClusteringTest extends AbstractFeatureExtractorTest {
 		String user = "";
 		for (Iterator eIt = this.eloList.iterator(); eIt.hasNext();) {
 			IELO e = (IELO) eIt.next();
-			user = "user" + userNo + 1;
+			user = "user" + (userNo + 1);
 			features = ((CMapFeatureExtractor) this.extractor).getCMapFeatures(user, "mission2", this.referenceElo, e);
 			featureVectors[userNo] = new FeatureVector(user, features);
 			userNo++;
@@ -67,5 +68,11 @@ public class CMapClusteringTest extends AbstractFeatureExtractorTest {
 		this.clusterAlgorithm.setData(featureVectors);
 		List<Cluster> clusters = this.clusterAlgorithm.run();
 		assertEquals(4, features.length);
+		Cluster cl = clusters.get(0);
+		assertArrayEquals(new double [] { 130.0, 9.5, 5.0, 13.5},  cl.getCenter(), 0.0001);
+         cl = clusters.get(1);
+        assertArrayEquals(new double[] { 120.375, 20.75, 25.5, 45.25 }, cl.getCenter(), 0.0001);
+         cl = clusters.get(2);
+        assertArrayEquals(new double[] { 130.5, 8.0, 3.0, 10.0 }, cl.getCenter(), 0.0001);
 	}
 }
