@@ -44,16 +44,27 @@ public class RtfFormatToolbar extends JToolBar implements ActionListener {
 
     private RichTextEditor editorPanel;
 
+    /**
+    * Creates format toolbar for rich text editor component
+    * @param richTextEditor reference to main component
+    */
     public RtfFormatToolbar(RichTextEditor richTextEditor) {
         super();
         this.editorPanel = richTextEditor;
         initUI();
     }
 
+    /**
+     * Gets rich text editor main component
+     * @return rich text editor main component
+     */
     public RichTextEditor getRichTextEditor() {
         return editorPanel;
     }
 
+    /*
+     * Initializes user interface.
+     */
     private void initUI() {
         this.setOrientation(SwingConstants.HORIZONTAL);
         this.setFloatable(false);
@@ -94,6 +105,9 @@ public class RtfFormatToolbar extends JToolBar implements ActionListener {
 
     }
 
+    /*
+     * Implementation of ActionListener interface.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         int pos = editorPanel.getJTextPane().getSelectionStart();
@@ -145,6 +159,9 @@ public class RtfFormatToolbar extends JToolBar implements ActionListener {
         editorPanel.getJTextPane().requestFocusInWindow();
     }
 
+    /*
+     * Class for managing superscript in rich text editor.
+     */
     public static class SuperscriptAction extends StyledEditorKit.StyledTextAction {
         public SuperscriptAction() {
             super(StyleConstants.Superscript.toString());
@@ -176,6 +193,9 @@ public class RtfFormatToolbar extends JToolBar implements ActionListener {
 
     }
 
+    /*
+     * Class for managing subscript in rich text editor.
+     */
     public static class SubscriptAction extends StyledEditorKit.StyledTextAction {
         public SubscriptAction() {
             super(StyleConstants.Subscript.toString());
@@ -206,6 +226,14 @@ public class RtfFormatToolbar extends JToolBar implements ActionListener {
         }
     }
 
+    /*
+     * Sets icons for buttons
+     * @param bold is bold switched on in caret location
+     * @param italic is italic switched on in caret location
+     * @param underline is underline switched on in caret location
+     * @param sup is superscript switched on in caret location
+     * @param sub is subscript switched on in caret location
+     */
     public void setFormatIcons(boolean bold, boolean italic, boolean underline,
             boolean sup, boolean sub) {
         if (bold)

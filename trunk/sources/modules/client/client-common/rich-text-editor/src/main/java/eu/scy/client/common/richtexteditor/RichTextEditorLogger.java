@@ -33,6 +33,16 @@ public class RichTextEditorLogger {
     private IAction action;
     private RichTextEditor editorPanel;
 
+    /*
+     * Constructor of the logger
+     * @param actionLogger actionlogger
+     * @param username username
+     * @param toolname tool name
+     * @param missionname mission name
+     * @param sessionname session ID
+     * @param parent if component is used as subcomponent then identification of the paren tool
+     * @param editorPanel reference to main rich text editor component
+     */
     public RichTextEditorLogger(IActionLogger actionLogger,
         String username, String toolname, String missionname,
         String sessionname, String parent, RichTextEditor editorPanel) {
@@ -46,14 +56,24 @@ public class RichTextEditorLogger {
         loggerCount = ++COUNT;
     }
 
+    /*
+     * Sets ELO URI
+     * @param eloUri ELO URI
+     */
     public void setEloUri(String eloUri) {
         this.eloUri = eloUri;
     }
 
+    /*
+     * Writes action to actionlog
+     */
     private void write() {
         actionLogger.log(action);
     }
 
+    /*
+     * Helper function to initialize action
+     */
     private void createBasicAction(String type) {
         action = new Action();
         action.setUser(username);
@@ -69,17 +89,31 @@ public class RichTextEditorLogger {
         action.addAttribute("parent", parent);
     }
 
+    /*
+     * Logs simple, so called basic, action
+     * @param type action type, defined as constants at the end of this module
+     */
     public void logBasicAction(String type) {
         createBasicAction(type);
         write();
     }
 
+    /*
+     * Logs file action
+     * @param type action type, defined as constants at the end of this module
+     */
     public void logFileAction(String type) {
         createBasicAction(type);
         action.addAttribute("text", editorPanel.getPlainText());
         write();
     }
 
+    /*
+     * Logs format action
+     * @param type action type, defined as constants at the end of this module
+     * @param text text what is formatted
+     * @param isStyleIn is text formatted or is formatting cleared
+     */
     public void logFormatAction(String type, String text, String isStyleIn) {
         createBasicAction(type);
         action.addAttribute("text", text);
@@ -87,12 +121,21 @@ public class RichTextEditorLogger {
         write();
     }
 
+    /*
+     * Logs delete action
+     * @param text text what is deleted
+     */
     public void logDeleteAction(String text) {
         createBasicAction(DELETE);
         action.addAttribute("text", text);
         write();
     }
 
+    /*
+     * Logs insert action
+     * @param text text what is inserted
+     * @param interval interval after what collected insertions are sent to actionlog
+     */
     public void logInsertAction(String text, int interval) {
         createBasicAction(INSERT);
         action.addAttribute("text", text);
