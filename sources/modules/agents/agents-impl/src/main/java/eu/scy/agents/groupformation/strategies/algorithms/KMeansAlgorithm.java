@@ -18,7 +18,7 @@ public class KMeansAlgorithm {
 	public KMeansAlgorithm(int numberOfClusters) {
 		clusters = new Cluster[numberOfClusters];
 		distance = new EuclideanDistance();
-		rand = new Random();
+		rand = new Random(0); // set a seed to obtain reproducible results
 	}
 
 	public Cluster[] getCluster() {
