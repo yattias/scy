@@ -1,35 +1,25 @@
 package eu.scy.agents.groupformation.strategies.features;
 
 import info.collide.sqlspaces.client.TupleSpace;
-import info.collide.sqlspaces.commons.Tuple;
-import info.collide.sqlspaces.commons.TupleSpaceException;
 
 import java.io.IOException;
-import java.rmi.dgc.VMID;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-
-import de.fhg.iais.kd.tm.elo.CmapImporter;
-import de.fhg.iais.kd.tm.graphmatching.editdistance.EditCostFunction;
-import de.fhg.iais.kd.tm.graphmatching.editdistance.EditDistanceCalculator;
-import de.fhg.iais.kd.tm.graphmatching.graph.Edge;
-import de.fhg.iais.kd.tm.graphmatching.graph.Graph;
-import de.fhg.iais.kd.tm.graphmatching.graph.Vertex;
 
 import org.jaxen.JaxenException;
 import org.jdom.JDOMException;
 
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
-import roolo.elo.api.IMetadata;
-import roolo.elo.api.IMetadataKey;
-import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-
-import eu.scy.agents.impl.AgentProtocol;
+import de.fhg.iais.kd.tm.elo.CmapImporter;
+import de.fhg.iais.kd.tm.graphmatching.editdistance.EditCostFunction;
+import de.fhg.iais.kd.tm.graphmatching.editdistance.EditDistanceCalculator;
+import de.fhg.iais.kd.tm.graphmatching.graph.Edge;
+import de.fhg.iais.kd.tm.graphmatching.graph.Graph;
+import de.fhg.iais.kd.tm.graphmatching.graph.Vertex;
 
 public class CMapFeatureExtractor implements FeatureExtractor {
 
