@@ -20,7 +20,7 @@ public class CMapFeatureExtractorTest extends AbstractFeatureExtractorTest {
 		double[] features = ((CMapFeatureExtractor) this.extractor).getCMapFeatures("x", "y", this.referenceElo,
 				this.elo);
 		assertEquals(4, features.length);
-		assertArrayEquals(new double[] { 4.0, 20.0, 24.0, 43.0 }, features, 0.000001);
+		assertArrayEquals(new double[] { 120.5, 20.0, 24.0, 43.0 }, features, 0.000001);
 
 	}
 }
