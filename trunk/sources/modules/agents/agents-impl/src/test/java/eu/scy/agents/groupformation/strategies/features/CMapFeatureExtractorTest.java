@@ -1,33 +1,26 @@
 package eu.scy.agents.groupformation.strategies.features;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import eu.scy.agents.Mission;
-import eu.scy.agents.keywords.extractors.AbstractExtractorTest;
-
 public class CMapFeatureExtractorTest extends AbstractFeatureExtractorTest {
 
-    @Before
-    public void setup() throws Exception {
-        extractor = new CMapFeatureExtractor();
-        referenceElo = loadElo("/eco_reference_concept_map.xml", "TestInterview", "scy/interview");
-        elo = loadElo("/ecoExpertMaps/expertMap1.xml", "TestInterview", "scy/interview");
-        // extractor.setMission(Mission.MISSION1);
-        // loadElo("/eco_reference_concept_map.xml", "TestInterview", "scy/interview");
-        // extractor.setMission(Mission.MISSION2);
-        // extractor.setTupleSpace(getCommandSpace());
-    }
+	@Before
+	public void setup() throws Exception {
+		this.extractor = new CMapFeatureExtractor();
+		this.referenceElo = this.loadElo("/eco_reference_concept_map.xml", "TestInterview", "scy/interview");
+		this.elo = this.loadElo("/ecoExpertMaps/expertMap1.xml", "TestInterview", "scy/interview");
+	}
 
-    @Test
-    public void testGetKeywords() {
-        double[] features = ((CMapFeatureExtractor) extractor).getCMapFeatures("x", "y",
-                                                                               referenceElo, elo);
-        assertEquals(3, features.length);
-    }
+	@Test
+	public void testGetKeywords() {
+		double[] features = ((CMapFeatureExtractor) this.extractor).getCMapFeatures("x", "y", this.referenceElo,
+				this.elo);
+		assertEquals(4, features.length);
+		assertArrayEquals(new double[] { 4.0, 20.0, 24.0, 43.0 }, features, 0.000001);
+
+	}
 }
