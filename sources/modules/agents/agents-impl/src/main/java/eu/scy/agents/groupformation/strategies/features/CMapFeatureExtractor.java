@@ -16,6 +16,7 @@ import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
 import de.fhg.iais.kd.tm.elo.CmapImporter;
 import de.fhg.iais.kd.tm.graphmatching.editdistance.EditCostFunction;
+import de.fhg.iais.kd.tm.graphmatching.editdistance.EditDistanceApproximator;
 import de.fhg.iais.kd.tm.graphmatching.editdistance.EditDistanceCalculator;
 import de.fhg.iais.kd.tm.graphmatching.graph.Edge;
 import de.fhg.iais.kd.tm.graphmatching.graph.Graph;
@@ -53,7 +54,9 @@ public class CMapFeatureExtractor implements FeatureExtractor {
 			Graph g = CmapImporter.convertCmap(contentText);
 			EditCostFunction cost = EditCostFunction.simpleEditCost;
 
-			refDist = EditDistanceCalculator.calcDistance(rg, g, cost);
+//			exact calculation of the edit distance is too slow!
+//			refDist = EditDistanceCalculator.calcDistance(rg, g, cost);
+            refDist = EditDistanceApproximator.calcDistance(rg, g, cost);
 			nOfNodes = (double) g.getVertexes().size();
 			nOfLinks = (double) g.getEdges().size();
 

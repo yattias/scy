@@ -2,33 +2,22 @@ package eu.scy.agents.groupformation.strategies.features;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.rmi.dgc.VMID;
-import java.util.HashMap;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 
 import roolo.elo.api.IELO;
 import roolo.elo.content.BasicContent;
-
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.agents.keywords.ExtractKeywordsAgent;
-import eu.scy.agents.keywords.ExtractTfIdfKeywordsAgent;
-import eu.scy.agents.keywords.ExtractTopicModelKeywordsAgent;
-import eu.scy.agents.roolo.rooloaccessor.RooloAccessorAgent;
 
 public class AbstractFeatureExtractorTest extends AbstractTestFixture {
 
-    @BeforeClass
+
     public static void startTS() {
         startTupleSpaceServer();
     }
 
-    @AfterClass
     public static void stopTS() {
         stopTupleSpaceServer();
     }
