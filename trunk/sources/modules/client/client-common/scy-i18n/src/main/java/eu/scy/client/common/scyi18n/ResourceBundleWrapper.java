@@ -1,8 +1,12 @@
 package eu.scy.client.common.scyi18n;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.MissingResourceException;
+import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,6 +19,7 @@ import java.util.logging.Logger;
  */
 public class ResourceBundleWrapper {
 
+    private final static String propertyFileEncoding = "UTF-8";
     private final static String languageDir = "languages";
     private final static Locale defaultLocale = new Locale("en");
     private ClassLoader loader;
@@ -91,6 +96,21 @@ public class ResourceBundleWrapper {
         } catch (Exception e3) {
             logger.log(Level.SEVERE, "Failed to load resource bundle (e.g. language properties) for module: " +  moduleName, e3);
         }
+    }
+
+    private ResourceBundle getResourceBundle(String name, Locale locale, ClassLoader classLoader){
+       String completeName = "" + name + "_" + locale.getLanguage() + ".properties";
+       try {
+          InputStream inputStream = classLoader.getResourceAsStream(completeName);
+          if (inputStream!=null){
+             Reader reader = new InputStreamReader(inputStream,propertyFileEncoding);
+             ResourceBundle resourceBundle = new PropertyResourceBundle(reader);
+             return resourceBundle;
+          }
+       } catch (Exception e){
+          logger.log(Level.FINE,"problems with reading PropertyResourceBundle for "+ completeName,e);
+       }
+       throw new MissingResourceException(completeName,classLoader.toString(),locale.getLanguage());
     }
 
     private String getModuleName(Object o) {
