@@ -22,7 +22,6 @@ import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 /** @author fschulz */
 public class GroupformationAgent2Test extends AbstractTestFixture {
@@ -73,9 +72,12 @@ public class GroupformationAgent2Test extends AbstractTestFixture {
         getActionSpace()
                 .write(lasChangeTuple("user2", MISSION1, "conceptualisatsionConceptMap",
                         "some", REFERENCE_MAP));
-        Tuple[] response = getAllResponses("user2");
-        assertTrue("no response received", response.length == 1);
-        assertEquals("text=please wait for other users to be available", response[0].getField(7).getValue());
+        Tuple response = this.getCommandSpace().waitToTake(new Tuple(AgentProtocol.NOTIFICATION, String.class,
+                "user2", String.class, "eu.scy.agents.groupformation.GroupFormationAgent2",
+                String.class, String.class, String.class,
+                Field.createWildCardField()));
+        assertNotNull("no response received", response);
+        assertEquals("text=please wait for other users to be available", response.getField(7).getValue());
 
         getActionSpace()
                 .write(lasChangeTuple("user1", MISSION1, "conceptualisatsionConceptMap",
