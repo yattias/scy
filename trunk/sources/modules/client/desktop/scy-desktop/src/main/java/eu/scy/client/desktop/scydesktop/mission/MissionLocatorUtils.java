@@ -101,7 +101,8 @@ public class MissionLocatorUtils
                }
             }
          }
-         missions.missionSpecificationElos.addAll(filterOutOlderVersions(missionSpecificationElos));
+//         missions.missionSpecificationElos.addAll(filterOutOlderVersions(missionSpecificationElos));
+         missions.missionSpecificationElos.addAll(missionSpecificationElos);
       }
       return missions;
    }
