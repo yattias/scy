@@ -129,9 +129,15 @@ public class MissionLocator {
    function continueMission(missionRuntimeElo: MissionRuntimeElo) {
       ProgressOverlay.startShowWorking();
       var missionRuntimeModel: MissionRuntimeModel;
+      var missionRuntimeEloToUse = missionRuntimeElo;
       XFX.runActionInBackgroundAndCallBack(function(): Object {
-         injectMissionRuntimeEloInRepository(missionRuntimeElo.getUriFirstVersion());
-         missionRuntimeModel = missionRuntimeElo.getMissionRuntimeModel();
+         def lastVersionMissionRuntimeElo = tbi.getRepository().retrieveELOLastVersion(missionRuntimeElo.getUri());
+         if (missionRuntimeElo.getUri()!=lastVersionMissionRuntimeElo.getUri()){
+            missionRuntimeEloToUse = new MissionRuntimeElo(lastVersionMissionRuntimeElo,tbi);
+            logger.error("not last version of mission runtime specified, switching to last version: {missionRuntimeElo.getUri()} -> {missionRuntimeEloToUse.getUri()}");
+         }
+         injectMissionRuntimeEloInRepository(missionRuntimeEloToUse.getUriFirstVersion());
+         missionRuntimeModel = missionRuntimeEloToUse.getMissionRuntimeModel();
          def missionModel = missionRuntimeModel.getMissionModel();
          missionModel.loadMetadata(tbi);
          return missionModel;
