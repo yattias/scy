@@ -82,6 +82,7 @@ public class GroupformationAgent2Test extends AbstractTestFixture {
         getActionSpace()
                 .write(lasChangeTuple("user1", MISSION1, "conceptualisatsionConceptMap",
                         "some", REFERENCE_MAP));
+        Thread.sleep(1000);
         Tuple[] response2 = getAllResponses("user1");
         assertEquals("not enough responses received", 3, response2.length);
         assertEquals("text=Please consider collaboration with these students:\nuser2",
