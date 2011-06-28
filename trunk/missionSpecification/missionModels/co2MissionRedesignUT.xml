@@ -9,7 +9,7 @@
    <bean name="missionConfigInput" class="eu.scy.client.desktop.scydesktop.tools.mission.springimport.BasicMissionConfigInput">
 
       <property name="missionId" value="co2_2_UT"/>
-      <property name="missionTitle" value="Design a CO2 freindly house (UT version)"/>
+      <property name="missionTitle" value="Design a CO2 friendly house (UT version)"/>
       <property name="languageId" value="en"/>
       <property name="xhtmlVersionId" value=""/>
 
