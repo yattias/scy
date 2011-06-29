@@ -22,7 +22,7 @@
           <dateTime>2011-06-22T13:52:39.984+0200</dateTime>
         </date>
       </contribute>
-      <version>3</version>
+      <version>4</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -70,47 +70,47 @@
   </thumbnail>
 </metadata>
 <content languages="en el" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Times New Roman;}&#xD;&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;
-\widowctrl&#xD;&#xD;
-\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1\par&#xD;&#xD;
-\b\u932 ?\u965 ?\u961 ?\u943 ? \u904 ?\u957 ?\u964 ?\u945 ?\u956 ?\b0  (100g)\par&#xD;&#xD;
-\u928 ?\u961 ?\u969 ?\u964 ?\u949 ?\u912 ?\u957 ?\u949 ?\u962 ?:\tab\tab 26g\par&#xD;&#xD;
-\u933 ?\u948 ?\u945 ?\u964 ?\u940 ?\u957 ?\u952 ?\u961 ?\u945 ?\u954 ?\u949 ?\u962 ?:\tab   0g\par&#xD;&#xD;
-\u923 ?\u953 ?\u960 ?\u945 ?\u961 ?\u940 ?:\tab\tab 23g\par&#xD;&#xD;
-\u917 ?\u957 ?\u941 ?\u961 ?\u947 ?\u949 ?\u953 ?\u945 ?:\tab\tab\ul      \ul0 kcal\par&#xD;&#xD;
-\par&#xD;&#xD;
-\b\u931 ?\u964 ?\u942 ?\u952 ?\u959 ?\u962 ? \u922 ?\u959 ?\u964 ?\u972 ?\u960 ?\u959 ?\u965 ?\u955 ?\u959 ?\u965 ?\b0  (100g)\par&#xD;&#xD;
-\u928 ?\u961 ?\u969 ?\u964 ?\u949 ?\u912 ?\u957 ?\u949 ?\u962 ?:\tab\tab 15g\par&#xD;&#xD;
-\u933 ?\u948 ?\u945 ?\u964 ?\u940 ?\u957 ?\u952 ?\u961 ?\u945 ?\u954 ?\u949 ?\u962 ?:\tab 15g\par&#xD;&#xD;
-\u923 ?\u953 ?\u960 ?\u945 ?\u961 ?\u940 ?:\tab\tab 16g\par&#xD;&#xD;
-\u917 ?\u957 ?\u941 ?\u961 ?\u947 ?\u949 ?\u953 ?\u945 ?:\tab\tab\ul      \ul0 kcal\par&#xD;&#xD;
-\par&#xD;&#xD;
-\b BBQ Sauce\b0  (100g)\par&#xD;&#xD;
-\u928 ?\u961 ?\u969 ?\u964 ?\u949 ?\u912 ?\u957 ?\u949 ?\u962 ?:\tab\tab    2g\par&#xD;&#xD;
-\u933 ?\u948 ?\u945 ?\u964 ?\u940 ?\u957 ?\u952 ?\u961 ?\u945 ?\u954 ?\u949 ?\u962 ?:\tab 14g\par&#xD;&#xD;
-\u923 ?\u953 ?\u960 ?\u945 ?\u961 ?\u940 ?:\tab\tab   1g\par&#xD;&#xD;
-\u917 ?\u957 ?\u941 ?\u961 ?\u947 ?\u949 ?\u953 ?\u945 ?:\tab\tab\ul      \ul0 kcal\par&#xD;&#xD;
-\par&#xD;&#xD;
-\b\u931 ?\u945 ?\u955 ?\u940 ?\u956 ?\u953 ?\b0  (100g)\par&#xD;&#xD;
-\u928 ?\u961 ?\u969 ?\u964 ?\u949 ?\u912 ?\u957 ?\u949 ?\u962 ?:\tab\tab 23g\par&#xD;&#xD;
-\u933 ?\u948 ?\u945 ?\u964 ?\u940 ?\u957 ?\u952 ?\u961 ?\u945 ?\u954 ?\u949 ?\u962 ?:\tab   0g\par&#xD;&#xD;
-\u923 ?\u953 ?\u960 ?\u945 ?\u961 ?\u940 ?:\tab\tab 44g\par&#xD;&#xD;
-\u917 ?\u957 ?\u941 ?\u961 ?\u947 ?\u949 ?\u953 ?\u945 ?:\tab\tab\ul      \ul0 kcal\par&#xD;&#xD;
-\b\par&#xD;&#xD;
-\u922 ?\u961 ?\u949 ?\u956 ?\u956 ?\u973 ?\u948 ?\u953 ?\u945 ?\b0  (100g)\par&#xD;&#xD;
-\u928 ?\u961 ?\u969 ?\u964 ?\u949 ?\u912 ?\u957 ?\u949 ?\u962 ?:\tab\tab  1g\par&#xD;&#xD;
-\u933 ?\u948 ?\u945 ?\u964 ?\u940 ?\u957 ?\u952 ?\u961 ?\u945 ?\u954 ?\u949 ?\u962 ?:\tab  9g\par&#xD;&#xD;
-\u923 ?\u953 ?\u960 ?\u945 ?\u961 ?\u940 ?:\tab\tab  0g\par&#xD;&#xD;
-\u917 ?\u957 ?\u941 ?\u961 ?\u947 ?\u949 ?\u953 ?\u945 ?:\tab\tab\ul     \ul0 kcal\par&#xD;&#xD;
-\b\par&#xD;&#xD;
-\u913 ?\u957 ?\u945 ?\u957 ?\u940 ?\u962 ?\b0  (100g)\par&#xD;&#xD;
-\u928 ?\u961 ?\u969 ?\u964 ?\u949 ?\u912 ?\u957 ?\u949 ?\u962 ?:\tab\tab   1g\par&#xD;&#xD;
-\u933 ?\u948 ?\u945 ?\u964 ?\u940 ?\u957 ?\u952 ?\u961 ?\u945 ?\u954 ?\u949 ?\u962 ?:\tab 23g\par&#xD;&#xD;
-\u923 ?\u953 ?\u960 ?\u945 ?\u961 ?\u940 ?:\tab\tab   0g\par&#xD;&#xD;
-\u917 ?\u957 ?\u941 ?\u961 ?\u947 ?\u949 ?\u953 ?\u945 ?:\tab\tab\ul      \ul0 kcal\f2\b\sl360\cf0\par&#xD;&#xD;
-\li0\ri0\fi0\f1\b0\ul0\sl0\cf1\par&#xD;&#xD;
+<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Times New Roman;}&#xD;&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;
+\widowctrl&#xD;&#xD;&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1\par&#xD;&#xD;&#xD;
+\b\u932 ?\u965 ?\u961 ?\u943 ? \u904 ?\u957 ?\u964 ?\u945 ?\u956 ?\b0  (100g)\par&#xD;&#xD;&#xD;
+\u928 ?\u961 ?\u969 ?\u964 ?\u949 ?\u912 ?\u957 ?\u949 ?\u962 ?:\tab\tab 26g\par&#xD;&#xD;&#xD;
+\u933 ?\u948 ?\u945 ?\u964 ?\u940 ?\u957 ?\u952 ?\u961 ?\u945 ?\u954 ?\u949 ?\u962 ?:\tab   0g\par&#xD;&#xD;&#xD;
+\u923 ?\u953 ?\u960 ?\u945 ?\u961 ?\u940 ?:\tab\tab 23g\par&#xD;&#xD;&#xD;
+\u917 ?\u957 ?\u941 ?\u961 ?\u947 ?\u949 ?\u953 ?\u945 ?:\tab\tab\ul      \ul0 kcal\par&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;
+\b\u931 ?\u964 ?\u942 ?\u952 ?\u959 ?\u962 ? \u922 ?\u959 ?\u964 ?\u972 ?\u960 ?\u959 ?\u965 ?\u955 ?\u959 ?\u965 ?\b0  (100g)\par&#xD;&#xD;&#xD;
+\u928 ?\u961 ?\u969 ?\u964 ?\u949 ?\u912 ?\u957 ?\u949 ?\u962 ?:\tab\tab 15g\par&#xD;&#xD;&#xD;
+\u933 ?\u948 ?\u945 ?\u964 ?\u940 ?\u957 ?\u952 ?\u961 ?\u945 ?\u954 ?\u949 ?\u962 ?:\tab 15g\par&#xD;&#xD;&#xD;
+\u923 ?\u953 ?\u960 ?\u945 ?\u961 ?\u940 ?:\tab\tab 16g\par&#xD;&#xD;&#xD;
+\u917 ?\u957 ?\u941 ?\u961 ?\u947 ?\u949 ?\u953 ?\u945 ?:\tab\tab\ul      \ul0 kcal\par&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;
+\b BBQ Sauce\b0  (100g)\par&#xD;&#xD;&#xD;
+\u928 ?\u961 ?\u969 ?\u964 ?\u949 ?\u912 ?\u957 ?\u949 ?\u962 ?:\tab\tab    2g\par&#xD;&#xD;&#xD;
+\u933 ?\u948 ?\u945 ?\u964 ?\u940 ?\u957 ?\u952 ?\u961 ?\u945 ?\u954 ?\u949 ?\u962 ?:\tab 14g\par&#xD;&#xD;&#xD;
+\u923 ?\u953 ?\u960 ?\u945 ?\u961 ?\u940 ?:\tab\tab   1g\par&#xD;&#xD;&#xD;
+\u917 ?\u957 ?\u941 ?\u961 ?\u947 ?\u949 ?\u953 ?\u945 ?:\tab\tab\ul      \ul0 kcal\par&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;
+\b\u931 ?\u945 ?\u955 ?\u940 ?\u956 ?\u953 ?\b0  (100g)\par&#xD;&#xD;&#xD;
+\u928 ?\u961 ?\u969 ?\u964 ?\u949 ?\u912 ?\u957 ?\u949 ?\u962 ?:\tab\tab 23g\par&#xD;&#xD;&#xD;
+\u933 ?\u948 ?\u945 ?\u964 ?\u940 ?\u957 ?\u952 ?\u961 ?\u945 ?\u954 ?\u949 ?\u962 ?:\tab   0g\par&#xD;&#xD;&#xD;
+\u923 ?\u953 ?\u960 ?\u945 ?\u961 ?\u940 ?:\tab\tab 44g\par&#xD;&#xD;&#xD;
+\u917 ?\u957 ?\u941 ?\u961 ?\u947 ?\u949 ?\u953 ?\u945 ?:\tab\tab\ul      \ul0 kcal\par&#xD;&#xD;&#xD;
+\b\par&#xD;&#xD;&#xD;
+\u922 ?\u961 ?\u949 ?\u956 ?\u956 ?\u973 ?\u948 ?\u953 ?\u945 ?\b0  (100g)\par&#xD;&#xD;&#xD;
+\u928 ?\u961 ?\u969 ?\u964 ?\u949 ?\u912 ?\u957 ?\u949 ?\u962 ?:\tab\tab  1g\par&#xD;&#xD;&#xD;
+\u933 ?\u948 ?\u945 ?\u964 ?\u940 ?\u957 ?\u952 ?\u961 ?\u945 ?\u954 ?\u949 ?\u962 ?:\tab  9g\par&#xD;&#xD;&#xD;
+\u923 ?\u953 ?\u960 ?\u945 ?\u961 ?\u940 ?:\tab\tab  0g\par&#xD;&#xD;&#xD;
+\u917 ?\u957 ?\u941 ?\u961 ?\u947 ?\u949 ?\u953 ?\u945 ?:\tab\tab\ul     \ul0 kcal\par&#xD;&#xD;&#xD;
+\b\par&#xD;&#xD;&#xD;
+\u913 ?\u957 ?\u945 ?\u957 ?\u940 ?\u962 ?\b0  (100g)\par&#xD;&#xD;&#xD;
+\u928 ?\u961 ?\u969 ?\u964 ?\u949 ?\u912 ?\u957 ?\u949 ?\u962 ?:\tab\tab   1g\par&#xD;&#xD;&#xD;
+\u933 ?\u948 ?\u945 ?\u964 ?\u940 ?\u957 ?\u952 ?\u961 ?\u945 ?\u954 ?\u949 ?\u962 ?:\tab 23g\par&#xD;&#xD;&#xD;
+\u923 ?\u953 ?\u960 ?\u945 ?\u961 ?\u940 ?:\tab\tab   0g\par&#xD;&#xD;&#xD;
+\u917 ?\u957 ?\u941 ?\u961 ?\u947 ?\u949 ?\u953 ?\u945 ?:\tab\tab\ul      \ul0 kcal\f2\b\sl360\cf0\par&#xD;&#xD;&#xD;
+\li0\ri0\fi0\f1\b0\ul0\sl0\cf1\par&#xD;&#xD;&#xD;
 }</RichText>
 </content>
 <resources>
