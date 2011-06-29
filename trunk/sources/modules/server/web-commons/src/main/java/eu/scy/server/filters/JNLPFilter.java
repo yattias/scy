@@ -50,7 +50,7 @@ public class JNLPFilter implements Filter, ApplicationContextAware {
 
             String userName = servletRequest.getParameter("username");
             String mission = servletRequest.getParameter("mission");
-
+            String locale = servletRequest.getParameter("locale");
 
             if(userName == null) {
                 //userName = ((HttpServletRequest) servletRequest).getRemoteUser();
@@ -82,7 +82,7 @@ public class JNLPFilter implements Filter, ApplicationContextAware {
             // System.out.println("LOADING JNLP FILE! " + request.getRequestURL());
 
 
-            getJnlpBuilder().streamJnlpString(userName, mission, password, serverName, serverPort, request, response);
+            getJnlpBuilder().streamJnlpString(userName, mission, password, serverName, serverPort, locale, request, response);
 
         } else {
             //// System.out.println("NOT JNLP");
