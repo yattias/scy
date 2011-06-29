@@ -12,6 +12,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.imageio.ImageIO;
@@ -302,11 +303,20 @@ public class ScyElo {
     }
 
     public String getTitle() {
+       String title = (String) getMetadataValueContainer(titleKey).getValue(Locale.getDefault());
+       if (title!=null){
+          return title;
+       }
         return (String) getMetadataValueContainer(titleKey).getValue();
     }
 
     public void setTitle(String title) {
-        getMetadataValueContainer(titleKey).setValue(title);
+//        getMetadataValueContainer(titleKey).setValue(title);
+        getMetadataValueContainer(titleKey).setValue(title,Locale.getDefault());
+    }
+
+    public void setTitle(String title, Locale langauge) {
+        getMetadataValueContainer(titleKey).setValue(title,langauge);
     }
 
     public String getDescription() {
@@ -736,7 +746,7 @@ public class ScyElo {
         value = template.toString();
         this.template = Boolean.valueOf(template);
         if (!template){
-           System.out.println("template set to false of " + elo.getUri());
+//           System.out.println("template set to false of " + elo.getUri());
         }
      }
      getMetadataValueContainer(templateKey).setValue(value);
