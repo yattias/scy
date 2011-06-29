@@ -12,7 +12,7 @@
           <dateTime>2010-02-22T16:41:03.317+0100</dateTime>
         </date>
       </contribute>
-      <version>6</version>
+      <version>9</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -48,11 +48,11 @@
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil sansserif;}&#xD;
-{\colortbl\red0\green0\blue0;\red0\green0\blue0;}&#xD;
-&#xD;
-\f1\fs24\i0\b0\cf1\par&#xD;
+<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil sansserif;}&#xD;&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red0\green0\blue0;}&#xD;&#xD;&#xD;
+&#xD;&#xD;&#xD;
+\f1\fs24\i0\b0\cf1\par&#xD;&#xD;&#xD;
 }</RichText>
 </content>
 <resources>

@@ -12,7 +12,7 @@
           <dateTime>2010-02-23T14:11:13.737+0100</dateTime>
         </date>
       </contribute>
-      <version>3</version>
+      <version>4</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -39,17 +39,17 @@
     <annotation>
       <entity>externalDoc</entity>
       <date>
-        <dateTime>2011-06-23T16:34:03.950+0200</dateTime>
+        <dateTime>2011-06-29T16:01:52.384+0200</dateTime>
       </date>
       <file>
-        <assignment>To make your presentation, you have to:&#xD;&#xD;&#xD;
-- Go to the PowerPoint application of your computer&#xD;&#xD;&#xD;
-- Create your presentation&#xD;&#xD;&#xD;
-- If you want to add some pictures, graphs, concept maps... you have created in SCY-Lab, use the "print screen" button of your keyboard(or the snipping tool of your computer) and paste your image in your presentation&#xD;&#xD;&#xD;
-- Save your presentation in your computer&#xD;&#xD;&#xD;
-- Then come back here and click on the upload file button&#xD;&#xD;&#xD;
-- Select your presentation document&#xD;&#xD;&#xD;
-- Press "open"&#xD;&#xD;&#xD;
+        <assignment>To make your presentation, you have to:&#xD;&#xD;&#xD;&#xD;
+- Go to the PowerPoint application of your computer&#xD;&#xD;&#xD;&#xD;
+- Create your presentation&#xD;&#xD;&#xD;&#xD;
+- If you want to add some pictures, graphs, concept maps... you have created in SCY-Lab, use the "print screen" button of your keyboard(or the snipping tool of your computer) and paste your image in your presentation&#xD;&#xD;&#xD;&#xD;
+- Save your presentation in your computer&#xD;&#xD;&#xD;&#xD;
+- Then come back here and click on the upload file button&#xD;&#xD;&#xD;&#xD;
+- Select your presentation document&#xD;&#xD;&#xD;&#xD;
+- Press "open"&#xD;&#xD;&#xD;&#xD;
 - Save your presentation in SCY-Lab</assignment>
         <description />
         <name />
