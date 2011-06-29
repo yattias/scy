@@ -205,6 +205,7 @@ public class BasicMissionManagement implements MissionManagement
             ePortfolioElo.getElo().getMetadata().getMetadataValueContainer(titleKey).setValuesI18n(missionTitleMetadata);
             ePortfolioElo.addAuthor(userName);
             ePortfolioElo.setMissionId(missionSpecification.getMissionId());
+            ePortfolioElo.setTemplate(true);
             ePortfolioElo.saveAsNewElo();
             missionRuntimeElo.getTypedContent().setEPortfolioEloUri(ePortfolioElo.getUri());
          }
@@ -215,6 +216,7 @@ public class BasicMissionManagement implements MissionManagement
             pedagogicalPlanSettings.getElo().getMetadata().getMetadataValueContainer(titleKey).setValuesI18n(missionTitleMetadata);
             pedagogicalPlanSettings.addAuthor(userName);
             pedagogicalPlanSettings.setMissionId(missionSpecification.getMissionId());
+            pedagogicalPlanSettings.setTemplate(true);
             pedagogicalPlanSettings.saveAsNewElo();
             missionRuntimeElo.getTypedContent().setPedagogicalPlanSettingsEloUri(
                pedagogicalPlanSettings.getUri());
