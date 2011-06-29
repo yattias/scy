@@ -12,7 +12,7 @@
           <dateTime>2011-02-22T17:38:19.718+0100</dateTime>
         </date>
       </contribute>
-      <version>11</version>
+      <version>12</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -51,12 +51,12 @@
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
-&#xD;
-\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here what is the solution to the problem you have defined in the beginning of your work.\par&#xD;
-\li0\ri0\fi0\f1\ul0\cf1\par&#xD;
+<RichText>{\rtf1\ansi&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;
+&#xD;&#xD;
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here what is the solution to the problem you have defined in the beginning of your work.\par&#xD;&#xD;
+\li0\ri0\fi0\f1\ul0\cf1\par&#xD;&#xD;
 }</RichText>
 </content>
 <resources>
