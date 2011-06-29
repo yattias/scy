@@ -12,6 +12,7 @@ import javax.servlet.jsp.tagext.TagSupport;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by IntelliJ IDEA.
@@ -38,12 +39,21 @@ public class RuntimeMissionController extends TagSupport {
                     if (missionRuntimeElo.getUserRunningMission().equals(user)) {
                         String uri = missionRuntimeElo.getUri().toString();
                         uri = URLEncoder.encode(uri, "UTF-8");
+                        List<Locale> languages = missionRuntimeElo.getContent().getLanguages();
+                        Locale locale;
+                        if (!languages.isEmpty()) {
+                            locale = languages.get(0);
+                        }
                         pageContext.getOut().write("<tr><td>");
                         pageContext.getOut().write("<a href=\"/webapp/app/student/StudentIndex.html?eloURI=" + uri + "\">");
                         pageContext.getOut().write(missionRuntimeElo.getTitle());
                         pageContext.getOut().write("</a>");
                         pageContext.getOut().write("</td><td>");
-                        pageContext.getOut().write("<a href=\"scy-lab.jnlp?username=" + user + "&mission=" + uri + "\">Start SCYLab</a></td></tr>");
+                        pageContext.getOut().write("<a href=\"scy-lab.jnlp?username=" + user + "&mission=" + uri);
+                        if (locale != null) {
+                            pageContext.getOut().write("&locale=" + locale.getCountry());
+                        }
+                        pageContext.getOut().write("\">Start SCYLab</a></td></tr>");
                     }
 
                 }

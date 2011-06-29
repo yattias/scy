@@ -35,9 +35,9 @@ public class JNLPBuilder {
     private RuntimeELOService runtimeELOService;
 
 
-    public void streamJnlpString(String userName, String mission, String password, String serverName, String serverPort, ServletRequest request, HttpServletResponse response) {
+    public void streamJnlpString(String userName, String mission, String password, String serverName, String serverPort, String locale, ServletRequest request, HttpServletResponse response) {
         try {
-            String jnlpContent = generateJnlpString(userName, mission, password, serverName, serverPort, request);
+            String jnlpContent = generateJnlpString(userName, mission, password, serverName, serverPort, locale, request);
             response.setContentType("application/x-java-jnlp-file");
             response.setHeader("Pragma", "no-cache");
             response.setHeader("Cache-Control", "no-cache");
@@ -51,7 +51,7 @@ public class JNLPBuilder {
     }
 
 
-    public String generateJnlpString(String userName, String mission, String password, String serverName, String serverPort, ServletRequest request) throws MalformedURLException, IOException {
+    public String generateJnlpString(String userName, String mission, String password, String serverName, String serverPort, String locale, ServletRequest request) throws MalformedURLException, IOException {
         String jnlpUrl = "";
 
         if(mission == null) {
@@ -101,8 +101,29 @@ public class JNLPBuilder {
             jnlpContent += inputLine;
         }
 
-        String locale = getLocale(userName);
-
+        // we only use one locale, i.e., the first one from the content attribs of the missionruntime elo 
+        if (locale == null || locale.isEmpty()) {
+            locale = getLocale(userName);
+        }
+        // this code might be useful if we support multi locales in one elo content part
+//        if (locale != null && locale.length > 0) {
+//            // if user locale is in mission locales, we delete
+//            // it because it will be taken from the mission locales
+//            for (int i = 0; i < locale.length; i++) {
+//                if (locale[i].equals(locale)) {
+//                    locale = "";
+//                    break;
+//                }
+//            }
+//            // now we run through the mission locales and add them for the scy-lab startup
+//            for (int i = 0; i < locale.length; i++) {
+//                if (locale.isEmpty()) {
+//                    locale += locale[i];
+//                } else {
+//                    locale += "," + locale[i];
+//                }
+//            }
+//        }
 
         if (userName != null && password != null) {
             int index = jnlpContent.indexOf("</application-desc>");
