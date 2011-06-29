@@ -40,7 +40,7 @@ public class RuntimeMissionController extends TagSupport {
                         String uri = missionRuntimeElo.getUri().toString();
                         uri = URLEncoder.encode(uri, "UTF-8");
                         List<Locale> languages = missionRuntimeElo.getContent().getLanguages();
-                        Locale locale;
+                        Locale locale = null;
                         if (!languages.isEmpty()) {
                             locale = languages.get(0);
                         }
