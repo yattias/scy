@@ -1,0 +1,52 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-06-29T16:01:52.531+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1309356112531</dateCreated>
+        <dateLastModified>1309356112531</dateLastModified>
+      </customElements>
+      <format>scy/runtimesettings</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/736/0/Design+a+CO2+friendly+house+%28UT+version%29.runtimesettings</entry>
+      </identifier>
+      <las />
+      <missionId>co2_2_UT</missionId>
+      <title>
+        <string language="en">Design a CO2 friendly house (UT version)</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <template>TRUE</template>
+</metadata>
+<content languages="en" contentType="xml">
+<runtimeSettings />
+</content>
+<resources>
+</resources>
+</elo>
