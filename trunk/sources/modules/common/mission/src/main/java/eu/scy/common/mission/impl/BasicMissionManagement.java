@@ -33,6 +33,8 @@ import eu.scy.common.scyelo.RooloServices;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 import java.util.Locale;
+import java.util.Map;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 
 public class BasicMissionManagement implements MissionManagement
 {
@@ -40,6 +42,7 @@ public class BasicMissionManagement implements MissionManagement
    private final static Logger logger = Logger.getLogger(BasicMissionManagement.class);
    private final MissionSpecificationElo missionSpecificationElo;
    private final RooloServices rooloServices;
+   private final IMetadataKey titleKey;
    private final IMetadataKey missionRuntimeKey;
 
    public BasicMissionManagement(MissionSpecificationElo missionSpecificationElo,
@@ -49,6 +52,7 @@ public class BasicMissionManagement implements MissionManagement
       this.missionSpecificationElo = missionSpecificationElo;
       this.rooloServices = rooloServices;
       missionRuntimeKey = findMetadataKey(ScyRooloMetadataKeyIds.MISSION_RUNTIME);
+      titleKey = findMetadataKey(CoreRooloMetadataKeyIds.TITLE);
    }
 
    protected final IMetadataKey findMetadataKey(IMetadataKeyIdDefinition id)
@@ -93,7 +97,11 @@ public class BasicMissionManagement implements MissionManagement
          // it does not exists, so create it
          final MissionSpecificationEloContent missionSpecification = missionSpecificationElo.getTypedContent();
          MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.createElo(rooloServices);
-         missionRuntimeElo.setTitle(missionSpecificationElo.getTitle());
+//         missionRuntimeElo.setTitle(missionSpecificationElo.getTitle());
+         // set the title in the language of the mission specification
+         // the easiest way is just to copy the complete metadata value
+         final Map<Locale, ?> missionTitleMetadata = missionSpecificationElo.getElo().getMetadata().getMetadataValueContainer(titleKey).getValuesI18n();
+         missionRuntimeElo.getElo().getMetadata().getMetadataValueContainer(titleKey).setValuesI18n(missionTitleMetadata);
          missionRuntimeElo.setDescription(missionSpecificationElo.getDescription());
          missionRuntimeElo.setMissionSpecificationEloUri(missionSpecificationElo.getUri());
          missionRuntimeElo.setUserRunningMission(userName);
@@ -153,7 +161,8 @@ public class BasicMissionManagement implements MissionManagement
          else
          {
             runtimeSettingsElo = RuntimeSettingsElo.createElo(rooloServices);
-            runtimeSettingsElo.setTitle(missionSpecificationElo.getTitle());
+            runtimeSettingsElo.getElo().getMetadata().getMetadataValueContainer(titleKey).setValuesI18n(missionTitleMetadata);
+            runtimeSettingsElo.setMissionId(missionSpecification.getMissionId());
             if (!runSpecificationElos)
             {
               runtimeSettingsElo.setMissionId(missionSpecification.getMissionId());
@@ -193,7 +202,7 @@ public class BasicMissionManagement implements MissionManagement
          {
             ScyElo ePortfolioElo = ScyElo.createElo(MissionEloType.EPORTFOLIO.getType(),
                rooloServices);
-            ePortfolioElo.setTitle(missionSpecificationElo.getTitle());
+            ePortfolioElo.getElo().getMetadata().getMetadataValueContainer(titleKey).setValuesI18n(missionTitleMetadata);
             ePortfolioElo.addAuthor(userName);
             ePortfolioElo.setMissionId(missionSpecification.getMissionId());
             ePortfolioElo.saveAsNewElo();
@@ -203,7 +212,7 @@ public class BasicMissionManagement implements MissionManagement
          {
             ScyElo pedagogicalPlanSettings = ScyElo.createElo(
                MissionEloType.PADAGOGICAL_PLAN_SETTINGS.getType(), rooloServices);
-            pedagogicalPlanSettings.setTitle(missionSpecificationElo.getTitle());
+            pedagogicalPlanSettings.getElo().getMetadata().getMetadataValueContainer(titleKey).setValuesI18n(missionTitleMetadata);
             pedagogicalPlanSettings.addAuthor(userName);
             pedagogicalPlanSettings.setMissionId(missionSpecification.getMissionId());
             pedagogicalPlanSettings.saveAsNewElo();
