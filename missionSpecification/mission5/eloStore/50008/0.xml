@@ -22,7 +22,7 @@
           <dateTime>2011-05-05T17:44:41.437+0200</dateTime>
         </date>
       </contribute>
-      <version>2</version>
+      <version>3</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -53,27 +53,27 @@
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
-&#xD;
-\f1\fs24\i0\b\cf1 Introduction\b0\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-\b Research question and hypothesis\b0\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-\b Simulation\b0\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-\b Results\b0\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-\b Conclusion\b0\par&#xD;
+<RichText>{\rtf1\ansi&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;
+&#xD;&#xD;
+\f1\fs24\i0\b\cf1 Introduction\b0\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\b Research question and hypothesis\b0\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\b Simulation\b0\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\b Results\b0\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\b Conclusion\b0\par&#xD;&#xD;
 }</RichText>
 </content>
 <resources>

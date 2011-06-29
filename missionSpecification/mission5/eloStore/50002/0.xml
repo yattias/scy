@@ -22,7 +22,7 @@
           <dateTime>2011-04-29T11:08:04.960+0200</dateTime>
         </date>
       </contribute>
-      <version>3</version>
+      <version>4</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -53,24 +53,24 @@
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Dolly;}&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
-{\stylesheet{\s2\f1\fs24\i0\b0\cf1 default;}{\s1\li0\ri0\fi0\sa80\sb80\sbasedon2\snext1 DP Document;}}&#xD;
-\margl1417\margr1417\margt1417\margb1417\widowctrl&#xD;
-\s1\li0\ri0\fi0\sa80\sb80\f2\fs20\i0\b\ul0\cf0 Research question:\par&#xD;
-\b0 Is it useful to drink an energy drink before you are going to exercise?\par&#xD;
-\par&#xD;
-\b Situations:\par&#xD;
-\b0 1. In situation 1 first I expect blood glucose concentration to rise/lower/remain the same and then I expect blood glucose concentration to rise/lower/ remain the same.\par&#xD;
-2. In situation 2 I expect blood glucose concentration to rise/lower/remain the same and then I expect blood glucose concentration to rise/lower/ remain the same.\par&#xD;
-3. In situation 3 I expect blood glucose concentration to rise/lower/remain the same and then I expect blood glucose concentration to rise/lower/ remain the same.\par&#xD;
-4. In situation 4 I expect blood glucose concentration to rise/lower/remain the same and then I expect blood glucose concentration to rise/lower/ remain the same.\par&#xD;
-\par&#xD;
-\b Hypothesis\par&#xD;
-\b0 If someone drinks ................................................................................, then the blood glucose concentration will .... .......................................................................................................................\par&#xD;
-\pard\ql\sa80\sb80\f1\fs24\cf1\par&#xD;
-\li0\ri0\fi0\ul0\par&#xD;
+<RichText>{\rtf1\ansi&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Dolly;}&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;
+{\stylesheet{\s2\f1\fs24\i0\b0\cf1 default;}{\s1\li0\ri0\fi0\sa80\sb80\sbasedon2\snext1 DP Document;}}&#xD;&#xD;
+\margl1417\margr1417\margt1417\margb1417\widowctrl&#xD;&#xD;
+\s1\li0\ri0\fi0\sa80\sb80\f2\fs20\i0\b\ul0\cf0 Research question:\par&#xD;&#xD;
+\b0 Is it useful to drink an energy drink before you are going to exercise?\par&#xD;&#xD;
+\par&#xD;&#xD;
+\b Situations:\par&#xD;&#xD;
+\b0 1. In situation 1 first I expect blood glucose concentration to rise/lower/remain the same and then I expect blood glucose concentration to rise/lower/ remain the same.\par&#xD;&#xD;
+2. In situation 2 I expect blood glucose concentration to rise/lower/remain the same and then I expect blood glucose concentration to rise/lower/ remain the same.\par&#xD;&#xD;
+3. In situation 3 I expect blood glucose concentration to rise/lower/remain the same and then I expect blood glucose concentration to rise/lower/ remain the same.\par&#xD;&#xD;
+4. In situation 4 I expect blood glucose concentration to rise/lower/remain the same and then I expect blood glucose concentration to rise/lower/ remain the same.\par&#xD;&#xD;
+\par&#xD;&#xD;
+\b Hypothesis\par&#xD;&#xD;
+\b0 If someone drinks ................................................................................, then the blood glucose concentration will .... .......................................................................................................................\par&#xD;&#xD;
+\pard\ql\sa80\sb80\f1\fs24\cf1\par&#xD;&#xD;
+\li0\ri0\fi0\ul0\par&#xD;&#xD;
 }</RichText>
 </content>
 <resources>
