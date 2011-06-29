@@ -48,12 +48,19 @@ public class MissionSpecificationEditor extends EloXmlEditor {
                  file: file.getAbsolutePath()
                  tbi: toolBrokerAPI
               }
-      def missionMapModelElo = saveXmlInElo(MissionEloType.MISSION_MAP_MODEL.getType(), name, springConfigFileImporter.missionMapXml, springConfigFileImporter.language);
-      def eloToolConfigsElo = saveXmlInElo(MissionEloType.ELO_TOOL_CONFIGURATION.getType(), name, springConfigFileImporter.eloToolConfigsXml, null);
-      def templateElosElo = saveXmlInElo(MissionEloType.TEMPLATES_ELOS.getType(), name, springConfigFileImporter.templateElosXml, springConfigFileImporter.language);
+      missionId = springConfigFileImporter.missionId;
+      if (springConfigFileImporter.missionTitle != null) {
+         suggestedTitle = springConfigFileImporter.missionTitle;
+      } else {
+         suggestedTitle = name;
+      }
+      language = springConfigFileImporter.language;
+      def missionMapModelElo = saveXmlInElo(MissionEloType.MISSION_MAP_MODEL.getType(), springConfigFileImporter.missionMapXml, springConfigFileImporter.language);
+      def eloToolConfigsElo = saveXmlInElo(MissionEloType.ELO_TOOL_CONFIGURATION.getType(), springConfigFileImporter.eloToolConfigsXml, null);
+      def templateElosElo = saveXmlInElo(MissionEloType.TEMPLATES_ELOS.getType(), springConfigFileImporter.templateElosXml, springConfigFileImporter.language);
       def runtimeSettingsElo = RuntimeSettingsElo.createElo(toolBrokerAPI);
       setContentLanguage(runtimeSettingsElo.getElo(), springConfigFileImporter.language);
-      runtimeSettingsElo.setTitle(name);
+      setTitleMissionIdAndTemplate(runtimeSettingsElo);
       runtimeSettingsElo.saveAsNewElo();
       def missionSpecification = new BasicMissionSpecificationEloContent();
       missionSpecification.setMissionMapModelEloUri(missionMapModelElo.getUri());
@@ -65,24 +72,27 @@ public class MissionSpecificationEditor extends EloXmlEditor {
       missionSpecification.setAgentModelsEloUri(springConfigFileImporter.agentModelsEloUri);
       def pedagogicalPlanSettings = ScyElo.createElo(MissionEloType.PADAGOGICAL_PLAN_SETTINGS.getType(),
               toolBrokerAPI);
-      pedagogicalPlanSettings.setTitle(missionMapModelElo.getTitle());
+      setTitleMissionIdAndTemplate(pedagogicalPlanSettings);
       pedagogicalPlanSettings.saveAsNewElo();
       missionSpecification.setPedagogicalPlanSettingsEloUri(pedagogicalPlanSettings.getUri());
       missionSpecification.setMissionId(springConfigFileImporter.missionId);
       missionSpecification.setXhtmlVersionId(springConfigFileImporter.xhtmlVersionId);
       setContent(MissionSpecificationEloContentXmlUtils.missionSpecificationToXml(missionSpecification), springConfigFileImporter.errors);
-      missionId = springConfigFileImporter.missionId;
-      language = springConfigFileImporter.language;
-      suggestedTitle = springConfigFileImporter.missionTitle;
    }
 
-   function saveXmlInElo(type: String, name: String, xml: String, lang: Locale): ScyElo {
+   function saveXmlInElo(type: String, xml: String, lang: Locale): ScyElo {
       def scyElo = ScyElo.createElo(type, toolBrokerAPI);
-      scyElo.setTitle(name);
       scyElo.getContent().setXmlString(xml);
       setContentLanguage(scyElo.getElo(), lang);
+      setTitleMissionIdAndTemplate(scyElo);
       scyElo.saveAsNewElo();
       scyElo
+   }
+
+   function setTitleMissionIdAndTemplate(scyElo: ScyElo): Void{
+      scyElo.setTitle(suggestedTitle, if (language!=null) language else Locale.getDefault());
+      scyElo.setTemplate(true);
+      scyElo.setMissionId(missionId);
    }
 
    override protected function validateXml(xml: String): String {
