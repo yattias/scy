@@ -22,7 +22,7 @@
           <dateTime>2011-04-29T11:04:37.788+0200</dateTime>
         </date>
       </contribute>
-      <version>2</version>
+      <version>3</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -89,21 +89,21 @@
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Dolly;}&#xD;&#xD;&#xD;&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;&#xD;
-{\stylesheet{\s2\f1\fs24\i0\b0\cf1 default;}{\s1\li0\ri0\fi0\sa80\sb80\sbasedon2\snext1 DP Document;}}&#xD;&#xD;&#xD;&#xD;
-\margl1417\margr1417\margt1417\margb1417\widowctrl&#xD;&#xD;&#xD;&#xD;
-\s1\li0\ri0\fi0\sa80\sb80\f2\fs20\i0\b\ul0\cf0 List of information you collected\par&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;
-Carbohydrates\par&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;
-Glucose\par&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;
-Insulin\par&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;
-Role of glucose in the body\b0\par&#xD;&#xD;&#xD;&#xD;
-\pard\li0\ri0\fi0\f1\fs24\ul0\cf1\par&#xD;&#xD;&#xD;&#xD;
+<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Dolly;}&#xD;&#xD;&#xD;&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;&#xD;&#xD;
+{\stylesheet{\s2\f1\fs24\i0\b0\cf1 default;}{\s1\li0\ri0\fi0\sa80\sb80\sbasedon2\snext1 DP Document;}}&#xD;&#xD;&#xD;&#xD;&#xD;
+\margl1417\margr1417\margt1417\margb1417\widowctrl&#xD;&#xD;&#xD;&#xD;&#xD;
+\s1\li0\ri0\fi0\sa80\sb80\f2\fs20\i0\b\ul0\cf0 List of information you collected\par&#xD;&#xD;&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;&#xD;&#xD;
+Carbohydrates\par&#xD;&#xD;&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;&#xD;&#xD;
+Glucose\par&#xD;&#xD;&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;&#xD;&#xD;
+Insulin\par&#xD;&#xD;&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;&#xD;&#xD;
+Role of glucose in the body\b0\par&#xD;&#xD;&#xD;&#xD;&#xD;
+\pard\li0\ri0\fi0\f1\fs24\ul0\cf1\par&#xD;&#xD;&#xD;&#xD;&#xD;
 }</RichText>
 </content>
 <resources>

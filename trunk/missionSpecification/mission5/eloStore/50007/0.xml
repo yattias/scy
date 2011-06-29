@@ -22,7 +22,7 @@
           <dateTime>2011-05-05T17:42:48.343+0200</dateTime>
         </date>
       </contribute>
-      <version>2</version>
+      <version>3</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -53,25 +53,25 @@
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
-&#xD;
-\f1\fs24\i0\b\cf1 Symmary of results\b0\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-\b Conclusion\b0\par&#xD;
-\par&#xD;
-Answer to your hypothesis:\par&#xD;
-\par&#xD;
-\par&#xD;
-Answer to your research question:\par&#xD;
+<RichText>{\rtf1\ansi&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;
+&#xD;&#xD;
+\f1\fs24\i0\b\cf1 Symmary of results\b0\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\b Conclusion\b0\par&#xD;&#xD;
+\par&#xD;&#xD;
+Answer to your hypothesis:\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+Answer to your research question:\par&#xD;&#xD;
 }</RichText>
 </content>
 <resources>
