@@ -61,6 +61,7 @@ public abstract class EloXmlEditor extends CustomNode, Resizable, ScyToolFX, Elo
    protected var elo: IELO;
    protected var technicalFormatKey: IMetadataKey;
    protected var titleKey: IMetadataKey;
+   protected var templateKey: IMetadataKey;
    protected var missionIdKey: IMetadataKey;
    def textBox: TextBox = TextBox {
          multiline: true
@@ -145,6 +146,7 @@ public abstract class EloXmlEditor extends CustomNode, Resizable, ScyToolFX, Elo
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
       titleKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE);
       missionIdKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.MISSION_ID);
+      templateKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TEMPLATE);
    }
 
    public override function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
@@ -233,6 +235,7 @@ public abstract class EloXmlEditor extends CustomNode, Resizable, ScyToolFX, Elo
 
       setContentLanguage(elo,language);
       setSuggestedTitle(elo,language,suggestedTitle);
+      elo.getMetadata().getMetadataValueContainer(templateKey).setValue("true");
       return elo;
    }
 
