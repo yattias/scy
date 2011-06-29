@@ -4,7 +4,6 @@ import java.rmi.dgc.VMID;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -67,48 +66,48 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	public static final String MAXIMAL_PROPOSAL_NUMBER = "max_proposal_number";
 	
 	/**
-	 * This value determines the maximal number of operator replacements.
+	 * This configuration value determines the maximal number of operator replacements.
 	 * It is used to extend search results (by replacing AND by OR) as well as to prune search
 	 * results (by replacing OR by AND).
 	 */
 	public static final String MAXIMAL_REPLACE_NUMBER = "max_replace_number";
 	
 	/**
-	 * This value determines the lower bound of the good search result interval.
+	 * This configuration value determines the lower bound of the good search result interval.
 	 * Search queries with less results than this value will be considered as bad queries
 	 * and will force a search result extension.
 	 */
 	public static final String INFIMUM_GOOD_SEARCH_INVERVAL = "inf_good_search_inverval";
 	
 	/**
-	 * This value determines the upper bound of the good search result interval.
+	 * This configuration value determines the upper bound of the good search result interval.
 	 * Search queries with more results than this value will be considered as bad queries
 	 * and will force a search result pruning.
 	 */
 	public static final String SUPREMUM_GOOD_SEARCH_INVERVAL = "sup_good_search_inverval";
 	
 	/**
-	 * This value is used for misspell checking and configures the lucene fuzzy operator.
+	 * This configuration value is used for misspell checking and configures the lucene fuzzy operator.
 	 * A value of 0.8 results in the lucene query: "term~0.8"
 	 */
 	public static final String FUZZY_SEARCH_TERM_SIMILARITY_TOLERANCE = "fuzzy_search_sim_tolerance";
 	
 	/**
-	 * This value is used for misspell checking and determines the hit tolerance between a 
+	 * This configuration value is used for misspell checking and determines the hit tolerance between a 
 	 * query using the term as is and the term used with the fuzzy operator. 
 	 * The value must hold: 0 < value < 1
 	 */
 	public static final String FUZZY_SEARCH_RESULT_TOLERANCE = "fuzzy_search_result_tolerance";
 	
 	/**
-	 * This value is used for extracting new keywords from the users search results.
+	 * This configuration value is used for extracting new keywords from the users search results.
 	 * This value must be >= 0 and determines the number of search results used for keyword extraction.
 	 * The agent will use the search results which are best rated by lucene.
 	 */
 	public static final String EXTRACT_KEYWORD_RESULT_NUMBER_USED_FOR_EXTRACTION = "extract_keyword_result_number_used_for_extraction";
     
 	/**
-	 * This value is used for extracting new keywords from the users search results.
+	 * This configuration value is used for extracting new keywords from the users search results.
 	 * This value must be >= 0 and determines the number of extracted terms, which will be tested
 	 * by concatenating them with the users search query.
 	 */
