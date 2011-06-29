@@ -2,11 +2,18 @@ package eu.scy.agents.search.searchresultenricher;
 
 import java.rmi.dgc.VMID;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.collections.Bag;
+import org.apache.commons.collections.bag.HashBag;
 import org.apache.log4j.Logger;
 
 import roolo.search.ISearchResult;
@@ -49,15 +56,63 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	private static final String ONTOLOGY_AGENT_NAME = "ontology-agent";
 	private static final String ONTOLOGY_AGENT_COMMAND = "get synonyms";
 	
-	public static final String MAXIMAL_PROPOSAL_NUMBER = "max_proposal_number";
-	public static final String MAXIMAL_REPLACE_NUMBER = "max_replace_number";
-	public static final String INFIMUM_GOOD_SEARCH_INVERVAL = "inf_good_search_inverval";
-	public static final String SUPREMUM_GOOD_SEARCH_INVERVAL = "sup_good_search_inverval";
-	public static final String FUZZY_SEARCH_TERM_SIMILARITY_TOLERANCE = "fuzzy_search_sim_tolerance";
-	public static final String FUZZY_SEARCH_RESULT_TOLERANCE = "fuzzy_search_result_tolerance";
-        
     private static final Tuple TEMPLATE_FOR_SEARCH_QUERY = new Tuple("action", String.class, Long.class, SEARCH_TYPE, String.class, SEARCH_TOOL, Field.createWildCardField());
     
+    
+	// Configuration values
+    
+    /**
+     * This value determines the number of alternative search queries, which will be proposed.
+     */
+	public static final String MAXIMAL_PROPOSAL_NUMBER = "max_proposal_number";
+	
+	/**
+	 * This value determines the maximal number of operator replacements.
+	 * It is used to extend search results (by replacing AND by OR) as well as to prune search
+	 * results (by replacing OR by AND).
+	 */
+	public static final String MAXIMAL_REPLACE_NUMBER = "max_replace_number";
+	
+	/**
+	 * This value determines the lower bound of the good search result interval.
+	 * Search queries with less results than this value will be considered as bad queries
+	 * and will force a search result extension.
+	 */
+	public static final String INFIMUM_GOOD_SEARCH_INVERVAL = "inf_good_search_inverval";
+	
+	/**
+	 * This value determines the upper bound of the good search result interval.
+	 * Search queries with more results than this value will be considered as bad queries
+	 * and will force a search result pruning.
+	 */
+	public static final String SUPREMUM_GOOD_SEARCH_INVERVAL = "sup_good_search_inverval";
+	
+	/**
+	 * This value is used for misspell checking and configures the lucene fuzzy operator.
+	 * A value of 0.8 results in the lucene query: "term~0.8"
+	 */
+	public static final String FUZZY_SEARCH_TERM_SIMILARITY_TOLERANCE = "fuzzy_search_sim_tolerance";
+	
+	/**
+	 * This value is used for misspell checking and determines the hit tolerance between a 
+	 * query using the term as is and the term used with the fuzzy operator. 
+	 * The value must hold: 0 < value < 1
+	 */
+	public static final String FUZZY_SEARCH_RESULT_TOLERANCE = "fuzzy_search_result_tolerance";
+	
+	/**
+	 * This value is used for extracting new keywords from the users search results.
+	 * This value must be >= 0 and determines the number of search results used for keyword extraction.
+	 * The agent will use the search results which are best rated by lucene.
+	 */
+	public static final String EXTRACT_KEYWORD_RESULT_NUMBER_USED_FOR_EXTRACTION = "extract_keyword_result_number_used_for_extraction";
+    
+	/**
+	 * This value is used for extracting new keywords from the users search results.
+	 * This value must be >= 0 and determines the number of extracted terms, which will be tested
+	 * by concatenating them with the users search query.
+	 */
+	public static final String EXTRACT_KEYWORD_TERM_NUMBER_TO_TEST = "extact_keyword_term_number_to_test";
     
 //    private static final Logger logger = Logger.getLogger(SearchResultEnricherAgent.class.getName());
     private Map<String, Object> config;
@@ -71,10 +126,14 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
     private int supGoodSearchInterval;
     private double fuzzySearchTermSimilarityTolerance;
     private double fuzzySearchResultTolerance;
+    
+    private int numberOfResultsUsedForExtension;
+    private int numberOfTermsToTest;
 
     
     public SearchResultEnricherAgent(Map<String, Object> map) {
-        super(SearchResultEnricherAgent.class.getName(), (String) map.get(AgentProtocol.PARAM_AGENT_ID), (String) map.get(AgentProtocol.TS_HOST), (Integer) map.get(AgentProtocol.TS_PORT));
+        super(SearchResultEnricherAgent.class.getName(), (String) map.get(AgentProtocol.PARAM_AGENT_ID), 
+        		(String) map.get(AgentProtocol.TS_HOST), (Integer) map.get(AgentProtocol.TS_PORT));
         this.config = map;
         configure(map);
 
@@ -119,6 +178,16 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
         	this.fuzzySearchTermSimilarityTolerance = (Double) config.get(FUZZY_SEARCH_TERM_SIMILARITY_TOLERANCE); 
         } else {
         	this.fuzzySearchTermSimilarityTolerance = 0.8;
+        }
+        if(config.get(EXTRACT_KEYWORD_RESULT_NUMBER_USED_FOR_EXTRACTION) != null) {
+        	this.numberOfResultsUsedForExtension = (Integer) config.get(EXTRACT_KEYWORD_RESULT_NUMBER_USED_FOR_EXTRACTION); 
+        } else {
+        	this.numberOfResultsUsedForExtension = 3;
+        }
+        if(config.get(EXTRACT_KEYWORD_TERM_NUMBER_TO_TEST) != null) {
+        	this.numberOfTermsToTest = (Integer) config.get(EXTRACT_KEYWORD_TERM_NUMBER_TO_TEST); 
+        } else {
+        	this.numberOfTermsToTest = 5;
         }
     }
 
@@ -168,7 +237,6 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
     public static void main(String[] args) throws AgentLifecycleException {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put(AgentProtocol.PARAM_AGENT_ID, "search result enricher id");
-//        map.put(AgentProtocol.TS_HOST, "localhost");
         map.put(AgentProtocol.TS_HOST, "scy.collide.info");
         map.put(AgentProtocol.TS_PORT, 2525);
         SearchResultEnricherAgent agent = new SearchResultEnricherAgent(map);
@@ -188,6 +256,28 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
         }
     }
     
+    
+    /*
+     * Performs a new search and responds with a key-value pair containing the 
+     * search string as key and the number of hits as response.
+     * Returns null if search timed out.
+     */
+    private List<ISearchResult> performSearch(String query) throws TupleSpaceException {    	
+		String uniqueID = new VMID().toString();
+		Tuple requestTuple = new Tuple(uniqueID, ROOLO_AGENT_NAME, ROOLO_AGENT_SEARCH, query);
+		commandSpace.write(requestTuple);
+
+		Tuple responseTuple = commandSpace.waitToTake(new Tuple(uniqueID, ROOLO_AGENT_RESPONSE, 
+				Field.createWildCardField()), ROOLO_AGENT_TIMEOUT);
+		if (responseTuple != null) {
+			String xmlResults = responseTuple.getField(2).getValue().toString();
+			return SearchResultUtils.createSearchResultsFromXML(xmlResults);
+		} else {
+			return null;
+		}
+    }
+
+
     /*
      * Evaluate a user search result and decides whether to propose an optimized search query.
      * If nothing needs to be enriched, an empty array will be returned.
@@ -209,6 +299,8 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
         }
         if(props.getProperty(ACTION_LOG_ATTRIBUTE_QUERY) == null || props.getProperty(ACTION_LOG_ATTRIBUTE_QUERY).equals("") ||
             props.getProperty(ACTION_LOG_ATTRIBUTE_RESULT) == null || props.getProperty(ACTION_LOG_ATTRIBUTE_RESULT).equals("")) {
+        	
+        	// TODO: Uncomment if finished
 //            logger.warn("Received action log with missing values! Query = " +
 //                            props.getProperty(ACTION_LOG_ATTRIBUTE_QUERY) + " | Result = " +
 //                            props.getProperty(ACTION_LOG_ATTRIBUTE_RESULT));
@@ -221,24 +313,18 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
         // Split search query in several items
         String searchQuery = props.getProperty(ACTION_LOG_ATTRIBUTE_QUERY).trim();
 
-        // use the results of the user query as reference
+        // Deserialize search results
         List<ISearchResult> referenceResults = SearchResultUtils.createSearchResultsFromXML(props.getProperty(ACTION_LOG_ATTRIBUTE_RESULT));
 
-        // Check search terms for spelling mistakes
-    	try {
-			List<String> misspelledTerms = checkSpelling(searchQuery.split(" "));
-			if(misspelledTerms.size() > 0) {
-				System.out.println("Misspelled terms: " + misspelledTerms.toString());
-//				Tuple t = generateMisspelledTermsTuple(userId, mission, session, misspelledTerms);
-//				commandSpace.write(tuple);
-			}
-		} catch (TupleSpaceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        // Check search terms for spelling mistakes... this task is independent from the rest
+		SpellingChecker sc = new SpellingChecker(this.commandSpace, user, mission,
+				session, searchQuery.split(" "),
+				this.fuzzySearchTermSimilarityTolerance,
+				this.fuzzySearchResultTolerance);
+        new Thread(sc).start();
     	
-        SearchResultRanking ranking = null;
         // Choose strategy
+        SearchResultRanking ranking = null;
         if (referenceResults.size() < this.infGoodSearchInverval) {
             ranking = extendSearchResult(user, eloUri, searchQuery, referenceResults);
 
@@ -254,6 +340,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
             System.out.println(ranking.toString());
             System.out.println(generateAlternativeQueriesTuple(user, mission, session, ranking));
 
+            // TODO: Uncomment if finished
 //            try {
 //                    commandSpace.write(generateResponseTuple(user, mission, session, ranking.getResults()));
 //            } catch (TupleSpaceException e) {
@@ -262,42 +349,11 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
         }
     }
     
-	/*
-	 * Checks for each term of the search query, whether we get much more search results 
-	 * by performing a fuzzy search. This may indicate a spelling mistake. 
-	 */
-    private List<String> checkSpelling(String[] items) throws TupleSpaceException{
-    	List<String> misspelledTerms = new ArrayList<String>();
-    	for(String term : items) {
-    		int exact = performSearchForHitCount(term);
-    		int fuzzy = performSearchForHitCount(term + "~" + this.fuzzySearchTermSimilarityTolerance);
-    		System.out.println("Term: " + term + " | Exact: " + exact + " | Fuzzy: " + fuzzy);
-    		if(exact == -1 || fuzzy == -1) {
-    			// RooloAccessorAgent down
-    			break;
-    		}
-    		// Check if we get much more results while performing a fuzzy search.
-    		// acceleration is the percent value, the hit number was boosted because of the fuzzy operator.
-    		double acceleration = (((double)fuzzy + 1) / exact + 1);
-    		if(acceleration > this.fuzzySearchResultTolerance) {
-    			misspelledTerms.add(term);
-    		}
-    	}
-    	return misspelledTerms;
-    }
 
-    /*
-     * Generates a tuple, containing the probably misspelled terms.
-     * ("notification":String, <ID>:String, <User>:String, <Tool>:String, <Mission>:String, <Session>:String, <terms=term1 term2 term3>:String)
-     */
-    private Tuple generateMisspelledTermsTuple(String userId, String mission, String session, List<String> terms) {
-    	String s = "terms=";
-    	for(String term : terms) {
-    		s = s + term + " ";
-    	}
-    	return new Tuple(AgentProtocol.NOTIFICATION, new VMID().toString(), userId, SEARCH_TOOL, AGENT_NAME, mission, session, s.trim());
-    }
-    
+	//
+	// STRATEGY: EXTEND SEARCH RESULTS (TOO LESS RESULTS)
+	//
+	
     /*
      * Tries to create another search query, that will provide more results.
      */
@@ -319,12 +375,29 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
                     List<ISearchResult> result =  performSearch(newQuery);
                     if(result != null) {
                         ranking.add(newQuery, result);
+                    } else {
+                    	// RooloAccessorAgent down, so stop
+                    	return ranking;
                     }
                 }
             }
             
+            // Add new keywords extracted from the search results.
+            List<TermEntry> termList = extractAlternativeTermsFromSearchResults(referenceResults);
+            for(int i = 0; i < Math.min(this.numberOfTermsToTest, termList.size()); i++){
+            	String newQuery = searchQuery + " " + termList.get(i).getCount();
+            	List<ISearchResult> result = performSearch(newQuery);
+            	if(result != null) {
+            		ranking.add(newQuery, result);
+            	} else {
+            		// RooloAccessorAgent down, so stop
+                	return ranking;
+            	}
+            }
+            	
+            
         	// TODO ask ontology for synonyms
-        	askOntologyForSynonym(userId, eloUri, "keyword");
+//        	askOntologyForSynonym(userId, eloUri, "keyword");
         } catch (TupleSpaceException e) {
         	e.printStackTrace();
         }
@@ -352,6 +425,57 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	}
 
     /*
+     * Uses the search results of the origin search to extract terms, that might be of interest.
+     */
+    @SuppressWarnings("unchecked")
+	private List<TermEntry> extractAlternativeTermsFromSearchResults(List<ISearchResult> results) {
+    	List<TermEntry> termList = new LinkedList<TermEntry>();
+
+    	// Grab all terms and put them in a bag.
+    	Bag bag = new HashBag();
+    	for(int i = 0; i < Math.min(this.numberOfResultsUsedForExtension, results.size()) ; i++) {
+    		// Keyword list may contains relevance entries, so we need to delete them
+    		String keywords = results.get(i).getKeywords();
+    		keywords = keywords.replaceAll(" [0-9]\\.[0-9]", "");
+    		List<String> terms = Arrays.asList(keywords.split(" "));
+    		bag.addAll(terms);
+    	}
+    	@SuppressWarnings("rawtypes")
+		Iterator bagIterator = bag.iterator();
+    	while(bagIterator.hasNext()) {
+    		String term = (String)bagIterator.next();
+    		int termCount = bag.getCount(term);
+    		termList.add(new TermEntry(term, termCount));
+    	}
+    	Collections.sort(termList);
+    	return termList;
+    }
+
+    class TermEntry implements Comparable<TermEntry> {
+    	
+    	private String term;
+    	private int count;
+    	
+    	TermEntry(String term, int count) {
+    		this.term = term;
+    		this.count = count;
+    	}
+
+		@Override
+		public int compareTo(TermEntry o) {
+			return getCount() - o.getCount();
+		}
+
+		public int getCount() {
+			return this.count;
+		}
+    }
+    
+	//
+	// STRATEGY: PRUNE SEARCH RESULTS (TOO MANY RESULTS)
+	//
+    
+    /*
      * Tries to prune the search result.
      */
 	private SearchResultRanking pruneSearchResult(String searchQuery, List<ISearchResult> referenceResults) {
@@ -367,6 +491,9 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	        		List<ISearchResult> result = performSearch(itemsets[i].toString());
 	        		if(result != null) {
 	        			ranking.add(itemsets[i].toString(), result);
+	        		} else {
+                    	// RooloAccessorAgent down, so stop
+                    	return ranking;
 	        		}
 	        	}
 	        	
@@ -385,6 +512,9 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	                    List<ISearchResult> result =  performSearch(newQuery);
 	                    if(result != null) {
 	                        ranking.add(newQuery, result);
+	                    } else {
+	                    	// RooloAccessorAgent down, so stop
+	                    	return ranking;	                    	
 	                    }
 	                }
 	            }
@@ -433,37 +563,103 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
     	return tuple;
     }
     
-    private int performSearchForHitCount(String query) throws TupleSpaceException {
-		String uniqueID = new VMID().toString();
-		Tuple requestTuple = new Tuple(uniqueID, ROOLO_AGENT_NAME, ROOLO_AGENT_HIT_COUNT, query);
-		commandSpace.write(requestTuple);
-
-		Tuple responseTuple = commandSpace.waitToTake(new Tuple(uniqueID,
-				ROOLO_AGENT_RESPONSE, Field.createWildCardField()),
-				ROOLO_AGENT_TIMEOUT);
-		if (responseTuple != null) {
-			return Integer.parseInt(responseTuple.getField(2).getValue().toString());
-		}
-		return -1;
-    }
     
-    /*
-     * Performs a new search and responds with a key-value pair containing the 
-     * search string as key and the number of hits as response.
-     * Returns null if search timed out.
-     */
-    private List<ISearchResult> performSearch(String query) throws TupleSpaceException {    	
-		String uniqueID = new VMID().toString();
-		Tuple requestTuple = new Tuple(uniqueID, ROOLO_AGENT_NAME, ROOLO_AGENT_SEARCH, query);
-		commandSpace.write(requestTuple);
+	/*
+	 * Checks the spelling and writes a tuple to the TS if a word seems to be misspelled.
+	 */
+	class SpellingChecker implements Runnable {
 
-		Tuple responseTuple = commandSpace.waitToTake(new Tuple(uniqueID, ROOLO_AGENT_RESPONSE, 
-				Field.createWildCardField()), ROOLO_AGENT_TIMEOUT);
-		if (responseTuple != null) {
-			String xmlResults = responseTuple.getField(2).getValue().toString();
-			return SearchResultUtils.createSearchResultsFromXML(xmlResults);
-		} else {
-			return null;
+		private TupleSpace commandSpace;
+		private String userId;
+		private String mission;
+		private String session;
+		private String[] items;
+		private double termSimilarityTolerance;
+		private double searchResultTolerance;
+		
+		SpellingChecker(TupleSpace commandSpace, String userId, String mission, String session, String[] items, double termSimilarityTolerance, double searchResultTolerance ) {
+			this.commandSpace = commandSpace;
+			this.userId = userId;
+			this.mission = mission;
+			this.session = session;
+			this.items = items;
+			this.termSimilarityTolerance = termSimilarityTolerance;
+			this.searchResultTolerance = searchResultTolerance;
 		}
-    }
+				
+		@Override
+		public void run() {
+	    	try {
+				List<String> misspelledTerms = checkSpelling(this.items);
+				if(misspelledTerms.size() > 0) {
+					System.out.println("Misspelled terms: " + misspelledTerms.toString());
+					
+					// TODO: Uncomment if finished
+//					Tuple tuple = generateMisspelledTermsTuple(misspelledTerms);
+//					commandSpace.write(tuple);
+				}
+			} catch (TupleSpaceException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		/*
+		 * Checks for each term of the search query, whether we get much more search results 
+		 * by performing a fuzzy search. This may indicate a spelling mistake. 
+		 */
+	    private List<String> checkSpelling(String[] items) throws TupleSpaceException{
+	    	List<String> misspelledTerms = new ArrayList<String>();
+	    	for(String term : items) {
+	    		
+	    		int exact = getHitCount(term);
+	    		if(exact == -1) 
+	    			// RooloAccessorAgent down, so we stop checking
+	    			return misspelledTerms;
+	    		
+	    		int fuzzy = getHitCount(term + "~" + this.termSimilarityTolerance);
+	    		if(fuzzy == -1) {
+	    			// RooloAccessorAgent down, so we stop checking
+	    			return misspelledTerms;
+	    		}
+	    		
+	    		System.out.println("Term: " + term + " | Exact: " + exact + " | Fuzzy: " + fuzzy);
+	    		// Check if we get much more results while performing a fuzzy search.
+	    		// acceleration is the percent value, the hit number was boosted because of the fuzzy operator.
+	    		double acceleration = (((double)fuzzy + 1) / exact + 1);
+	    		if(acceleration > this.searchResultTolerance) {
+	    			misspelledTerms.add(term);
+	    		}
+	    	}
+	    	return misspelledTerms;
+	    }
+
+	    private int getHitCount(String query) throws TupleSpaceException {
+			String uniqueID = new VMID().toString();
+			Tuple requestTuple = new Tuple(uniqueID, ROOLO_AGENT_NAME, ROOLO_AGENT_HIT_COUNT, query);
+			commandSpace.write(requestTuple);
+
+			Tuple responseTuple = commandSpace.waitToTake(new Tuple(uniqueID,
+					ROOLO_AGENT_RESPONSE, Field.createWildCardField()),
+					ROOLO_AGENT_TIMEOUT);
+			if (responseTuple != null) {
+				return Integer.parseInt(responseTuple.getField(2).getValue().toString());
+			} else {
+            	// RooloAccessorAgent down
+				return -1;
+			}
+	    }
+	    
+	    /*
+	     * Generates a tuple, containing the probably misspelled terms.
+	     * ("notification":String, <ID>:String, <User>:String, <Tool>:String, <Mission>:String, <Session>:String, <terms=term1 term2 term3>:String)
+	     */
+	    private Tuple generateMisspelledTermsTuple(List<String> terms) {
+	    	String s = "terms=";
+	    	for(String term : terms) {
+	    		s = s + term + " ";
+	    	}
+	    	return new Tuple(AgentProtocol.NOTIFICATION, new VMID().toString(), this.userId, SEARCH_TOOL, AGENT_NAME, this.mission, this.session, s.trim());
+	    }
+	}
 }
