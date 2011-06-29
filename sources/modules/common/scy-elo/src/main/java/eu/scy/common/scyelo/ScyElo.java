@@ -745,9 +745,6 @@ public class ScyElo {
      if (template!=null){
         value = template.toString();
         this.template = Boolean.valueOf(template);
-        if (!template){
-//           System.out.println("template set to false of " + elo.getUri());
-        }
      }
      getMetadataValueContainer(templateKey).setValue(value);
   }
