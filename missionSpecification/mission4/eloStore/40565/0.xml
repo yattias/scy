@@ -22,7 +22,7 @@
           <dateTime>2011-05-19T11:54:17.612+0200</dateTime>
         </date>
       </contribute>
-      <version>2</version>
+      <version>3</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -69,12 +69,12 @@
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
-&#xD;
-\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Write your checklist here.\par&#xD;
-\li0\ri0\fi0\ul0\par&#xD;
+<RichText>{\rtf1\ansi&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;
+&#xD;&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Write your checklist here.\par&#xD;&#xD;
+\li0\ri0\fi0\ul0\par&#xD;&#xD;
 }</RichText>
 </content>
 <resources>
