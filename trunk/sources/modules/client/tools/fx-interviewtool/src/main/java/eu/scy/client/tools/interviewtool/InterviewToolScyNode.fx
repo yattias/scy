@@ -81,6 +81,12 @@ public class InterviewToolScyNode extends InterviewToolNode, Resizable, ScyToolF
               actionId: TitleBarButton.saveAsActionId
               action: doSaveAsElo
            }
+   def zoomTreeTitleBarButton = TitleBarButton {
+	  actionId: "zoom_tree"
+	  iconType: "maximize"
+	  action: zoomTree
+	  tooltip: treeZoomButton.text
+    }
 
    function setLoggerEloUri() {
       var myEloUri:String = (scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI();
@@ -118,7 +124,8 @@ public class InterviewToolScyNode extends InterviewToolNode, Resizable, ScyToolF
       if (windowContent) {
          titleBarButtonManager.titleBarButtons = [
                     saveTitleBarButton,
-                    saveAsTitleBarButton
+                    saveAsTitleBarButton,
+                    zoomTreeTitleBarButton
                  ]
       }
    }
@@ -245,28 +252,12 @@ public class InterviewToolScyNode extends InterviewToolNode, Resizable, ScyToolF
 
    public override function create(): Node {
       schemaEditor.setTypingLogIntervalMs(interviewSchemaTypingLogIntervalMs);
-      var node:Node = Group{content: bind content};
-      var buttons:Node =
-          HBox{
-             translateX:10;
-             spacing:10;
-             content:[
-                treeZoomButton
-             ]
-          }
-      return Group {
-         blocksMouse:true;
-         content: [
-            VBox{
-               translateY:10;
-               spacing:10;
-               content:[
-                  buttons,
-                  node
-               ]
-            }
-         ]
-      };
+      parentHeightOffset = 0;
+      return
+         Group{
+            blocksMouse:true
+            content: bind content
+         };
    }
 
    protected override function getAuthors(anonUser:String, andStr:String) {
