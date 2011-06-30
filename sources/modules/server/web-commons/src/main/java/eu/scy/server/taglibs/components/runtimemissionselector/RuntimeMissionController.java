@@ -51,7 +51,7 @@ public class RuntimeMissionController extends TagSupport {
                         pageContext.getOut().write("</td><td>");
                         pageContext.getOut().write("<a href=\"scy-lab.jnlp?username=" + user + "&mission=" + uri);
                         if (locale != null) {
-                            pageContext.getOut().write("&locale=" + locale.getCountry());
+                            pageContext.getOut().write("&locale=" + locale.getLanguage());
                         }
                         pageContext.getOut().write("\">Start SCYLab</a></td></tr>");
                     }
