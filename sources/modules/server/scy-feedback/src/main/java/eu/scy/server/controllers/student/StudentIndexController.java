@@ -16,6 +16,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by IntelliJ IDEA.
@@ -48,6 +49,20 @@ public class StudentIndexController extends BaseController {
             logger.info("PORTFOLIO IS NULL!!");
         }
 
+        String user = missionRuntimeElo.getUserRunningMission();
+        String locale = null;
+        List<Locale> languages = missionRuntimeElo.getContent().getLanguages();
+        if (!languages.isEmpty()) {
+            Locale language = languages.get(0);
+            locale = language.getLanguage();
+        }
+        String uri = missionRuntimeElo.getUri().toString();
+        try {
+            uri = URLEncoder.encode(uri, "UTF-8");
+        } catch (UnsupportedEncodingException e1) {
+            logger.error("Could not encode URL for mission ELO" + uri, e1);
+        }
+        String jnlpUrl = "scy-lab.jnlp?username=" + user + "&mission=" + uri + "&locale=" + locale;
 
         NewestElos myElosWithFeedback = getMissionELOService().getMyElosWithFeedback(missionRuntimeElo, getCurrentUserName(request));
         NewestElos elosWhereIHaveProvidedFeedback = getMissionELOService().getFeedbackElosWhereIHaveContributed(missionRuntimeElo, getCurrentUserName(request));
@@ -55,18 +70,11 @@ public class StudentIndexController extends BaseController {
         MissionSpecificationElo missionSpecificationElo = getMissionELOService().getMissionSpecificationELOForRuntume(missionRuntimeElo);
         URI descriptionURI = missionSpecificationElo.getTypedContent().getMissionDescriptionUri();
 
+        modelAndView.addObject("jnlpUrl", jnlpUrl);
         modelAndView.addObject("descriptionUrl", descriptionURI);
         modelAndView.addObject("missionSpecificationTransporter", getMissionELOService().getWebSafeTransporter(missionRuntimeElo));
         modelAndView.addObject("numberOfFeedbacksToMyElos", myElosWithFeedback.getElos().size());
         modelAndView.addObject("elosWhereIHaveProvidedFeedback", elosWhereIHaveProvidedFeedback.getElos().size());
-        try {
-            //modelAndView.addObject("jnlpRef", "/webapp/scy-lab.jnlp?username=" + getCurrentUserName(request) + "&mission=" + URLEncoder.encode(missionRuntimeElo.getUri().toString(), "UTF-8"));
-            modelAndView.addObject("jnlpRef", "/webapp/scy-lab.jnlp?username=" + getCurrentUserName(request) + "&mission=" + URLEncoder.encode(missionRuntimeElo.getUri().toString(), "UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-
     }
 
     public MissionELOService getMissionELOService() {
