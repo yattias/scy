@@ -93,9 +93,11 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	public static final String FUZZY_SEARCH_TERM_SIMILARITY_TOLERANCE = "fuzzy_search_sim_tolerance";
 	
 	/**
-	 * This configuration value is used for misspell checking and determines the hit tolerance between a 
-	 * query using the term as is and the term used with the fuzzy operator. 
-	 * The value must hold: 0 < value < 1
+	 * This configuration value is used for misspell checking.
+	 * A term is checked both without and with fuzzy operator and the hit results will be compared.
+	 * This value sets the factor, the hit number with fuzzy operator must be higher, to assume that the
+	 * term is misspelled.
+	 * The value must be greater than 1.
 	 */
 	public static final String FUZZY_SEARCH_RESULT_TOLERANCE = "fuzzy_search_result_tolerance";
 	
@@ -169,9 +171,12 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
         	this.supGoodSearchInterval = 20;
         }
         if(config.get(FUZZY_SEARCH_RESULT_TOLERANCE) != null) {
-        	this.fuzzySearchResultTolerance = (Double) config.get(FUZZY_SEARCH_RESULT_TOLERANCE); 
+        	this.fuzzySearchResultTolerance = (Double) config.get(FUZZY_SEARCH_RESULT_TOLERANCE);
+        	if(this.fuzzySearchResultTolerance < 1) {
+        		this.fuzzySearchResultTolerance = 1.5;
+        	}
         } else {
-        	this.fuzzySearchResultTolerance = 0.8;
+        	this.fuzzySearchResultTolerance = 1.5;
         }
         if(config.get(FUZZY_SEARCH_TERM_SIMILARITY_TOLERANCE) != null) {
         	this.fuzzySearchTermSimilarityTolerance = (Double) config.get(FUZZY_SEARCH_TERM_SIMILARITY_TOLERANCE); 
@@ -297,15 +302,13 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
             props.put(key, value);
         }
         if(props.getProperty(ACTION_LOG_ATTRIBUTE_QUERY) == null || props.getProperty(ACTION_LOG_ATTRIBUTE_QUERY).equals("") ||
-            props.getProperty(ACTION_LOG_ATTRIBUTE_RESULT) == null || props.getProperty(ACTION_LOG_ATTRIBUTE_RESULT).equals("")) {
+            props.getProperty(ACTION_LOG_ATTRIBUTE_RESULT) == null) {
         	
         	// TODO: Uncomment if finished
 //            logger.warn("Received action log with missing values! Query = " +
-//                            props.getProperty(ACTION_LOG_ATTRIBUTE_QUERY) + " | Result = " +
-//                            props.getProperty(ACTION_LOG_ATTRIBUTE_RESULT));
-            System.out.println("Received action log with missing values! Query = " +
-                            props.getProperty(ACTION_LOG_ATTRIBUTE_QUERY) + " | Result = " +
-                            props.getProperty(ACTION_LOG_ATTRIBUTE_RESULT));
+//                            props.getProperty(ACTION_LOG_ATTRIBUTE_QUERY));
+            System.out.println("Received action log but some values are missing! Query = " +
+                            props.getProperty(ACTION_LOG_ATTRIBUTE_QUERY));
             return;
         }
 
@@ -315,21 +318,20 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
         // Deserialize search results
         List<ISearchResult> referenceResults = SearchResultUtils.createSearchResultsFromXML(props.getProperty(ACTION_LOG_ATTRIBUTE_RESULT));
 
+// Spelling disabled, due to missing fuzzy operator support
         // Check search terms for spelling mistakes... this task is independent from the rest
-		SpellingChecker sc = new SpellingChecker(this.commandSpace, user, mission,
-				session, searchQuery.split(" "),
-				this.fuzzySearchTermSimilarityTolerance,
-				this.fuzzySearchResultTolerance);
-        new Thread(sc).start();
+//		SpellingChecker sc = new SpellingChecker(this.commandSpace, user, mission,
+//				session, searchQuery.split(" "),
+//				this.fuzzySearchTermSimilarityTolerance,
+//				this.fuzzySearchResultTolerance);
+//        new Thread(sc).start();
     	
         // Choose strategy
         SearchResultRanking ranking = null;
         if (referenceResults.size() < this.infGoodSearchInverval) {
             ranking = extendSearchResult(user, eloUri, searchQuery, referenceResults);
-
         } else if (referenceResults.size() > this.supGoodSearchInterval) {
             ranking = pruneSearchResult(searchQuery, referenceResults);
-
         } else {
             // Number of results is ok, so we do nothing
         }
@@ -357,8 +359,8 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
      * Tries to create another search query, that will provide more results.
      */
     private SearchResultRanking extendSearchResult(String userId, String eloUri, String searchQuery, List<ISearchResult> referenceResults) {
+    	
         SearchResultRanking ranking = new SearchResultRanking(this.maxProposalNumber, referenceResults, this.config, this.infGoodSearchInverval, this.supGoodSearchInterval);
-
         try
         {
             // Replace AND by OR
@@ -383,6 +385,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
             
             // Add new keywords extracted from the search results.
             List<TermEntry> termList = extractAlternativeTermsFromSearchResults(referenceResults);
+            System.out.println(termList);
             for(int i = 0; i < Math.min(this.numberOfTermsToTest, termList.size()); i++){
             	String newQuery = searchQuery + " " + termList.get(i).getCount();
             	List<ISearchResult> result = performSearch(newQuery);
@@ -432,12 +435,20 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 
     	// Grab all terms and put them in a bag.
     	Bag bag = new HashBag();
-    	for(int i = 0; i < Math.min(this.numberOfResultsUsedForExtension, results.size()) ; i++) {
+    	int resultsUsed = 0;
+    	for(int i = 0; i < results.size() ; i++) {
     		// Keyword list may contains relevance entries, so we need to delete them
     		String keywords = results.get(i).getKeywords();
+    		if(keywords.equals("")){
+    			continue;
+    		}
     		keywords = keywords.replaceAll(" [0-9]\\.[0-9]", "");
     		List<String> terms = Arrays.asList(keywords.split(" "));
     		bag.addAll(terms);
+    		resultsUsed++;
+    		if(resultsUsed == this.numberOfResultsUsedForExtension) {
+    			break;
+    		}
     	}
     	@SuppressWarnings("rawtypes")
 		Iterator bagIterator = bag.iterator();
@@ -467,6 +478,11 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 
 		public int getCount() {
 			return this.count;
+		}
+		
+		@Override
+		public String toString() {
+			return this.term + " (Count: " + this.count + ")";
 		}
     }
     
@@ -596,6 +612,8 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 					// TODO: Uncomment if finished
 //					Tuple tuple = generateMisspelledTermsTuple(misspelledTerms);
 //					commandSpace.write(tuple);
+				} else {
+					System.out.println("No misspelled terms.");
 				}
 			} catch (TupleSpaceException e) {
 				// TODO Auto-generated catch block
@@ -625,9 +643,15 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	    		System.out.println("Term: " + term + " | Exact: " + exact + " | Fuzzy: " + fuzzy);
 	    		// Check if we get much more results while performing a fuzzy search.
 	    		// acceleration is the percent value, the hit number was boosted because of the fuzzy operator.
-	    		double acceleration = (((double)fuzzy + 1) / exact + 1);
-	    		if(acceleration > this.searchResultTolerance) {
+	    		if(exact == 0 && fuzzy == 0) {
+	    			continue;
+	    		} else if(exact == 0 && fuzzy > 0) {
 	    			misspelledTerms.add(term);
+	    		} else {
+	    			double acceleration = (((double)fuzzy) / exact);
+	    			if(acceleration > this.searchResultTolerance) {
+	    				misspelledTerms.add(term);
+	    			}
 	    		}
 	    	}
 	    	return misspelledTerms;
