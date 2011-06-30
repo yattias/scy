@@ -7,8 +7,6 @@ package eu.scy.client.tools.fxrichtexteditor;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.StringLocalizer;
-import eu.scy.actionlogging.DevNullActionLogger;
-import javafx.scene.text.Font;
 import eu.scy.client.tools.fxrichtexteditor.registration.RichTextEditorNode;
 
 var myLocale : java.util.Locale = new java.util.Locale("en", "US");
@@ -30,7 +28,7 @@ var h: Number = 240 on replace {
     }
 }
 Stage {
-	title : "Rich text editor"
+	title : "##Rich text editor"
         width: bind w with inverse
         height: bind h with inverse
 	scene: Scene {
