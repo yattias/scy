@@ -194,14 +194,6 @@ package class InterviewTableEditor extends CustomNode {
                         }
                     selection: bind selection with inverse
                 };
-    var modifiedLabel = Label {
-            text: "Not saved!"
-            font: font
-            textFill: javafx.scene.paint.Color.RED
-            translateY: height + 10
-            translateX: 320
-            visible: false//bind isModified
-        }
     function addRow() {
         var newValue:String = JOptionPane.showInputDialog("");
         if (not newValue.equals("")) {
@@ -242,7 +234,6 @@ package class InterviewTableEditor extends CustomNode {
         Group {
             content: [
                 table,
-                modifiedLabel,
                 CheckBox {
                         translateX: translateX
                         translateY: translateY+height+10

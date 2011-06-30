@@ -39,7 +39,9 @@ import javafx.scene.layout.LayoutInfo;
  */
 
 /**
-* Base class of the Interview Tool. Contains main logic of the Interview Tool.
+* Base class of the interview tool.
+* Contains base logic of the interview tool.
+* This logic is general both for standalone application and as part of SCY-Lab.
 */
 public class InterviewToolNode extends CustomNode, Resizable {
 def normalFont = Font {
@@ -74,7 +76,6 @@ var numbers:ResourceBundle = ResourceBundle.getBundle("eu.scy.client.tools.inter
 var interviewStrings:InterviewStrings = InterviewStrings{};
 public var interviewLogger: InterviewLogger;
 var log = true;
-//var guidePane : InterviewGuides = InterviewGuides{width:rightWidth, height:height-rightBottomHeight};
 var guidePane : InterviewGuides = InterviewGuides{layoutInfo: LayoutInfo { width:rightWidth, height:height-rightBottomHeight }};
 var lowerNodes : Node;
 protected var treeMaximized : Boolean = false;
@@ -86,8 +87,6 @@ function makeTree() : InterviewTree {
     return InterviewTree{
         translateX: 0
         translateY: 0
-//        width: width - rightWidth
-//        height: height
         layoutInfo:LayoutInfo{width: width - rightWidth, height: height}
         font: treeFont
         root: InterviewTreeCell{
@@ -231,8 +230,6 @@ function showQuestion() {
             content: ##"Research question"
         }
         InterviewTextArea {
-//                width: rightWidth-2*hPadding
-//                height: 150
                 layoutInfo: LayoutInfo{width: rightWidth-2*hPadding, height: 150}
                 translateX: hPadding
                 translateY: 50
@@ -307,7 +304,6 @@ function showTopics() : Void {
         logAction: interviewLogger.logTopicAction
         width: rightWidth - 2*hPadding
         height: 150
-//        layoutInfo: LayoutInfo{width: rightWidth - 2*hPadding,height: 150}
         font: normalFont
         headerFont: labelFont
     }
@@ -345,7 +341,6 @@ function showTopic(cell: InterviewTreeCell) {
         logAction: interviewLogger.logIndicatorAction
         width: rightWidth - 2*hPadding
         height: 150
-//        layoutInfo: LayoutInfo{width: rightWidth - 2*hPadding,height: 150}
         font: normalFont
         headerFont: labelFont
     }
@@ -388,7 +383,6 @@ function showIndicator(cell: InterviewTreeCell) {
         logNamelyAction: interviewLogger.logOtherNamelyAction
         width: rightWidth - 2*hPadding
         height: 120
-//        layoutInfo: LayoutInfo{width: rightWidth - 2*hPadding,height: 120}
         font: normalFont
         headerFont: labelFont
         namelyShow: true
@@ -421,8 +415,6 @@ function showIndicatorFormulate(cell: InterviewTreeCell) {
             content: "{interviewStrings.indicatorFormulation} \"{cell.indicator.indicator}\""
         }
         InterviewTextArea {
-//                width: rightWidth - 2*hPadding
-//                height: 150
                 layoutInfo: LayoutInfo{width: rightWidth - 2*hPadding,height: 150}
                 translateX: hPadding
                 translateY: 50
@@ -624,7 +616,6 @@ function showConductRecommendations() {
     var size = new Dimension(rightWidth-2*hPadding,lowerNodesHeight-2*vPadding);
     guidelinesEditor.setPreferredSize(size);
     guidelinesEditor.setSize(size);
-
     wrappedGuidelinesEditor = SwingComponent.wrap(guidelinesEditor);
     wrappedGuidelinesEditor.translateX = hPadding;
     wrappedGuidelinesEditor.translateY = vPadding;
@@ -673,7 +664,6 @@ protected var content: Node[] = [
         x: bind width-rightWidth+3,
         y: bind height - rightBottomHeight - parentHeightOffset - toolBottomOffset + 3
         width: rightWidth-6, height: rightBottomHeight-6
-//        layoutInfo: LayoutInfo{width: rightWidth-6, height: rightBottomHeight-6}
         fill: Color.TRANSPARENT,
         stroke: Color.GREY
     },
@@ -683,7 +673,6 @@ protected var content: Node[] = [
         translateY: bind height - parentHeightOffset - 30 - toolBottomOffset
         translateX: bind width - rightWidth + 10
         width: rightWidth-20
-//        layoutInfo: LayoutInfo{width: rightWidth-20}
         content: [
         Button {
             text: ##"Back"
@@ -773,7 +762,6 @@ protected var content: Node[] = [
       lowerNodes.translateX = width - rightWidth;
       lowerNodes.translateY = height - rightBottomHeight - parentHeightOffset - toolBottomOffset;
    }
-
    protected function resizeContent(){
       if (treeMaximized) {
           interviewTree.width = width;
@@ -831,5 +819,4 @@ protected var content: Node[] = [
          ]
       };
    }
-
 }
