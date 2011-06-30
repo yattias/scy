@@ -777,22 +777,25 @@ protected var content: Node[] = [
           drawNormalWindow();
       }
    }
+   protected function zoomTree() {
+        if (not schemaMaximized and not guidelinesMaximized) {
+            if (treeMaximized) {
+                treeMaximized = false;
+                resizeContent();
+                interviewLogger.logBasicAction(InterviewLogger.ZOOM_TREE_OUT);
+            } else {
+                treeMaximized = true;
+                resizeContent();
+                interviewLogger.logBasicAction(InterviewLogger.ZOOM_TREE_IN);
+            }
+        }
+   }
    protected def treeZoomButton:Button =
     Button {
        text: ##"Zoom tree in/out"
        font: buttonFont
        action: function() {
-            if (not schemaMaximized and not guidelinesMaximized) {
-                if (treeMaximized) {
-                    treeMaximized = false;
-                    resizeContent();
-                    interviewLogger.logBasicAction(InterviewLogger.ZOOM_TREE_OUT);
-                } else {
-                    treeMaximized = true;
-                    resizeContent();
-                    interviewLogger.logBasicAction(InterviewLogger.ZOOM_TREE_IN);
-                }
-            }
+           zoomTree();
        }
     }
    public override function create(): Node {
