@@ -10,7 +10,6 @@ import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.Group;
-import javafx.scene.control.Button;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import org.jdom.Element;
@@ -24,20 +23,10 @@ import roolo.api.IExtensionManager;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
-
 import java.net.URI;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.client.desktop.desktoputils.jdom.JDomStringConversion;
-import roolo.search.IQuery;
-import roolo.search.Query;
-import roolo.search.ISearchResult;
-
-import javax.swing.JOptionPane;
-import java.util.List;
 import javafx.scene.layout.Resizable;
-import roolo.search.MetadataQueryComponent;
-import roolo.search.IQueryComponent;
-import roolo.search.SearchOperation;
 import java.awt.image.BufferedImage;
 import java.awt.Dimension;
 import javafx.geometry.Bounds;
@@ -149,20 +138,6 @@ public class InterviewToolScyNode extends InterviewToolNode, Resizable, ScyToolF
       setLoggerEloUri();
    }
 
-   function openElo() {
-      var metadataQuery:IQueryComponent = new MetadataQueryComponent(technicalFormatKey,SearchOperation.EQUALS, scyInterviewType);
-      var query:IQuery = new Query(metadataQuery);
-      var searchResults:List = repository.search(query);
-      var interviewUris:URI[];
-      for (searchResult in searchResults)
-         insert (searchResult as ISearchResult).getUri() into interviewUris;
-      var interviewUri:URI = JOptionPane.showInputDialog(null, ##"Select interview",
-      ##"Select interview", JOptionPane.QUESTION_MESSAGE, null, interviewUris, null) as URI;
-      if (interviewUri != null) {
-         loadElo(interviewUri);
-      }
-   }
-
    function doSaveElo(){
       elo.getContent().setXmlString(interviewToEloContentXml());
       eloSaver.eloUpdate(getElo(),this);
@@ -230,6 +205,7 @@ public class InterviewToolScyNode extends InterviewToolNode, Resizable, ScyToolF
       interviewElement.addContent(topicsElement);
       return jdomStringConversion.xmlToString(interviewElement);
    }
+
    function eloContentXmlToInterview(text:String) {
       var interviewElement=jdomStringConversion.stringToXml(text);
       if (interviewTagName != interviewElement.getName()){
@@ -262,9 +238,11 @@ public class InterviewToolScyNode extends InterviewToolNode, Resizable, ScyToolF
       refreshTree();
       activateTreeNodeByValue(INTERVIEW_TOOL_HOME);
    }
+
    override function postInitialize():Void {
       activateTreeNodeByValue(INTERVIEW_TOOL_HOME);
    }
+
    public override function create(): Node {
       schemaEditor.setTypingLogIntervalMs(interviewSchemaTypingLogIntervalMs);
       var node:Node = Group{content: bind content};
@@ -290,21 +268,13 @@ public class InterviewToolScyNode extends InterviewToolNode, Resizable, ScyToolF
          ]
       };
    }
-protected override function getAuthors(anonUser:String, andStr:String) {
-/*
-    if (elo != null) {
-logger.debug(CoreRooloMetadataKeyIds.AUTHOR);
-logger.debug(elo.getMetadata().getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR)).toString());
-logger.debug(elo.getMetadata().getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR)).getValue().toString());
-        name = elo.getMetadata().getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR)).getValue().toString();
-    }
-*/
-    return  "{toolBrokerAPI.getLoginUserName()} {andStr} [{anonUser}]";
-}
 
+   protected override function getAuthors(anonUser:String, andStr:String) {
+      return  "{toolBrokerAPI.getLoginUserName()} {andStr} [{anonUser}]";
+   }
 
-    public override function onQuit() {
-        schemaEditor.insertedTextToActionLog();
+   public override function onQuit() {
+      schemaEditor.insertedTextToActionLog();
       if (elo != null) {
          def oldContentXml = elo.getContent().getXmlString();
          def newContentXml = getElo().getContent().getXmlString();
@@ -314,71 +284,71 @@ logger.debug(elo.getMetadata().getMetadataValueContainer(metadataTypeManager.get
          }
       }
       doSaveElo();
-    }
+   }
 
-    public function nodeToImage(node : Node, bounds : Bounds) : BufferedImage {
-        def context = FXLocal.getContext();
-        def nodeClass = context.findClass("javafx.scene.Node");
-        def getFXNode = nodeClass.getFunction("impl_getPGNode");
-        var g2:Graphics2D;
-        if(node instanceof Container) {
-            (node as Resizable).width = bounds.width;
-            (node as Resizable).height = bounds.height;
-            (node as Container).layout();
-        } else if(node instanceof Resizable) {
-            (node as Resizable).width = bounds.width;
-            (node as Resizable).height = bounds.height;
-        }
-        def nodeBounds = node.layoutBounds;
-        def sgNode = (getFXNode.invoke(context.mirrorOf(node))
-                as FXLocal.ObjectValue).asObject();
-        def g2dClass = (context.findClass("java.awt.Graphics2D")
-                as FXLocal.ClassType).getJavaImplementationClass();
-        def boundsClass = (context.findClass("com.sun.javafx.geom.Bounds2D")
-                as FXLocal.ClassType).getJavaImplementationClass();
-        def affineClass = (context.findClass("com.sun.javafx.geom.transform.BaseTransform")
-                as FXLocal.ClassType).getJavaImplementationClass();
-        def getBounds = sgNode.getClass().getMethod("getContentBounds",
-                boundsClass, affineClass);
-        def bounds2D = getBounds.invoke(sgNode, new com.sun.javafx.geom.Bounds2D(),
-                new com.sun.javafx.geom.transform.Affine2D());
-        var paintMethod = sgNode.getClass().getMethod("render", g2dClass,
-                boundsClass, affineClass);
-        def bufferedImage = new java.awt.image.BufferedImage(
-                nodeBounds.width, nodeBounds.height,
-                java.awt.image.BufferedImage.TYPE_INT_ARGB);
-        g2 = (bufferedImage.getGraphics() as Graphics2D);
-        g2.setPaint(java.awt.Color.WHITE);
-        g2.fillRect(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight());
-        paintMethod.invoke(sgNode, g2, bounds2D,
-                new com.sun.javafx.geom.transform.Affine2D());
-        g2.dispose();
-        return bufferedImage;
-    }
+   public function nodeToImage(node : Node, bounds : Bounds) : BufferedImage {
+      def context = FXLocal.getContext();
+      def nodeClass = context.findClass("javafx.scene.Node");
+      def getFXNode = nodeClass.getFunction("impl_getPGNode");
+      var g2:Graphics2D;
+      if(node instanceof Container) {
+         (node as Resizable).width = bounds.width;
+         (node as Resizable).height = bounds.height;
+         (node as Container).layout();
+      } else if(node instanceof Resizable) {
+         (node as Resizable).width = bounds.width;
+         (node as Resizable).height = bounds.height;
+      }
+      def nodeBounds = node.layoutBounds;
+      def sgNode = (getFXNode.invoke(context.mirrorOf(node))
+             as FXLocal.ObjectValue).asObject();
+      def g2dClass = (context.findClass("java.awt.Graphics2D")
+             as FXLocal.ClassType).getJavaImplementationClass();
+      def boundsClass = (context.findClass("com.sun.javafx.geom.Bounds2D")
+             as FXLocal.ClassType).getJavaImplementationClass();
+      def affineClass = (context.findClass("com.sun.javafx.geom.transform.BaseTransform")
+             as FXLocal.ClassType).getJavaImplementationClass();
+      def getBounds = sgNode.getClass().getMethod("getContentBounds",
+             boundsClass, affineClass);
+      def bounds2D = getBounds.invoke(sgNode, new com.sun.javafx.geom.Bounds2D(),
+             new com.sun.javafx.geom.transform.Affine2D());
+      var paintMethod = sgNode.getClass().getMethod("render", g2dClass,
+             boundsClass, affineClass);
+      def bufferedImage = new java.awt.image.BufferedImage(
+             nodeBounds.width, nodeBounds.height,
+             java.awt.image.BufferedImage.TYPE_INT_ARGB);
+      g2 = (bufferedImage.getGraphics() as Graphics2D);
+      g2.setPaint(java.awt.Color.WHITE);
+      g2.fillRect(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight());
+      paintMethod.invoke(sgNode, g2, bounds2D,
+             new com.sun.javafx.geom.transform.Affine2D());
+      g2.dispose();
+      return bufferedImage;
+   }
 
-    public function scaleImage(bufferedImage : BufferedImage, originalSize:Dimension,
-            targetSize:Dimension) : BufferedImage {
-        var bi:BufferedImage = bufferedImage;
-        var factor:Double;
-        if ((originalSize.width - targetSize.width) < (originalSize.height - targetSize.height)) {
-            factor = 1.0 * targetSize.height / originalSize.height;
-        } else {
-            factor = 1.0 * targetSize.width / originalSize.width;
-        }
-        var scale:AffineTransform = AffineTransform.getScaleInstance(factor, factor);
-        var op:AffineTransformOp = new AffineTransformOp(scale, AffineTransformOp.TYPE_BILINEAR);
-        bi = op.filter(bi, null);
-        return bi;
-    }
+   public function scaleImage(bufferedImage : BufferedImage, originalSize:Dimension,
+          targetSize:Dimension) : BufferedImage {
+      var bi:BufferedImage = bufferedImage;
+      var factor:Double;
+      if ((originalSize.width - targetSize.width) < (originalSize.height - targetSize.height)) {
+         factor = 1.0 * targetSize.height / originalSize.height;
+      } else {
+         factor = 1.0 * targetSize.width / originalSize.width;
+      }
+      var scale:AffineTransform = AffineTransform.getScaleInstance(factor, factor);
+      var op:AffineTransformOp = new AffineTransformOp(scale, AffineTransformOp.TYPE_BILINEAR);
+      bi = op.filter(bi, null);
+      return bi;
+   }
 
-    public override function getThumbnail(width: Integer, height: Integer): BufferedImage {
-        return scaleImage(
+   public override function getThumbnail(width: Integer, height: Integer): BufferedImage {
+      return scaleImage(
                     nodeToImage(this, BoundingBox {
                         width: this.layoutBounds.width
                         height: this.layoutBounds.height}),
                     new Dimension(this.layoutBounds.width, this.layoutBounds.height),
                     new Dimension(width, height)
-               );
-    }
+             );
+   }
 
 }
