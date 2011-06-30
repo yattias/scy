@@ -6,7 +6,6 @@
 
 package eu.scy.client.tools.fxrichtexteditor;
 
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.Initializer;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
@@ -43,16 +42,9 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    }
    return scyDesktop;
 }
-var stage: Stage;
-var scene: Scene;
-//var myLocale : java.util.Locale = new java.util.Locale("et", "EE");
-//var myLocale : java.util.Locale = new java.util.Locale("en", "US");
-//java.util.Locale.setDefault(myLocale);
 
-var title = ##"Formatted text editor";
-
-stage = Stage {
-   title: "SCY-Lab with rich-text-editor"
+Stage {
+   title: "##SCY-Lab with rich-text-editor"
    width: 800
    height: 600
 	scene: initializer.getScene(createScyDesktop);

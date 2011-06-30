@@ -22,23 +22,10 @@ import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
 import java.net.URI;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.client.desktop.desktoputils.jdom.JDomStringConversion;
-import roolo.search.IQuery;
-import roolo.search.Query;
-import roolo.search.ISearchResult;
-import javax.swing.JOptionPane;
-import java.util.List;
 import eu.scy.actionlogging.DevNullActionLogger;
 import org.jdom.Element;
 import eu.scy.client.common.richtexteditor.RichTextEditor;
-
-import javafx.scene.Group;
-import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
-import roolo.search.MetadataQueryComponent;
-import roolo.search.IQueryComponent;
-import roolo.search.SearchOperation;
 import java.awt.image.BufferedImage;
 import java.awt.Dimension;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
@@ -48,8 +35,6 @@ import eu.scy.notification.api.INotification;
 import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.collaboration.api.CollaborationStartable;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactFrame;
-import javax.swing.text.StyleConstants;
-import java.awt.Color;
 
 /**
  * @author kaido
@@ -64,7 +49,6 @@ public class RichTextEditorScyNode extends INotifiable, RichTextEditorNode, ScyT
    public var metadataTypeManager: IMetadataTypeManager;
    public var repository:IRepository;
    public var toolBrokerAPI:ToolBrokerAPI;
-//   public var extensionManager:IExtensionManager;
    public var actionLogger:IActionLogger;
    public var scyWindow:ScyWindow;
    public var authorMode:Boolean;
@@ -73,10 +57,6 @@ public class RichTextEditorScyNode extends INotifiable, RichTextEditorNode, ScyT
    public var typingLogIntervalMs = 30000;
    var elo:IELO;
    var technicalFormatKey: IMetadataKey;
-   var selectFormattedText = ##"Select formatted text";
-   var openLabel = ##"Open ELO";
-   var saveLabel = ##"Save ELO";
-   var saveAsLabel = ##"Save ELO as";
    def richTextTagName = "RichText";
    def saveTitleBarButton = TitleBarButton {
               actionId: TitleBarButton.saveActionId
@@ -176,20 +156,6 @@ public class RichTextEditorScyNode extends INotifiable, RichTextEditorNode, ScyT
          elo = newElo;
       }
       setLoggerEloUri();
-   }
-
-   function openElo() {
-      var metadataQueryComponent:IQueryComponent = new MetadataQueryComponent(technicalFormatKey,SearchOperation.EQUALS, scyRichTextEditorType);
-      var query:IQuery = new Query(metadataQueryComponent);
-      var searchResults:List = repository.search(query);
-      var richTextUris:URI[];
-      for (searchResult in searchResults)
-         insert (searchResult as ISearchResult).getUri() into richTextUris;
-      var richTextUri:URI = JOptionPane.showInputDialog(null, selectFormattedText,
-      selectFormattedText, JOptionPane.QUESTION_MESSAGE, null, richTextUris, null) as URI;
-      if (richTextUri != null) {
-         loadElo(richTextUri);
-      }
    }
 
    function doSaveElo(){
