@@ -14,7 +14,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.StringLocalizer;
 import eu.scy.actionlogging.DevNullActionLogger;
-import javafx.scene.text.Font;
 
 var myLocale : java.util.Locale = new java.util.Locale("en", "US");
 java.util.Locale.setDefault(myLocale);
@@ -42,7 +41,7 @@ var h: Number = 520 on replace {
     }
 }
 Stage {
-	title : "Interview tool"
+	title : "##Interview tool"
         width: bind w with inverse
         height: bind h with inverse
 	scene: Scene {

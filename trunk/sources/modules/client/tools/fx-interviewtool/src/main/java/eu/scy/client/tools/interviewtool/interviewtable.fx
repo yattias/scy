@@ -61,7 +61,6 @@ package class InterviewTable extends SwingComponent {
     var table: JTable;
     public var model: DefaultTableModel;
     public var selection: Integer;
-    public var focusLostCount: Integer;
     public var isModified: Boolean;
     public override var font on replace {
         var fontStyle = Font.PLAIN;
@@ -97,7 +96,6 @@ package class InterviewTable extends SwingComponent {
         }
     };
     public override function createJComponent(){
-//        table = new JTable();
         table = JTable{
             public override function isCellEditable(x:Integer, y:Integer) {
                 return false;
@@ -136,13 +134,10 @@ package class InterviewTable extends SwingComponent {
         table.addFocusListener(
             FocusListener {
                 public override function focusGained(event: FocusEvent) {
-//                    println("focus gained");
                 }
                 public override function focusLost(event: FocusEvent) {
                     if (table.isEditing())
                         table.getCellEditor().stopCellEditing();
-                    focusLostCount++;
-//                    println("focus lost");
                 }
             }
         );
@@ -173,8 +168,6 @@ package class InterviewTableEditor extends CustomNode {
         if (isModified and refreshAction != null) {refreshAction();}
         isModified=true;
     };
-    var focusLostCount: Integer = 0;// on replace{if (focusLostCount>0 and isModified) logCancelTable("FOCUS_LOST")};
-    var defaultNamelyChecked = namelyChecked;
     var isModified: Boolean = false;
     var offset: Integer;
     var objects: InterviewObject[];
@@ -182,12 +175,9 @@ package class InterviewTableEditor extends CustomNode {
     var table = InterviewTable {
                     translateX:translateX
                     translateY:translateY
-//                    width: width
-//                    height: height
                     layoutInfo:LayoutInfo{width: width, height: height}
                     font: font
                     headerFont: headerFont
-                    focusLostCount: bind focusLostCount with inverse
                     isModified: bind isModified with inverse
                     columns: [
                         TableColumn {
@@ -221,8 +211,8 @@ package class InterviewTableEditor extends CustomNode {
             objVal.initVar("id", ctx.mirrorOf(nextID));
             objVal = objVal.initialize();
             var o: InterviewObject = ((objVal as FXLocal.ObjectValue).asObject()) as InterviewObject;
-        // FXEvaluator doesnt work in browser with javafx version 1.2
-//        var o: InterviewObject = evaluator.eval("eu.scy.client.tools.interviewtool.{classType}\{id: {nextID}\}") as InterviewObject;
+            // FXEvaluator doesnt work in browser with javafx version 1.2
+            // var o: InterviewObject = evaluator.eval("eu.scy.client.tools.interviewtool.{classType}\{id: {nextID}\}") as InterviewObject;
             o.setValue(newValue);
             insert o into objects;
             nextID++;
@@ -241,36 +231,6 @@ package class InterviewTableEditor extends CustomNode {
         oldObjects=objects;
         if (refreshAction != null) {
             refreshAction();
-        }
-    }
-    function saveTable() {
-/*
-        if (logAction != null) {
-            logAction("BEFORE_SAVE",oldObjects);
-        }
-*/
-        for (i in [0..sizeof objects-1]) {
-            objects[i].setValue(table.model.getValueAt(i, 0).toString());
-        }
-        oldObjects=objects;
-        defaultNamelyChecked=namelyChecked;
-        isModified=false;
-        if (refreshAction != null) {
-            refreshAction();
-        }
-/*
-        if (logAction != null) {
-            logAction("AFTER_SAVE",objects);
-        }
-*/
-    }
-    function logCancelTable(type:String) {
-        if (logAction != null) {
-            var logObjects = objects;
-            for (i in [0..sizeof logObjects-1]) {
-                logObjects[i].setValue(table.model.getValueAt(i, 0).toString());
-            }
-            logAction(type,logObjects);
         }
     }
     public override function create() {
@@ -296,7 +256,7 @@ package class InterviewTableEditor extends CustomNode {
                     translateX: translateX
                     translateY: translateY+height+10+offset
                     // FXEvaluator doesnt work in browser with javafx version 1.2
-//                    translateY: height+10+(evaluator.eval("if ({namelyShow}==Boolean.TRUE) 30 else 0;") as Integer)
+                    // translateY: height+10+(evaluator.eval("if ({namelyShow}==Boolean.TRUE) 30 else 0;") as Integer)
                     content: [
                         Button{
                             text: ##"Add"
@@ -315,27 +275,7 @@ package class InterviewTableEditor extends CustomNode {
                             action: function(){
                                 removeRow();
                             }
-                        }/*,
-                        Button{
-                            text: "Save"
-                            action: function(){
-                                saveTable();
-                            }
-                        },
-                        Button{
-                            text: "Cancel"
-                            action: function(){
-                                logCancelTable("BEFORE_CANCEL");
-                                // insert needed for refresh
-                                if (sizeof objects == sizeof oldObjects) {
-                                    addRow();
-                                }
-                                objects=oldObjects;
-                                namelyChecked = defaultNamelyChecked;
-                                isModified=false;
-                                logCancelTable("AFTER_CANCEL");
-                            }
-                        }*/
+                        }
                     ]
                 }
             ]
