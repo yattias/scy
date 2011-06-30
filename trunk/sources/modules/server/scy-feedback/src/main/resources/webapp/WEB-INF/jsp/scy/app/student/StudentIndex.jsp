@@ -7,7 +7,7 @@
         <table>
             <tr class="${oddEven.oddEven}">
                 <td colspan="2">
-                    <a href="/extcomp/scy-lab.jnlp"><spring:message code="START_SCYLAB"/> </a>
+                    <a href="${jnlpUrl}"><spring:message code="START_SCYLAB"/> </a>
                 </td>
             </tr>
             <tr class="${oddEven.oddEven}">
