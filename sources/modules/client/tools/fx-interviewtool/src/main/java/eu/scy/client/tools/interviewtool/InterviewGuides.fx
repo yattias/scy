@@ -14,9 +14,7 @@ import javax.swing.JScrollPane;
 import javafx.ext.swing.SwingComponent;
 import javax.swing.JComponent;
 import javax.swing.text.html.HTMLEditorKit;
-import java.io.ByteArrayOutputStream;
 import java.awt.Font;
-import org.apache.log4j.Logger;
 import java.io.InputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -27,14 +25,8 @@ import javax.swing.text.Document;
 * Guide area of the Interview Tool
 */
 public class InterviewGuides extends SwingComponent {
-    def logger = Logger.getLogger("eu.scy.client.tools.interviewtool.InterviewGuides");
     var htmlEditor: HTMLEditorKit;
     var textPane: JTextPane;
-    function getText() {
-        var bos:ByteArrayOutputStream = new ByteArrayOutputStream();
-        htmlEditor.write(bos, textPane.getDocument(), 0, textPane.getDocument().getLength());
-        return bos.toString("UTF-8");
-    }
     function replaceVars(beforeArr:String[], afterArr:String[]) {
         var txt = textPane.getText();
         var i = 0;

@@ -1,6 +1,5 @@
 package eu.scy.client.tools.interviewtool;
 
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.Initializer;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
@@ -12,9 +11,6 @@ import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
 /**
  * @author kaido
  */
-//var myLocale : java.util.Locale = new java.util.Locale("et", "EE");
-//var myLocale : java.util.Locale = new java.util.Locale("en", "US");
-//java.util.Locale.setDefault(myLocale);
 var initializer = Initializer {
            scyDesktopConfigFile: "config/scyDesktopInterviewToolConfig.xml"
            authorMode:true
@@ -38,11 +34,9 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    }
    return scyDesktop;
 }
-var stage: Stage;
-var scene: Scene;
-stage = Stage {
+Stage {
    title: ##"Interview Tool"
    width: 700
    height: 700
-	scene: initializer.getScene(createScyDesktop);
+   scene: initializer.getScene(createScyDesktop);
 }
