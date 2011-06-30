@@ -8,6 +8,11 @@ import javafx.scene.Group;
 import javafx.scene.layout.Container;
 import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
 
+/**
+* Base class of the rich text editor tool.
+* Contains base logic of the rich text editor tool.
+* This logic is general both for standalone application and as part of SCY-Lab.
+*/
 public class RichTextEditorNode extends CustomNode, Resizable {
    protected def spacing = 5.0;
    protected var richTextEditor:RichTextEditor;

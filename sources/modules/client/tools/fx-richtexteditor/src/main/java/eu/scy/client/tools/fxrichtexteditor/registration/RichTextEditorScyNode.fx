@@ -40,6 +40,11 @@ import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactFrame;
  * @author kaido
  */
 
+/**
+* Base class of the rich text editor tool as part of SCY-Lab.
+* Some general logic is implemented in RichTextEditorNode.
+* @see RichTextEditorNode
+*/
 public class RichTextEditorScyNode extends INotifiable, RichTextEditorNode, ScyToolFX, EloSaverCallBack, CollaborationStartable {
    def logger = Logger.getLogger("eu.scy.client.tools.fxrichtexteditor.RichTextEditorNode");
    def scyRichTextEditorType = "scy/rtf";
