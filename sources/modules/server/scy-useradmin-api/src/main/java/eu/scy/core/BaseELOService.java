@@ -15,5 +15,7 @@ import java.util.List;
 public interface BaseELOService extends RooloAccessor {
 
         List getRuntimeElos(MissionSpecificationElo missionSpecificationElo);
+        
+        List getUsersFromRuntimeElos(MissionSpecificationElo missionSpecificationElo);
 
 }
