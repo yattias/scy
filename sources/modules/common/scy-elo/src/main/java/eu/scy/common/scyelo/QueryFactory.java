@@ -8,6 +8,7 @@ import roolo.search.IQuery;
 import roolo.search.IQueryComponent;
 import roolo.search.MetadataQueryComponent;
 import roolo.search.Query;
+import roolo.search.SearchConstants;
 import roolo.search.SearchOperation;
 
 /**
@@ -22,7 +23,9 @@ public class QueryFactory {
      * @return a query object to use for RoOLO search (repository.search(IQuery query))
      */
     public static IQuery createSimpleQuery(String queryPhrase) {
-        AbstractQueryComponent queryComponent = new MetadataQueryComponent(queryPhrase, SearchOperation.HAS);
+        AbstractQueryComponent queryComponent = new MetadataQueryComponent(SearchConstants.AGGREGATED_VALUES_FIELD, SearchOperation.HAS, queryPhrase);
+        queryComponent.setLeadingWildcard(true);
+        queryComponent.setTrailingWildcard(true);
         IQuery query = new Query(queryComponent);
         query.setFindDeleted(false);
         query.setFindHidden(false);
