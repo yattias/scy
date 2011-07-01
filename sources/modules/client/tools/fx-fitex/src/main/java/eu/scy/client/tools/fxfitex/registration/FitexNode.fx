@@ -436,5 +436,14 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
             });
         }
     }
+
+    /**
+    * Set the read only mode.
+    */
+   public override function setReadOnly(readOnly: Boolean){
+       if(fitexPanel != null){
+            fitexPanel.setReadOnly(readOnly);
+       }
+   }
    
 }
