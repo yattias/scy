@@ -47,6 +47,9 @@ import eu.scy.common.scyelo.ScyElo;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 import javafx.util.StringLocalizer;
+import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactFrame;
+import eu.scy.collaboration.api.CollaborationStartable;
+import eu.scy.client.common.datasync.ISyncSession;
 
 
 /**
@@ -58,7 +61,7 @@ import javafx.util.StringLocalizer;
  * @author Marjolaine
  */
 
-public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack, INotifiable {
+public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack, INotifiable, CollaborationStartable {
    def logger = Logger.getLogger(CopexNode.class.getName());
    def scyCopexType = "scy/xproc";
    def jdomStringConversion = new JDomStringConversion();
@@ -75,7 +78,7 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
 
    var wrappedCopexPanel:Node;
    var technicalFormatKey: IMetadataKey;
-
+   var collaborative: Boolean = false;
    var elo:IELO;
 
    var bundle:ResourceBundleWrapper;
@@ -328,11 +331,25 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
             var technicalFormat = scyElo.getTechnicalFormat();
             return technicalFormat != null and technicalFormat.equals("scy/rtf");
         }
+        // collaboration
+//        if (object instanceof ContactFrame) {
+//            var c: ContactFrame = object as ContactFrame;
+//            if (not scyWindow.ownershipManager.isOwner(c.contact.name)) {// condition to remove as soon as the user can stop the collaboration, for now, the collaboration is autoreestablished
+//                return true;
+//            }
+//        }
         return false;
     }
 
     public override function acceptDrop(object: Object) {
         logger.info("drop accepted.");
+        if(object instanceof ContactFrame){
+            var c: ContactFrame = object as ContactFrame;
+            logger.info("acceptDrop user: {c.contact.name}");
+            scyWindow.ownershipManager.addPendingOwner(c.contact.name);
+            scyWindow.windowManager.scyDesktop.config.getToolBrokerAPI().proposeCollaborationWith("{c.contact.awarenessUser.getJid()}/Smack", scyWindow.eloUri.toString(), scyWindow.mucId);
+            return;
+        }
         if (object instanceof BasicMetadata) {
             var b: BasicMetadata = object as BasicMetadata;
             var textElo = repository.retrieveELO(getEloUri(b));
@@ -352,5 +369,29 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
         def identifierKey = toolBrokerAPI.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER);
         return object.getMetadataValueContainer(identifierKey).getValue() as URI;
    }
+
+   // start Collaboration
+   public override function startCollaboration(mucid: String) {
+        if (not collaborative) {
+            collaborative = true;
+            FX.deferAction(function(): Void {
+                def session : ISyncSession = scyCopexPanel.joinSession(mucid);
+                session.addCollaboratorStatusListener(scyWindow.ownershipManager);
+                session.refreshOnlineCollaborators();
+                scyCopexPanel.startCollaboration();
+                logger.info("joined session, mucid: {mucid}");
+            });
+        }
+    }
+
+    /**
+    * Set the read only mode.
+    */
+   public override function setReadOnly(readOnly: Boolean){
+       if(scyCopexPanel != null){
+            scyCopexPanel.setReadOnly(readOnly);
+       }
+   }
+
 
 }
