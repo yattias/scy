@@ -366,4 +366,9 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
         if(session != null)
             session.removeSyncObject(syncObject);
     }
+
+    public void setReadOnly(boolean readonly){
+       if(dataProcessPanel != null)
+            this.dataProcessPanel.setReadOnly(readonly);
+    }
 }
