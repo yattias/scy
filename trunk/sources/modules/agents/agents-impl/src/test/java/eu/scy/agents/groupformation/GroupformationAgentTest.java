@@ -26,7 +26,7 @@ import static org.junit.Assert.assertNotNull;
 /** @author fschulz */
 public class GroupformationAgentTest extends AbstractTestFixture {
 
-    private static final String REFERENCE_MAP = "roolo://memory/16/0/eco_reference_map.mapping";
+    private static final String REFERENCE_MAP = "roolo://memory/13/0/eco_reference_map.mapping";
     private String MISSION1 = "mission1";
 
     @BeforeClass

@@ -285,7 +285,7 @@ public class AbstractTestFixture {
         return new Tuple(ActionConstants.ACTION, new VMID().toString(),
                 System.currentTimeMillis(), ActionConstants.ACTION_LOG_IN,
                 user, "scy-desktop", mission, "n/a",
-                "roolo://memory/16/0/eco_reference_map.mapping",
+                "roolo://memory/13/0/eco_reference_map.mapping",
                 "missionSpecification=" + mission, "language=" + language,
                 "missionName=" + missionName);
     }

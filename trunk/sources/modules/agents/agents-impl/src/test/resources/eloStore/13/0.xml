@@ -18,7 +18,7 @@
       </description>
       <identifier>
           <catalog>memory</catalog>
-          <entry>roolo://memory/16/0/eco_reference_map.mapping</entry> <!--  ELO URI -->
+          <entry>roolo://memory/13/0/eco_reference_map.mapping</entry> <!--  ELO URI -->
       </identifier>
       <las>reportingExperts</las>
       <structure>conceptMap</structure>
