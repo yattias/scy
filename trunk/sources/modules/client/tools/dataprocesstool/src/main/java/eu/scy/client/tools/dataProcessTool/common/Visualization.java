@@ -7,14 +7,17 @@ package eu.scy.client.tools.dataProcessTool.common;
 
 
 import org.jdom.Element;
+import org.jdom.JDOMException;
 
 /**
  * visualization of  data, can be a SimpleVisualization (pie or bar chart) or a graph
  * @author Marjolaine Bodin
  */
 public class Visualization implements Cloneable {
-    private final static String TAG_VISUALIZATION = "visualization";
+    public final static String TAG_VISUALIZATION = "visualization";
     private final static String TAG_VIS_TYPE = "type";
+    private final static String TAG_VISUALIZATION_NAME = "name";
+    private final static String TAG_VISUALIZATION_ID = "vis_id";
     
 
     /* db key identifier*/
@@ -31,6 +34,21 @@ public class Visualization implements Cloneable {
         this.name = name;
         this.type = type;
         this.isOpen = true;
+    }
+
+    public Visualization(Element xmlElem) throws JDOMException {
+        if (xmlElem.getName().equals(TAG_VISUALIZATION)) {
+            dbKey = -1;
+            try{
+                dbKey = Long.parseLong(xmlElem.getChild(TAG_VISUALIZATION_ID).getText());
+            }catch(NumberFormatException ex){
+            }
+            name = xmlElem.getChild(TAG_VISUALIZATION_NAME).getText();
+            this.type = new TypeVisualization(xmlElem.getChild(TypeVisualization.TAG_TYPE_VISUALIZATION));
+            this.isOpen = true;
+        }else {
+            throw(new JDOMException("Visualization expects <"+TAG_VISUALIZATION+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
     public String getName() {
@@ -94,7 +112,9 @@ public class Visualization implements Cloneable {
 
     public Element toXMLLog(){
         Element element = new Element(TAG_VISUALIZATION);
-        element.addContent(new Element(TAG_VIS_TYPE).setText(type.getName()));
+        element.addContent(new Element(TAG_VISUALIZATION_ID).setText(Long.toString(dbKey)));
+        element.addContent(new Element(TAG_VISUALIZATION_NAME).setText(this.name));
+        element.addContent(type.toXML());
         return element;
     }
     

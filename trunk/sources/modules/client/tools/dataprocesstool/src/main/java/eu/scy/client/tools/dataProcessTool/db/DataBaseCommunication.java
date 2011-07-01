@@ -221,20 +221,20 @@ public class DataBaseCommunication {
                }else if (ligne.equals("</res>")){
                    v.add(rs);
                    rs = null;
-               }else if (ligne.startsWith("<name>")){
+               }else if (ligne.startsWith("<db_name>")){
                    name = getName(ligne);
-               }else if (ligne.startsWith("<value>")){
-                   if (ligne.endsWith("</value>"))
+               }else if (ligne.startsWith("<db_value>")){
+                   if (ligne.endsWith("</db_value>"))
                         value = getValue(ligne);
                    else{
-                       value = ligne.substring(7);
+                       value = ligne.substring(10);
                    }
-                }else if (ligne.equals("</col>")){
+                }else if (ligne.equals("</db_col>")){
                    ColumnData data = new ColumnData(name, value);
                     rs.addData(data);
                 }else {
-                   if (ligne.endsWith("</value>")){
-                       value += " \n"+ligne.substring(0, ligne.length() - 8);
+                   if (ligne.endsWith("</db_value>")){
+                       value += " \n"+ligne.substring(0, ligne.length() - 11);
                    }else
                        value += " \n"+ligne;
                 }
@@ -248,10 +248,10 @@ public class DataBaseCommunication {
     }
 
     private String getName(String ligne){
-        return getData(ligne, "name");
+        return getData(ligne, "db_name");
     }
     private String getValue(String ligne){
-        return getData(ligne, "value");
+        return getData(ligne, "db_value");
     }
     private String getData(String ligne, String balise){
         String s = ligne.substring(balise.length()+2);

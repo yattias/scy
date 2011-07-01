@@ -16,6 +16,7 @@ import org.jdom.JDOMException;
  */
 public class DataHeader implements Cloneable {
     public final static String TAG_HEADER = "header";
+    public final static String TAG_HEADER_ID = "header_id";
     private final static String TAG_HEADER_VALUE = "value";
     private final static String TAG_HEADER_UNIT = "unit";
     private final static String TAG_HEADER_NO =  "no";
@@ -66,6 +67,17 @@ public class DataHeader implements Cloneable {
     public DataHeader(Element xmlElem) throws JDOMException {
         if (xmlElem.getName().equals(TAG_HEADER)) {
             dbKey = -1;
+            try{
+                dbKey = Long.parseLong(xmlElem.getChild(TAG_HEADER_ID).getText());
+            }catch(NumberFormatException e){
+                
+            }
+            this.value = xmlElem.getChild(TAG_HEADER_VALUE).getText();
+            if(xmlElem.getChild(TAG_HEADER_UNIT) != null){
+                unit = xmlElem.getChild(TAG_HEADER_UNIT).getText();
+            }
+            this.type = xmlElem.getChild(TAG_HEADER_TYPE).getText();
+            this.description = xmlElem.getChild(TAG_HEADER_DESCRIPTION).getText();
             try{
                 noCol = Integer.parseInt(xmlElem.getChildText(TAG_HEADER_NO));
             }catch(NumberFormatException ex){
@@ -246,6 +258,7 @@ public class DataHeader implements Cloneable {
     public Element toXMLLog(){
          Element e = new Element(TAG_HEADER);
          e.addContent(new Element(TAG_HEADER_VALUE).setText(value));
+         e.addContent(new Element(TAG_HEADER_ID).setText(Long.toString(dbKey)));
          e.addContent(new Element(TAG_HEADER_NO).setText(Integer.toString(noCol)));
          if(isDouble()){
              e.addContent(new Element(TAG_HEADER_UNIT).setText(unit));

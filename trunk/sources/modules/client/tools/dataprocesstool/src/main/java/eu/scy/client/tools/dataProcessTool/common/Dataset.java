@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Vector;
 import org.jdom.Element;
+import org.jdom.JDOMException;
 
 /**
  * a dataset consists of
@@ -37,6 +38,12 @@ import org.jdom.Element;
 public class Dataset implements Cloneable{
 
     public final static String TAG_DATASET = "dataset";
+    private final static String TAG_DATASET_ID = "id_dataset";
+    private final static String TAG_DATASET_NAME = "dataset_name";
+    private final static String TAG_DATASET_RIGHT = "dataset_right";
+    private final static String TAG_DATASET_NBCOL = "dataset_nb_col";
+    private final static String TAG_DATASET_NBROW = "dataset_nb_row";
+    
 
     /* db key identifier */
     protected long dbKey;
@@ -94,6 +101,50 @@ public class Dataset implements Cloneable{
         this.isOpen = false;
         this.mission = null;
         this.right = right;
+    }
+
+    public Dataset(Element xmlElem) throws JDOMException {
+        if (xmlElem.getName().equals(TAG_DATASET)) {
+            dbKey = -1;
+            try{
+                dbKey = Long.parseLong(xmlElem.getChild(TAG_DATASET_ID).getText());
+            }catch(NumberFormatException ex){
+            }
+            name = xmlElem.getChild(TAG_DATASET_NAME).getText();
+            try{
+                nbCol = Integer.parseInt(xmlElem.getChild(TAG_DATASET_NBCOL).getText());
+                nbRows = Integer.parseInt(xmlElem.getChild(TAG_DATASET_NBROW).getText());
+            }catch(NumberFormatException e){
+                throw(new JDOMException("Dataset expects nbCol and nbRow as integer"));
+            }
+            this.listDataHeader = new DataHeader[nbCol];
+            int i=0;
+            for (Iterator<Element> variableElem = xmlElem.getChildren(DataHeader.TAG_HEADER).iterator(); variableElem.hasNext();) {
+                listDataHeader[i++] = new DataHeader(variableElem.next());
+            }
+            this.data = new Data[nbRows][nbCol];
+            for (Iterator<Element> variableElem = xmlElem.getChildren(Data.TAG_DATA).iterator(); variableElem.hasNext();) {
+                Data d= new Data(variableElem.next());
+                data[d.getNoRow()][d.getNoCol()] = d;
+            }
+            this.listOperation = new ArrayList();
+            i=0;
+            for (Iterator<Element> variableElem = xmlElem.getChildren(DataOperation.TAG_OPERATION).iterator(); variableElem.hasNext();) {
+                listOperation.add(new DataOperation(variableElem.next()));
+            }
+            this.listOperationResult = new ArrayList();
+            this.listVisualization = new ArrayList() ;
+            i=0;
+            for (Iterator<Element> variableElem = xmlElem.getChildren(Visualization.TAG_VISUALIZATION).iterator(); variableElem.hasNext();) {
+                listVisualization.add(new Visualization(variableElem.next()));
+            }
+            this.isOpen = false;
+            this.mission = null;
+            this.right = xmlElem.getChild(TAG_DATASET_RIGHT).getText().charAt(0);
+            calculateOperation();
+        }else {
+            throw(new JDOMException("Dataset expects <"+TAG_DATASET+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
    
     public String getName() {
@@ -1241,18 +1292,19 @@ public class Dataset implements Cloneable{
     /* xml logger */
     public Element toXMLLog(){
         Element e = new Element(TAG_DATASET);
+        e.addContent(new Element(TAG_DATASET_ID).setText(Long.toString(dbKey)));
+        e.addContent(new Element(TAG_DATASET_NAME).setText(this.name));
+        e.addContent(new Element(TAG_DATASET_NBROW).setText(Integer.toString(nbRows)));
+        e.addContent(new Element(TAG_DATASET_NBCOL).setText(Integer.toString(nbCol)));
+        e.addContent(new Element(TAG_DATASET_RIGHT).setText(Character.toString(right)));
         for(int j=0; j<listDataHeader.length; j++){
-            if(listDataHeader[j] == null)
-                e.addContent(new Element(DataHeader.TAG_HEADER).setText(""));
-            else{
+            if(listDataHeader[j] != null){
                 e.addContent(listDataHeader[j].toXMLLog());
             }
         }
         for(int i=0; i<nbRows; i++){
             for(int j=0; j<nbCol; j++){
-                if(data[i][j] == null){
-                    e.addContent(new Element(Data.TAG_DATA).setText(""));
-                }else{
+                if(data[i][j] != null){
                     e.addContent(data[i][j].toXMLLog());
                 }
             }

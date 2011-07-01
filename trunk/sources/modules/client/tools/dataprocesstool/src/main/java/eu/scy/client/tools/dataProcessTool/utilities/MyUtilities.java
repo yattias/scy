@@ -92,7 +92,7 @@ public class MyUtilities {
             return doc.getRootElement();
 	}
 	catch (Exception e){
-            // System.out.println("problems converting string status to jdom "+ e);
+            System.out.println("problems converting string status to jdom "+ e);
             logger.log(Level.SEVERE, "problems converting string status to jdom");
             return null;
 	}

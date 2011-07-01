@@ -1344,8 +1344,8 @@ public class DataControllerDB implements ControllerInterface{
             long dbKey = (Long)v2.get(0);
             listParam = (ArrayList<FunctionParam>)v2.get(1);
             // update
-            FunctionModel myFm = new FunctionModel(dbKey, description,type, fColor, listParam, idPredefFunction);
-            ((Graph)dataset.getListVisualization().get(idVis)).addFunctionModel(myFm);
+            fm = new FunctionModel(dbKey, description,type, fColor, listParam, idPredefFunction);
+            ((Graph)dataset.getListVisualization().get(idVis)).addFunctionModel(fm);
         }else{
             //update
             if (description == null || description.length() == 0){
@@ -1385,6 +1385,7 @@ public class DataControllerDB implements ControllerInterface{
             return cr;
         listDataset.set(idDs, dataset);
         v.add(dataset.clone());
+        v.add(fm);
         return new CopexReturn();
     }
 
@@ -2877,6 +2878,12 @@ public class DataControllerDB implements ControllerInterface{
         String s = (String)v.get(0);
         cr = DatasetFromDB.setPreviewLabdocInDB(dbC, dbKeyLabDoc, s);
         return cr;
+    }
+
+    /** get export in html format */
+    @Override
+    public CopexReturn getPreview(Dataset ds, ArrayList v){
+        return new CopexReturn();
     }
 
     /** update the labdoc status */

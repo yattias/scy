@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
 import org.jdom.Element;
+import org.jdom.JDOMException;
 
 /**
  * the function is defined with a description
@@ -18,10 +19,10 @@ import org.jdom.Element;
  * @author Marjolaine
  */
 public class FunctionModel implements Cloneable{
-    private final static String TAG_FUNCTION = "function";
+    public final static String TAG_FUNCTION = "function";
+    private final static String TAG_FUNCTION_ID = "id_function";
     private final static String TAG_DESCRIPTION = "description";
     private final static String TAG_TYPE = "type";
-    private final static String TAG_COLOR = "color";
     private final static String TAG_COLOR_R = "color_red";
     private final static String TAG_COLOR_G = "color_green";
     private final static String TAG_COLOR_B = "color_blue";
@@ -48,6 +49,36 @@ public class FunctionModel implements Cloneable{
         this.color = color;
         this.listParam = listParam;
         this.idPredefFunction = idPredefFunction;
+    }
+
+     public FunctionModel(Element xmlElem) throws JDOMException {
+        if (xmlElem.getName().equals(TAG_FUNCTION)) {
+            dbKey = -1;
+            try{
+                dbKey = Long.parseLong(xmlElem.getChild(TAG_FUNCTION_ID).getText());
+            }catch(NumberFormatException ex){
+            }
+            description = xmlElem.getChild(TAG_DESCRIPTION).getText();
+            type = xmlElem.getChild(TAG_TYPE).getText().equals(DataConstants.F_Y) ?DataConstants.FUNCTION_TYPE_Y_FCT_X : DataConstants.FUNCTION_TYPE_X_FCT_Y;
+            try{
+                int colorR = Integer.parseInt(xmlElem.getChild(TAG_COLOR_R).getText());
+                int colorG = Integer.parseInt(xmlElem.getChild(TAG_COLOR_G).getText());
+                int colorB = Integer.parseInt(xmlElem.getChild(TAG_COLOR_B).getText());
+                this.color = new Color(colorR, colorG, colorB);
+            }catch(NumberFormatException e){
+                throw(new JDOMException("Function model expects COLOR as integer"));
+            }
+            listParam = new ArrayList();
+            for (Iterator<Element> variableElem = xmlElem.getChildren(FunctionParam.TAG_FUNCTION_PARAM).iterator(); variableElem.hasNext();) {
+                listParam.add(new FunctionParam(variableElem.next()));
+            }
+            idPredefFunction = null;
+            if(xmlElem.getChild(TAG_ID_FUNCTION_PREDEF) != null){
+                idPredefFunction = xmlElem.getChild(TAG_ID_FUNCTION_PREDEF).getText();
+            }
+        }else {
+            throw(new JDOMException("FunctionModel expects <"+TAG_FUNCTION+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
     public String getIdPredefFunction() {
@@ -128,13 +159,12 @@ public class FunctionModel implements Cloneable{
 
     public Element toXML(){
         Element element = new Element(TAG_FUNCTION);
+        element.addContent(new Element(TAG_FUNCTION_ID).setText(Long.toString(dbKey)));
         element.addContent(new Element(TAG_DESCRIPTION).setText(description));
         element.addContent(new Element(TAG_TYPE)).setText(type== DataConstants.FUNCTION_TYPE_Y_FCT_X ? DataConstants.F_Y : DataConstants.F_X);
-        Element c = new Element(TAG_COLOR);
-        c.addContent(new Element(TAG_COLOR_R).setText(Integer.toString(color.getRed())));
-        c.addContent(new Element(TAG_COLOR_G).setText(Integer.toString(color.getGreen())));
-        c.addContent(new Element(TAG_COLOR_B).setText(Integer.toString(color.getBlue())));
-        element.addContent(c);
+        element.addContent(new Element(TAG_COLOR_R).setText(Integer.toString(color.getRed())));
+        element.addContent(new Element(TAG_COLOR_G).setText(Integer.toString(color.getGreen())));
+        element.addContent(new Element(TAG_COLOR_B).setText(Integer.toString(color.getBlue())));
         for(Iterator<FunctionParam> p = listParam.iterator();p.hasNext();){
             element.addContent(p.next().toXML());
         }

@@ -39,7 +39,7 @@ public class FitexGraph extends CopexGraph implements ActionFitex {
 
     @Override
     public void setParam(ArrayList<PlotXY> plots, double xmin, double xmax, double deltaX, double ymin, double ymax, double deltaY, boolean deltaFixedAutoscale) {
-        owner.updateGraphParam((Graph)vis, vis.getName(), new ParamGraph(plots,  xmin, xmax, ymin, ymax, deltaX, deltaY, deltaFixedAutoscale));
+        owner.updateGraphParam((Graph)vis, vis.getName(), new ParamGraph(plots,  xmin, xmax, ymin, ymax, deltaX, deltaY, deltaFixedAutoscale), true);
     }
 
 //    @Override
@@ -49,7 +49,7 @@ public class FitexGraph extends CopexGraph implements ActionFitex {
 
     @Override
     public void setFunctionModel(String function, char type, Color color, ArrayList<FunctionParam> listParam, String idPredefFunction) {
-        owner.setFunctionModel((Graph)vis, function, type, color, listParam, idPredefFunction);
+        owner.setFunctionModel((Graph)vis, function, type, color, listParam, idPredefFunction, true);
     }
 
     @Override

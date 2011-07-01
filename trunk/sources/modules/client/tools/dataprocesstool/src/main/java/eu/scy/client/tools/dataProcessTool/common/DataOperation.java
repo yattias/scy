@@ -16,8 +16,7 @@ import org.jdom.JDOMException;
  * @author Marjolaine Bodin
  */
 public class DataOperation implements Cloneable {
-    private final static String TAG_OPERATION = "operation";
-    private final static String TAG_OPERATION_TYPE = "type";
+    public final static String TAG_OPERATION = "operation";
     private final static String TAG_OPERATION_ON_COL = "is_on_col";
     private final static String TAG_OPERATION_ID = "id";
     private final static String TAG_OPERATION_NAME = "name";
@@ -44,7 +43,18 @@ public class DataOperation implements Cloneable {
     public DataOperation(Element xmlElem) throws JDOMException {
         if (xmlElem.getName().equals(TAG_OPERATION)) {
             dbKey = -1;
+            try{
+                dbKey = Long.parseLong(xmlElem.getChild(TAG_OPERATION_ID).getText());
+            }catch(NumberFormatException ex){
+            }
             name = xmlElem.getChild(TAG_OPERATION_NAME).getText();
+            typeOperation = new TypeOperation(xmlElem.getChild(TypeOperation.TAG_TYPE_OPERATION));
+            this.isOnCol = xmlElem.getChild(TAG_OPERATION_ON_COL).getText().equals("true") ? true : false;
+            this.listNo = new ArrayList();
+            for (Iterator<Element> variableElem = xmlElem.getChildren(TAG_OPERATION_ID).iterator(); variableElem.hasNext();) {
+                int no=  new Integer(variableElem.next().getText());
+                listNo.add(no);
+            }
         }else {
             throw(new JDOMException("DataOperation expects <"+TAG_OPERATION+"> as root element, but found <"+xmlElem.getName()+">."));
 	}
@@ -149,7 +159,8 @@ public class DataOperation implements Cloneable {
 
     public Element toXMLLog(){
          Element e = new Element(TAG_OPERATION);
-         e.addContent(new Element(TAG_OPERATION_TYPE).setText(typeOperation.getCodeName()));
+         e.addContent(new Element(TAG_OPERATION_ID).setText(Long.toString(dbKey)));
+         e.addContent(typeOperation.toXML());
          e.addContent(new Element(TAG_OPERATION_ON_COL).setText(isOnCol?"true":"false"));
          for(Iterator<Integer> i=listNo.iterator();i.hasNext();){
              e.addContent(new Element(TAG_OPERATION_ID).setText(Integer.toString(i.next())));

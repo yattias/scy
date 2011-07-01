@@ -10,6 +10,7 @@ import eu.scy.client.tools.dataProcessTool.common.*;
 import eu.scy.client.tools.dataProcessTool.controller.ControllerInterface;
 import eu.scy.client.tools.dataProcessTool.controller.DataController;
 import eu.scy.client.tools.dataProcessTool.controller.DataControllerDB;
+import eu.scy.client.tools.dataProcessTool.controller.DataControllerLabBook;
 import eu.scy.client.tools.dataProcessTool.dataTool.DataTableModel;
 import eu.scy.client.tools.dataProcessTool.dataTool.FitexTabbedPane;
 import eu.scy.client.tools.dataProcessTool.dataTool.FitexToolPanel;
@@ -46,6 +47,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Vector;
 import javax.swing.*;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -154,7 +156,8 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
         if(url == null){
             this.controller = new DataController(this);
         }else{
-            this.controller = new DataControllerDB(this, url, dbKeyMission, dbKeyUser, dbKeyGroup, dbKeyLabDoc, labDocName);
+            //this.controller = new DataControllerDB(this, url, dbKeyMission, dbKeyUser, dbKeyGroup, dbKeyLabDoc, labDocName);
+            this.controller = new DataControllerLabBook(this, url, dbKeyMission, dbKeyUser, dbKeyGroup, dbKeyLabDoc, labDocName);
         }
 
         initGUI();
@@ -491,6 +494,11 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     public Element getPDS(){
         //logSaveDataset(activFitex.getDataset());
          return activFitex.getPDS();
+     }
+
+    public String getPreview(){
+        //logSaveDataset(activFitex.getDataset());
+         return activFitex.getPreview();
      }
 
     // new elo in scy
@@ -1121,6 +1129,13 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
         return !scyMode;
     }
 
+    /** set the current proc in read-only mode */
+    public void setReadOnly(boolean readOnly){
+        if(activFitex != null){
+            activFitex.setReadOnly(readOnly);
+        }
+    }
+
     /*starts the collaboration */
     public void startCollaboration(){
         fitexSync = new FitexSyncManager(this);
@@ -1215,7 +1230,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     /* receives sync. event: create operation*/
     public void createOperation(DataOperation operation){
         if(activFitex != null){
-            activFitex.createOperation(activFitex.getDataset(), operation.getTypeOperation().getType(),operation.isOnCol(), operation.getListNo());
+            activFitex.createOperation(activFitex.getDataset(), operation.getTypeOperation().getType(),operation.isOnCol(), operation.getListNo(), false);
         }
     }
 
@@ -1224,4 +1239,114 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
         if(isCollaborate())
             fitexSync.addSyncCreateoperation(operation);
     }
+
+    // GRAPH CREATED
+    /* receives sync. event: create vis*/
+    public void createVisualization(Visualization vis){
+        if(activFitex != null){
+            DataHeader header1 = null;
+            DataHeader headerLabel = null;
+            ArrayList<PlotXY> listPlot = null;
+            if(vis instanceof SimpleVisualization){
+                header1 = ((SimpleVisualization)vis).getHeader();
+                headerLabel = ((SimpleVisualization)vis).getHeaderLabel();
+            }else if(vis instanceof Graph){
+                listPlot = ((Graph)vis).getParamGraph().getPlots();
+            }
+            activFitex.createVisualization(vis.getName(), vis.getType(),   header1,headerLabel, listPlot, false);
+        }
+    }
+
+    /*sent sync. event: create vis */
+    public void addSyncCreateVisualization(Visualization vis){
+        if(isCollaborate())
+            fitexSync.addSyncGraphCreated(vis);
+    }
+
+    // GRAPH PARAM UPDATED
+    /* receives sync. event: update graph param*/
+    public void updateGraphParam(Graph graph){
+        if(activFitex != null){
+            activFitex.updateGraphParam(graph, graph.getName(), graph.getParamGraph(), false);
+        }
+    }
+
+    /*sent sync. event: update graph param */
+    public void addSyncUpdateGraphParam(Graph graph){
+        if(isCollaborate())
+            fitexSync.addSyncGraphParamUpdated(graph);
+    }
+
+    // UPDATE FUNCTION MODEL
+    /* receives sync. event: update function model*/
+    public void updateFunctionModel(Graph graph, FunctionModel fm){
+        if(activFitex != null){
+            activFitex.setFunctionModel(graph, fm.getDescription(), fm.getType(), fm.getColor(), fm.getListParam(), fm.getIdPredefFunction(), false);
+        }
+    }
+
+    /*sent sync. event: update function model */
+    public void addSyncUpdateFunction(Graph graph, FunctionModel fm){
+        if(isCollaborate())
+            fitexSync.addSyncFunctionModelUpdated(graph, fm);
+    }
+
+    // DELETE DATA
+    /* receives sync. event: delete data*/
+    public void deleteData(ArrayList<Data> listData, ArrayList<DataHeader> listHeader, ArrayList<DataOperation> listOperation, ArrayList<Integer>[] listRowAndCol){
+        if(activFitex != null){
+            activFitex.deleteData(activFitex.getDataset(), listData, listHeader, listOperation, listRowAndCol, false);
+        }
+    }
+
+    /*sent sync. event: delete data*/
+    public void addSyncDeleteData(ArrayList<Data> listData, ArrayList<DataHeader> listHeader, ArrayList<DataOperation> listOperation, ArrayList<Integer>[] listRowAndCol){
+        if(isCollaborate())
+            fitexSync.addSyncDataDeleted(listData, listHeader, listOperation, listRowAndCol);
+    }
+
+    // INSERT DATA
+    /* receives sync. event: insert data*/
+    public void insertData(boolean isOnCol, int nb, int idBefore){
+        if(activFitex != null){
+            activFitex.insertData(activFitex.getDataset(), isOnCol, nb, idBefore, false);
+        }
+    }
+
+    /*sent sync. event: insert data*/
+    public void addSyncInsertData(boolean isOnCol, int nb, int idBefore){
+        if(isCollaborate())
+            fitexSync.addSyncInsertData(isOnCol, nb, idBefore);
+    }
+
+    // DATASET SORT
+    /* receives sync. event: sort data*/
+    public void sortData(Vector exchange){
+        if(activFitex != null){
+            activFitex.updateDatasetRow(activFitex.getDataset(), exchange,false);
+        }
+    }
+
+    /*sent sync. event: insert data*/
+    public void addSyncInsertData(Vector exchange){
+        if(isCollaborate())
+            fitexSync.addSyncSortData(exchange);
+    }
+
+
+    // PASTE
+    /* receives sync. event: paste*/
+    public void paste(CopyDataset copyDs, int[] selCell){
+        if(activFitex != null){
+            activFitex.paste(copyDs, selCell, false);
+        }
+    }
+
+    /*sent sync. event: insert data*/
+    public void addSyncPaste(CopyDataset copyDs, int[] selCell){
+        if(isCollaborate())
+            fitexSync.addSyncPaste(copyDs, selCell);
+    }
+    
+
 }

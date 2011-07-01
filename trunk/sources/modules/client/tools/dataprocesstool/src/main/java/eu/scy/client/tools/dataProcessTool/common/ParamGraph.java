@@ -8,6 +8,7 @@ package eu.scy.client.tools.dataProcessTool.common;
 import java.util.ArrayList;
 import java.util.Iterator;
 import org.jdom.Element;
+import org.jdom.JDOMException;
 
 /**
  * parameters of a graph:
@@ -20,14 +21,13 @@ import org.jdom.Element;
  */
 public class ParamGraph implements Cloneable{
 
-    private final static String TAG_PARAM_GRAPH = "graph_param";
+    public final static String TAG_PARAM_GRAPH = "graph_param";
     private final static String TAG_X_MIN = "x_min";
     private final static String TAG_X_MAX = "x_max";
     private final static String TAG_DELTA_X = "delta_x";
     private final static String TAG_Y_MIN = "y_min";
     private final static String TAG_Y_MAX = "y_max";
     private final static String TAG_DELTA_Y = "delta_y";
-    private final static String TAG_AUTOSCALE = "autoscale";
     private final static String TAG_FIXED_AUTOSCALE = "delta_fixed_autoscale";
     /*axes: list of plots */
     private ArrayList<PlotXY> plots;
@@ -57,6 +57,7 @@ public class ParamGraph implements Cloneable{
         this.deltaY = deltaY;
         this.deltaFixedAutoscale = deltaFixedAutoscale;
     }
+
     public ParamGraph(ArrayList<PlotXY> plots,  double x_min, double x_max, double y_min, double y_max, double deltaX, double deltaY,  boolean deltaFixedAutoscale) {
         this.plots = plots;
         this.x_min = x_min;
@@ -66,6 +67,33 @@ public class ParamGraph implements Cloneable{
         this.deltaX = deltaX;
         this.deltaY = deltaY;
         this.deltaFixedAutoscale = deltaFixedAutoscale;
+    }
+
+    public ParamGraph(Element xmlElem) throws JDOMException {
+        if (xmlElem.getName().equals(TAG_PARAM_GRAPH)) {
+            this.x_min = -10;
+            this.x_max = 10;
+            this.y_min = -10;
+            this.y_max = 10;
+            this.deltaX = 1;
+            this.deltaY = 1;
+            try{
+                x_min = Double.parseDouble(xmlElem.getChild(TAG_X_MIN).getText());
+                x_max = Double.parseDouble(xmlElem.getChild(TAG_X_MAX).getText());
+                y_min = Double.parseDouble(xmlElem.getChild(TAG_Y_MIN).getText());
+                y_max = Double.parseDouble(xmlElem.getChild(TAG_Y_MAX).getText());
+                deltaX = Double.parseDouble(xmlElem.getChild(TAG_DELTA_X).getText());
+                deltaY = Double.parseDouble(xmlElem.getChild(TAG_DELTA_Y).getText());
+            }catch(NumberFormatException ex){
+            }
+            this.deltaFixedAutoscale = xmlElem.getChild(TAG_FIXED_AUTOSCALE).getText().equals("true") ? true : false;
+            this.plots = new ArrayList();
+            for (Iterator<Element> variableElem = xmlElem.getChildren(PlotXY.TAG_PLOT_XY).iterator(); variableElem.hasNext();) {
+                plots.add(new PlotXY(variableElem.next()));
+            }
+        }else {
+            throw(new JDOMException("ParamGraph expects <"+TAG_PARAM_GRAPH+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
     public double getDeltaX() {

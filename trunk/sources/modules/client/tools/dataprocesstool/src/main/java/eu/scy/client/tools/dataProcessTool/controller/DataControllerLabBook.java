@@ -15,6 +15,12 @@ import roolo.elo.JDomStringConversion;
 import eu.scy.client.tools.dataProcessTool.common.*;
 import eu.scy.client.tools.fitex.main.DataProcessToolPanel;
 import eu.scy.client.tools.dataProcessTool.dataTool.DataTableModel;
+import eu.scy.client.tools.dataProcessTool.db.CopexMissionFromDB;
+import eu.scy.client.tools.dataProcessTool.db.DataBaseCommunication;
+import eu.scy.client.tools.dataProcessTool.db.DatasetFromDB;
+import eu.scy.client.tools.dataProcessTool.db.LabBookFromDB;
+import eu.scy.client.tools.dataProcessTool.db.ToolUserFromDB;
+import eu.scy.client.tools.dataProcessTool.db.TraceFromDB;
 import eu.scy.client.tools.dataProcessTool.gmbl.GmblColumn;
 import eu.scy.client.tools.dataProcessTool.gmbl.GmblDataset;
 import eu.scy.client.tools.dataProcessTool.gmbl.GmblDocument;
@@ -29,6 +35,10 @@ import eu.scy.client.tools.dataProcessTool.pdsELO.ProcessedHeader;
 import eu.scy.client.tools.dataProcessTool.pdsELO.XYAxis;
 import eu.scy.client.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.client.tools.dataProcessTool.print.DataPrint;
+import eu.scy.client.tools.dataProcessTool.print.FitexHTML;
+import eu.scy.client.tools.dataProcessTool.synchro.Locker;
+import eu.scy.client.tools.dataProcessTool.synchro.SaveThread;
+import eu.scy.client.tools.dataProcessTool.synchro.Saver;
 import eu.scy.client.tools.dataProcessTool.utilities.DataConstants;
 import eu.scy.client.tools.dataProcessTool.utilities.MyUtilities;
 import eu.scy.client.tools.fitex.analyseFn.Function;
@@ -50,6 +60,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import org.jdom.output.Format;
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -62,7 +73,7 @@ import org.jdom.input.SAXBuilder;
  * controller for standalone app. or scy
  * @author Marjolaine Bodin
  */
-public class DataController implements ControllerInterface{
+public class DataControllerLabBook implements ControllerInterface{
     private String fitexFunctionFileName = "fitexFunctions.xml";
     /* ui */
     private DataProcessToolPanel dataToolPanel;
@@ -72,6 +83,8 @@ public class DataController implements ControllerInterface{
     private TypeVisualization[] tabTypeVisual;
     /* list of predefined functions*/
     private ArrayList<PreDefinedFunctionCategory> listPreDefinedFunction;
+    private Color[] plotsColor;
+    private Color[] functionsColor;
     /* dataset */
     private ArrayList<Dataset> listDataset;
     private ArrayList<Integer> listNoDefaultCol;
@@ -88,21 +101,74 @@ public class DataController implements ControllerInterface{
     /* mission */
     private Mission mission ;
     /* user */
+    private long dbKeyMission;
+    private long dbKeyUser;
+    private long dbKeyGroup;
     private Group group;
+    private long dbKeyLabDoc;
+    private String labDocName;
 
     private XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
 
+    /* db*/
+    private DataBaseCommunication dbC;
+    /* url */
+    private URL dataURL;
+    private FitexHTML fitexHtml;
+    private long dbKeyTrace = -1;
 
-    public DataController(DataProcessToolPanel dataToolPanel) {
-        this.dataToolPanel = dataToolPanel;
+    /* locker */
+    private Locker locker;
+
+
+
+    public DataControllerLabBook(DataProcessToolPanel dataToolPanel, URL url, long dbKeyMission, long dbKeyUser, long dbKeyGroup, long dbKeyLabDoc, String labDocName) {
+        this.dataToolPanel = dataToolPanel ;
+        this.dbKeyMission = dbKeyMission ;
+        this.dbKeyUser = dbKeyUser ;
+        this.dbKeyLabDoc = dbKeyLabDoc;
+        this.labDocName = labDocName;
+        this.dbKeyGroup = dbKeyGroup;
+        this.dataURL = url;
+        dbC = new DataBaseCommunication(dataURL, DataConstants.DB_LABBOOK, dbKeyMission, ""+dbKeyUser);
         this.listDataset = new ArrayList();
         this.listNoDefaultCol = new ArrayList();
+        this.fitexHtml = new FitexHTML(dataToolPanel);
     }
 
 
     /* load data and initialization */
     @Override
     public CopexReturn load(){
+        // mission
+        ArrayList v = new ArrayList();
+        CopexReturn cr = CopexMissionFromDB.loadMissionFromDB(dbC, dbKeyMission, v);
+        if (cr.isError()){
+            return cr;
+        }
+        mission = (Mission)v.get(0);
+        //user
+        v = new ArrayList();
+        cr = ToolUserFromDB.loadGroupFromDB(dbC, dbKeyGroup, v);
+        if (cr.isError()){
+            return cr;
+        }
+        group = (Group)v.get(0);
+        if(group == null || mission == null){
+            return  new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_LOAD_DATA"), false);
+        }
+        // load logging
+        v = new ArrayList();
+        cr = TraceFromDB.getIdTrace(dbC, dbKeyMission, dbKeyUser, v);
+        if(cr.isError())
+            return cr;
+        dbKeyTrace = (Long)v.get(0);
+        // LOCKER
+        DataBaseCommunication dbLabBook = new DataBaseCommunication(dataURL, DataConstants.DB_LABBOOK, dbKeyMission, ""+dbKeyUser);
+        this.locker = new Locker(dataToolPanel, dbLabBook, dbKeyUser);
+        if(locker.isLocked(dbKeyLabDoc)){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_LOCKED"), false);
+        }
         // load: operations types
         tabTypeOperations = new TypeOperation[4];
         int id=0;
@@ -117,8 +183,19 @@ public class DataController implements ControllerInterface{
         tabTypeVisual[id++] = new TypeVisualization(1, 0,dataToolPanel.getBundleString("LABEL_GRAPH"), 2 );
         tabTypeVisual[id++] = new TypeVisualization(2, 1,dataToolPanel.getBundleString("LABEL_PIECHART"), 1 );
         tabTypeVisual[id++] = new TypeVisualization(3, 2,dataToolPanel.getBundleString("LABEL_BARCHART"), 1 );
-        // predefinde functions
-        CopexReturn cr = loadPreDefinedFunction();
+        // plots color
+        plotsColor = new Color[DataConstants.MAX_PLOT];
+        plotsColor[0] = DataConstants.SCATTER_PLOT_COLOR_1;
+        plotsColor[1] = DataConstants.SCATTER_PLOT_COLOR_2;
+        plotsColor[2] = DataConstants.SCATTER_PLOT_COLOR_3;
+        plotsColor[3] = DataConstants.SCATTER_PLOT_COLOR_4;
+        // functions Color
+        functionsColor = new Color[DataConstants.MAX_FUNCTION];
+        functionsColor[0] = DataConstants.FUNCTION_COLOR_1;
+        functionsColor[1]= DataConstants.FUNCTION_COLOR_2;
+        functionsColor[2] = DataConstants.FUNCTION_COLOR_3;
+        // predefined functions
+        cr = loadPreDefinedFunction();
         if(cr.isError())
             return cr;
         idDataSet = 1;
@@ -133,11 +210,49 @@ public class DataController implements ControllerInterface{
         // mission
         mission = new Mission(1, "DATA", "Data Processing Tool", "");
         group = new Group(1, new LinkedList());
-        // blank dataset
-        ArrayList v = new ArrayList();
-        cr = createTable(dataToolPanel.getBundleString("DEFAULT_DATASET_NAME"),  v);
-        if (cr.isError())
+        // load dataset
+        v = new ArrayList();
+        cr = LabBookFromDB.getAllDatasetFromDB(dbC, locker,mission, dbKeyLabDoc, v);
+        if (cr.isError()){
             return cr;
+        }
+        if(!v.isEmpty()){
+            Element e =  (Element)v.get(0);
+            if(e != null){
+                Dataset ds;
+                try {
+                    ds = getPDS(new ProcessedDatasetELO(e));
+                    listNoDefaultCol.add(ds.getNbCol());
+                    ds.setDbKeyLabDoc(dbKeyLabDoc);
+                    listDataset.add(ds);
+                    setLockers(listDataset);
+                } catch (JDOMException ex) {
+                    Logger.getLogger(DataControllerLabBook.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }else{
+            // try to load an "old" dataset
+            v = new ArrayList();
+            dbC.updateDb(DataConstants.DB_LABBOOK_FITEX);
+            cr = DatasetFromDB.getAllDatasetFromDB(dbC, locker,mission, dbKeyLabDoc, tabTypeOperations,tabTypeVisual, plotsColor, functionsColor,v);
+            if (cr.isError()){
+                return cr;
+            }
+            dbC.updateDb(DataConstants.DB_LABBOOK);
+            listDataset = (ArrayList<Dataset>)v.get(0);
+            for(Iterator<Dataset> l = listDataset.iterator();l.hasNext();){
+                listNoDefaultCol.add(l.next().getNbCol());
+            }
+            dbC.updateDb(DataConstants.DB_LABBOOK);
+            setLockers(listDataset);
+        }
+         // if no dataset, create a default
+        if(listDataset.isEmpty() ){
+            v = new ArrayList();
+            cr = createTable(dataToolPanel.getBundleString("DEFAULT_DATASET_NAME"), v);
+            if(cr.isError())
+                return cr;
+        }
         // objects clone
        TypeVisualization[] tabTypeVisualC = new TypeVisualization[tabTypeVisual.length];
         for (int i=0; i<tabTypeVisual.length; i++){
@@ -152,135 +267,8 @@ public class DataController implements ControllerInterface{
             listDsC.add((Dataset)listDataset.get(i).clone());
         }
         this.dataToolPanel.initDataProcessingTool(tabTypeVisualC, tabTypeOpC, listPreDefinedFunction, listDsC);
+        Saver saver = new Saver(dataToolPanel, dbLabBook, dbKeyUser);
         return new CopexReturn();
-    }
-
-    /* load predefined functions */
-    private CopexReturn loadPreDefinedFunction(){
-        listPreDefinedFunction = new ArrayList();
-        InputStreamReader fileReader = null;
-        SAXBuilder builder = new SAXBuilder(false);
-        try{
-            InputStream s = this.getClass().getClassLoader().getResourceAsStream("languages/"+fitexFunctionFileName);
-            fileReader = new InputStreamReader(s, "utf-8");
-            Document doc = builder.build(fileReader);
-            Element fitexFunction = doc.getRootElement();
-            for (Iterator<Element> variableElem = fitexFunction.getChildren(PreDefinedFunctionCategory.TAG_PRE_DEFINED_CATEGORY).iterator(); variableElem.hasNext();) {
-                listPreDefinedFunction.add(new PreDefinedFunctionCategory(variableElem.next()));
-            }
-            
-        }catch(IOException e1){
-            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_LOAD_FITEX_FUNCTION")+" "+e1, false);
-        }catch(JDOMException e2){
-            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_LOAD_FITEX_FUNCTION")+" "+e2, false);
-        }
-        return new CopexReturn();
-    }
-
-    /* locale app. */
-    private Locale getLocale(){
-        return this.dataToolPanel.getLocale() ;
-    }
-
-    
-    /* create a default dataset (in v[0]) */
-    public CopexReturn createTable(String name, ArrayList v) {
-        // default, 10 rows , 2 cols
-        int nbRows = 10;
-        int nbCol = 2;
-        ArrayList<DataOperation> listOp = new ArrayList();
-        ArrayList<Visualization> listVis = new ArrayList();
-        Data[][] data = new Data[nbRows][nbCol];
-        DataHeader[] tabHeader = new DataHeader[nbCol] ;
-        for (int i=0; i<nbCol; i++){
-            DataHeader h = new DataHeader(idDataHeader++, this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_NAME")+(i+1), this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_UNIT"), i,DataConstants.DEFAULT_TYPE_COLUMN, this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_DESCRIPTION"), null, false, DataConstants.NB_DECIMAL_UNDEFINED, DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED, DataConstants.DEFAULT_DATASET_ALIGNMENT);
-            tabHeader[i] = h;
-        }
-        // dataset creation
-        Dataset dataset = new Dataset(idDataSet++,mission, -1, name, nbCol, nbRows, tabHeader, data, listOp, listVis, DataConstants.EXECUTIVE_RIGHT);
-        listNoDefaultCol.add(nbCol);
-        listDataset.add(dataset);
-        v.add(dataset.clone());
-        return new CopexReturn();
-
-    }
-
-
-    /* load the specified ELO */
-    @Override
-    public CopexReturn loadELO(String xmlString, String dsName){
-        Dataset ds = null;
-        ArrayList v = new ArrayList();
-        CopexReturn cr = getElo(xmlString, v);
-        if(v.size() > 0)
-            ds = (Dataset)v.get(0);
-        if(ds != null){
-            if(dsName != null)
-                ds.setName(dsName);
-            this.listDataset.add(ds);
-            this.listNoDefaultCol.add(1);
-            this.dataToolPanel.setDataset((Dataset)ds.clone(), false);
-        }
-        return cr;
-    }
-
-    /* return true if dataset, else processeddataset*/
-    private boolean isDatasetType(String xmlString){
-       Element el=  new JDomStringConversion().stringToXml(xmlString);
-       if (el.getName().equals(ProcessedDatasetELO.TAG_ELO_CONTENT)){
-           return false;
-       }
-       return true;
-    }
-    /* returns the dataset from the DataSet ELO */
-    private CopexReturn getDataset(DataSet eloDs, String name, ArrayList v){
-        Dataset ds = null;
-        CopexReturn cr = new CopexReturn();
-        // no operatiosn, no visualizations
-        ArrayList<DataOperation> listOperation = new ArrayList();
-        ArrayList<Visualization> listVisualization = new ArrayList();
-        
-        // header
-        DataSetHeader header =  eloDs.getHeader(getLocale()) ;
-        if (header == null)
-            header = eloDs.getHeaders().get(0);
-        int nbCols = header.getColumnCount() ;
-        List<DataSetRow> listRows = eloDs.getValues() ;
-        int nbRows = listRows.size() ;
-        
-        if(nbCols > 0){
-            // header
-            DataHeader[] dataHeader = new DataHeader[nbCols];
-            for (int i=0; i<nbCols; i++){
-                String unit = header.getColumns().get(i).getUnit();
-                String type = header.getColumns().get(i).getType();
-                if (type == null || (!type.equals(DataConstants.TYPE_DOUBLE) && !type.equalsIgnoreCase(DataConstants.TYPE_STRING)))
-                    type = DataConstants.DEFAULT_TYPE_COLUMN;
-                String value = DataHeader.computeHeaderValue(header.getColumns().get(i).getSymbol(), header.getColumns().get(i).getDescription());
-                dataHeader[i] = new DataHeader(-1, value,unit, i, type, header.getColumns().get(i).getDescription(), null, false, DataConstants.NB_DECIMAL_UNDEFINED, DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED, DataConstants.DEFAULT_DATASET_ALIGNMENT) ;
-            }
-            // data
-            Data[][] data = new Data[nbRows][nbCols];
-            for (int i=0; i<nbRows; i++){
-                for (int j=0; j<nbCols; j++){
-                    String s = listRows.get(i).getValues().get(j);
-                    if(s == null || s.equals("")){
-                        data[i][j] = null;
-                    }else{
-                        data[i][j] = new Data(-1, s, i, j, false);
-                    }
-                }
-            }
-            if(nbRows == 0){
-                nbRows = 1;
-                data = new Data[1][nbCols];
-            }
-            // dataset creation
-            ds = new Dataset(idDataSet++, mission,-1,  name, nbCols, nbRows,  dataHeader, data, listOperation,listVisualization, DataConstants.EXECUTIVE_RIGHT  );
-            v.add(ds);
-        }
-        
-        return cr;
     }
 
     /* returns the dataset from the PDS ELO */
@@ -434,6 +422,167 @@ public class DataController implements ControllerInterface{
         //dataset creation
         Dataset ds = new Dataset(idDataSet++, mission, -1, pds.getName(), nbCols, nbRows,  dataHeader, data, listOperation,listVisualization , DataConstants.EXECUTIVE_RIGHT );
         return ds;
+    }
+
+    /* set the lockers on a list of specified datasets */
+    private void setLockers(ArrayList<Dataset> listDs){
+        int nb = listDs.size();
+        ArrayList listId = new ArrayList();
+        for (int i=0; i<nb; i++){
+            listId.add(listDs.get(i).getDbKeyLabDoc());
+        }
+        this.locker.setLabdocLockers(listId);
+    }
+
+     /* set the lockers on a specified dataset*/
+    private void setLocker(long dbKeyLabdoc){
+        this.locker.setLabdocLocker(dbKeyLabdoc);
+    }
+
+
+    /*unset the locker of a specified dataset */
+    private void unsetLocker(Dataset ds){
+        this.locker.unsetLabdocLocker(ds.getDbKeyLabDoc());
+    }
+
+    /* unset the lockers of a list of dataset */
+    private void unsetLockers(ArrayList<Dataset> listDs){
+        int nb = listDs.size();
+        ArrayList listId = new ArrayList();
+        for (int i=0; i<nb; i++){
+            listId.add(listDs.get(i).getDbKeyLabDoc());
+        }
+        this.locker.unsetLabdocLockers(listId);
+    }
+    
+    /* load predefined functions */
+    private CopexReturn loadPreDefinedFunction(){
+        listPreDefinedFunction = new ArrayList();
+        InputStreamReader fileReader = null;
+        SAXBuilder builder = new SAXBuilder(false);
+        try{
+            InputStream s = this.getClass().getClassLoader().getResourceAsStream("languages/"+fitexFunctionFileName);
+            fileReader = new InputStreamReader(s, "utf-8");
+            Document doc = builder.build(fileReader);
+            Element fitexFunction = doc.getRootElement();
+            for (Iterator<Element> variableElem = fitexFunction.getChildren(PreDefinedFunctionCategory.TAG_PRE_DEFINED_CATEGORY).iterator(); variableElem.hasNext();) {
+                listPreDefinedFunction.add(new PreDefinedFunctionCategory(variableElem.next()));
+            }
+            
+        }catch(IOException e1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_LOAD_FITEX_FUNCTION")+" "+e1, false);
+        }catch(JDOMException e2){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_LOAD_FITEX_FUNCTION")+" "+e2, false);
+        }
+        return new CopexReturn();
+    }
+
+    /* locale app. */
+    private Locale getLocale(){
+        return this.dataToolPanel.getLocale() ;
+    }
+
+    
+    /* create a default dataset (in v[0]) */
+    public CopexReturn createTable(String name, ArrayList v) {
+        // default, 10 rows , 2 cols
+        int nbRows = 10;
+        int nbCol = 2;
+        ArrayList<DataOperation> listOp = new ArrayList();
+        ArrayList<Visualization> listVis = new ArrayList();
+        Data[][] data = new Data[nbRows][nbCol];
+        DataHeader[] tabHeader = new DataHeader[nbCol] ;
+        for (int i=0; i<nbCol; i++){
+            DataHeader h = new DataHeader(idDataHeader++, this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_NAME")+(i+1), this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_UNIT"), i,DataConstants.DEFAULT_TYPE_COLUMN, this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_DESCRIPTION"), null, false, DataConstants.NB_DECIMAL_UNDEFINED, DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED, DataConstants.DEFAULT_DATASET_ALIGNMENT);
+            tabHeader[i] = h;
+        }
+        // dataset creation
+        Dataset dataset = new Dataset(idDataSet++,mission, -1, name, nbCol, nbRows, tabHeader, data, listOp, listVis, DataConstants.EXECUTIVE_RIGHT);
+        dataset.setDbKeyLabDoc(dbKeyLabDoc);
+        listNoDefaultCol.add(nbCol);
+        listDataset.add(dataset);
+        setLocker(dbKeyLabDoc);
+        v.add(dataset.clone());
+        return new CopexReturn();
+
+    }
+
+
+    /* load the specified ELO */
+    @Override
+    public CopexReturn loadELO(String xmlString, String dsName){
+        Dataset ds = null;
+        ArrayList v = new ArrayList();
+        CopexReturn cr = getElo(xmlString, v);
+        if(v.size() > 0)
+            ds = (Dataset)v.get(0);
+        if(ds != null){
+            if(dsName != null)
+                ds.setName(dsName);
+            this.listDataset.add(ds);
+            this.listNoDefaultCol.add(1);
+            this.dataToolPanel.setDataset((Dataset)ds.clone(), false);
+        }
+        return cr;
+    }
+
+    /* return true if dataset, else processeddataset*/
+    private boolean isDatasetType(String xmlString){
+       Element el=  new JDomStringConversion().stringToXml(xmlString);
+       if (el.getName().equals(ProcessedDatasetELO.TAG_ELO_CONTENT)){
+           return false;
+       }
+       return true;
+    }
+    /* returns the dataset from the DataSet ELO */
+    private CopexReturn getDataset(DataSet eloDs, String name, ArrayList v){
+        Dataset ds = null;
+        CopexReturn cr = new CopexReturn();
+        // no operatiosn, no visualizations
+        ArrayList<DataOperation> listOperation = new ArrayList();
+        ArrayList<Visualization> listVisualization = new ArrayList();
+        
+        // header
+        DataSetHeader header =  eloDs.getHeader(getLocale()) ;
+        if (header == null)
+            header = eloDs.getHeaders().get(0);
+        int nbCols = header.getColumnCount() ;
+        List<DataSetRow> listRows = eloDs.getValues() ;
+        int nbRows = listRows.size() ;
+        
+        if(nbCols > 0){
+            // header
+            DataHeader[] dataHeader = new DataHeader[nbCols];
+            for (int i=0; i<nbCols; i++){
+                String unit = header.getColumns().get(i).getUnit();
+                String type = header.getColumns().get(i).getType();
+                if (type == null || (!type.equals(DataConstants.TYPE_DOUBLE) && !type.equalsIgnoreCase(DataConstants.TYPE_STRING)))
+                    type = DataConstants.DEFAULT_TYPE_COLUMN;
+                String value = DataHeader.computeHeaderValue(header.getColumns().get(i).getSymbol(), header.getColumns().get(i).getDescription());
+                dataHeader[i] = new DataHeader(-1, value,unit, i, type, header.getColumns().get(i).getDescription(), null, false, DataConstants.NB_DECIMAL_UNDEFINED, DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED, DataConstants.DEFAULT_DATASET_ALIGNMENT) ;
+            }
+            // data
+            Data[][] data = new Data[nbRows][nbCols];
+            for (int i=0; i<nbRows; i++){
+                for (int j=0; j<nbCols; j++){
+                    String s = listRows.get(i).getValues().get(j);
+                    if(s == null || s.equals("")){
+                        data[i][j] = null;
+                    }else{
+                        data[i][j] = new Data(-1, s, i, j, false);
+                    }
+                }
+            }
+            if(nbRows == 0){
+                nbRows = 1;
+                data = new Data[1][nbCols];
+            }
+            // dataset creation
+            ds = new Dataset(idDataSet++, mission,-1,  name, nbCols, nbRows,  dataHeader, data, listOperation,listVisualization, DataConstants.EXECUTIVE_RIGHT  );
+            v.add(ds);
+        }
+        
+        return cr;
     }
 
 
@@ -1767,7 +1916,7 @@ public class DataController implements ControllerInterface{
                 //fileReader = new InputStreamReader(new FileInputStream(file), "utf-8");
                 fileReader = new InputStreamReader(new FileInputStream(file), charEncoding);
             } catch (UnsupportedEncodingException ex) {
-                Logger.getLogger(DataController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DataControllerLabBook.class.getName()).log(Level.SEVERE, null, ex);
             }
             BufferedReader reader = new BufferedReader(fileReader);
             List<DataSetHeader> headers = new LinkedList<DataSetHeader>();
@@ -1936,6 +2085,14 @@ public class DataController implements ControllerInterface{
     /* quit fitex */
     @Override
     public CopexReturn stopFitex(){
+        dbC.updateDb(DataConstants.DB_LABBOOK);
+        if(listDataset.isEmpty()){
+            return new CopexReturn();
+        }
+        CopexReturn cr= LabBookFromDB.setDatasetInDB(dbC, dbKeyLabDoc, dataToolPanel.getPDS(), dataToolPanel.getPreview());
+        // unset the lockers
+        unsetLockers(this.listDataset);
+        this.locker.stop();
         return new CopexReturn();
     }
 
@@ -2101,7 +2258,14 @@ public class DataController implements ControllerInterface{
 
     /** get export in html format */
     @Override
-    public CopexReturn getPreview(Dataset ds, ArrayList v){
+    public CopexReturn getPreview(Dataset ds, ArrayList v ){
+        ArrayList v2 = new ArrayList();
+        ArrayList<Object> listGraph = dataToolPanel.getListGraph();
+        CopexReturn cr = fitexHtml.exportDatasetHTML(dataURL, ds, dataToolPanel.getDataTableModel(ds), listGraph, dbKeyLabDoc, v2);
+        if(cr.isError())
+            return cr;
+        String s = (String)v2.get(0);
+        v.add(s);
         return new CopexReturn();
     }
 }
