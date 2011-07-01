@@ -310,6 +310,10 @@ public class ScyElo {
         return (String) getMetadataValueContainer(titleKey).getValue();
     }
 
+    public String getTitle(Locale language) {
+       return (String) getMetadataValueContainer(titleKey).getValue(language);
+    }
+
     public void setTitle(String title) {
 //        getMetadataValueContainer(titleKey).setValue(title);
         getMetadataValueContainer(titleKey).setValue(title,Locale.getDefault());
