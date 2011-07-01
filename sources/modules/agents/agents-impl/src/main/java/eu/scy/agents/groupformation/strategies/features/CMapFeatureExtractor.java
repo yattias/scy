@@ -1,6 +1,5 @@
 package eu.scy.agents.groupformation.strategies.features;
 
-import static org.junit.Assert.assertEquals;
 import info.collide.sqlspaces.client.TupleSpace;
 
 import java.io.IOException;
@@ -41,7 +40,6 @@ public class CMapFeatureExtractor implements FeatureExtractor {
         allowedUsers.add(user);
         q.setAllowedUsers(allowedUsers);
         List<ISearchResult> res = repository.search(q);
-        assertEquals(1, res.size());
         IELO elo = repository.retrieveELO(res.get(0).getUri());
         return elo;
     }
