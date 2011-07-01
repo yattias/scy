@@ -1,9 +1,9 @@
 package eu.scy.agents.groupformation.strategies.algorithms;
 
+import edu.emory.mathcs.backport.java.util.Arrays;
+
 import java.util.List;
 import java.util.Random;
-
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 public class KMeansAlgorithm {
 
@@ -44,7 +44,7 @@ public class KMeansAlgorithm {
 	public List<Cluster> run() {
 		init();
 		int iterations = 0;
-		while (!terminated()) {
+		while (!terminated() || iterations == 0) {
 			recalculateCentersAndClearClusters();
 
 			for (FeatureVector featureVector : data) {
@@ -73,7 +73,7 @@ public class KMeansAlgorithm {
 		for (Cluster cluster : clusters) {
 			hasOneCenterChanged |= cluster.centerChanged();
 		}
-		return hasOneCenterChanged;
+		return !hasOneCenterChanged;
 	}
 
 	private void recalculateCentersAndClearClusters() {
