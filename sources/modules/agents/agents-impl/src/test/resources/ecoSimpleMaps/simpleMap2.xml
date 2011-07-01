@@ -29,7 +29,7 @@
           <source>LOMv1.0</source>
           <value>author</value>
         </role>
-        <entity>margus</entity>
+        <entity>TestUser6</entity>
         <date>
           <dateTime>2011-04-05T16:52:15.446+0200</dateTime>
         </date>
@@ -39,7 +39,7 @@
           <source>LOMv1.0</source>
           <value>initiator</value>
         </role>
-        <entity>margus</entity>
+        <entity>TestUser6</entity>
         <date>
           <dateTime>2011-04-04T08:50:22.684+0200</dateTime>
         </date>

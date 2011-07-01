@@ -1,7 +1,6 @@
 package eu.scy.agents.keywords.extractors;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.rmi.dgc.VMID;
 import java.util.HashMap;
 
@@ -11,8 +10,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 
 import roolo.elo.api.IELO;
-import roolo.elo.content.BasicContent;
-
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AgentProtocol;
@@ -73,16 +70,6 @@ public class AbstractExtractorTest extends AbstractTestFixture {
 		} catch (AgentLifecycleException e) {
 			e.printStackTrace();
 		}
-	}
-
-	protected void loadElo(String eloContentFile, String eloType,
-			String eloTitle) throws IOException {
-		InputStream inStream = this.getClass().getResourceAsStream(
-				eloContentFile);
-		String eloContent = readFile(inStream);
-		inStream.close();
-		elo = createNewElo(eloTitle, eloType);
-		elo.setContent(new BasicContent(eloContent));
 	}
 
 }

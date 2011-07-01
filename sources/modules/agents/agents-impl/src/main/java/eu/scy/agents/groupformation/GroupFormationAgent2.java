@@ -244,7 +244,7 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
                 groupFormationStrategy.setMinimumGroupSize(groupFormationInfo.getMinimumUsers());
                 groupFormationStrategy.setMaximumGroupSize(groupFormationInfo.getMaximumUsers());
                 groupFormationStrategy.setAvailableUsers(availableUsers);
-
+                groupFormationStrategy.setRepository(rooloServices.getRepository());
                 Collection<Set<String>> formedGroups = groupFormationStrategy.formGroup(referenceElo);
                 missionGroupsCache.addGroups(mission, las, formedGroups);
                 try {

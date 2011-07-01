@@ -64,15 +64,4 @@ public class AbstractFeatureExtractorTest extends AbstractTestFixture {
         }
     }
 
-    protected IELO loadElo(String eloContentFile, String eloType, String eloTitle)
-            throws IOException {
-        IELO elo;
-        InputStream inStream = this.getClass().getResourceAsStream(eloContentFile);
-        String eloContent = readFile(inStream);
-        inStream.close();
-        elo = createNewElo(eloTitle, eloType);
-        elo.setContent(new BasicContent(eloContent));
-        return elo;
-    }
-
 }

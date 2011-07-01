@@ -4,6 +4,8 @@ import info.collide.sqlspaces.client.TupleSpace;
 
 import java.util.Set;
 
+import roolo.api.IRepository;
+
 import eu.scy.agents.groupformation.GroupFormationStrategy;
 import eu.scy.agents.groupformation.cache.GroupCache;
 
@@ -12,6 +14,7 @@ public abstract class AbstractGroupFormationStrategy implements
 
 	protected GroupCache cache;
 	protected TupleSpace commandSpace;
+    private IRepository repository;
 	protected String mission;
 	protected String las;
 
@@ -96,5 +99,15 @@ public abstract class AbstractGroupFormationStrategy implements
 	public void setAvailableUsers(Set<String> availableUsers) {
 		this.availableUsers = availableUsers;
 	}
+
+    @Override
+    public void setRepository(IRepository repository) {
+        this.repository = repository;
+    }
+
+    @Override
+    public IRepository getRepository() {
+        return repository;
+    }
 
 }

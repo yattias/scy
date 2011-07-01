@@ -1,23 +1,30 @@
 package eu.scy.agents.groupformation.strategies.features;
 
+import static org.junit.Assert.assertEquals;
 import info.collide.sqlspaces.client.TupleSpace;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.jaxen.JaxenException;
 import org.jdom.JDOMException;
 
+import roolo.api.IRepository;
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import roolo.search.ISearchResult;
+import roolo.search.MetadataQueryComponent;
+import roolo.search.Query;
 import de.fhg.iais.kd.tm.elo.CmapImporter;
 import de.fhg.iais.kd.tm.graphmatching.editdistance.EditCostFunction;
 import de.fhg.iais.kd.tm.graphmatching.editdistance.EditDistanceApproximator;
-import de.fhg.iais.kd.tm.graphmatching.editdistance.EditDistanceCalculator;
 import de.fhg.iais.kd.tm.graphmatching.graph.Edge;
 import de.fhg.iais.kd.tm.graphmatching.graph.Graph;
 import de.fhg.iais.kd.tm.graphmatching.graph.Vertex;
@@ -25,17 +32,32 @@ import de.fhg.iais.kd.tm.graphmatching.graph.Vertex;
 public class CMapFeatureExtractor implements FeatureExtractor {
 
 	private TupleSpace commandSpace;
+	private IRepository repository;
+	
+    private IELO retrieveEloFromRepository(String user){
+        MetadataQueryComponent mcq = new MetadataQueryComponent(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId(),"scy/mapping");
+        Query q = new Query(mcq);
+        HashSet <String> allowedUsers = new HashSet <String>();
+        allowedUsers.add(user);
+        q.setAllowedUsers(allowedUsers);
+        List<ISearchResult> res = repository.search(q);
+        assertEquals(1, res.size());
+        IELO elo = repository.retrieveELO(res.get(0).getUri());
+        return elo;
+    }
 
 	@Override
 	public Map<String, double[]> getFeatures(Set<String> availableUsers, String mission, IELO elo) {
 		Map<String, double[]> results = new LinkedHashMap<String, double[]>();
 		for (String user : availableUsers) {
-			results.put(user, this.getCMapFeatures(user, mission, elo, null));
+		    
+			results.put(user, this.getCMapFeatures(user, mission, elo, retrieveEloFromRepository(user)));
 		}
 		return results;
 	}
 
 	public double[] getCMapFeatures(String user, String mission, IELO referenceElo, IELO userElo) {
+//	    TODO: extract conversion of reference ELO to graph to calling function to speed up the computation
 		double refDist = 0.0, nOfNodes = 0.0, nOfLinks = 0.0, nOfLabels = 0.0;
 		try {
 			IContent content = referenceElo.getContent();
@@ -116,5 +138,10 @@ public class CMapFeatureExtractor implements FeatureExtractor {
 	public boolean canRun(IELO elo) {
 		return true;
 	}
+
+    @Override
+    public void setRepository(IRepository repository) {
+        this.repository = repository;      
+    }
 
 }

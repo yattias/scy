@@ -1,20 +1,16 @@
 package eu.scy.agents.groupformation.strategies.features;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import roolo.elo.api.IELO;
-
 import eu.scy.agents.groupformation.strategies.algorithms.Cluster;
 import eu.scy.agents.groupformation.strategies.algorithms.FeatureVector;
 import eu.scy.agents.groupformation.strategies.algorithms.KMeansAlgorithm;
@@ -32,14 +28,14 @@ public class CMapClusteringTest extends AbstractFeatureExtractorTest {
 
 		this.clusterAlgorithm = new KMeansAlgorithm(this.numberOfClusters);
 		this.extractor = new CMapFeatureExtractor();
-		this.referenceElo = this.loadElo("/eco_reference_concept_map.xml", "TestInterview", "scy/interview");
-		this.elo1 = this.loadElo("/ecoExpertMaps/expertMap1.xml", "TestInterview", "scy/interview");
-		this.elo2 = this.loadElo("/ecoExpertMaps/expertMap1b.xml", "TestInterview", "scy/interview");
-		this.elo3 = this.loadElo("/ecoExpertMaps/expertMap2.xml", "TestInterview", "scy/interview");
-		this.elo4 = this.loadElo("/ecoExpertMaps/expertMap3.xml", "TestInterview", "scy/interview");
-		this.elo5 = this.loadElo("/ecoSimpleMaps/simpleMap1.xml", "TestInterview", "scy/interview");
-		this.elo6 = this.loadElo("/ecoSimpleMaps/simpleMap2.xml", "TestInterview", "scy/interview");
-		this.elo7 = this.loadElo("/ecoSimpleMaps/simpleMap3.xml", "TestInterview", "scy/interview");
+		this.referenceElo = this.loadElo("/eco_reference_concept_map.scymapper.xml", "scy/mapping", "cmap");
+		this.elo1 = this.loadElo("/ecoExpertMaps/expertMap1.scymapper.xml", "scy/mapping", "cmap");
+		this.elo2 = this.loadElo("/ecoExpertMaps/expertMap1b.scymapper.xml", "scy/mapping", "cmap");
+		this.elo3 = this.loadElo("/ecoExpertMaps/expertMap2.scymapper.xml", "scy/mapping", "cmap");
+		this.elo4 = this.loadElo("/ecoExpertMaps/expertMap3.scymapper.xml", "scy/mapping", "cmap");
+		this.elo5 = this.loadElo("/ecoSimpleMaps/simpleMap1.scymapper.xml", "scy/mapping", "cmap");
+		this.elo6 = this.loadElo("/ecoSimpleMaps/simpleMap2.scymapper.xml", "scy/mapping", "cmap");
+		this.elo7 = this.loadElo("/ecoSimpleMaps/simpleMap3.scymapper.xml", "scy/mapping", "cmap");
 
 		this.eloList = new ArrayList<IELO>();
 		this.eloList.add(this.elo1);
@@ -52,13 +48,13 @@ public class CMapClusteringTest extends AbstractFeatureExtractorTest {
 	}
 
 	@Test
-	public void testGetKeywords() {
+	public void testClusterUsers() {
 		FeatureVector[] featureVectors = new FeatureVector[this.eloList.size()];
 		double[] features = null;
 		int userNo = 0;
 		String user = "";
-		for (Iterator eIt = this.eloList.iterator(); eIt.hasNext();) {
-			IELO e = (IELO) eIt.next();
+		for (Iterator<IELO> eIt = this.eloList.iterator(); eIt.hasNext();) {
+			IELO e = eIt.next();
 			user = "user" + (userNo + 1);
 			features = ((CMapFeatureExtractor) this.extractor).getCMapFeatures(user, "mission2", this.referenceElo, e);
 			featureVectors[userNo] = new FeatureVector(user, features);
@@ -69,10 +65,10 @@ public class CMapClusteringTest extends AbstractFeatureExtractorTest {
 		List<Cluster> clusters = this.clusterAlgorithm.run();
 		assertEquals(4, features.length);
 		Cluster cl = clusters.get(0);
-		assertArrayEquals(new double [] { 130.0, 9.5, 5.0, 13.5},  cl.getCenter(), 0.0001);
+		assertArrayEquals(new double [] { 48.0, 9.5, 0.0, 8.5 },  cl.getCenter(), 0.0001);
          cl = clusters.get(1);
-        assertArrayEquals(new double[] { 120.375, 20.75, 25.5, 45.25 }, cl.getCenter(), 0.0001);
+        assertArrayEquals(new double[] { 36.5, 20.75, 0.0, 19.75 }, cl.getCenter(), 0.0001);
          cl = clusters.get(2);
-        assertArrayEquals(new double[] { 130.5, 8.0, 3.0, 10.0 }, cl.getCenter(), 0.0001);
+        assertArrayEquals(new double[] { 49.0, 8.0, 0.0, 7.0 }, cl.getCenter(), 0.0001);
 	}
 }

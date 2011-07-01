@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import roolo.api.IRepository;
 import roolo.elo.api.IELO;
 import eu.scy.agents.groupformation.GroupFormationStrategy;
 import eu.scy.agents.groupformation.strategies.algorithms.Cluster;
@@ -80,6 +81,7 @@ public class ClusterStrategy extends AbstractGroupFormationStrategy {
 	private void fillFeatureVectors(Set<String> availableUsers,
 			Map<String, FeatureVector> featureVectors, IELO elo) {
 		for (FeatureExtractor extractor : extractors) {
+		    extractor.setRepository(getRepository());
 			if (extractor.canRun(elo)) {
 				Map<String, double[]> features = extractor.getFeatures(
 						availableUsers, getMission(), elo);

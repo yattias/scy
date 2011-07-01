@@ -62,11 +62,7 @@ public class HypothesisDecisionMakerTest extends AbstractTestFixture {
 
 		this.startAgentFramework(this.agentMap);
 
-		InputStream inStream = this.getClass().getResourceAsStream(
-				"/copexExampleElo.xml");
-		String eloContent = readFile(inStream);
-		elo = createNewElo("TestCopex", ELO_TYPE);
-		elo.setContent(new BasicContent(eloContent));
+		elo = loadElo("/copexExampleElo.xml", ELO_TYPE, "TestCopex");
 		IMetadata metadata = repository.addNewELO(elo);
 		URI eloUri = (URI) metadata.getMetadataValueContainer(
 				this.typeManager

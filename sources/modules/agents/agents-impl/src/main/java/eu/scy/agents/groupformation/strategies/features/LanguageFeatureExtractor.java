@@ -10,6 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+import roolo.api.IRepository;
 import roolo.elo.api.IELO;
 
 import eu.scy.agents.impl.AgentProtocol;
@@ -64,5 +65,11 @@ public class LanguageFeatureExtractor implements FeatureExtractor {
 	public boolean canRun(IELO elo) {
 		return true;
 	}
+
+    @Override
+    public void setRepository(IRepository repository) {
+        // TODO Auto-generated method stub
+        
+    }
 
 }
