@@ -11,6 +11,9 @@ import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.api.IAction;
+import eu.scy.client.common.datasync.DataSyncException;
+import eu.scy.client.common.datasync.ISyncListener;
+import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import eu.scy.notification.api.INotification;
 import eu.scy.client.desktop.desktoputils.jdom.JDomStringConversion;
@@ -19,6 +22,7 @@ import eu.scy.client.tools.copex.common.LearnerProcedure;
 import eu.scy.client.tools.copex.main.CopexPanel;
 import eu.scy.client.tools.copex.logger.CopexProperty;
 import eu.scy.client.tools.copex.utilities.ActionCopex;
+import eu.scy.common.datasync.ISyncObject;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -43,7 +47,7 @@ import javax.swing.text.rtf.RTFEditorKit;
  * swing panel for copex
  * @author Marjolaine
  */
-public class ScyCopexPanel extends JPanel implements ActionCopex{
+public class ScyCopexPanel extends JPanel implements ActionCopex, ISyncListener{
     private CopexPanel copex;
     private ToolBrokerAPI tbi;
     private String session_name = "n/a";
@@ -55,6 +59,8 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
 
     private CopexNotificationManager copexNotificationManager;
     private ResourceBundleWrapper bundle;
+
+    private ISyncSession session = null;
 
     public ScyCopexPanel(String toolName) {
         super();
@@ -250,4 +256,96 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
     public boolean canEditHypothesis(){
          return copex.canEditHypothesis();
     }
+
+    // joins the session for sync.
+    public ISyncSession joinSession(String mucID){
+        if(session != null){
+            leaveSession(session.getId());
+        }
+        try {
+            session = tbi.getDataSyncService().joinSession(mucID, this, toolName);
+	} catch (DataSyncException e) {
+		JOptionPane.showMessageDialog(null, getBundleString("FX-FITEX.MSG_ERROR_SYNC"));
+		e.printStackTrace();
+                return session;
+	}
+        if (session == null) {
+            JOptionPane.showMessageDialog(null, getBundleString("FX-FITEX.MSG_ERROR_SYNC"));
+            return session;
+        }
+        return session;
+    }
+
+    public void leaveSession(String mucID){
+        if(session != null){
+            session.removeSyncListener(this);
+        }
+        session = null;
+    }
+
+    public void startCollaboration(){
+        this.copex.startCollaboration();
+    }
+    
+    public void endCollaboration(){
+        this.copex.endCollaboration();
+    }
+
+    @Override
+    public void syncObjectAdded(final ISyncObject syncObject) {
+        if (syncObject.getToolname() != null && syncObject.getToolname().equals(toolName)){
+            if (syncObject.getCreator().equals(session.getUsername())) {
+                // creator of the object
+            }else{
+                copex.syncNodeChanged(syncObject);
+            }
+        }
+    }
+
+    @Override
+    public void syncObjectChanged(ISyncObject syncObject) {
+        if (syncObject.getToolname() != null && syncObject.getToolname().equals(toolName)){
+            if (syncObject.getCreator().equals(session.getUsername())) {
+                // creator of the object
+            }else{
+                copex.syncNodeChanged(syncObject);
+            }
+        }
+    }
+
+    @Override
+    public void syncObjectRemoved(ISyncObject syncObject) {
+        if (syncObject.getToolname() != null && syncObject.getToolname().equals(toolName)){
+            if (syncObject.getCreator().equals(session.getUsername())) {
+                // creator of the object
+            }else{
+                copex.syncNodeRemoved(syncObject);
+            }
+        }
+    }
+
+    @Override
+    public void addCopexSyncObject(ISyncObject syncObject) {
+        if(session != null)
+            session.addSyncObject(syncObject);
+    }
+
+    @Override
+    public void changeCopexSyncObject(ISyncObject syncObject) {
+        if(session != null)
+            session.changeSyncObject(syncObject);
+    }
+
+    @Override
+    public void removeCopexSyncObject(ISyncObject syncObject) {
+        if(session != null)
+            session.removeSyncObject(syncObject);
+    }
+
+    public void setReadOnly(boolean readonly){
+        if(copex != null){
+            this.copex.setReadOnly(readonly);
+        }
+    }
+
 }
