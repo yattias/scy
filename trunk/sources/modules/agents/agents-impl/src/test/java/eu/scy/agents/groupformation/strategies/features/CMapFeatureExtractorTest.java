@@ -11,8 +11,8 @@ public class CMapFeatureExtractorTest extends AbstractFeatureExtractorTest {
 	@Before
 	public void setup() throws Exception {
 		this.extractor = new CMapFeatureExtractor();
-		this.referenceElo = this.loadElo("/eco_reference_concept_map.xml", "TestInterview", "scy/interview");
-		this.elo = this.loadElo("/ecoExpertMaps/expertMap1.xml", "TestInterview", "scy/interview");
+		this.referenceElo = this.loadElo("/eco_reference_concept_map.scymapper.xml", "TestInterview", "scy/interview");
+		this.elo = this.loadElo("/ecoExpertMaps/expertMap1.scymapper.xml", "TestInterview", "scy/interview");
 	}
 
 	@Test
@@ -20,7 +20,7 @@ public class CMapFeatureExtractorTest extends AbstractFeatureExtractorTest {
 		double[] features = ((CMapFeatureExtractor) this.extractor).getCMapFeatures("x", "y", this.referenceElo,
 				this.elo);
 		assertEquals(4, features.length);
-		assertArrayEquals(new double[] { 120.5, 20.0, 24.0, 43.0 }, features, 0.000001);
+		assertArrayEquals(new double[] { 37.0, 20.0, 0.0, 19.0 }, features, 0.000001);
 
 	}
 }
