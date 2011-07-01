@@ -74,7 +74,7 @@ public class Cluster {
 			return false;
 		}
 		if (oldCenter == null) {
-			return false;
+			return true;
 		}
 		for (int i = 0; i < center.length; i++) {
 			if (center[i] != oldCenter[i]) {

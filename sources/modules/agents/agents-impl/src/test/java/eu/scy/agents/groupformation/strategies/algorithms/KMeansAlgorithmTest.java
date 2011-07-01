@@ -1,13 +1,13 @@
 package eu.scy.agents.groupformation.strategies.algorithms;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.List;
 import java.util.Random;
 
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 public class KMeansAlgorithmTest extends KMeansAlgorithm {
 
@@ -54,6 +54,26 @@ public class KMeansAlgorithmTest extends KMeansAlgorithm {
 		assertEquals("1", clusters.get(1).getMembers()[0].getId());
 		assertEquals("3", clusters.get(1).getMembers()[1].getId());
 		assertEquals("4", clusters.get(1).getMembers()[2].getId());
+
+	}
+
+    @Test
+	public void testSameFeatures() {
+        FeatureVector[] data = FeatureVector
+				.createFeatureVectors(new double[][] { { 1, 0 }, { 1, 0 },
+						{ 1, 0 }, { 1, 0 }, { 1, 0 } });
+		setData(data);
+
+		List<Cluster> clusters = run();
+		assertEquals(2, clusters.size());
+
+		assertEquals(5, clusters.get(0).size());
+		assertEquals("0", clusters.get(0).getMembers()[0].getId());
+		assertEquals("1", clusters.get(0).getMembers()[1].getId());
+		assertEquals("2", clusters.get(0).getMembers()[2].getId());
+		assertEquals("3", clusters.get(0).getMembers()[3].getId());
+		assertEquals("4", clusters.get(0).getMembers()[4].getId());
+        assertEquals(0, clusters.get(1).size());
 
 	}
 }
