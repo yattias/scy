@@ -12,7 +12,12 @@ public class FeatureVector {
 	private String id;
 
 	public FeatureVector() {
-		this("", null);
+		this("");
+	}
+
+    public FeatureVector(String i) {
+		id = i;
+		vector = new ArrayList<Double>();
 	}
 
 	public FeatureVector(String i, double[] ds) {
