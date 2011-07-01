@@ -76,6 +76,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
    var moreInfoTool: ShowInfoUrl;
    def uriLocalizer = new UriLocalizer();
    var runPhase = false;
+   var showingMoreInfoWindow = false;
 
    init {
       runPhase = true;
@@ -238,12 +239,16 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       moreInfoWindow.infoTypeIcon = infoTypeIcon;
       moreInfoWindow.windowColorScheme = moreInfoColorScheme;
       moreInfoTool.showInfoUrl(uriLocalizer.localizeUrlwithChecking(infoUri.toURL()));
-      ModalDialogLayer.addModalDialog(moreInfoWindow, true, true, false, 0);
+      if (not showingMoreInfoWindow){
+         ModalDialogLayer.addModalDialog(moreInfoWindow, true, true, false, 0);
+         showingMoreInfoWindow = true
+      }
       sceneSizeChanged();
    }
 
    function hideMoreInfoWindow(): Void {
       ModalDialogLayer.removeModalDialog(moreInfoWindow);
+      showingMoreInfoWindow = false;
    }
 
    function initMoreInfoWindow(): Void {
