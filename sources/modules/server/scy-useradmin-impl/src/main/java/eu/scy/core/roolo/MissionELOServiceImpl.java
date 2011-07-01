@@ -6,9 +6,11 @@ import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.common.mission.*;
 import eu.scy.common.scyelo.ScyElo;
+import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 import eu.scy.core.XMLTransferObjectService;
 import eu.scy.core.model.transfer.*;
 import eu.scy.core.roolo.util.EloComparator;
+import roolo.search.AndQuery;
 import roolo.search.IQueryComponent;
 import roolo.search.MetadataQueryComponent;
 import roolo.search.IQuery;
@@ -102,27 +104,7 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
 
     @Override
     public List getAssignedUserNamesFor(MissionSpecificationElo missionSpecificationElo) {
-        List<ScyElo> runtimeModels = getRuntimeElos(missionSpecificationElo);
-        List userNames = new LinkedList();
-
-        for (int i = 0; i < runtimeModels.size(); i++) {
-            MissionRuntimeElo missionRuntimeElo = new MissionRuntimeElo(runtimeModels.get(i).getElo(), this);
-            log.info(missionRuntimeElo.getContent().getXmlString());
-            if (missionRuntimeElo != null) {
-                if (missionRuntimeElo.getTitle().equals(missionSpecificationElo.getTitle())) {
-                    String userName = missionRuntimeElo.getUserRunningMission();
-                    userNames.add(userName);
-                } else {
-                    log.info("TITLE " + missionRuntimeElo.getTitle() + " DOES NOT EQUAL: " + missionSpecificationElo.getTitle());
-                    //HE HE : NOT MY PROUDEST MOMENT
-                }
-            }
-
-
-        }
-
-        return userNames;
-
+        return getUsersFromRuntimeElos(missionSpecificationElo);
     }
 
 

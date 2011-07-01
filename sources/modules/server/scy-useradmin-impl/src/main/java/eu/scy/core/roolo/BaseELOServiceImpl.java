@@ -2,7 +2,9 @@ package eu.scy.core.roolo;
 
 import eu.scy.common.mission.MissionEloType;
 import eu.scy.common.mission.MissionSpecificationElo;
+import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 import eu.scy.core.BaseELOService;
+import roolo.search.AndQuery;
 import roolo.search.IQueryComponent;
 import roolo.search.MetadataQueryComponent;
 import roolo.search.IQuery;
@@ -35,6 +37,29 @@ public class BaseELOServiceImpl extends RooloAccessorImpl implements BaseELOServ
         missionRuntimeQuery.setMaxResults(500);
         return getELOs(missionRuntimeQuery);
     }
+    
+    
+
+    @Override
+    public List getUsersFromRuntimeElos(MissionSpecificationElo missionSpecificationElo) {
+        IQueryComponent missionRuntimeQueryComponent = new MetadataQueryComponent(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId(), SearchOperation.EQUALS, MissionEloType.MISSION_RUNTIME.getType());
+        IQueryComponent missionRunningQueryComponent = new MetadataQueryComponent(ScyRooloMetadataKeyIds.MISSION_RUNNING.getId(), SearchOperation.EQUALS, missionSpecificationElo.getUri());
+        IQueryComponent andQuery = new AndQuery(missionRuntimeQueryComponent, missionRunningQueryComponent);
+        IQuery missionRuntimeQuery = new Query(andQuery);
+        missionRuntimeQuery.setMaxResults(500);
+        
+        List<ISearchResult> search = getRepository().search(missionRuntimeQuery);
+        List<String> userNames = new LinkedList<String>();
+        
+        for (ISearchResult searchResult : search) {
+            if (searchResult.getAuthors() != null && searchResult.getAuthors().size() > 0) {
+                userNames.add(searchResult.getAuthors().get(0));
+            }
+        }
+        return userNames;
+    }
+
+
 
     public List getAllRuntimes() {
         final IMetadataKey technicalFormatKey = getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
