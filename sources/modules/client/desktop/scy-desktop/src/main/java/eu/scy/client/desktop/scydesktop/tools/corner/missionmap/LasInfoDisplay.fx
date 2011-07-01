@@ -173,7 +173,7 @@ public class LasInfoDisplay extends CustomNode {
       }
       var reader: BufferedReader;
       try {
-         reader = new BufferedReader(new InputStreamReader(localizedUri.toURL().openStream()));
+         reader = new BufferedReader(new InputStreamReader(localizedUri.toURL().openStream(),"UTF-8"));
       }
       catch (e: FileNotFoundException) {
          logger.warn("cannot find text file: {localizedUri}");
