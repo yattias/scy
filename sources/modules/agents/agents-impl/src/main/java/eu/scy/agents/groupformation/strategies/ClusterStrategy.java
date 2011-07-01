@@ -1,5 +1,12 @@
 package eu.scy.agents.groupformation.strategies;
 
+import eu.scy.agents.groupformation.GroupFormationStrategy;
+import eu.scy.agents.groupformation.strategies.algorithms.Cluster;
+import eu.scy.agents.groupformation.strategies.algorithms.FeatureVector;
+import eu.scy.agents.groupformation.strategies.algorithms.KMeansAlgorithm;
+import eu.scy.agents.groupformation.strategies.features.FeatureExtractor;
+import roolo.elo.api.IELO;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -7,14 +14,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import roolo.api.IRepository;
-import roolo.elo.api.IELO;
-import eu.scy.agents.groupformation.GroupFormationStrategy;
-import eu.scy.agents.groupformation.strategies.algorithms.Cluster;
-import eu.scy.agents.groupformation.strategies.algorithms.FeatureVector;
-import eu.scy.agents.groupformation.strategies.algorithms.KMeansAlgorithm;
-import eu.scy.agents.groupformation.strategies.features.FeatureExtractor;
 
 /**
  * A group formation strategy that combines several group formation strategies
@@ -97,7 +96,7 @@ public class ClusterStrategy extends AbstractGroupFormationStrategy {
 			Set<String> availableUsers) {
 		Map<String, FeatureVector> featureVectors = new HashMap<String, FeatureVector>();
 		for (String user : availableUsers) {
-			featureVectors.put(user, new FeatureVector(user);
+			featureVectors.put(user, new FeatureVector(user));
 		}
 		return featureVectors;
 	}
