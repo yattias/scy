@@ -114,4 +114,6 @@ public interface ControllerInterface {
     public CopexReturn exportHTML();
     /** justify the text for the selected headers */
     public CopexReturn justifyText(Dataset ds, int align, ArrayList<DataHeader> listHeader, ArrayList v);
+    /** get export in html format */
+    public CopexReturn getPreview(Dataset ds, ArrayList v) ;
 }

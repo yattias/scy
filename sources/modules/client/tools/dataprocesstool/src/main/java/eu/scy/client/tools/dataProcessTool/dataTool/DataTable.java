@@ -658,7 +658,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
             }
         }
         markSelectedCell();
-        owner.createOperation(dataset, type, isOnCol, listNo);
+        owner.createOperation(dataset, type, isOnCol, listNo, true);
     }
     /* sum */
     public void sum(){
@@ -692,7 +692,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         boolean isOnCol = (Boolean)v.get(0);
         int nb=(Integer)v.get(1);
         int idBefore = (Integer)v.get(2);
-        owner.insertData(dataset, isOnCol, nb, idBefore);
+        owner.insertData(dataset, isOnCol, nb, idBefore, true);
     }
 
     /* columns selection */
@@ -721,10 +721,10 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     public void delete(){
         ArrayList<int[]> listSelCell = getSelectedCells();
         ArrayList<Integer>[] listRowAndCol = tableModel.getSelectedRowAndCol(listSelCell);
-        owner.deleteData(dataset, tableModel.getSelectedDataAlone(listSelCell,listRowAndCol ), tableModel.getSelectedHeader(listSelCell), tableModel.getSelectedOperation(listSelCell), listRowAndCol);
+        owner.deleteData(dataset, tableModel.getSelectedDataAlone(listSelCell,listRowAndCol ), tableModel.getSelectedHeader(listSelCell), tableModel.getSelectedOperation(listSelCell), listRowAndCol, true);
     }
 
-    /* update hte dataset */
+    /* update the dataset */
     public void updateDataset(Dataset ds, boolean reload){
         this.dataset = ds ;
         this.tableModel.updateDataset(ds, reload);
@@ -826,7 +826,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
             //quicksort on the array
             Vector exchange = getExchange(dataset);
             executeQuickSort(0,tabToSort.size() - 1 ,exchange, tabToSort);
-            owner.updateDatasetRow(dataset, exchange);
+            owner.updateDatasetRow(dataset, exchange, true);
         }catch(Throwable t){
             owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_SORT")+" "+t, false), owner.getBundleString("TITLE_DIALOG_ERROR"));
         }
@@ -1076,7 +1076,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     /* paste */
     public void paste(){
         // copy data
-        boolean isOk = owner.paste(copyDs, tableModel.getSelectedCell(getSelectedCells()));
+        boolean isOk = owner.paste(copyDs, tableModel.getSelectedCell(getSelectedCells()), true);
         if (isOk){
             owner.updateMenuData();
             owner.setModification();

@@ -5,7 +5,6 @@
 
 package eu.scy.client.tools.fitex.main;
 
-import eu.scy.client.tools.fitex.main.DataProcessToolPanel;
 import eu.scy.common.datasync.ISyncObject;
 import eu.scy.client.tools.dataProcessTool.logger.FitexProperty;
 import eu.scy.client.tools.dataProcessTool.utilities.ActionDataProcessTool;
@@ -100,12 +99,12 @@ public class FitexLabBookApp extends JFrame implements  ActionDataProcessTool{
         }
         if(args == null || args.length != 6){
             try {
-                fitexURL = new URL("http://localhost/LabBook/tool_fitex/");
+                fitexURL = new URL("http://localhost/LabBookAuthor/tool_fitex/");
                 idUser = "2";
                 mission= "1";
                 idGroup = "1";
-                idLabDoc = "10149";
-                labDocName = "default ds";
+                idLabDoc = "10155";
+                labDocName = "my dataset";
 //                fitexURL = new URL("http://labbook.imag.fr/pages/");
 //                idUser = "2";
 //                mission= "5";

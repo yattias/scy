@@ -15,6 +15,7 @@ import org.jdom.JDOMException;
  */
 public class Data implements Cloneable {
     public final static String TAG_DATA = "data";
+    public final static String TAG_DATA_ID = "data_id";
     private final static String TAG_DATA_NO_ROW = "no_row";
     private final static String TAG_DATA_NO_COL = "no_col";
     private final static String TAG_DATA_IGNORED = "is_ignored";
@@ -44,8 +45,14 @@ public class Data implements Cloneable {
         if (xmlElem.getName().equals(TAG_DATA)) {
             try{
                 dbKey = -1;
-                noRow = Integer.parseInt(xmlElem.getChild(TAG_DATA_NO_ROW).getText());
-                noCol = Integer.parseInt(xmlElem.getChild(TAG_DATA_NO_COL).getText());
+                noRow = -1;
+                noCol = -1;
+                try{
+                    dbKey = Long.parseLong(xmlElem.getChild(TAG_DATA_ID).getText());
+                    noRow = Integer.parseInt(xmlElem.getChild(TAG_DATA_NO_ROW).getText());
+                    noCol = Integer.parseInt(xmlElem.getChild(TAG_DATA_NO_COL).getText());
+                }catch(NumberFormatException ex){
+                }
                 isIgnoredData = Boolean.parseBoolean(xmlElem.getChild(TAG_DATA_IGNORED).getText());
                 value = xmlElem.getChild(TAG_DATA_VALUE).getText();
             }catch(NumberFormatException ex){
@@ -138,6 +145,7 @@ public class Data implements Cloneable {
 
      public Element toXMLLog(){
          Element e = new Element(TAG_DATA);
+         e.addContent(new Element(TAG_DATA_ID).setText(Long.toString(dbKey)));
          e.addContent(new Element(TAG_DATA_VALUE).setText(value));
          e.addContent(new Element(TAG_DATA_NO_ROW).setText(Integer.toString(noRow)));
          e.addContent(new Element(TAG_DATA_NO_COL).setText(Integer.toString(noCol)));

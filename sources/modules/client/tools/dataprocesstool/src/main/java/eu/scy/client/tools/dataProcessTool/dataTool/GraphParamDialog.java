@@ -243,7 +243,7 @@ public class GraphParamDialog extends javax.swing.JDialog implements ActionPlot 
         }
         ArrayList<PlotXY> plots = plotPanel.getListPlotXY();
         ParamGraph newParamGraph = new ParamGraph(plots, xMin, xMax, yMin, yMax, deltaX, deltaY, deltaFixedAutoscale);
-        boolean isOk = dataToolPanel.updateGraphParam(((Graph)vis), name, newParamGraph);
+        boolean isOk = dataToolPanel.updateGraphParam(((Graph)vis), name, newParamGraph, true);
         if(isOk){
             this.dispose();
         }

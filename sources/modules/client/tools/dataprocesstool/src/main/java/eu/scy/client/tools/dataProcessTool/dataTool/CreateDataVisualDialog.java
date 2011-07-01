@@ -215,7 +215,7 @@ public class CreateDataVisualDialog extends javax.swing.JDialog implements Actio
         ArrayList<PlotXY> listPlot = new ArrayList();
         if(plotPanel != null)
             listPlot = plotPanel.getListPlotXY();
-        boolean isOk = owner.createVisualization(name, typeVis, dataHeader, headerLabel, listPlot);
+        boolean isOk = owner.createVisualization(name, typeVis, dataHeader, headerLabel, listPlot, true);
         if (isOk)
             this.dispose();
     }

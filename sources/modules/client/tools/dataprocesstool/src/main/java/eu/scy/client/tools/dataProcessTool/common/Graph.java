@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
 import org.jdom.Element;
+import org.jdom.JDOMException;
 
 /**
  * graph visualization, defined with the graph paramters and may contain a list of functions
@@ -25,6 +26,15 @@ public class Graph extends Visualization implements Cloneable {
         super(dbKey, name, type);
         this.paramGraph = paramGraph;
         this.listFunctionModel = listFunctionModel ;
+    }
+
+    public Graph(Element xmlElem) throws JDOMException {
+        super(xmlElem);
+        paramGraph = new ParamGraph(xmlElem.getChild(ParamGraph.TAG_PARAM_GRAPH));
+        this.listFunctionModel = new ArrayList();
+        for (Iterator<Element> variableElem = xmlElem.getChildren(FunctionModel.TAG_FUNCTION).iterator(); variableElem.hasNext();) {
+            listFunctionModel.add(new FunctionModel(variableElem.next()));
+       }
     }
 
     public ParamGraph getParamGraph() {

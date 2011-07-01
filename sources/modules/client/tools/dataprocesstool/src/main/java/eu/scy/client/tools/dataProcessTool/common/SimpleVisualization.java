@@ -6,13 +6,14 @@
 package eu.scy.client.tools.dataProcessTool.common;
 
 import org.jdom.Element;
+import org.jdom.JDOMException;
 
 /**
  * pie chart or bar chart
  * @author Marjolaine
  */
 public class SimpleVisualization extends Visualization{
-    private final static String TAG_VIS_ID = "id";
+    private final static String TAG_VIS_HEADER = "header";
     private final static String TAG_VIS_HEADER_LABEL = "header_label";
     private DataHeader header;
     // if null => no row, else header (type string)
@@ -22,6 +23,15 @@ public class SimpleVisualization extends Visualization{
         super(dbKey, name, type);
         this.header = header;
         this.headerLabel = headerLabel;
+    }
+
+    public SimpleVisualization(Element xmlElem) throws JDOMException {
+        super(xmlElem);
+        this.header = new DataHeader(xmlElem.getChild(TAG_VIS_HEADER));
+        this.headerLabel = null;
+        if(xmlElem.getChild(TAG_VIS_HEADER_LABEL) != null){
+            this.headerLabel = new DataHeader(xmlElem.getChild(TAG_VIS_HEADER_LABEL));
+        }
     }
 
     public DataHeader getHeader() {
@@ -57,9 +67,10 @@ public class SimpleVisualization extends Visualization{
     @Override
      public Element toXMLLog(){
          Element e = super.toXMLLog();
-         e.addContent(new Element(TAG_VIS_ID).setText(Integer.toString(header.getNoCol())));
-         if(headerLabel != null)
-             e.addContent(new Element(TAG_VIS_HEADER_LABEL).setText(Integer.toString(headerLabel.getNoCol())));
+         e.addContent(header.toXMLLog());
+         if(headerLabel != null){
+             e.addContent(headerLabel.toXMLLog());
+        }
          return e;
      }
 

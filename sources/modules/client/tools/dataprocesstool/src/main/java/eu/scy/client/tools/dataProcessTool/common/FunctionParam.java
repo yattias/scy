@@ -6,13 +6,15 @@
 package eu.scy.client.tools.dataProcessTool.common;
 
 import org.jdom.Element;
+import org.jdom.JDOMException;
 
 /**
  * parameter of a function, name/value
  * @author Marjolaine
  */
 public class FunctionParam implements Cloneable{
-    private final static String TAG_FUNCTION_PARAM = "function_param";
+    public final static String TAG_FUNCTION_PARAM = "function_param";
+    private final static String TAG_FUNCTION_PARAM_ID = "id_param";
     private final static String TAG_PARAM  = "param";
     private final static String TAG_VALUE = "value";
     /* dbkey identifier */
@@ -26,6 +28,24 @@ public class FunctionParam implements Cloneable{
         this.dbKey = dbKey;
         this.param = param;
         this.value = value;
+    }
+
+    public FunctionParam(Element xmlElem) throws JDOMException {
+        if (xmlElem.getName().equals(TAG_FUNCTION_PARAM)) {
+            dbKey = -1;
+            try{
+                dbKey = Long.parseLong(xmlElem.getChild(TAG_FUNCTION_PARAM_ID).getText());
+            }catch(NumberFormatException ex){
+            }
+            param = xmlElem.getChild(TAG_PARAM).getText();
+            value = 0;
+            try{
+                value = Double.parseDouble(xmlElem.getChild(TAG_VALUE).getText());
+            }catch(NumberFormatException ex){
+            }
+        }else {
+            throw(new JDOMException("FunctionParam expects <"+TAG_FUNCTION_PARAM+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
     public long getDbKey() {
@@ -70,6 +90,7 @@ public class FunctionParam implements Cloneable{
 
     public Element toXML(){
         Element element = new Element(TAG_FUNCTION_PARAM);
+        element.addContent(new Element(TAG_FUNCTION_PARAM_ID).setText(Long.toString(dbKey)));
         element.addContent(new Element(TAG_PARAM).setText(param));
         element.addContent(new Element(TAG_VALUE).setText(Double.toString(value)));
         return element;
