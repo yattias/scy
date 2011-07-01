@@ -44,18 +44,23 @@ import java.util.List;
 import java.util.Locale;
 //import java.util.MissingResourceException;
 //import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
+import eu.scy.client.tools.copex.collaboration.CopexSyncManager;
 import eu.scy.client.tools.copex.common.CopexTeacher;
 import eu.scy.client.tools.copex.common.ExperimentalProcedure;
 import eu.scy.client.tools.copex.common.InitialProcedure;
+import eu.scy.client.tools.copex.common.Material;
 import eu.scy.client.tools.copex.common.MaterialStrategy;
 import eu.scy.client.tools.copex.common.TypeMaterial;
 import eu.scy.client.tools.copex.controller.CopexControllerAuth;
@@ -68,6 +73,8 @@ import eu.scy.client.tools.copex.edp.EdPPanel;
 import eu.scy.client.tools.copex.edp.HelpDialog;
 import eu.scy.client.tools.copex.edp.OpenCopexDialog;
 import eu.scy.client.tools.copex.edp.TaskSelected;
+import eu.scy.client.tools.copex.utilities.CopexUtilities;
+import eu.scy.common.datasync.ISyncObject;
 import java.awt.Container;
 import java.beans.PropertyChangeListener;
 import javax.swing.JLabel;
@@ -118,6 +125,9 @@ public class CopexPanel extends JPanel implements PropertyChangeListener{
 
     private JProgressBar progressBar;
     private JPanel paneProgess;
+
+    /* sync. maanger*/
+    private CopexSyncManager copexSync ;
 
     public CopexPanel(JFrame ownerFrame,boolean scyMode, Locale locale){
         this.ownerFrame = ownerFrame;
@@ -1079,4 +1089,186 @@ public class CopexPanel extends JPanel implements PropertyChangeListener{
         }
         return "";
      }
+
+    /** set the current proc in read-only mode */
+    public void setReadOnly(boolean readOnly){
+        if(activCopex != null){
+            activCopex.setExperimentalProcedureReadOnly(readOnly);
+        }
+    }
+
+    public List<Material> getListMaterial(){
+        return this.controller.getListMaterial(activCopex.getExperimentalProc());
+    }
+
+    public long getIdMaterial(){
+        return this.controller.getIdMaterial();
+    }
+
+    public long getIdQuantity(){
+        return this.controller.getIdQuantity();
+    }
+
+    public List<PhysicalQuantity> getListPhysicalQuantity(){
+        return this.controller.getListPhysicalQuantity();
+    }
+
+    public List<TypeMaterial> getListTypeMaterial(){
+        return this.controller.getListTypeMaterial();
+    }
+
+    /*starts the collaboration */
+    public void startCollaboration(){
+        copexSync = new CopexSyncManager(this);
+    }
+
+    /* ends the collaboration */
+    public void endCollaboration(){
+        copexSync = null;
+    }
+
+    /* returns true if the tool is sync with another (collaboration) */
+    public boolean isCollaborate(){
+        return copexSync != null;
+    }
+
+    // received added sync Object
+    public void syncNodeAdded(ISyncObject syncObject){
+        copexSync.syncNodeAdded(syncObject);
+    }
+
+    // received removed sync Object
+    public void syncNodeRemoved(ISyncObject syncObject){
+        copexSync.syncNodeRemoved(syncObject);
+    }
+
+    // received changed sync Object
+    public void syncNodeChanged(ISyncObject syncObject){
+        copexSync.syncNodeChanged(syncObject);
+    }
+
+    // sent added sync. object
+    public void addCopexSyncObject(ISyncObject syncObject) {
+        if(actionCopex != null)
+            actionCopex.addCopexSyncObject(syncObject);
+    }
+
+    // sent changed sync. object
+    public void changeCopexSyncObject(ISyncObject syncObject) {
+        if(actionCopex != null)
+            actionCopex.changeCopexSyncObject(syncObject);
+    }
+
+    // sent removed sync. object
+    public void removeCopexSyncObject(ISyncObject syncObject) {
+        if(actionCopex != null)
+            actionCopex.removeCopexSyncObject(syncObject);
+    }
+
+    // UPDATE QUESTION
+    public void updateQuestion(String value){
+        Element e = CopexUtilities.stringToXml(value);
+        if(activCopex != null){
+            try {
+                Question q = new Question(e, activCopex.getExperimentalProc().getQuestion().getDbKey());
+                activCopex.updateQuestion(q,q.getDescription(locale), q.getComments(locale), false);
+            } catch (JDOMException ex) {
+                Logger.getLogger(CopexPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    /*sent sync. event: update question */
+    public void addSyncUpdateQuestion(Question question){
+        if(isCollaborate())
+            copexSync.addSyncUpdateQuestion(CopexUtilities.xmlToString(question.toXML()));
+    }
+
+    // UPDATE HYPOTHESIS
+    public void updateHypothesis(String value){
+        Element e = CopexUtilities.stringToXml(value);
+        if(activCopex != null){
+            try {
+                Hypothesis h = new Hypothesis(e, -1);
+                activCopex.updateHypothesis(h,h.getHypothesis(locale), h.getComment(locale), false);
+            } catch (JDOMException ex) {
+                Logger.getLogger(CopexPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    /*sent sync. event: update hypothesis */
+    public void addSyncUpdateHypothesis(Hypothesis hypothesis){
+        if(isCollaborate())
+            copexSync.addSyncUpdateHypothesis(CopexUtilities.xmlToString(hypothesis.toXML()));
+    }
+
+    // UPDATE GENERAL PRINCIPLE
+    public void updateGeneralPrinciple(String value){
+        Element e = CopexUtilities.stringToXml(value);
+        if(activCopex != null){
+            try {
+                GeneralPrinciple p = new GeneralPrinciple(e, -1);
+                activCopex.updateGeneralPrinciple(p,p.getPrinciple(locale), p.getComment(locale), false);
+            } catch (JDOMException ex) {
+                Logger.getLogger(CopexPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    /*sent sync. event: update general principle */
+    public void addSyncUpdateGeneralPrinciple(GeneralPrinciple principle){
+        if(isCollaborate())
+            copexSync.addSyncUpdateGeneralPrinciple(CopexUtilities.xmlToString(principle.toXML()));
+    }
+
+    // UPDATE EVALUATION
+    public void updateEvaluation(String value){
+        Element e = CopexUtilities.stringToXml(value);
+        if(activCopex != null){
+            try {
+                Evaluation ev = new Evaluation(e, -1);
+                activCopex.updateEvaluation(ev,ev.getEvaluation(locale), ev.getComment(locale), false);
+            } catch (JDOMException ex) {
+                Logger.getLogger(CopexPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    /*sent sync. event: update evaluation */
+    public void addSyncUpdateEvaluation(Evaluation evaluation){
+        if(isCollaborate())
+            copexSync.addSyncUpdateEvaluation(CopexUtilities.xmlToString(evaluation.toXML()));
+    }
+
+    // MATERIAL ADDED
+    public void setMaterial(ArrayList<MaterialUsed> listMaterialToCreate, ArrayList<MaterialUsed> listMaterialToDelete, ArrayList<MaterialUsed> listMaterialToUpdate){
+        if(activCopex != null){
+            activCopex.setMaterialUsed(listMaterialToCreate, listMaterialToDelete, listMaterialToUpdate, false);
+        }
+    }
+
+    /*sent sync. event: set material used */
+    public void addSyncUpdateMaterial(ArrayList<MaterialUsed> listMaterialToCreate, ArrayList<MaterialUsed> listMaterialToDelete, ArrayList<MaterialUsed> listMaterialToUpdate){
+        if(isCollaborate())
+            copexSync.addSyncMaterialAdded(listMaterialToCreate, listMaterialToDelete, listMaterialToUpdate);
+    }
+
+    // ADD TASK
+    public void addTask(CopexTask task, CopexTask taskSelected, char insertIn){
+        if(activCopex != null){
+            TaskSelected ts = activCopex.getTaskSelected(taskSelected, insertIn);
+            if(task instanceof CopexAction){
+                activCopex.addAction((CopexAction)task, ts,insertIn, false);
+            }else if(task instanceof Step){
+                activCopex.addStep((Step)task, ts,insertIn, false);
+            }
+        }
+    }
+
+    /*sent sync. event:  add task */
+    public void addSyncAddTask(CopexTask task, CopexTask taskSelected, char insertIn){
+        if(isCollaborate())
+            copexSync.addSyncAddTask(task, taskSelected, insertIn);
+    }
 }

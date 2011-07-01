@@ -749,13 +749,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
         repaint();
     }
 
-    /* add a new action  */
-    public CopexReturn addAction(CopexAction newAction, char insertIn){
-        // gets the activ proc and the position to add action 
-        TaskSelected ts = copexTree.getTaskSelected(insertIn);
-        if (ts == null || ts.getProc() == null )
-            return new CopexReturn(getBundleString("MSG_ERROR_ADD_ACTION"), false);
-
+    public CopexReturn addAction(CopexAction newAction, TaskSelected ts, char insertIn, boolean sync){
         ArrayList v = new ArrayList();
         CopexReturn cr = this.controller.addAction(newAction, ts.getProc(), ts.getTaskBrother(),ts.getTaskParent(), v);
         if (cr.isError())
@@ -766,7 +760,19 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
         copexTree.addEdit_addTask(copexTree.getTaskSelected(newAction), ts);
         updateMenu();
         procModif = true;
+        if(sync){
+            copexPanel.addSyncAddTask(newAction, ts.getSelectedTask(), insertIn);
+        }
         return new CopexReturn();
+    }
+
+    /* add a new action  */
+    public CopexReturn addAction(CopexAction newAction, char insertIn){
+        // gets the activ proc and the position to add action 
+        TaskSelected ts = copexTree.getTaskSelected(insertIn);
+        if (ts == null || ts.getProc() == null )
+            return new CopexReturn(getBundleString("MSG_ERROR_ADD_ACTION"), false);
+        return addAction(newAction, ts,  insertIn, true);
     }
 
     /* modification action */
@@ -829,14 +835,9 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
     }
 
     /* add a new step */
-    public CopexReturn addStep(Step newStep, char insertIn){
-        // gets the activ proc and the position to add step
-        TaskSelected ts = copexTree.getTaskSelected(insertIn);
-        if (ts == null || ts.getProc() == null )
-            return new CopexReturn(getBundleString("MSG_ERROR_ADD_STEP"), false);
-
+    public CopexReturn addStep(Step newStep, TaskSelected ts, char insertIn, boolean sync){
         ArrayList v = new ArrayList();
-       CopexReturn cr = this.controller.addStep(newStep, ts.getProc(), ts.getTaskBrother(),ts.getTaskParent(), v);
+        CopexReturn cr = this.controller.addStep(newStep, ts.getProc(), ts.getTaskBrother(),ts.getTaskParent(), v);
         if (cr.isError())
             return new CopexReturn(getBundleString("MSG_ERROR_ADD_STEP"), false);
         ExperimentalProcedure newProc = (ExperimentalProcedure)v.get(0);
@@ -845,7 +846,19 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
         copexTree.addEdit_addTask(copexTree.getTaskSelected(newStep), ts);
         updateMenu();
         procModif = true;
+        if(sync){
+            copexPanel.addSyncAddTask(newStep, ts.getSelectedTask(), insertIn);
+        }
         return new CopexReturn();
+    }
+
+    /* add a new step */
+    public CopexReturn addStep(Step newStep, char insertIn){
+        // gets the activ proc and the position to add step
+        TaskSelected ts = copexTree.getTaskSelected(insertIn);
+        if (ts == null || ts.getProc() == null )
+            return new CopexReturn(getBundleString("MSG_ERROR_ADD_STEP"), false);
+        return addStep(newStep, ts, insertIn, true);
     }
 
     /* update step */
@@ -869,23 +882,6 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
         return new CopexReturn();
     }
 
-    /* update question*/
-    public CopexReturn updateQuestion(Question newQuestion){
-        ArrayList v = new ArrayList();
-        Question oldQuestion = (Question)proc.getQuestion().clone();
-        CopexReturn cr = this.controller.updateQuestion(newQuestion, proc, proc.getQuestion(), v);
-        if (cr.isError())
-            return new CopexReturn(getBundleString("MSG_ERROR_UPDATE_QUESTION"), false);
-        ExperimentalProcedure newProc = (ExperimentalProcedure)v.get(0);
-        updateProc(newProc);
-        copexTree.updateQuestion(newProc.getQuestion());
-        copexTree.addEdit_updateQuestion(oldQuestion, newProc.getQuestion());
-        updateMenu();
-        procModif = true;
-        return new CopexReturn();
-    }
-
-    
 
     /* show the specified level */
     private void displayLevel(int level){
@@ -1697,7 +1693,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
     }
 
     
-    public String updateHypothesis(Hypothesis hypothesis, String newText, String newComment){
+    public String updateHypothesis(Hypothesis hypothesis, String newText, String newComment, boolean sync){
         if(controlLenght() && newText.length() > MyConstants.MAX_LENGHT_HYPOTHESIS){
             String msg = getBundleString("MSG_LENGHT_MAX");
             msg  = CopexUtilities.replace(msg, 0, getBundleString("TREE_HYPOTHESIS"));
@@ -1733,10 +1729,13 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
         hypothesis = (Hypothesis)v.get(0);
         copexTree.addEdit_hypothesis(oldHypothesis, hypothesis);
         setHypothesis(hypothesis);
+        if(sync){
+            copexPanel.addSyncUpdateHypothesis(hypothesis);
+        }
         return hypothesis.getHypothesis(getLocale());
     }
 
-    public String updateGeneralPrinciple(GeneralPrinciple principle, String newText, String newComment){
+    public String updateGeneralPrinciple(GeneralPrinciple principle, String newText, String newComment, boolean sync){
         if(controlLenght() && newText.length() > MyConstants.MAX_LENGHT_GENERAL_PRINCIPLE){
             String msg = getBundleString("MSG_LENGHT_MAX");
             msg  = CopexUtilities.replace(msg, 0, getBundleString("TREE_GENERAL_PRINCIPLE"));
@@ -1772,11 +1771,14 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
         principle = (GeneralPrinciple)v.get(0);
         copexTree.addEdit_principle(oldPrinciple, principle);
         setGeneralPrinciple(principle);
+        if(sync){
+            copexPanel.addSyncUpdateGeneralPrinciple(principle);
+        }
         return principle.getPrinciple(getLocale());
     }
 
 
-     public String updateEvaluation(Evaluation evaluation, String newText, String newComment){
+     public String updateEvaluation(Evaluation evaluation, String newText, String newComment, boolean sync){
         if(controlLenght() && newText.length() > MyConstants.MAX_LENGHT_EVALUATION){
             String msg = getBundleString("MSG_LENGHT_MAX");
             msg  = CopexUtilities.replace(msg, 0, getBundleString("TREE_EVALUATION"));
@@ -1812,10 +1814,13 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
         evaluation = (Evaluation)v.get(0);
         copexTree.addEdit_evaluation(oldEvaluation, evaluation);
         setEvaluation(evaluation);
+        if(sync){
+            copexPanel.addSyncUpdateEvaluation(evaluation);
+        }
         return evaluation.getEvaluation(getLocale());
     }
 
-     public String updateQuestion(Question question, String newText, String newComment){
+     public String updateQuestion(Question question, String newText, String newComment, boolean sync){
         if (controlLenght() && newText.length() > MyConstants.MAX_LENGHT_TASK_DESCRIPTION){
            String msg = getBundleString("MSG_LENGHT_MAX");
             msg  = CopexUtilities.replace(msg, 0, getBundleString("LABEL_QUESTION"));
@@ -1888,7 +1893,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
       }
 
       // update the material used
-      public boolean setMaterialUsed(ArrayList<MaterialUsed> listMaterialToCreate,ArrayList<MaterialUsed> listMaterialToDelete, ArrayList<MaterialUsed> listMaterialToUpdate ){
+      public boolean setMaterialUsed(ArrayList<MaterialUsed> listMaterialToCreate,ArrayList<MaterialUsed> listMaterialToDelete, ArrayList<MaterialUsed> listMaterialToUpdate, boolean sync ){
           setCursor(new Cursor(Cursor.WAIT_CURSOR));
           ArrayList v = new ArrayList();
           CopexReturn cr = this.controller.setMaterialUsed(proc, listMaterialToCreate, listMaterialToDelete, listMaterialToUpdate, v);
@@ -1901,6 +1906,9 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
           proc.setListMaterialUsed(listMaterialUsed);
           proc.getMaterials().setListMaterialUsed(listMaterialUsed);
           copexTree.updateProc(proc);
+          if(sync){
+              copexPanel.addSyncUpdateMaterial(listMaterialToCreate, listMaterialToDelete,listMaterialToUpdate);
+          }
           setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
           return true;
       }
@@ -1992,5 +2000,16 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
             return (String)v.get(0);
         }
     }
+
+     /* set the current proc in read-only mode */
+    public void  setExperimentalProcedureReadOnly(boolean readOnly){
+        char right = readOnly?MyConstants.NONE_RIGHT:MyConstants.EXECUTE_RIGHT;
+        this.proc.setRight(right);
+        copexTree.updateProc(proc, true);
+    }
+
+     public TaskSelected getTaskSelected(CopexTask selTask, char insertIn){
+         return copexTree.getTaskSelected(selTask, insertIn);
+     }
 
 }

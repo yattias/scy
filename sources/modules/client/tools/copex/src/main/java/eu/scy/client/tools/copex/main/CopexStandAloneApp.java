@@ -14,6 +14,7 @@ package eu.scy.client.tools.copex.main;
 import eu.scy.client.tools.copex.common.LearnerProcedure;
 import eu.scy.client.tools.copex.logger.CopexProperty;
 import eu.scy.client.tools.copex.utilities.ActionCopex;
+import eu.scy.common.datasync.ISyncObject;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.List;
@@ -158,6 +159,21 @@ public class CopexStandAloneApp extends javax.swing.JFrame implements ActionCope
     @Override
     public void logAction(String type, List<CopexProperty> attribute) {
         // nothing
+    }
+
+    @Override
+    public void addCopexSyncObject(ISyncObject syncObject) {
+
+    }
+
+    @Override
+    public void changeCopexSyncObject(ISyncObject syncObject) {
+
+    }
+
+    @Override
+    public void removeCopexSyncObject(ISyncObject syncObject) {
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

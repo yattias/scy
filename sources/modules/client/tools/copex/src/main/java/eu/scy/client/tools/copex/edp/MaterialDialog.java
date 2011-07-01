@@ -282,7 +282,7 @@ public class MaterialDialog extends JDialog implements ActionMaterial,ActionAddM
     // valid dialog 
     private void validDialog(){
         updateMaterialUsed();
-        boolean isOk = edP.setMaterialUsed(listMaterialToCreate, listMaterialToDelete, listMaterialToUpdate);
+        boolean isOk = edP.setMaterialUsed(listMaterialToCreate, listMaterialToDelete, listMaterialToUpdate, true);
         if(isOk)
             this.dispose();
     }

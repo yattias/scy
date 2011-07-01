@@ -9,6 +9,7 @@ import eu.scy.client.tools.copex.common.LearnerProcedure;
 import eu.scy.client.tools.copex.logger.CopexProperty;
 import eu.scy.client.tools.copex.utilities.ActionCopex;
 import eu.scy.client.tools.copex.utilities.CopexUtilities;
+import eu.scy.common.datasync.ISyncObject;
 import java.awt.BorderLayout;
 import java.util.List;
 import java.util.Locale;
@@ -86,6 +87,21 @@ public class CopexApplet extends JApplet implements ActionCopex{
         this.copexPanel.loadELO(CopexUtilities.stringToXml(xproc));
         myPanel.revalidate();
         repaint();
+    }
+
+    @Override
+    public void addCopexSyncObject(ISyncObject syncObject) {
+
+    }
+
+    @Override
+    public void changeCopexSyncObject(ISyncObject syncObject) {
+
+    }
+
+    @Override
+    public void removeCopexSyncObject(ISyncObject syncObject) {
+        
     }
 
 }

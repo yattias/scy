@@ -116,4 +116,14 @@ public interface ControllerInterface {
     public URL getCopexURL();
     /** get export in html format */
     public CopexReturn getPreview(ExperimentalProcedure p, ArrayList v) ;
+    /* returns the material list for a proc*/
+    public List<Material> getListMaterial(ExperimentalProcedure p);
+    /** returns the id material*/
+    public long getIdMaterial();
+    /**returns the id quantity */
+    public long getIdQuantity();
+    /** returns the list of physical quantity*/
+    public List<PhysicalQuantity> getListPhysicalQuantity();
+    /** returns the list of material type */
+    public List<TypeMaterial> getListTypeMaterial();
 }

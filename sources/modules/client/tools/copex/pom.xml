@@ -58,11 +58,16 @@
             <artifactId>drawingtool</artifactId>
             <version>${pom.version}</version>
         </dependency>
-		<dependency>
+	<dependency>
             <groupId>org.roolo</groupId>
             <artifactId>elo-impl</artifactId>
-			<version>${project.version}</version>
-		</dependency>
+            <version>${project.version}</version>
+	</dependency>
+        <dependency>
+        <groupId>eu.scy.common</groupId>
+            <artifactId>data-sync-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
     </dependencies>
     
     <build>
