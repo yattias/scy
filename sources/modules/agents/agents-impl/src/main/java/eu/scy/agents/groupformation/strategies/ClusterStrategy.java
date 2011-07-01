@@ -97,8 +97,7 @@ public class ClusterStrategy extends AbstractGroupFormationStrategy {
 			Set<String> availableUsers) {
 		Map<String, FeatureVector> featureVectors = new HashMap<String, FeatureVector>();
 		for (String user : availableUsers) {
-			featureVectors.put(user, new FeatureVector(user,
-					new double[extractors.size()]));
+			featureVectors.put(user, new FeatureVector(user);
 		}
 		return featureVectors;
 	}
