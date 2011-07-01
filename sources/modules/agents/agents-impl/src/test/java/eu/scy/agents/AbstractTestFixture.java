@@ -21,6 +21,7 @@ import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import roolo.elo.content.BasicContent;
 import roolo.elo.metadata.keys.KeyValuePair;
 
 import java.io.BufferedReader;
@@ -131,6 +132,17 @@ public class AbstractTestFixture {
                                 .getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT
                                         .getId()));
         typeContainer.setValue(type);
+        return elo;
+    }
+
+    protected IELO loadElo(String eloContentFile, String eloType, String eloTitle)
+            throws IOException {
+        IELO elo;
+        InputStream inStream = this.getClass().getResourceAsStream(eloContentFile);
+        String eloContent = readFile(inStream);
+        inStream.close();
+        elo = createNewElo(eloTitle, eloType);
+        elo.setContent(new BasicContent(eloContent));
         return elo;
     }
 
@@ -285,7 +297,7 @@ public class AbstractTestFixture {
         return new Tuple(ActionConstants.ACTION, new VMID().toString(),
                 System.currentTimeMillis(), ActionConstants.ACTION_LOG_IN,
                 user, "scy-desktop", mission, "n/a",
-                "roolo://memory/13/0/eco_reference_map.mapping",
+                "roolo://memory/16/0/eco_reference_map.mapping",
                 "missionSpecification=" + mission, "language=" + language,
                 "missionName=" + missionName);
     }
