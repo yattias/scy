@@ -1797,8 +1797,10 @@ public class CopexController implements ControllerInterface {
             hypothesis.setDbKey(idHypothesis++);
         }
         Hypothesis oldHypothesis = null;
-        if(listProc.get(idP).getHypothesis() != null)
+        if(listProc.get(idP).getHypothesis() != null){
             oldHypothesis = (Hypothesis)listProc.get(idP).getHypothesis().clone();
+            hypothesis.setDbKey(oldHypothesis.getDbKey());
+        }
         listProc.get(idP).setHypothesis(hypothesis);
         if(hypothesis != null)
             v.add(hypothesis.clone());
@@ -2005,5 +2007,39 @@ public class CopexController implements ControllerInterface {
     @Override
     public CopexReturn getPreview(ExperimentalProcedure p, ArrayList v){
         return new CopexReturn();
+    }
+
+    /* returns the material list for a proc*/
+    @Override
+    public List<Material> getListMaterial(ExperimentalProcedure p){
+        if(p instanceof InitialProcedure){
+            return ((InitialProcedure)p).getListMaterial();
+        }else {
+            return ((LearnerProcedure)p).getInitialProc().getListMaterial();
+        }
+    }
+
+    /** returns the id material*/
+    @Override
+    public long getIdMaterial(){
+        return this.idMaterial;
+    }
+
+    /**returns the id quantity */
+    @Override
+    public long getIdQuantity(){
+        return this.idQuantity;
+    }
+
+    /** returns the list of physical quantity*/
+    @Override
+    public List<PhysicalQuantity> getListPhysicalQuantity(){
+        return this.listPhysicalQuantity;
+    }
+
+    /** returns the list of material type */
+    @Override
+    public List<TypeMaterial> getListTypeMaterial(){
+        return this.config.getListTypeMaterial();
     }
 }

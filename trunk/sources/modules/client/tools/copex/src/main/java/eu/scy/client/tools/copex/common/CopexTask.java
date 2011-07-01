@@ -117,7 +117,7 @@ public abstract  class CopexTask implements Cloneable {
 
     public CopexTask(Element xmlElem) throws JDOMException {
 		
-	}
+    }
 
      public void setDbKey(long dbKey) {
         this.dbKey = dbKey;

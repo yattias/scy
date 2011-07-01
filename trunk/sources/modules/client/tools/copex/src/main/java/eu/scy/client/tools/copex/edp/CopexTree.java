@@ -654,7 +654,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener, Mous
                  if(txt.equals(owner.getBundleString("DEFAULT_TEXT_HYPOTHESIS"))){
                      txt = "";
                  }
-                 String newHyp = this.owner.updateHypothesis((Hypothesis)node.getNode(), txt, comment);
+                 String newHyp = this.owner.updateHypothesis((Hypothesis)node.getNode(), txt, comment, true);
                  //((Hypothesis)node.getNode()).setHypothesis(CopexUtilities.getTextLocal(newHyp,owner.getLocale()));
                  ((Hypothesis)node.getNode()).setHypothesis(newHyp);
                  copexTreeModel.nodeChanged(node);
@@ -662,12 +662,12 @@ public class CopexTree extends JTree implements MouseListener, KeyListener, Mous
                  if(txt.equals(owner.getBundleString("DEFAULT_TEXT_PRINCIPLE"))){
                      txt = "";
                  }
-                 String newPrinc = this.owner.updateGeneralPrinciple((GeneralPrinciple)node.getNode(), txt, comment);
+                 String newPrinc = this.owner.updateGeneralPrinciple((GeneralPrinciple)node.getNode(), txt, comment, true);
                  //((GeneralPrinciple)node.getNode()).setPrinciple(CopexUtilities.getTextLocal(newPrinc,owner.getLocale()));
                  ((GeneralPrinciple)node.getNode()).setPrinciple(newPrinc);
                  copexTreeModel.nodeChanged(node);
              }else if(node.isEvaluation()){
-                 String newEval = this.owner.updateEvaluation((Evaluation)node.getNode(), txt, comment);
+                 String newEval = this.owner.updateEvaluation((Evaluation)node.getNode(), txt, comment, true);
                  //((Evaluation)node.getNode()).setEvaluation(CopexUtilities.getTextLocal(newEval,owner.getLocale()));
                  ((Evaluation)node.getNode()).setEvaluation(newEval);
                  copexTreeModel.nodeChanged(node);
@@ -675,7 +675,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener, Mous
                  if(txt.equals(owner.getBundleString("MSG_QUESTION"))){
                      txt = "";
                  }
-                 String newQuestion = this.owner.updateQuestion((Question)node.getNode(), txt, comment);
+                 String newQuestion = this.owner.updateQuestion((Question)node.getNode(), txt, comment, true);
                  //((Question)node.getNode()).setDescription(CopexUtilities.getTextLocal(newQuestion,owner.getLocale()));
                  ((Question)node.getNode()).setDescription(newQuestion);
                  copexTreeModel.nodeChanged(node);
