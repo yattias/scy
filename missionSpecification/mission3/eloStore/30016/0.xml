@@ -118,6 +118,79 @@
         <unit>euro</unit>
       </column>
     </header>
+    <header language="el">
+      <column>
+        <symbol>Συστατικά</symbol>
+        <description />
+        <type>String</type>
+      </column>
+      <column>
+        <symbol>Κορεσμένα Λιπαρά</symbol>
+        <description />
+        <type>double</type>
+        <unit>g</unit>
+      </column>
+      <column>
+        <symbol>Συνολικά Λιπαρά</symbol>
+        <description />
+        <type>double</type>
+        <unit>g</unit>
+      </column>
+      <column>
+        <symbol>Υδατάνθρακες-Σάκχαρα</symbol>
+        <description />
+        <type>double</type>
+        <unit>g</unit>
+      </column>
+      <column>
+        <symbol>Συνολικοί Υδατάνθρακες</symbol>
+        <description />
+        <type>double</type>
+        <unit>g</unit>
+      </column>
+      <column>
+        <symbol>Πρωτεΐνες</symbol>
+        <description />
+        <type>double</type>
+        <unit>g</unit>
+      </column>
+      <column>
+        <symbol>Βιταμίνες</symbol>
+        <description />
+        <type>double</type>
+        <unit>mg</unit>
+      </column>
+      <column>
+        <symbol>Νάτριο</symbol>
+        <description />
+        <type>double</type>
+        <unit>mg</unit>
+      </column>
+      <column>
+        <symbol>Φυτικές Ίνες</symbol>
+        <description />
+        <type>double</type>
+        <unit>g</unit>
+      </column>
+      <column>
+        <symbol>Χοληστερόλη</symbol>
+        <description />
+        <type>double</type>
+        <unit>mg</unit>
+      </column>
+      <column>
+        <symbol>Ενέργεια</symbol>
+        <description />
+        <type>double</type>
+        <unit>kcal</unit>
+      </column>
+      <column>
+        <symbol>Κόστος</symbol>
+        <description />
+        <type>double</type>
+        <unit>euro</unit>
+      </column>
+    </header>
     <row>
       <value />
       <value />
