@@ -32,6 +32,7 @@
       <las />
       <title>
         <string language="en">Nutrition Table</string>
+        <string language="el">Πίνακας Θρεπτικών Ουσιών</string>
       </title>
     </general>
     <relation>
@@ -84,6 +85,38 @@
       </column>
       <column>
         <symbol>Average daily required quantity</symbol>
+        <description />
+        <type>String</type>
+      </column>
+    </header>
+    <header language="el">
+      <column>
+        <symbol>Θρεπτικές Ουσίες</symbol>
+        <description />
+        <type>String</type>
+      </column>
+      <column>
+        <symbol>Λειτουργία</symbol>
+        <description />
+        <type>String</type>
+      </column>
+      <column>
+        <symbol>Λειτουργία</symbol>
+        <description />
+        <type>String</type>
+      </column>
+      <column>
+        <symbol>Λειτουργία</symbol>
+        <description />
+        <type>String</type>
+      </column>
+      <column>
+        <symbol>Παραδείγματα τροφών</symbol>
+        <description />
+        <type>String</type>
+      </column>
+      <column>
+        <symbol>Μέση απαιτούμενη ημερήσια ποσότητα</symbol>
         <description />
         <type>String</type>
       </column>

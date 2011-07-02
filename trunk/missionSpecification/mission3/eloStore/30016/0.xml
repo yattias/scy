@@ -32,6 +32,7 @@
       <las />
       <title>
         <string language="en">Pizza Ingredient Table</string>
+        <string language="el">Πίνακας Συστατικών Πίτσας</string>
       </title>
     </general>
   </lom>
