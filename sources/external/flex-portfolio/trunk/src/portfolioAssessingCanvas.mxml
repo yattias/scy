@@ -48,7 +48,8 @@
 				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
 				sLogger["type"] = "review_assessed_eportfolio_view_finished";
 				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
-				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
+				var ass:AutoSaveService = new AutoSaveService(so.data.actionlogger, null, null, XMLUtilJer.getXMLActionLoggerObject(sLogger, null));
+				ass.sendTheMofo();
 			}
 			
 			public function refreshView():void {
@@ -69,7 +70,8 @@
 				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
 				sLogger["type"] = "review_assessed_eportfolio_view_started";
 				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
-				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
+				var ass:AutoSaveService = new AutoSaveService(so.data.actionlogger, null, null, XMLUtilJer.getXMLActionLoggerObject(sLogger, null));
+				//ass.sendTheMofo();
 				
 				currentStatus.text = resourceManager.getString('resources', so.data.retrievedElosFromRoolo.portfoliostatus);
 				

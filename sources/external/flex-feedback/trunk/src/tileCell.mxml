@@ -70,8 +70,8 @@
 				ob.oName = "eloWithFeedbackSelected";
 				ob.oVal = uri;
 				attribs.addItem(ob);
-				var ass:AutoSaveService = new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, attribs)));
-				ass.sendTheMofo();
+				//var ass:AutoSaveService = new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, attribs)));
+				//ass.sendTheMofo();
 			}
 
 			protected function thumb_ioErrorHandler(event:IOErrorEvent):void {

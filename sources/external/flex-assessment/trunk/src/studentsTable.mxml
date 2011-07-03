@@ -26,7 +26,6 @@
 			import mx.core.FlexGlobals;
 			import mx.events.FlexEvent;
 			
-			import spark.components.supportClasses.GridColumn;
 			import spark.components.supportClasses.ItemRenderer;
 			import spark.events.IndexChangeEvent;
 			
@@ -48,7 +47,7 @@
 				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
 				sLogger["type"] = "student_table_view_started";
 				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
-				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
+				//new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
 				
 				
 				portfolioElo = so.data.refr as XML;
@@ -105,7 +104,7 @@
 				ob.oName = "newSelectedTab";
 				ob.oVal = (students.getChildAt(students.selectedIndex) as missionPortfolioItem).label;
 				attribs.addItem(ob);
-				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, attribs)));
+				//new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, attribs)));
 				
 				selectedPane=students.selectedIndex;
 			}

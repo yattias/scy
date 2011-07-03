@@ -150,7 +150,7 @@ package utils
 			if(rawdatadataset != null && rawdatadataset != "") {
 				newELO.rawdata.dataset = <dataset>{cdata((rawdatadataset).replace(myPattern, "@"))}</dataset>;
 			}
-			newELO.snippeturl = <snippeturl>{cdata(ob.snippeturl)}</snippeturl>;
+			newELO.snippeturl = <snippeturl>{cdata((ob.snippeturl).replace(myPattern, "@"))}</snippeturl>;
 			newELO.inquiryquestion = <inquiryquestion>{cdata(ob.inquiryquestion)}</inquiryquestion>;
 			newELO.studentinquiry = <studentinquiry>{ob.studentinquiry}</studentinquiry>;
 			newELO.assessed = <assessed>false</assessed>;

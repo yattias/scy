@@ -72,7 +72,7 @@
 					attribs.addItem(ob);
 				}
 				
-				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, attribs)));
+				//new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, attribs)));
 
 				dispatchEvent(tEvent);
 			}

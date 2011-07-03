@@ -62,6 +62,7 @@
 			[Bindable] private var descriptionAreaTextText:String = "";
 			[Bindable] private var glgLiveText:String = "";
 			[Bindable] private var slgLiveText:String = "";
+			[Bindable] private var refOnInqTextTextText:String = "";
 			
 			private var retrievedReflectionQuestion:String = null;
 			
@@ -138,7 +139,7 @@
 						}
 						else {
 							
-							var ass:AutoSaveService = new AutoSaveService(so.data.saveportfolio+"?missionURI="+new String(FlexGlobals.topLevelApplication.parameters.missionURI).replace("#", "@")+"&xmlContent="+encodeURI(portfolioString));	
+							var ass:AutoSaveService = new AutoSaveService(so.data.saveportfolio, new String(FlexGlobals.topLevelApplication.parameters.missionURI), portfolioString);	
 							ass.httpService.addEventListener(ResultEvent.RESULT, assResult);
 							ass.httpService.addEventListener(FaultEvent.FAULT, assFault);
 							ass.sendTheMofo();
@@ -162,7 +163,8 @@
 					sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
 					
 					try {
-						new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
+						var ass:AutoSaveService = new AutoSaveService(so.data.actionlogger, null, null, XMLUtilJer.getXMLActionLoggerObject(sLogger, null));
+						//ass.sendTheMofo();
 					}
 					catch(errObject:Error) {
 						trace(errObject.message);
@@ -184,7 +186,8 @@
 				ob.oName = "eloReflectedOn";
 				ob.oVal = eloUri;
 				attribs.addItem(ob);
-				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, attribs)));
+				var ass:AutoSaveService = new AutoSaveService(so.data.actionlogger, null, null, XMLUtilJer.getXMLActionLoggerObject(sLogger, attribs));
+				//ass.sendTheMofo();
 			}
 			
 			private function assFault(evt:FaultEvent):void {
@@ -226,7 +229,8 @@
 				ob.oName = "eloReflectedOn";
 				ob.oVal = selectedElo.uri;
 				attribs.addItem(ob);
-				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, attribs)));
+				var ass:AutoSaveService = new AutoSaveService(so.data.actionlogger, null, null, XMLUtilJer.getXMLActionLoggerObject(sLogger, attribs));
+				//ass.sendTheMofo();
 				
 				if(selectedElo != null) {
 					selectedEloCatname = selectedElo.catname;
@@ -345,6 +349,7 @@
 
 			protected function navigatorcontent1_creationCompleteHandler(event:FlexEvent):void {
 				var so:SharedObject = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
+				refOnInqTextTextText = so.data.elrefinq;
 				
 				URLpropertyFile.url = FlexGlobals.topLevelApplication.parameters.toolURLProvider;
 				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
@@ -511,7 +516,7 @@
 				
 				<mx:FormItem label="{resourceManager.getString('resources', 'REF_ON_INQ')+':'}">
 					<mx:VBox width="100%" verticalGap="0">
-						<mx:Text id="refOnInqText" text="{index.REF_ON_INQ_TXT}" width="400" />
+						<mx:Text id="refOnInqText" text="{refOnInqTextTextText}" width="400" />
 						<mx:HBox width="400" height="33" horizontalGap="{(400-4*30)/3}">
 							<mx:Image id="thummmmmm1" source="{index.IMAGE_BASE_URL+'assets/images/emoticons/1.png'}" width="30" height="33" />
 							<mx:Image source="{index.IMAGE_BASE_URL+'assets/images/emoticons/2.png'}" width="30" height="33" />

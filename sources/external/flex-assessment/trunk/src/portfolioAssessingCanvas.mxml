@@ -44,7 +44,7 @@
 				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
 				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
 				sLogger["type"] = "portfolio_assess_view_finished";
-				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
+				//new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
 			}
 			
 			public function processPortfolio(passedPortfolioStudentName:String):void {
@@ -55,7 +55,7 @@
 				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
 				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
 				sLogger["type"] = "portfolio_assess_view_started";
-				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
+				//new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
 				
 				
 				portfolioElo = so.data.refr as XML;
@@ -118,7 +118,8 @@
 					var myPattern:RegExp = /\#/gi; 
 					var portfolioString:String = new String(newPfXML).replace(myPattern, "@");
 					
-					new AutoSaveService(so.data.saveportfolio+"?missionURI="+decodeURI(new String(newPfXML.missionruntimeuri).replace(myPattern, "@"))+"&xmlContent="+encodeURI(portfolioString));
+					var ass:AutoSaveService = new AutoSaveService(so.data.saveportfolio, new String(newPfXML.missionruntimeuri), portfolioString);	
+					ass.sendTheMofo();
 					
 					teaRatingGrp.selectedValue = null;
 					commentArea.text = "";

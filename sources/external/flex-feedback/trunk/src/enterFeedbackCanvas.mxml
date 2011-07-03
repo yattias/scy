@@ -141,10 +141,11 @@
 					var ass:AutoSaveService;
 					trace(XMLUtilJer.getFeedBackXML(dico));
 					if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
-						ass = new AutoSaveService(new String(so.data.savefeedback).substring(1), "e4x");
+						ass = new AutoSaveService(new String(so.data.savefeedback).substring(1));
 					}
 					else {
-						ass = new AutoSaveService(new String(so.data.savefeedback)+"?feedbackURI="+feedbackURI+"&xmlContent="+encodeURI(XMLUtilJer.getFeedBackXML(dico)), "e4x");
+						//ass = new AutoSaveService(new String(so.data.savefeedback)+"?feedbackURI="+feedbackURI+"&xmlContent="+encodeURI(XMLUtilJer.getFeedBackXML(dico)), "e4x");
+						ass = new AutoSaveService(so.data.savefeedback, feedbackURI, XMLUtilJer.getFeedBackXML(dico));	
 					}
 					ass.httpService.addEventListener(ResultEvent.RESULT, AutoSaveService_resultHandler);
 					ass.sendTheMofo();

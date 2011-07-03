@@ -67,7 +67,8 @@
 				ob.oName = "newValue";
 				ob.oVal = (index.obligElos[event.newIndex]).label;
 				attribs.addItem(ob);
-				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, attribs)));
+				var ass:AutoSaveService = new AutoSaveService(so.data.actionlogger, null, null, XMLUtilJer.getXMLActionLoggerObject(sLogger, attribs));
+				//ass.sendTheMofo();
 				
 				checkForBuildButtonState(event.newIndex);
 			}
@@ -108,7 +109,8 @@
 					sLogger["type"] = "view_finished_portfolio_button_clicked";
 				}
 				sLogger["elouri"] = decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23");
-				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
+				var ass:AutoSaveService = new AutoSaveService(so.data.actionlogger, null, null, XMLUtilJer.getXMLActionLoggerObject(sLogger, null));
+				//ass.sendTheMofo();
 			}
 
 

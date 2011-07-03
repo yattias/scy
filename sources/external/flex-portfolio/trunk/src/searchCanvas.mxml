@@ -61,8 +61,8 @@
 				dispatchEvent(tEvent);
 				
 				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
-				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, attribs)));
-				
+				var ass:AutoSaveService = new AutoSaveService(so.data.actionlogger, null, null, XMLUtilJer.getXMLActionLoggerObject(sLogger, attribs));
+				//ass.sendTheMofo();
 			}
 
 			protected function radioGroup_itemClickHandler(event:ItemClickEvent):void {
@@ -76,7 +76,8 @@
 				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
 				sLogger["type"] = "search_for_elos_started";
 				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
-				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
+				var ass:AutoSaveService = new AutoSaveService(so.data.actionlogger, null, null, XMLUtilJer.getXMLActionLoggerObject(sLogger, null));
+				//ass.sendTheMofo();
 				
 				currentEloCategory = so.data.currentEloCategory;
 				searchString.htmlText = "<u>"+resourceManager.getString('resources', 'SEARCH_LABEL')+"</u>: "+currentEloCategory.obliElo;

@@ -33,7 +33,7 @@
 					dispatchEvent(tEvent);
 				}
 				else {
-					var ass:AutoSaveService = new AutoSaveService(so.data.saveportfolio+"?missionURI="+new String(FlexGlobals.topLevelApplication.parameters.missionURI).replace("#", "@")+"&xmlContent="+encodeURI(portfolioString));	
+					var ass:AutoSaveService = new AutoSaveService(so.data.saveportfolio, new String(FlexGlobals.topLevelApplication.parameters.missionURI), portfolioString);	
 					ass.httpService.addEventListener(ResultEvent.RESULT, assResult);
 					ass.httpService.addEventListener(FaultEvent.FAULT, assFault);
 					ass.sendTheMofo();
@@ -45,7 +45,8 @@
 				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
 				sLogger["type"] = "build_eportfolio_view_finished";
 				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
-				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
+				var ass:AutoSaveService = new AutoSaveService(so.data.actionlogger, null, null, XMLUtilJer.getXMLActionLoggerObject(sLogger, null));
+				//ass.sendTheMofo();
 				dispatchEvent(tEvent);
 			}
 			
@@ -60,7 +61,8 @@
 				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
 				sLogger["type"] = "build_eportfolio_view_started";
 				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
-				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
+				var ass:AutoSaveService = new AutoSaveService(so.data.actionlogger, null, null, XMLUtilJer.getXMLActionLoggerObject(sLogger, null));
+				//ass.sendTheMofo();
 				
 				submitBox.selectedIndex = so.data.currentEloCategory.obliEloNum;
 				(submitBox.selectedChild as submitCanvasNavigator).refreshView();

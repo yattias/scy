@@ -53,7 +53,7 @@
 						parentCanvas.refreshView();
 					}
 					else {
-						var ass:AutoSaveService = new AutoSaveService(so.data.saveportfolio+"?missionURI="+new String(FlexGlobals.topLevelApplication.parameters.missionURI).replace("#", "@")+"&xmlContent="+encodeURI(portfolioString));	
+						var ass:AutoSaveService = new AutoSaveService(so.data.saveportfolio, new String(FlexGlobals.topLevelApplication.parameters.missionURI), portfolioString);	
 						ass.httpService.addEventListener(ResultEvent.RESULT, assResult);
 						ass.httpService.addEventListener(FaultEvent.FAULT, assFault);
 						ass.sendTheMofo();
@@ -71,7 +71,8 @@
 				ob.oName = "deletedElo";
 				ob.oVal = (this.getElementAt(0) as subCanvasElo).uri;
 				attribs.addItem(ob);
-				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, attribs)));
+				var ass:AutoSaveService = new AutoSaveService(so.data.actionlogger, null, null, XMLUtilJer.getXMLActionLoggerObject(sLogger, attribs));
+				//ass.sendTheMofo();
 				parentCanvas.refreshView();
 			}
 			
@@ -102,7 +103,8 @@
 					ob.oName = "editElo";
 					ob.oVal = (this.getElementAt(0) as subCanvasElo).uri;
 					attribs.addItem(ob);
-					new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, attribs)));
+					var ass:AutoSaveService = new AutoSaveService(so.data.actionlogger, null, null, XMLUtilJer.getXMLActionLoggerObject(sLogger, attribs));
+					//ass.sendTheMofo();
 					
 					var tEvent:ToggleEvent = new ToggleEvent(index.TOGGLE_COMMAND, true);
 					tEvent.direction = index.LEFT_DIRECTION;
