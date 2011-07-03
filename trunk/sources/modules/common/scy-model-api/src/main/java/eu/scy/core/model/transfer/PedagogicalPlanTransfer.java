@@ -18,6 +18,7 @@ public class PedagogicalPlanTransfer extends BaseXMLTransfer {
     private TechnicalInfo technicalInfo;
     private String name;
     private String pedagogicalPlanURI;
+    private Boolean trimSearchResultsInEportfolioToContainElosWithEqualTechnicalFormat = Boolean.TRUE;
 
     public AssessmentSetupTransfer getAssessmentSetup() {
         if (assessmentSetup == null) setAssessmentSetup(new AssessmentSetupTransfer());
@@ -104,5 +105,13 @@ public class PedagogicalPlanTransfer extends BaseXMLTransfer {
 
 
         return "";
+    }
+
+    public Boolean getTrimSearchResultsInEportfolioToContainElosWithEqualTechnicalFormat() {
+        return trimSearchResultsInEportfolioToContainElosWithEqualTechnicalFormat;
+    }
+
+    public void setTrimSearchResultsInEportfolioToContainElosWithEqualTechnicalFormat(Boolean trimSearchResultsInEportfolioToContainElosWithEqualTechnicalFormat) {
+        this.trimSearchResultsInEportfolioToContainElosWithEqualTechnicalFormat = trimSearchResultsInEportfolioToContainElosWithEqualTechnicalFormat;
     }
 }
