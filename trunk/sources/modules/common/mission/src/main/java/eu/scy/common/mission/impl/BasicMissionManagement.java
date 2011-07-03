@@ -275,7 +275,7 @@ public class BasicMissionManagement implements MissionManagement
    private String getLasTitle(Las las){
       if (las.getMissionAnchor().isExisting())
       {
-         if (!las.getMissionAnchor().getScyElo().getContent().isLanguageIndependent()){
+//         if (!las.getMissionAnchor().getScyElo().getContent().isLanguageIndependent()){
             List<Locale> languages = missionSpecificationElo.getElo().getLanguages();
             if (languages!=null && languages.size()>0){
                for (Locale language : languages){
@@ -285,7 +285,7 @@ public class BasicMissionManagement implements MissionManagement
                   }
                }
             }
-         }
+//         }
          return las.getMissionAnchor().getScyElo().getTitle();
       }
       return null;
