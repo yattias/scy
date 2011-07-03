@@ -55,8 +55,8 @@
 				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
 				sLogger["type"] = "enter_feedback_view_started";
 				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
-				var ass:AutoSaveService = new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
-				ass.sendTheMofo();
+				//var ass:AutoSaveService = new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
+				//ass.sendTheMofo();
 				
 				var tEvent:RefreshEvent = new RefreshEvent(index.REFRESH_COMMAND, true);
 				tEvent.eloURI = elourl;
