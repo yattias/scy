@@ -65,5 +65,18 @@
         <br/>
         <br/>
 
+<h2><spring:message code="TECHNICAL_SETUP_EPORTFOLIO"/></h2>
+<table>
+    <tr>
+        <td width="50%">
+            <strong><spring:message code="TRIM_SEARCH_RESULTS_IN_EPORTFOLIO_TO_TECHNICAL_FORMAT_ONLY"/></strong>
+        </td>
+        <td>
+            <s:ajaxTransferObjectCheckBox transferObjectServiceCollection="${transferObjectServiceCollection}" transferObject="${pedagogicalPlan}" transferEloURI="${pedagogicalPlan.pedagogicalPlanURI}" id="${pedagogicalPlan.id}" property="trimSearchResultsInEportfolioToContainElosWithEqualTechnicalFormat"/>
+        </td>
+
+    </tr>
+</table>
+
 
 

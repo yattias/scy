@@ -35,7 +35,9 @@ public class RetrieveSingleEloService extends XMLStreamerController{
             URI missionRuntimeURI = new URI(missionURI);
             MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(missionRuntimeURI, getMissionELOService());
 
-            URI eloUri = new URI(eloURI);
+            String decodedEloUri = URLDecoder.decode(eloURI, "UTF-8");
+
+            URI eloUri = new URI(decodedEloUri);
 
             ScyElo scyElo = ScyElo.loadLastVersionElo(eloUri, getMissionELOService());
             TransferElo returnElo = getMissionELOService().getTransferElo(scyElo);

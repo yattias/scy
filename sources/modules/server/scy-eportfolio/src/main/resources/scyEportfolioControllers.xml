@@ -125,6 +125,7 @@
 
     <bean id="eloSearchService" class="eu.scy.server.eportfolio.xml.EloSearchService">
         <property name="missionELOService" ref="missionELOService"/>
+        <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
         <property name="urlInspector" ref="urlInspector"/>
         <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
 	</bean>
