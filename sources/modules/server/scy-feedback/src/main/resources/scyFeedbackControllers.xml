@@ -49,6 +49,8 @@
                 /app/feedback/xml/myContributionElosFeedbackService.html=myContributionElosFeedbackService
                 /app/feedback/xml/savefeedback.html=saveFeedbackService
                 /app/feedback/xml/saveReplyTofeedback.html=savereplyfeedback
+
+                /app/feedback/webversion/myElosList.html=myElosListController
             </value>
         </property>
     </bean>
@@ -166,6 +168,11 @@
         <property name="userService" ref="userService"/>
         <property name="eloRefService" ref="eloRefService"/>
         <property name="playfulAssessmentService" ref="playfulAssessmentService"/>
+    </bean>
+
+    <bean id="myElosListController" class="eu.scy.server.controllers.scyfeedback.webversion.MyElosList">
+        <property name="userService" ref="userService"/>
+        <property name="runtimeELOService" ref="runtimeELOService"/>
     </bean>
 
 

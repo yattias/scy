@@ -6,11 +6,15 @@ import eu.scy.core.model.transfer.Portfolio;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.server.controllers.BaseController;
 import org.springframework.web.servlet.ModelAndView;
+import sun.misc.BASE64Decoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 import java.net.URLDecoder;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
 
 /**
  * Created by IntelliJ IDEA.
@@ -38,7 +42,7 @@ public class SavePortfolioController extends BaseController {
 
         logger.info("THE MISSION :" + missionURI + " will be updated with: " + xmlContent);
         missionURI = missionURI.replaceAll("@", "#");
-        logger.info("MODIFIED MISSION URI: " + missionURI);
+        //logger.info("MODIFIED MISSION URI: " + missionURI);
 
 
         try {
