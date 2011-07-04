@@ -39,6 +39,12 @@
                     <spring:message code="YOUR_WORK_HAS_GOTTEN_FEEDBACK_FROM"/> <strong>${numberOfFeedbacksToMyElos}</strong> <spring:message code="OTHERS"/>
                 </td>
             </tr>
+            <!--tr>
+                <td colspan="2">
+                    <strong><a href="/webapp/app/feedback/webversion/fbIndex.html?eloURI=${missionSpecificationTransporter.uri}">Feedback</a></strong>
+                </td>
+
+            </tr-->
 
         </table>
     </tiles:putAttribute>
