@@ -1,33 +1,23 @@
 package eu.scy.agents.groupformation.strategies;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.logging.impl.Log4JLogger;
-import org.hsqldb.auth.AuthBeanMultiplexer;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
-import com.mchange.util.AssertException;
-
 import roolo.elo.api.IELO;
-import roolo.elo.api.IMetadata;
-import roolo.elo.api.IMetadataKey;
-import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.Contribute;
-import roolo.elo.metadata.value.containers.MetadataSingleUniversalValueContainer;
 import roolo.search.ISearchResult;
 import roolo.search.MetadataQueryComponent;
 import roolo.search.Query;
-
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.groupformation.GroupFormationStrategy;
 import eu.scy.agents.groupformation.cache.GroupCache;
@@ -90,14 +80,27 @@ public class ClusterStrategyTest extends AbstractTestFixture {
 
 	@Test
 	public void testFormGroup() {
-	    Set<String> availableUsers = ((ClusterStrategy) strategy).getAvailableUsers();
+//	    Set<String> availableUsers = ((ClusterStrategy) strategy).getAvailableUsers();
 //	    for (Iterator uIt = availableUsers.iterator(); uIt.hasNext();) {
 //            String user = (String) uIt.next();
 //            ISearchResult eloUri = retrieveEloFromRepository(user);
 //            IELO elo = repository.retrieveELO(eloUri.getUri());
 //            elo.getXml();
 //        }
-	    Collection<Set<String>> formGroup = strategy.formGroup(referenceElo) ;
+	    Collection<Set<String>> groups = strategy.formGroup(referenceElo) ;
+	    Set<String> group = new HashSet<String>();
+	    group.add("TestUser5");
+	    assertTrue(groups.contains(group));
+	    group.clear();
+        group.add("TestUser1");
+        group.add("TestUser2");
+        group.add("TestUser3");
+        group.add("TestUser4");
+        assertTrue(groups.contains(group));
+        group.clear();
+        group.add("TestUser6");
+        group.add("TestUser7");
+        assertTrue(groups.contains(group));  
 	}
 
 }
