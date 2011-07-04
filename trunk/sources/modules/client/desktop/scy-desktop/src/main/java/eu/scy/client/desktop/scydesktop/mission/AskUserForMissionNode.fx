@@ -18,12 +18,12 @@ public class AskUserForMissionNode {
     }
     
     def __layoutInfo_startedMissionListView: javafx.scene.layout.LayoutInfo = javafx.scene.layout.LayoutInfo {
-        width: 246.0
-        height: 73.0
+        width: 290.0
+        height: 80.0
     }
     public-read def startedMissionListView: javafx.scene.control.ListView = javafx.scene.control.ListView {
         layoutX: 0.0
-        layoutY: 15.0
+        layoutY: 17.0
         layoutInfo: __layoutInfo_startedMissionListView
         onKeyTyped: null
         onMouseClicked: startedMissionListViewOnMouseClicked
@@ -32,17 +32,17 @@ public class AskUserForMissionNode {
     
     public-read def label2: javafx.scene.control.Label = javafx.scene.control.Label {
         layoutX: 0.0
-        layoutY: 94.0
+        layoutY: 110.0
         text: "##Start new mission"
     }
     
     def __layoutInfo_newMissionListView: javafx.scene.layout.LayoutInfo = javafx.scene.layout.LayoutInfo {
-        width: 246.0
-        height: 71.0
+        width: 290.0
+        height: 80.0
     }
     public-read def newMissionListView: javafx.scene.control.ListView = javafx.scene.control.ListView {
         layoutX: 0.0
-        layoutY: 109.0
+        layoutY: 127.0
         layoutInfo: __layoutInfo_newMissionListView
         onKeyTyped: null
         onMouseClicked: newMissionListViewOnMouseClicked
@@ -53,16 +53,16 @@ public class AskUserForMissionNode {
         hpos: javafx.geometry.HPos.RIGHT
     }
     public-read def cancelButton: javafx.scene.control.Button = javafx.scene.control.Button {
-        layoutX: 191.0
-        layoutY: 192.0
+        layoutX: 233.0
+        layoutY: 220.0
         layoutInfo: __layoutInfo_cancelButton
         text: "##Quit"
     }
     
     public-read def goButton: javafx.scene.control.Button = javafx.scene.control.Button {
         disable: true
-        layoutX: 113.0
-        layoutY: 192.0
+        layoutX: 134.0
+        layoutY: 220.0
         text: "##Go"
     }
     
@@ -71,7 +71,7 @@ public class AskUserForMissionNode {
     }
     public-read def blankButton: javafx.scene.control.Button = javafx.scene.control.Button {
         layoutX: 0.0
-        layoutY: 192.0
+        layoutY: 220.0
         layoutInfo: __layoutInfo_blankButton
         text: "##Blank"
     }
@@ -90,21 +90,23 @@ public class AskUserForMissionNode {
     }
     // </editor-fold>//GEN-END:main
 
-   def newMissionSelected = bind newMissionListView.selectedItem!=null on replace{
-      if (newMissionSelected){
-         startedMissionListView.clearSelection();
-      }
+   function cancelButtonLayoutX(): Number {
+      newMissionListView.boundsInLocal.maxX - cancelButton.boundsInLocal.width
    }
 
-   def startedMissionSelected = bind startedMissionListView.selectedItem!=null on replace{
-      if (newMissionSelected){
-         newMissionListView.clearSelection();
-      }
-   }
-
+   def newMissionSelected = bind newMissionListView.selectedItem != null on replace {
+              if (newMissionSelected) {
+                 startedMissionListView.clearSelection();
+              }
+           }
+   def startedMissionSelected = bind startedMissionListView.selectedItem != null on replace {
+              if (newMissionSelected) {
+                 newMissionListView.clearSelection();
+              }
+           }
    def missionSelected = bind newMissionSelected or startedMissionSelected on replace {
-      goButton.disable = not missionSelected
-   }
+              goButton.disable = not missionSelected
+           }
 
    function newMissionListViewOnMouseClicked(event: javafx.scene.input.MouseEvent): Void {
       if (newMissionListView.selectedIndex >= 0) {
@@ -120,6 +122,16 @@ public class AskUserForMissionNode {
             goButton.fire();
          }
       }
+   }
+
+   function correctButtonPositions(): Void{
+      def cancelLayoutX = newMissionListView.boundsInLocal.maxX - cancelButton.boundsInLocal.width;
+      cancelButton.layoutX = cancelLayoutX;
+      goButton.layoutX = cancelLayoutX - goButton.boundsInLocal.width - 26
+   }
+
+   init{
+      FX.deferAction(correctButtonPositions);
    }
 
 }
