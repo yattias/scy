@@ -44,6 +44,7 @@ import roolo.elo.api.IMetadata;
 import javafx.util.StringLocalizer;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.design.MultiLanguageAuthorSaveAsNodeDesign;
 import eu.scy.client.desktop.desktoputils.art.ImageLoader;
+import eu.scy.client.desktop.desktoputils.XFX;
 
 /**
  * @author sikken
@@ -119,8 +120,9 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
       showEloSaveAsPanel(elo, suggestedEloTitle, true, false, eloSaverCallBack);
    }
 
-   function showEloSaveAsPanel(elo: IELO, suggestedEloTitle: String, myElo: Boolean, authorUpdate: Boolean, eloSaverCallBack: EloSaverCallBack): Void {
       var eloSaveAsPanel: EloSaveAsMixin;
+   function showEloSaveAsPanel(elo: IELO, suggestedEloTitle: String, myElo: Boolean, authorUpdate: Boolean, eloSaverCallBack: EloSaverCallBack): Void {
+      println("showEloSaveAsPanel");
       def scyElo = new ScyElo(elo, config.getToolBrokerAPI());
       if (authorMode) {
          eloSaveAsPanel = MultiLanguageAuthorSaveAsNodeDesign {
@@ -162,10 +164,11 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
                     content: eloSaveAsPanel.getDesignNodes()
                  }
                  //            targetScene: window.scene
-                 title: ##"Enter title"
+                 title: if (authorUpdate) ##"Edit title" else ##"Enter title"
                  eloIcon: eloIcon
                  windowColorScheme: windowColorScheme
               }
+      XFX.runActionAfter(eloSaveAsPanel.correctButtonPositions,150ms);
    }
 
    function saveAction(eloSaveAsPanel: EloSaveAsMixin): Void {

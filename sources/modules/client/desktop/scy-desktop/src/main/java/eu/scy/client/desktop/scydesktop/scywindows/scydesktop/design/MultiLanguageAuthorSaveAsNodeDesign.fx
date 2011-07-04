@@ -240,6 +240,12 @@ public class MultiLanguageAuthorSaveAsNodeDesign extends EloSaveAsMixin {
       saveButton.disable = saveDisabled;
    }
 
+   public override function correctButtonPositions(): Void{
+      def cancelLayoutX = roleChoiceBox.boundsInParent.maxX - cancelButton.layoutBounds.width;
+      cancelButton.layoutX = cancelLayoutX;
+      saveButton.layoutX = cancelLayoutX - saveButton.layoutBounds.width - 26;
+   }
+
    public override function getTitle(): String {
       //      titleTextBox.rawText.trim();
       ""

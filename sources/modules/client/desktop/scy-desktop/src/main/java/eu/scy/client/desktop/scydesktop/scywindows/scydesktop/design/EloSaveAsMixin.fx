@@ -57,4 +57,9 @@ public mixin class EloSaveAsMixin {
 
    public abstract function getDesignNodes (): javafx.scene.Node[];
 
+   public function correctButtonPositions():Void{
+      
+   }
+
+
 }
