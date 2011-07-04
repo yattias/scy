@@ -223,7 +223,7 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
 
 
     @Override
-    public List getObligatoryAnchorELOs(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlan){
+    public List getObligatoryAnchorELOs(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlan) {
         List anchorElos = getAnchorELOs(missionSpecificationElo);
         List returnList = new LinkedList();
         for (int i = 0; i < anchorElos.size(); i++) {
@@ -239,12 +239,13 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
     }
 
     private boolean getIsDefinedAsObligatoryInPedagogicalPlan(PedagogicalPlanTransfer pedagogicalPlan, ScyElo scyElo) {
-        List <LasTransfer> lasses = pedagogicalPlan.getMissionPlan().getLasTransfers();
+        List<LasTransfer> lasses = pedagogicalPlan.getMissionPlan().getLasTransfers();
         for (int i = 0; i < lasses.size(); i++) {
             LasTransfer lasTransfer = lasses.get(i);
-            if(lasTransfer.getAnchorElo() != null) {
-                if(lasTransfer.getAnchorElo().getObligatoryInPortfolio() != null) {
-                    if(lasTransfer.getAnchorElo().getObligatoryInPortfolio() && lasTransfer.getAnchorElo().getName().equals(scyElo.getTitle())) return true;    
+            if (lasTransfer.getAnchorElo() != null) {
+                if (lasTransfer.getAnchorElo().getObligatoryInPortfolio() != null) {
+                    if (lasTransfer.getAnchorElo().getObligatoryInPortfolio() && lasTransfer.getAnchorElo().getName().equals(scyElo.getTitle()))
+                        return true;
                 }
 
             }
@@ -322,7 +323,7 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
             ScyElo commentedOn = ScyElo.loadLastVersionElo(uri, this);
 
             TransferElo transferElo = new TransferElo(commentedOn);
-            if(!transferElo.getCreatedBy().trim().equals(username)) {
+            if (!transferElo.getCreatedBy().trim().equals(username)) {
                 transferElo.setFeedbackELO(feedbackElo);
                 newestElos.addElo(transferElo);
             }
@@ -365,7 +366,7 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
             ScyElo feedbackElo = (ScyElo) feedbackList.get(i);
 
             FeedbackEloTransfer feedbackTransfer = (FeedbackEloTransfer) getXmlTransferObjectService().getObject(feedbackElo.getContent().getXmlString());
-            if(feedbackTransfer.getCreatedBy().equals(currentUserName)) {
+            if (feedbackTransfer.getCreatedBy().equals(currentUserName)) {
                 URI parent = feedbackElo.getFeedbackOnEloUri();
                 ScyElo parentElo = ScyElo.loadLastVersionElo(parent, this);
                 newestElos.addElo(new TransferElo(parentElo));
@@ -385,7 +386,7 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
             ScyElo feedbackElo = (ScyElo) feedbackElos.get(i);
             FeedbackEloTransfer feedbackTransfer = (FeedbackEloTransfer) getXmlTransferObjectService().getObject(feedbackElo.getContent().getXmlString());
 
-            if(getHasUserContributedWithFeedbackOnElo(feedbackTransfer, currentUserName)) {
+            if (getHasUserContributedWithFeedbackOnElo(feedbackTransfer, currentUserName)) {
                 URI parent = feedbackElo.getFeedbackOnEloUri();
                 ScyElo parentElo = ScyElo.loadLastVersionElo(parent, this);
                 newestElos.addElo(new TransferElo(parentElo));
@@ -397,15 +398,15 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
     }
 
     private boolean getHasUserContributedWithFeedbackOnElo(FeedbackEloTransfer feedbackEloTransfer, String currentUserName) {
-        List <FeedbackTransfer> feedbackTransfers = feedbackEloTransfer.getFeedbacks();
+        List<FeedbackTransfer> feedbackTransfers = feedbackEloTransfer.getFeedbacks();
         for (int i = 0; i < feedbackTransfers.size(); i++) {
             FeedbackTransfer feedbackTransfer = feedbackTransfers.get(i);
-            List <FeedbackReplyTransfer> replies = feedbackTransfer.getReplies();
+            List<FeedbackReplyTransfer> replies = feedbackTransfer.getReplies();
             for (int j = 0; j < replies.size(); j++) {
                 FeedbackReplyTransfer transfer = replies.get(j);
-                if(transfer.getCreatedBy().equals(currentUserName)) return true;
+                if (transfer.getCreatedBy().equals(currentUserName)) return true;
             }
-            if(feedbackTransfer.getCreatedBy().equals(currentUserName)) return true;
+            if (feedbackTransfer.getCreatedBy().equals(currentUserName)) return true;
         }
 
         return false;
@@ -439,30 +440,46 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
 
     @Override
     public TransferElo getTransferElo(ScyElo scyElo) {
-        String title = scyElo.getTitle();
+
+        List feedback = getFeedback();
+        for (int i = 0; i < feedback.size(); i++) {
+            ScyElo feedbackElo = (ScyElo) feedback.get(i);
+            URI parentEloURI = feedbackElo.getFeedbackOnEloUri();
+            if(parentEloURI.equals(scyElo.getUri())) {
+                TransferElo transferElo = new TransferElo(scyElo);
+                transferElo.setFeedbackELO(feedbackElo);
+                return transferElo;
+            }
+        }
+
+        log.warning("DID NOT FIND FEEDBACK FOR ELO " + scyElo.getTitle());
+        return null;
+
+        /*String title = scyElo.getTitle();
         String createdBy = scyElo.getCreator();
-        TransferElo scyEloTransf = new TransferElo(scyElo);
+        //TransferElo scyEloTransf = new TransferElo(scyElo);
         List feedbackElos = getFeedback();
         for (int i = 0; i < feedbackElos.size(); i++) {
             ScyElo feedbackElo = (ScyElo) feedbackElos.get(i);
             TransferElo feedbackEloTransf = new TransferElo(feedbackElo);
-            URI scyEloURI = scyElo.getUri();
+            //URI scyEloURI = scyElo.getUri();
             URI feedbackEloParentURI = feedbackElo.getFeedbackOnEloUri();
-            URI feedbackEloURI = feedbackElo.getUri();
+            //URI feedbackEloURI = feedbackElo.getUri();
             ScyElo parentElo = ScyElo.loadLastVersionElo(feedbackEloParentURI, this);
             String parentEloTitle = parentElo.getTitle();
             String parentEloCreator = parentElo.getCreator();
-            if(createdBy != null) {
-            if(title.equals(parentEloTitle) && createdBy.equals(parentEloCreator)) {
-                TransferElo returnElo = new TransferElo(scyElo);
-                returnElo.setFeedbackELO(feedbackElo);
-                return returnElo;
-            }    
-            }
+            //if (createdBy != null) {
+            //    if (title.equals(parentEloTitle) && createdBy.equals(parentEloCreator)) {
+                    TransferElo returnElo = new TransferElo(scyElo);
+                    returnElo.setFeedbackELO(feedbackElo);
+                    return returnElo;
+            //    }
+            //}
 
 
         }
         return null;
+        */
     }
 
     private String fixXml(String xmlString, ScyElo scyElo) {

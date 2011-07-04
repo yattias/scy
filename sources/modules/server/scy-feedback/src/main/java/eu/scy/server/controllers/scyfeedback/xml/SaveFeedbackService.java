@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLDecoder;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -23,7 +24,7 @@ import java.util.regex.Pattern;
  * Time: 13:15:01
  * To change this template use File | Settings | File Templates.
  */
-public class  SaveFeedbackService extends XMLStreamerController {
+public class SaveFeedbackService extends XMLStreamerController {
 
     private MissionELOService missionELOService;
 
@@ -31,13 +32,15 @@ public class  SaveFeedbackService extends XMLStreamerController {
     protected Object getObjectToStream(HttpServletRequest request, HttpServletResponse httpServletResponse) {
         String feedbackURI = request.getParameter("feedbackURI");
         String xmlContentFromFlash = request.getParameter("xmlContent");
-
-        logger.info("FeedbackURI " + feedbackURI);
-        logger.info("XML FROM FLASH: " + xmlContentFromFlash);
-
-        FeedbackTransfer feedbackTransfer = (FeedbackTransfer) getXmlTransferObjectService().getObject(xmlContentFromFlash);
-
         try {
+            feedbackURI = URLDecoder.decode(feedbackURI, "UTF-8");
+
+            logger.info("FeedbackURI " + feedbackURI);
+            logger.info("XML FROM FLASH: " + xmlContentFromFlash);
+
+            FeedbackTransfer feedbackTransfer = (FeedbackTransfer) getXmlTransferObjectService().getObject(xmlContentFromFlash);
+
+
             URI uri = new URI(feedbackURI);
             ScyElo scyFeedbackElo = ScyElo.loadLastVersionElo(uri, getMissionELOService());
             String originalXMLFromFeedbackEloInRoolo = scyFeedbackElo.getContent().getXml();
@@ -47,16 +50,16 @@ public class  SaveFeedbackService extends XMLStreamerController {
             FeedbackEloTransfer feedbackEloTransfer = (FeedbackEloTransfer) getXmlTransferObjectService().getObject(originalXMLFromFeedbackEloInRoolo);
             feedbackEloTransfer.addFeedback(feedbackTransfer);
 
-            List <FeedbackTransfer> feedbacks = feedbackEloTransfer.getFeedbacks();
+            List<FeedbackTransfer> feedbacks = feedbackEloTransfer.getFeedbacks();
             Integer totalScore = 0;
             for (int i = 0; i < feedbacks.size(); i++) {
                 FeedbackTransfer transfer = feedbacks.get(i);
-                if(transfer.getEvalu() != null) {
+                if (transfer.getEvalu() != null) {
                     Integer score = new Integer(transfer.getEvalu());
                     totalScore += score;
                 }
             }
-            if(feedbacks.size() > 0 ) {
+            if (feedbacks.size() > 0) {
                 feedbackEloTransfer.setScore(String.valueOf(totalScore / feedbacks.size()));
                 feedbackEloTransfer.setQuality(String.valueOf(totalScore / feedbacks.size()));
                 feedbackEloTransfer.setEvaluation(String.valueOf(totalScore / feedbacks.size()));
@@ -64,7 +67,6 @@ public class  SaveFeedbackService extends XMLStreamerController {
                 feedbackEloTransfer.setScore("0");
                 logger.info("SET SCORE TO 0!");
             }
-
 
 
             String newXML = getXmlTransferObjectService().getXStreamInstance().toXML(feedbackEloTransfer);
@@ -77,7 +79,7 @@ public class  SaveFeedbackService extends XMLStreamerController {
             FeedbackEloTransfer updatedFeedbackEloTransfer = (FeedbackEloTransfer) getXmlTransferObjectService().getObject(newXML);
             return updatedFeedbackEloTransfer;
 
-        } catch (URISyntaxException e) {
+        } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 

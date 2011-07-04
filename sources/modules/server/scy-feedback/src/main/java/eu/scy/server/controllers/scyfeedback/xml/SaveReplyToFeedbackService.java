@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLDecoder;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -21,7 +22,7 @@ import java.util.List;
  * Time: 19:46:28
  * To change this template use File | Settings | File Templates.
  */
-public class SaveReplyToFeedbackService extends XMLStreamerController{
+public class SaveReplyToFeedbackService extends XMLStreamerController {
 
     private MissionELOService missionELOService;
 
@@ -37,6 +38,8 @@ public class SaveReplyToFeedbackService extends XMLStreamerController{
             logger.info("REPLY FEEDBACK ID: " + replyfeedbackID);
             logger.info("XML CONTENT: " + xmlContent);
 
+            feedbackURI = URLDecoder.decode(feedbackURI, "UTF-8");
+
             URI feedbackEloURI = new URI(feedbackURI);
 
             ScyElo feedbackElo = ScyElo.loadLastVersionElo(feedbackEloURI, getMissionELOService());
@@ -48,7 +51,7 @@ public class SaveReplyToFeedbackService extends XMLStreamerController{
             List feedbacks = feedbackEloTransfer.getFeedbacks();
             for (int i = 0; i < feedbacks.size(); i++) {
                 FeedbackTransfer feedbackTransfer = (FeedbackTransfer) feedbacks.get(i);
-                if(feedbackTransfer.getId() != null && feedbackTransfer.getId().equals(replyfeedbackID)) {
+                if (feedbackTransfer.getId() != null && feedbackTransfer.getId().equals(replyfeedbackID)) {
                     logger.info("FOUND THE CORRECT FEEDBACK!!! SETTING REPLY");
                     FeedbackReplyTransfer replyTransfer = (FeedbackReplyTransfer) getXmlTransferObjectService().getObject(xmlContent);
                     feedbackTransfer.addReply(replyTransfer);
@@ -65,11 +68,11 @@ public class SaveReplyToFeedbackService extends XMLStreamerController{
             feedbackElo.updateElo();
 
 
-            logger.info("FUCK YEAH! new xml(which is also returned to client): "  + newXML);
+            logger.info("FUCK YEAH! new xml(which is also returned to client): " + newXML);
 
             return feedbackEloTransfer;
 
-        } catch (URISyntaxException e) {
+        } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
