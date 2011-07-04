@@ -50,7 +50,10 @@
                 /app/feedback/xml/savefeedback.html=saveFeedbackService
                 /app/feedback/xml/saveReplyTofeedback.html=savereplyfeedback
 
-                /app/feedback/webversion/myElosList.html=myElosListController
+                /app/feedback/webversion/MyElosList.html=myElosListController
+                /app/feedback/webversion/fbIndex.html=fbIndexController
+                /app/feedback/webversion/ViewFeedbackForElo.html=ViewFeedbackForEloController
+
             </value>
         </property>
     </bean>
@@ -173,6 +176,17 @@
     <bean id="myElosListController" class="eu.scy.server.controllers.scyfeedback.webversion.MyElosList">
         <property name="userService" ref="userService"/>
         <property name="runtimeELOService" ref="runtimeELOService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+    </bean>
+
+    <bean id="fbIndexController" class="eu.scy.server.controllers.scyfeedback.webversion.FBController">
+        <property name="userService" ref="userService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+    </bean>
+
+    <bean id="ViewFeedbackForEloController" class="eu.scy.server.controllers.scyfeedback.webversion.ViewFeedbackForElo">
+        <property name="userService" ref="userService"/>
+        <property name="missionELOService" ref="missionELOService"/>
     </bean>
 
 
