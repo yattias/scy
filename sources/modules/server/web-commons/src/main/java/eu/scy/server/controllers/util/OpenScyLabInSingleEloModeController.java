@@ -23,7 +23,7 @@ public class OpenScyLabInSingleEloModeController extends BaseController {
         String encodedURL = getEncodedUri(request.getParameter(ELO_URI));
 
 
-        String snippetURL = "/extcomp/scy-lab.jnlp?singleEloUri=" + encodedURL;
+        String snippetURL = "/webapp/scy-lab.jnlp?singleEloUri=" + encodedURL;
         modelAndView.addObject("snippetURL" , snippetURL);
 
     }
