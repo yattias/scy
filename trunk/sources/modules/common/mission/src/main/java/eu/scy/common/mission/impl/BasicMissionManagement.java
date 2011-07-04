@@ -259,7 +259,7 @@ public class BasicMissionManagement implements MissionManagement
          {
             String lasTitle = getLasTitle(las);
             if (lasTitle!=null){
-               las.setTitle(las.getMissionAnchor().getScyElo().getTitle());
+               las.setTitle(lasTitle);
             }
          }
          makePersonalMissionAnchor(las.getMissionAnchor(), userName, missionRuntimeEloUri,
@@ -275,17 +275,15 @@ public class BasicMissionManagement implements MissionManagement
    private String getLasTitle(Las las){
       if (las.getMissionAnchor().isExisting())
       {
-//         if (!las.getMissionAnchor().getScyElo().getContent().isLanguageIndependent()){
-            List<Locale> languages = missionSpecificationElo.getElo().getLanguages();
-            if (languages!=null && languages.size()>0){
-               for (Locale language : languages){
-                  String title = las.getMissionAnchor().getScyElo().getTitle(language);
-                  if (title!=null){
-                     return title;
-                  }
+         List<Locale> languages = missionSpecificationElo.getElo().getLanguages();
+         if (languages!=null && languages.size()>0){
+            for (Locale language : languages){
+               String title = las.getMissionAnchor().getScyElo().getTitle(language);
+               if (title!=null){
+                  return title;
                }
             }
-//         }
+         }
          return las.getMissionAnchor().getScyElo().getTitle();
       }
       return null;
