@@ -104,5 +104,11 @@ public class SimpleSaveAsNodeDesign extends EloSaveAsMixin {
       updateSaveState();
    }
 
+   public override function correctButtonPositions(): Void{
+      def cancelLayoutX = titleTextBox.boundsInParent.maxX - cancelButton.boundsInLocal.width;
+      cancelButton.layoutX = cancelLayoutX;
+      saveButton.layoutX = cancelLayoutX - saveButton.boundsInLocal.width - 26
+   }
+
 
 }
