@@ -10,7 +10,6 @@ import eu.scy.common.mission.MissionSpecificationElo;
 import javafx.scene.Group;
 import eu.scy.client.desktop.desktoputils.EmptyBorderNode;
 import javafx.scene.control.ListCell;
-import javafx.scene.control.Label;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
 import java.net.URI;
@@ -35,6 +34,8 @@ import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.DialogBox;
 import javafx.util.StringLocalizer;
 import javax.swing.JOptionPane;
 import java.lang.Exception;
+import eu.scy.client.desktop.scydesktop.login.MissionLanguageTitleComparator;
+import eu.scy.client.desktop.scydesktop.login.MissionListCellDisplay;
 
 /**
  * @author SikkenJ
@@ -248,10 +249,10 @@ public class MissionLocator {
       askUserForMissionNode.goButton.action = missionSelected;
       askUserForMissionNode.cancelButton.action = cancelAction;
       askUserForMissionNode.startedMissionListView.cellFactory = missionCellFactory;
-      var startedMissions: MissionRuntimeElo[] = Sequences.sort(missions.getMissionRuntimeElosArray(), new ScyEloTitleComparator()) as MissionRuntimeElo[];
+      var startedMissions: MissionRuntimeElo[] = Sequences.sort(missions.getMissionRuntimeElosArray(), new MissionLanguageTitleComparator()) as MissionRuntimeElo[];
       askUserForMissionNode.startedMissionListView.items = startedMissions;
       askUserForMissionNode.newMissionListView.cellFactory = missionCellFactory;
-      var newMissions: MissionSpecificationElo[] = Sequences.sort(missions.getMissionSpecificationElosArray(), new ScyEloTitleComparator()) as MissionSpecificationElo[];
+      var newMissions: MissionSpecificationElo[] = Sequences.sort(missions.getMissionSpecificationElosArray(), new MissionLanguageTitleComparator()) as MissionSpecificationElo[];
       askUserForMissionNode.newMissionListView.items = newMissions;
       Composer.localizeDesign(askUserForMissionNode.getDesignRootNodes(), StringLocalizer {});
       window.scyContent = EmptyBorderNode {
@@ -280,28 +281,10 @@ public class MissionLocator {
    function missionCellFactory(): ListCell {
       var listCell: ListCell;
       listCell = ListCell {
-                 node: Label {
-                    text: bind getMissionDisplayText(listCell.item as ScyElo)
+                 node: MissionListCellDisplay {
+                    mission: bind (listCell.item as ScyElo)
                  }
               }
-   }
-
-   function getMissionDisplayText(scyElo: ScyElo): String {
-      if (scyElo==null){
-         return ""
-      }
-      def languages = scyElo.getElo().getLanguages();
-      var languageDisplay = "";
-      if (languages != null and languages.size() > 0) {
-         for (language in languages) {
-            if (indexof language > 0) {
-               languageDisplay += ", ";
-            }
-            languageDisplay += language.getISO3Language();
-         }
-         languageDisplay = "({languageDisplay})"
-      }
-      "{scyElo.getTitle()} {languageDisplay}"
    }
 
    function startSingleEloMission() {

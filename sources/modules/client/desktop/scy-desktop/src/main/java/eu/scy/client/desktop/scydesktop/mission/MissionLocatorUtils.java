@@ -93,7 +93,7 @@ public class MissionLocatorUtils
                {
                   if (missionSpecificationElo.getAccess() != Access.DELETED)
                   {
-                     if (missionSpecificationElo.getElo().supportsLanguage(Locale.getDefault()) || missionSpecificationElo.getElo().supportsLanguage(Locale.ENGLISH))
+//                     if (missionSpecificationElo.getElo().supportsLanguage(Locale.getDefault()) || missionSpecificationElo.getElo().supportsLanguage(Locale.ENGLISH))
                      {
                         missionSpecificationElos.add(missionSpecificationElo);
                      }
