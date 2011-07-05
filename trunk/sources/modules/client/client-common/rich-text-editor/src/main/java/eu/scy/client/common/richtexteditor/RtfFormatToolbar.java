@@ -1,5 +1,6 @@
 package eu.scy.client.common.richtexteditor;
 
+import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,7 +12,6 @@ import javax.swing.SwingConstants;
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.StyledEditorKit;
 import javax.swing.text.rtf.RTFEditorKit;
-import java.util.ResourceBundle;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
@@ -35,7 +35,7 @@ public class RtfFormatToolbar extends JToolBar implements ActionListener {
     private ImageIcon underlineIconIn = new ImageIcon(this.getClass().getResource(imagesLocation+"Button_underline_in.png"));
     private ImageIcon superIconIn = new ImageIcon(this.getClass().getResource(imagesLocation+"Button_sup_letter_in.png"));
     private ImageIcon subIconIn = new ImageIcon(this.getClass().getResource(imagesLocation+"Button_sub_letter_in.png"));
-    private ResourceBundle messages = ResourceBundle.getBundle("eu.scy.client.common.richtexteditor.RichTextEditor");
+    private ResourceBundleWrapper messages = new ResourceBundleWrapper(this);
     private JButton boldButton = new JButton(boldIcon);
     private JButton italicButton = new JButton(italicIcon);
     private JButton underlineButton = new JButton(underlineIcon);
