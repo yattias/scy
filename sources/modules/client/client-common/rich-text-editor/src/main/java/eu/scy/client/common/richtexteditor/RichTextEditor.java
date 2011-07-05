@@ -20,12 +20,12 @@ import java.io.ByteArrayInputStream;
 import java.awt.print.Printable;
 import java.awt.Graphics2D;
 import javax.swing.RepaintManager;
-import java.util.ResourceBundle;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.client.common.datasync.ISyncListener;
 import eu.scy.client.common.datasync.ISyncSession;
+import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import eu.scy.common.datasync.ISyncObject;
 import eu.scy.common.datasync.SyncObject;
 import java.awt.Color;
@@ -39,7 +39,6 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.StyleConstants;
 import java.util.UUID;
 import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.MutableAttributeSet;
 /**
 * Rich text editor component for SCY project.
 */
@@ -51,7 +50,8 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
     public final static String SYNC_LENGTH = "sync_length";
     public final static String SYNC_FORMAT = "sync_format";
     private static final Logger logger = Logger.getLogger("eu.scy.client.common.richtexteditor.RichTextEditor");
-    private ResourceBundle messages = ResourceBundle.getBundle("eu.scy.client.common.richtexteditor.RichTextEditor");
+//    private ResourceBundle messages = ResourceBundle.getBundle("eu.scy.client.common.richtexteditor.RichTextEditor");
+    private ResourceBundleWrapper messages = new ResourceBundleWrapper(this);
     private JTextPane textPane;
     private RTFEditorKit rtfEditor;
     private HTMLEditorKit htmlEditor;
