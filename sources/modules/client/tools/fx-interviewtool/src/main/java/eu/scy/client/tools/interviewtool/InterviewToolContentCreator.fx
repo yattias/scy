@@ -21,7 +21,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 public class InterviewToolContentCreator extends ScyToolCreatorFX {
     
    public override function createScyToolNode(eloType:String, creatorId:String, scyWindow:ScyWindow, windowContent: Boolean):Node {
-      StringLocalizer.associate("eu.scy.client.tools.interviewtool.resources.InterviewTool", "eu.scy.client.tools.interviewtool");
+      StringLocalizer.associate("languages.interviewtool", "eu.scy.client.tools.interviewtool");
       return InterviewToolScyNode{};
    }
 }

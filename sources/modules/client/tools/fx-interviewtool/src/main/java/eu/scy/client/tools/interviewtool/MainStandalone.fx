@@ -17,7 +17,7 @@ import eu.scy.actionlogging.DevNullActionLogger;
 
 var myLocale : java.util.Locale = new java.util.Locale("en", "US");
 java.util.Locale.setDefault(myLocale);
-StringLocalizer.associate("eu.scy.client.tools.interviewtool.resources.InterviewTool", "eu.scy.client.tools.interviewtool");
+StringLocalizer.associate("languages.interviewtool", "eu.scy.client.tools.interviewtool");
 def node:InterviewToolNode = InterviewToolNode{};
 node.interviewLogger = InterviewLogger{
    actionLogger: new DevNullActionLogger()
