@@ -1,6 +1,5 @@
 package eu.scy.client.tools.scydynamics.editor;
 
-import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -8,12 +7,15 @@ import java.awt.Frame;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
-
 import java.awt.image.BufferedImage;
+
 import javax.swing.JButton;
+import javax.swing.JDialog;
+
+import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 
 @SuppressWarnings("serial")
-public class ColorDialog extends javax.swing.JDialog implements
+public class ColorDialog extends JDialog implements
 java.awt.event.ActionListener {
 	
 	private static final Color[] colors = { Color.BLACK, Color.BLUE, Color.CYAN, Color.GREEN.darker(), Color.MAGENTA, Color.ORANGE, Color.PINK, Color.RED.darker(), Color.YELLOW.darker()};
@@ -22,8 +24,7 @@ java.awt.event.ActionListener {
 
 	
 	public ColorDialog(Frame frame, Point position, VariableDialog variableDialog, ResourceBundleWrapper bundle) {
-		super(frame, false);
-		this.setLocation(position);
+		super(frame, true);
 		this.setTitle(bundle.getString("VARIABLEDIALOG_CHOOSECOLOR"));
 		this.variableDialog = variableDialog;
 		this.getContentPane().setLayout(new FlowLayout());
@@ -49,6 +50,7 @@ java.awt.event.ActionListener {
 		colorButton.addActionListener(this);
 		this.getContentPane().add(colorButton);
 		pack();
+		this.setLocation(position.x-this.getWidth()/2, position.y);		
 	}
 
 	@Override

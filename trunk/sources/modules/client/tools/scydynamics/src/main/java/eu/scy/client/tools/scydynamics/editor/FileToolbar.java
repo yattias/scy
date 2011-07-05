@@ -58,11 +58,13 @@ public class FileToolbar extends JToolBar implements ActionListener {
 		add(Util.createJButton("save as dataset", "saveasdataset", "editorSave", this));
 		this.addSeparator();
 		// testing the modes
-		add(new JLabel("mode: "));
-		JComboBox modeBox = new JComboBox(ModelEditor.Mode.values());
-		modeBox.setSelectedItem(editor.getMode());
-		modeBox.addActionListener(this);
-		add(modeBox);
+		if (editor.getProperties().getProperty("editor.modes_selectable", "false").equals("true")) {
+			add(new JLabel("mode: "));
+			JComboBox modeBox = new JComboBox(ModelEditor.Mode.values());
+			modeBox.setSelectedItem(editor.getMode());
+			modeBox.addActionListener(this);
+			add(modeBox);
+		}
 	}
 
 	public void load(String filename) {

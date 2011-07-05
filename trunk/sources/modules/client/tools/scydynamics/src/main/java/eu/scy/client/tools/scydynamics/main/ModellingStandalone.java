@@ -33,8 +33,8 @@ public class ModellingStandalone extends JFrame implements WindowListener {
 	}
 
 	private Properties getProperties(String[] args) {
+		Properties props = new Properties();
 		File confFile = new File("scydynamics.properties");
-		Properties props = ModelEditor.getDefaultProperties();
 		try {
 			LOGGER.log(Level.INFO, "ModellingStandalone.getProperties(). expecting file at {0}", confFile.getAbsolutePath());
 			if (confFile.exists()) {
@@ -43,11 +43,6 @@ public class ModellingStandalone extends JFrame implements WindowListener {
 		} catch (IOException ex) {
 			LOGGER.warning(ex.getMessage());
 		}
-		props.put("show.popouttabs", "false");
-		props.put("editor.mode", "quantitative_modelling");
-		props.put("editor.export_to_sqv", "true");
-		LOGGER.info("current props:");
-		LOGGER.log(Level.INFO, "{0}", props);
 		return props;
 	}
 

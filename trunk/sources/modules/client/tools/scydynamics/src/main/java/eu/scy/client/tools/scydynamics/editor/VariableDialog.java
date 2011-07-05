@@ -2,58 +2,61 @@ package eu.scy.client.tools.scydynamics.editor;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Vector;
+import java.util.logging.Logger;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
-import javax.swing.border.TitledBorder;
 import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
 
-import colab.um.draw.JdAux;
 import colab.um.draw.JdFigure;
-import colab.um.draw.JdLink;
-import colab.um.draw.JdNode;
 import colab.um.draw.JdRelation;
 import colab.um.tools.JTools;
+import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import eu.scy.client.tools.scydynamics.editor.ModelEditor.Mode;
-import eu.scy.client.tools.scydynamics.model.Model;
 import eu.scy.client.tools.scydynamics.model.ModelUtils;
 import eu.scy.client.tools.scydynamics.model.ModelUtils.QualitativeInfluenceType;
-import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
-import java.util.logging.Logger;
 
 @SuppressWarnings("serial")
-public class VariableDialog extends javax.swing.JDialog implements
-java.awt.event.ActionListener, java.awt.event.MouseListener {
+public class VariableDialog extends JDialog {
 
+	@SuppressWarnings("unused")
 	private final static Logger LOGGER = Logger.getLogger(VariableDialog.class.getName());
+	private static final int firstColumnWidth = 100;
 
 	private final ResourceBundleWrapper bundle;
 	private javax.swing.JTextField nameField = new javax.swing.JTextField(23);
-	private javax.swing.JTextField valueQuantitative = new javax.swing.JTextField(23);
+	private javax.swing.JTextField quantitativeExpressionTextField = new javax.swing.JTextField(23);
 	private JSlider valueQualitative = new JSlider();
 	private FlowLayout flowRight = new FlowLayout(FlowLayout.RIGHT);
-	private javax.swing.JList infoList;
+	private FlowLayout flowLeft = new FlowLayout(FlowLayout.LEFT);
+	private JList infoList;
 	private JdFigure figure;
 	private Hashtable<String, Object> props;
 	private ModelEditor editor;
 	private String label;
-	String[] units = {"?", "items", "m", "m/s", "kg", "kg*m/s", "s", "A", "V", "W", "K", "C", "mol", "cd", "J", "Hz", "N", "N*m", "Pa"};
+	private String[] units = {"?", "items", "m", "m/s", "kg", "kg*m/s", "s", "A", "V", "W", "K", "C", "mol", "cd", "J", "Hz", "N", "N*m", "Pa"};
 	private JComboBox unitsBox;
-	private JLabel colorLabel;
+	private JLabel colorLabelBox;
 	private JButton colorButton;
 	private Color newColor;
 	private ArrayList<JComboBox> qualitativeComboboxes;
+	private VariableDialogListener listener;
 
 	public VariableDialog(java.awt.Frame owner, java.awt.Point position,
 			JdFigure figure, ModelEditor editor, ResourceBundleWrapper bundle) {
@@ -63,34 +66,112 @@ java.awt.event.ActionListener, java.awt.event.MouseListener {
 		this.props = figure.getProperties();
 		this.editor = editor;
 		this.label = (String) props.get("label");
+		listener = new VariableDialogListener(this);
 		setTitle(bundle.getString("VARIABLEDIALOG_TITLE")+" '" + this.label + "'");
 		editor.getActionLogger().logActivateWindow("specification", figure.getID(), this);
-		getContentPane().setLayout(new BorderLayout());
-		getContentPane().add(getSpecsPanel(), BorderLayout.NORTH);
-		getContentPane().add(getOkayCancelPanel(), BorderLayout.SOUTH);
+		getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
+		getContentPane().add(getSpecsPanel());
+		
 		if (editor.getMode()!=Mode.MODEL_SKETCHING) {
 			if (editor.getMode()==Mode.QUALITATIVE_MODELLING) {
 				if (this.figure.getType() == JdFigure.AUX) {
-					getContentPane().add(createQualitativeVariablePanel(), BorderLayout.CENTER);
+					getContentPane().add(createQualitativeVariablePanel());
 				}
 			} else {
 				if (this.figure.getType() == JdFigure.AUX) {
-					getContentPane().add(getQuantitativeVariablePanel(), BorderLayout.CENTER);
+					getContentPane().add(getQuantitativeVariablePanel());
 				}
-				getContentPane().add(getCalculatorPanel(), BorderLayout.EAST);
+				getContentPane().add(getCalculatorPanel());
 			}
 		}
-		//this.setPreferredSize(new Dimension(440, 300));
+		getContentPane().add(getOkayCancelPanel());
+		
 		updateView();
 		pack();
+		this.setMinimumSize(this.getPreferredSize());
 		setLocation(Math.max(0, position.x-this.getWidth()/2), Math.max(0, position.y-this.getHeight()/2));
 		setVisible(true);
+	}
+	
+	public Object getFigureProperty(String prop) {
+		return props.get(prop);
+	}
+	
+	public ResourceBundleWrapper getBundle() {
+		return bundle;
+	}
+	
+	public JTextField getQuantitativeExpressionTextField() {
+		return quantitativeExpressionTextField;
+	}
+	
+	public void setFigureProperty(String key, Object value) {
+		props.put(key, value);
+	}
+	
+	public void submitFigureProperties(String oldName) {
+		editor.setFigureProperties(oldName, props);
+	}
+	
+	public JdFigure getFigure() {
+		return figure;
+	}
+	
+	public ModelEditor getEditor() {
+		return editor;
+	}
+	
+	public String getNewName() {
+		return nameField.getText();
+	}
+	
+	public Color getNewColor() {
+		return newColor;
+	}
+	
+	public String getQuantitativeExpression() {
+		return quantitativeExpressionTextField.getText();
+	}
+	
+	public void setQuantitativeExpression(String newExpression) {
+		quantitativeExpressionTextField.setText(newExpression);
+	}
+
+	public String getQualitativeExpression() {
+		int value = 0;
+		switch (figure.getType()) {
+		case JdFigure.AUX:
+			value = Integer.MAX_VALUE;
+		case JdFigure.CONSTANT:
+			switch (valueQualitative.getValue()) {
+			case -3: value = -10; break;
+			case -2: value = -5; break;
+			case -1: value = -1; break;
+			case -0: value = 0; break;
+			case 1: value = 1; break;
+			case 2: value = 5; break;
+			case 3: value = 10; break;
+			}
+			break;
+		case JdFigure.STOCK:
+			switch (valueQualitative.getValue()) {
+			case -1: value = -1; break;
+			case -0: value = 0; break;
+			case 1: value = 1; break;
+			}
+			break;
+		}
+		return value+"";
+	}
+	
+	public String getUnit() {
+		return (String) unitsBox.getSelectedItem();
 	}
 
 	private JButton makeButton(String s) {
 		JButton b = new JButton(s);
 		b.setActionCommand(s);
-		b.addActionListener(this);
+		b.addActionListener(listener);
 		return b;
 	}
 
@@ -99,7 +180,7 @@ java.awt.event.ActionListener, java.awt.event.MouseListener {
 		panel.setLayout(new BorderLayout());
 		panel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("VARIABLEDIALOG_VARIABLES")));
 		infoList = new javax.swing.JList(ModelUtils.getInputVariableNames(editor.getModel(), this.label));
-		infoList.addMouseListener(this);
+		infoList.addMouseListener(listener);
 		javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane(
 				infoList);
 		panel.add(scrollPane);
@@ -161,7 +242,6 @@ java.awt.event.ActionListener, java.awt.event.MouseListener {
 	private JPanel getSpecsPanel() {
 		JLabel nameLabel = new javax.swing.JLabel(bundle.getString("VARIABLEDIALOG_LABEL")+": ");
 		nameLabel.setHorizontalAlignment(JLabel.RIGHT);
-
 		String valueLabelString = bundle.getString("VARIABLEDIALOG_VALUE")+": ";
 		switch (figure.getType()) {
 		case JdFigure.AUX:
@@ -178,50 +258,79 @@ java.awt.event.ActionListener, java.awt.event.MouseListener {
 		valueLabel.setHorizontalAlignment(JLabel.RIGHT);
 
 		JPanel panel = new JPanel();
-		panel.setLayout(new java.awt.GridLayout(4, 2));
-		panel.add(nameLabel);
-		panel.add(nameField);
-		
+		//panel.setLayout(new java.awt.GridLayout(4, 2));
+		BoxLayout boxLayout = new BoxLayout(panel, BoxLayout.Y_AXIS);
+		panel.setLayout(boxLayout); 
+		panel.add(Box.createRigidArea(new Dimension(10,10)));
+		Box box = Box.createHorizontalBox();
+		box.add(Box.createHorizontalStrut(10));
+		nameLabel.setPreferredSize(new Dimension(firstColumnWidth, nameLabel.getPreferredSize().height));
+		box.add(nameLabel);
+		box.add(nameField);
+		box.add(Box.createHorizontalStrut(10));
+		panel.add(box);
+
+		box = Box.createHorizontalBox();
+		box.add(Box.createHorizontalStrut(10));
 		if (editor.getMode()!=Mode.MODEL_SKETCHING) {
-			panel.add(valueLabel);
+			box.add(valueLabel);
+			valueLabel.setPreferredSize(new Dimension(firstColumnWidth, valueLabel.getPreferredSize().height));
+			
+			//box.add(Box.createHorizontalStrut(firstColumnWidth-valueLabel.getWidth()));
 			if (editor.getMode()==Mode.QUALITATIVE_MODELLING) {
 				if (figure.getType() == JdFigure.AUX) {
 					// qualitative aux
-					valueQuantitative.setEditable(false);
-					panel.add(valueQuantitative);
+					quantitativeExpressionTextField.setEditable(false);
+					box.add(quantitativeExpressionTextField);
 				} else {
 					// qualitative stock or const
-					valueQuantitative.setText("0");
-					panel.add(createQualitativeValueSlider());
+					quantitativeExpressionTextField.setText("0");
+					box.add(createQualitativeValueSlider());
 				}
 			} else {
 				// quantitative
-				panel.add(valueQuantitative);
+				box.add(quantitativeExpressionTextField);
 			}
 		} else {
 			// MODEL_SKETCHING
 		}
+		box.add(Box.createHorizontalStrut(10));
+		panel.add(box);
 
 		JLabel unitLabel = new javax.swing.JLabel(bundle.getString("VARIABLEDIALOG_UNIT")+": ");
 		unitLabel.setHorizontalAlignment(JLabel.RIGHT);
-		panel.add(unitLabel);
+		unitLabel.setPreferredSize(new Dimension(firstColumnWidth, unitLabel.getPreferredSize().height));
+		box = Box.createHorizontalBox();
+		box.add(Box.createHorizontalStrut(10));
+		box.add(unitLabel);
 		unitsBox = new JComboBox(units);
 		unitsBox.setEditable(true);
 		unitsBox.setSelectedItem(figure.getProperties().get("unit"));
-		panel.add(unitsBox);
-
-		JPanel colorLabelPanel = new JPanel();
-		colorLabelPanel.setLayout(flowRight);
-		colorLabelPanel.add(new JLabel(bundle.getString("VARIABLEDIALOG_COLOR")+": "));
-		colorLabel = new JLabel("\u2588");
-		colorLabel.setForeground(editor.getModel().getObjectOfName((String) figure.getProperties().get("label")).getLabelColor());
-		newColor = colorLabel.getForeground();
-		colorLabelPanel.add(colorLabel);
-		panel.add(colorLabelPanel);
+		box.add(unitsBox);
+		box.add(Box.createHorizontalStrut(10));
+		panel.add(box);
+		
+		box = Box.createHorizontalBox();
+		box.add(Box.createHorizontalStrut(10));
+		JLabel colorLabel = new JLabel(bundle.getString("VARIABLEDIALOG_COLOR")+": ");
+		colorLabel.setHorizontalAlignment(JLabel.RIGHT);
+		colorLabel.setPreferredSize(new Dimension(firstColumnWidth, colorLabel.getPreferredSize().height));
+		box.add(colorLabel);
+		colorLabelBox = new JLabel("\u2588");
+		colorLabelBox.setForeground(editor.getModel().getObjectOfName((String) figure.getProperties().get("label")).getLabelColor());
+		colorLabelBox.setPreferredSize(new Dimension(20, colorLabelBox.getPreferredSize().height));
+		
+		newColor = colorLabelBox.getForeground();
+		box.add(colorLabelBox);
 		colorButton = new JButton(bundle.getString("VARIABLEDIALOG_CHOOSE"));
 		colorButton.setActionCommand("color");
-		colorButton.addActionListener(this);
-		panel.add(colorButton);
+		colorButton.addActionListener(listener);
+		
+		//box.add(Box.createHorizontalStrut(10));
+		box.add(colorButton);
+		box.add(Box.createHorizontalGlue());
+		box.add(Box.createHorizontalStrut(10));
+		panel.add(box);
 		return panel;
 	}
 
@@ -254,33 +363,6 @@ java.awt.event.ActionListener, java.awt.event.MouseListener {
 		return valueQualitative;
 	}
 
-	private int getQualitativeValue() {
-		int value = 0;
-		switch (figure.getType()) {
-		case JdFigure.AUX:
-			value = Integer.MAX_VALUE;
-		case JdFigure.CONSTANT:
-			switch (valueQualitative.getValue()) {
-			case -3: value = -10; break;
-			case -2: value = -5; break;
-			case -1: value = -1; break;
-			case -0: value = 0; break;
-			case 1: value = 1; break;
-			case 2: value = 5; break;
-			case 3: value = 10; break;
-			}
-			break;
-		case JdFigure.STOCK:
-			switch (valueQualitative.getValue()) {
-			case -1: value = -1; break;
-			case -0: value = 0; break;
-			case 1: value = 1; break;
-			}
-			break;
-		}
-		return value;
-	}
-
 	private JPanel getOkayCancelPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new java.awt.FlowLayout());
@@ -291,8 +373,8 @@ java.awt.event.ActionListener, java.awt.event.MouseListener {
 		}
 		javax.swing.JButton cancelButton = new javax.swing.JButton(bundle.getString("VARIABLEDIALOG_CANCEL"));
 		cancelButton.setActionCommand("cancel");
-		okayButton.addActionListener(this);
-		cancelButton.addActionListener(this);
+		okayButton.addActionListener(listener);
+		cancelButton.addActionListener(listener);
 		panel.add(okayButton);
 		panel.add(cancelButton);
 		return panel;
@@ -329,11 +411,11 @@ java.awt.event.ActionListener, java.awt.event.MouseListener {
 
 	public void updateView() {
 		nameField.setText(figure.getProperties().get("label") + "");
-		valueQuantitative.setText(figure.getProperties().get("expr") + "");
+		quantitativeExpressionTextField.setText(figure.getProperties().get("expr") + "");
 		if (editor.getMode()==Mode.QUALITATIVE_MODELLING) {
 			try {
 				// for the aux
-				valueQuantitative.setText("-qualitative-");
+				quantitativeExpressionTextField.setText("-qualitative-");
 				// for stocks and consts
 				valueQualitative.setValue(Integer.parseInt(figure.getProperties().get("expr")+""));
 			} catch (NumberFormatException ex) {
@@ -342,96 +424,7 @@ java.awt.event.ActionListener, java.awt.event.MouseListener {
 		}
 	}
 
-	/*
-	 * This method inserts the String "s" at the right position into the
-	 * JTextField "field", taking a selection of text into account.
-	 */
-	private void paste(String s, JTextField field) {
-		int start = field.getSelectionStart();
-		int end = field.getSelectionEnd();
-		String oldText = field.getText();
-		String newText = oldText.substring(0, start) + s
-		+ oldText.substring(end, oldText.length());
-		field.setText(newText);
-	}
-
-	public void actionPerformed(java.awt.event.ActionEvent event) {
-		if (event.getActionCommand() == "okay") {
-
-			if (editor.getMode()==Mode.QUALITATIVE_MODELLING && this.figure.getType() == JdFigure.AUX) {
-				setQualitativeRelations();
-			}
-
-			String oldName = (String) props.get("label");
-			String oldExpr = (String) props.get("expr");
-			String oldUnit = (String) props.get("unit");
-
-			// removing spaces and special chars in variable name
-			// (as they may crash the simulation engine
-			// or xml serialising)
-			String newName = nameField.getText();
-			newName = newName.replaceAll("\\s+", "_");
-			newName = newName.replaceAll("<", "");
-			newName = newName.replaceAll(">", "");
-			newName = newName.replaceAll("&", "");
-			// cleaning some bad chars in expression
-			String express = valueQuantitative.getText();
-			express = express.replaceAll("<", "");
-			express = express.replaceAll(">", "");
-			express = express.replaceAll("&", "");
-			// cleaning some bad chars in unit
-			String unit = (String) unitsBox.getSelectedItem();
-			unit = unit.replaceAll("<", "");
-			unit = unit.replaceAll(">", "");
-			unit = unit.replaceAll("&", "");
-
-			props.put("label", newName);
-			
-			if (editor.getMode()==Mode.QUALITATIVE_MODELLING) {
-				if (this.figure.getType() == JdFigure.AUX) {
-					System.out.println("+++ generating expression for "+this.label);
-					props.put("expr", ModelUtils.getQualitativeExpression(getQualitativeRelations(), editor.getModel()));
-				} else {
-					props.put("expr", getQualitativeValue()+"");
-				}	
-			} else {
-				props.put("expr", express);
-			}
-			
-			if (editor.getMode()==Mode.MODEL_SKETCHING && props.get("expr").toString().isEmpty()) {
-				props.put("expr", "0");
-			}
-			
-			props.put("unit", unit);            
-			editor.setFigureProperties(oldName, props);
-
-			if (!newColor.equals(editor.getModel().getObjectOfName((String) figure.getProperties().get("label")).getLabelColor()) || !oldName.equals(newName) || !oldExpr.equals(valueQuantitative.getText()) || !oldUnit.equals(unitsBox.getSelectedItem())) {
-				// name, expression, unit or color has changed, send a change-specification-logevent
-				editor.getActionLogger().logChangeSpecification(figure.getID(), newName, valueQuantitative.getText(), (String) unitsBox.getSelectedItem(), editor.getXmModel().getXML("", true));
-				// and set the (possibly new) color of the object
-				editor.getModel().getObjectOfName((String) figure.getProperties().get("label")).setLabelColor(newColor);
-			}
-
-			setVisible(false);
-			setEnabled(false);
-			dispose();
-		} else if (event.getActionCommand() == "cancel") {
-			setVisible(false);
-			setEnabled(false);
-			dispose();
-		} else if (event.getActionCommand() == "C") {
-			valueQuantitative.setText("");
-		} else if (event.getActionCommand() == "color") {
-			java.awt.Frame frame = javax.swing.JOptionPane.getFrameForComponent(this);
-			ColorDialog cdialog = new ColorDialog(frame, colorButton.getLocationOnScreen(), this, bundle);
-			cdialog.setVisible(true);
-		} else {
-			// here go the clicks of the "calculator panel"
-			paste(event.getActionCommand(), valueQuantitative);
-		}
-	}
-
-	private void setQualitativeRelations() {
+	void setQualitativeRelations() {
 		for (JComboBox box: qualitativeComboboxes) {
 			JdRelation relation = ModelUtils.getRelationBetween(editor.getModel(), box.getName(), this.label);
 			int relationType = 6;
@@ -443,10 +436,10 @@ java.awt.event.ActionListener, java.awt.event.MouseListener {
 			}
 		}
 	}
-	
-	private HashMap<JdFigure, QualitativeInfluenceType> getQualitativeRelations() {
+
+	HashMap<JdFigure, QualitativeInfluenceType> getQualitativeRelations() {
 		HashMap<JdFigure, QualitativeInfluenceType> relations = new HashMap<JdFigure, QualitativeInfluenceType>();
-		
+
 		for (JComboBox box: qualitativeComboboxes) {
 			JdFigure figure = editor.getModel().getObjectOfName(box.getName());			
 			JdRelation relation = ModelUtils.getRelationBetween(editor.getModel(), box.getName(), this.label);
@@ -474,22 +467,12 @@ java.awt.event.ActionListener, java.awt.event.MouseListener {
 
 	protected void setNewColor(Color newColor) {
 		this.newColor = newColor;
-		colorLabel.setForeground(newColor);
+		colorLabelBox.setForeground(newColor);
 	}
 
-	public void mouseClicked(MouseEvent e) {
-		if ((javax.swing.JList) e.getSource() == infoList) {
-			String selected = (infoList.getSelectedValue() == null ? ""
-					: (String) infoList.getSelectedValue());
-			paste(selected, valueQuantitative);
-		}
+	public void closeDialog() {
+		setVisible(false);
+		setEnabled(false);
+		dispose();
 	}
-
-	public void mouseEntered(MouseEvent e) {}
-
-	public void mouseExited(MouseEvent e) {}
-
-	public void mousePressed(MouseEvent e) {}
-
-	public void mouseReleased(MouseEvent e) {}
 }

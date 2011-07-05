@@ -167,8 +167,9 @@ public class SimquestModelQualitative extends Element {
 		parser.addStandardConstants();
 		parser.setAllowUndeclared(true);
 		parser.addFunction("min", new MinFunction());
-                parser.addFunction("max", new MaxFunction());
-		// parser.setTraverse(true);
+        parser.addFunction("max", new MaxFunction());
+        parser.addFunction("sign", new SignFunction());
+        // parser.setTraverse(true);
 		try {
 			parser.parseExpression(expr);
 			if (parser.getErrorInfo() != null) {

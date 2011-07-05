@@ -51,6 +51,7 @@ public class FormulaMapper {
 		functionMap.put("rand", "random");
 		functionMap.put("min", "min_binary");
 		functionMap.put("max", "max_binary");
+		functionMap.put("sign", "sign");
 	}
 
 	public static FormulaMapper getInstance() {

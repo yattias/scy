@@ -1,5 +1,26 @@
 package eu.scy.client.tools.scydynamics.editor;
 
+import java.awt.Adjustable;
+import java.awt.BorderLayout;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Properties;
+import java.util.Vector;
+import java.util.logging.Logger;
+
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JTabbedPane;
+import javax.swing.KeyStroke;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import colab.um.JColab;
 import colab.um.draw.JdCursors;
 import colab.um.draw.JdFigure;
@@ -12,41 +33,17 @@ import colab.um.parser.JParserException;
 import colab.um.parser.JParserExpr;
 import colab.um.tools.JTools;
 import colab.um.xml.model.JxmModel;
-
-import java.awt.Adjustable;
-import java.awt.BorderLayout;
-import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Properties;
-import java.util.Vector;
-import javax.swing.ImageIcon;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.KeyStroke;
-import javax.swing.UIManager;
-
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import eu.scy.actionlogging.DevNullActionLogger;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
-import eu.scy.client.tools.scydynamics.collaboration.ModelSyncControl;
+import eu.scy.client.tools.scydynamics.domain.Domain;
 import eu.scy.client.tools.scydynamics.listeners.EditorActionListener;
 import eu.scy.client.tools.scydynamics.listeners.EditorMouseListener;
 import eu.scy.client.tools.scydynamics.logging.IModellingLogger;
 import eu.scy.client.tools.scydynamics.logging.ModellingLogger;
 import eu.scy.client.tools.scydynamics.model.Model;
+import eu.scy.client.tools.scydynamics.model.ModelUtils;
 import eu.scy.elo.contenttype.dataset.DataSet;
-import java.util.logging.Logger;
 
 @SuppressWarnings("serial")
 public class ModelEditor extends JPanel implements AdjustmentListener {
@@ -84,6 +81,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	private TableTab tableTab;
 	private final ResourceBundleWrapper bundle;
 	//private ModelSyncControl modelSyncControl;
+	private Domain domain;
 
 	public ModelEditor() {
 		this(ModelEditor.getDefaultProperties());
@@ -91,9 +89,11 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 
 	public ModelEditor(Properties newProps) {
 		this.setName("Model Editor");
+		this.domain = ModelUtils.loadDomain(newProps);
 		this.bundle = new ResourceBundleWrapper(this);
 		this.properties = getDefaultProperties();
 		properties.putAll(newProps);
+		DEBUGLOGGER.info("using properties: "+properties);
 		actionLogger = new ModellingLogger(new DevNullActionLogger(), "username");
 		// actionLogger = new ModellingLogger(new SystemOutActionLogger(),
 		// "username");
@@ -102,6 +102,10 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		initComponents();
 		setNewModel();
 		setMode(properties.getProperty("editor.mode", "quantitative_modelling"));
+	}
+	
+	public Domain getDomain() {
+		return domain;
 	}
 	
 	public void setMode(String newMode) {
@@ -179,8 +183,8 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		props.put("show.filetoolbar", "true");
 		props.put("editor.fixedcalculationmethod", "false");
 		props.put("show.popouttabs", "false");
-		props.put("editor.qualitative", "false");
 		props.put("editor.mode", "quantitative_modelling");
+		props.put("editor.modes_selectable", "false");
 		return props;
 	}
 

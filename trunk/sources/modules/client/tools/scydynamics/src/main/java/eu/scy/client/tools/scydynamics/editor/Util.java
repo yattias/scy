@@ -10,11 +10,13 @@ import javax.swing.JButton;
 import javax.swing.JToggleButton;
 
 import colab.um.tools.JTools;
+import java.util.logging.Logger;
 
 public class Util {
 	
 	private static final String resourcesLocation = "/eu/scy/client/tools/scydynamics/resources/";
-	
+	private final static Logger DEBUGLOGGER = Logger.getLogger(Util.class.getName());
+
 	public static JButton createJButton(String label, String command, String iconPropertyName, ActionListener listener) {
 		URL url = JTools.getSysResourceImage(iconPropertyName);
 		JButton button = new JButton(label, new ImageIcon(url));
@@ -32,10 +34,11 @@ public class Util {
 	}
 	
 	public static Icon getImageIcon(String name) {
-		return getImageIcon(java.net.URL.class.getResource(resourcesLocation + name));
+		return getImageIcon(Util.class.getResource(resourcesLocation + name));
 	}
 	
 	public static ImageIcon getImageIcon(URL url) {
+		//DEBUGLOGGER.info("loading "+url);
 		if (url != null) {
 			ImageIcon image = new ImageIcon(url);
 			while (image.getImageLoadStatus() != MediaTracker.COMPLETE) {
