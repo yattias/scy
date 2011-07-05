@@ -76,9 +76,9 @@ public class VariableDialogListener implements ActionListener, MouseListener {
 			newName = newName.replaceAll(">", "");
 			newName = newName.replaceAll("&", "");	
 			int labelChoice = JOptionPane.NO_OPTION;
+			variableDialog.setFigureProperty("label", newName);
 			if (variableDialog.getEditor().getDomain()!= null && !newName.equals(oldName)) {
 				System.out.println("newName: "+newName);
-				variableDialog.setFigureProperty("label", newName);
 				List<String> proposedNames = variableDialog.getEditor().getDomain().proposeNames(newName);
 				System.out.println("proposedNames: "+proposedNames);
 				if (proposedNames == null) {
