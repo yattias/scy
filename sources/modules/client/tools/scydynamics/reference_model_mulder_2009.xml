@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<reference_model name="mulder_2009"
+		 notation="system_dynamics"
+		 concept_set="mulder_2009">
+
+  <node id="ld" concept="lading"
+	        type="stock"/>
+  <node id="ss" concept="stroomsterkte"
+	        type="auxiliary"
+	        formula="spanning_over_de_weerstanden / vervangingsweerstand"/>
+  <node id="sc" concept="spanning_over_de_condensator"
+	        type="auxiliary"
+	        formula="lading * condensator_capaciteit"/>
+  <node id="sw" concept="spanning_over_de_weerstanden"
+	        type="auxiliary"
+	        formula="bronspanning - spanning_over_de_condensator"/>
+  <node id="vw" concept="vervangingsweerstand"
+	        type="auxiliary"
+	        formula="1 / ((1/lampje_1) + (1/lampje_2))"/>
+
+  <node id="cc" concept="condensator_capaciteit" type="auxiliary; constant"/>
+  <node id="l1" concept="lampje_1" type="auxiliary; constant"/>
+  <node id="l2" concept="lampje_2" type="auxiliary; constant"/>
+  <node id="bs" concept="bronspanning" type="auxiliary; constant"/>
+  <node id="in" type="flow"/>
+
+  <edge from="ld" to="sc" qualitative="linear"/>
+  <edge from="cc" to="sc" qualitative="inverse"/>
+  <edge from="sc" to="sw" qualitative="inverse"/>
+  <edge from="bs" to="sw" qualitative="linear"/>
+  <edge from="sw" to="ss" qualitative="linear"/>
+  <edge from="vw" to="ss" qualitative="inverse"/>
+  <edge from="l1" to="vw" qualitative="asymptotical"/>
+  <edge from="l2" to="vw" qualitative="asymptotical"/>
+
+  <edge from="ss" to="in" qualitative="unspecified"/>
+  <edge from="in" to="ld" type="flow"/>
+
+  <t_edge from="bs" to="ss" excluded="sw" qualitative="linear"/>
+  <t_edge from="cc" to="ss" excluded="sw, sc" qualitative="asymptotical"/>
+  <t_edge from="cc" to="sw" excluded="sc" qualitative="inverse"/>
+  <t_edge from="l1" to="ss" excluded="vw" qualitative="inverse"/>
+  <t_edge from="l2" to="ss" excluded="vw" qualitative="inverse"/>
+  <t_edge from="ld" to="ss" excluded="sw, sc" qualitative="inverse"/>
+  <t_edge from="ld" to="sw" excluded="sc" qualitative="inverse"/>
+  <t_edge from="sc" to="in" excluded="ss, sw" qualitative="unspecified"/>
+  <t_edge from="sc" to="ss" excluded="sw" qualitative="inverse"/>
+  <t_edge from="sw" to="in" excluded="ss" qualitative="unspecified"/>
+  <t_edge from="vw" to="in" excluded="ss" qualitative="unspecified"/>
+</reference_model>
