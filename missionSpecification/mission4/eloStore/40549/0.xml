@@ -22,7 +22,7 @@
           <dateTime>2011-04-28T14:58:17.619+0200</dateTime>
         </date>
       </contribute>
-      <version>3</version>
+      <version>4</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -49,33 +49,22 @@
         <string language="en">Chemistry: Conclusion of the experiment</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACT0lEQVR42u3Wy2paURTG8fMYTkScCRHxBXyC4EzItIPSSemFDEqeoNAOSgMOig6ENr1gqQMtlDSQpMTLwETQFApWxVqwVrwgGk1aZTV7QbQHUggUSoX/Bx+bdfZxw/mhB63BYCC9Xs9Wk+l0Sq9QywC2221bZ7OZnE7G8zabTel2u9rhcKjAd9bfa++ub8t4vLh3+vNMDg4OFvOPU4lEIrbzksmkbTY5OTnRmrMuetVrl/VfnaeAj+Jf9CFuPKzPAd/lmzI8f7adwjcFfBN/JbufJzIajfReyW6IZVlyFNvQw7YPmzrvH3cV0My7xz3ZK3UU0Mw7hZauBtCs+x/7upr0+/2lrAI+eFGXytczefr80xxwc2tP1taeSfjlBwW8feumNL73F4Bvr2mPHl9XQHOf6ZPXGQXc3NqVe/cj53NaAS/2TQ3g77NJq9Vayv7xJ5zNZuet1+u2lkol234+n7fN8XjcNofDYducSqVss0mj0VjKWpVKRS5rtVqlV6gl5K9iFQoF8fl84vF4pFgsisPhkEAgoJu1Wk38fr8kEglxu91SLpfF6/Xq3srKiq7pdFpWV1clFovp+zEYDOpq/g6ZvWg0KpPJREKhkL4ezDWn06mfzWQyksvlxOVySafT0Wvm/bhUgHyHAAQQQAAJgAACCCABEEAAASQAAggggARAAAEEkAAIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAAC+F/mFyOB3Cd3ViyJAAAAAElFTkSuQmCC</base64>
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Write the conclusion of your chemical experiment here.\par
-\par
-\b0\par
-\li0\ri0\fi0\ul0\par
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Write the conclusion of your chemical experiment here.\par&#xD;
+\par&#xD;
+\b0\par&#xD;
+\li0\ri0\fi0\ul0\par&#xD;
 }</RichText>
 </content>
 <resources>

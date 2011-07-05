@@ -9,36 +9,22 @@
         </role>
         <entity>rachel</entity>
         <date>
-          <dateTime>2011-07-04T16:49:23.637+0200</dateTime>
+          <dateTime>2011-07-04T17:16:47.136+0200</dateTime>
         </date>
       </contribute>
-      <contribute>
-        <role>
-          <source>LOMv1.0</source>
-          <value>initiator</value>
-        </role>
-        <entity>rachel</entity>
-        <date>
-          <dateTime>2011-07-04T16:49:23.637+0200</dateTime>
-        </date>
-      </contribute>
-      <version>1</version>
+      <version>0</version>
     </lifecycle>
     <technical>
       <customElements>
-        <dateCreated>1309358563059</dateCreated>
-        <dateFirstUserSaveKey>1309790963637</dateFirstUserSaveKey>
-        <dateLastModified>1309790963637</dateLastModified>
+        <dateCreated>1309792607136</dateCreated>
+        <dateLastModified>1309792607136</dateLastModified>
       </customElements>
       <format>scy/templateelos</format>
     </technical>
-    <educational>
-      <learningResourceType />
-    </educational>
     <general>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/40581/0/Forensic+mission.scytemplateelos</entry>
+        <entry>roolo://memory/40599/0/forensicMission.scytemplateelos</entry>
       </identifier>
       <las>Information</las>
       <missionId>forensic</missionId>
@@ -47,7 +33,7 @@
         <entry>roolo://memory/40584/0/Forensic+mission.scymissionspecification</entry>
       </missionRunning>
       <title>
-        <string language="en">Forensic mission</string>
+        <string language="en">forensicMission</string>
       </title>
     </general>
     <relation>
@@ -60,14 +46,6 @@
       </resource>
     </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
-  <template>false</template>
-  <thumbnail>
-    <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAAA9CAYAAAA6e+4pAAAClUlEQVR42u2YzUpqYRSGuxgHXYZIo24gVOgSHJiIIghiUOBAMv8xdNBIUKwgIsFCEO1H1AhSaZJiOhAtEhW1VnwL9kZNOORpEr3PoL7WXjZ4ePfay71C4L9YET9KpRJVKhUuOJ1OMpvNfH54eKBIJCI3b29vk8lkonw+D3PTAk9PT6ndbn+5eHFxQdFoFJb+JRD8gMDRaDRz4eDgYOF5EYeHh19q19fXC3tfX1/l8/QouLu7+90C397e6ObmhsLhMG1ubpJSqaRkMkmrq6ukUCjo/PycLi8vKZFIcL84i9v75eWF1Go111KpFNel61Kv+Oz7+ztpNBqy2Wy0s7Mj94n5m8lk6Ozs7PcKHI/HcmE4HNJ8TXB0dETFYpE6nc7CxEo9Aqnnz9zCWq2W3G431et1Lu7v71M6nebz8fEx9ft9UqlU5PF4uOZwODg1t7e31Gq1KB6PU6/Xo7W1Nf4/tVrtbwn8+Pig+Vk4XRPkcjl6enriW3EymbC4aeb7/5TA9fV18nq99Pj4yMVQKCTvhdIcE+ny+/18DgQCnEyBmJM6nY5/V6tVrDFgCYFbW1sUDAYpm81So9HgbyLlcpkbms0mzz6RQJ/Px7WTkxO6v7/nJ+jGxgb/jUUaLC/QYrHMJFDMQymBYs/b29ubSaDYGWOxGM/C+YeP2PGQQPA9gXa7XU7g8/Mzv1wQb2Kkxdrlcs0k0GAwkNVq5bNer+f0iTUHMxAsJ3B3d5cTeHV1xQtyoVCQEygWZDHrphMoXh4YjUZeqLvdLgT+FIPBAAIBBEIgBEIggEAIhEAIBBAIgRAIgQACIRACIRBAIARCIAQCCIRACIRAAIEQCIEQCCAQAiEQAiEQQCAEQiAEAgiEQAiEQPBtPgFqomqfb/aTyAAAAABJRU5ErkJggg==</base64>
-  </thumbnail>
 </metadata>
 <content languages="en" contentType="xml">
 <templateElosEloUris>
