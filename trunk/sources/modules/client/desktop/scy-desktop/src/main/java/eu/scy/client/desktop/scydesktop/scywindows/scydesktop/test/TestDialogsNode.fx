@@ -124,13 +124,13 @@ public class TestDialogsNode extends CustomNode, ScyToolFX {
          scyDesktop: scyDesktop
          eloUri: eloUri
          eloIconName: "collaboration_invitation"
-         title: "Collaboration request"
+         title: ##"Collaboration request"
          message: "{userName} invites you to collaborate on ELO"
-         yesTitle: "Accept"
+         yesTitle: ##"Accept"
          yesFunction: function(): Void {
             println("accept");
          }
-         noTitle: "Deny"
+         noTitle: ##"Deny"
          noFunction: function(): Void {
             println("deny");
          }
@@ -142,9 +142,9 @@ public class TestDialogsNode extends CustomNode, ScyToolFX {
          scyDesktop: scyDesktop
          eloUri: eloUri
          eloIconName: "collaboration_accepted"
-         title: "Collaboration request"
+         title: ##"Collaboration request"
          message: "{userName} wants to collaborate on ELO"
-         yesTitle: "Ok"
+         yesTitle: ##"OK"
          yesFunction: function(): Void {
             println("ok");
          }
@@ -156,9 +156,9 @@ public class TestDialogsNode extends CustomNode, ScyToolFX {
          scyDesktop: scyDesktop
          eloUri: eloUri
          eloIconName: "collaboration_denied"
-         title: "Collaboration request"
+         title: ##"Collaboration request"
          message: "{userName} does not want to collaborate on ELO"
-         yesTitle: "Cancel"
+         yesTitle: ##"Cancel"
          yesFunction: function(): Void {
             println("cancel");
          }

@@ -37,9 +37,9 @@ public class CollaborationResponseCommand extends ScyDesktopRemoteCommand {
                 scyDesktop: scyDesktop
                 eloUri: eloUri
                 eloIconName: "collaboration_accepted"
-                title: "Collaboration request"
-                message: "Collaboration started on ELO"
-                yesTitle: "Ok"
+                title: ##"Collaboration request"
+                message: ##"Collaboration started on ELO"
+                yesTitle: ##"OK"
             }
             def mucid: String = notification.getFirstProperty("mucid");
             var collaborationWindow: ScyWindow = scyDesktop.scyWindowControl.windowManager.findScyWindow(eloUri);
@@ -57,9 +57,9 @@ public class CollaborationResponseCommand extends ScyDesktopRemoteCommand {
                     scyDesktop: scyDesktop
                     eloUri: eloUri
                     eloIconName: "collaboration_denied"
-                    title: "Collaboration request"
-                    message: "{proposedUserNickname} does not want to collaborate on ELO"
-                    yesTitle: "Ok"
+                    title: ##"Collaboration request"
+                    message: "{proposedUserNickname} {##"does not want to collaborate on ELO"}"
+                    yesTitle: ##"OK"
                 }
                 logger.debug("collaboration not accepted");
                 var collaborationWindow: ScyWindow = scyDesktop.scyWindowControl.windowManager.findScyWindow(eloUri);

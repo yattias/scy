@@ -62,7 +62,7 @@ public class BigMissionMapControl extends CustomNode {
    var initPhase = true;
    var deferLoadTimerCount = 5;
    def instructionWindow: MoreInfoWindow = MoreInfoWindow {
-              title: "Instruction"
+              title: ##"Instruction"
               eloIcon: windowStyler.getScyEloIcon("assignment")
               infoTypeIcon: InstructionTypesIcon {}
               openAction: showInstructionWindow;

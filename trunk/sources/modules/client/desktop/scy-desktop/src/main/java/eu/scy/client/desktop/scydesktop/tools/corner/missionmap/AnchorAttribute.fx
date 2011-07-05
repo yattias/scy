@@ -22,6 +22,7 @@ import javafx.stage.Stage;
 import eu.scy.client.desktop.desktoputils.art.eloicons.EloIconFactory;
 import eu.scy.client.desktop.scydesktop.uicontrols.EloIconButton;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
+import eu.scy.client.desktop.desktoputils.StringUtils;
 
 /**
  * @author sikkenj
@@ -62,7 +63,6 @@ public class AnchorAttribute extends ScyWindowAttribute {
       }
    }
 
-
    function setColors(){
       if (selected){
          titleColor = defaultTitleColor;
@@ -96,13 +96,13 @@ public class AnchorAttribute extends ScyWindowAttribute {
 
    function tooltipFunction():String{
       if (missionModel.activeLas!=missionAnchor.las){
-         "product of other activity: {missionAnchor.las.title}\nclick to open in activity"
+         StringUtils.putInValues(##"product of other activity: %0%\nclick to open in activity",missionAnchor.las.title)
       }
       else if (scyWindow.isClosed){
-         "product of this activity\nclick to open and center"
+         ##"product of this activity\nclick to open and center"
       }
       else{
-         "product of this activity\nclick to center"
+         ##"product of this activity\nclick to center"
       }
    }
 

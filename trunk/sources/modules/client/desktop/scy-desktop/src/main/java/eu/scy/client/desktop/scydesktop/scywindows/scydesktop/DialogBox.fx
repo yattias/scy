@@ -136,7 +136,7 @@ static function getOkButtonBar(dialogBox: DialogBox, okAction: function(): Void)
               spacing: HGAP
               content: [
                  Button {
-                    text: ##"OK!"
+                    text: ##"OK"
                     action: function(): Void {
                        okAction();
                        dialogBox.close();
@@ -153,14 +153,14 @@ static function getYesNoButtonBar(dialogBox: DialogBox, yesAction: function(): V
               spacing: HGAP
               content: [
                  Button {
-                    text: ##"Yes!"
+                    text: ##"Yes"
                     action: function(): Void {
                        yesAction();
                        dialogBox.close();
                     }
                  }
                  Button {
-                    text: ##"No!"
+                    text: ##"No"
                     action: function(): Void {
                        noAction();
                        dialogBox.close();
