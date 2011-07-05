@@ -32,9 +32,9 @@ public class CollaborationMessageDialogBox {
    public var eloIconName = "";
    public var title = "title";
    public var message = "message";
-   public var yesTitle = "Yes";
+   public var yesTitle = ##"Yes";
    public var yesFunction: function(): Void;
-   public var noTitle = "No";
+   public var noTitle = ##"No";
    public var noFunction: function(): Void;
    var yesButton : Button;
    var noButton : Button;
