@@ -1,18 +1,25 @@
 package eu.scy.client.tools.scydynamics.model;
 
 import java.util.HashMap;
+import java.util.Properties;
 import java.util.Vector;
+import java.util.logging.Logger;
+
+import javax.swing.JTextField;
 
 import colab.um.draw.JdFigure;
 import colab.um.draw.JdLink;
 import colab.um.draw.JdRelation;
 import colab.um.draw.JdAux;
+import eu.scy.client.tools.scydynamics.domain.Domain;
+import eu.scy.client.tools.scydynamics.editor.ModelEditor;
 import eu.scy.client.tools.scydynamics.model.ModelUtils.QualitativeInfluenceType;
 
 public class ModelUtils {
 	
 	public enum QualitativeInfluenceType {UNSPECIFIED, LINEAR_UP, LINEAR_DOWN, CURVE_UP, CURVE_DOWN, ASYMPTOTE_UP};
-
+	private final static Logger DEBUGLOGGER = Logger.getLogger(ModelUtils.class.getName());
+	
 	public static JdRelation getRelationBetween(Model model, String start, String end) {	
 		JdLink link = model.getLink(start, end);
 		if (link != null && link instanceof JdRelation)
@@ -75,6 +82,31 @@ public class ModelUtils {
 		System.out.println("---");
 		return expression;
 	}
-
 	
+	public static Domain loadDomain(Properties props) {
+		Domain domain = null;
+		String referenceModelFilename = props.getProperty("editor.reference_model");
+		String conceptSetFilename = props.getProperty("editor.concept_set");
+		try {
+			domain = new Domain(referenceModelFilename, conceptSetFilename);
+		} catch (Exception e) {
+			DEBUGLOGGER.info("domain could not be loaded, will be ignored.");
+			DEBUGLOGGER.info(e.getMessage());
+		}
+		return domain;
+	}
+	
+	/*
+	 * This method inserts the String "s" at the right position into the
+	 * JTextField "field", taking a selection of text into account.
+	 */
+	public static void paste(String s, JTextField field) {
+		int start = field.getSelectionStart();
+		int end = field.getSelectionEnd();
+		String oldText = field.getText();
+		String newText = oldText.substring(0, start) + s
+		+ oldText.substring(end, oldText.length());
+		field.setText(newText);
+	}
+
 }
