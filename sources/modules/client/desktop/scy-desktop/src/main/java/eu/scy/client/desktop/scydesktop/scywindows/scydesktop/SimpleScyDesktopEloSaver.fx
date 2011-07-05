@@ -168,7 +168,9 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
                  eloIcon: eloIcon
                  windowColorScheme: windowColorScheme
               }
-      XFX.runActionAfter(eloSaveAsPanel.correctButtonPositions,150ms);
+      // delay the positioning long enough so that it will done after the things are placed on screen
+      // but before the user actually sees the buttons shifting
+      XFX.runActionAfter(eloSaveAsPanel.correctButtonPositions,500ms);
    }
 
    function saveAction(eloSaveAsPanel: EloSaveAsMixin): Void {
