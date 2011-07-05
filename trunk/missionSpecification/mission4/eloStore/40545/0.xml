@@ -22,7 +22,7 @@
           <dateTime>2011-04-28T14:35:40.125+0200</dateTime>
         </date>
       </contribute>
-      <version>1</version>
+      <version>2</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -49,32 +49,21 @@
         <string language="en">Chemistry: Goal of the analysis</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACeUlEQVR42u3VzYtSYRQG8Pu/uHYj/gcuW7aYneCmhVHLQMVNQlALYUAj3FnTB0ZqfkUM6qiTG2MUJ2iRohmaOaMifo2lnOYc8M68MANCQyA8Dzzc97z3zgv3h5fRRqMRDQYDpZzlcoluUI0Be72e0tVqRWfzmd5Op0P9fl86Ho8FeH3v5OSUZrOLZ5d/FlQoFC7m32cUCASU82KxmDJzptOplM9ad9O9q/q/zhNAb+i7vMSdJ00d8EOpQ+Pzd9s/+imA70JvKPNtTpPJRJ79+LlDt25bKZisyGE8a5pGB8d9AeQ5czygbPVUAHneP+rKlQH5evBlKFfOcDjcygrg41dNqv1Y0POXX3XA3b0s7ey8IN/rnADev3eXWr+GOiDvcx8+fS+A6/nZ208CuLuXoQePAufzoQCu73MZ8PLM6Xa7W9lrP+Fisai32WwqrVaryv1SqaTMoVBImX0+nzLH43Fl5rRara2sVqvV6KrW63V0g2qE/FMEMJFIUCQSkQ2Px0NGo1HWyWSSUqkU2Wy2aw+wWCxkt9tlzZ8ux+v1Ks9ks1mqVCoUDodlbrfbcnU4HMoz61zez+fz+nn8dy6XixaLhX7fbDbra4PBQE6nU9bRaFTfN5lMcp3P5/oevyOf5ff75b9puVzW7/EXaLVaZc0uwWBQ1m63W943l8tROp2mRqOBX+CN/AIRAAIQgABEAAhAAAIQASAAAQhABIAABCAAEQACEIAARAAIQAACEAEgAAEIQASAAAQgABEAAhCAAEQACEAAAhCACAABCEAAIgAEIAABiAAQgAAEIAJAAAIQgAgAAQhAACIABCAAAYgAEIAABCACwJvPX53i10qWtY32AAAAAElFTkSuQmCC</base64>
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\f1\fs24\i\b0\cf1\ldblquote The attorney wants to know whether the lipstick on the glove found at the main suspect\rquote s house comes from one of the victim\rquote s lipstick.\rdblquote\par
-\par
-\i0\par
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\f1\fs24\i\b0\cf1\ldblquote The attorney wants to know whether the lipstick on the glove found at the main suspect\rquote s house comes from one of the victim\rquote s lipstick.\rdblquote\par&#xD;
+\par&#xD;
+\i0\par&#xD;
 }</RichText>
 </content>
 <resources>

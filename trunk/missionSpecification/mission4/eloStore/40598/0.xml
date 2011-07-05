@@ -9,44 +9,22 @@
         </role>
         <entity>rachel</entity>
         <date>
-          <dateTime>2011-07-04T16:46:41.027+0200</dateTime>
+          <dateTime>2011-07-04T17:16:47.116+0200</dateTime>
         </date>
       </contribute>
-      <contribute>
-        <role>
-          <source>LOMv1.0</source>
-          <value>initiator</value>
-        </role>
-        <entity>rachel</entity>
-        <date>
-          <dateTime>2011-07-04T17:14:18.006+0200</dateTime>
-        </date>
-      </contribute>
-      <version>4</version>
+      <version>0</version>
     </lifecycle>
-    <annotation>
-      <entity>colorId</entity>
-      <colorSchemeId />
-    </annotation>
     <technical>
       <customElements>
-        <dateCreated>1309358563045</dateCreated>
-        <dateFirstUserSaveKey>1309792458006</dateFirstUserSaveKey>
-        <dateLastModified>1309792458006</dateLastModified>
+        <dateCreated>1309792607116</dateCreated>
+        <dateLastModified>1309792607116</dateLastModified>
       </customElements>
       <format>scy/elotoolconfiguration</format>
     </technical>
-    <educational>
-      <learningResourceType />
-    </educational>
-    <annotation>
-      <entity>icon</entity>
-      <iconType />
-    </annotation>
     <general>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/40580/0/Forensic+mission.scyelotoolconfiguration</entry>
+        <entry>roolo://memory/40598/0/forensicMission.scyelotoolconfiguration</entry>
       </identifier>
       <las>Information</las>
       <missionId>forensic</missionId>
@@ -55,7 +33,7 @@
         <entry>roolo://memory/40584/0/Forensic+mission.scymissionspecification</entry>
       </missionRunning>
       <title>
-        <string language="en">Forensic mission</string>
+        <string language="en">forensicMission</string>
       </title>
     </general>
     <relation>
@@ -68,16 +46,8 @@
       </resource>
     </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
-  <template>false</template>
-  <thumbnail>
-    <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAAA9CAYAAAA6e+4pAAABMUlEQVR42u3UMYqDQBSA4RzGIsfwGlp4Di0FwdITBC2srKxEImgamwQLbcQ7WCh2grygEMkSIcVus/D/hQwzz+aDmZPQrzqtn7qupeu6bcPzPLEsa1u3bStBEOzDjuOIaZpSVRVy74BJkkjf9x+HRVFIFEUofQOkPwCc5/nHweVyOVwfFYbhx979fj+cHcdxX78/BU3T/G/AaZrk8XiI7/tiGIaoqipZlsn5fBZFUeR6vcrtdpM4jrf5db1e72EYRNO0bS/P823/df6aXf9dlkV0XRfbtsV13X1ufX/LspQ0TbnCvIEEIIAAAkgAAggggAQggAACSAACCCCABCCAAAJIAAIIIIAEIIAAAkgAAggggAQggAACCCABCCCAABKAAAIIIAEIIIAAEoAAAgggfe8JuunJIsWeWk4AAAAASUVORK5CYII=</base64>
-  </thumbnail>
 </metadata>
-<content languages="en" contentType="xml">
+<content languageIndependent="true" contentType="xml">
 <eloToolConfigs>
   <eloToolConfig>
     <eloType>defaultEloToolConfig</eloType>

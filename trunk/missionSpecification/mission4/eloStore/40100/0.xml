@@ -22,7 +22,7 @@
           <dateTime>2011-04-22T14:41:13.709+0200</dateTime>
         </date>
       </contribute>
-      <version>3</version>
+      <version>10</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -57,12 +57,12 @@
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;
-&#xD;&#xD;
-\f1\fs24\i0\b\cf1 There is a match between crima scene sample and:\b0\par&#xD;&#xD;
-\par&#xD;&#xD;
+<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+\f1\fs24\i0\b\cf1 There is a match between crima scene sample and:\b0\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
 }</RichText>
 </content>
 <resources>
