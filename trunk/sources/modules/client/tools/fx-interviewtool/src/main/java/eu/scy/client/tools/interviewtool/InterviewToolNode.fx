@@ -30,9 +30,9 @@ import javafx.geometry.HPos;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import java.util.ResourceBundle;
 import java.lang.Exception;
 import javafx.scene.layout.LayoutInfo;
+import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 
 /**
  * @author kaido
@@ -72,7 +72,7 @@ def vPadding = hPadding;
 def toolBottomOffset = 10;
 protected var parentHeightOffset = 50;
 protected def logger = Logger.getLogger("eu.scy.client.tools.interviewtool.InterviewToolNode");
-var numbers:ResourceBundle = ResourceBundle.getBundle("eu.scy.client.tools.interviewtool.resources.InterviewToolNode");
+var numbers = new ResourceBundleWrapper(this);
 var interviewStrings:InterviewStrings = InterviewStrings{};
 public var interviewLogger: InterviewLogger;
 var log = true;
