@@ -115,7 +115,7 @@ public class TestDialogsNode extends CustomNode, ScyToolFX {
       // 1. check if user is collaboration ready state (not in mission map)
       // 2. check if user is in the correct LAS, if not ask if he wants to go there for the collaboration
       // if user is ready to collaborate, do it!
-      DialogBox.showOptionDialog(text, ##"Collaboration Request", scyDesktop, yesAction, noAction, "{eloUri}");
+      DialogBox.showOptionDialog(text, ##"Collaboration request", scyDesktop, yesAction, noAction, "{eloUri}");
 
    }
 
@@ -125,7 +125,7 @@ public class TestDialogsNode extends CustomNode, ScyToolFX {
          eloUri: eloUri
          eloIconName: "collaboration_invitation"
          title: ##"Collaboration request"
-         message: "{userName} invites you to collaborate on ELO"
+         message: "{userName} {##"invites you to collaborate on ELO"}"
          yesTitle: ##"Accept"
          yesFunction: function(): Void {
             println("accept");
@@ -157,7 +157,7 @@ public class TestDialogsNode extends CustomNode, ScyToolFX {
          eloUri: eloUri
          eloIconName: "collaboration_denied"
          title: ##"Collaboration request"
-         message: "{userName} does not want to collaborate on ELO"
+         message: "{userName} {##"does not want to collaborate on ELO"}"
          yesTitle: ##"Cancel"
          yesFunction: function(): Void {
             println("cancel");
