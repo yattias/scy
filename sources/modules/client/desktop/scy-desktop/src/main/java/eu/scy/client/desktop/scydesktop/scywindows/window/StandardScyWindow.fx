@@ -334,7 +334,7 @@ public class StandardScyWindow extends ScyWindow {
                   ]
                   action: function() {
                      isClosed = false;
-                     scyToolsList.onOpened();
+					 //scyToolsList.onOpened();
                      updateRelativeBounds();
                      cache = false;
                      cacheHint = CacheHint.DEFAULT;
@@ -397,7 +397,7 @@ public class StandardScyWindow extends ScyWindow {
                      ]
                      action: function() {
                         hideDrawers = hideDrawersAfterOpenning;
-                        scyToolsList.onOpened();
+                        //scyToolsList.onOpened();
                         updateRelativeBounds();
                         cache = false;
                         cacheHint = CacheHint.DEFAULT;
