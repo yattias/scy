@@ -74,7 +74,8 @@ public class VariableDialogListener implements ActionListener, MouseListener {
 			newName = newName.replaceAll("\\s+", "_");
 			newName = newName.replaceAll("<", "");
 			newName = newName.replaceAll(">", "");
-			newName = newName.replaceAll("&", "");	
+			newName = newName.replaceAll("&", "");
+			newName = newName.toLowerCase();
 			int labelChoice = JOptionPane.NO_OPTION;
 			variableDialog.setFigureProperty("label", newName);
 			if (variableDialog.getEditor().getDomain()!= null && !newName.equals(oldName)) {
