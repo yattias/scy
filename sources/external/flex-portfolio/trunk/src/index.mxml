@@ -369,7 +369,11 @@
 					if (object.name() == "elo") {
 						obliEloObject = new Object();
 						obliEloObject.label = object.customname.toString();
-						obliEloObject.refquest = object.reflectionquestion.toString();
+						
+						//HACK: for the time being since the question is not available from the service yet
+						//obliEloObject.refquest = object.reflectionquestion.toString();
+						obliEloObject.refquest = "Δείτε την ερώτηση στο φύλλο εργασίας";
+						
 						obligElos.addItem(obliEloObject);
 					}
 				}
@@ -389,8 +393,11 @@
 				var pfXmlConfig:XML = event.result as XML;
 				
 				so.data.pfrt = pfXmlConfig.portfolioreflectiontabs;
-				so.data.elrefinq = new String(pfXmlConfig.eloReflection.eloreflectioninquiryquestion);
-				trace(new String(pfXmlConfig.eloReflection.eloreflectioninquiryquestion));
+				
+				//HACK: while service not providing the right value
+				//so.data.elrefinq = new String(pfXmlConfig.eloReflection.eloreflectioninquiryquestion);
+				so.data.elrefinq = "Δείτε την ερώτηση στο φύλλο εργασίας";
+				
 				so.flush();
 				
 				eloCategoryService.url = new String(toolURLProvider.obligatoryelosinmission)+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23");
