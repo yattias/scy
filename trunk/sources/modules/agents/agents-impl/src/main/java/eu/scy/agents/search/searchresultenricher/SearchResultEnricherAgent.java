@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
@@ -186,7 +187,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
         if(config.get(EXTRACT_KEYWORD_RESULT_NUMBER_USED_FOR_EXTRACTION) != null) {
         	this.numberOfResultsUsedForExtension = (Integer) config.get(EXTRACT_KEYWORD_RESULT_NUMBER_USED_FOR_EXTRACTION); 
         } else {
-        	this.numberOfResultsUsedForExtension = 3;
+        	this.numberOfResultsUsedForExtension = 10;
         }
         if(config.get(EXTRACT_KEYWORD_TERM_NUMBER_TO_TEST) != null) {
         	this.numberOfTermsToTest = (Integer) config.get(EXTRACT_KEYWORD_TERM_NUMBER_TO_TEST); 
@@ -438,10 +439,13 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
     	int resultsUsed = 0;
     	for(int i = 0; i < results.size() ; i++) {
     		// Keyword list may contains relevance entries, so we need to delete them
-    		String keywords = results.get(i).getKeywords();
-    		if(keywords.equals("")){
+    		
+    		// TODO: using english titles only, should be more generic... also using the keywords might be interesting
+    		String keywords = results.get(i).getTitle(Locale.ENGLISH);
+    		if(keywords == null || keywords.equals("")){
     			continue;
     		}
+    		keywords = keywords.toLowerCase();
     		keywords = keywords.replaceAll(" [0-9]\\.[0-9]", "");
     		List<String> terms = Arrays.asList(keywords.split(" "));
     		bag.addAll(terms);
@@ -452,8 +456,14 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
     	}
     	@SuppressWarnings("rawtypes")
 		Iterator bagIterator = bag.iterator();
+    	String last = "";
     	while(bagIterator.hasNext()) {
     		String term = (String)bagIterator.next();
+    		if(last.equals(term)) {
+    			// Bag contains duplicate entries...
+    			continue;
+    		}
+    		last = term;
     		int termCount = bag.getCount(term);
     		termList.add(new TermEntry(term, termCount));
     	}
@@ -474,6 +484,10 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 		@Override
 		public int compareTo(TermEntry o) {
 			return getCount() - o.getCount();
+		}
+
+		public String getTerm() {
+			return this.term;
 		}
 
 		public int getCount() {
@@ -536,7 +550,19 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	    	} else {
 	            // Only one item and too less results... this must be handled separately
 	
-	            // TODO: this is just a stub
+	            List<TermEntry> termList = extractAlternativeTermsFromSearchResults(referenceResults);
+	            System.out.println(termList);
+	            for(int i = 0; i < Math.min(this.numberOfTermsToTest, termList.size()); i++){
+	            	int pos = searchQuery.lastIndexOf("\"");
+	            	String newQuery = searchQuery.substring(0, pos - 1) + " AND " + termList.get(i).getTerm() + "\"";
+	            	List<ISearchResult> result = performSearch(newQuery);
+	            	if(result != null) {
+	            		ranking.add(newQuery, result);
+	            	} else {
+	            		// RooloAccessorAgent down, so stop
+	                	return ranking;
+	            	}
+	            }
 	    	}
     	} catch (TupleSpaceException e) {
     		e.printStackTrace();
