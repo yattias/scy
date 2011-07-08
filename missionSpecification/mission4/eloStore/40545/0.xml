@@ -22,7 +22,7 @@
           <dateTime>2011-04-28T14:35:40.125+0200</dateTime>
         </date>
       </contribute>
-      <version>2</version>
+      <version>3</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -49,6 +49,18 @@
         <string language="en">Chemistry: Goal of the analysis</string>
       </title>
     </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_forked_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/40615/0/Goal+of+the+analysis.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
   </lom>
   <template>true</template>
   <thumbnail>
@@ -57,13 +69,13 @@
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
-&#xD;
-\f1\fs24\i\b0\cf1\ldblquote The attorney wants to know whether the lipstick on the glove found at the main suspect\rquote s house comes from one of the victim\rquote s lipstick.\rdblquote\par&#xD;
-\par&#xD;
-\i0\par&#xD;
+<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;
+&#xD;&#xD;&#xD;
+\f1\fs24\i\b0\cf1\ldblquote The attorney wants to know whether the lipstick on the glove found at the main suspect\rquote s house comes from one of the victim\rquote s lipstick.\rdblquote\par&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;
+\i0\par&#xD;&#xD;&#xD;
 }</RichText>
 </content>
 <resources>

@@ -19,16 +19,16 @@
         </role>
         <entity>rachel</entity>
         <date>
-          <dateTime>2011-04-28T14:58:17.619+0200</dateTime>
+          <dateTime>2011-07-08T14:58:19.019+0200</dateTime>
         </date>
       </contribute>
-      <version>4</version>
+      <version>9</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1303995497619</dateCreated>
-        <dateFirstUserSaveKey>1303995497619</dateFirstUserSaveKey>
-        <dateLastModified>1305799012917</dateLastModified>
+        <dateFirstUserSaveKey>1310129899019</dateFirstUserSaveKey>
+        <dateLastModified>1310129899019</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
@@ -40,23 +40,25 @@
         <catalog>memory</catalog>
         <entry>roolo://memory/40549/0/Chemistry%3A+Conclusion+of+the+experiment.rtf</entry>
       </identifier>
-      <las>Analysis</las>
+      <las>Analysis_Chim</las>
+      <missionId>forensic</missionId>
       <missionRunning>
         <catalog>memory</catalog>
-        <entry>roolo://memory/40557/0/The+forensic+SCY-Lab.scymissionspecification</entry>
+        <entry>roolo://memory/40608/0/Forensic+mission.scymissionspecification</entry>
       </missionRunning>
       <title>
-        <string language="en">Chemistry: Conclusion of the experiment</string>
+        <string language="en">Conclusion of the experiment</string>
+        <string language="fr">Conclusion de mon expérience</string>
       </title>
     </general>
   </lom>
   <template>true</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACT0lEQVR42u3Wy2paURTG8fMYTkScCRHxBXyC4EzItIPSSemFDEqeoNAOSgMOig6ENr1gqQMtlDSQpMTLwETQFApWxVqwVrwgGk1aZTV7QbQHUggUSoX/Bx+bdfZxw/mhB63BYCC9Xs9Wk+l0Sq9QywC2221bZ7OZnE7G8zabTel2u9rhcKjAd9bfa++ub8t4vLh3+vNMDg4OFvOPU4lEIrbzksmkbTY5OTnRmrMuetVrl/VfnaeAj+Jf9CFuPKzPAd/lmzI8f7adwjcFfBN/JbufJzIajfReyW6IZVlyFNvQw7YPmzrvH3cV0My7xz3ZK3UU0Mw7hZauBtCs+x/7upr0+/2lrAI+eFGXytczefr80xxwc2tP1taeSfjlBwW8feumNL73F4Bvr2mPHl9XQHOf6ZPXGQXc3NqVe/cj53NaAS/2TQ3g77NJq9Vayv7xJ5zNZuet1+u2lkol234+n7fN8XjcNofDYducSqVss0mj0VjKWpVKRS5rtVqlV6gl5K9iFQoF8fl84vF4pFgsisPhkEAgoJu1Wk38fr8kEglxu91SLpfF6/Xq3srKiq7pdFpWV1clFovp+zEYDOpq/g6ZvWg0KpPJREKhkL4ezDWn06mfzWQyksvlxOVySafT0Wvm/bhUgHyHAAQQQAAJgAACCCABEEAAASQAAggggARAAAEEkAAIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAAC+F/mFyOB3Cd3ViyJAAAAAElFTkSuQmCC</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAABwklEQVR42u3TPUtCYRjG8ecDRLQ5OlerH6Ktj9AUNNfQ1CA0NjS2FBQGLVEtDUFDL4MoQVM5WGa+pWYv5gupxzvup46pOJRLmP8LLjz3uZ/nDD/QZPIi6dx388+dc/c+GLrumDe3Ah1zKutI8qE+NDUKdHb1KnPzfpmeXZb8i8ipzgt+Wd0+EXe/e3Qh55GiBdRZz4Rj7xZQ52C0aveJdFnuU2+txpNF2/Z3vdrr3E/f/eX3LOD6fkhGRsdkambJAhpj7LvFlR0LuHEQlvGJSfurgLrTM4HDSwuo885xxO7jiSeJxXNDUwuYLXz1USxgay58/oXbZwVsnxWwfb6NpSV6Ex+amrW9O6H91/h8PslkMtJoNKRSqYjH4xHHccRNuVyWarUqpVLJPus5ba1Wa+31np5xnzX669ad9Y7Wve9+w+v12n29XpdBi2k2m7++5N7p5273NwY9RgiAAAIIIAEQQAABJAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCAABIAAQQQQAIggAACSAAEEEAACYAAAgggARBAAAEkAAIIIIAEQAAB/If5AKKC3oFecygLAAAAAElFTkSuQmCC</base64>
   </thumbnail>
 </metadata>
-<content languageIndependent="true" contentType="xml">
+<content languages="en fr" contentType="xml">
 <RichText>{\rtf1\ansi&#xD;
 {\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
 {\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
@@ -64,6 +66,7 @@
 \li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Write the conclusion of your chemical experiment here.\par&#xD;
 \par&#xD;
 \b0\par&#xD;
+\par&#xD;
 \li0\ri0\fi0\ul0\par&#xD;
 }</RichText>
 </content>

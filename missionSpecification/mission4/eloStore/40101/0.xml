@@ -19,50 +19,99 @@
         </role>
         <entity>rachel</entity>
         <date>
-          <dateTime>2011-04-22T14:43:49.409+0200</dateTime>
+          <dateTime>2011-07-08T16:59:21.019+0200</dateTime>
         </date>
       </contribute>
-      <version>11</version>
+      <version>17</version>
     </lifecycle>
+    <annotation>
+      <entity>colorId</entity>
+      <colorSchemeId />
+    </annotation>
     <technical>
       <customElements>
         <dateCreated>1303476229409</dateCreated>
-        <dateFirstUserSaveKey>1303476229409</dateFirstUserSaveKey>
-        <dateLastModified>1305811768923</dateLastModified>
+        <dateFirstUserSaveKey>1310137161019</dateFirstUserSaveKey>
+        <dateLastModified>1310137161019</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
     <educational>
       <learningResourceType>reportFinal</learningResourceType>
     </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType />
+    </annotation>
     <general>
       <identifier>
         <catalog>memory</catalog>
         <entry>roolo://memory/40101/0/Official+report.rtf</entry>
       </identifier>
-      <las>Reporting</las>
+      <las>Biology Reporting</las>
+      <missionId>forensic</missionId>
       <missionRunning>
         <catalog>memory</catalog>
-        <entry>roolo://memory/40557/0/The+forensic+SCY-Lab.scymissionspecification</entry>
+        <entry>roolo://memory/40623/0/Forensic+mission.scymissionspecification</entry>
       </missionRunning>
       <title>
         <string language="en">Official report</string>
+        <string language="fr">Raport officiel</string>
       </title>
     </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
   </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
   <template>true</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACDklEQVR42u3Uz4tSURjG8fs36Z/RssW4atkmatnGXYugFsGAjOGumpq40iIlhmHEmbAENYZwhBYp3BRu5ly9iD9mJpV35rzgnQ5MIASR9H3g4fiecz1wP6DOcDiUwWBg1WQ+n9MV6hjAXq9ndbFYyNnpNKrv+9Lv97Wj0UiBl2cnJ4FMp1fPzmfnUiqVruafZ5LJZKz7crmcNZtMJhOtuWvZVfeu69+6TwGfuN/0JW4/9iLA3Zovo8t32z/6roBv3NdS/Hoq4/FYn9375MuNm7fk2bvPepmZHceRw+O+Apq5eDyQg3qggGbeP+rqagDNetgIdTUJw3Atq4CPXnnS7JzL85dfIsDN7QPZ2HghqZ33Cnjv7h1p/wgjQLNv+mDrrQIu56fZjwq4uV2U+w8zl/MHBVyemxrAX2eTbre7lv3tT7hcLkf1PM9qvV63zmu1mjW7rmvNqVTKmvP5vDWbtNvttazTbDblurZaLbpCHSF/FAVMp9M6VCoVyWaz+j9XrVZ1LxaL6VooFKIvmbPZbCaJREIajYYEQaD7yWRSOp2Ofo7H4/8PIAEQQAABJAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCAABIAAQQQQAIggAACSAAEEEAACYAAAgggARBAAAEkAAIIIIAEQAABBJAACOA/lwsN9PyvTAKbpgAAAABJRU5ErkJggg==</base64>
+    <base64>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</base64>
   </thumbnail>
 </metadata>
-<content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Write your report to the attorney here.\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\li0\ri0\fi0\ul0\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+<content languages="en fr" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Firstname, lastname:\b0  \par
+\par
+\b My job is:\b0  \b  \b0\par
+\par
+\b Case number:\b0  \b  \b0 CY0347\par
+\par
+\b Object:\b0  Expert analysis for the Attorney General\par
+\par
+\b Summary of facts (according to my understanding of the crime case): \b0  \b   \b0\par
+\par
+\b My mission: \b0       \b\par
+\par
+My biological material (my samples):\par
+\b0 Did the crime scene sample contain biological material? \b\par
+\b0 Did you manage to make DNA-profiles out of the sample(s)?\b\par
+\b0\par
+\b All the steps I have made (activities I have done, objects I have created):\b0\par
+\par
+\b Justification of my method, my technique:\par
+\par
+My problems during all the mission (optional):\b0\par
+\par
+\b My conclusion:\par
+\b0 Did you find a match between the evidence sample and any of the reference samples?\par
+What information does a match between evidence and reference profile give about a suspect being guilty or not?\par
+What is the profile frequency of the matching profiles? (optional)\par
+\par
+\par
+\li0\ri0\fi0\ul0\par
 }</RichText>
 </content>
 <resources>
