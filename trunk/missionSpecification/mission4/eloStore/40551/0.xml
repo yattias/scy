@@ -19,49 +19,98 @@
         </role>
         <entity>rachel</entity>
         <date>
-          <dateTime>2011-04-28T15:04:49.429+0200</dateTime>
+          <dateTime>2011-07-08T16:58:35.998+0200</dateTime>
         </date>
       </contribute>
-      <version>1</version>
+      <version>8</version>
     </lifecycle>
+    <annotation>
+      <entity>colorId</entity>
+      <colorSchemeId />
+    </annotation>
     <technical>
       <customElements>
         <dateCreated>1303995889429</dateCreated>
-        <dateFirstUserSaveKey>1303995889429</dateFirstUserSaveKey>
-        <dateLastModified>1303995889429</dateLastModified>
+        <dateFirstUserSaveKey>1310137115998</dateFirstUserSaveKey>
+        <dateLastModified>1310137115998</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
     <educational>
       <learningResourceType>reportFinal</learningResourceType>
     </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType />
+    </annotation>
     <general>
       <identifier>
         <catalog>memory</catalog>
         <entry>roolo://memory/40551/0/Chemistry%3A+Official+report.rtf</entry>
       </identifier>
-      <las>Information</las>
+      <las>Chemistry Reporting</las>
+      <missionId>forensic</missionId>
       <missionRunning>
         <catalog>memory</catalog>
-        <entry>roolo://memory/40123/0/Forensic+SCY-Lab.scymissionspecification</entry>
+        <entry>roolo://memory/40623/0/Forensic+mission.scymissionspecification</entry>
       </missionRunning>
       <title>
-        <string language="en">Chemistry: Official report</string>
+        <string language="en">Official report</string>
+        <string language="fr">Rapport officiel</string>
       </title>
     </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
   </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
   <template>true</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAABy0lEQVR42u3TS0sCYRjF8fl+LVu4a9kmatkHaBHUIggkwl1lFyZapEREoIXlxoiwoEUKk8Fklg7ipZvy1PuAYy8UCEFg/A8chjMzvDA/GKder0utVrNq0ul06AB1DGClUrHa7Xbl5bkd1vd9qVar2kajocC9Z4+PT9Ju99/tvL9KJpPp77cXicVi1nmJRMLaJq1WS2vO6nXQe9/1r85TwAX3Vj9ifN4LAfdzvjQ+v+3w/F4Bd9wtSd08S7PZ1HcPznwZGR2Tlb0LPcxsx3Hk6LKqgGanLmuSzj8poNmH52W9GkBzPboK9GoSBMFQVgHnNjwp3L3K6vp1CLgYT0sksibRzWMFnJqckNJDEAKa+6YzS7sK2NvL26cKuBhPyfRs7HOfKGDvuakB/LpNyuXyUPbHXzibzYb1PM9qPp+3nudyOWu7rmvtaDRq7WQyaW2TUqk0lHUKhYJ812KxSAeoI+RXARBAAAEEkAAIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAASQAAggggARAAAEEkAAIIIAAEgABBBBAAAmAAAIIIAEQQAABJAACCCCABEAAAQSQAAgggAASAAEEEEACIIAA/st8ALnGCyJWi5WOAAAAAElFTkSuQmCC</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAFmUlEQVR42u2a2UvdRxTH7x9QSt8U3yQhwdYFNfEhLiBRXMAGjEhiXIL2oSg+WCEKSlGsQa1xaQwhMdUo1yBEwQqKVsQdXIMR1Cu2RmNNNO5xj8up30Pn9l5zFYsJdTlfGOZ3ZuY31/txfnPPnPPTzG5s0ru1LX3ZpDUje5umjeyBwQ4jW6stMrI/bE/R+ubkmSmauV2ALQOL9P0PyfTtdz/R1i7AZtixyZStbWKA6C//vYdade9pQNfBNsZ0vdrYBVjMdvsfa9y/tPKGFpcm9GXh/V9cDNtMFVPjDtv2f87HAH+t6KQvvvyKvEN/ZIAajYbb4n4uZYAFv3WR1dffcA2A6MMYbXUvA4RdWq/j/pm5cZp6N3ZmCgOc/UD/lB0GiFrZAPhvPzFA1YcCgIb3v3nzisbG/jwzRZNQkkuJJb/oC+y9baaKqXGHbTtN82n8/Pxoc3OTVldXaWVlhQuuUSDY29vbPGZtbY22trb0fSIizWEH7uzsCK2jABQJwM8DEHtgQkICG7h++PAhXbp0ScjIChSAAvBMACwpKSFzc3N6+fIlTUxMcKONjQ319vZSeXk5vX37lhYXF7kdPmBZWRkNDw/TxYsXhZ6sQAF4PAA+evSIgoODueH+/ft8fDuM1Dg88gfJx8fndAPEGffmzZvcMDc3x8c2nH2Xl5dN3jQzM8PjVP/CwoK+D+dm9KNW7bOzszQ9PU1LS0tsq1oeYZEAPDLAyMhIMjMzo8ePH9ONGzfIzs6OH98XL15QcXExDxoZGeH+y5cv0/Pnz8nW1pbH3L59m5qamngLcHR05LGenp5UUFDA8+BRzs7OpvT0dLp79y67Q/b29uTi4kLz8/M8T3t7O9/n7OzMezFcJQifd+7cOfL29mb7zp07lJycTCEhIbSxsSErUB5hkQD8JAARwsKepZSUlETu7u7U19dHtbW1QkhWoAA83gDhhgwNDbFRX1//0QDDZFJ3d7f+uqqqat9J4fZAnZ2dpx/gtWvX6MGDB2wEBQVx/fTpUxodHaUnT56w3dbWxrWrq6v+Rvh5GRkZdP78ebbhFyLEhVJUVMTHvIGBgbPzCCtHeL/Vd5AM711fXz/UHKq9urr6ozbUcMCVmpubjy9A/LGGX9LwSyipFfhfwaqxpsbv13bS8s/yIyIAjwFACwsL3vzxwwClpKTQ1NQUOTg46AempaVx7e/vTz09PdTV1UUtLS36YKqbm5u+hmOek5PDNnIo/f39nFuprKzkOREfDAwM5P6AgADOscTHx3Mw99atW9xeUVHBcyFPExMTw21ZWVmUmZnJAQcVAJYVKI+wABQdBWBoaCjl5eVRVFQUWVpass915coV7kRAE7K2tqbW1lZycnJiOzw8nAOi2DshDw8P3r+UUw0HG8J8dXV17IDHxsbKChQJwE8PMCIigs++h9HVq1cP7FepUeQzDtJ+6dITCRDw4NNBz54946Kua2pqOCGUm5vLvhr2SgQZIOR9ISSOkFTCcU/9I3B97949/TxKmK+xsZG0Wq08wiIB+GkAIieCAuH1C8QEkStG8BR5YhTkSESyAj8vQDi7CG6qtxEQEMCPg3KcVbTaUKWlpbxaITjKk5OT9Pr1a6MxiYmJXKuXNPfOh2CDTqcz+mWGZwDHXMUG8/Pzufb19dWP6ejooOjoaA4sqLcZ1MvxXl5esgJP1ApEDgPCe3xqBV6/fp1XF8L1SDaphBOOfGhDGMvKyorvgSuTmppK4+PjPKawsJDrwcFBXmFq1TU0NPD1hQsXuDaVRsA9eHUOfdh71f6M4yX64uLi2N6bsAoLC9v3Sxp+jrpGSA3C9zV8H9LU3yQrUB5hASgARQJQAApAASgSgAJQAApAkQAUgAJQAIoEoAAUgAJQAIoEoAAUgAJQJAAFoAAUgCIBKABPmP4GkG1mwVFP5BsAAAAASUVORK5CYII=</base64>
   </thumbnail>
 </metadata>
-<content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
-&#xD;
-\f1\fs24\i0\b0\cf1\par&#xD;
+<content languages="en fr" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Firstname, lastname: \b0\par
+\par
+\b My job is:  \b0\par
+\par
+\b Case number: \b0 CY0347\b  \b0\par
+\par
+\b Object: \b0 Expert analysis for the Attorney General\par
+\par
+\b Summary of facts (according to my understanding of the crime case):    \b0\par
+\par
+\b My mission:    \b0    \par
+\par
+\b My biological material (my samples):\b0\par
+Did you manage to make chemical analysis out of the sample(s)?\par
+\par
+\b All the steps I have made (activities I have done, objects I have created):\b0\par
+\par
+\b Justification of my method, my technique:\b0\par
+\par
+\b My problems during all the mission (optional):\b0\par
+\par
+\b My conclusion:\b0\par
+Did you find a match between the evidence sample and any of the reference samples?\par
+What information does a match between evidence and reference profile give about a suspect being guilty or not?\par
+\par
+\par
+\par
+\li0\ri0\fi0\ul0\par
 }</RichText>
 </content>
 <resources>

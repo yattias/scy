@@ -1,0 +1,92 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-07-08T15:08:59.516+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-07-08T15:10:15.285+0200</dateTime>
+        </date>
+      </contribute>
+      <version>1</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1310130539516</dateCreated>
+        <dateFirstUserSaveKey>1310130615285</dateFirstUserSaveKey>
+        <dateLastModified>1310130615285</dateLastModified>
+      </customElements>
+      <format>scy/templateelos</format>
+    </technical>
+    <educational>
+      <learningResourceType />
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40620/0/Forensic+mission.scytemplateelos</entry>
+      </identifier>
+      <las>Information_Chim</las>
+      <missionId>forensic</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40608/0/Forensic+mission.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Forensic mission</string>
+        <string language="fr">Laboratoire de police scientifique</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAAA6CAYAAAAnft6RAAAD6ElEQVR42u2Y2Su2WxjGv3/HgSOKcmw4UxwpRTIVGTMnZIrIkITMmTMVIoRkSKYMZSoZMoRkSGb37rprPXkd7PTt9u797Ouqt/U+a93reT0/a93XvZ5f8kWbm5tCfV+/vnZ0dXWRyj8BSBGgfQOcnp7+VtzDw8Pfjr+/v8vHx8fPAJiYmChra2vaMTk5KTc3N3J5eSkXFxfi4+MjOzs70t7eLlNTUxqTlJQkLS0tkpWVpdfh4eHaPj4+ysbGhkRERMjw8LC8vb1Jb2+v3N7eWlAx9vz8LFFRURIdHW3Nu7q6kr29Pf2tPw5gWlqabG1taQfa/v5+8fPzk/Pzc0lNTdUHa2trk+XlZY2Ji4vT69zcXKmqqpKYmBh5enqS+fl5Hd/e3tb29fVVW4xDOTk54uvrK+Y3oaKiIunp6VGI+Gd5eHho3MTEhDXf7gEmJCToaoFWV1etLQalpKRYwYg5Pj7WrYfviGlsbJTY2FgZHBxUgOY+Jt60Zg7k7++vbW1trU0c5ptt7ejoSBP5jvb397W9vr6mC/+uofyvXBi56nfl6upqc4389yMABgcHy8rKinZ4e3tLdna2BAYGysvLi8THx6tBHBwcSFBQkJyenqop1NfXq3tDYWFhVg6DqZSUlOgc5Mj09HSN8/T0VGBw38LCQr1HaWmpFBcXS2dnpwQEBKi7QycnJ38WwOTkZKuMQRmCh4cLwhgAIDQ0VI0G8IyxtLa2Sl5enpoK5t7d3SnAhoYGjenu7hYHBwf94HgIKGNjYzI3N6fjs7OzMjAwYPPHwFTc3d3VfUdGRsTZ2VnLISgkJETNCmNeXl72BdDNzU1XhlmNUEVFhY0LwylRXqBGxMNjZeLhampqdDUtLi4qHNR5WFFQZGSkzkE84paWlrQGhEZHR3UF4j6m/KmsrNQ2Pz9fdnd3Ff7Q0JD2YQfgY5cr8POWQcIvKCiwrlEIf9bR0ZHN9cLCgtaNqOUODw9txj6XNF/7ABQygCDUm3RhnoX/GyEf/hiAzc3NagZQRkaGGgFyF2SSOJI33BX5CgaBtq+vT8fgvJ8FU0GBDBfGGFq4Lc7ZMJvx8XHNi2dnZ1JdXS0zMzO6lZ2cnKSurk7vgXN2eXm5dQS0a4AwivX1dZtzLIQHgymUlZVJZmamlf+MC+MsDDiAAXOAiRgXvr+/t8zBqKmpycp9yLvmJQR+A/cy53GYi4uLi343rm3XAFEi4OUBXLKjo0MHUJdh1aEE4Wt+mggBEiABUgRIgARIgBQBEiABEiBFgARIgARIESABEiABEiBFgARIgARIESABEiABUgRIgARIgBQBEiABEiBFgP++/gLtYivfHDtt2wAAAABJRU5ErkJggg==</base64>
+  </thumbnail>
+</metadata>
+<content languages="en fr" contentType="xml">
+<templateElosEloUris>
+  <templateElosEloUri>roolo://memory/409/0/Empty_plain_text.text</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/412/0/Word_document.doc</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/410/0/Presentation_document.ppt</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/419/0/Empty+form.scyformauthor</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/405/0/Empty_drawing.scydraw</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/403/0/Empty_concept_map.scymapping</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/404/0/Empty_dataset.dataset</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/406/0/Empty_experimental_procedure.scyxproc</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/418/0/Empty+math+worksheet.scymathtool</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/411/0/Empty_rich_text.rtf</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/420/0/Empty+YouTube+video.scyyoutuber</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/407/0/Google_SketchUp_document.skp</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/408/0/Empty_interview.scyinterview</templateElosEloUri>
+</templateElosEloUris>
+</content>
+<resources>
+</resources>
+</elo>

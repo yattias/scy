@@ -1,0 +1,81 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-04-28T14:35:40.125+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-07-08T14:33:33.667+0200</dateTime>
+        </date>
+      </contribute>
+      <version>4</version>
+    </lifecycle>
+    <annotation>
+      <entity>colorId</entity>
+      <colorSchemeId />
+    </annotation>
+    <technical>
+      <customElements>
+        <dateCreated>1303994140125</dateCreated>
+        <dateFirstUserSaveKey>1310128413667</dateFirstUserSaveKey>
+        <dateLastModified>1310128413667</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <educational>
+      <learningResourceType>documentReflection</learningResourceType>
+    </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType />
+    </annotation>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40615/0/Goal+of+the+analysis.rtf</entry>
+      </identifier>
+      <las>Orientation_Chim</las>
+      <missionId>forensic</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40608/0/Forensic+mission.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Goal of the analysis</string>
+      </title>
+    </general>
+  </lom>
+  <template>true</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACB0lEQVR42u3UzWoTYRTG8fcCRLwN60105c5FLsCdgsiA0G2kpRv3usiqupAUugnYRbpQBLEuSqsggdYulBLUYGvRtE3SfE0ec16ZYWZIbUoWivk/cJg55/1I+BHiQn1XXwdxST9TfXZ9+8Nmqi8Wn6b6brivdu/b1JQzoPWdI92ZW9SNWw+GgHXp7YLmb89qKZ9XtF56/k5vdo89oPWvh7W11/GA1m98PPXrJ82ajk6+xlU//uIrORtVo/aNO/ub93nAx882denyFV2/ufAb8MVd6VWgpXuBB3yyuqWrM9f80wBtv3NOxbX3HtD6lZe7fv3wx2ftH1SnpjygdJioeqrPrhtgsjfAZF+r7ala/TQ15fLLD3V/+VFc1mdno2rUvnFn/9N9bvizUaFQUKvVsld1Oh3/HAwGitLv9xWGoZrNpl/P5XJ+3u124z3RueieRqPhz+SH/6N2zlIqlfzT5uVyWdnYfbZmd/R6vdQ8+k7R59j9ye/Xbrfj97OSPJNNdP6icedtqFQqZ64lkSfZ86e92dlF7hsnQRBMdLcTmSgAAggggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAgggARBAAAEkAAIIIIAEQAABBJAACCCAABIAAQQQQAIggAACSAAE8N/ML3TFyh70bma4AAAAAElFTkSuQmCC</base64>
+  </thumbnail>
+</metadata>
+<content languages="en" contentType="xml">
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i\b0\ul0\cf1\ldblquote The attorney wants to know whether the ink on the anonymous letter comes from one of the collected pens.\rdblquote\par&#xD;
+\par&#xD;
+\i0\par&#xD;
+\li0\ri0\fi0\ul0\par&#xD;
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>

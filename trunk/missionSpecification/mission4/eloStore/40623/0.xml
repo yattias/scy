@@ -1,0 +1,86 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-07-08T15:12:04.974+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-07-08T15:12:04.973+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1310130724974</dateCreated>
+        <dateFirstUserSaveKey>1310130724973</dateFirstUserSaveKey>
+        <dateLastModified>1310130724974</dateLastModified>
+      </customElements>
+      <format>scy/missionspecification</format>
+    </technical>
+    <educational>
+      <learningResourceType>documentDesign</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40623/0/Forensic+mission.scymissionspecification</entry>
+      </identifier>
+      <las>Information_Chim</las>
+      <missionId>forensic</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40608/0/Forensic+mission.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Forensic mission</string>
+        <string language="fr">Laboratoire de police scientifique</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAAA6CAYAAAAnft6RAAADAklEQVR42u2XzytsYRzG/TuytLaVYjVWUvIjPyI1hIaRkFlIsqBYyHImNmShsCGlMDNZkN8mBiGE/Azz3J5vnZPm3lu3e2/uufU8dTrnvOf9fs97Pud9z/M9GUjTxsYGpF9XRnrDxMSEqPwJQEfv7++2v7u7E6XfASh9IcBUKoXLy8u/Nijm+68A1tXV2VZdXY3Kykqcnp7i+fkZHx8fuL6+RlZWFrKzs7GwsIDh4WEL9Pv96OzstON4PI6ysjJb9oyl9vb2LAfjx8fH0d/fj6enJzw+PuLo6Aijo6PW7/z8HNPT09a/oKAAs7OzyM3NtWs3Nzc2hre3NwwODmJzc9PaS0tLMTAw4B2AwWAQW1tb1sD91NQUioqK7OHa2trs4cLhMGKxmPVpbGy081AohJGREWxvb1s/amdnB2dnZ+6sTCaTKCwsxMvLC8bGxtwbX1xc2L63txf19fUudL4E3r+iogLd3d1YXFy0HFQgEPDmDOSgne2z+Papq6sr11jm5+fda9ycGM4czjDq9fXVjU1flk6cc8z4g4MD9/gzZMY4+T+PzUtLXCYigB4AWFVVZSc0hZaWli8fxP7+/nefj5+pqanJewCbm5vtxOfzuRdoLHQ/7hOJhLns8vKyPWxfXx/Ky8tRUlKC+/t7+7jPzc3Zd5DGUltbazna29vR0NBgjs04ujX7Tk5OWk6+uNXVVdTU1GB9fR27u7uWo6Ojw3Lw/szR2tqK29tb5OTkoLi42JtlDEsJ/nUQ0srKioGh26abytramjlwV1eXOW8kEsHJyYk9GCHQQFi6EA6hLy0tue6en5+PoaEhMyXnpVEExPLo4eHBbeM9CDAzMxN5eXnWxtLHiaPTE/TMzAyOj4//LUAu3Z6eHreR8FhacEYcHh5aG2dNNBq18oKgpDQTYdHLeu5HZYwkFxZAARRASQAFUAAFUBJAARRAAZQEUAAFUAAlARRAARRAAZQEUAAFUAAlARRAARRASQAFUAAFUBJAARRAAZQEUAAFUAAlARRAD+sbbnuJMPw03yAAAAAASUVORK5CYII=</base64>
+  </thumbnail>
+</metadata>
+<content languages="en fr" contentType="xml">
+<missionSpeicification>
+  <missionMapModelEloUri>roolo://memory/40618/0/Forensic+mission.scymissionmapmodel</missionMapModelEloUri>
+  <eloToolConfigsEloUri>roolo://memory/40619/0/Forensic+mission.scyelotoolconfiguration</eloToolConfigsEloUri>
+  <templateElosEloUri>roolo://memory/40620/0/Forensic+mission.scytemplateelos</templateElosEloUri>
+  <runtimeSettingsEloUri>roolo://memory/40621/0/Forensic+mission.runtimesettings</runtimeSettingsEloUri>
+  <agentModelsEloUri />
+  <pedagogicalPlanSettingsEloUri>roolo://memory/40622/0/Forensic+mission.scy</pedagogicalPlanSettingsEloUri>
+  <colorSchemesEloUri>roolo://memory/40036/0/Color+schemes+Mission4.colorschemes</colorSchemesEloUri>
+  <missionDescriptionUri>http://www.scy-lab.eu/content/en/mission4/missionMapInstruction.html</missionDescriptionUri>
+  <missionId>forensic</missionId>
+  <xhtmlVersionId />
+</missionSpeicification>
+</content>
+<resources>
+</resources>
+</elo>
