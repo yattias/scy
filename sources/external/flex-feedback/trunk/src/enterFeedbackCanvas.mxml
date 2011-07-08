@@ -195,11 +195,15 @@
 			
 			private function refreshDisplay(evt:RefreshEvent):void {
 				evt.stopImmediatePropagation();
-				retrieveSingleELOService.url = new String(so.data.retrievesingleeloservice)+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23")+"&singleELO="+encodeURI(evt.eloURI);
+				//retrieveSingleELOService.url = new String(so.data.retrievesingleeloservice)+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23")+"&singleELO="+encodeURI(evt.eloURI);
+				retrieveSingleELOService.url = new String(so.data.retrievesingleeloservice);
+				var params:Object = new Object();
+				params.missionURI = decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23");
+				params.singleELO = evt.eloURI;
 				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
 					retrieveSingleELOService.url = new String(so.data.retrievesingleeloservice).substring(1);
 				}
-				retrieveSingleELOService.send();
+				retrieveSingleELOService.send(params);
 			}
 			
 			protected function retrieveSingleELOService_faultHandler(event:FaultEvent):void {
@@ -232,6 +236,7 @@
 		
 		<s:HTTPService id="retrieveSingleELOService" 
 					   showBusyCursor="true" 
+					   method="POST"
 					   result="retrieveSingleELOService_resultHandler(event)" 
 					   fault="retrieveSingleELOService_faultHandler(event)"
 					   resultFormat="e4x"/>

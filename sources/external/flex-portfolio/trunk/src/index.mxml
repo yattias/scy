@@ -134,7 +134,7 @@
 			
 			[Bindable] public static var MISSION_NAME:String;
 			[Bindable] public static var PORTFOLIO_STATUS:String;
-			[Bindable] public static var REF_ON_INQ_TXT:String = "How helpful was building a concept map in identifying the main concepts related to reducing global CO2 levels?";
+			[Bindable] public static var REF_ON_INQ_TXT:String = "";
 			
 			[Bindable] public static var obligElos:ArrayCollection;
 			
@@ -489,7 +489,7 @@
 			<local:portfolioAssessingCanvas id="pfassess" width="100%" creationPolicy="all" height="100%" showEffect="{showEffect}" />
 		</mx:ViewStack>
 		<s:Image id="animateImage" visible="false" includeInLayout="false" />
-		<s:Label fontSize="8" right="0" bottom="0" text="v.3.10" />
+		<s:Label fontSize="8" right="0" bottom="0" text="v.3.12" />
 	</s:Group>
 
 <!--

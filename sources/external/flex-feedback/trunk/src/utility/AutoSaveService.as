@@ -38,6 +38,7 @@ package utility
 			httpService.resultFormat = "e4x";
 			httpService.url = serviceURL;
 			params = new Object();
+			
 			if(feedbackURI != null && feedbackURI != "") {
 				params.feedbackURI = feedbackURI.replace("#", "@");
 			}
