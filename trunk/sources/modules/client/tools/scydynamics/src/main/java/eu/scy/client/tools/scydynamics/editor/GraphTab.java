@@ -24,6 +24,7 @@ import sqv.widgets.GraphWidget;
 import sqv.widgets.VariableRef;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import eu.scy.client.tools.scydynamics.logging.ModellingLogger;
+import eu.scy.client.tools.scydynamics.model.SimquestModelQualitative;
 import eu.scy.client.tools.scydynamics.model.SimquestModelQuantitative;
 
 @SuppressWarnings("serial")
@@ -145,7 +146,11 @@ public class GraphTab extends SimulationPanel implements ChangeListener {
 		prepareGraph();
 
 		// create the SimQuest model from the CoLab model
-		sqModel = new SimquestModelQuantitative(editor.getModel(), variablePanel.getValues());
+		if (editor.getMode().equals(ModelEditor.Mode.QUALITATIVE_MODELLING)) {
+			sqModel = new SimquestModelQualitative(editor, variablePanel.getValues());
+		} else {
+			sqModel = new SimquestModelQuantitative(editor, variablePanel.getValues());
+		}
 		sqvModel = new sqv.Model(sqModel, dataServer);
 
 		//fade out existing curves

@@ -52,6 +52,12 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	    BLACK_BOX, CLEAR_BOX, MODEL_SKETCHING, QUALITATIVE_MODELLING, QUANTITATIVE_MODELLING;
 	}
 	
+	public static final int LARGE_NEGATIVE = -2;
+	public static final int SMALL_NEGATIVE = -1;
+	public static final int ZERO = 0;
+	public static final int SMALL_POSITIVE = 1;
+	public static final int LARGE_POSITIVE = 2;
+		
 	private final static Logger DEBUGLOGGER = Logger.getLogger(ModelEditor.class.getName());
 	public final static String DEFAULT_ACTION = "cursor";
 	public final static int LNK_DRAG_POINT = 0;

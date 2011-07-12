@@ -17,6 +17,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import eu.scy.client.tools.scydynamics.model.SimquestModelQualitative;
 import eu.scy.client.tools.scydynamics.model.SimquestModelQuantitative;
 import eu.scy.elo.contenttype.dataset.DataSet;
 import eu.scy.elo.contenttype.dataset.DataSetColumn;
@@ -122,7 +123,11 @@ public class TableTab extends SimulationPanel implements Runnable, ChangeListene
 			return;
 		}
         // create the SimQuest model from the CoLab model
-        sqModel = new SimquestModelQuantitative(editor.getModel(), variablePanel.getValues());
+		if (editor.getMode().equals(ModelEditor.Mode.QUALITATIVE_MODELLING)) {
+			sqModel = new SimquestModelQualitative(editor, variablePanel.getValues());
+		} else {
+			sqModel = new SimquestModelQuantitative(editor, variablePanel.getValues());
+		}
         sqvModel = new sqv.Model(sqModel, dataServer);
 
         // building the tablemodel
