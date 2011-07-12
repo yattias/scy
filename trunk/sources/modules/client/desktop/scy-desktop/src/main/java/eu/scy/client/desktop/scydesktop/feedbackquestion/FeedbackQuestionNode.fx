@@ -79,7 +79,7 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
            text: "Submit"
            action: function() {
               if (eloUri==null) {
-                  javafx.stage.Alert.inform("ELO not in Roolo.");
+                  javafx.stage.Alert.inform("No ELO loaded.");
                   return;
               }
               var feedbackElement = new Element(feedbackTagName);
