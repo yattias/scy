@@ -92,6 +92,7 @@ public class ScyDesktopNotificationRouter extends INotifiable {
         def action: IAction = new Action();
         action.setType("notification_rejected");
         action.setUser(scyDesktop.config.getToolBrokerAPI().getLoginUserName());
+        action.addContext(ContextConstants.mission, scyDesktop.missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri().toString());
         action.addContext(ContextConstants.tool, "scy-lab");
         action.addAttribute("notificationId", notification.getUniqueID());
         action.addAttribute("toolId", notification.getToolId());
@@ -103,6 +104,7 @@ public class ScyDesktopNotificationRouter extends INotifiable {
         def action: IAction = new Action();
         action.setType("notification_accepted");
         action.setUser(scyDesktop.config.getToolBrokerAPI().getLoginUserName());
+		action.addContext(ContextConstants.mission, scyDesktop.missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri().toString());
         action.addContext(ContextConstants.tool, "scy-lab");
         action.addAttribute("notificationId", notification.getUniqueID());
         action.addAttribute("toolId", notification.getToolId());
