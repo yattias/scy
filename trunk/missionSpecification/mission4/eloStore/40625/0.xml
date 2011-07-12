@@ -72,7 +72,7 @@
 </metadata>
 <content languages="en fr" contentType="xml">
 <missionModel>
-  <activeLas />
+  <activeLas>Biology Information</activeLas>
   <missionMapBackgroundImageUri />
   <missionMapInstructionUri>http://www.scy-lab.eu/content/en/mission4/missionMapInstruction.html</missionMapInstructionUri>
   <missionMapButtonIconType />

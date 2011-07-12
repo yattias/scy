@@ -24,7 +24,7 @@
 
 		 	<!--<property name="missionMapBackgroundImageUri" value="http://www.scy-lab.eu/content/en/mission4/loupe.png"/>-->
 			<property name="missionMapInstructionUri" value="http://www.scy-lab.eu/content/en/mission4/missionMapInstruction.html"/>
-            <property name="initialLasId" value="Information"/>
+            <property name="initialLasId" value="Biology Information"/>
             <property name="loEloUris">
                <list>
                </list>
