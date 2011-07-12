@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<concept_set name="population"
+             word_order="any">
+
+  <concept name="population">
+    <term type="stock">people</term>
+    <term type="stock">population</term>
+    <term type="stock">persons</term>    
+  </concept>
+
+  <concept name="births">
+    <term type="auxiliary">birth</term>
+    <term type="auxiliary">births</term>
+    <term type="auxiliary">born</term>
+    <term type="auxiliary">births_per_year</term>
+  </concept>
+
+  <concept name="deaths">
+    <term type="auxiliary">death</term>
+    <term type="auxiliary">deaths</term>
+    <term type="auxiliary">deaths_per_year</term>
+    <term type="auxiliary">dead</term>
+    <term type="auxiliary">dying</term>
+  </concept>
+  
+  <concept name="birth_rate">
+    <term type="constant">birth_rate</term>
+    <term type="constant">rate_of_births</term>
+  </concept>
+
+  <concept name="death_rate">
+    <term type="constant">death_rate</term>
+    <term type="constant">rate_of_deaths</term>
+  </concept>
+
+</concept_set>
+
