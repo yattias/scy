@@ -32,6 +32,7 @@ import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 import eu.scy.client.desktop.desktoputils.UiUtils;
 import eu.scy.client.desktop.desktoputils.jdom.JDomStringConversion;
 import org.apache.log4j.Logger;
+import eu.scy.client.desktop.desktoputils.XFX;
 
 /**
  * @author sikkenj
@@ -117,7 +118,12 @@ public class DrawingNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
       var newElo = repository.retrieveELO(eloUri);
       if (newElo != null) {
          whiteboardPanel.deleteAllWhiteboardContainers();
-         whiteboardPanel.setContentStatus(jdomStringConversion.stringToXml(newElo.getContent().getXmlString()));
+         // delay the loading of the whiteboard content, untill the whiteboard is really on screen
+         // at first open, the whiteboard panel might not yet on the screen
+         // thus there is no graphics environment yet, and the whiteboard can't calculate text size (which results in a NPE)
+         XFX.runActionAfter(function(){
+               whiteboardPanel.setContentStatus(jdomStringConversion.stringToXml(newElo.getContent().getXmlString()));
+            },250ms);
          logger.info("elo loaded");
          elo = newElo;
       }
