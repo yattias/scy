@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JList;
@@ -14,6 +15,7 @@ import colab.um.draw.JdFigure;
 import eu.scy.client.tools.scydynamics.domain.DomainUtils;
 import eu.scy.client.tools.scydynamics.editor.ModelEditor.Mode;
 import eu.scy.client.tools.scydynamics.model.ModelUtils;
+import eu.scy.client.tools.scydynamics.model.SimquestModelQualitative;
 
 public class VariableDialogListener implements ActionListener, MouseListener {
 
@@ -90,7 +92,14 @@ public class VariableDialogListener implements ActionListener, MouseListener {
 			}
 
 			// cleaning some bad chars in expression
-			String express = variableDialog.getQuantitativeExpression();
+			String express;
+			if (variableDialog.getEditor().getMode().equals(ModelEditor.Mode.QUALITATIVE_MODELLING)) {
+				String dialogExpress = variableDialog.getQualitativeExpression();
+				express = SimquestModelQualitative.getQualitativeValue(newName, dialogExpress, variableDialog.getEditor());
+				System.out.println(newName+": "+dialogExpress+" -> "+express);
+			} else {
+				express = variableDialog.getQuantitativeExpression();
+			}
 			express = express.replaceAll("<", "");
 			express = express.replaceAll(">", "");
 			express = express.replaceAll("&", "");

@@ -79,4 +79,25 @@ public class Domain {
 		return proposed;
 	}
 	
+	public String getConceptByTerm(String term) {
+		return getTermConceptMap().get(term);
+	}
+	
+	
+	public Node getNodeByConcept(Concept concept) {
+		return getNodeByConcept(concept.getName());
+	}
+	
+	public Node getNodeByConcept(String concept) {
+		LOGGER.info("concept: "+concept);
+		if (concept == null) return null;
+		for (Node node: referenceModel.getNodes()) {
+			if (node.getConcept().equals(concept)) {
+				return node;
+			}
+		}
+		return null;
+	}
+
+	
 }

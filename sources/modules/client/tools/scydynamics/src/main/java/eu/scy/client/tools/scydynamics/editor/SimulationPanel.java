@@ -22,6 +22,7 @@ import sqv.data.DataServer;
 
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import eu.scy.client.tools.scydynamics.editor.ModelEditor.Mode;
+import eu.scy.client.tools.scydynamics.model.SimquestModelQualitative;
 import eu.scy.client.tools.scydynamics.model.SimquestModelQuantitative;
 
 @SuppressWarnings("serial")
@@ -90,7 +91,11 @@ public abstract class SimulationPanel extends JPanel implements ActionListener, 
             return;
         }
         // create the SimQuest model from the CoLab model
-        sqModel = new SimquestModelQuantitative(editor.getModel());
+		if (editor.getMode().equals(ModelEditor.Mode.QUALITATIVE_MODELLING)) {
+			sqModel = new SimquestModelQualitative(editor);
+		} else {
+			sqModel = new SimquestModelQuantitative(editor);
+		}
         new sqv.Model(sqModel, dataServer);
         FileDialog dialog = new FileDialog((Frame) editor.getRootPane().getParent(), bundle.getString("PANEL_SAVESQX"), FileDialog.SAVE);
         dialog.setFile("*.sqx");
@@ -119,8 +124,10 @@ public abstract class SimulationPanel extends JPanel implements ActionListener, 
 	
 	protected void injectSimulationSettings() throws NumberFormatException {
 		if (editor.getMode()==Mode.QUALITATIVE_MODELLING) {
-			editor.getModel().setStart(-0.9);
-			editor.getModel().setStop(0.9);
+//			editor.getModel().setStart(-0.9);
+//			editor.getModel().setStop(0.9);
+			editor.getModel().setStart(0);
+			editor.getModel().setStop(10);
 			editor.getModel().setStep(0.1);
 			editor.getModel().setMethod("RungeKuttaFehlberg");
 		} else {

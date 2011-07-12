@@ -18,6 +18,7 @@ import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
 import eu.scy.client.tools.scydynamics.model.Model;
+import eu.scy.client.tools.scydynamics.model.SimquestModelQualitative;
 import eu.scy.client.tools.scydynamics.model.SimquestModelQuantitative;
 import java.util.logging.Logger;
 
@@ -57,7 +58,11 @@ public class SimulationToolbar extends JToolBar implements ActionListener {
 			SimulationDialog simdialog = new SimulationDialog(frame, editor.getModel());
 		} else if (evt.getActionCommand().equals("run")) {
 			// LOGGER.info(editor.getModel());
-			sqModel = new SimquestModelQuantitative(editor.getModel());
+			if (editor.getMode().equals(ModelEditor.Mode.QUALITATIVE_MODELLING)) {
+				sqModel = new SimquestModelQualitative(editor);
+			} else {
+				sqModel = new SimquestModelQuantitative(editor);
+			}
 			// LOGGER.info(new XMLOutputter(Format.getPrettyFormat()).outputString(sqModel));
 			DataServer dataServer = new DataServer();
 			sqv.Model model = new sqv.Model(sqModel, dataServer);

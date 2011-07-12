@@ -136,33 +136,45 @@ public class VariableDialog extends JDialog {
 	public void setQuantitativeExpression(String newExpression) {
 		quantitativeExpressionTextField.setText(newExpression);
 	}
-
+	
 	public String getQualitativeExpression() {
-		int value = 0;
 		switch (figure.getType()) {
-		case JdFigure.AUX:
-			value = Integer.MAX_VALUE;
-		case JdFigure.CONSTANT:
-			switch (valueQualitative.getValue()) {
-			case -3: value = -10; break;
-			case -2: value = -5; break;
-			case -1: value = -1; break;
-			case -0: value = 0; break;
-			case 1: value = 1; break;
-			case 2: value = 5; break;
-			case 3: value = 10; break;
-			}
-			break;
-		case JdFigure.STOCK:
-			switch (valueQualitative.getValue()) {
-			case -1: value = -1; break;
-			case -0: value = 0; break;
-			case 1: value = 1; break;
-			}
-			break;
+			case JdFigure.AUX:
+				return Integer.MAX_VALUE+"";
+			case JdFigure.CONSTANT:
+			case JdFigure.STOCK:
+				return valueQualitative.getValue()+"";
+			default:
+				return Integer.MIN_VALUE+"";
 		}
-		return value+"";
 	}
+
+//	public String getQualitativeExpression() {
+//		int value = 0;
+//		switch (figure.getType()) {
+//		case JdFigure.AUX:
+//			value = Integer.MAX_VALUE;
+//		case JdFigure.CONSTANT:
+//			switch (valueQualitative.getValue()) {
+//			case -3: value = -10; break;
+//			case -2: value = -5; break;
+//			case -1: value = -1; break;
+//			case -0: value = 0; break;
+//			case 1: value = 1; break;
+//			case 2: value = 5; break;
+//			case 3: value = 10; break;
+//			}
+//			break;
+//		case JdFigure.STOCK:
+//			switch (valueQualitative.getValue()) {
+//			case -1: value = -1; break;
+//			case -0: value = 0; break;
+//			case 1: value = 1; break;
+//			}
+//			break;
+//		}
+//		return value+"";
+//	}
 	
 	public String getUnit() {
 		return (String) unitsBox.getSelectedItem();
@@ -339,20 +351,13 @@ public class VariableDialog extends JDialog {
 		switch (figure.getType()) {
 		case JdFigure.AUX:
 		case JdFigure.CONSTANT:
-			valueQualitative = new JSlider(JSlider.HORIZONTAL,-3,3,0);
-			labelTable.put( new Integer(-3), new JLabel("large negative") );
-			//labelTable.put( new Integer(-2), new JLabel("large negative") );
-			//labelTable.put( new Integer(-1), new JLabel("negative") );
-			labelTable.put( new Integer(0), new JLabel("zero") );
-			//labelTable.put( new Integer(1), new JLabel("positive") );
-			//labelTable.put( new Integer(2), new JLabel("large positive") );
-			labelTable.put( new Integer(3), new JLabel("large positive") );
-			break;
 		case JdFigure.STOCK:
-			valueQualitative = new JSlider(JSlider.HORIZONTAL,-1,1,0);
-			labelTable.put( new Integer(-1), new JLabel("negative") );
-			labelTable.put( new Integer(0), new JLabel("zero") );
-			labelTable.put( new Integer(1), new JLabel("positive") );
+			valueQualitative = new JSlider(JSlider.HORIZONTAL,-2,2,0);
+			labelTable.put(ModelEditor.LARGE_NEGATIVE, new JLabel("negative") );
+			labelTable.put(ModelEditor.SMALL_NEGATIVE, new JLabel("") );
+			labelTable.put(ModelEditor.ZERO, new JLabel("zero") );
+			labelTable.put(ModelEditor.SMALL_POSITIVE, new JLabel("") );
+			labelTable.put(ModelEditor.LARGE_POSITIVE, new JLabel("positive") );
 			break;
 		}
 		valueQualitative.setLabelTable( labelTable );

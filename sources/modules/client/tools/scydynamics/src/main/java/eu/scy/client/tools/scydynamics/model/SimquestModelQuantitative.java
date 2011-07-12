@@ -16,22 +16,25 @@ import colab.um.draw.JdFlowCtr;
 import colab.um.draw.JdObject;
 import colab.um.draw.JdRelation;
 import colab.um.draw.JdStock;
+import eu.scy.client.tools.scydynamics.editor.ModelEditor;
 
 @SuppressWarnings("serial")
 public class SimquestModelQuantitative extends Element {
 
-    private final static Logger LOGGER = Logger.getLogger(SimquestModelQuantitative.class.getName());
+	private final static Logger LOGGER = Logger.getLogger(SimquestModelQuantitative.class.getName());
 
-	private Model model;
-	private HashMap<String, Double> simulationValues;
+	protected Model model;
+	protected ModelEditor modelEditor;
+	protected HashMap<String, Double> simulationValues;
 
-	public SimquestModelQuantitative(Model model) {
-		this(model, new HashMap<String, Double>());
+	public SimquestModelQuantitative(ModelEditor modelEditor) {
+		this(modelEditor, new HashMap<String, Double>());
 	}
 
-	public SimquestModelQuantitative(Model model, HashMap<String, Double> simulationValues) {
+	public SimquestModelQuantitative(ModelEditor modelEditor, HashMap<String, Double> simulationValues) {
 		super("model");
-		this.model = model;
+		this.modelEditor = modelEditor;
+		this.model = modelEditor.getModel();
 		this.simulationValues = simulationValues;
 		update();
 	}
@@ -64,28 +67,27 @@ public class SimquestModelQuantitative extends Element {
 				addVariable(variables, node.getLabel(), "variable", "0.0", null);
 			} else if (node.getType() == JdFigure.STOCK) {
 				addVariable(variables, node.getLabel(), "state", node.getExpr(), node.getLabel() + "_dot");
-				addVariable(variables, node.getLabel() + "_dot", "rate", "0.0",	node.getLabel());
+				addVariable(variables, node.getLabel() + "_dot", "rate", "0.0", node.getLabel());
 			}
 		}
 		this.addContent(variables);
 	}
 
-	private void addVariable(Element variables, String name, String type,
-			String value, String pair) {
-		Element timevariable = new Element("modelVariable");
-		timevariable.addContent(new Element("name").setText(name));
-		timevariable.addContent(new Element("externalName").setText(name));
-		timevariable.addContent(new Element("kind").setText(type));
-		timevariable.addContent(new Element("type").setText("real"));
+	protected void addVariable(Element variables, String name, String type, String value, String pair) {
+		Element variable = new Element("modelVariable");
+		variable.addContent(new Element("name").setText(name));
+		variable.addContent(new Element("externalName").setText(name));
+		variable.addContent(new Element("kind").setText(type));
+		variable.addContent(new Element("type").setText("real"));
 		if (simulationValues.containsKey(name)) {
-			timevariable.addContent(new Element("value").setText(simulationValues.get(name).toString()));
+			variable.addContent(new Element("value").setText(simulationValues.get(name).toString()));
 		} else {
-			timevariable.addContent(new Element("value").setText(value));
+			variable.addContent(new Element("value").setText(value));
 		}
 		if (pair != null) {
-			timevariable.addContent(new Element("pair").setText(pair));
+			variable.addContent(new Element("pair").setText(pair));
 		}
-		variables.addContent(timevariable);
+		variables.addContent(variable);
 	}
 
 	private void createComputationalModel() {
@@ -108,15 +110,14 @@ public class SimquestModelQuantitative extends Element {
 				code.addContent(equation);
 			} else if (node.getType() == JdFigure.AUX) {
 				equation = new Element("equation");
-				equation.addContent(new Element("variable").setText(node
-						.getLabel()));
+				equation.addContent(new Element("variable").setText(node.getLabel()));
 				parseEquation(equation, node.getExpr());
 				code.addContent(equation);
 			} else if (node.getType() == JdFigure.STOCK) {
 				Vector<JdFigure> incomingFigs = getIncomingFigs((JdStock) node);
 				Vector<JdFigure> outgoingFigs = getOutgoingFigs((JdStock) node);
 				equation = new Element("equation");
-				equation.addContent(new Element("variable").setText(node.getLabel()	+ "_dot"));
+				equation.addContent(new Element("variable").setText(node.getLabel() + "_dot"));
 				String expression = new String();
 				for (JdFigure fig : incomingFigs) {
 					// incoming auxs are added to the stock's _dot
@@ -139,8 +140,7 @@ public class SimquestModelQuantitative extends Element {
 		Vector<JdFigure> list = new Vector<JdFigure>();
 		for (JdRelation rel : model.getRelations()) {
 			if (rel.getFigure2().getType() == JdFigure.FLOWCTR) {
-				if (((JdFlow) ((JdFlowCtr) rel.getFigure2()).getParent())
-						.getFigure1() == stock) {
+				if (((JdFlow) ((JdFlowCtr) rel.getFigure2()).getParent()).getFigure1() == stock) {
 					list.add((JdFigure) rel.getFigure1());
 				}
 			}
@@ -152,8 +152,7 @@ public class SimquestModelQuantitative extends Element {
 		Vector<JdFigure> list = new Vector<JdFigure>();
 		for (JdRelation rel : model.getRelations()) {
 			if (rel.getFigure2().getType() == JdFigure.FLOWCTR) {
-				if (((JdFlow) ((JdFlowCtr) rel.getFigure2()).getParent())
-						.getFigure2() == stock) {
+				if (((JdFlow) ((JdFlowCtr) rel.getFigure2()).getParent()).getFigure2() == stock) {
 					list.add((JdFigure) rel.getFigure1());
 				}
 			}
@@ -191,11 +190,11 @@ public class SimquestModelQuantitative extends Element {
 			fragment = fragment.substring(10);
 			fragment = fragment.replaceAll("\"", "");
 			fragment = fragment.toLowerCase();
-			
+
 			// is this fragment an "operator" (+, -, /,..)
 			// or a "function" (sin, cos,...)?
 			// get the mapping to simquest terminology
-			
+
 			if (FormulaMapper.getInstance().getOperatorMap().get(fragment) != null) {
 				operator = new Element("operator");
 				operator.setAttribute("name", FormulaMapper.getInstance().getOperatorMap().get(fragment));
@@ -203,19 +202,18 @@ public class SimquestModelQuantitative extends Element {
 				operator = new Element("function");
 				operator.setAttribute("name", FormulaMapper.getInstance().getFunctionMap().get(fragment));
 			}
-			
+
 			if (operator == null) {
-				throw new ParseException("Could not identify operator or function '"+fragment+"'.");
+				throw new ParseException("Could not identify operator or function '" + fragment + "'.");
 			}
-			
+
 			// traverse children
 			for (int i = 0; i < node.jjtGetNumChildren(); i++) {
 				traverse(operator, node.jjtGetChild(i));
 			}
 			element.addContent(operator);
 		} else if (fragment.startsWith("Constant")) {
-			element.addContent(new Element("literal").setText(fragment
-					.substring(10)));
+			element.addContent(new Element("literal").setText(fragment.substring(10)));
 			// a constant has no children to traverse
 		} else if (fragment.startsWith("Variable")) {
 			Element variable = new Element("variable");
@@ -230,12 +228,9 @@ public class SimquestModelQuantitative extends Element {
 	private void createSimulation() {
 		Element simulation = new Element("simulation");
 		simulation.addContent(new Element("method").setText(model.getMethod()));
-		simulation.addContent(new Element("startTime").setText(model.getStart()
-				+ ""));
-		simulation.addContent(new Element("finishTime").setText(model.getStop()
-				+ ""));
-		simulation.addContent(new Element("stepSize").setText(model.getStep()
-				+ ""));
+		simulation.addContent(new Element("startTime").setText(model.getStart() + ""));
+		simulation.addContent(new Element("finishTime").setText(model.getStop() + ""));
+		simulation.addContent(new Element("stepSize").setText(model.getStep() + ""));
 		this.addContent(simulation);
 	}
 

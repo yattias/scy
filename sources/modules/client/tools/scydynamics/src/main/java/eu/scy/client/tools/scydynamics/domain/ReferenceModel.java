@@ -44,7 +44,7 @@ public class ReferenceModel {
 	public void setConceptSet(String conceptSet) {
 		this.conceptSet = conceptSet;
 	}
-
+	
 	@XmlElement(name = "node")
 	public List<Node> getNodes() {
 		return nodes;
