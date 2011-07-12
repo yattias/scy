@@ -159,6 +159,7 @@ public class Initializer {
    def useBigMissionMapOption = "useBigMissionMap";
    def showOnlyStartedMissionsOption = "showOnlyStartedMissions";
    def globalReadOnlyModeOption = "globalReadOnlyMode";
+   public def exceptionCatcher = new FilteringExceptionCatcher("SCY-Lab");
    var setupLoggingToFiles: SetupLoggingToFiles;
    package var background: DynamicTypeBackground;
    public-read var loginTypeEnum: LoginType;
@@ -166,7 +167,7 @@ public class Initializer {
    init {
       StringLocalizer.associate("languages.scydesktop", "eu.scy.client.desktop.scydesktop");
       TransparencyFixer.fixTransparency();
-      Thread.setDefaultUncaughtExceptionHandler(new FilteringExceptionCatcher("SCY-Lab"));
+      Thread.setDefaultUncaughtExceptionHandler(exceptionCatcher);
       parseApplicationParameters();
       loginTypeEnum = LoginType.convertToLoginType(loginType);
       usingWebStart = System.getProperty("javawebstart.version") != null;

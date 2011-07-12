@@ -6,12 +6,8 @@
 package eu.scy.client.desktop.scydesktop.tools.content.text;
 
 import javafx.scene.CustomNode;
-import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Resizable;
-import javafx.scene.layout.VBox;
 import javafx.scene.layout.Container;
 import java.net.URI;
 import eu.scy.client.desktop.desktoputils.log4j.Logger;
@@ -29,6 +25,7 @@ import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
+import java.lang.IllegalStateException;
 
 /**
  * @author sikken

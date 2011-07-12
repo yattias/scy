@@ -692,6 +692,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       }
       // don't place the window content tool in the window, let the please wait message stay until every thing is created
       def scyToolsList = ScyToolsList {
+                 exceptionCatcher: initializer.exceptionCatcher
               }
       // create the tools
       scyToolsList.actionLoggerTool = ScyToolActionLogger {
