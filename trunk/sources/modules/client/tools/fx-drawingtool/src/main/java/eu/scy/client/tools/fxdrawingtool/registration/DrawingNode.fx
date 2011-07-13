@@ -118,12 +118,7 @@ public class DrawingNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
       var newElo = repository.retrieveELO(eloUri);
       if (newElo != null) {
          whiteboardPanel.deleteAllWhiteboardContainers();
-         // delay the loading of the whiteboard content, untill the whiteboard is really on screen
-         // at first open, the whiteboard panel might not yet on the screen
-         // thus there is no graphics environment yet, and the whiteboard can't calculate text size (which results in a NPE)
-         XFX.runActionAfter(function(){
-               whiteboardPanel.setContentStatus(jdomStringConversion.stringToXml(newElo.getContent().getXmlString()));
-            },250ms);
+         whiteboardPanel.setContentStatus(jdomStringConversion.stringToXml(newElo.getContent().getXmlString()));
          logger.info("elo loaded");
          elo = newElo;
       }
@@ -151,6 +146,7 @@ public class DrawingNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
 
    override public function eloSaved(elo: IELO): Void {
       this.elo = elo;
+      println("DrawerNode.eloSaved({elo.getUri()})");
    }
 
    function sizeChanged(): Void {
