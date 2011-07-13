@@ -95,7 +95,7 @@
           <alpha>0</alpha>
         </fillColor>
         <scaleIndependentPenSize>false</scaleIndependentPenSize>
-        <locked>false</locked>
+        <locked>true</locked>
         <creationTime>1309617870899</creationTime>
       </container>
       <content>
