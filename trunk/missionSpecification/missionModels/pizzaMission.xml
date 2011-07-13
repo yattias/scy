@@ -526,7 +526,7 @@
 		
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="mapOfTheDigestiveSystem"/>
-               <property name="uri" value="roolo://memory/30126/0/mapOfDigestiveSystem.scydraw"/>
+               <property name="uri" value="roolo://memory/30125/0/mapOfDigestiveSystem.scydraw"/>
                <property name="iconType" value="Analyse"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_G.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_15_mapOfTheDigestiveSystem.html"/>
