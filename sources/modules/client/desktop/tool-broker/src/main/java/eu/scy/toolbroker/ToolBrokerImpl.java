@@ -134,7 +134,8 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 	 * @throws LoginFailedException is thrown when the login fails.
 	 */
 	public ToolBrokerImpl(String username, String password, boolean avoidServiceInitialization) throws LoginFailedException {
-		getConnection(username, password);
+		Connection.DEBUG_ENABLED = true;
+	        getConnection(username, password);
 
 		connectionListeners = new CopyOnWriteArrayList<ConnectionListener>();
 		
@@ -380,23 +381,26 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 
 			XMPPConnection.DEBUG_ENABLED = false;
 			SmackConfiguration.setKeepAliveInterval(10000);
-			config = new BOSHConfiguration(false, Configuration.getInstance().getOpenFireHTTPHost(), Configuration.getInstance().getOpenFireHTTPPort(), "/http-bind/", Configuration.getInstance().getOpenFireHost());
-			connection = new BOSHConnection((BOSHConfiguration) config);
+			config = new ConnectionConfiguration(Configuration.getInstance().getOpenFireHost(), Configuration.getInstance().getOpenFirePort());
+			config.setCompressionEnabled(true);
+			config.setReconnectionAllowed(true);
+			config.setSecurityMode(SecurityMode.disabled);
+			this.connection = new XMPPConnection(config);
 			
 			try {
 				this.connection.connect();
-				logger.info("Successful HTTP connection to xmpp server " + config.getHost() + ":" + config.getPort());
+				logger.info("Successful connection to xmpp server " + config.getHost() + ":" + config.getPort());
 				try {
 	                                logger.debug("User logging in: " + userName + " " + password);
 	                                this.connection.login(userName, password);
-	                                logger.debug("Login successful" + userName + " " + password);
+	                                logger.debug("Login successful with " + userName + " " + password);
 	                        } catch (XMPPException e) {
 	                                logger.error("Login failed  " + e);
 	                                e.printStackTrace();
 	                                throw new LoginFailedException(userName);
 	                        }
 			} catch (XMPPException e) {
-				logger.error("Error while connecting over HTTP, trying over XMPP now");
+				logger.error("Error while connecting over XMPP, trying over HTTP now");
 				if (connection != null) {
 				    connection.disconnect();
 				    connection = null;
@@ -405,25 +409,22 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 			
 			if (connection == null) {
 			    try {
-			        config = new ConnectionConfiguration(Configuration.getInstance().getOpenFireHost(), Configuration.getInstance().getOpenFirePort());
-			        config.setCompressionEnabled(true);
-			        config.setReconnectionAllowed(true);
-			        config.setSecurityMode(SecurityMode.disabled);
-			        this.connection = new XMPPConnection(config);
+			        logger.info("Successful HTTP connection to xmpp server " + config.getHost() + ":" + config.getPort());
+			        config = new BOSHConfiguration(false, Configuration.getInstance().getOpenFireHTTPHost(), Configuration.getInstance().getOpenFireHTTPPort(), "/http-bind/", Configuration.getInstance().getOpenFireHost());
+			        connection = new BOSHConnection((BOSHConfiguration) config);
                                 connection.connect();
-                                logger.debug("Successful connection to xmpp server " + config.getHost() + ":" + config.getPort());
                                 
                                 try {
                                     logger.debug("User logging in: " + userName + " " + password);
                                     this.connection.login(userName, password);
-                                    logger.debug("Login successful" + userName + " " + password);
+                                    logger.debug("Login successful with " + userName + " " + password);
                                 } catch (XMPPException e) {
                                         logger.error("Login failed  " + e);
                                         e.printStackTrace();
                                         throw new LoginFailedException(userName);
                                 }
                             } catch (XMPPException e) {
-                                logger.error("Error while connecting over XMPP, no way connecting to the SCY server.");
+                                logger.error("Error while connecting over HTTP, no way connecting to the SCY server.");
                                 logger.error("Check firewall settings for port " + Configuration.getInstance().getOpenFireHTTPPort() + " and " + Configuration.getInstance().getOpenFirePort() + " or get some professional support!");
 				throw new ServerNotRespondingException(config.getHost(), config.getPort());
                             }
