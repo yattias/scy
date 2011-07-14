@@ -84,21 +84,17 @@ public class DataController implements ControllerInterface{
     long idFunctionParam;
     long idParamOp;
     long idPlot;
-
     /* mission */
     private Mission mission ;
     /* user */
     private Group group;
-
     private XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
-
 
     public DataController(DataProcessToolPanel dataToolPanel) {
         this.dataToolPanel = dataToolPanel;
         this.listDataset = new ArrayList();
         this.listNoDefaultCol = new ArrayList();
     }
-
 
     /* load data and initialization */
     @Override
@@ -1694,7 +1690,14 @@ public class DataController implements ControllerInterface{
                    datas[1] = nd;
                    listData.add(datas);
                 }
-                dataset.setData(nd, idR, idC);
+                try {
+                	dataset.setData(nd, idR, idC);
+                } catch (Exception e) {
+                	CopexReturn cr = new CopexReturn();
+                	cr.setText(dataToolPanel.getBundleString("MSG_PASTE_ERROR"));
+                	cr.setError();
+                	return cr;
+                }
 
                 for(int k=1; k<nbData; k++){
                     d = copyDs.getListData().get(k);
@@ -1729,7 +1732,14 @@ public class DataController implements ControllerInterface{
                         listDataHeader.add(headers);
                         dataset.setDataHeader(header, idC+j);
                     }
-                    dataset.setData(nd, idR+i-i0, idC+j-j0);
+                    try {
+						dataset.setData(nd, idR + i - i0, idC + j - j0);
+					} catch (Exception e) {
+						CopexReturn cr = new CopexReturn();
+						cr.setText(dataToolPanel.getBundleString("MSG_PASTE_ERROR"));
+						cr.setError();
+						return cr;
+					}
                 }
             }
         }
