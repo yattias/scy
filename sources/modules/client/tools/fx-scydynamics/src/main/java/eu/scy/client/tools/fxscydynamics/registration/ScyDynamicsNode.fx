@@ -38,6 +38,8 @@ import org.apache.log4j.Logger;
 import roolo.elo.metadata.keys.KeyValuePair;
 import java.util.Set;
 import javafx.util.StringLocalizer;
+import org.jdom.input.SAXBuilder;
+import java.io.StringReader;
 
 public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack {
 
@@ -139,7 +141,9 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
 		var newElo = repository.retrieveELO(eloUri);
 		if (newElo != null) {
 			modelEditor.setNewModel();
-			modelEditor.setXmModel(JxmModel.readStringXML(newElo.getContent().getXmlString()));
+			var builder = new SAXBuilder();
+			var doc = builder.build(new StringReader(modelEditor.getModelXML()));
+			modelEditor.setModel(doc.getRootElement());
 			logger.info("elo loaded");
 			eloModel = newElo;
 		}
