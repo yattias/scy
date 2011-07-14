@@ -169,7 +169,7 @@ public class TableTab extends SimulationPanel implements Runnable, ChangeListene
 	for (String varName: variablePanel.getValues().keySet()) {
 	    injectedVariables = injectedVariables + editor.getModel().getObjectOfName(varName).getID() + "=" + variablePanel.getValues().get(varName)+"; ";
 	}
-	editor.getActionLogger().logModelRan(editor.getXmModel().getXML("", true), injectedVariables.substring(0, injectedVariables.length()-2));
+	editor.getActionLogger().logModelRan(editor.getModelXML(), injectedVariables.substring(0, injectedVariables.length()-2));
             editor.getActionLogger().logInspectVariablesAction(ModellingLogger.TABLE_VIEWED, variableIdList.substring(0, variableIdList.length()-2));
         } else {
             JOptionPane.showMessageDialog(null, bundle.getString("PANEL_SELECTVARIABLE"));

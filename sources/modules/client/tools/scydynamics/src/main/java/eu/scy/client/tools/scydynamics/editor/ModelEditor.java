@@ -21,6 +21,10 @@ import javax.swing.KeyStroke;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.jdom.Element;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
+
 import colab.um.JColab;
 import colab.um.draw.JdCursors;
 import colab.um.draw.JdFigure;
@@ -49,15 +53,15 @@ import eu.scy.elo.contenttype.dataset.DataSet;
 public class ModelEditor extends JPanel implements AdjustmentListener {
 
 	public enum Mode {
-	    BLACK_BOX, CLEAR_BOX, MODEL_SKETCHING, QUALITATIVE_MODELLING, QUANTITATIVE_MODELLING;
+		BLACK_BOX, CLEAR_BOX, MODEL_SKETCHING, QUALITATIVE_MODELLING, QUANTITATIVE_MODELLING;
 	}
-	
+
 	public static final int LARGE_NEGATIVE = -2;
 	public static final int SMALL_NEGATIVE = -1;
 	public static final int ZERO = 0;
 	public static final int SMALL_POSITIVE = 1;
 	public static final int LARGE_POSITIVE = 2;
-		
+
 	private final static Logger DEBUGLOGGER = Logger.getLogger(ModelEditor.class.getName());
 	public final static String DEFAULT_ACTION = "cursor";
 	public final static int LNK_DRAG_POINT = 0;
@@ -86,7 +90,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	private SimulationPanel graphTab;
 	private TableTab tableTab;
 	private final ResourceBundleWrapper bundle;
-	//private ModelSyncControl modelSyncControl;
+	// private ModelSyncControl modelSyncControl;
 	private Domain domain;
 
 	public ModelEditor() {
@@ -99,7 +103,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		this.bundle = new ResourceBundleWrapper(this);
 		this.properties = getDefaultProperties();
 		properties.putAll(newProps);
-		DEBUGLOGGER.info("using properties: "+properties);
+		DEBUGLOGGER.info("using properties: " + properties);
 		actionLogger = new ModellingLogger(new DevNullActionLogger(), "username");
 		// actionLogger = new ModellingLogger(new SystemOutActionLogger(),
 		// "username");
@@ -109,13 +113,13 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		setNewModel();
 		setMode(properties.getProperty("editor.mode", "quantitative_modelling"));
 	}
-	
+
 	public Domain getDomain() {
 		return domain;
 	}
-	
+
 	public void setMode(String newMode) {
-		DEBUGLOGGER.info("setting mode to "+newMode);
+		DEBUGLOGGER.info("setting mode to " + newMode);
 		if (newMode == null) {
 			DEBUGLOGGER.info("setting mode to 'null' not allowed, setting to default mode 'modelling'");
 			setMode(Mode.QUANTITATIVE_MODELLING);
@@ -130,11 +134,11 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		} else if (newMode.equalsIgnoreCase("quantitative_modelling")) {
 			setMode(Mode.QUANTITATIVE_MODELLING);
 		} else {
-			DEBUGLOGGER.info("unknown mode '"+newMode+"', setting to default mode 'modelling'");
+			DEBUGLOGGER.info("unknown mode '" + newMode + "', setting to default mode 'modelling'");
 			setMode(Mode.QUANTITATIVE_MODELLING);
 		}
 	}
-	
+
 	public void setMode(Mode newMode) {
 		if (newMode != this.mode) {
 			this.mode = newMode;
@@ -159,19 +163,20 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 				break;
 			}
 		}
+		getFileToolbar().updateMode();
 	}
-	
+
 	public Mode getMode() {
 		return this.mode;
 	}
-	
-//	public ModelSyncControl getModelSyncControl() {
-//		return this.modelSyncControl;
-//	}
-	
-//	public boolean isSynchronized() {
-//		return this.modelSyncControl != null;
-//	}
+
+	// public ModelSyncControl getModelSyncControl() {
+	// return this.modelSyncControl;
+	// }
+
+	// public boolean isSynchronized() {
+	// return this.modelSyncControl != null;
+	// }
 
 	public DataSet getDataSet() {
 		return tableTab.getDataSet();
@@ -201,7 +206,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	public IModellingLogger getActionLogger() {
 		return actionLogger;
 	}
-	
+
 	public void setActionLogger(IActionLogger newLogger, String username) {
 		this.actionLogger = new ModellingLogger(newLogger, username);
 	}
@@ -215,7 +220,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		tabbedPane = new JTabbedPane();
 		tabbedPane.addChangeListener(new ChangeListener() {
 
-	    @Override
+			@Override
 			public void stateChanged(ChangeEvent evt) {
 				JTabbedPane pane = (JTabbedPane) evt.getSource();
 				((ChangeListener) pane.getSelectedComponent()).stateChanged(evt);
@@ -230,13 +235,14 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		graphTab = new GraphTab(this, bundle);
 		tableTab = new TableTab(this, bundle);
 
-		//tabbedPane.addTab(bundle.getString("PANEL_EDITOR"), Util.getImageIcon("editor_22.png"), editorTab);
+		// tabbedPane.addTab(bundle.getString("PANEL_EDITOR"),
+		// Util.getImageIcon("editor_22.png"), editorTab);
 		tabbedPane.add(editorTab, 0);
 		tabbedPane.setTabComponentAt(0, new TabPanel(bundle.getString("PANEL_EDITOR"), editorTab, this, properties));
 		if (properties.get("show.graph").equals("true")) {
 			addGraph();
 		}
-		if (properties.get("show.table").equals("true") && this.mode!=Mode.QUALITATIVE_MODELLING) {
+		if (properties.get("show.table").equals("true") && this.mode != Mode.QUALITATIVE_MODELLING) {
 			addTable();
 		}
 
@@ -256,7 +262,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		tabbedPane.add(tableTab, tabbedPane.getComponentCount() - 1);
 		tabbedPane.setTabComponentAt(tabbedPane.getComponentCount() - 2, new TabPanel("Table", tableTab, this, properties));
 	}
-	
+
 	public void removeGraphAndTable() {
 		tabbedPane.remove(graphTab);
 		tabbedPane.remove(tableTab);
@@ -277,7 +283,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	public String getColabToolName() {
 		return "editor";
 	}
-	
+
 	public void setNewModel() {
 		editorPanel.removeMouseListener(mouseListener);
 		editorPanel.removeMouseMotionListener(mouseListener);
@@ -289,11 +295,11 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		editorPanel.addMouseMotionListener(mouseListener);
 	}
 
-	public JxmModel getXmModel() {
+	private JxmModel getXmModel() {
 		return (model == null) ? null : model.getXmModel();
 	}
 
-	public void setXmModel(JxmModel m) {
+	private void setJxmModel(JxmModel m) {
 		clearSelectedObjects();
 		if (m != null) {
 			if (model == null) {
@@ -308,6 +314,13 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 			editorPanel.setModel(null);
 			editorPanel.removeMouseListener(mouseListener);
 		}
+	}
+
+	public void setModel(Element element) {
+		JxmModel jxmModel = JxmModel.readStringXML(new XMLOutputter(Format.getPrettyFormat()).outputString(element));
+		setJxmModel(jxmModel);
+		// setting mode from model-element; QUANTITATIVE as default
+		setMode(element.getAttributeValue("mode", ModelEditor.Mode.QUANTITATIVE_MODELLING.toString()));
 	}
 
 	public String getModelXML() {
@@ -660,7 +673,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	public void clearSelectedObjects() {
 		aSelection.unselectAll();
 		updateCanvas();
-		//this.updateSpecDialog(true);
+		// this.updateSpecDialog(true);
 	}
 
 	// -------------------------------------------------------------------------
@@ -673,7 +686,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 			aSelection.selectObject(o, true);
 		}
 		updateCanvas();
-		//updateSpecDialog(true);
+		// updateSpecDialog(true);
 	}
 
 	// ---------------------------------------------------------------------------
@@ -687,7 +700,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 			aSelection.selectObject(o, true);
 		}
 		updateCanvas();
-		//updateSpecDialog(true);
+		// updateSpecDialog(true);
 	}
 
 	// ---------------------------------------------------------------------------
@@ -702,7 +715,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 			}
 		}
 		updateCanvas();
-		//updateSpecDialog(true);
+		// updateSpecDialog(true);
 	}
 
 	// -------------------------------------------------------------------------
@@ -712,7 +725,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		}
 		aSelection.selectObject(o, bToggle);
 		updateCanvas();
-		//updateSpecDialog(true);
+		// updateSpecDialog(true);
 	}
 
 	// -------------------------------------------------------------------------
@@ -777,8 +790,6 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		vdialog.setVisible(true);
 		editorPanel.updateUI();
 	}
-
-	
 
 	// ---------------------------------------------------------------------------
 	public void deleteFigure(String name, boolean bEvent) {
@@ -856,7 +867,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 			// updateSpecDialog(false);
 		} else if (bChangeRel) {
 			model.changeNodeRelations(((JdNode) o).getLabel(), ((Integer) h.get("exprType")).intValue());
-			//updateSpecDialog(false);
+			// updateSpecDialog(false);
 		}
 		if (bModelChanged) {
 			setModelChanged();

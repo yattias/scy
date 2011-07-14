@@ -195,7 +195,7 @@ public class GraphTab extends SimulationPanel implements ChangeListener {
 			for (String varName: variablePanel.getValues().keySet()) {
 				injectedVariables = injectedVariables + editor.getModel().getObjectOfName(varName).getID() + "=" + variablePanel.getValues().get(varName)+"; ";
 			}
-			editor.getActionLogger().logModelRan(editor.getXmModel().getXML("", true), injectedVariables.substring(0, injectedVariables.length()-2));
+			editor.getActionLogger().logModelRan(editor.getModelXML(), injectedVariables.substring(0, injectedVariables.length()-2));
 			editor.getActionLogger().logInspectVariablesAction(ModellingLogger.GRAPH_VIEWED, variableIdList.substring(0, variableIdList.length()-2));
 		} else {
 			JOptionPane.showMessageDialog(null,

@@ -43,6 +43,7 @@ public class FileToolbar extends JToolBar implements ActionListener {
 	private Frame parentFrame = new Frame();
 	private FileFilter csvFileFilter;
 	private FileFilter xmlFileFilter;
+	private JComboBox modeBox;
 
 	public FileToolbar(ModelEditor editor) {
 		super(JToolBar.HORIZONTAL);
@@ -58,17 +59,16 @@ public class FileToolbar extends JToolBar implements ActionListener {
 		add(Util.createJButton("save as dataset", "saveasdataset", "editorSave", this));
 		this.addSeparator();
 		// testing the modes
+		modeBox = new JComboBox(ModelEditor.Mode.values());
+		modeBox.setSelectedItem(editor.getMode());
+		modeBox.addActionListener(this);
 		if (editor.getProperties().getProperty("editor.modes_selectable", "false").equals("true")) {
 			add(new JLabel("mode: "));
-			JComboBox modeBox = new JComboBox(ModelEditor.Mode.values());
-			modeBox.setSelectedItem(editor.getMode());
-			modeBox.addActionListener(this);
 			add(modeBox);
 		}
 	}
 
 	public void load(String filename) {
-		JxmModel xmlModel = null;
 		Document doc = null;
 		SAXBuilder sb = new SAXBuilder();
 		try {
@@ -82,20 +82,16 @@ public class FileToolbar extends JToolBar implements ActionListener {
 				modelElement = findTag(doc.getRootElement(), "model");
 			}
 			if (modelElement != null) {
-				xmlModel = JxmModel.readStringXML(new XMLOutputter(Format.getPrettyFormat()).outputString(modelElement));
-				editor.setXmModel(xmlModel);
+				editor.setModel(modelElement);
 				this.setFilename(filename);
 			} else {
-				throw new JDOMException(
-						"Couldn't find <model> element in file " + filename);
+				throw new JDOMException("Couldn't find <model> element in file " + filename);
 			}
 		} catch (JDOMException e) {
-			JOptionPane.showMessageDialog(null,
-					"Could load a model from this file.\nPlease check if it really contains one.");
+			JOptionPane.showMessageDialog(null, "Could load a model from this file.\nPlease check if it really contains one.");
 			e.printStackTrace();
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null,
-					"Error while reading from that file.");
+			JOptionPane.showMessageDialog(null, "Error while reading from that file.");
 			e.printStackTrace();
 		}
 
@@ -107,15 +103,20 @@ public class FileToolbar extends JToolBar implements ActionListener {
 
 	public void setFilename(String newName) {
 		this.filename = newName;
+	}
+	
 
+	public void updateMode() {
+		modeBox.setSelectedItem(editor.getMode());
 	}
 
 	private void save(String fileName) {
-		LOGGER.info("saving model to "+fileName);
+		LOGGER.info("saving model to " + fileName);
 		this.setFilename(fileName);
 		SAXBuilder builder = new SAXBuilder();
 		try {
 			Document doc = builder.build(new StringReader(editor.getModelXML()));
+			doc.getRootElement().setAttribute("mode", editor.getMode().toString());
 			XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
 			FileWriter writer = new FileWriter(fileName);
 			out.output(doc, writer);
@@ -166,22 +167,22 @@ public class FileToolbar extends JToolBar implements ActionListener {
 			FileWriter fstream = new FileWriter(fileName);
 			BufferedWriter out = new BufferedWriter(fstream);
 			String headerLine = new String();
-			for (DataSetColumn column: dataSet.getHeaders().get(0).getColumns()) {
+			for (DataSetColumn column : dataSet.getHeaders().get(0).getColumns()) {
 				headerLine = headerLine.concat("\"").concat(column.getSymbol()).concat("\"").concat(LINE_SEP);
 			}
 			if (headerLine.endsWith(LINE_SEP)) {
-				headerLine = headerLine.substring(0, headerLine.length()-1);
+				headerLine = headerLine.substring(0, headerLine.length() - 1);
 			}
 			headerLine = headerLine.concat("\n");
 			out.write(headerLine);
 			String rowLine;
-			for (DataSetRow row: dataSet.getValues()) {
+			for (DataSetRow row : dataSet.getValues()) {
 				rowLine = new String();
-				for (String valueString: row.getValues()) {
+				for (String valueString : row.getValues()) {
 					rowLine = rowLine.concat(valueString).concat(LINE_SEP);
 				}
 				if (rowLine.endsWith(LINE_SEP)) {
-					rowLine = rowLine.substring(0, rowLine.length()-1);
+					rowLine = rowLine.substring(0, rowLine.length() - 1);
 				}
 				rowLine = rowLine.concat("\n");
 				out.write(rowLine);
@@ -209,8 +210,7 @@ public class FileToolbar extends JToolBar implements ActionListener {
 		}
 	}
 
-	public static Element findTag(Element root, String tag)
-	throws IllegalArgumentException {
+	public static Element findTag(Element root, String tag) throws IllegalArgumentException {
 		if (root == null) {
 			throw new IllegalArgumentException("Element is null.");
 		}
@@ -234,7 +234,7 @@ public class FileToolbar extends JToolBar implements ActionListener {
 
 	public void actionPerformed(ActionEvent evt) {
 		if (evt.getSource() instanceof JComboBox) {
-			editor.setMode(((JComboBox)evt.getSource()).getSelectedItem().toString());
+			editor.setMode(((JComboBox) evt.getSource()).getSelectedItem().toString());
 		}
 		if (evt.getActionCommand().equals("new")) {
 			editor.setNewModel();
@@ -284,4 +284,5 @@ public class FileToolbar extends JToolBar implements ActionListener {
 			return "XML dataset";
 		}
 	}
+
 }
