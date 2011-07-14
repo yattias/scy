@@ -142,7 +142,7 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
 		if (newElo != null) {
 			modelEditor.setNewModel();
 			var builder = new SAXBuilder();
-			var doc = builder.build(new StringReader(modelEditor.getModelXML()));
+			var doc = builder.build(new StringReader(newElo.getContent().getXmlString()));
 			modelEditor.setModel(doc.getRootElement());
 			logger.info("elo loaded");
 			eloModel = newElo;
