@@ -10,10 +10,7 @@ import javax.swing.JTextField;
 import colab.um.draw.JdFigure;
 import colab.um.draw.JdLink;
 import colab.um.draw.JdRelation;
-import colab.um.draw.JdAux;
 import eu.scy.client.tools.scydynamics.domain.Domain;
-import eu.scy.client.tools.scydynamics.editor.ModelEditor;
-import eu.scy.client.tools.scydynamics.model.ModelUtils.QualitativeInfluenceType;
 
 public class ModelUtils {
 	
@@ -60,7 +57,7 @@ public class ModelUtils {
 				newExpression = "(-"+varName+")";
 				break;
 			case CURVE_UP:
-				newExpression = "varName*varName";
+				newExpression = varName+"*"+varName;
 				break;
 			case CURVE_DOWN:
 				newExpression = "1/"+varName;
