@@ -230,7 +230,7 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
 
       if (elo.getUri() != null) {
          def scyElo = new ScyElo(elo, config.getToolBrokerAPI());
-         if (authorMode) {
+         if (authorMode and not window.isQuiting) {
             // force a save as dialog box, so that new titles can entered or existing ones modified
             showEloSaveAsPanel(elo, scyElo.getTitle(), true, true, eloSaverCallBack);
          } else {
