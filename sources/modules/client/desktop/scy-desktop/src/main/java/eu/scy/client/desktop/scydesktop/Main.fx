@@ -26,8 +26,8 @@ import eu.scy.client.desktop.scydesktop.tools.colorscheme.ColorSchemeEditorCreat
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.test.TestDialogsNodeCreator;
 import eu.scy.client.desktop.scydesktop.feedbackquestion.FeedbackQuestionNodeCreator;
 import eu.scy.client.desktop.scydesktop.tools.versionviewer.VersionViewerCreator;
-import eu.scy.client.desktop.scydesktop.tools.content.text.SwingTextEditorScyToolContentCreator;
 import eu.scy.client.desktop.scydesktop.tools.scytoolviewer.ScyToolViewerCreator;
+import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditorScyToolContentCreator;
 
 /**
  * @author sikkenj
@@ -90,8 +90,8 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
 
    initializer.loadTimer.startActivity("registering tool creators");
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ScyToolViewerCreator{}, scyToolViewerId);
-//   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(TextEditorScyToolContentCreator {}, scyTextId);
-   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(SwingTextEditorScyToolContentCreator {}, scyTextId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(TextEditorScyToolContentCreator {}, scyTextId);
+//   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(SwingTextEditorScyToolContentCreator {}, scyTextId);
 //   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new EloXmlViewerCreator(), eloXmlViewerId);
 //   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(SwingElementsCreatortor {}, scyTextId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(EloXmlViewerCreatorFX{}, eloXmlViewerId);

@@ -25,7 +25,6 @@ import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
-import java.lang.IllegalStateException;
 
 /**
  * @author sikken
