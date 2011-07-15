@@ -1,16 +1,22 @@
 package eu.scy.agents.search.searchresultenricher;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.rmi.dgc.VMID;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import org.apache.commons.collections.Bag;
 import org.apache.commons.collections.bag.HashBag;
@@ -58,6 +64,8 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	
     private static final Tuple TEMPLATE_FOR_SEARCH_QUERY = new Tuple("action", String.class, Long.class, SEARCH_TYPE, String.class, SEARCH_TOOL, Field.createWildCardField());
     
+    private static final String OPERATOR_AND = "AND";
+    private static final String OPERATOR_OR = "OR";
     
 	// Configuration values
     
@@ -116,8 +124,12 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	 */
 	public static final String EXTRACT_KEYWORD_TERM_NUMBER_TO_TEST = "extact_keyword_term_number_to_test";
     
+	public static final Locale ESTONIA_LOCALE = new Locale("et", "EE");
+	
 //    private static final Logger logger = Logger.getLogger(SearchResultEnricherAgent.class.getName());
     private Map<String, Object> config;
+    
+    private Map<Locale, Set<String>> stopwordMap = null;
 
     private TupleSpace actionSpace;
     private TupleSpace commandSpace;
@@ -138,6 +150,16 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
         		(String) map.get(AgentProtocol.TS_HOST), (Integer) map.get(AgentProtocol.TS_PORT));
         this.config = map;
         configure(map);
+
+		// TODO: keyword files should be set by configuration
+        this.stopwordMap = new HashMap<Locale, Set<String>>();
+        try {
+			this.stopwordMap.put(Locale.ENGLISH, readStopwords("/en_stopwords.txt"));
+			this.stopwordMap.put(Locale.GERMAN, readStopwords("/ger_stopwords.txt"));
+			this.stopwordMap.put(ESTONIA_LOCALE, readStopwords("/est_stopwords.txt"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
         try {
         	actionSpace = getActionSpace();
@@ -267,9 +289,10 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
      * search string as key and the number of hits as response.
      * Returns null if search timed out.
      */
-    private List<ISearchResult> performSearch(String query) throws TupleSpaceException {    	
+    private static List<ISearchResult> getHits(TupleSpace commandSpace, String query) throws TupleSpaceException {    	
 		String uniqueID = new VMID().toString();
-		Tuple requestTuple = new Tuple(uniqueID, ROOLO_AGENT_NAME, ROOLO_AGENT_SEARCH, query);
+		String luceneQuery = "contents:\"" + query + "\"";
+		Tuple requestTuple = new Tuple(uniqueID, ROOLO_AGENT_NAME, ROOLO_AGENT_SEARCH, luceneQuery);
 		commandSpace.write(requestTuple);
 
 		Tuple responseTuple = commandSpace.waitToTake(new Tuple(uniqueID, ROOLO_AGENT_RESPONSE, 
@@ -282,6 +305,51 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 		}
     }
 
+    private static int getHitCount(TupleSpace commandSpace, String query) throws TupleSpaceException {
+		String uniqueID = new VMID().toString();
+		String luceneQuery = "contents:\"" + query + "\"";
+		Tuple requestTuple = new Tuple(uniqueID, ROOLO_AGENT_NAME, ROOLO_AGENT_HIT_COUNT, luceneQuery);
+		commandSpace.write(requestTuple);
+
+		Tuple responseTuple = commandSpace.waitToTake(new Tuple(uniqueID,
+				ROOLO_AGENT_RESPONSE, Field.createWildCardField()),
+				ROOLO_AGENT_TIMEOUT);
+		if (responseTuple != null) {
+			return Integer.parseInt(responseTuple.getField(2).getValue().toString());
+		} else {
+        	// RooloAccessorAgent down
+			return -1;
+		}
+    }
+
+    /**
+     * Parses the query, that was received from TupleSpaces (in Lucene syntax) and extracts the user-entered query 
+     * @param rawQuery
+     * @return
+     */
+    private String parseQuery(String rawQuery) {
+        rawQuery = rawQuery.trim();
+        int queryStartPos = rawQuery.indexOf('"') + 1;
+        int queryStopPos = rawQuery.lastIndexOf('"');
+        return rawQuery.substring(queryStartPos, queryStopPos);
+    }
+    
+    private Set<String> readStopwords(String stopwordFileName) throws IOException {
+    	HashSet<String> stopwords = new HashSet<String>();
+    	InputStream is = getClass().getResourceAsStream(stopwordFileName);
+	    BufferedReader br = new BufferedReader(new InputStreamReader(is));
+	    String buffer = null;
+	    while ((buffer = br.readLine()) != null) {
+	        try {
+	            stopwords.add(buffer.trim());
+	        } catch (StringIndexOutOfBoundsException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    br.close();
+    	return stopwords;
+    }
+    
 
     /*
      * Evaluate a user search result and decides whether to propose an optimized search query.
@@ -303,7 +371,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
             props.put(key, value);
         }
         if(props.getProperty(ACTION_LOG_ATTRIBUTE_QUERY) == null || props.getProperty(ACTION_LOG_ATTRIBUTE_QUERY).equals("") ||
-            props.getProperty(ACTION_LOG_ATTRIBUTE_RESULT) == null) {
+        	props.getProperty(ACTION_LOG_ATTRIBUTE_QUERY).equals("contents:\"\"") || props.getProperty(ACTION_LOG_ATTRIBUTE_RESULT) == null) {
         	
         	// TODO: Uncomment if finished
 //            logger.warn("Received action log with missing values! Query = " +
@@ -313,19 +381,18 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
             return;
         }
 
-        // Split search query in several items
-        String searchQuery = props.getProperty(ACTION_LOG_ATTRIBUTE_QUERY).trim();
+        String searchQuery = parseQuery(props.getProperty(ACTION_LOG_ATTRIBUTE_QUERY));
 
         // Deserialize search results
         List<ISearchResult> referenceResults = SearchResultUtils.createSearchResultsFromXML(props.getProperty(ACTION_LOG_ATTRIBUTE_RESULT));
 
-// Spelling disabled, due to missing fuzzy operator support
+        // Spelling disabled, due to missing fuzzy operator support
         // Check search terms for spelling mistakes... this task is independent from the rest
-//		SpellingChecker sc = new SpellingChecker(this.commandSpace, user, mission,
-//				session, searchQuery.split(" "),
-//				this.fuzzySearchTermSimilarityTolerance,
-//				this.fuzzySearchResultTolerance);
-//        new Thread(sc).start();
+		SpellingChecker sc = new SpellingChecker(this.commandSpace, user, mission,
+				session, searchQuery.split(" "),
+				this.fuzzySearchTermSimilarityTolerance,
+				this.fuzzySearchResultTolerance);
+        new Thread(sc).start();
     	
         // Choose strategy
         SearchResultRanking ranking = null;
@@ -344,7 +411,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 
             // TODO: Uncomment if finished
 //            try {
-//                    commandSpace.write(generateResponseTuple(user, mission, session, ranking.getResults()));
+//                    commandSpace.write(generateAlternativeQueriesTuple(user, mission, session, ranking));
 //            } catch (TupleSpaceException e) {
 //                    System.out.println(e);
 //            }
@@ -368,13 +435,13 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
             Query query = Query.parse(searchQuery);
             String last = "";
             for(int i = 1; i <= this.maxReplaceNumber; i++) {
-                String newQuery = query.replaceOperator("AND", "OR", new AtomicInteger(i));
+                String newQuery = query.replaceOperator(OPERATOR_AND, OPERATOR_OR, new AtomicInteger(i));
                 if(newQuery.equals(last)) {
                     // if a replace operation does not change the query anymore, stop
                     break;
                 } else {
                     last = newQuery;
-                    List<ISearchResult> result =  performSearch(newQuery);
+                    List<ISearchResult> result =  getHits(commandSpace, newQuery);
                     if(result != null) {
                         ranking.add(newQuery, result);
                     } else {
@@ -385,11 +452,12 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
             }
             
             // Add new keywords extracted from the search results.
-            List<TermEntry> termList = extractAlternativeTermsFromSearchResults(referenceResults);
-            System.out.println(termList);
+            Set<String> items = new HashSet<String>();
+            items.addAll(Arrays.asList(searchQuery.split(" ")));
+            List<TermEntry> termList = extractKeywordsFromSearchResults(items, Locale.ENGLISH, referenceResults);
             for(int i = 0; i < Math.min(this.numberOfTermsToTest, termList.size()); i++){
             	String newQuery = searchQuery + " " + termList.get(i).getCount();
-            	List<ISearchResult> result = performSearch(newQuery);
+            	List<ISearchResult> result = getHits(commandSpace, newQuery);
             	if(result != null) {
             		ranking.add(newQuery, result);
             	} else {
@@ -407,8 +475,16 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
         return ranking;
     }
 
+    /**
+     * Asks the ontology for synonyms
+     * @param userId
+     * @param eloUri
+     * @param keyword
+     * @return
+     */
     private String[] askOntologyForSynonym(String userId, String eloUri, String keyword) {
-        // Asks the ontology for synonyms
+    	// (<ID>:String, "onto":String, "surrounding":String, <OntName>:String, <OntLabel>:String, 
+    	// <Language>:String) -> (<ID>:String, <OntTerm>:String, <Surrounding>:String)
         try {
             String id = new VMID().toString();
             Tuple requestTuple = new Tuple(id, userId, ONTOLOGY_AGENT_NAME, ONTOLOGY_AGENT_COMMAND, userId, eloUri, keyword);
@@ -431,7 +507,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
      * Uses the search results of the origin search to extract terms, that might be of interest.
      */
     @SuppressWarnings("unchecked")
-	private List<TermEntry> extractAlternativeTermsFromSearchResults(List<ISearchResult> results) {
+	private List<TermEntry> extractKeywordsFromSearchResults(Set<String> items, Locale locale, List<ISearchResult> results) {
     	List<TermEntry> termList = new LinkedList<TermEntry>();
 
     	// Grab all terms and put them in a bag.
@@ -439,9 +515,8 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
     	int resultsUsed = 0;
     	for(int i = 0; i < results.size() ; i++) {
     		// Keyword list may contains relevance entries, so we need to delete them
-    		
-    		// TODO: using english titles only, should be more generic... also using the keywords might be interesting
-    		String keywords = results.get(i).getTitle(Locale.ENGLISH);
+
+    		String keywords = results.get(i).getTitle(locale);
     		if(keywords == null || keywords.equals("")){
     			continue;
     		}
@@ -459,10 +534,20 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
     	String last = "";
     	while(bagIterator.hasNext()) {
     		String term = (String)bagIterator.next();
-    		if(last.equals(term)) {
+    		
+    		if(term.equals(last)) {
     			// Bag contains duplicate entries...
     			continue;
     		}
+    		if(stopwordMap.get(locale).contains(term)) {
+    			// Keyword is in stopword list
+    			continue;
+    		}
+    		if(items.contains(term)) {
+    			// Keyword is in user query
+    			continue;
+    		}
+    		
     		last = term;
     		int termCount = bag.getCount(term);
     		termList.add(new TermEntry(term, termCount));
@@ -503,21 +588,22 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	//
 	// STRATEGY: PRUNE SEARCH RESULTS (TOO MANY RESULTS)
 	//
-    
-    /*
+
+    /**
      * Tries to prune the search result.
      */
 	private SearchResultRanking pruneSearchResult(String searchQuery, List<ISearchResult> referenceResults) {
     	SearchResultRanking ranking = new SearchResultRanking(this.maxProposalNumber, referenceResults, this.config, this.infGoodSearchInverval, this.supGoodSearchInterval);
-    	String[] items = searchQuery.split(" ");
+    	Set<String> items = new HashSet<String>();
+    	items.addAll(Arrays.asList(searchQuery.split(" ")));
 
     	try {
-	    	if(items.length > 1) {
+	    	if(items.size() > 1) {
 	    		// Itemset generation
 	    		String[] itemsets = generateItemSets(items);
 	        	for(int i = 0; i < itemsets.length; i++) {
 	
-	        		List<ISearchResult> result = performSearch(itemsets[i].toString());
+	        		List<ISearchResult> result = getHits(commandSpace, itemsets[i].toString());
 	        		if(result != null) {
 	        			ranking.add(itemsets[i].toString(), result);
 	        		} else {
@@ -532,13 +618,13 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	            AtomicInteger ai = new AtomicInteger(0);
 	            for(int i = 1; i <= this.maxReplaceNumber; i++) {
 	                ai.set(i);
-	                String newQuery = query.replaceOperator("OR", "AND", ai);
+	                String newQuery = query.replaceOperator(OPERATOR_OR, OPERATOR_AND, ai);
 	                if(newQuery.equals(last)) {
 	                    // if a replace operation does not change the query anymore, stop
 	                    break;
 	                } else {
 	                    last = newQuery;
-	                    List<ISearchResult> result =  performSearch(newQuery);
+	                    List<ISearchResult> result =  getHits(commandSpace, newQuery);
 	                    if(result != null) {
 	                        ranking.add(newQuery, result);
 	                    } else {
@@ -547,51 +633,56 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	                    }
 	                }
 	            }
-	    	} else {
-	            // Only one item and too less results... this must be handled separately
-	
-	            List<TermEntry> termList = extractAlternativeTermsFromSearchResults(referenceResults);
-	            System.out.println(termList);
-	            for(int i = 0; i < Math.min(this.numberOfTermsToTest, termList.size()); i++){
-	            	int pos = searchQuery.lastIndexOf("\"");
-	            	String newQuery = searchQuery.substring(0, pos - 1) + " AND " + termList.get(i).getTerm() + "\"";
-	            	List<ISearchResult> result = performSearch(newQuery);
-	            	if(result != null) {
-	            		ranking.add(newQuery, result);
-	            	} else {
-	            		// RooloAccessorAgent down, so stop
-	                	return ranking;
-	            	}
-	            }
 	    	}
+            // Only one item and too less results... this must be handled separately
+
+            List<TermEntry> termList = extractKeywordsFromSearchResults(items, Locale.ENGLISH, referenceResults);
+            for(int i = 0; i < Math.min(this.numberOfTermsToTest, termList.size()); i++){
+            	String newQuery = searchQuery + " " + OPERATOR_AND + " " + termList.get(i).getTerm();
+            	List<ISearchResult> result = getHits(commandSpace, newQuery);
+            	if(result != null) {
+            		ranking.add(newQuery, result);
+            	} else {
+            		// RooloAccessorAgent down, so stop
+                	return ranking;
+            	}
+            }
     	} catch (TupleSpaceException e) {
     		e.printStackTrace();
     	}
     	return ranking;
     }
-    
-    /*
-     * Generate n * (n-1)-itemsets out of the n-itemset (i.e.: three 2-itemsets for one 3-itemset)
-     */
-    private String[] generateItemSets(String[] items) {
-    	String[] itemsets = new String[items.length];
 
+	/**
+     * Generate n * (n-1)-itemsets out of the n-itemset (i.e.: three 2-itemsets for one 3-itemset)
+	 * @param items
+	 * @return
+	 */
+    private String[] generateItemSets(Set<String> items) {
+    	String[] itemsets = new String[items.size()];
+
+    	String[] array = items.toArray(new String[0]);
     	// Generate queries
-    	for (int i = 0; i < items.length; i++) {
+    	for (int i = 0; i < array.length; i++) {
             String s = "";
-            for (int j = 0; j < items.length; j++) {
+            for (int j = 0; j < array.length; j++) {
                 if (i != j) {
-                    s = s + items[j] + " ";
+                    s = s + array[j] + " ";
                 }
             }
             itemsets[i] = s.trim();
     	}
     	return itemsets;
     }
-    
-    /*
+
+    /**
      * Generates the resulting tuple, containing the alterantive search requests and their hit counts.
      * ("notification":String, <ID>:String, <User>:String, <Tool>:String, <Mission>:String, <Session>, <Query=NumberOfHits>:String*)
+     * @param userId
+     * @param mission
+     * @param session
+     * @param ranking
+     * @return
      */
     private Tuple generateAlternativeQueriesTuple(String userId, String mission, String session, SearchResultRanking ranking) {
     	Tuple tuple = new Tuple(AgentProtocol.NOTIFICATION, new VMID().toString(), userId, SEARCH_TOOL, AGENT_NAME, mission, session);
@@ -647,20 +738,24 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 			}
 		}
 
-		/*
+		/**
 		 * Checks for each term of the search query, whether we get much more search results 
 		 * by performing a fuzzy search. This may indicate a spelling mistake. 
+		 * @param items
+		 * @return
+		 * @throws TupleSpaceException
 		 */
 	    private List<String> checkSpelling(String[] items) throws TupleSpaceException{
 	    	List<String> misspelledTerms = new ArrayList<String>();
 	    	for(String term : items) {
 	    		
-	    		int exact = getHitCount(term);
-	    		if(exact == -1) 
+	    		int exact = SearchResultEnricherAgent.getHitCount(commandSpace, term);
+	    		if(exact == -1) {
 	    			// RooloAccessorAgent down, so we stop checking
 	    			return misspelledTerms;
-	    		
-	    		int fuzzy = getHitCount(term + "~" + this.termSimilarityTolerance);
+	    		}
+
+	    		int fuzzy = getHitCount(commandSpace, term + "~" + this.termSimilarityTolerance);
 	    		if(fuzzy == -1) {
 	    			// RooloAccessorAgent down, so we stop checking
 	    			return misspelledTerms;
@@ -683,25 +778,11 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	    	return misspelledTerms;
 	    }
 
-	    private int getHitCount(String query) throws TupleSpaceException {
-			String uniqueID = new VMID().toString();
-			Tuple requestTuple = new Tuple(uniqueID, ROOLO_AGENT_NAME, ROOLO_AGENT_HIT_COUNT, query);
-			commandSpace.write(requestTuple);
-
-			Tuple responseTuple = commandSpace.waitToTake(new Tuple(uniqueID,
-					ROOLO_AGENT_RESPONSE, Field.createWildCardField()),
-					ROOLO_AGENT_TIMEOUT);
-			if (responseTuple != null) {
-				return Integer.parseInt(responseTuple.getField(2).getValue().toString());
-			} else {
-            	// RooloAccessorAgent down
-				return -1;
-			}
-	    }
-	    
-	    /*
+	    /**
 	     * Generates a tuple, containing the probably misspelled terms.
 	     * ("notification":String, <ID>:String, <User>:String, <Tool>:String, <Mission>:String, <Session>:String, <terms=term1 term2 term3>:String)
+	     * @param terms
+	     * @return
 	     */
 	    private Tuple generateMisspelledTermsTuple(List<String> terms) {
 	    	String s = "terms=";

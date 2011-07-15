@@ -62,7 +62,7 @@ public class Result implements Comparable<Result> {
     @Override
     public String toString() {
         return "Query: " + this.query + " | Results: " + this.result.size() + " | Quality: [ Length: " +
-                this.lengthQuality + " | Similiarity: " + this.similarityQuality + " | Relevance: " +
+                this.lengthQuality + " | Similarity: " + this.similarityQuality + " | Relevance: " +
                 this.relevanceQuality + " ]";
     }
 
