@@ -1,11 +1,15 @@
 package eu.scy.client.tools.scydynamics.model;
 
 import java.util.HashMap;
+import java.util.Vector;
 import java.util.logging.Logger;
 
 import org.jdom.Element;
 
-import eu.scy.client.tools.scydynamics.domain.Concept;
+import colab.um.draw.JdFigure;
+import colab.um.draw.JdObject;
+import colab.um.draw.JdStock;
+
 import eu.scy.client.tools.scydynamics.domain.Node;
 import eu.scy.client.tools.scydynamics.editor.ModelEditor;
 
@@ -21,33 +25,74 @@ public class SimquestModelQualitative extends SimquestModelQuantitative {
 	public SimquestModelQualitative(ModelEditor modelEditor, HashMap<String, Double> simulationValues) {
 		super(modelEditor, simulationValues);
 	}
+	
+	@Override
+	protected void addVariable(Element variables, String name, String type, String value, String pair) {
+		Element variable = new Element("modelVariable");
+		variable.addContent(new Element("name").setText(name));
+		variable.addContent(new Element("externalName").setText(name));
+		variable.addContent(new Element("kind").setText(type));
+		variable.addContent(new Element("type").setText("real"));
+		String newValue = getQualitativeValue(name, value)+"";
+		System.out.println("SimquestModelQualitative.addVariable: "+name+": "+value+" -> "+newValue);
+		variable.addContent(new Element("value").setText(newValue));
+		if (pair != null) {
+			variable.addContent(new Element("pair").setText(pair));
+		}
+		variables.addContent(variable);
+	}
+	
+	protected void createComputationalModel() {
+		Element computationalModel = new Element("computationalModel");
+		Element code = new Element("code");
+		Element equation, variable, literal;
 
-//	@Override
-//	protected void addVariable(Element variables, String name, String type, String value, String pair) {
-//		Element variable = new Element("modelVariable");
-//		variable.addContent(new Element("name").setText(name));
-//		variable.addContent(new Element("externalName").setText(name));
-//		variable.addContent(new Element("kind").setText(type));
-//		variable.addContent(new Element("type").setText("real"));
-//		String variableValue;
-//		if (simulationValues.containsKey(name)) {
-//			variableValue = simulationValues.get(name).toString();
-//			variable.addContent(new Element("value").setText(variableValue));
-//		} else {
-//			variableValue = getQualitativeValue(name, value);
-//			variable.addContent(new Element("value").setText(variableValue));
-//		}
-//		LOGGER.info("setting value of "+name+" to "+variableValue);
-//		if (pair != null) {
-//			variable.addContent(new Element("pair").setText(pair));
-//		}
-//		variables.addContent(variable);
-//	}
+		// handle the nodes
+		for (JdObject node : model.getNodes().values()) {
+			if (node.getType() == JdFigure.CONSTANT) {
+				equation = new Element("equation");
+				variable = new Element("variable").setText(node.getLabel());
+				String newValue = getQualitativeValue(node.getLabel(), node.getExpr())+"";
+				System.out.println("SimquestModelQualitative.createComputationalModel: literal "+node.getLabel()+": "+node.getExpr()+" -> "+newValue);
+				literal = new Element("literal").setText(newValue);
+				equation.addContent(variable);
+				equation.addContent(literal);
+				code.addContent(equation);
+			} else if (node.getType() == JdFigure.AUX) {
+				equation = new Element("equation");
+				equation.addContent(new Element("variable").setText(node.getLabel()));
+				parseEquation(equation, node.getExpr());
+				code.addContent(equation);
+			} else if (node.getType() == JdFigure.STOCK) {
+				Vector<JdFigure> incomingFigs = getIncomingFigs((JdStock) node);
+				Vector<JdFigure> outgoingFigs = getOutgoingFigs((JdStock) node);
+				equation = new Element("equation");
+				equation.addContent(new Element("variable").setText(node.getLabel() + "_dot"));
+				String expression = new String();
+				for (JdFigure fig : incomingFigs) {
+					// incoming auxs are added to the stock's _dot
+					expression = expression + "+" + fig.getProperties().get("label");
+				}
+				for (JdFigure fig : outgoingFigs) {
+					// outgoing auxs are substracted from the stocks's _dot
+					expression = expression + "-" + fig.getProperties().get("label");
+				}
+				parseEquation(equation, expression);
+				code.addContent(equation);
+			}
+		}
 
-	public static String getQualitativeValue(String name, String value, ModelEditor modelEditor) {
+		computationalModel.addContent(code);
+		this.addContent(computationalModel);
+	}
+
+	public double getQualitativeValue(String name, String valueString) {
+		double value = Double.valueOf(valueString);
+		if (modelEditor.getDomain() == null) {
+			return getDefaultQualitativeValue(value);
+		}
 		String concept = modelEditor.getDomain().getConceptByTerm(name);
 		Node node = modelEditor.getDomain().getNodeByConcept(concept);
-		LOGGER.info("concept: "+concept+" node: "+node);
 		if (node == null) {
 			return getDefaultQualitativeValue(value);
 		} else {
@@ -55,40 +100,62 @@ public class SimquestModelQualitative extends SimquestModelQuantitative {
 		}
 	}
 
-	private static String getNodeQualitativeValue(String value, Node node) {
-		String returnValue = null;
+	private double getNodeQualitativeValue(double value, Node node) {
 		try {
-			switch (Integer.parseInt(value)) {
-			case ModelEditor.LARGE_NEGATIVE: returnValue = node.getHighNegative(); break;
-			case ModelEditor.SMALL_NEGATIVE: returnValue = node.getLowNegative(); break;
-			case ModelEditor.ZERO: returnValue = node.getHighNegative(); break;
-			case ModelEditor.SMALL_POSITIVE: returnValue = node.getLowPositive(); break;
-			case ModelEditor.LARGE_POSITIVE: returnValue = node.getHighPositive(); break;
-			default: returnValue = value;
-			}
-			if (returnValue == null) {
-				return getDefaultQualitativeValue(value);
+			if (Double.valueOf(value)<0) {
+				Double negativeRange = Double.valueOf(node.getHighNegative());
+				Double doubleValue = Double.valueOf(value);
+				Double newValue = new Double(doubleValue*0.01*negativeRange);
+				return newValue;
 			} else {
-				return returnValue;
+				Double positiveRange = Double.valueOf(node.getHighPositive());
+				Double doubleValue = Double.valueOf(value);
+				Double newValue = new Double(doubleValue*0.01*positiveRange);
+				return newValue;
 			}
 		} catch (Exception ex) {
-			return value;
+			LOGGER.info("caught a "+ex.getMessage());
+			return getDefaultQualitativeValue(value);
 		}
+		
 	}
 
-	private static String getDefaultQualitativeValue(String value) {
-		try {
-			switch (Integer.parseInt(value)) {
-				case ModelEditor.LARGE_NEGATIVE: return "-10.0";
-				case ModelEditor.SMALL_NEGATIVE: return "-1.0";
-				case ModelEditor.ZERO: return "0.0";
-				case ModelEditor.SMALL_POSITIVE: return "1.0";
-				case ModelEditor.LARGE_POSITIVE: return "10.0";
-				default: return "1.0";
-			}
-		} catch (Exception ex) {
-			return value;
+	private double getDefaultQualitativeValue(double value) {
+//		try {
+//			switch (Integer.parseInt(value)) {
+//				case ModelEditor.LARGE_NEGATIVE: return "-10.0";
+//				case ModelEditor.SMALL_NEGATIVE: return "-1.0";
+//				case ModelEditor.ZERO: return "0.0";
+//				case ModelEditor.SMALL_POSITIVE: return "1.0";
+//				case ModelEditor.LARGE_POSITIVE: return "10.0";
+//				default: return "1.0";
+//			}
+//		} catch (Exception ex) {
+//			return value;
+//		}
+		
+		// actually doing nothing here...
+		return value;
+	}
+	
+	@Override
+	protected void createSimulation() {
+		Element simulation = new Element("simulation");
+		if (modelEditor.getDomain() != null) {
+			simulation.addContent(new Element("method").setText(modelEditor.getDomain().getSimulationSettings().getCalculationMethod()));
+			simulation.addContent(new Element("startTime").setText(modelEditor.getDomain().getSimulationSettings().getStartTime()+""));
+			simulation.addContent(new Element("finishTime").setText(modelEditor.getDomain().getSimulationSettings().getStopTime()+""));
+			simulation.addContent(new Element("stepSize").setText(modelEditor.getDomain().getSimulationSettings().getStepSize()+""));
+			System.out.println("SimquestModelQualtitative.createSimulation (domain settings): "+model.getMethod()+" / "+model.getStart()+"->"+model.getStop()+" | "+model.getStep());
+		} else {
+			simulation.addContent(new Element("method").setText("RungeKuttaFehlberg"));
+			simulation.addContent(new Element("startTime").setText(model.getStart()+""));
+			simulation.addContent(new Element("finishTime").setText(model.getStop()+""));
+			simulation.addContent(new Element("stepSize").setText(model.getStep()+""));
+			System.out.println("SimquestModelQualtitative.createSimulation (default): "+model.getMethod()+" / "+model.getStart()+"->"+model.getStop()+" | "+model.getStep());
+
 		}
+		this.addContent(simulation);
 	}
 
 }

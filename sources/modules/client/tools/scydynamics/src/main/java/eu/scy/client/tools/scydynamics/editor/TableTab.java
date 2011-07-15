@@ -61,7 +61,7 @@ public class TableTab extends SimulationPanel implements Runnable, ChangeListene
     @Override
     public void stateChanged(ChangeEvent e) {
         variablePanel.updateVariables();
-        simulationPanel.updateSettings();
+        simulationSettingsPanel.updateSettings();
         editor.getActionLogger().logActivateWindow("table", null, this);
     }
 
@@ -141,7 +141,7 @@ public class TableTab extends SimulationPanel implements Runnable, ChangeListene
 
         tableModel = null;
         tablePanel.remove(scrollPane);
-        tableModel = new SimulationTableModel(selectedVariables, dataServer, simulationPanel.getDigits());
+        tableModel = new SimulationTableModel(selectedVariables, dataServer, simulationSettingsPanel.getDigits());
         table = new JTable(tableModel);
         DefaultTableCellRenderer defaultRenderer = new DefaultTableCellRenderer();
         defaultRenderer.setHorizontalAlignment(JLabel.RIGHT);
@@ -178,9 +178,9 @@ public class TableTab extends SimulationPanel implements Runnable, ChangeListene
 	
 	@Override
 	public void run() {
-		simulationPanel.setRunning(true);
+		simulationSettingsPanel.setRunning(true);
 		sqvModel.getSimulation().Simulate();
-		simulationPanel.setRunning(false);
+		simulationSettingsPanel.setRunning(false);
 		// tune table
         tableModel.deleteFirstAndLast();
         tablePanel.updateUI();

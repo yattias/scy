@@ -90,7 +90,7 @@ public class SimquestModelQuantitative extends Element {
 		variables.addContent(variable);
 	}
 
-	private void createComputationalModel() {
+	protected void createComputationalModel() {
 		Element computationalModel = new Element("computationalModel");
 		Element code = new Element("code");
 		Element equation, variable, literal;
@@ -136,7 +136,7 @@ public class SimquestModelQuantitative extends Element {
 		this.addContent(computationalModel);
 	}
 
-	private Vector<JdFigure> getOutgoingFigs(JdStock stock) {
+	protected Vector<JdFigure> getOutgoingFigs(JdStock stock) {
 		Vector<JdFigure> list = new Vector<JdFigure>();
 		for (JdRelation rel : model.getRelations()) {
 			if (rel.getFigure2().getType() == JdFigure.FLOWCTR) {
@@ -148,7 +148,7 @@ public class SimquestModelQuantitative extends Element {
 		return list;
 	}
 
-	private Vector<JdFigure> getIncomingFigs(JdStock stock) {
+	protected Vector<JdFigure> getIncomingFigs(JdStock stock) {
 		Vector<JdFigure> list = new Vector<JdFigure>();
 		for (JdRelation rel : model.getRelations()) {
 			if (rel.getFigure2().getType() == JdFigure.FLOWCTR) {
@@ -160,7 +160,7 @@ public class SimquestModelQuantitative extends Element {
 		return list;
 	}
 
-	private void parseEquation(Element equation, String expr) {
+	protected void parseEquation(Element equation, String expr) {
 		JEP parser = new JEP();
 		parser.addStandardFunctions();
 		parser.addStandardConstants();
@@ -225,12 +225,13 @@ public class SimquestModelQuantitative extends Element {
 		}
 	}
 
-	private void createSimulation() {
+	protected void createSimulation() {
 		Element simulation = new Element("simulation");
 		simulation.addContent(new Element("method").setText(model.getMethod()));
 		simulation.addContent(new Element("startTime").setText(model.getStart() + ""));
 		simulation.addContent(new Element("finishTime").setText(model.getStop() + ""));
 		simulation.addContent(new Element("stepSize").setText(model.getStep() + ""));
+		System.out.println("SimquestModelQuantitative.createSimulation (user settings): "+model.getMethod()+" / "+model.getStart()+"->"+model.getStop()+" | "+model.getStep());
 		this.addContent(simulation);
 	}
 

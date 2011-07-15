@@ -98,7 +98,7 @@ public class GraphTab extends SimulationPanel implements ChangeListener {
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		variablePanel.updateVariables();
-		simulationPanel.updateSettings();
+		simulationSettingsPanel.updateSettings();
 		this.updateXAxisSelector();
 		editor.getActionLogger().logActivateWindow("graph", null, this);
 	}
@@ -213,9 +213,9 @@ public class GraphTab extends SimulationPanel implements ChangeListener {
 
 	@Override
 	public void run() {
-		simulationPanel.setRunning(true);
+		simulationSettingsPanel.setRunning(true);
 		sqvModel.getSimulation().Simulate();
-		simulationPanel.setRunning(false);
+		simulationSettingsPanel.setRunning(false);
 		graph.update();
 		graphPanel.updateUI();
 		graphPanel.repaint();

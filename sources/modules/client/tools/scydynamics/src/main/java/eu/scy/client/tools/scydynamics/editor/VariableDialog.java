@@ -3,7 +3,6 @@ package eu.scy.client.tools.scydynamics.editor;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,9 +41,7 @@ public class VariableDialog extends JDialog {
 	private final ResourceBundleWrapper bundle;
 	private javax.swing.JTextField nameField = new javax.swing.JTextField(23);
 	private javax.swing.JTextField quantitativeExpressionTextField = new javax.swing.JTextField(23);
-	private JSlider valueQualitative = new JSlider();
-	private FlowLayout flowRight = new FlowLayout(FlowLayout.RIGHT);
-	private FlowLayout flowLeft = new FlowLayout(FlowLayout.LEFT);
+	private JSlider qualitativeValueSlider = new JSlider();
 	private JList infoList;
 	private JdFigure figure;
 	private Hashtable<String, Object> props;
@@ -137,13 +134,13 @@ public class VariableDialog extends JDialog {
 		quantitativeExpressionTextField.setText(newExpression);
 	}
 	
-	public String getQualitativeExpression() {
+	public String getQualitativeValue() {
 		switch (figure.getType()) {
 			case JdFigure.AUX:
 				return Integer.MAX_VALUE+"";
 			case JdFigure.CONSTANT:
 			case JdFigure.STOCK:
-				return valueQualitative.getValue()+"";
+				return qualitativeValueSlider.getValue()+"";
 			default:
 				return Integer.MIN_VALUE+"";
 		}
@@ -352,20 +349,21 @@ public class VariableDialog extends JDialog {
 		case JdFigure.AUX:
 		case JdFigure.CONSTANT:
 		case JdFigure.STOCK:
-			valueQualitative = new JSlider(JSlider.HORIZONTAL,-2,2,0);
-			labelTable.put(ModelEditor.LARGE_NEGATIVE, new JLabel("negative") );
-			labelTable.put(ModelEditor.SMALL_NEGATIVE, new JLabel("") );
+			qualitativeValueSlider = new JSlider(JSlider.HORIZONTAL,-100,100,0);
+			labelTable.put(-100, new JLabel("negative") );
+			//labelTable.put(ModelEditor.SMALL_NEGATIVE, new JLabel("") );
 			labelTable.put(ModelEditor.ZERO, new JLabel("zero") );
-			labelTable.put(ModelEditor.SMALL_POSITIVE, new JLabel("") );
-			labelTable.put(ModelEditor.LARGE_POSITIVE, new JLabel("positive") );
+			//labelTable.put(ModelEditor.SMALL_POSITIVE, new JLabel("") );
+			labelTable.put(100, new JLabel("positive") );
 			break;
 		}
-		valueQualitative.setLabelTable( labelTable );
-		valueQualitative.setPaintLabels(true);  	
-		valueQualitative.setMajorTickSpacing(1);
-		valueQualitative.setPaintTicks(true);
-		valueQualitative.setSnapToTicks(true); 	
-		return valueQualitative;
+		qualitativeValueSlider.setLabelTable( labelTable );
+		qualitativeValueSlider.setPaintLabels(true);  	
+		qualitativeValueSlider.setMajorTickSpacing(50);
+		qualitativeValueSlider.setMinorTickSpacing(10);
+		qualitativeValueSlider.setPaintTicks(true);
+		qualitativeValueSlider.setSnapToTicks(false); 	
+		return qualitativeValueSlider;
 	}
 
 	private JPanel getOkayCancelPanel() {
@@ -422,9 +420,9 @@ public class VariableDialog extends JDialog {
 				// for the aux
 				quantitativeExpressionTextField.setText("-qualitative-");
 				// for stocks and consts
-				valueQualitative.setValue(Integer.parseInt(figure.getProperties().get("expr")+""));
+				qualitativeValueSlider.setValue(Integer.parseInt(figure.getProperties().get("expr")+""));
 			} catch (NumberFormatException ex) {
-				valueQualitative.setValue(0);
+				qualitativeValueSlider.setValue(0);
 			}
 		}
 	}

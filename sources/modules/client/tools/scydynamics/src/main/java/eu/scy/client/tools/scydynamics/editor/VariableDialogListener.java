@@ -79,38 +79,14 @@ public class VariableDialogListener implements ActionListener, MouseListener {
 				}
 			}
 
-			// cleaning some bad chars in expression
-			String express;
-			if (variableDialog.getEditor().getMode().equals(ModelEditor.Mode.QUALITATIVE_MODELLING)) {
-				String dialogExpress = variableDialog.getQualitativeExpression();
-				express = SimquestModelQualitative.getQualitativeValue(newName, dialogExpress, variableDialog.getEditor());
-				System.out.println(newName+": "+dialogExpress+" -> "+express);
-			} else {
-				express = variableDialog.getQuantitativeExpression();
-			}
-			express = express.replaceAll("<", "");
-			express = express.replaceAll(">", "");
-			express = express.replaceAll("&", "");
-			// cleaning some bad chars in unit
+			String express = getExpression();
+			System.out.println("expression: "+express);
+			variableDialog.setFigureProperty("expr", express);
+
 			String unit = variableDialog.getUnit();
 			unit = unit.replaceAll("<", "");
 			unit = unit.replaceAll(">", "");
 			unit = unit.replaceAll("&", "");
-
-			if (variableDialog.getEditor().getMode()==Mode.QUALITATIVE_MODELLING) {
-				if (variableDialog.getFigure().getType() == JdFigure.AUX) {
-					System.out.println("+++ generating expression for "+newName);
-					variableDialog.setFigureProperty("expr", ModelUtils.getQualitativeExpression(variableDialog.getQualitativeRelations(), variableDialog.getEditor().getModel()));
-				} else {
-					variableDialog.setFigureProperty("expr", variableDialog.getQualitativeExpression()+"");
-				}	
-			} else {
-				variableDialog.setFigureProperty("expr", express);
-			}
-
-			if (variableDialog.getEditor().getMode()==Mode.MODEL_SKETCHING && variableDialog.getFigureProperty("expr").toString().isEmpty()) {
-				variableDialog.setFigureProperty("expr", "0");
-			}
 
 			variableDialog.setFigureProperty("unit", unit);            
 			variableDialog.submitFigureProperties(oldName);
@@ -145,7 +121,26 @@ public class VariableDialogListener implements ActionListener, MouseListener {
 			// here go the clicks of the "calculator panel"
 			ModelUtils.paste(event.getActionCommand(), variableDialog.getQuantitativeExpressionTextField());
 		}
-		
+	}
+	
+	private String getExpression() {
+		if (variableDialog.getEditor().getMode().equals(ModelEditor.Mode.QUANTITATIVE_MODELLING)) {
+			String newExpression = variableDialog.getQuantitativeExpression();
+			newExpression = newExpression.replaceAll("<", "");
+			newExpression = newExpression.replaceAll(">", "");
+			newExpression = newExpression.replaceAll("&", "");
+			return newExpression;
+		} else if (variableDialog.getEditor().getMode().equals(ModelEditor.Mode.QUALITATIVE_MODELLING)) {
+			switch (variableDialog.getFigure().getType()) {
+			case JdFigure.CONSTANT:
+			case JdFigure.STOCK:
+				return variableDialog.getQualitativeValue();
+			case JdFigure.AUX:
+				return ModelUtils.getQualitativeExpression(variableDialog.getQualitativeRelations(), variableDialog.getEditor().getModel());
+		}
+		}
+		// default = 0
+		return "0";
 	}
 	
 }

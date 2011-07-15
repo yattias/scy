@@ -17,11 +17,13 @@ public class Domain {
 	
 	private ReferenceModel referenceModel;
 	private ConceptSet conceptSet;
+	private SimulationSettings simulationSettings;
 	private HashMap<String, String> termConceptMap;
 	
-	public Domain(String referenceModelFilename, String concepSetFilename) throws Exception {
+	public Domain(String referenceModelFilename, String concepSetFilename, String simulationSettingsFilename) throws Exception {
 		this.referenceModel = (ReferenceModel) unmarshal(referenceModelFilename);
 		this.conceptSet = (ConceptSet) unmarshal(concepSetFilename);
+		this.simulationSettings = (SimulationSettings) unmarshal(simulationSettingsFilename);
 		getTermConceptMap();
 	}
 	
@@ -31,6 +33,10 @@ public class Domain {
 	
 	public ConceptSet getConceptSet() {
 		return conceptSet;
+	}
+	
+	public SimulationSettings getSimulationSettings() {
+		return simulationSettings;
 	}
 	
 	private HashMap<String, String> getTermConceptMap() {
@@ -51,7 +57,7 @@ public class Domain {
 	
 	private Object unmarshal(String fileName) throws Exception {
 		Object returnObject = null;
-		JAXBContext context = JAXBContext.newInstance(ReferenceModel.class, ConceptSet.class); 
+		JAXBContext context = JAXBContext.newInstance(ReferenceModel.class, ConceptSet.class, SimulationSettings.class); 
 		Unmarshaller um = context.createUnmarshaller();
 		File f = new File(fileName);
 		LOGGER.info("loading from: "+f.getAbsolutePath());
@@ -98,6 +104,5 @@ public class Domain {
 		}
 		return null;
 	}
-
 	
 }
