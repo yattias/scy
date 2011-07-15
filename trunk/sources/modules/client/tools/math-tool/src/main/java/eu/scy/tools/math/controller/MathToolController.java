@@ -126,7 +126,7 @@ public class MathToolController {
 
 	public void addCalculator(String type, Calculator calculator) {
 		calculator.getEqualsButton().addActionListener(equalsAction);
-		calculator.getSumTextField().setEnabled(false);
+		
 		calculator.getSumTextField().addKeyListener(new KeyListener() {
 
 			@Override
