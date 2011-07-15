@@ -67,7 +67,7 @@ public class FileToolbar extends JToolBar implements ActionListener {
 			add(modeBox);
 		}
 	}
-
+	
 	public void load(String filename) {
 		Document doc = null;
 		SAXBuilder sb = new SAXBuilder();

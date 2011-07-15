@@ -84,8 +84,9 @@ public class ModelUtils {
 		Domain domain = null;
 		String referenceModelFilename = props.getProperty("editor.reference_model");
 		String conceptSetFilename = props.getProperty("editor.concept_set");
+		String simulationSettingsFilename = props.getProperty("editor.simulation_settings");
 		try {
-			domain = new Domain(referenceModelFilename, conceptSetFilename);
+			domain = new Domain(referenceModelFilename, conceptSetFilename, simulationSettingsFilename);
 		} catch (Exception e) {
 			DEBUGLOGGER.info("domain could not be loaded, will be ignored.");
 			DEBUGLOGGER.info(e.getMessage());

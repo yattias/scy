@@ -18,10 +18,10 @@
   <node id="birth_rate" concept="birth_rate"
 	        type="constant"
 	        formula="0.04"
-	        high_negative="-0.01"
+	        high_negative="-0.02"
 	        low_negative="-0.005"
 	        low_positive="0.005"
-	        high_positive="0.01"
+	        high_positive="0.02"
 	        zero="0"/>
   <node id="deaths" concept="deaths"
 	        type="auxiliary"
@@ -29,10 +29,10 @@
   <node id="death_rate" concept="death_rate"
 	        type="constant"
 	        formula="0.03"
-	        high_negative="-0.01"
+	        high_negative="-0.02"
 	        low_negative="-0.005"
 	        low_positive="0.005"
-	        high_positive="0.01"
+	        high_positive="0.02"
 	        zero="0"/>/>
 
   <node id="pop_in" type="flow"/>

@@ -1,0 +1,157 @@
+<!--
+
+concept (n, e)  = name of the node in the reference model
+from (e)        = name of node at the from side
+to (e)          = name of node at the from side
+
+r_anonymous     = { true, false }
+g_anonymous     = { true, false }
+e_anonymous     = { true, false }
+
+status (n, e)   = { present, missing, redundant, anonymous }
+
+r_type (n, e)   = required type
+g_type (n, e)   = given type
+e_type (n, e)   = evaluation: { correct, wrong }
+
+direction (e)   = { correct, inverted }
+
+r_specification = { none, qualitative, quantitative }
+g_specification = { none, qualitative, quantitative }
+e_specification = { correct, wrong }
+
+specification   = specification itself
+
+r_qualitative   = { none, linear, inverse, negative_linear, exponential, asymptotical }
+g_qualitative   = { none, linear, inverse, negative_linear, exponential, asymptotical }
+e_qualitative   = { correct, wrong }
+
+
+Or (disjunction)
+
+Is true if any of the immediate sub-elements in the XML structure is true.
+
+
+And (conjunction)
+
+Is true if all of the immediate sub-elements in the XML structure are true.
+
+
+Not (negation)
+
+Is true if none of the immediate sub-elements in the XML structure is true.
+
+
+Compare
+
+Attributes should contain a relation for comparison (e.g. at_least="5") and
+attributes to compare with.  A compare evaluates to true or false.
+
+
+Node, edge
+
+Matches a particular node.  Evaluates to true or false.
+
+-->
+
+<rules>
+
+<rule name="ordertophase3rule" result_type="bool"> 
+  <edge from="lampje_2" to="vervangingsweerstand" direction="correct" e_qualitative="correct"/>
+</rule>
+
+<rule name="ordertophase2rule" result_type="bool"> 
+  <count type="flow" at_least="1" at_most="2"/>	
+
+  <true at_least="4">
+    <node concept="lampje_1" status="present"/>
+    <node concept="lampje_2" status="present"/>
+    <node concept="bronspanning" status="present"/>
+    <node concept="condensator_capaciteit" status="present"/>
+    <node concept="lading" status="present"/>
+  </true>
+
+  <true at_least="1">
+    <node concept="stroomsterkte" status="present"/>
+    <node concept="spanning_over_de_condensator" status="present"/>
+    <node concept="spanning_over_de_weerstanden" status="present"/>
+    <node concept="vervangingsweerstand" status="present"/>
+  </true>
+  
+  <true at_least = "1">
+    <t_edge from="lading" to="stroomsterkte" />
+    <edge from="lampje_1" to="vervangingsweerstand" direction = "correct"/>
+  </true>
+  
+<!--  
+  <true at_least="5">
+  <edge from="lading" to="spanning_over_de_condensator" direction = "correct"/>
+    <edge from="condensator_capaciteit" to="spanning_over_de_condensator" direction = "correct"/>
+    <edge from="spanning_over_de_condensator" to="spanning_over_de_weerstanden" direction = "correct"/>
+    <edge from="bronspanning" to="spanning_over_de_weerstanden" direction = "correct"/>
+    <edge from="spanning_over_de_weerstanden" to="stroomsterkte" direction = "correct"/>
+    <edge from="vervangingsweerstand" to="stroomsterkte" direction = "correct"/>
+    <edge from="lampje_1" to="vervangingsweerstand" direction = "correct"/>
+    <edge from="lampje_2" to="vervangingsweerstand" direction = "correct"/>
+	<edge from="stroomsterkte" to="in" direction = "correct"/>
+    <t_edge from="vervangingsweerstand" to="in" direction = "correct"/>
+	<t_edge from="spanning_over_de_condensator" to="in" direction = "correct"/>
+	<t_edge from="spanning_over_de_weerstanden" to="in" direction = "correct"/>
+    <t_edge from="lampje_1" to="stroomsterkte" direction = "correct"/>
+    <t_edge from="lampje_2" to="stroomsterkte" direction = "correct"/>
+    <t_edge from="bronspanning" to="stroomsterkte" direction = "correct"/>
+    <t_edge from="condensator_capaciteit" to="stroomsterkte" direction = "correct"/>
+	<t_edge from="lading"to="stroomsterkte" direction = "correct"/>
+	<t_edge from="spanning_over_de_condensator" to="stroomsterkte" direction = "correct"/>
+    <t_edge from="condensator_capaciteit" to="spanning_over_de_weerstanden" direction = "correct"/>
+    <t_edge from="lading" to="spanning_over_de_weerstanden" direction = "correct"/>
+   
+   --->
+  </true>
+</rule>
+
+
+ <rule name="yordertophase3rule" result_type="bool"> 
+  <count type="flow" at_least="1" at_most="2"/>	
+
+  <true at_least="4">
+    <node concept="lampje_1" status="present"/>
+    <node concept="lampje_2" status="present"/>
+    <node concept="bronspanning" status="present"/>
+    <node concept="condensator_capaciteit" status="present"/>
+    <node concept="lading" status="present"/>
+  </true>
+
+  <true at_least="1">
+    <node concept="stroomsterkte" status="present"/>
+    <node concept="spanning_over_de_condensator" status="present"/>
+    <node concept="spanning_over_de_weerstanden" status="present"/>
+    <node concept="vervangingsweerstand" status="present"/>
+  </true>
+
+  <true at_least="5">
+    <edge from="lading" to="spanning_over_de_condensator" direction = "correct" e_qualitative = "correct"/>
+    <edge from="condensator_capaciteit" to="spanning_over_de_condensator" direction = "correct" e_qualitative = "correct"/>
+    <edge from="spanning_over_de_condensator" to="spanning_over_de_weerstanden" direction = "correct" e_qualitative = "correct"/>
+    <edge from="bronspanning" to="spanning_over_de_weerstanden" direction = "correct" e_qualitative = "correct"/>
+    <edge from="spanning_over_de_weerstanden" to="stroomsterkte" direction = "correct" e_qualitative = "correct"/>
+    <edge from="vervangingsweerstand" to="stroomsterkte" direction = "correct" e_qualitative = "correct"/>
+    <edge from="lampje_1" to="vervangingsweerstand" direction = "correct" e_qualitative = "correct"/>
+    <edge from="lampje_2" to="vervangingsweerstand" direction = "correct" e_qualitative = "correct"/>
+	<edge from="stroomsterkte" to="in" direction = "correct" e_qualitative = "correct"/>
+    <t_edge from="vervangingsweerstand" to="in" direction = "correct" e_qualitative = "correct"/>
+	<t_edge from="spanning_over_de_condensator" to="in" direction = "correct" e_qualitative = "correct"/>
+	<t_edge from="spanning_over_de_weerstanden" to="in" direction = "correct" e_qualitative = "correct"/>
+    <t_edge from="lampje_1" to="stroomsterkte" direction = "correct" e_qualitative = "correct"/>
+    <t_edge from="lampje_2" to="stroomsterkte" direction = "correct" e_qualitative = "correct"/>
+    <t_edge from="bronspanning" to="stroomsterkte" direction = "correct" e_qualitative = "correct"/>
+    <t_edge from="condensator_capaciteit" to="stroomsterkte" direction = "correct" e_qualitative = "correct"/>
+	<t_edge from="lading"to="stroomsterkte" direction = "correct" e_qualitative = "correct"/>
+	<t_edge from="spanning_over_de_condensator" to="stroomsterkte" direction = "correct" e_qualitative = "correct"/>
+    <t_edge from="condensator_capaciteit" to="spanning_over_de_weerstanden" direction = "correct" e_qualitative = "correct"/>
+    <t_edge from="lading" to="spanning_over_de_weerstanden" direction = "correct" e_qualitative = "correct"/>
+  </true>
+</rule>
+
+
+</rules>

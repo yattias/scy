@@ -19,7 +19,6 @@ import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
 import sqv.data.DataServer;
-
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import eu.scy.client.tools.scydynamics.editor.ModelEditor.Mode;
 import eu.scy.client.tools.scydynamics.model.SimquestModelQualitative;
@@ -28,7 +27,7 @@ import eu.scy.client.tools.scydynamics.model.SimquestModelQuantitative;
 @SuppressWarnings("serial")
 public abstract class SimulationPanel extends JPanel implements ActionListener, Runnable {
 
-	protected SimulationSettingsPanel simulationPanel;
+	protected SimulationSettingsPanel simulationSettingsPanel;
 	protected ModelEditor editor;
 	protected JSplitPane splitPane;
 	protected VariableSelectionPanel variablePanel;
@@ -46,7 +45,10 @@ public abstract class SimulationPanel extends JPanel implements ActionListener, 
 		this.setLayout(new BorderLayout());
 		JPanel westPanel = new JPanel();
 		westPanel.setLayout(new BorderLayout());
-		westPanel.add(simulationPanel = new SimulationSettingsPanel(editor, this, withTimeVariable), BorderLayout.NORTH);
+		simulationSettingsPanel = new SimulationSettingsPanel(editor, this, withTimeVariable);
+		if (editor.getMode().equals(Mode.QUANTITATIVE_MODELLING)) {
+			westPanel.add(simulationSettingsPanel, BorderLayout.NORTH);
+		}
 		westPanel.add(variablePanel = new VariableSelectionPanel(editor, bundle, withTimeVariable), BorderLayout.CENTER);
 		JScrollPane scroller = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scroller.setViewportView(westPanel);
@@ -68,7 +70,7 @@ public abstract class SimulationPanel extends JPanel implements ActionListener, 
     }
 	
     public void stop() {
-		simulationPanel.setRunning(false);
+		simulationSettingsPanel.setRunning(false);
 		simulationThread.stop();
     }
     
@@ -92,8 +94,10 @@ public abstract class SimulationPanel extends JPanel implements ActionListener, 
         }
         // create the SimQuest model from the CoLab model
 		if (editor.getMode().equals(ModelEditor.Mode.QUALITATIVE_MODELLING)) {
+			System.out.println("SimulationPanel.export: generating qualitative model");
 			sqModel = new SimquestModelQualitative(editor);
 		} else {
+			System.out.println("SimulationPanel.export: generating quantitative model");
 			sqModel = new SimquestModelQuantitative(editor);
 		}
         new sqv.Model(sqModel, dataServer);
@@ -123,19 +127,19 @@ public abstract class SimulationPanel extends JPanel implements ActionListener, 
     }
 	
 	protected void injectSimulationSettings() throws NumberFormatException {
-		if (editor.getMode()==Mode.QUALITATIVE_MODELLING) {
-//			editor.getModel().setStart(-0.9);
-//			editor.getModel().setStop(0.9);
+/*		if (editor.getMode()==Mode.QUALITATIVE_MODELLING) {
+			editor.getModel().setStart(-0.9);
+			editor.getModel().setStop(0.9);
 			editor.getModel().setStart(0);
 			editor.getModel().setStop(10);
 			editor.getModel().setStep(0.1);
 			editor.getModel().setMethod("RungeKuttaFehlberg");
 		} else {
-			editor.getModel().setStart(Double.parseDouble(simulationPanel.getStart()));
-			editor.getModel().setStop(Double.parseDouble(simulationPanel.getStop()));
-			editor.getModel().setStep(Double.parseDouble(simulationPanel.getStep()));
-			editor.getModel().setMethod(simulationPanel.getMethod());
-		}
+*/			editor.getModel().setStart(Double.parseDouble(simulationSettingsPanel.getStart()));
+			editor.getModel().setStop(Double.parseDouble(simulationSettingsPanel.getStop()));
+			editor.getModel().setStep(Double.parseDouble(simulationSettingsPanel.getStep()));
+			editor.getModel().setMethod(simulationSettingsPanel.getMethod());
+//		}
 	}
 
 }

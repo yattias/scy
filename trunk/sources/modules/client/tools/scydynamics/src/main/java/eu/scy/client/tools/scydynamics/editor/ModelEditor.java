@@ -299,7 +299,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		return (model == null) ? null : model.getXmModel();
 	}
 
-	private void setJxmModel(JxmModel m) {
+	public void setJxmModel(JxmModel m) {
 		clearSelectedObjects();
 		if (m != null) {
 			if (model == null) {
