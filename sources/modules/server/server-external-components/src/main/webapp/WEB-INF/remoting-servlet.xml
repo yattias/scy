@@ -20,6 +20,13 @@
 		<property name="serviceInterface" value="roolo.api.IRepository"/>
 	</bean>
 
+	<!-- HTTP invoker exporter for the importer service for zipped JPA elos -->
+	<!-- Spring's HTTP invoker uses Java serialization via HTTP  -->
+	<bean name="/importer-httpinvoker" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+		<property name="service" ref="importer"/>
+		<property name="serviceInterface" value="org.roolo.mockjpaimporter.IZipImporter"/>
+	</bean>
+
 	<!-- HTTP invoker exporter for the RoOLO metadata type manager -->
 	<!-- Spring's HTTP invoker uses Java serialization via HTTP  -->
 	<bean name="/metadataTypeManager-httpinvoker" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
