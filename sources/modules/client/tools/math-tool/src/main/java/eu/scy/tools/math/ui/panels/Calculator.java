@@ -115,7 +115,7 @@ public class Calculator extends JXPanel {
 		this.setBorder(new RoundedBorder(5));
 		
 		
-		setSumTextField(new JXTextField("Select a shape to start"));
+		setSumTextField(new JXTextField(""));
 		getSumTextField().setColumns(15);
 		getSumTextField().setBackground(Color.WHITE);
 		getSumTextField().setOpaque(true);
@@ -256,21 +256,21 @@ public class Calculator extends JXPanel {
 		rightButton.addActionListener(buttonAction);
 		this.modRegularButton(rightButton);
 		
-		radiusButton = new JXButton("<html>r</html>");
-		radiusButton.setName("r");
-		radiusButton.addActionListener(buttonAction);
-		this.modRegularButton(radiusButton);
-		
-		widthButton = new JXButton("<html>w</html>");
-		widthButton.addActionListener(buttonAction);
-		widthButton.setName("w");
-		this.modRegularButton(widthButton);
-		
-		heightButton = new JXButton("<html>h</html>");
-		heightButton.setName("h");
-		heightButton.addActionListener(buttonAction);
-		this.modRegularButton(heightButton);
-		
+//		radiusButton = new JXButton("<html>r</html>");
+//		radiusButton.setName("r");
+//		radiusButton.addActionListener(buttonAction);
+//		this.modRegularButton(radiusButton);
+//		
+//		widthButton = new JXButton("<html>w</html>");
+//		widthButton.addActionListener(buttonAction);
+//		widthButton.setName("w");
+//		this.modRegularButton(widthButton);
+//		
+//		heightButton = new JXButton("<html>h</html>");
+//		heightButton.setName("h");
+//		heightButton.addActionListener(buttonAction);
+//		this.modRegularButton(heightButton);
+//		
 		JXButton mulButton = new JXButton("<html>*</html>");
 		mulButton.setName("*");
 		mulButton.addActionListener(buttonAction);
@@ -383,15 +383,6 @@ public class Calculator extends JXPanel {
 		buttonPanel.add(divButton);
 		buttonPanel.add(deleteButton ,"wrap");
 		
-		
-		
-	
-		buttonPanel.add(leftButton);
-		buttonPanel.add(rightButton);
-		buttonPanel.add(radiusButton);
-		buttonPanel.add(widthButton);
-		buttonPanel.add(heightButton,"wrap");
-		
 		buttonPanel.add(fiveButton);
 		buttonPanel.add(sixButton); 
 		buttonPanel.add(sevenButton);
@@ -406,18 +397,10 @@ public class Calculator extends JXPanel {
 		
 		
 		buttonPanel.add(pointButton);
-//		eb.addActionListener(new ActionListener() {
-//			
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				
-//				log.info("new exp to display " + getExpressionModel().getExpressionDisplay());
-//				log.info("new exp to EVAL " + getExpressionModel().getExpressionEval());
-//				
-//				
-//			}
-//		});
-		buttonPanel.add(eb,"growx, span 4 0 , wrap");
+		buttonPanel.add(leftButton);
+		buttonPanel.add(rightButton);
+		
+		buttonPanel.add(eb,"growx, span 2 0 , wrap");
 		buttonPanel.setOpaque(false);
 		
 		
