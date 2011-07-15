@@ -397,7 +397,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
         // Choose strategy
         SearchResultRanking ranking = null;
         if (referenceResults.size() < this.infGoodSearchInverval) {
-            ranking = extendSearchResult(user, eloUri, searchQuery, referenceResults);
+            ranking = extendSearchResult(user, eloUri, mission, searchQuery, referenceResults);
         } else if (referenceResults.size() > this.supGoodSearchInterval) {
             ranking = pruneSearchResult(searchQuery, referenceResults);
         } else {
@@ -426,7 +426,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
     /*
      * Tries to create another search query, that will provide more results.
      */
-    private SearchResultRanking extendSearchResult(String userId, String eloUri, String searchQuery, List<ISearchResult> referenceResults) {
+    private SearchResultRanking extendSearchResult(String userId, String eloUri, String mission, String searchQuery, List<ISearchResult> referenceResults) {
     	
         SearchResultRanking ranking = new SearchResultRanking(this.maxProposalNumber, referenceResults, this.config, this.infGoodSearchInverval, this.supGoodSearchInterval);
         try
@@ -468,7 +468,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
             	
             
         	// TODO ask ontology for synonyms
-//        	askOntologyForSynonym(userId, eloUri, "keyword");
+        	askOntologyForSynonym(mission, eloUri, "keyword");
         } catch (TupleSpaceException e) {
         	e.printStackTrace();
         }
@@ -482,25 +482,24 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
      * @param keyword
      * @return
      */
-    private String[] askOntologyForSynonym(String userId, String eloUri, String keyword) {
+    private void askOntologyForSynonym(String mission, String eloUri, String keyword) {
     	// (<ID>:String, "onto":String, "surrounding":String, <OntName>:String, <OntLabel>:String, 
     	// <Language>:String) -> (<ID>:String, <OntTerm>:String, <Surrounding>:String)
-        try {
-            String id = new VMID().toString();
-            Tuple requestTuple = new Tuple(id, userId, ONTOLOGY_AGENT_NAME, ONTOLOGY_AGENT_COMMAND, userId, eloUri, keyword);
-            this.commandSpace.write(requestTuple);
-            Tuple responseTuple = this.commandSpace.waitToTake(new Tuple(id, "response", Field.createWildCardField()));
-            if(responseTuple != null) {
-            String[] result = new String[responseTuple.getNumberOfFields() - 2];
-            for (int i = 0; i < responseTuple.getNumberOfFields() - 2; i++) {
-                result[i] = responseTuple.getField(i + 2).getValue().toString();
-            }
-            return result;
-            }
-        } catch (TupleSpaceException e) {
-            e.printStackTrace();
-        }
-        return new String[0];
+    	System.out.println(mission);
+//        try {
+//            String id = new VMID().toString();
+//            Tuple requestTuple = new Tuple(id, "onto", "surrounding", mission, keyword, "en");
+//            this.commandSpace.write(requestTuple);
+//            Tuple responseTuple = this.commandSpace.waitToTake(new Tuple(id, Field.createWildCardField()));
+//            if(responseTuple != null) {
+//            String ontTerm = (String)responseTuple.getField(1).getValue();
+//            String surrounding = (String)responseTuple.getField(2).getValue();
+//            System.out.println(ontTerm);
+//            System.out.println(surrounding);
+//            }
+//        } catch (TupleSpaceException e) {
+//            e.printStackTrace();
+//        }
 	}
 
     /*
@@ -553,6 +552,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
     		termList.add(new TermEntry(term, termCount));
     	}
     	Collections.sort(termList);
+    	System.out.println(termList);
     	return termList;
     }
 
@@ -568,7 +568,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 
 		@Override
 		public int compareTo(TermEntry o) {
-			return getCount() - o.getCount();
+			return o.getCount() - getCount();
 		}
 
 		public String getTerm() {
