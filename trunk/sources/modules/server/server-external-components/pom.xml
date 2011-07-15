@@ -125,13 +125,11 @@
 			<artifactId>roolo-impl-jpa</artifactId>
 			<version>${parent.version}</version>
 		</dependency>
-
-      <!--     <dependency>
-            <groupId>org.roolo</groupId>
-            <artifactId>roolo-mock</artifactId>
-            <version>0.6.0-SNAPSHOT</version>
-        </dependency>
--->
+                <dependency>
+                        <groupId>eu.scy</groupId>
+                        <artifactId>roolo-jpa-elo-importer</artifactId>
+                        <version>${parent.version}</version>
+                </dependency>
 		<dependency>
 			<groupId>eu.scy.server</groupId>
 			<artifactId>pedagogical-plan-service-impl</artifactId>

@@ -8,12 +8,16 @@
     <alias name="localMetadataTypeManager" alias="metadataTypeManager" />
     <alias name="rooloJpaExtensionManager" alias="extensionManager" />
     <alias name="localEloFactory" alias="eloFactory" />
+    <alias name="localImporter" alias="importer" />
 
-    <bean name="rooloJpaRepository" class="org.roolo.rooloimpljpa.repository.Repository"
-		depends-on="metadataTypeManager,sqlSpacesComponent">
-        <property name="metadataTypeManager" ref="localMetadataTypeManager" />
-        <property name="extensionManager" ref="rooloJpaExtensionManager" />
-        <property name="eloFactory" ref="localEloFactory" />
+    <bean name="rooloJpaRepository" class="org.roolo.rooloimpljpa.repository.Repository" depends-on="metadataTypeManager,sqlSpacesComponent">
+	<constructor-arg index="0" ref="localMetadataTypeManager" />
+	<constructor-arg index="1" ref="rooloJpaExtensionManager" />
+	<constructor-arg index="2" ref="localEloFactory" />
+    </bean>
+
+    <bean name="localImporter" class="org.roolo.mockjpaimporter.Importer">
+        <constructor-arg index="0" ref="repository" />
     </bean>
 
     <import resource="classpath:/roolo/elo/metadataTypeManagerConfig.xml"/>
