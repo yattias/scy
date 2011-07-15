@@ -49,7 +49,7 @@ public static var dialogScene:Scene;
 def infoWindowEloIconName = "alert_message";
 def questionWindowEloIconName = "alert_question";
 def infoEloIconName = "information2";
-def questionEloIconName = "assignment";
+def questionEloIconName = "alert_question";
 def eloIconFactory = EloIconFactory{};
 var infoWindowEloIcon: EloIcon = eloIconFactory.createEloIcon(infoWindowEloIconName);
 var questionWindowEloIcon: EloIcon = eloIconFactory.createEloIcon(questionWindowEloIconName);
