@@ -103,6 +103,9 @@ import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.client.desktop.scydesktop.corners.assessment.EportfolioButton;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.EloManagement;
+import java.lang.Thread;
+import eu.scy.client.desktop.desktoputils.art.javafx.LogoEloIcon;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.DialogType;
 
 /**
  * @author sikkenj
@@ -239,9 +242,11 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
               activeLas: bind missionModelFX.activeLas
               tooltipManager: tooltipManager
            }
+   public-init var preventShutdown = true;
    def shutdownHook = ShutdownHook {
               stage: scene.stage
               shutdownFunction: scyDesktopShutdownAction
+              preventShutdown: preventShutdown
            }
    public var scyFeedbackGiveButton: EloIconButton;
    public var scyFeedbackGetButton: EloIconButton;
@@ -611,7 +616,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
    function deferLoadTimer(): Void {
       if (deferLoadTimerCount <= 0) {
          initializer.loadTimer.endActivity();
-//         FX.exit();
+      //         FX.exit();
       } else {
          initializer.loadTimer.startActivity("deferLoadTimer {deferLoadTimerCount}");
          --deferLoadTimerCount;
@@ -843,14 +848,60 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       return false;
    }
 
+   var showingQuitDialog = false;
+
    function scyDesktopShutdownAction(): Void {
+      if (preventShutdown) {
+         if (showingQuitDialog) {
+            // we are asking for quit now, don't show a second dialog
+            return;
+         }
+         var windowsShutdownMessage = "";
+         def shutdownPermissionFromWindows = askShutdownPermissionFromWindows();
+         if (not shutdownPermissionFromWindows) {
+            windowsShutdownMessage = "\n\n{##"One or more products strongly suggest NOT to quit."}";
+         }
+         showingQuitDialog = true;
+         def dialogMessage = "{##"Are you sure you want to quit SCY-Lab?\nEverything will be saved."}{windowsShutdownMessage}";
+         DialogBox.showOptionDialog(LogoEloIcon{},DialogType.YES_NO_DIALOG,dialogMessage, ##"Confirm quit",300,true,true, saveAndCloseEverything, doNotShutdown, null);
+      } else {
+         saveAndCloseEverything();
+      }
+   }
+
+   function askShutdownPermissionFromWindows(): Boolean {
+      try {
+         for (window in windows.getScyWindows()) {
+            if (window.eloUri != null) {
+               if (not window.scyToolsList.aboutToClose()) {
+                  return false
+               }
+            }
+         }
+      } catch (e: Exception) {
+         initializer.exceptionCatcher.showAndLogUncaughtException(Thread.currentThread(), e);
+      }
+      return true;
+   }
+
+   function doNotShutdown(): Void {
+      showingQuitDialog = false;
+   }
+
+   function saveAndCloseEverything(): Void {
+      showingQuitDialog = false;
       println("Scy desktop is shutting down....");
       logger.info("Scy desktop is shutting down....");
-      if (not initializer.globalReadOnlyMode){
+      if (not initializer.globalReadOnlyMode) {
          saveAll();
       }
-      logLoggedOut();
+      try {
+         logLoggedOut();
+      } catch (e: Exception) {
+         logger.error("an exception occured during logLoggedOut", e);
+      }
       closeIfPossible(config.getToolBrokerAPI(), "tool broker");
+      FX.exit();
    }
 
    function logLoggedOut(): Void {

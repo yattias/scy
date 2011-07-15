@@ -132,7 +132,7 @@ static function getButtonBar(dialogBox: DialogBox, dialogType: DialogType, actio
 
 static function getOkButtonBar(dialogBox: DialogBox, okAction: function(): Void): HBox {
    def buttonBar: HBox = HBox {
-              hpos: HPos.CENTER
+              hpos: HPos.RIGHT
               spacing: HGAP
               content: [
                  Button {
@@ -149,7 +149,7 @@ static function getOkButtonBar(dialogBox: DialogBox, okAction: function(): Void)
 
 static function getYesNoButtonBar(dialogBox: DialogBox, yesAction: function(): Void, noAction: function(): Void): HBox {
    def buttonBar: HBox = HBox {
-              hpos: HPos.CENTER
+              hpos: HPos.RIGHT
               spacing: HGAP
               content: [
                  Button {
@@ -199,16 +199,12 @@ public static function showMessageDialog(params: DialogBoxParams, id: String): V
    showMessageDialog(params.text, params.title, params.dialogWidth, params.scyDesktop, params.modal, params.indicateFocus, params.okAction, id);
 }
 
-public static function showOptionDialog(dialogType: DialogType, text: String, dialogTitle: String, dialogWidth: Integer, scyDesktop: ScyDesktop, modal: Boolean, indicateFocus: Boolean, okAction: function(): Void, cancelAction: function(): Void, id: String): Void {
+public static function showOptionDialog(eloIcon: EloIcon, dialogType: DialogType, text: String, dialogTitle: String, dialogWidth: Integer, modal: Boolean, indicateFocus: Boolean, okAction: function(): Void, cancelAction: function(): Void, id: String): Void {
    def supportedOptionTypes = [DialogType.OK_CANCEL_DIALOG, DialogType.YES_NO_DIALOG];
+   eloIcon.windowColorScheme = modalWindowColorScheme;
    def dialogBox: DialogBox = DialogBox {
-              //                    content: if (sizeof supportedOptionTypes[n|n==dialogType] > 0) {
-              //                                getDialogBoxContent(dialogWidth, dialogBox, dialogType,text, okAction, cancelAction, function(){})
-              //                            } else { //Default OptionPane Type
-              //                                getDialogBoxContent(dialogWidth, dialogBox, DialogType.OK_CANCEL_DIALOG,text, okAction, cancelAction, function(){})
-              //                                }
-              targetScene: scyDesktop.scene
-              eloIcon: questionWindowEloIcon.clone()
+//              targetScene: scyDesktop.scene
+              eloIcon: eloIcon
               title: dialogTitle
               dialogid: id
               modal: modal
@@ -225,7 +221,10 @@ public static function showOptionDialog(dialogType: DialogType, text: String, di
               getDialogBoxContent(dialogWidth, dialogBox, DialogType.OK_CANCEL_DIALOG, text, okAction, cancelAction, function() {})
            };
    dialogBox.place();
-//        FX.deferAction(dialogBox.place);
+}
+
+public static function showOptionDialog(dialogType: DialogType, text: String, dialogTitle: String, dialogWidth: Integer, scyDesktop: ScyDesktop, modal: Boolean, indicateFocus: Boolean, okAction: function(): Void, cancelAction: function(): Void, id: String): Void {
+   showOptionDialog(questionWindowEloIcon.clone(),dialogType,text,dialogTitle,dialogWidth,modal,indicateFocus,okAction,cancelAction,id);
 }
 
 public static function showOptionDialog(text: String, dialogTitle: String, scyDesktop: ScyDesktop, yesAction: function(): Void, noAction: function(): Void, id: String): Void {
@@ -286,6 +285,7 @@ public class DialogBox extends CustomNode {
                  allowMaximize:false
                  allowCenter:false
                  allowClose: false
+                 allowResize: false
                  activated: true
               }
       dialogWindow.visible = false;
@@ -364,25 +364,45 @@ public class DialogBox extends CustomNode {
          }
       }
       openDialogs.put(dialogid, this);
-      center();
-      FX.deferAction(dialogWindow.open);
+//      center();
+//      FX.deferAction(dialogWindow.open);
       Timeline {
          repeatCount: 1
          keyFrames: [
             KeyFrame {
-               time: 50ms
+               time: 20ms
+               action: function(): Void {
+                  dialogWindow.open;
+//                  center();
+               }
+            }
+            KeyFrame {
+               time: 40ms
+               action: function(): Void {
+//                  dialogWindow.open;
+                  center();
+               }
+            }
+            KeyFrame {
+               time: 60ms
                action: function(): Void {
                   dialogWindow.visible = true;
                }
-
+            }
+            KeyFrame {
+               time: 1500ms
+               action: function(): Void {
+                  center();
+               }
             }
          ];
       }.play();
    }
 
    function center() {
-      def windowWidth = content.layoutBounds.width;
-      def windowHeight = dialogWindow.layoutBounds.height + content.layoutBounds.height;
+      // add the estimated window size overhead
+      def windowWidth = content.layoutBounds.width + 10.0;
+      def windowHeight = content.layoutBounds.height + 60.0;
       if (modal) {
          dialogWindow.layoutX = scene.width / 2 - windowWidth / 2;
          dialogWindow.layoutY = scene.height / 2 - windowHeight / 2;

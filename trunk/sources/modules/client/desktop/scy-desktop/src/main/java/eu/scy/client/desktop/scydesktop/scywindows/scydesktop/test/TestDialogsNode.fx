@@ -79,6 +79,12 @@ public class TestDialogsNode extends CustomNode, ScyToolFX {
                   testMessageDialog();
                }
             }
+            Button {
+               text: "Quit dialog"
+               action: function() {
+                  testQuitDialog();
+               }
+            }
          ]
       }
    }
@@ -168,5 +174,16 @@ public class TestDialogsNode extends CustomNode, ScyToolFX {
    function testMessageDialog(): Void {
       DialogBox.showMessageDialog("The message", "Test message dialog", null, null, null);
    }
+
+   function testQuitDialog(): Void{
+      DialogBox.showOptionDialog("Are you sure you want to quit SCY-Lab?\n\nEverything will be saved.", "Confirm quit", null, quitAction, null, null);
+
+   }
+
+   function quitAction():Void{
+      println("quit action......");
+   }
+
+
 
 }

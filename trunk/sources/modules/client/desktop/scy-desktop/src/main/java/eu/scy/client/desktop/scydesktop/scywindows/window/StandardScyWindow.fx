@@ -185,7 +185,7 @@ public class StandardScyWindow extends ScyWindow {
             newContentWidth = desiredContentWidth;
             newContentHeight = desiredContentHeight;
          }
-         allowResize = true;
+         allowResize = allowResize and true;
       } else {
          allowResize = false;
       }
