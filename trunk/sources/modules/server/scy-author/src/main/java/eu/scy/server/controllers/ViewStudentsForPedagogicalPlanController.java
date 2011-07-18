@@ -21,6 +21,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -75,6 +76,8 @@ public class ViewStudentsForPedagogicalPlanController extends BaseController {
 
             List userNames = getMissionELOService().getAssignedUserNamesFor(missionSpecificationElo);
 
+            // sort usernames
+            Collections.sort(userNames);
 
             List users = new LinkedList();
             for (int i = 0; i < userNames.size(); i++) {
