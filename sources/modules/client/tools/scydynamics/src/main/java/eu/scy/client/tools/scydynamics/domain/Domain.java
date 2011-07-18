@@ -95,7 +95,6 @@ public class Domain {
 	}
 	
 	public Node getNodeByConcept(String concept) {
-		LOGGER.info("concept: "+concept);
 		if (concept == null) return null;
 		for (Node node: referenceModel.getNodes()) {
 			if (node.getConcept().equals(concept)) {

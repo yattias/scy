@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<reference_model>
+    <edge to="b" qualitative="inverse" from="a"/>
+    <edge to="rel1" qualitative="linear" from="c"/>
+    <node type="stock" id="a" formula="100"/>
+    <node type="stock" id="b"/>
+    <node type="aux" id="c" formula="b*0.1"/>
+</reference_model>

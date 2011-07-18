@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<reference_model notation="system_dynamics" name="mulder_2009" concept_set="mulder_2009">
+    <edge to="sc" qualitative="linear" from="ld"/>
+    <edge to="sc" qualitative="inverse" from="cc"/>
+    <edge to="sw" qualitative="inverse" from="sc"/>
+    <edge to="sw" qualitative="linear" from="bs"/>
+    <edge to="ss" qualitative="linear" from="sw"/>
+    <edge to="ss" qualitative="inverse" from="vw"/>
+    <edge to="vw" qualitative="asymptotical" from="l1"/>
+    <edge to="vw" qualitative="asymptotical" from="l2"/>
+    <edge to="in" qualitative="unspecified" from="ss"/>
+    <edge to="ld" from="in"/>
+    <node type="stock" id="ld" concept="lading"/>
+    <node type="auxiliary" id="ss" formula="spanning_over_de_weerstanden / vervangingsweerstand" concept="stroomsterkte"/>
+    <node type="auxiliary" id="sc" formula="lading * condensator_capaciteit" concept="spanning_over_de_condensator"/>
+    <node type="auxiliary" id="sw" formula="bronspanning - spanning_over_de_condensator" concept="spanning_over_de_weerstanden"/>
+    <node type="auxiliary" id="vw" formula="1 / ((1/lampje_1) + (1/lampje_2))" concept="vervangingsweerstand"/>
+    <node type="auxiliary; constant" id="cc" concept="condensator_capaciteit"/>
+    <node type="auxiliary; constant" id="l1" concept="lampje_1"/>
+    <node type="auxiliary; constant" id="l2" concept="lampje_2"/>
+    <node type="auxiliary; constant" id="bs" concept="bronspanning"/>
+    <node type="flow" id="in"/>
+</reference_model>
