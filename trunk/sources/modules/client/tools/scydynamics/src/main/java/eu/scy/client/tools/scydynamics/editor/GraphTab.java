@@ -30,7 +30,7 @@ import eu.scy.client.tools.scydynamics.model.SimquestModelQuantitative;
 @SuppressWarnings("serial")
 public class GraphTab extends SimulationPanel implements ChangeListener {
 
-	private GraphWidget graph;
+	private GraphWidget graphWidget;
 	private JComboBox xAxisSelector;
 	private Interface iface;
 	private LinkedList<Curve> curves;
@@ -56,16 +56,16 @@ public class GraphTab extends SimulationPanel implements ChangeListener {
 	private void prepareGraph() {
 		dataServer = new DataServer();
 		iface = new Interface(dataServer);
-		iface.addWidget(graph);
-		graph.setInterface(iface);
+		iface.addWidget(graphWidget);
+		graphWidget.setInterface(iface);
 	}
 
 	void clearGraph() {
 		curves = new LinkedList<Curve>();
-		graphPanel.remove(graph.getComponent());
-		graph = new GraphWidget();
-		graph.setBasics(true, true);
-		graphPanel.add(graph.getComponent(), BorderLayout.CENTER);
+		graphPanel.remove(graphWidget.getComponent());
+		graphWidget = new GraphWidget();
+		graphWidget.setBasics(true, true);
+		graphPanel.add(graphWidget.getComponent(), BorderLayout.CENTER);
 		graphPanel.updateUI();
 	}
 
@@ -74,9 +74,9 @@ public class GraphTab extends SimulationPanel implements ChangeListener {
 		graphPanel.setLayout(new BorderLayout());
 		graphPanel.setBorder(BorderFactory.createTitledBorder(bundle.getString("PANEL_GRAPH")));
 		curves = new LinkedList<Curve>();
-		graph = new GraphWidget();
-		graph.setBasics(true, true);
-		graphPanel.add(graph.getComponent(), BorderLayout.CENTER);
+		graphWidget = new GraphWidget();
+		graphWidget.setBasics(true, true);
+		graphPanel.add(graphWidget.getComponent(), BorderLayout.CENTER);
 		JPanel axisPanel = new JPanel();
 		FlowLayout flow = new FlowLayout();
 		flow.setAlignment(FlowLayout.RIGHT);
@@ -106,7 +106,7 @@ public class GraphTab extends SimulationPanel implements ChangeListener {
 	@Override
 	public void stop() {
 		super.stop();
-		graph.update();
+		graphWidget.update();
 		graphPanel.updateUI();
 		graphPanel.repaint();
 	}
@@ -178,7 +178,7 @@ public class GraphTab extends SimulationPanel implements ChangeListener {
 			}
 		}
 
-		graph.setCurvesList(curves);
+		graphWidget.setCurvesList(curves);
 		// need the variableIdList for logging
 		String variableIdList = new String();
 		for (String varname : variablePanel.getSelectedVariables()) {
@@ -216,7 +216,7 @@ public class GraphTab extends SimulationPanel implements ChangeListener {
 		simulationSettingsPanel.setRunning(true);
 		sqvModel.getSimulation().Simulate();
 		simulationSettingsPanel.setRunning(false);
-		graph.update();
+		graphWidget.update();
 		graphPanel.updateUI();
 		graphPanel.repaint();
 	}

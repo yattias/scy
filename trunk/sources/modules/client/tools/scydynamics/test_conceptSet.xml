@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<concept_set word_order="any" name="mulder_2009">
+    <concept name="lading">
+        <term>lading</term>
+        <term type="stock">condensator</term>
+        <term>doosje</term>
+        <term>condensator lading</term>
+    </concept>
+    <concept name="spanning_over_de_weerstanden">
+        <term type="auxiliary">spanning weerstand</term>
+        <term type="auxiliary">spanning over de weerstanden</term>
+    </concept>
+    <concept name="spanning_over_de_condensator">
+        <term type="auxiliary">spanning over de condensator</term>
+        <term type="auxiliary">spanning circuit</term>
+        <term type="auxiliary">spanning</term>
+        <term type="auxiliary">condensator spanning</term>
+        <term type="auxiliary">delta spanning</term>
+        <term type="auxiliary">totaal volt</term>
+        <term type="auxiliary">voltage</term>
+        <term type="auxiliary">spanning condensator</term>
+    </concept>
+    <concept name="stroomsterkte">
+        <term>stroom</term>
+        <term>stroom sterkte</term>
+        <term>stroom na weerstanden</term>
+        <term>stroom over de condensator</term>
+        <term>instroom</term>
+        <term>stroom in</term>
+        <term>toename</term>
+        <term>invoer</term>
+        <term>input</term>
+        <term>opladings snelheid</term>
+        <term>oplaad snelheid</term>
+        <term>lading per seconde</term>
+    </concept>
+    <concept name="vervangingsweerstand">
+        <term>vervangings weerstand</term>
+        <term>weerstand vervanging</term>
+        <term>parallel weerstand</term>
+        <term>weerstand samen</term>
+        <term>weerstand totaal</term>
+        <term>vervanging lamp</term>
+        <term>lamp totaal</term>
+    </concept>
+    <concept name="lampje_1">
+        <term>weerstand</term>
+        <term>weerstand 1</term>
+        <term>variabele weerstand</term>
+        <term>lamp</term>
+        <term>lamp 1</term>
+        <term>lampje 1</term>
+        <term>weerstand boven</term>
+        <term>weerstand links</term>
+        <term>lampje boven</term>
+        <term>lampje links</term>
+        <term>licht 1</term>
+    </concept>
+    <concept name="lampje_2">
+        <term>weerstand 2</term>
+        <term>lamp 2</term>
+        <term>lampje 2</term>
+        <term>weerstand onder</term>
+        <term>weerstand rechts</term>
+        <term>lampje onder</term>
+        <term>lampje rechts</term>
+        <term>licht 2</term>
+    </concept>
+    <concept name="bronspanning">
+        <term>bron</term>
+        <term>bron spanning</term>
+        <term type="constant">spanning</term>
+        <term>batterij</term>
+        <term>plus batterij</term>
+        <term>min batterij</term>
+        <term>power bron</term>
+        <term>stroom bron</term>
+    </concept>
+    <concept name="condensator_capaciteit">
+        <term>condensator capaciteit</term>
+        <term>capaciteit</term>
+        <term type="constant">condensator</term>
+        <term type="auxiliary">condensator</term>
+    </concept>
+</concept_set>
