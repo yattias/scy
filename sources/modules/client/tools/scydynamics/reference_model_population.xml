@@ -6,34 +6,29 @@
 
   <node id="pop" concept="population"
 	        type="stock"
-	        high_negative="-100"
-	        low_negative="-10"
-	        low_positive="10"
-	        high_positive="100"
-	        zero="0"
+	        low_value="0"
+	        high_value="100"
+	        default_value="10"
 	        />
   <node id="births" concept="births"
 	        type="auxiliary"
-	        formula="population * birth_rate"/>
+	        formula="population * birth_rate"
+	        />
   <node id="birth_rate" concept="birth_rate"
 	        type="constant"
-	        formula="0.04"
-	        high_negative="-0.02"
-	        low_negative="-0.005"
-	        low_positive="0.005"
-	        high_positive="0.02"
-	        zero="0"/>
+	        low_value="0.01"
+	        high_value="0.1"
+	        default_value="0.03"
+	        />
   <node id="deaths" concept="deaths"
 	        type="auxiliary"
 	        />
   <node id="death_rate" concept="death_rate"
 	        type="constant"
-	        formula="0.03"
-	        high_negative="-0.02"
-	        low_negative="-0.005"
-	        low_positive="0.005"
-	        high_positive="0.02"
-	        zero="0"/>/>
+	        low_value="0.01"
+	        high_value="0.1"
+	        default_value="0.02"
+	        />
 
   <node id="pop_in" type="flow"/>
   <node id="pop_out" type="flow"/>

@@ -21,6 +21,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 
 import colab.um.draw.JdFigure;
@@ -54,6 +55,7 @@ public class VariableDialog extends JDialog {
 	private Color newColor;
 	private ArrayList<JComboBox> qualitativeComboboxes;
 	private VariableDialogListener listener;
+	private int tempValue;
 
 	public VariableDialog(java.awt.Frame owner, java.awt.Point position,
 			JdFigure figure, ModelEditor editor, ResourceBundleWrapper bundle) {
@@ -134,44 +136,17 @@ public class VariableDialog extends JDialog {
 		quantitativeExpressionTextField.setText(newExpression);
 	}
 	
-	public String getQualitativeValue() {
+	public double getQualitativeValue() {
 		switch (figure.getType()) {
 			case JdFigure.AUX:
-				return Integer.MAX_VALUE+"";
+				return Integer.MAX_VALUE;
 			case JdFigure.CONSTANT:
 			case JdFigure.STOCK:
-				return qualitativeValueSlider.getValue()+"";
+				return qualitativeValueSlider.getValue();
 			default:
-				return Integer.MIN_VALUE+"";
+				return Integer.MIN_VALUE;
 		}
 	}
-
-//	public String getQualitativeExpression() {
-//		int value = 0;
-//		switch (figure.getType()) {
-//		case JdFigure.AUX:
-//			value = Integer.MAX_VALUE;
-//		case JdFigure.CONSTANT:
-//			switch (valueQualitative.getValue()) {
-//			case -3: value = -10; break;
-//			case -2: value = -5; break;
-//			case -1: value = -1; break;
-//			case -0: value = 0; break;
-//			case 1: value = 1; break;
-//			case 2: value = 5; break;
-//			case 3: value = 10; break;
-//			}
-//			break;
-//		case JdFigure.STOCK:
-//			switch (valueQualitative.getValue()) {
-//			case -1: value = -1; break;
-//			case -0: value = 0; break;
-//			case 1: value = 1; break;
-//			}
-//			break;
-//		}
-//		return value+"";
-//	}
 	
 	public String getUnit() {
 		return (String) unitsBox.getSelectedItem();
@@ -342,27 +317,46 @@ public class VariableDialog extends JDialog {
 		panel.add(box);
 		return panel;
 	}
+	
+	private void setSliderValue(String valueString) {
+		try {
+			int value = (int)Math.round(Double.valueOf(valueString));
+			System.out.println(" -> "+value);
+			setSliderValue(value);
+		} catch (Exception ex) {
+			// setting default value 50
+			System.out.println(" -> 50 (default)");
+			setSliderValue(50);
+		}
+	}
+	
+	private void setSliderValue(int value) {
+		this.tempValue = value;
+		SwingUtilities.invokeLater( new Runnable() 
+		{ 
+		  public void run() { 
+			  qualitativeValueSlider.setValue(tempValue);
+		  } 
+		} );
+	}
 
 	private JSlider createQualitativeValueSlider() {
 		Hashtable<Integer, JLabel> labelTable = new Hashtable<Integer, JLabel>();
-		switch (figure.getType()) {
-		case JdFigure.AUX:
-		case JdFigure.CONSTANT:
-		case JdFigure.STOCK:
-			qualitativeValueSlider = new JSlider(JSlider.HORIZONTAL,-100,100,0);
-			labelTable.put(-100, new JLabel("negative") );
-			//labelTable.put(ModelEditor.SMALL_NEGATIVE, new JLabel("") );
-			labelTable.put(ModelEditor.ZERO, new JLabel("zero") );
-			//labelTable.put(ModelEditor.SMALL_POSITIVE, new JLabel("") );
-			labelTable.put(100, new JLabel("positive") );
-			break;
-		}
-		qualitativeValueSlider.setLabelTable( labelTable );
-		qualitativeValueSlider.setPaintLabels(true);  	
+		labelTable.put(0, new JLabel("low"));
+		labelTable.put(50, new JLabel("medium"));
+		labelTable.put(100, new JLabel("high"));
+		qualitativeValueSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
+		qualitativeValueSlider.setMinimum(0);
+		qualitativeValueSlider.setMaximum(100);
+		qualitativeValueSlider.setValue(66);
+		qualitativeValueSlider.setLabelTable(labelTable);
+		qualitativeValueSlider.setPaintLabels(true);
 		qualitativeValueSlider.setMajorTickSpacing(50);
 		qualitativeValueSlider.setMinorTickSpacing(10);
 		qualitativeValueSlider.setPaintTicks(true);
-		qualitativeValueSlider.setSnapToTicks(false); 	
+		qualitativeValueSlider.setSnapToTicks(false);
+		System.out.print("setting slider value to: " + figure.getProperties().get("expr"));
+		setSliderValue(figure.getProperties().get("expr").toString());
 		return qualitativeValueSlider;
 	}
 
