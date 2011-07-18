@@ -75,8 +75,6 @@ public class ModelUtils {
 				expression = expression+"*"+newExpression;
 			}
 		}
-		System.out.println("generated: "+expression);
-		System.out.println("---");
 		return expression;
 	}
 	

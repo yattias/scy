@@ -8,11 +8,9 @@ public class Node {
 	private String concept;
 	private String type;
 	private String formula;
-	private String highNegative;
-	private String lowNegative;
-	private String lowPositive;
-	private String highPositive;
-	private String zero;
+	private double highValue;
+	private double lowValue;
+	private double defaultValue;
 
 	public Node() {
 	}
@@ -53,49 +51,31 @@ public class Node {
 		this.formula = formula;
 	}
 	
-	@XmlAttribute(name = "high_negative")
-	public String getHighNegative() {
-		return highNegative;
+	@XmlAttribute(name = "high_value")
+	public double getHighValue() {
+		return highValue;
 	}
 
-	public void setHighNegative(String highNegative) {
-		this.highNegative = highNegative;
+	public void setHighValue(double highValue) {
+		this.highValue = highValue;
 	}
 
-	@XmlAttribute(name = "low_negative")
-	public String getLowNegative() {
-		return lowNegative;
+	@XmlAttribute(name = "low_value")
+	public double getLowValue() {
+		return lowValue;
 	}
 
-	public void setLowNegative(String lowNegative) {
-		this.lowNegative = lowNegative;
+	public void setLowValue(double lowValue) {
+		this.lowValue = lowValue;
 	}
 
-	@XmlAttribute(name = "low_positive")
-	public String getLowPositive() {
-		return lowPositive;
+	@XmlAttribute(name = "default_value")
+	public double getDefaultValue() {
+		return defaultValue;
 	}
 
-	public void setLowPositive(String lowPositive) {
-		this.lowPositive = lowPositive;
-	}
-
-	@XmlAttribute(name = "high_positive")
-	public String getHighPositive() {
-		return highPositive;
-	}
-
-	public void setHighPositive(String highPositive) {
-		this.highPositive = highPositive;
-	}
-	
-	@XmlAttribute(name = "zero")
-	public String getZero() {
-		return highPositive;
-	}
-
-	public void setZero(String zero) {
-		this.zero = zero;
+	public void setDefaultValue(double defaultValue) {
+		this.defaultValue = defaultValue;
 	}
 
 }

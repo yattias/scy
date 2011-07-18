@@ -102,22 +102,32 @@ public class SimquestModelQualitative extends SimquestModelQuantitative {
 
 	private double getNodeQualitativeValue(double value, Node node) {
 		try {
-			if (Double.valueOf(value)<0) {
-				Double negativeRange = Double.valueOf(node.getHighNegative());
-				Double doubleValue = Double.valueOf(value);
-				Double newValue = new Double(doubleValue*0.01*negativeRange);
-				return newValue;
-			} else {
-				Double positiveRange = Double.valueOf(node.getHighPositive());
-				Double doubleValue = Double.valueOf(value);
-				Double newValue = new Double(doubleValue*0.01*positiveRange);
-				return newValue;
-			}
+			return getValueFromPercent(value, node);
+//			if (Double.valueOf(value)<0) {
+//				Double negativeRange = Double.valueOf(node.getHighNegative());
+//				Double doubleValue = Double.valueOf(value);
+//				Double newValue = new Double(doubleValue*0.01*negativeRange);
+//				return newValue;
+//			} else {
+//				Double positiveRange = Double.valueOf(node.getHighPositive());
+//				Double doubleValue = Double.valueOf(value);
+//				Double newValue = new Double(doubleValue*0.01*positiveRange);
+//				return newValue;
+//			}
 		} catch (Exception ex) {
 			LOGGER.info("caught a "+ex.getMessage());
 			return getDefaultQualitativeValue(value);
+		}	
+	}
+	
+	private double getValueFromPercent(double percentValue, Node node) {
+		if (percentValue<=0) {
+			return node.getLowValue();
+		} else if (percentValue>=100) {
+			return node.getHighValue();
+		} else {
+			return node.getLowValue()+(node.getHighValue()-node.getLowValue())*percentValue*0.01;
 		}
-		
 	}
 
 	private double getDefaultQualitativeValue(double value) {
