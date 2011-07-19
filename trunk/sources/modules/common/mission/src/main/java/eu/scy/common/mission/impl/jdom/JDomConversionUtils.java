@@ -36,6 +36,13 @@ public class JDomConversionUtils
       return element;
    }
 
+   public static Element createElement(String tag, double value)
+   {
+      Element element = new Element(tag);
+      element.setText(Double.toString(value));
+      return element;
+   }
+
    public static Element createElement(String tag, URI uri)
    {
       Element element = new Element(tag);
@@ -110,6 +117,25 @@ public class JDomConversionUtils
    public static int getIntValue(Element element, String childName)
    {
       return getIntValue(element.getChild(childName));
+   }
+
+   public static double getDoubleValue(Element element)
+   {
+      if (element == null)
+      {
+         return -1;
+      }
+      String value = element.getTextTrim();
+      if (isEmpty(value))
+      {
+         return -1;
+      }
+      return Double.parseDouble(value);
+   }
+
+   public static double getDoubleValue(Element element, String childName)
+   {
+      return getDoubleValue(element.getChild(childName));
    }
 
    public static URI getUriValue(Element element) throws URISyntaxException
