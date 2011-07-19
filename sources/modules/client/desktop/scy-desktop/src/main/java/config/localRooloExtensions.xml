@@ -205,6 +205,12 @@
                </key>
                <value>.speedtest</value>
             </entry>
+            <entry>
+               <key>
+                  <value>scy/search</value>
+               </key>
+               <value>.scysearch</value>
+            </entry>
          </map>
       </property>
    </bean>
