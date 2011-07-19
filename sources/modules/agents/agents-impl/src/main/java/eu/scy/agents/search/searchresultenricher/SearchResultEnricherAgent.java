@@ -58,9 +58,9 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
     private static final String ROOLO_AGENT_HIT_COUNT = "hit-count";
     private static final int ROOLO_AGENT_TIMEOUT = 5000;
     
-    // TODO insert correct values
-	private static final String ONTOLOGY_AGENT_NAME = "ontology-agent";
-	private static final String ONTOLOGY_AGENT_COMMAND = "get synonyms";
+    // OntologyAgent
+	private static final String ONTOLOGY_AGENT_NAME = "onto";
+	private static final String ONTOLOGY_AGENT_COMMAND = "surrounding";
 	
     private static final Tuple TEMPLATE_FOR_SEARCH_QUERY = new Tuple("action", String.class, Long.class, SEARCH_TYPE, String.class, SEARCH_TOOL, Field.createWildCardField());
     
@@ -128,7 +128,6 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	
 //    private static final Logger logger = Logger.getLogger(SearchResultEnricherAgent.class.getName());
     private Map<String, Object> config;
-    
     private Map<Locale, Set<String>> stopwordMap = null;
 
     private TupleSpace actionSpace;
@@ -245,7 +244,6 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 			System.out.println(AGENT_NAME + " stopped");
 //			logger.debug(AGENT_NAME + " stopped");
 		} catch (TupleSpaceException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 //			logger.error("Connection to TupleSpace lost!", e);
 		}		
@@ -284,10 +282,15 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
     }
     
     
-    /*
+    /**
      * Performs a new search and responds with a key-value pair containing the 
      * search string as key and the number of hits as response.
      * Returns null if search timed out.
+     *
+     * @param commandSpace the command space
+     * @param query the query
+     * @return the hits
+     * @throws TupleSpaceException the tuple space exception
      */
     private static List<ISearchResult> getHits(TupleSpace commandSpace, String query) throws TupleSpaceException {    	
 		String uniqueID = new VMID().toString();
@@ -305,6 +308,15 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 		}
     }
 
+    /**
+     * Performs a new search responds with the number of hits.
+     * Returns -1 if RooloAccessorAgent is down.
+     *
+     * @param commandSpace the command space
+     * @param query the query
+     * @return the hit count
+     * @throws TupleSpaceException the tuple space exception
+     */
     private static int getHitCount(TupleSpace commandSpace, String query) throws TupleSpaceException {
 		String uniqueID = new VMID().toString();
 		String luceneQuery = "contents:\"" + query + "\"";
@@ -351,12 +363,14 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
     }
     
 
-    /*
+	/**
      * Evaluate a user search result and decides whether to propose an optimized search query.
      * If nothing needs to be enriched, an empty array will be returned.
+     *
+     * @param tuple the tuple
      */
-	public void evaluateSearchResult(Tuple tuple) {
-		String userId = tuple.getField(1).getValue().toString();
+    public void evaluateSearchResult(Tuple tuple) {
+//		String userId = tuple.getField(1).getValue().toString();
         String eloUri = tuple.getField(8).getValue().toString();
         String user = tuple.getField(4).getValue().toString();
         String mission = tuple.getField(6).getValue().toString();
@@ -381,10 +395,10 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
             return;
         }
 
-        String searchQuery = parseQuery(props.getProperty(ACTION_LOG_ATTRIBUTE_QUERY));
-
         // Deserialize search results
+        String searchQuery = parseQuery(props.getProperty(ACTION_LOG_ATTRIBUTE_QUERY));
         List<ISearchResult> referenceResults = SearchResultUtils.createSearchResultsFromXML(props.getProperty(ACTION_LOG_ATTRIBUTE_RESULT));
+        System.out.println("Origin search: " + searchQuery + " | Hit count: " + referenceResults.size());
 
         // Spelling disabled, due to missing fuzzy operator support
         // Check search terms for spelling mistakes... this task is independent from the rest
@@ -397,7 +411,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
         // Choose strategy
         SearchResultRanking ranking = null;
         if (referenceResults.size() < this.infGoodSearchInverval) {
-            ranking = extendSearchResult(user, eloUri, mission, searchQuery, referenceResults);
+            ranking = extendSearchResult(eloUri, mission, searchQuery, referenceResults);
         } else if (referenceResults.size() > this.supGoodSearchInterval) {
             ranking = pruneSearchResult(searchQuery, referenceResults);
         } else {
@@ -423,17 +437,23 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	// STRATEGY: EXTEND SEARCH RESULTS (TOO LESS RESULTS)
 	//
 	
-    /*
+    /**
      * Tries to create another search query, that will provide more results.
-     */
-    private SearchResultRanking extendSearchResult(String userId, String eloUri, String mission, String searchQuery, List<ISearchResult> referenceResults) {
+	 *
+	 * @param eloUri the elo uri
+	 * @param mission the mission
+	 * @param searchQuery the search query
+	 * @param referenceResults the reference results
+	 * @return the search result ranking
+	 */
+	private SearchResultRanking extendSearchResult(String eloUri, String mission, String searchQuery, List<ISearchResult> referenceResults) {
     	
         SearchResultRanking ranking = new SearchResultRanking(this.maxProposalNumber, referenceResults, this.config, this.infGoodSearchInverval, this.supGoodSearchInterval);
         try
         {
             // Replace AND by OR
             Query query = Query.parse(searchQuery);
-            String last = "";
+            String last = searchQuery;
             for(int i = 1; i <= this.maxReplaceNumber; i++) {
                 String newQuery = query.replaceOperator(OPERATOR_AND, OPERATOR_OR, new AtomicInteger(i));
                 if(newQuery.equals(last)) {
@@ -444,6 +464,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
                     List<ISearchResult> result =  getHits(commandSpace, newQuery);
                     if(result != null) {
                         ranking.add(newQuery, result);
+                        System.out.println("Added new query by OR -> AND replacement: " + newQuery);
                     } else {
                     	// RooloAccessorAgent down, so stop
                     	return ranking;
@@ -460,6 +481,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
             	List<ISearchResult> result = getHits(commandSpace, newQuery);
             	if(result != null) {
             		ranking.add(newQuery, result);
+                    System.out.println("Added new query by keyword extension: " + newQuery);
             	} else {
             		// RooloAccessorAgent down, so stop
                 	return ranking;
@@ -485,10 +507,10 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
     private void askOntologyForSynonym(String mission, String eloUri, String keyword) {
     	// (<ID>:String, "onto":String, "surrounding":String, <OntName>:String, <OntLabel>:String, 
     	// <Language>:String) -> (<ID>:String, <OntTerm>:String, <Surrounding>:String)
-    	System.out.println(mission);
+    	System.out.println("Mission: " + mission);
 //        try {
 //            String id = new VMID().toString();
-//            Tuple requestTuple = new Tuple(id, "onto", "surrounding", mission, keyword, "en");
+//            Tuple requestTuple = new Tuple(id, ONTOLOGY_AGENT_NAME, ONTOLOGY_AGENT_COMMAND, mission, keyword, "en");
 //            this.commandSpace.write(requestTuple);
 //            Tuple responseTuple = this.commandSpace.waitToTake(new Tuple(id, Field.createWildCardField()));
 //            if(responseTuple != null) {
@@ -502,8 +524,13 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 //        }
 	}
 
-    /*
+    /**
      * Uses the search results of the origin search to extract terms, that might be of interest.
+     *
+     * @param items the items
+     * @param locale the locale
+     * @param results the results
+     * @return the list
      */
     @SuppressWarnings("unchecked")
 	private List<TermEntry> extractKeywordsFromSearchResults(Set<String> items, Locale locale, List<ISearchResult> results) {
@@ -589,9 +616,13 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	// STRATEGY: PRUNE SEARCH RESULTS (TOO MANY RESULTS)
 	//
 
-    /**
-     * Tries to prune the search result.
-     */
+	/**
+	 * Tries to prune the search results.
+	 *
+	 * @param searchQuery the search query
+	 * @param referenceResults the reference results
+	 * @return the search result ranking
+	 */
 	private SearchResultRanking pruneSearchResult(String searchQuery, List<ISearchResult> referenceResults) {
     	SearchResultRanking ranking = new SearchResultRanking(this.maxProposalNumber, referenceResults, this.config, this.infGoodSearchInverval, this.supGoodSearchInterval);
     	Set<String> items = new HashSet<String>();
