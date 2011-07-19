@@ -20,10 +20,10 @@ public class Path implements Iterable<PathComponent> {
     }
 
     public synchronized void addPathComponent(WorkflowItem item) {
-        if (!path.isEmpty()) {
+        if ( !path.isEmpty() ) {
             PathComponent lastPathComponent = path.get(path.size() - 1);
-            if (lastPathComponent.getWorkflowItemId().equals(item.getId())) {
-                lastPathComponent.startTiming();
+            if ( lastPathComponent.getWorkflowItemId().equals(item.getId()) ) {
+                //                lastPathComponent.startTiming();
                 return;
             } else {
                 lastPathComponent.endTiming();
@@ -31,6 +31,22 @@ public class Path implements Iterable<PathComponent> {
         }
         PathComponent pathComponent = new PathComponent(timer, item);
         pathComponent.startTiming();
+        path.add(pathComponent);
+    }
+
+    public void addPathComponent(WorkflowItem item, long timeStamp) {
+        if ( !path.isEmpty() ) {
+            PathComponent lastPathComponent = path.get(path.size() - 1);
+            if ( lastPathComponent.getWorkflowItemId().equals(item.getId()) ) {
+                lastPathComponent.endTiming(timeStamp);
+                lastPathComponent.startTiming(timeStamp);
+                return;
+            } else {
+                lastPathComponent.endTiming(timeStamp);
+            }
+        }
+        PathComponent pathComponent = new PathComponent(timer, item, timeStamp);
+        pathComponent.startTiming(timeStamp);
         path.add(pathComponent);
     }
 
@@ -49,8 +65,8 @@ public class Path implements Iterable<PathComponent> {
 
     public synchronized Duration timeSpentInItem(WorkflowItem item) {
         Duration timeSpent = new Duration();
-        for (PathComponent pathComponent : path) {
-            if (pathComponent.getWorkflowItemId().equals(item.getId())) {
+        for ( PathComponent pathComponent : path ) {
+            if ( pathComponent.getWorkflowItemId().equals(item.getId()) ) {
                 timeSpent = timeSpent.add(pathComponent.getTimeSpent());
             }
         }
@@ -58,8 +74,14 @@ public class Path implements Iterable<PathComponent> {
     }
 
     public void stopTiming() {
-        if (!path.isEmpty()) {
+        if ( !path.isEmpty() ) {
             path.get(path.size() - 1).endTiming();
+        }
+    }
+
+    public void stopTiming(long timeStamp) {
+        if ( !path.isEmpty() ) {
+            path.get(path.size() - 1).endTiming(timeStamp);
         }
     }
 

@@ -58,18 +58,18 @@ public class WorkflowRecordingAgent extends AbstractThreadedAgent implements
 
     public WorkflowRecordingAgent(Map<String, Object> params) {
         super(NAME, (String) params.get(AgentProtocol.PARAM_AGENT_ID));
-        if (params.containsKey(AgentProtocol.TS_HOST)) {
+        if ( params.containsKey(AgentProtocol.TS_HOST) ) {
             host = (String) params.get(AgentProtocol.TS_HOST);
         }
-        if (params.containsKey(AgentProtocol.TS_PORT)) {
+        if ( params.containsKey(AgentProtocol.TS_PORT) ) {
             port = (Integer) params.get(AgentProtocol.TS_PORT);
         }
-        if (params.containsKey(TIMER)) {
+        if ( params.containsKey(TIMER) ) {
             timer = (Timer) params.get(TIMER);
         } else {
             timer = new DefaultTimer();
         }
-        if (params.containsKey(CHECK_PERIOD)) {
+        if ( params.containsKey(CHECK_PERIOD) ) {
             checkPeriod = (Integer) params.get(CHECK_PERIOD);
         }
 
@@ -93,7 +93,7 @@ public class WorkflowRecordingAgent extends AbstractThreadedAgent implements
                     new Tuple(ActionConstants.ACTION, String.class, Long.class,
                             ActionConstants.ACTION_LOG_OUT, Field
                             .createWildCardField()), this, true);
-        } catch (TupleSpaceException e) {
+        } catch ( TupleSpaceException e ) {
             e.printStackTrace();
         }
     }
@@ -105,7 +105,7 @@ public class WorkflowRecordingAgent extends AbstractThreadedAgent implements
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
         service.scheduleAtFixedRate(new TimeConstraintsChecker(this), 0, checkPeriod, TimeUnit.MINUTES);
 
-        while (status == Status.Running) {
+        while ( status == Status.Running ) {
             sendAliveUpdate();
             Thread.sleep(AgentProtocol.ALIVE_INTERVAL / 2);
         }
@@ -131,26 +131,28 @@ public class WorkflowRecordingAgent extends AbstractThreadedAgent implements
     @Override
     public void call(Command command, int seq, Tuple afterTuple,
                      Tuple beforeTuple) {
-        if (this.listenerId == seq) {
+        if ( this.listenerId == seq ) {
             IAction action = ActionTupleTransformer.getActionFromTuple(afterTuple);
             // String oldLas = action.getAttribute(OLD_LAS);
+            long timeStamp = action.getTimeInMillis();
             String las = action.getAttribute(LAS);
             String mission = action.getContext(ContextConstants.mission);
             String user = action.getUser();
 
             Workflow workflow = getWorkflow(mission);
-            if (workflow == null) {
+            if ( workflow == null ) {
                 logger.warn("could not get workflow for " + mission);
                 return;
             }
             WorkflowItem item = workflow.getItem(las);
             Path path = getPath(user);
-            path.addPathComponent(item);
-        } else if (logoutListenerId == seq) {
+            path.addPathComponent(item, timeStamp);
+        } else if ( logoutListenerId == seq ) {
             IAction action = ActionTupleTransformer
                     .getActionFromTuple(afterTuple);
+            long timeStamp = action.getTimeInMillis();
             Path path = getPath(action.getUser());
-            path.stopTiming();
+            path.stopTiming(timeStamp);
         } else {
             logger.debug("Callback passed to Superclass.");
             super.call(command, seq, afterTuple, beforeTuple);
@@ -160,7 +162,7 @@ public class WorkflowRecordingAgent extends AbstractThreadedAgent implements
 
     private synchronized Path getPath(String user) {
         Path path = paths.get(user);
-        if (path == null) {
+        if ( path == null ) {
             path = new Path();
             path.setTimer(timer);
             paths.put(user, path);
@@ -170,14 +172,14 @@ public class WorkflowRecordingAgent extends AbstractThreadedAgent implements
 
     private synchronized Workflow getWorkflow(String mission) {
         String workflowName = mission2workflows.get(mission);
-        if (workflowName == null) {
+        if ( workflowName == null ) {
             WorkflowCreator workflowCreator = new WorkflowCreator(rooloService);
             try {
                 Workflow workflow = workflowCreator.createWorkflow(new URI(mission));
                 workflowName = workflow.getName();
                 workflows.put(workflowName, workflow);
                 mission2workflows.put(mission, workflowName);
-            } catch (URISyntaxException e) {
+            } catch ( URISyntaxException e ) {
                 e.printStackTrace();
             }
         }
@@ -207,15 +209,15 @@ public class WorkflowRecordingAgent extends AbstractThreadedAgent implements
         @Override
         public void run() {
             alarmExcessDuration = agent.configuration.getParameter(ALARM_EXCESS_DURATION);
-            if (alarmExcessDuration == null) {
+            if ( alarmExcessDuration == null ) {
                 alarmExcessDuration = 0;
             }
-            for (Workflow workflow : agent.workflows.values()) {
+            for ( Workflow workflow : agent.workflows.values() ) {
                 PathAnalyzer analyzer = new PathAnalyzer(workflow);
-                for (String user : agent.paths.keySet()) {
+                for ( String user : agent.paths.keySet() ) {
                     Path path = agent.paths.get(user);
                     List<TimeExcess> timeExcesses = analyzer.getTimeExcesses(path);
-                    if (!timeExcesses.isEmpty()) {
+                    if ( !timeExcesses.isEmpty() ) {
                         List<Tuple> report = generateReport(user, timeExcesses);
                         sendReport(report);
                     }
@@ -225,8 +227,8 @@ public class WorkflowRecordingAgent extends AbstractThreadedAgent implements
 
         private List<Tuple> generateReport(String user, List<TimeExcess> timeExcesses) {
             List<Tuple> reportTuples = new ArrayList<Tuple>();
-            for (TimeExcess timeExcess : timeExcesses) {
-                if (timeExcess.getTimeExcess().greater(Duration.fromMinutes(alarmExcessDuration))) {
+            for ( TimeExcess timeExcess : timeExcesses ) {
+                if ( timeExcess.getTimeExcess().greater(Duration.fromMinutes(alarmExcessDuration)) ) {
                     reportTuples.add(new Tuple("time_excess", user, timeExcess.getItem().getId(), timeExcess.getTimeExcess().toMinutes()));
                 }
             }
@@ -234,10 +236,10 @@ public class WorkflowRecordingAgent extends AbstractThreadedAgent implements
         }
 
         private void sendReport(List<Tuple> report) {
-            for (Tuple tuple : report) {
+            for ( Tuple tuple : report ) {
                 try {
                     agent.getSessionSpace().write(tuple);
-                } catch (TupleSpaceException e) {
+                } catch ( TupleSpaceException e ) {
                     e.printStackTrace();
                 }
             }
