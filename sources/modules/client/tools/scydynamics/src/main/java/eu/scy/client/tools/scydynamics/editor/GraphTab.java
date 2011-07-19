@@ -12,6 +12,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -23,6 +24,7 @@ import sqv.widgets.Curve;
 import sqv.widgets.GraphWidget;
 import sqv.widgets.VariableRef;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
+import eu.scy.client.tools.scydynamics.editor.ModelEditor.Mode;
 import eu.scy.client.tools.scydynamics.logging.ModellingLogger;
 import eu.scy.client.tools.scydynamics.model.SimquestModelQualitative;
 import eu.scy.client.tools.scydynamics.model.SimquestModelQuantitative;
@@ -64,6 +66,9 @@ public class GraphTab extends SimulationPanel implements ChangeListener {
 		curves = new LinkedList<Curve>();
 		graphPanel.remove(graphWidget.getComponent());
 		graphWidget = new GraphWidget();
+		if (editor.getMode().equals(Mode.QUALITATIVE_MODELLING)) {
+			graphWidget.getGraph().setDrawLabels(false);
+		}
 		graphWidget.setBasics(true, true);
 		graphPanel.add(graphWidget.getComponent(), BorderLayout.CENTER);
 		graphPanel.updateUI();
@@ -75,6 +80,9 @@ public class GraphTab extends SimulationPanel implements ChangeListener {
 		graphPanel.setBorder(BorderFactory.createTitledBorder(bundle.getString("PANEL_GRAPH")));
 		curves = new LinkedList<Curve>();
 		graphWidget = new GraphWidget();
+		if (editor.getMode().equals(Mode.QUALITATIVE_MODELLING)) {
+			graphWidget.getGraph().setDrawLabels(false);
+		}
 		graphWidget.setBasics(true, true);
 		graphPanel.add(graphWidget.getComponent(), BorderLayout.CENTER);
 		JPanel axisPanel = new JPanel();
@@ -106,9 +114,14 @@ public class GraphTab extends SimulationPanel implements ChangeListener {
 	@Override
 	public void stop() {
 		super.stop();
-		graphWidget.update();
-		graphPanel.updateUI();
-		graphPanel.repaint();
+		SwingUtilities.invokeLater( new Runnable() 
+		{ 
+		  public void run() { 
+				graphWidget.update();
+				graphPanel.updateUI();
+				graphPanel.repaint();
+		  } 
+		} );
 	}
 	
 	@Override
@@ -216,9 +229,15 @@ public class GraphTab extends SimulationPanel implements ChangeListener {
 		simulationSettingsPanel.setRunning(true);
 		sqvModel.getSimulation().Simulate();
 		simulationSettingsPanel.setRunning(false);
-		graphWidget.update();
-		graphPanel.updateUI();
-		graphPanel.repaint();
+		SwingUtilities.invokeLater( new Runnable() 
+		{ 
+		  public void run() { 
+				graphWidget.update();
+				graphPanel.updateUI();
+				graphPanel.repaint();
+		  } 
+		} );
+
 	}
 
 }
