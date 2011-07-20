@@ -33,7 +33,12 @@ public class SimquestModelQualitative extends SimquestModelQuantitative {
 		variable.addContent(new Element("externalName").setText(name));
 		variable.addContent(new Element("kind").setText(type));
 		variable.addContent(new Element("type").setText("real"));
-		String newValue = getQualitativeValue(name, value)+"";
+		String newValue;
+		if (simulationValues.containsKey(name)) {
+			newValue = getQualitativeValue(name, simulationValues.get(name).toString())+"";
+		} else {
+			newValue = getQualitativeValue(name, value)+"";
+		}
 		System.out.println("SimquestModelQualitative.addVariable: "+name+": "+value+" -> "+newValue);
 		variable.addContent(new Element("value").setText(newValue));
 		if (pair != null) {
@@ -52,7 +57,12 @@ public class SimquestModelQualitative extends SimquestModelQuantitative {
 			if (node.getType() == JdFigure.CONSTANT) {
 				equation = new Element("equation");
 				variable = new Element("variable").setText(node.getLabel());
-				String newValue = getQualitativeValue(node.getLabel(), node.getExpr())+"";
+				String newValue;
+				if (simulationValues.containsKey(node.getLabel())) {
+					newValue = getQualitativeValue(node.getLabel(), simulationValues.get(node.getLabel()).toString())+"";
+				} else {
+					newValue = getQualitativeValue(node.getLabel(), node.getExpr())+"";
+				}	
 				System.out.println("SimquestModelQualitative.createComputationalModel: literal "+node.getLabel()+": "+node.getExpr()+" -> "+newValue);
 				literal = new Element("literal").setText(newValue);
 				equation.addContent(variable);
