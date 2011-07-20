@@ -346,9 +346,6 @@ public class VariableDialog extends JDialog {
 		labelTable.put(50, new JLabel("medium"));
 		labelTable.put(100, new JLabel("high"));
 		qualitativeValueSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
-		qualitativeValueSlider.setMinimum(0);
-		qualitativeValueSlider.setMaximum(100);
-		qualitativeValueSlider.setValue(66);
 		qualitativeValueSlider.setLabelTable(labelTable);
 		qualitativeValueSlider.setPaintLabels(true);
 		qualitativeValueSlider.setMajorTickSpacing(50);

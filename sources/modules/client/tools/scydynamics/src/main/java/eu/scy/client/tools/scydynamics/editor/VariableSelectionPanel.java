@@ -3,12 +3,14 @@ package eu.scy.client.tools.scydynamics.editor;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -16,7 +18,10 @@ import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+
 import colab.um.draw.JdFigure;
 import colab.um.draw.JdObject;
 import eu.scy.client.tools.scydynamics.editor.ModelEditor.Mode;
@@ -29,13 +34,17 @@ public class VariableSelectionPanel extends JPanel {
     private final static Logger LOGGER = Logger.getLogger(VariableSelectionPanel.class.getName());
 
 	private Map<String, JCheckBox> variables;
-	private HashSet<JTextField> textFields;
+	private HashSet<Component> valueComponents;
 	private ModelEditor editor;
     private final ResourceBundleWrapper bundle;
 	private boolean showTime;
 	private Model model;
 	private FlowLayout leftFlow;
 	private FlowLayout rightFlow;
+
+	private int tempValue;
+
+	private JSlider tempSlider;
 
 	public VariableSelectionPanel(ModelEditor editor, ResourceBundleWrapper bundle, boolean showTime) {
 		super();
@@ -47,7 +56,7 @@ public class VariableSelectionPanel extends JPanel {
 		this.bundle = bundle;
 		this.showTime = showTime;
 		variables = new HashMap<String, JCheckBox>();
-		textFields = new HashSet<JTextField>();
+		valueComponents = new HashSet<Component>();
 		this.setLayout(new BorderLayout());
 		if (editor.getModel() != null) {
 			updateVariables();
@@ -146,7 +155,7 @@ public class VariableSelectionPanel extends JPanel {
 	}
 	
 	private JPanel getValuesPanel() {
-		textFields.clear();
+		valueComponents.clear();
 		JPanel panel = new JPanel();
 		panel.setBorder(BorderFactory.createTitledBorder(bundle.getString("PANEL_VARIABLEVALUES")));
 		int variablecount = model.getConstants().size() + model.getStocks().size();
@@ -155,7 +164,13 @@ public class VariableSelectionPanel extends JPanel {
 		JPanel vPanel;
 		JLabel colorLabel;
 		JTextField textField;
+		JSlider slider;
 		Enumeration<JdObject> objects = model.getNodes().elements();
+		Hashtable<Integer, JLabel> labelTable = new Hashtable<Integer, JLabel>();
+		labelTable.put(0, new JLabel("low"));
+		labelTable.put(50, new JLabel("medium"));
+		labelTable.put(100, new JLabel("high"));
+
 		while (objects.hasMoreElements()) {
 			object = objects.nextElement();			
 			if (object.getType() == JdFigure.STOCK || object.getType() == JdFigure.CONSTANT) {
@@ -164,19 +179,44 @@ public class VariableSelectionPanel extends JPanel {
 				colorLabel.setForeground(object.getLabelColor());
 				vPanel.add(colorLabel);
 				vPanel.add(new JLabel(object.getLabel()));
-				textField = new JTextField(6);
-				textField.setHorizontalAlignment(JTextField.RIGHT);
-				textField.setName(object.getLabel());
-				textField.setText(object.getExpr());
-				textFields.add(textField);
-				//vPanel.add(textField);
-				if (editor.getMode()!=Mode.QUALITATIVE_MODELLING) {
+				
+				if (!editor.getMode().equals(Mode.QUALITATIVE_MODELLING)) {
 					panel.add(vPanel);
+					textField = new JTextField(6);
+					textField.setHorizontalAlignment(JTextField.RIGHT);
+					textField.setName(object.getLabel());
+					textField.setText(object.getExpr());
+					valueComponents.add(textField);
 					panel.add(textField);
+				} else if (editor.getMode().equals(Mode.QUALITATIVE_MODELLING)) {
+					panel.add(vPanel);
+					slider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
+					slider.setName(object.getLabel());
+					slider.setLabelTable(labelTable);
+					slider.setPaintLabels(true);
+					slider.setMajorTickSpacing(50);
+					slider.setMinorTickSpacing(10);
+					slider.setPaintTicks(true);
+					slider.setSnapToTicks(false);
+					setSliderValue(object.getProperties().get("expr").toString(), slider);
+					valueComponents.add(slider);
+					panel.add(slider);
 				}
 			}
 		}
 		return panel;
+	}
+	
+	private void setSliderValue(String valueString, JSlider slider) {
+		try {
+			int value = (int)Math.round(Double.valueOf(valueString));
+			System.out.println(" -> "+value);
+			slider.setValue(value);
+		} catch (Exception ex) {
+			// setting default value 50
+			System.out.println(" -> 50 (default)");
+			slider.setValue(50);
+		}
 	}
 
 	public List<String> getSelectedVariables() {
@@ -191,8 +231,12 @@ public class VariableSelectionPanel extends JPanel {
 	
 	public HashMap<String, Double> getValues() throws NumberFormatException {
 		HashMap<String, Double> map = new HashMap<String, Double>();
-		for (JTextField field: textFields) {
-			map.put(field.getName(), Double.parseDouble(field.getText()));
+		for (Component component: valueComponents) {
+			if (component instanceof JTextField) {
+				map.put(component.getName(), Double.parseDouble(((JTextField)component).getText()));
+			} else if (component instanceof JSlider) {
+				map.put(component.getName(), (double)((JSlider)component).getValue());
+			}
 		}
 		return map;
 	}
