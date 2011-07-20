@@ -159,7 +159,12 @@ public class VariableSelectionPanel extends JPanel {
 		JPanel panel = new JPanel();
 		panel.setBorder(BorderFactory.createTitledBorder(bundle.getString("PANEL_VARIABLEVALUES")));
 		int variablecount = model.getConstants().size() + model.getStocks().size();
-		panel.setLayout(new GridLayout(variablecount, 2));
+		if (editor.getMode().equals(Mode.QUALITATIVE_MODELLING)) {
+			panel.setLayout(new GridLayout(variablecount, 1));
+		} else {
+			panel.setLayout(new GridLayout(variablecount, 2));
+		}
+		
 		JdObject object;
 		JPanel vPanel;
 		JLabel colorLabel;
@@ -188,8 +193,7 @@ public class VariableSelectionPanel extends JPanel {
 					textField.setText(object.getExpr());
 					valueComponents.add(textField);
 					panel.add(textField);
-				} else if (editor.getMode().equals(Mode.QUALITATIVE_MODELLING)) {
-					panel.add(vPanel);
+				} else if (editor.getMode().equals(Mode.QUALITATIVE_MODELLING)) {					
 					slider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
 					slider.setName(object.getLabel());
 					slider.setLabelTable(labelTable);
@@ -200,7 +204,8 @@ public class VariableSelectionPanel extends JPanel {
 					slider.setSnapToTicks(false);
 					setSliderValue(object.getProperties().get("expr").toString(), slider);
 					valueComponents.add(slider);
-					panel.add(slider);
+					vPanel.add(slider);
+					panel.add(vPanel);
 				}
 			}
 		}
@@ -218,6 +223,8 @@ public class VariableSelectionPanel extends JPanel {
 			slider.setValue(50);
 		}
 	}
+	
+
 
 	public List<String> getSelectedVariables() {
 		List<String> selected = new ArrayList<String>();
