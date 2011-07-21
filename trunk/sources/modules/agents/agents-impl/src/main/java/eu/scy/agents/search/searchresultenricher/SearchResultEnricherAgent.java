@@ -63,12 +63,11 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	private static final String ONTOLOGY_AGENT_COMMAND = "surrounding";
 	
     private static final Tuple TEMPLATE_FOR_SEARCH_QUERY = new Tuple("action", String.class, Long.class, SEARCH_TYPE, String.class, SEARCH_TOOL, Field.createWildCardField());
-    
     private static final String OPERATOR_AND = "AND";
     private static final String OPERATOR_OR = "OR";
-    
-	// Configuration values
-    
+    private static final String DEFAULT_FIELD = "contents";
+
+    // Configuration values
     /**
      * This value determines the number of alternative search queries, which will be proposed.
      */
@@ -294,8 +293,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
      */
     private static List<ISearchResult> getHits(TupleSpace commandSpace, String query) throws TupleSpaceException {    	
 		String uniqueID = new VMID().toString();
-		String luceneQuery = "contents:\"" + query + "\"";
-		Tuple requestTuple = new Tuple(uniqueID, ROOLO_AGENT_NAME, ROOLO_AGENT_SEARCH, luceneQuery);
+		Tuple requestTuple = new Tuple(uniqueID, ROOLO_AGENT_NAME, ROOLO_AGENT_SEARCH, query);
 		commandSpace.write(requestTuple);
 
 		Tuple responseTuple = commandSpace.waitToTake(new Tuple(uniqueID, ROOLO_AGENT_RESPONSE, 
@@ -319,8 +317,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
      */
     private static int getHitCount(TupleSpace commandSpace, String query) throws TupleSpaceException {
 		String uniqueID = new VMID().toString();
-		String luceneQuery = "contents:\"" + query + "\"";
-		Tuple requestTuple = new Tuple(uniqueID, ROOLO_AGENT_NAME, ROOLO_AGENT_HIT_COUNT, luceneQuery);
+		Tuple requestTuple = new Tuple(uniqueID, ROOLO_AGENT_NAME, ROOLO_AGENT_HIT_COUNT, query);
 		commandSpace.write(requestTuple);
 
 		Tuple responseTuple = commandSpace.waitToTake(new Tuple(uniqueID,
@@ -340,7 +337,6 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
      * @return
      */
     private String parseQuery(String rawQuery) {
-        rawQuery = rawQuery.trim();
         int queryStartPos = rawQuery.indexOf('"') + 1;
         int queryStopPos = rawQuery.lastIndexOf('"');
         return rawQuery.substring(queryStartPos, queryStopPos);
@@ -400,7 +396,6 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
         List<ISearchResult> referenceResults = SearchResultUtils.createSearchResultsFromXML(props.getProperty(ACTION_LOG_ATTRIBUTE_RESULT));
         System.out.println("Origin search: " + searchQuery + " | Hit count: " + referenceResults.size());
 
-        // Spelling disabled, due to missing fuzzy operator support
         // Check search terms for spelling mistakes... this task is independent from the rest
 		SpellingChecker sc = new SpellingChecker(this.commandSpace, user, mission,
 				session, searchQuery.split(" "),
@@ -451,20 +446,24 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
         SearchResultRanking ranking = new SearchResultRanking(this.maxProposalNumber, referenceResults, this.config, this.infGoodSearchInverval, this.supGoodSearchInterval);
         try
         {
-            // Replace AND by OR
-            Query query = Query.parse(searchQuery);
-            String last = searchQuery;
+        	Query query = Query.parse(searchQuery);
+
+        	// Replace AND by OR
+            String last = query.toLuceneString();
             for(int i = 1; i <= this.maxReplaceNumber; i++) {
-                String newQuery = query.replaceOperator(OPERATOR_AND, OPERATOR_OR, new AtomicInteger(i));
-                if(newQuery.equals(last)) {
+                String luceneQuery = query.replaceOperator(OPERATOR_AND, OPERATOR_OR, new AtomicInteger(i));
+                if(luceneQuery.equals(last)) {
                     // if a replace operation does not change the query anymore, stop
+                	if(i == 1) {
+                		System.out.println("Could not replace operator, because the query does not contain any AND operator.");
+                	}
                     break;
                 } else {
-                    last = newQuery;
-                    List<ISearchResult> result =  getHits(commandSpace, newQuery);
+                    last = luceneQuery;
+                    List<ISearchResult> result =  getHits(commandSpace, luceneQuery);
                     if(result != null) {
-                        ranking.add(newQuery, result);
-                        System.out.println("Added new query by OR -> AND replacement: " + newQuery);
+                        ranking.add(luceneQuery, result);
+                        System.out.println("Added new query by AND -> OR replacement: " + luceneQuery);
                     } else {
                     	// RooloAccessorAgent down, so stop
                     	return ranking;
@@ -473,19 +472,26 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
             }
             
             // Add new keywords extracted from the search results.
-            Set<String> items = new HashSet<String>();
-            items.addAll(Arrays.asList(searchQuery.split(" ")));
-            List<TermEntry> termList = extractKeywordsFromSearchResults(items, Locale.ENGLISH, referenceResults);
-            for(int i = 0; i < Math.min(this.numberOfTermsToTest, termList.size()); i++){
-            	String newQuery = searchQuery + " " + termList.get(i).getCount();
-            	List<ISearchResult> result = getHits(commandSpace, newQuery);
-            	if(result != null) {
-            		ranking.add(newQuery, result);
-                    System.out.println("Added new query by keyword extension: " + newQuery);
-            	} else {
-            		// RooloAccessorAgent down, so stop
-                	return ranking;
+            if(referenceResults.size() > 0) {
+            	Set<String> items = new HashSet<String>();
+            	items.addAll(Arrays.asList(searchQuery.split(" ")));
+            	List<TermEntry> termList = extractKeywordsFromSearchResults(items, Locale.ENGLISH, referenceResults);
+            	
+            	String userQuery = query.toLuceneString();
+            	for(int i = 0; i < Math.min(this.numberOfTermsToTest, termList.size()); i++){
+            		String luceneQuery = userQuery + " " + DEFAULT_FIELD + ":\"" + termList.get(i).getTerm() + "\"";
+            		List<ISearchResult> result = getHits(commandSpace, luceneQuery);
+            		if(result != null) {
+            			ranking.add(luceneQuery, result);
+            			System.out.println("Added new query by keyword extension: " + luceneQuery);
+            		} else {
+            			// RooloAccessorAgent down, so stop
+            			return ranking;
+            		}
             	}
+            	
+            } else {
+            	System.out.println("Could not extract keywords, because no search results available for extraction.");
             }
             	
             
@@ -507,7 +513,6 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
     private void askOntologyForSynonym(String mission, String eloUri, String keyword) {
     	// (<ID>:String, "onto":String, "surrounding":String, <OntName>:String, <OntLabel>:String, 
     	// <Language>:String) -> (<ID>:String, <OntTerm>:String, <Surrounding>:String)
-    	System.out.println("Mission: " + mission);
 //        try {
 //            String id = new VMID().toString();
 //            Tuple requestTuple = new Tuple(id, ONTOLOGY_AGENT_NAME, ONTOLOGY_AGENT_COMMAND, mission, keyword, "en");
@@ -629,14 +634,16 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
     	items.addAll(Arrays.asList(searchQuery.split(" ")));
 
     	try {
-	    	if(items.size() > 1) {
+    		Query query = Query.parse(searchQuery);
+	    	
+    		if(items.size() > 1) {
 	    		// Itemset generation
 	    		String[] itemsets = generateItemSets(items);
 	        	for(int i = 0; i < itemsets.length; i++) {
 	
-	        		List<ISearchResult> result = getHits(commandSpace, itemsets[i].toString());
+	        		List<ISearchResult> result = getHits(commandSpace, itemsets[i]);
 	        		if(result != null) {
-	        			ranking.add(itemsets[i].toString(), result);
+	        			ranking.add(itemsets[i], result);
 	        		} else {
                     	// RooloAccessorAgent down, so stop
                     	return ranking;
@@ -644,20 +651,22 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	        	}
 	        	
 	            // Replace OR by AND
-	            Query query = Query.parse(searchQuery);
-	            String last = "";
+	            String last = query.toString();
 	            AtomicInteger ai = new AtomicInteger(0);
 	            for(int i = 1; i <= this.maxReplaceNumber; i++) {
 	                ai.set(i);
-	                String newQuery = query.replaceOperator(OPERATOR_OR, OPERATOR_AND, ai);
-	                if(newQuery.equals(last)) {
+	                String luceneQuery = query.replaceOperator(OPERATOR_OR, OPERATOR_AND, ai);
+	                if(luceneQuery.equals(last)) {
 	                    // if a replace operation does not change the query anymore, stop
+	                	if(i == 1) {
+	                		System.out.println("Could not replace operator, because the query does not contain any OR operator.");
+	                	}
 	                    break;
 	                } else {
-	                    last = newQuery;
-	                    List<ISearchResult> result =  getHits(commandSpace, newQuery);
+	                    last = luceneQuery;
+	                    List<ISearchResult> result =  getHits(commandSpace, luceneQuery);
 	                    if(result != null) {
-	                        ranking.add(newQuery, result);
+	                        ranking.add(luceneQuery, result);
 	                    } else {
 	                    	// RooloAccessorAgent down, so stop
 	                    	return ranking;	                    	
@@ -669,10 +678,10 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 
             List<TermEntry> termList = extractKeywordsFromSearchResults(items, Locale.ENGLISH, referenceResults);
             for(int i = 0; i < Math.min(this.numberOfTermsToTest, termList.size()); i++){
-            	String newQuery = searchQuery + " " + OPERATOR_AND + " " + termList.get(i).getTerm();
-            	List<ISearchResult> result = getHits(commandSpace, newQuery);
+            	String luceneQuery = query.toString() + " " + OPERATOR_AND + " " + DEFAULT_FIELD + ":\"" + termList.get(i).getTerm() + "\"";
+            	List<ISearchResult> result = getHits(commandSpace, luceneQuery);
             	if(result != null) {
-            		ranking.add(newQuery, result);
+            		ranking.add(luceneQuery, result);
             	} else {
             		// RooloAccessorAgent down, so stop
                 	return ranking;
@@ -698,7 +707,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
             String s = "";
             for (int j = 0; j < array.length; j++) {
                 if (i != j) {
-                    s = s + array[j] + " ";
+                    s = s + DEFAULT_FIELD + ":\"" + array[j] + "\" ";
                 }
             }
             itemsets[i] = s.trim();
@@ -737,7 +746,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 		private String mission;
 		private String session;
 		private String[] items;
-		private double termSimilarityTolerance;
+		private double termFuzzyOperator;
 		private double searchResultTolerance;
 		
 		SpellingChecker(TupleSpace commandSpace, String userId, String mission, String session, String[] items, double termSimilarityTolerance, double searchResultTolerance ) {
@@ -746,7 +755,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 			this.mission = mission;
 			this.session = session;
 			this.items = items;
-			this.termSimilarityTolerance = termSimilarityTolerance;
+			this.termFuzzyOperator = termSimilarityTolerance;
 			this.searchResultTolerance = searchResultTolerance;
 		}
 				
@@ -780,13 +789,19 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	    	List<String> misspelledTerms = new ArrayList<String>();
 	    	for(String term : items) {
 	    		
-	    		int exact = SearchResultEnricherAgent.getHitCount(commandSpace, term);
+	    		if(term.equals(OPERATOR_AND) || term.equals(OPERATOR_OR)) {
+	    			continue;
+	    		}
+	    		
+	    		String exactQuery = DEFAULT_FIELD + ":\"" + term + "\"";
+	    		int exact = SearchResultEnricherAgent.getHitCount(commandSpace, exactQuery);
 	    		if(exact == -1) {
 	    			// RooloAccessorAgent down, so we stop checking
 	    			return misspelledTerms;
 	    		}
 
-	    		int fuzzy = getHitCount(commandSpace, term + "~" + this.termSimilarityTolerance);
+	    		String fuzzyQuery = DEFAULT_FIELD + ":\"" + term + "~" + this.termFuzzyOperator + "\"";
+	    		int fuzzy = getHitCount(commandSpace, fuzzyQuery);
 	    		if(fuzzy == -1) {
 	    			// RooloAccessorAgent down, so we stop checking
 	    			return misspelledTerms;
