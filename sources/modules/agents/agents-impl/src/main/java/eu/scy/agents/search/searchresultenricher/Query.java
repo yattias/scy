@@ -14,6 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class Query {
 
+	private static final String DEFAULT_FIELD = "contents";
     private String term;
 
     private Query leftChild;
@@ -183,9 +184,9 @@ public class Query {
     public String replaceOperator(String from, String to, AtomicInteger numberOfReplacements) {
         if(this.term != null) {
             if(this.hasBracket()) {
-                return "(" + this.term + ")";
+                return "(" + DEFAULT_FIELD + ":\"" + this.term + "\")";
             } else {
-                return this.term;
+                return DEFAULT_FIELD + ":\"" + this.term + "\"";
             }
         } else {
             String result;
@@ -226,20 +227,19 @@ public class Query {
         }
     }
 
-    @Override
-    public String toString() {
+    public String toLuceneString() {
         if(this.term != null) {
             if(this.hasBracket()) {
-                return "(" + this.term + ")";
+                return "(" + DEFAULT_FIELD + ":\"" + this.term + "\")";
             } else {
-                return this.term;
+                return DEFAULT_FIELD + ":\"" + this.term + "\"";
             }
         } else {
             String result;
             if(!this.operator.equals("AND")) {
-                result = this.leftChild + " " + this.rightChild;
+                result = this.leftChild.toString() + " " + this.rightChild.toString();
             } else {
-                result = this.leftChild + " " + this.operator + " " + this.rightChild;
+                result = this.leftChild.toString() + " " + this.operator + " " + this.rightChild.toString();
             }
             if(this.hasBracket()) {
                 return "(" + result + ")";
