@@ -41,6 +41,8 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.client.desktop.desktoputils.jdom.JDomStringConversion;
 import org.jdom.Element;
 import eu.scy.common.mission.impl.jdom.JDomConversionUtils;
+import javafx.scene.layout.Flow;
+import eu.scy.client.desktop.desktoputils.art.eloicons.EloIconFactory;
 
 /**
  * @author SikkenJ
@@ -58,6 +60,7 @@ public class EloSearchNode extends GridSearchNode, Resizable, ScyToolFX, EloSave
               eloFactory = toolBrokerAPI.getELOFactory();
            };
    public var scyDesktop: ScyDesktop;
+   public var querySelecterFactory: QuerySelecterFactory;
    def minimumWidth = 150;
    def minimumHeight = 100;
    var searchButton: Button;
@@ -80,12 +83,21 @@ public class EloSearchNode extends GridSearchNode, Resizable, ScyToolFX, EloSave
               actionId: TitleBarButton.saveAsActionId
               action: doSaveAsElo
            }
+   def querySelectersNode = Flow {
+              hgap: 2*spacing
+              vgap: spacing
+              nodeHPos: HPos.LEFT
+           }
+   var querySelecterUsage = QuerySelecterUsage.TEXT;
+   var querySelecterDisplays: QuerySelecterDisplay[];
+   def eloIconFactory = EloIconFactory{};
 
    public override function initialize(windowContent: Boolean): Void {
       technicalFormatKey = toolBrokerAPI.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
       eloFactory = toolBrokerAPI.getELOFactory();
       repository = toolBrokerAPI.getRepository();
       scySearchResultXmlUtils = new ScySearchResultXmlUtils(toolBrokerAPI);
+      createQuerySelecters();
    }
 
    public override function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
@@ -162,6 +174,12 @@ public class EloSearchNode extends GridSearchNode, Resizable, ScyToolFX, EloSave
                           }
                        ]
                     }
+                    GridRow {
+                       cells: [
+                          getLeftColumnFiller(),
+                          querySelectersNode
+                       ]
+                    }
                     getDevideLine(),
                     getResultDisplayPart(),
                     GridRow {
@@ -182,6 +200,20 @@ public class EloSearchNode extends GridSearchNode, Resizable, ScyToolFX, EloSave
                     }
                  ]
               }
+   }
+
+   function createQuerySelecters() {
+      def querySelecters = querySelecterFactory.createQuerySelecters(querySelecterUsage);
+      querySelecterDisplays =
+              for (querySelecter in querySelecters) {
+                 QuerySelecterDisplay {
+                    querySelecter: querySelecter
+                    eloIconFactory: eloIconFactory
+                    windowColorScheme: window.windowColorScheme
+                    tooltipManager: scyDesktop.tooltipManager
+                 }
+              }
+      querySelectersNode.content = querySelecterDisplays;
    }
 
    function doSearch() {
@@ -275,9 +307,9 @@ public class EloSearchNode extends GridSearchNode, Resizable, ScyToolFX, EloSave
       jdomStringConversion.xmlToString(root);
    }
 
-   function getQueryXml(): Element{
+   function getQueryXml(): Element {
       def root = new Element(queryTagName);
-      root.addContent(JDomConversionUtils.createElement(simpleTextQueryTagName,queryBox.rawText.trim()));
+      root.addContent(JDomConversionUtils.createElement(simpleTextQueryTagName, queryBox.rawText.trim()));
       return root
    }
 
@@ -291,9 +323,9 @@ public class EloSearchNode extends GridSearchNode, Resizable, ScyToolFX, EloSave
       searchResults = scySearchResults;
    }
 
-   function loadQuery(root: Element){
+   function loadQuery(root: Element) {
       def simpleTextQueryXml = root.getChild(simpleTextQueryTagName);
-      if (simpleTextQueryXml!=null){
+      if (simpleTextQueryXml != null) {
          queryBox.text = simpleTextQueryXml.getTextTrim();
       }
    }
