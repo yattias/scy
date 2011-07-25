@@ -1,0 +1,1444 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-04-28T13:51:40.336+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-07-18T11:52:46.299+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <annotation>
+      <entity>colorId</entity>
+      <colorSchemeId />
+    </annotation>
+    <technical>
+      <customElements>
+        <dateCreated>1303991407094</dateCreated>
+        <dateFirstUserSaveKey>1310982766299</dateFirstUserSaveKey>
+        <dateLastModified>1310982766299</dateLastModified>
+      </customElements>
+      <format>scy/mapping</format>
+    </technical>
+    <educational>
+      <learningResourceType>mapConcept</learningResourceType>
+    </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType />
+    </annotation>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40631/0/Expert+concept+map+Chemistry+Mission4.scymapping</entry>
+      </identifier>
+      <las>Chemistry Information</las>
+      <missionId>forensic</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40630/0/Forensic+mission.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Expert concept map Chemistry Mission4</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/40544/0/Concept+Map+for+chemical+analysis.scymapping</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAFq0lEQVR42u2bW0wjZRTHS5CwGqOYXRM1VuODiZsVn7ooCAuJ+NAHTHyBmFiIIpImrgliUJYQg+gbJBowYR/0AeTytsagWYiUuwJFboXlTl0qCJRyB7n2+H3DtE6HaWemnZnOdL+T/DP3269nvu+c8011QCwk0xEEBCABSAASgMQIQAJQG/b7mK8IwCAA9k8AOLYB7m8IALi6uor20gXU4eGhzzHUMs8xTLW1t0euB9rtduohXUj9SL8iLbEAHBwc+Byzt7dHrX+G3n6Lsa+dnt5Faqbnf+vo0AzASfu57tESDDCQ/AEUKi0BFN2JBAPw6OhIFECLxaI5cNvb28J74ZOTEzg+PqaE5z3Cy2dnZw9kZ3J6eipNGJOfn0/iwFAsIyODd5+NjY2IhBcTExM6wPX1dd59+vr6eH5G4e2lLS8v7OASExNVlokwAOmQCpEuIe0iOZGeYGxfTkoiqVwoHqhOgAJuvKO6OqgLzM7OSgrwTmtrWIG1tLT4BzhKT3/kuPEVg0GWGyotLY2AXljALy8XwMgIYwQA/PvGDc4T1NfXQ3NzM+c2nNLFxcX5vTiV8kUCwK2tLdjc3AyonZ0d0Sc3mUx+t7ndbs3BKioqUmkvzLK1tTWYmpri1eTkJMzNzWkrjElLS5Msj5SiV6YkkU1MTIi6Li6iqLMizXGzH9HTNCS9TADbBge9wfwZUik9j9e9znFPuOkL6uoulwsaGxu9ywMDAxf2SU1N5Tw2SUggHCYPtNAAhSpogNj6+/u983q9XlIHHB8fp84vVJIBxI6gFECmVVVViT5mZWXFZxn39Gqo8e3v7wuWZL2ww+EQfUxsbKyqmt2SkpLwFBO6urouxHSVlZUBS0CRl4mEaOyhPrbUagUFBVBRUaEOgH/YAC5feQryP/4afmpdhOlloEIANQPERg2AqcUDbX9pywOpjwbU8grf+vIHiIqKgpF5gJ/bluH5F16Ca6+85gVYXl5O2kA520A8PFpXV3c+Dh3Mq4irPiJiuKWlJb9FDq5CB3udZ1mTHxfZbDYwm81QVlZGjU97shc3kpkGlI9UjOuY9PQTpD/p9Axv5wq9nE6nqB8BB/GR83VWgAe9xJh/jAFwZGQEhoeHfYN7ZrEAaZOx7HxQAXKJywPZADXrgbW1taKPmZ+fp8pRQsX+nsebTooAaLVaJQKocNXEnyUkJFyI6zIzM6np7u4uGI1GdfbCHkAfILUjRSPlIFUjmeh1SgDks6ysLHUDDLcH1tTUaDMOZIPCKdyzns93FQKYnp4OKSkpvPs1NDRIOqAVUR6o2UwEV5CHhoZ4Jafl5OQI3re4uFhZgNnZ2ZCbmwtNTU3UvMFgoF5TZhCKjTmIzvdAfOkfU72j4h8Mv6ZKDNzzAuzu7g765IHaGlx06B11MyCdz1sn/1/GmliUp6JTWFgoLUCli6FiPJDrPoK51zGUQ3ej9E2IhDY5PgBzzV/A3W4XfN9ohel/xAEM9KWqjqMDYT741WvXoeK7X2AGXfNO6324+WmltxgbCGDB599C3zjAm8Z3OPfBbXMo6Z5iHojbwp6eHr/b2SNwSnlgfHw8L8A1qQB2DTM0dD5dXJXule3s7JS9CWDbhY+B5PTAUCw5OVmVMRr73wELCwswMzMjWMoF0io13o+YVJOJhNjL/nskzfV6x3ynXMKjh5oCiHv1b263Qrv1AAanAD68+RUYXn0DMt7O9fa0UgH0CF/n3feKYHBa/tBMJ5UXdQ2H3wPZED0KK8DRBRSmzALccwDcru2Fhx95FIwZ2VT81dKzQXkYF0ClTf/ci3D15euQkvYWPB53mfLuK08+DdHR0UgPgWVgX5aBftk8UGnzd185eSXeedP7nykLUEuG0+4zt+/UnwjASKsHEoDECEACkAAkAIkRgAQgAUgAEiMACUACkAAkRgASgAQgAUiM1/4D61D0VQO1/woAAAAASUVORK5CYII=</base64>
+  </thumbnail>
+</metadata>
+<content languages="en" contentType="xml">
+<eu.scy.scymapper.impl.model.DefaultConceptMap>
+  <name>Untitled</name>
+  <diagram class="eu.scy.scymapper.impl.DiagramModel">
+    <nodes>
+      <eu.scy.scymapper.impl.model.NodeModel>
+        <label>TLC</label>
+        <shape class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle">
+          <mode>1</mode>
+        </shape>
+        <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+          <foregroundColor>
+            <red>0</red>
+            <green>0</green>
+            <blue>0</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <backgroundColor>
+            <red>255</red>
+            <green>0</green>
+            <blue>0</blue>
+            <alpha>255</alpha>
+          </backgroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>2.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <opaque>true</opaque>
+          <minWidth>60</minWidth>
+          <minHeight>46</minHeight>
+          <shadow>true</shadow>
+          <border class="javax.swing.border.EmptyBorder">
+            <left>0</left>
+            <right>0</right>
+            <top>0</top>
+            <bottom>0</bottom>
+          </border>
+        </style>
+        <labelHidden>false</labelHidden>
+        <deleted>false</deleted>
+        <constraints class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+          <canMove>true</canMove>
+          <canDelete>true</canDelete>
+          <canResize>true</canResize>
+          <canEditLabel>true</canEditLabel>
+          <canConnect>true</canConnect>
+          <canSelect>true</canSelect>
+          <canChangeStyle>true</canChangeStyle>
+          <alwaysOnTop>false</alwaysOnTop>
+        </constraints>
+        <x>552</x>
+        <y>461</y>
+        <height>46</height>
+        <width>120</width>
+        <id>02a1d8c5-d1fd-44a6-8a61-46bb7fe4869e</id>
+      </eu.scy.scymapper.impl.model.NodeModel>
+      <eu.scy.scymapper.impl.model.NodeModel>
+        <label>Rf</label>
+        <shape class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle">
+          <mode>1</mode>
+        </shape>
+        <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+          <foregroundColor>
+            <red>0</red>
+            <green>0</green>
+            <blue>0</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <backgroundColor>
+            <red>198</red>
+            <green>210</green>
+            <blue>255</blue>
+            <alpha>255</alpha>
+          </backgroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>2.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <opaque>true</opaque>
+          <minWidth>60</minWidth>
+          <minHeight>46</minHeight>
+          <shadow>false</shadow>
+          <border class="javax.swing.border.EmptyBorder">
+            <left>0</left>
+            <right>0</right>
+            <top>0</top>
+            <bottom>0</bottom>
+          </border>
+        </style>
+        <labelHidden>false</labelHidden>
+        <deleted>false</deleted>
+        <constraints class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+          <canMove>true</canMove>
+          <canDelete>true</canDelete>
+          <canResize>true</canResize>
+          <canEditLabel>true</canEditLabel>
+          <canConnect>true</canConnect>
+          <canSelect>true</canSelect>
+          <canChangeStyle>true</canChangeStyle>
+          <alwaysOnTop>false</alwaysOnTop>
+        </constraints>
+        <x>943</x>
+        <y>463</y>
+        <height>46</height>
+        <width>60</width>
+        <id>495ddcb6-cbcf-4906-9acb-5e6232d897ca</id>
+      </eu.scy.scymapper.impl.model.NodeModel>
+      <eu.scy.scymapper.impl.model.NodeModel>
+        <label>Mobile phase</label>
+        <shape class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle" reference="../../eu.scy.scymapper.impl.model.NodeModel/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+          <foregroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/foregroundColor"/>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/backgroundColor"/>
+          <stroke class="java.awt.BasicStroke" reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/stroke"/>
+          <opaque>true</opaque>
+          <minWidth>60</minWidth>
+          <minHeight>46</minHeight>
+          <shadow>true</shadow>
+          <border class="javax.swing.border.EmptyBorder" reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/border"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <deleted>false</deleted>
+        <constraints class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+          <canMove>true</canMove>
+          <canDelete>true</canDelete>
+          <canResize>true</canResize>
+          <canEditLabel>true</canEditLabel>
+          <canConnect>true</canConnect>
+          <canSelect>true</canSelect>
+          <canChangeStyle>true</canChangeStyle>
+          <alwaysOnTop>false</alwaysOnTop>
+        </constraints>
+        <x>630</x>
+        <y>233</y>
+        <height>46</height>
+        <width>120</width>
+        <id>94e12878-6ce8-46d2-aa1c-a9446ce0ff60</id>
+      </eu.scy.scymapper.impl.model.NodeModel>
+      <eu.scy.scymapper.impl.model.NodeModel>
+        <label>Separation technique</label>
+        <shape class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle" reference="../../eu.scy.scymapper.impl.model.NodeModel[2]/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+          <foregroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/foregroundColor"/>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/backgroundColor"/>
+          <stroke class="java.awt.BasicStroke" reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/stroke"/>
+          <opaque>true</opaque>
+          <minWidth>60</minWidth>
+          <minHeight>46</minHeight>
+          <shadow>false</shadow>
+          <border class="javax.swing.border.EmptyBorder" reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/border"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <deleted>false</deleted>
+        <constraints class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+          <canMove>true</canMove>
+          <canDelete>true</canDelete>
+          <canResize>true</canResize>
+          <canEditLabel>true</canEditLabel>
+          <canConnect>true</canConnect>
+          <canSelect>true</canSelect>
+          <canChangeStyle>true</canChangeStyle>
+          <alwaysOnTop>false</alwaysOnTop>
+        </constraints>
+        <x>154</x>
+        <y>296</y>
+        <height>59</height>
+        <width>92</width>
+        <id>67038828-5c8c-42cb-865b-dc17fdd897d0</id>
+      </eu.scy.scymapper.impl.model.NodeModel>
+      <eu.scy.scymapper.impl.model.NodeModel>
+        <label>Solvant</label>
+        <shape class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle" reference="../../eu.scy.scymapper.impl.model.NodeModel[2]/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+          <foregroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/foregroundColor"/>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/backgroundColor"/>
+          <stroke class="java.awt.BasicStroke" reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/stroke"/>
+          <opaque>true</opaque>
+          <minWidth>60</minWidth>
+          <minHeight>46</minHeight>
+          <shadow>false</shadow>
+          <border class="javax.swing.border.EmptyBorder" reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/border"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <deleted>false</deleted>
+        <constraints class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+          <canMove>true</canMove>
+          <canDelete>true</canDelete>
+          <canResize>true</canResize>
+          <canEditLabel>true</canEditLabel>
+          <canConnect>true</canConnect>
+          <canSelect>true</canSelect>
+          <canChangeStyle>true</canChangeStyle>
+          <alwaysOnTop>false</alwaysOnTop>
+        </constraints>
+        <x>706</x>
+        <y>60</y>
+        <height>46</height>
+        <width>75</width>
+        <id>c21e48e3-a115-40f0-b3c3-5038d4f65af1</id>
+      </eu.scy.scymapper.impl.model.NodeModel>
+      <eu.scy.scymapper.impl.model.NodeModel>
+        <label>Chemical tests</label>
+        <shape class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle" reference="../../eu.scy.scymapper.impl.model.NodeModel[2]/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+          <foregroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/foregroundColor"/>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/backgroundColor"/>
+          <stroke class="java.awt.BasicStroke" reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/stroke"/>
+          <opaque>true</opaque>
+          <minWidth>60</minWidth>
+          <minHeight>46</minHeight>
+          <shadow>false</shadow>
+          <border class="javax.swing.border.EmptyBorder" reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/border"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <deleted>false</deleted>
+        <constraints class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+          <canMove>true</canMove>
+          <canDelete>true</canDelete>
+          <canResize>true</canResize>
+          <canEditLabel>true</canEditLabel>
+          <canConnect>true</canConnect>
+          <canSelect>true</canSelect>
+          <canChangeStyle>true</canChangeStyle>
+          <alwaysOnTop>false</alwaysOnTop>
+        </constraints>
+        <x>62</x>
+        <y>528</y>
+        <height>46</height>
+        <width>120</width>
+        <id>9b801aba-3e92-4106-b833-91d761b86e7c</id>
+      </eu.scy.scymapper.impl.model.NodeModel>
+      <eu.scy.scymapper.impl.model.NodeModel>
+        <label>Distillation</label>
+        <shape class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle" reference="../../eu.scy.scymapper.impl.model.NodeModel/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+          <foregroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/foregroundColor"/>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/backgroundColor"/>
+          <stroke class="java.awt.BasicStroke" reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/stroke"/>
+          <opaque>true</opaque>
+          <minWidth>60</minWidth>
+          <minHeight>46</minHeight>
+          <shadow>true</shadow>
+          <border class="javax.swing.border.EmptyBorder" reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/border"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <deleted>false</deleted>
+        <constraints class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+          <canMove>true</canMove>
+          <canDelete>true</canDelete>
+          <canResize>true</canResize>
+          <canEditLabel>true</canEditLabel>
+          <canConnect>true</canConnect>
+          <canSelect>true</canSelect>
+          <canChangeStyle>true</canChangeStyle>
+          <alwaysOnTop>false</alwaysOnTop>
+        </constraints>
+        <x>306</x>
+        <y>146</y>
+        <height>46</height>
+        <width>120</width>
+        <id>178e96c6-0e5c-4000-a9e2-c98d40a87550</id>
+      </eu.scy.scymapper.impl.model.NodeModel>
+      <eu.scy.scymapper.impl.model.NodeModel>
+        <label>Column chromatography</label>
+        <shape class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle" reference="../../eu.scy.scymapper.impl.model.NodeModel[2]/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+          <foregroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/foregroundColor"/>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/backgroundColor"/>
+          <stroke class="java.awt.BasicStroke" reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/stroke"/>
+          <opaque>true</opaque>
+          <minWidth>60</minWidth>
+          <minHeight>46</minHeight>
+          <shadow>false</shadow>
+          <border class="javax.swing.border.EmptyBorder" reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/border"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <deleted>false</deleted>
+        <constraints class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+          <canMove>true</canMove>
+          <canDelete>true</canDelete>
+          <canResize>true</canResize>
+          <canEditLabel>true</canEditLabel>
+          <canConnect>true</canConnect>
+          <canSelect>true</canSelect>
+          <canChangeStyle>true</canChangeStyle>
+          <alwaysOnTop>false</alwaysOnTop>
+        </constraints>
+        <x>461</x>
+        <y>515</y>
+        <height>61</height>
+        <width>119</width>
+        <id>272a8517-0995-496b-835a-e8554eb90a1c</id>
+      </eu.scy.scymapper.impl.model.NodeModel>
+      <eu.scy.scymapper.impl.model.NodeModel>
+        <label>Chromatography</label>
+        <shape class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle" reference="../../eu.scy.scymapper.impl.model.NodeModel[2]/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+          <foregroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/foregroundColor"/>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/backgroundColor"/>
+          <stroke class="java.awt.BasicStroke" reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/stroke"/>
+          <opaque>true</opaque>
+          <minWidth>60</minWidth>
+          <minHeight>46</minHeight>
+          <shadow>true</shadow>
+          <border class="javax.swing.border.EmptyBorder" reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/border"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <deleted>false</deleted>
+        <constraints class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+          <canMove>true</canMove>
+          <canDelete>true</canDelete>
+          <canResize>true</canResize>
+          <canEditLabel>true</canEditLabel>
+          <canConnect>true</canConnect>
+          <canSelect>true</canSelect>
+          <canChangeStyle>true</canChangeStyle>
+          <alwaysOnTop>false</alwaysOnTop>
+        </constraints>
+        <x>468</x>
+        <y>335</y>
+        <height>50</height>
+        <width>123</width>
+        <id>bc46ca8a-eff3-4ab9-96d0-2b615541f8bb</id>
+      </eu.scy.scymapper.impl.model.NodeModel>
+      <eu.scy.scymapper.impl.model.NodeModel>
+        <label>Spectroscopy</label>
+        <shape class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle" reference="../../eu.scy.scymapper.impl.model.NodeModel[2]/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+          <foregroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/foregroundColor"/>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/backgroundColor"/>
+          <stroke class="java.awt.BasicStroke" reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/stroke"/>
+          <opaque>true</opaque>
+          <minWidth>60</minWidth>
+          <minHeight>46</minHeight>
+          <shadow>false</shadow>
+          <border class="javax.swing.border.EmptyBorder" reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/border"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <deleted>false</deleted>
+        <constraints class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+          <canMove>true</canMove>
+          <canDelete>true</canDelete>
+          <canResize>true</canResize>
+          <canEditLabel>true</canEditLabel>
+          <canConnect>true</canConnect>
+          <canSelect>true</canSelect>
+          <canChangeStyle>true</canChangeStyle>
+          <alwaysOnTop>false</alwaysOnTop>
+        </constraints>
+        <x>202</x>
+        <y>508</y>
+        <height>46</height>
+        <width>120</width>
+        <id>8931736f-f464-4c8e-be62-32a742b4b4af</id>
+      </eu.scy.scymapper.impl.model.NodeModel>
+      <eu.scy.scymapper.impl.model.NodeModel>
+        <label>Hydrodistillation</label>
+        <shape class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle" reference="../../eu.scy.scymapper.impl.model.NodeModel/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+          <foregroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/foregroundColor"/>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/backgroundColor"/>
+          <stroke class="java.awt.BasicStroke" reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/stroke"/>
+          <opaque>true</opaque>
+          <minWidth>60</minWidth>
+          <minHeight>46</minHeight>
+          <shadow>true</shadow>
+          <border class="javax.swing.border.EmptyBorder" reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/border"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <deleted>false</deleted>
+        <constraints class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+          <canMove>true</canMove>
+          <canDelete>true</canDelete>
+          <canResize>true</canResize>
+          <canEditLabel>true</canEditLabel>
+          <canConnect>true</canConnect>
+          <canSelect>true</canSelect>
+          <canChangeStyle>true</canChangeStyle>
+          <alwaysOnTop>false</alwaysOnTop>
+        </constraints>
+        <x>201</x>
+        <y>80</y>
+        <height>46</height>
+        <width>120</width>
+        <id>d8c95103-e2aa-409d-8c8d-65d43e7714ad</id>
+      </eu.scy.scymapper.impl.model.NodeModel>
+      <eu.scy.scymapper.impl.model.NodeModel>
+        <label>HPLC</label>
+        <shape class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle" reference="../../eu.scy.scymapper.impl.model.NodeModel[2]/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+          <foregroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/foregroundColor"/>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/backgroundColor"/>
+          <stroke class="java.awt.BasicStroke" reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/stroke"/>
+          <opaque>true</opaque>
+          <minWidth>60</minWidth>
+          <minHeight>46</minHeight>
+          <shadow>false</shadow>
+          <border class="javax.swing.border.EmptyBorder" reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/border"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <deleted>false</deleted>
+        <constraints class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+          <canMove>true</canMove>
+          <canDelete>true</canDelete>
+          <canResize>true</canResize>
+          <canEditLabel>true</canEditLabel>
+          <canConnect>true</canConnect>
+          <canSelect>true</canSelect>
+          <canChangeStyle>true</canChangeStyle>
+          <alwaysOnTop>false</alwaysOnTop>
+        </constraints>
+        <x>423</x>
+        <y>458</y>
+        <height>46</height>
+        <width>68</width>
+        <id>af0d2a92-1cc4-4e5d-9152-615e48b08aaf</id>
+      </eu.scy.scymapper.impl.model.NodeModel>
+      <eu.scy.scymapper.impl.model.NodeModel>
+        <label>Static phase</label>
+        <shape class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle" reference="../../eu.scy.scymapper.impl.model.NodeModel/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+          <foregroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/foregroundColor"/>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/backgroundColor"/>
+          <stroke class="java.awt.BasicStroke" reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/stroke"/>
+          <opaque>true</opaque>
+          <minWidth>60</minWidth>
+          <minHeight>46</minHeight>
+          <shadow>true</shadow>
+          <border class="javax.swing.border.EmptyBorder" reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/border"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <deleted>false</deleted>
+        <constraints class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+          <canMove>true</canMove>
+          <canDelete>true</canDelete>
+          <canResize>true</canResize>
+          <canEditLabel>true</canEditLabel>
+          <canConnect>true</canConnect>
+          <canSelect>true</canSelect>
+          <canChangeStyle>true</canChangeStyle>
+          <alwaysOnTop>false</alwaysOnTop>
+        </constraints>
+        <x>633</x>
+        <y>343</y>
+        <height>46</height>
+        <width>120</width>
+        <id>28bdfa81-b62e-4eaf-96f6-0bd8b8941627</id>
+      </eu.scy.scymapper.impl.model.NodeModel>
+      <eu.scy.scymapper.impl.model.NodeModel>
+        <label>Solution</label>
+        <shape class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle" reference="../../eu.scy.scymapper.impl.model.NodeModel/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+          <foregroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/foregroundColor"/>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/backgroundColor"/>
+          <stroke class="java.awt.BasicStroke" reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/stroke"/>
+          <opaque>true</opaque>
+          <minWidth>60</minWidth>
+          <minHeight>46</minHeight>
+          <shadow>true</shadow>
+          <border class="javax.swing.border.EmptyBorder" reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/border"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <deleted>false</deleted>
+        <constraints class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+          <canMove>true</canMove>
+          <canDelete>true</canDelete>
+          <canResize>true</canResize>
+          <canEditLabel>true</canEditLabel>
+          <canConnect>true</canConnect>
+          <canSelect>true</canSelect>
+          <canChangeStyle>true</canChangeStyle>
+          <alwaysOnTop>false</alwaysOnTop>
+        </constraints>
+        <x>796</x>
+        <y>181</y>
+        <height>46</height>
+        <width>120</width>
+        <id>959d6f3b-dcfa-4e1b-bb23-e13be73bb058</id>
+      </eu.scy.scymapper.impl.model.NodeModel>
+      <eu.scy.scymapper.impl.model.NodeModel>
+        <label>Extraction</label>
+        <shape class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle" reference="../../eu.scy.scymapper.impl.model.NodeModel/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+          <foregroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/foregroundColor"/>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/backgroundColor"/>
+          <stroke class="java.awt.BasicStroke" reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/stroke"/>
+          <opaque>true</opaque>
+          <minWidth>60</minWidth>
+          <minHeight>46</minHeight>
+          <shadow>true</shadow>
+          <border class="javax.swing.border.EmptyBorder" reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/border"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <deleted>false</deleted>
+        <constraints class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+          <canMove>true</canMove>
+          <canDelete>true</canDelete>
+          <canResize>true</canResize>
+          <canEditLabel>true</canEditLabel>
+          <canConnect>true</canConnect>
+          <canSelect>true</canSelect>
+          <canChangeStyle>true</canChangeStyle>
+          <alwaysOnTop>false</alwaysOnTop>
+        </constraints>
+        <x>346</x>
+        <y>227</y>
+        <height>46</height>
+        <width>120</width>
+        <id>7cd7eed6-6a2f-4e09-9775-addde07ac611</id>
+      </eu.scy.scymapper.impl.model.NodeModel>
+      <eu.scy.scymapper.impl.model.NodeModel>
+        <label>Controls</label>
+        <shape class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle" reference="../../eu.scy.scymapper.impl.model.NodeModel[2]/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+          <foregroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/foregroundColor"/>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/backgroundColor"/>
+          <stroke class="java.awt.BasicStroke" reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/stroke"/>
+          <opaque>true</opaque>
+          <minWidth>60</minWidth>
+          <minHeight>46</minHeight>
+          <shadow>false</shadow>
+          <border class="javax.swing.border.EmptyBorder" reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/border"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <deleted>false</deleted>
+        <constraints class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+          <canMove>true</canMove>
+          <canDelete>true</canDelete>
+          <canResize>true</canResize>
+          <canEditLabel>true</canEditLabel>
+          <canConnect>true</canConnect>
+          <canSelect>true</canSelect>
+          <canChangeStyle>true</canChangeStyle>
+          <alwaysOnTop>false</alwaysOnTop>
+        </constraints>
+        <x>9</x>
+        <y>456</y>
+        <height>46</height>
+        <width>71</width>
+        <id>04d396a4-f8ac-4fec-94e9-2c978f682dfa</id>
+      </eu.scy.scymapper.impl.model.NodeModel>
+      <eu.scy.scymapper.impl.model.NodeModel>
+        <label>Filtration</label>
+        <shape class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle" reference="../../eu.scy.scymapper.impl.model.NodeModel/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+          <foregroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/foregroundColor"/>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/backgroundColor"/>
+          <stroke class="java.awt.BasicStroke" reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/stroke"/>
+          <opaque>true</opaque>
+          <minWidth>60</minWidth>
+          <minHeight>46</minHeight>
+          <shadow>true</shadow>
+          <border class="javax.swing.border.EmptyBorder" reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/border"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <deleted>false</deleted>
+        <constraints class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+          <canMove>true</canMove>
+          <canDelete>true</canDelete>
+          <canResize>true</canResize>
+          <canEditLabel>true</canEditLabel>
+          <canConnect>true</canConnect>
+          <canSelect>true</canSelect>
+          <canChangeStyle>true</canChangeStyle>
+          <alwaysOnTop>false</alwaysOnTop>
+        </constraints>
+        <x>77</x>
+        <y>81</y>
+        <height>47</height>
+        <width>89</width>
+        <id>9311a1bf-dd8a-44ea-a380-fe4a379364f2</id>
+      </eu.scy.scymapper.impl.model.NodeModel>
+      <eu.scy.scymapper.impl.model.NodeModel>
+        <label>Solubility</label>
+        <shape class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle" reference="../../eu.scy.scymapper.impl.model.NodeModel/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+          <foregroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/foregroundColor"/>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/backgroundColor"/>
+          <stroke class="java.awt.BasicStroke" reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/stroke"/>
+          <opaque>true</opaque>
+          <minWidth>60</minWidth>
+          <minHeight>46</minHeight>
+          <shadow>true</shadow>
+          <border class="javax.swing.border.EmptyBorder" reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/border"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <deleted>false</deleted>
+        <constraints class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+          <canMove>true</canMove>
+          <canDelete>true</canDelete>
+          <canResize>true</canResize>
+          <canEditLabel>true</canEditLabel>
+          <canConnect>true</canConnect>
+          <canSelect>true</canSelect>
+          <canChangeStyle>true</canChangeStyle>
+          <alwaysOnTop>false</alwaysOnTop>
+        </constraints>
+        <x>796</x>
+        <y>258</y>
+        <height>46</height>
+        <width>120</width>
+        <id>2419c599-3aad-4541-82f0-f7450a64e126</id>
+      </eu.scy.scymapper.impl.model.NodeModel>
+      <eu.scy.scymapper.impl.model.NodeModel>
+        <label>Physico-chemical properties</label>
+        <shape class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle" reference="../../eu.scy.scymapper.impl.model.NodeModel[2]/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+          <foregroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/foregroundColor"/>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/backgroundColor"/>
+          <stroke class="java.awt.BasicStroke" reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/stroke"/>
+          <opaque>true</opaque>
+          <minWidth>60</minWidth>
+          <minHeight>46</minHeight>
+          <shadow>false</shadow>
+          <border class="javax.swing.border.EmptyBorder" reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/border"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <deleted>false</deleted>
+        <constraints class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+          <canMove>true</canMove>
+          <canDelete>true</canDelete>
+          <canResize>true</canResize>
+          <canEditLabel>true</canEditLabel>
+          <canConnect>true</canConnect>
+          <canSelect>true</canSelect>
+          <canChangeStyle>true</canChangeStyle>
+          <alwaysOnTop>false</alwaysOnTop>
+        </constraints>
+        <x>273</x>
+        <y>439</y>
+        <height>61</height>
+        <width>128</width>
+        <id>816ceb4e-2a60-4a84-ba38-c697e7dae83a</id>
+      </eu.scy.scymapper.impl.model.NodeModel>
+      <eu.scy.scymapper.impl.model.NodeModel>
+        <label>Identification technique</label>
+        <shape class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle" reference="../../eu.scy.scymapper.impl.model.NodeModel/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+          <foregroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/foregroundColor"/>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/backgroundColor"/>
+          <stroke class="java.awt.BasicStroke" reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/stroke"/>
+          <opaque>true</opaque>
+          <minWidth>60</minWidth>
+          <minHeight>46</minHeight>
+          <shadow>true</shadow>
+          <border class="javax.swing.border.EmptyBorder" reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/border"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <deleted>false</deleted>
+        <constraints class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+          <canMove>true</canMove>
+          <canDelete>true</canDelete>
+          <canResize>true</canResize>
+          <canEditLabel>true</canEditLabel>
+          <canConnect>true</canConnect>
+          <canSelect>true</canSelect>
+          <canChangeStyle>true</canChangeStyle>
+          <alwaysOnTop>false</alwaysOnTop>
+        </constraints>
+        <x>157</x>
+        <y>382</y>
+        <height>60</height>
+        <width>102</width>
+        <id>6ba30804-d8fb-4ea3-aab8-8a8a84f63e61</id>
+      </eu.scy.scymapper.impl.model.NodeModel>
+      <eu.scy.scymapper.impl.model.NodeModel>
+        <label>Chemical substance</label>
+        <shape class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle" reference="../../eu.scy.scymapper.impl.model.NodeModel[2]/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+          <foregroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/foregroundColor"/>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/backgroundColor"/>
+          <stroke class="java.awt.BasicStroke" reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/stroke"/>
+          <opaque>true</opaque>
+          <minWidth>60</minWidth>
+          <minHeight>46</minHeight>
+          <shadow>false</shadow>
+          <border class="javax.swing.border.EmptyBorder" reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/border"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <deleted>false</deleted>
+        <constraints class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+          <canMove>true</canMove>
+          <canDelete>true</canDelete>
+          <canResize>true</canResize>
+          <canEditLabel>true</canEditLabel>
+          <canConnect>true</canConnect>
+          <canSelect>true</canSelect>
+          <canChangeStyle>true</canChangeStyle>
+          <alwaysOnTop>false</alwaysOnTop>
+        </constraints>
+        <x>898</x>
+        <y>61</y>
+        <height>46</height>
+        <width>148</width>
+        <id>df9c18be-e772-41e7-b543-e1abe7a04bde</id>
+      </eu.scy.scymapper.impl.model.NodeModel>
+      <eu.scy.scymapper.impl.model.NodeModel>
+        <label>Decantation</label>
+        <shape class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle" reference="../../eu.scy.scymapper.impl.model.NodeModel[2]/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+          <foregroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/foregroundColor"/>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/backgroundColor"/>
+          <stroke class="java.awt.BasicStroke" reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/stroke"/>
+          <opaque>true</opaque>
+          <minWidth>60</minWidth>
+          <minHeight>46</minHeight>
+          <shadow>true</shadow>
+          <border class="javax.swing.border.EmptyBorder" reference="../../../eu.scy.scymapper.impl.model.NodeModel[2]/style/border"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <deleted>false</deleted>
+        <constraints class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+          <canMove>true</canMove>
+          <canDelete>true</canDelete>
+          <canResize>true</canResize>
+          <canEditLabel>true</canEditLabel>
+          <canConnect>true</canConnect>
+          <canSelect>true</canSelect>
+          <canChangeStyle>true</canChangeStyle>
+          <alwaysOnTop>false</alwaysOnTop>
+        </constraints>
+        <x>5</x>
+        <y>175</y>
+        <height>48</height>
+        <width>101</width>
+        <id>e88a7871-62f4-40f5-ae27-04557c20cbb5</id>
+      </eu.scy.scymapper.impl.model.NodeModel>
+    </nodes>
+    <links>
+      <eu.scy.scymapper.impl.model.NodeLinkModel>
+        <label>is composed of</label>
+        <shape class="eu.scy.scymapper.impl.shapes.links.Arrow">
+          <arrowhead>
+            <length>10.0</length>
+            <fixedSize>true</fixedSize>
+          </arrowhead>
+          <lineShape class="eu.scy.scymapper.impl.shapes.links.Line"/>
+        </shape>
+        <style class="eu.scy.scymapper.impl.model.DefaultLinkStyle">
+          <foregroundColor>
+            <red>51</red>
+            <green>51</green>
+            <blue>51</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>1.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <backgroundColor>
+            <red>0</red>
+            <green>0</green>
+            <blue>0</blue>
+            <alpha>255</alpha>
+          </backgroundColor>
+        </style>
+        <labelHidden>false</labelHidden>
+        <id>15a48076-35e4-407c-a823-5e8d42368b78</id>
+        <fromNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[14]"/>
+        <toNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[5]"/>
+        <myLabel>is composed of</myLabel>
+      </eu.scy.scymapper.impl.model.NodeLinkModel>
+      <eu.scy.scymapper.impl.model.NodeLinkModel>
+        <label>is a</label>
+        <shape class="eu.scy.scymapper.impl.shapes.links.Arrow" reference="../../eu.scy.scymapper.impl.model.NodeLinkModel/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultLinkStyle">
+          <foregroundColor>
+            <red>51</red>
+            <green>51</green>
+            <blue>51</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>1.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeLinkModel/style/backgroundColor"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <id>fd44dd3f-4f49-44e3-97ea-a662ca2ec827</id>
+        <fromNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[8]"/>
+        <toNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[9]"/>
+        <myLabel>is a</myLabel>
+      </eu.scy.scymapper.impl.model.NodeLinkModel>
+      <eu.scy.scymapper.impl.model.NodeLinkModel>
+        <label>is composed of</label>
+        <shape class="eu.scy.scymapper.impl.shapes.links.Arrow" reference="../../eu.scy.scymapper.impl.model.NodeLinkModel/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultLinkStyle">
+          <foregroundColor>
+            <red>51</red>
+            <green>51</green>
+            <blue>51</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>1.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeLinkModel/style/backgroundColor"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <id>fe473fdd-02d5-46f7-9213-33ef7f9e3861</id>
+        <fromNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[14]"/>
+        <toNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[21]"/>
+        <myLabel>is composed of</myLabel>
+      </eu.scy.scymapper.impl.model.NodeLinkModel>
+      <eu.scy.scymapper.impl.model.NodeLinkModel>
+        <label>is a</label>
+        <shape class="eu.scy.scymapper.impl.shapes.links.Arrow" reference="../../eu.scy.scymapper.impl.model.NodeLinkModel/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultLinkStyle">
+          <foregroundColor>
+            <red>51</red>
+            <green>51</green>
+            <blue>51</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>1.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeLinkModel/style/backgroundColor"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <id>44ddb8cb-e9d6-4a15-a4fd-f2656af9238c</id>
+        <fromNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[11]"/>
+        <toNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[4]"/>
+        <myLabel>is a</myLabel>
+      </eu.scy.scymapper.impl.model.NodeLinkModel>
+      <eu.scy.scymapper.impl.model.NodeLinkModel>
+        <label>is a</label>
+        <shape class="eu.scy.scymapper.impl.shapes.links.Arrow" reference="../../eu.scy.scymapper.impl.model.NodeLinkModel/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultLinkStyle">
+          <foregroundColor>
+            <red>51</red>
+            <green>51</green>
+            <blue>51</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>1.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeLinkModel/style/backgroundColor"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <id>02ee2367-039a-4c1f-84d8-118a97b3522e</id>
+        <fromNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[15]"/>
+        <toNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[4]"/>
+        <myLabel>is a</myLabel>
+      </eu.scy.scymapper.impl.model.NodeLinkModel>
+      <eu.scy.scymapper.impl.model.NodeLinkModel>
+        <label>is a</label>
+        <shape class="eu.scy.scymapper.impl.shapes.links.Arrow" reference="../../eu.scy.scymapper.impl.model.NodeLinkModel/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultLinkStyle">
+          <foregroundColor>
+            <red>51</red>
+            <green>51</green>
+            <blue>51</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>1.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeLinkModel/style/backgroundColor"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <id>ab195489-414c-45f5-99fa-022a978e1872</id>
+        <fromNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[9]"/>
+        <toNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[4]"/>
+        <myLabel>is a</myLabel>
+      </eu.scy.scymapper.impl.model.NodeLinkModel>
+      <eu.scy.scymapper.impl.model.NodeLinkModel>
+        <label>has a</label>
+        <shape class="eu.scy.scymapper.impl.shapes.links.Arrow" reference="../../eu.scy.scymapper.impl.model.NodeLinkModel/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultLinkStyle">
+          <foregroundColor>
+            <red>51</red>
+            <green>51</green>
+            <blue>51</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>1.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeLinkModel/style/backgroundColor"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <id>33866db4-c1f7-4e0c-bb69-cc053a734241</id>
+        <fromNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[9]"/>
+        <toNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[13]"/>
+        <myLabel>has a</myLabel>
+      </eu.scy.scymapper.impl.model.NodeLinkModel>
+      <eu.scy.scymapper.impl.model.NodeLinkModel>
+        <label>is a</label>
+        <shape class="eu.scy.scymapper.impl.shapes.links.Arrow" reference="../../eu.scy.scymapper.impl.model.NodeLinkModel/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultLinkStyle">
+          <foregroundColor>
+            <red>51</red>
+            <green>51</green>
+            <blue>51</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>1.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeLinkModel/style/backgroundColor"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <id>9554146a-bc6f-4feb-a801-73c408bf6acd</id>
+        <fromNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[9]"/>
+        <toNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[20]"/>
+        <myLabel>is a</myLabel>
+      </eu.scy.scymapper.impl.model.NodeLinkModel>
+      <eu.scy.scymapper.impl.model.NodeLinkModel>
+        <label>is a</label>
+        <shape class="eu.scy.scymapper.impl.shapes.links.Arrow" reference="../../eu.scy.scymapper.impl.model.NodeLinkModel/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultLinkStyle">
+          <foregroundColor>
+            <red>51</red>
+            <green>51</green>
+            <blue>51</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>1.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeLinkModel/style/backgroundColor"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <id>2d044f3d-726d-431c-b96c-efe3a7264962</id>
+        <fromNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[12]"/>
+        <toNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[9]"/>
+        <myLabel>is a</myLabel>
+      </eu.scy.scymapper.impl.model.NodeLinkModel>
+      <eu.scy.scymapper.impl.model.NodeLinkModel>
+        <label>necessitates</label>
+        <shape class="eu.scy.scymapper.impl.shapes.links.Arrow" reference="../../eu.scy.scymapper.impl.model.NodeLinkModel/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultLinkStyle">
+          <foregroundColor>
+            <red>51</red>
+            <green>51</green>
+            <blue>51</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>1.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeLinkModel/style/backgroundColor"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <id>c0827624-edc5-490f-ab72-3ebad2fd0ee7</id>
+        <fromNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[20]"/>
+        <toNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[16]"/>
+        <myLabel>necessitates</myLabel>
+      </eu.scy.scymapper.impl.model.NodeLinkModel>
+      <eu.scy.scymapper.impl.model.NodeLinkModel>
+        <label>is a</label>
+        <shape class="eu.scy.scymapper.impl.shapes.links.Arrow" reference="../../eu.scy.scymapper.impl.model.NodeLinkModel/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultLinkStyle">
+          <foregroundColor>
+            <red>51</red>
+            <green>51</green>
+            <blue>51</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>1.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeLinkModel/style/backgroundColor"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <id>e7c1cbdd-9344-4365-a177-5493503701a0</id>
+        <fromNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[7]"/>
+        <toNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[4]"/>
+        <myLabel>is a</myLabel>
+      </eu.scy.scymapper.impl.model.NodeLinkModel>
+      <eu.scy.scymapper.impl.model.NodeLinkModel>
+        <label>depends on</label>
+        <shape class="eu.scy.scymapper.impl.shapes.links.Arrow" reference="../../eu.scy.scymapper.impl.model.NodeLinkModel/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultLinkStyle">
+          <foregroundColor>
+            <red>51</red>
+            <green>51</green>
+            <blue>51</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>1.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeLinkModel/style/backgroundColor"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <id>8c8d15a1-9865-453c-ac68-ba2017e320c8</id>
+        <fromNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[2]"/>
+        <toNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[3]"/>
+        <myLabel>depends on</myLabel>
+      </eu.scy.scymapper.impl.model.NodeLinkModel>
+      <eu.scy.scymapper.impl.model.NodeLinkModel>
+        <label>is a</label>
+        <shape class="eu.scy.scymapper.impl.shapes.links.Arrow" reference="../../eu.scy.scymapper.impl.model.NodeLinkModel/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultLinkStyle">
+          <foregroundColor>
+            <red>51</red>
+            <green>51</green>
+            <blue>51</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>1.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeLinkModel/style/backgroundColor"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <id>475db544-3f92-4eef-93aa-2d54383dbbf2</id>
+        <fromNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[17]"/>
+        <toNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[4]"/>
+        <myLabel>is a</myLabel>
+      </eu.scy.scymapper.impl.model.NodeLinkModel>
+      <eu.scy.scymapper.impl.model.NodeLinkModel>
+        <label>is a</label>
+        <shape class="eu.scy.scymapper.impl.shapes.links.Arrow" reference="../../eu.scy.scymapper.impl.model.NodeLinkModel/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultLinkStyle">
+          <foregroundColor>
+            <red>51</red>
+            <green>51</green>
+            <blue>51</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>1.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeLinkModel/style/backgroundColor"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <id>0cd608ea-c5b3-47c8-b18f-7d01779b306b</id>
+        <fromNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[3]"/>
+        <toNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[5]"/>
+        <myLabel>is a</myLabel>
+      </eu.scy.scymapper.impl.model.NodeLinkModel>
+      <eu.scy.scymapper.impl.model.NodeLinkModel>
+        <label>has a</label>
+        <shape class="eu.scy.scymapper.impl.shapes.links.Arrow" reference="../../eu.scy.scymapper.impl.model.NodeLinkModel/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultLinkStyle">
+          <foregroundColor>
+            <red>51</red>
+            <green>51</green>
+            <blue>51</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>1.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeLinkModel/style/backgroundColor"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <id>211bce5b-9f34-405f-9dec-88b179bfb83a</id>
+        <fromNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[9]"/>
+        <toNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[3]"/>
+        <myLabel>has a</myLabel>
+      </eu.scy.scymapper.impl.model.NodeLinkModel>
+      <eu.scy.scymapper.impl.model.NodeLinkModel>
+        <label>is a</label>
+        <shape class="eu.scy.scymapper.impl.shapes.links.Arrow" reference="../../eu.scy.scymapper.impl.model.NodeLinkModel/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultLinkStyle">
+          <foregroundColor>
+            <red>51</red>
+            <green>51</green>
+            <blue>51</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>1.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeLinkModel/style/backgroundColor"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <id>19c1533f-7615-4c80-9552-e82641ccf78d</id>
+        <fromNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[19]"/>
+        <toNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[20]"/>
+        <myLabel>is a</myLabel>
+      </eu.scy.scymapper.impl.model.NodeLinkModel>
+      <eu.scy.scymapper.impl.model.NodeLinkModel>
+        <label>depends on</label>
+        <shape class="eu.scy.scymapper.impl.shapes.links.Arrow" reference="../../eu.scy.scymapper.impl.model.NodeLinkModel/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultLinkStyle">
+          <foregroundColor>
+            <red>51</red>
+            <green>51</green>
+            <blue>51</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>1.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeLinkModel/style/backgroundColor"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <id>fc78195d-96a8-4a87-b134-2509cc6486a4</id>
+        <fromNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[2]"/>
+        <toNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[18]"/>
+        <myLabel>depends on</myLabel>
+      </eu.scy.scymapper.impl.model.NodeLinkModel>
+      <eu.scy.scymapper.impl.model.NodeLinkModel>
+        <label>depends on</label>
+        <shape class="eu.scy.scymapper.impl.shapes.links.Arrow" reference="../../eu.scy.scymapper.impl.model.NodeLinkModel/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultLinkStyle">
+          <foregroundColor>
+            <red>51</red>
+            <green>51</green>
+            <blue>51</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>1.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeLinkModel/style/backgroundColor"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <id>138d37a4-5abb-4655-9116-1789319b4863</id>
+        <fromNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[2]"/>
+        <toNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[13]"/>
+        <myLabel>depends on</myLabel>
+      </eu.scy.scymapper.impl.model.NodeLinkModel>
+      <eu.scy.scymapper.impl.model.NodeLinkModel>
+        <label>is a</label>
+        <shape class="eu.scy.scymapper.impl.shapes.links.Arrow" reference="../../eu.scy.scymapper.impl.model.NodeLinkModel/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultLinkStyle">
+          <foregroundColor>
+            <red>51</red>
+            <green>51</green>
+            <blue>51</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>1.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeLinkModel/style/backgroundColor"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <id>678c5c9f-0114-46d3-8fc7-d7e7a552979f</id>
+        <fromNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[10]"/>
+        <toNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[20]"/>
+        <myLabel>is a</myLabel>
+      </eu.scy.scymapper.impl.model.NodeLinkModel>
+      <eu.scy.scymapper.impl.model.NodeLinkModel>
+        <label>is a</label>
+        <shape class="eu.scy.scymapper.impl.shapes.links.Arrow" reference="../../eu.scy.scymapper.impl.model.NodeLinkModel/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultLinkStyle">
+          <foregroundColor>
+            <red>51</red>
+            <green>51</green>
+            <blue>51</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>1.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeLinkModel/style/backgroundColor"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <id>18f76296-aace-468f-be5b-725cf6c10557</id>
+        <fromNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[6]"/>
+        <toNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[20]"/>
+        <myLabel>is a</myLabel>
+      </eu.scy.scymapper.impl.model.NodeLinkModel>
+      <eu.scy.scymapper.impl.model.NodeLinkModel>
+        <label>is a</label>
+        <shape class="eu.scy.scymapper.impl.shapes.links.Arrow" reference="../../eu.scy.scymapper.impl.model.NodeLinkModel/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultLinkStyle">
+          <foregroundColor>
+            <red>51</red>
+            <green>51</green>
+            <blue>51</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>1.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeLinkModel/style/backgroundColor"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <id>06e726fa-dbca-4cc4-9623-c7e6f1357f5a</id>
+        <fromNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel"/>
+        <toNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[9]"/>
+        <myLabel>is a</myLabel>
+      </eu.scy.scymapper.impl.model.NodeLinkModel>
+      <eu.scy.scymapper.impl.model.NodeLinkModel>
+        <label>characterizes</label>
+        <shape class="eu.scy.scymapper.impl.shapes.links.Arrow" reference="../../eu.scy.scymapper.impl.model.NodeLinkModel/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultLinkStyle">
+          <foregroundColor>
+            <red>51</red>
+            <green>51</green>
+            <blue>51</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>1.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeLinkModel/style/backgroundColor"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <id>ed74434c-c9c8-4677-8680-f4f0a89c1295</id>
+        <fromNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[2]"/>
+        <toNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[21]"/>
+        <myLabel>characterizes</myLabel>
+      </eu.scy.scymapper.impl.model.NodeLinkModel>
+      <eu.scy.scymapper.impl.model.NodeLinkModel>
+        <label>characterizes</label>
+        <shape class="eu.scy.scymapper.impl.shapes.links.Arrow" reference="../../eu.scy.scymapper.impl.model.NodeLinkModel/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultLinkStyle">
+          <foregroundColor>
+            <red>51</red>
+            <green>51</green>
+            <blue>51</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>1.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeLinkModel/style/backgroundColor"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <id>1012e793-cf3a-44cc-867e-8ae7294e584e</id>
+        <fromNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[18]"/>
+        <toNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[14]"/>
+        <myLabel>characterizes</myLabel>
+      </eu.scy.scymapper.impl.model.NodeLinkModel>
+      <eu.scy.scymapper.impl.model.NodeLinkModel>
+        <label>is a</label>
+        <shape class="eu.scy.scymapper.impl.shapes.links.Arrow" reference="../../eu.scy.scymapper.impl.model.NodeLinkModel/shape"/>
+        <style class="eu.scy.scymapper.impl.model.DefaultLinkStyle">
+          <foregroundColor>
+            <red>51</red>
+            <green>51</green>
+            <blue>51</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>1.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeLinkModel/style/backgroundColor"/>
+        </style>
+        <labelHidden>false</labelHidden>
+        <id>fd9c1eac-7c50-4165-a8db-98f6ab913d33</id>
+        <fromNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[22]"/>
+        <toNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[4]"/>
+        <myLabel>is a</myLabel>
+      </eu.scy.scymapper.impl.model.NodeLinkModel>
+    </links>
+  </diagram>
+</eu.scy.scymapper.impl.model.DefaultConceptMap>
+</content>
+<resources>
+</resources>
+</elo>
