@@ -19,16 +19,16 @@
         </role>
         <entity>rachel</entity>
         <date>
-          <dateTime>2011-04-22T14:41:13.709+0200</dateTime>
+          <dateTime>2011-07-26T11:03:57.802+0200</dateTime>
         </date>
       </contribute>
-      <version>14</version>
+      <version>16</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1303476073709</dateCreated>
-        <dateFirstUserSaveKey>1303476073709</dateFirstUserSaveKey>
-        <dateLastModified>1303476073709</dateLastModified>
+        <dateFirstUserSaveKey>1311671037802</dateFirstUserSaveKey>
+        <dateLastModified>1311671037802</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
@@ -40,29 +40,44 @@
         <catalog>memory</catalog>
         <entry>roolo://memory/40100/0/Conclusion+of+the+experiment.rtf</entry>
       </identifier>
-      <las>Orientation</las>
+      <las>Biology Analysis</las>
+      <missionId>forensic</missionId>
       <missionRunning>
         <catalog>memory</catalog>
-        <entry>roolo://memory/40047/0/Forensic+SCY-Lab.scymissionspecification</entry>
+        <entry>roolo://memory/40630/0/Forensic+mission.scymissionspecification</entry>
       </missionRunning>
       <title>
         <string language="en">Conclusion of the experiment</string>
+        <string language="fr">Conclusion de mon expérience</string>
       </title>
     </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
   </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
   <template>true</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAEyklEQVR42u2X60/bZRTH+wf4FywhvOIFhoQE4hsC4Z2GkCxRJy8kGN4wpiYGJreOEOZAIxrGpWOEa7GhBcpFysUhOrmOmjHAKJfMdVTYYAJyaQukLZevPWf2J9B2RF0TX5xv8s3ze57nnN/v9MPD6a+q+vp6nKejoyNxAKsI4ObmJtbX19lra2vKNXlraws9PT0wmUw+plyXy+XX/uLJg4ODAfcqKyv9rtPze3t7/e6Vl5cHvN/h4WHA+l6WfQCeNQEkuT3BB26n4tVnaxgaGuLcs97b2+O8k/HkNtP3GB4eVvbcrr/3dra3UVNTg52dHZ88m82Gg4MDjj+Zc+fuBGpra/0+y+Gwc91USzCtamho4A9d1GzFx19t4JcFO+5PbfkA3Nw9gm7UhjnLPtQ6K5q/nWeAtG+3bWPmqQvfmB/znD4wjSPzDjz47RA/PwPuPdzFW2nXFYA0J3v37J4cAkgjzSc9eQOTTzHhufYCnLHuK3kPPWW9m1mhAPSue+127XPdlBtMKwBzajwA637H1duryOgGXn3j/imAq3/soXn6ENNLTqhNTtxqHVdO4MbGBgoKCmAw6DmeTOvGH37FdzMbUKlU6B57jEvpNxSANNffmeGRbLPtPAdot/G878cn0PU9+GvPBrfbjbtTT9A18ojvZxpfxKUPv1QAUhytfz1q4Wu3c597lLeeYFkB+JHGgnYrkKxx4ZX4R1hdXTsF0LqyhWTdIczmWUR9cYQbt3uUEzgwMIDsnBx8cr2Q5968SsMotL1TaB6YRU3HBN65UqQApLl3new9gQ67Hbmf1aLolhHXShpQ22lWTqBx8CeO1Q/O83gx7VMFoPc+ka/F8UgnkHICtaaXZQWgtscKdbUFV2/O4YOiaZ9/4QptN95+/3PFb14pVgCe9crKCo8XLxefyrmcd1MBeHKd7D2B1Ft9954DTFNrTq2//t41BeDZHJfnBFKTp1qCaQXgi75Eurq60Nra6uPq6mosLS35eHl52W88mQAG2tNoNH7X29ra0NHR4XevrKws4P2cTifXEkyrGhsbz22Ui4uL4gBWjYzdw2mPnzN/kcf/Rfw/fdb/qz4VRP9JDDArKwtarVZZ1Ov13NBJLS0tPJaUlPA4NTWFwsJClJaWIjExEQsLC7xOzby/vx8WiwX5+fmIjo7mJl5VVQW1Wo3R0VHup52dnRzvcDi4h+bm5mJubo7XqClTXyHRr5Li4mJ+PaK8pqYmXjcYDMjxfOOTZ2dnlbqo1ZDa29v59YXi+/r6OC7oADMzM7npEkTvA6lQUkJCAo8ZGRk80gekb8Tk5GQYjUYGRQoLC2OABHV3dxcxMTGIjY1FXl4ezyMiIvh98cKFC/wzKzU1lfNCQkKg0+mQnp6OqKgopKSkoK6ujv8I9HoUHh6O7OxsVFRUcHxkZCTDovuYzWbEx8czxKSkJExOTnIdx8fHCA0NxdjYGOLi4oIPUCQABaAAFIAiASgABaAAFAlAASgABaBIAApAASgARQJQAApAASgSgAJQAApAkQAUgAJQAIoEoAAUgAJQJAAFoAAUgCIBKAAFoAAUgCIBKAAFoAAUCUABKAAFoEgACkABKABFAlAACkABKBKAAlAACkCRABSAAlAAigRgsPQnH5+dG7XfD48AAAAASUVORK5CYII=</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAABt0lEQVR42u3Tv0qCYRTH8ecCItq9gupG2rqEpqC5hqYGobEhnFoKCgOXqJaGoKFsECVoKofKzLLU7I+pKfJ66pzSXqMhgoj0+4PDw+85jy/0gdx1QSSb/5jCfWf/vI/Fjzv68kq4o1/lPLm8afTMOAWKHj3KxGRQRsdnpfAgsqd9Kijzq7vS2q9tH8h+smSA2vVNIlU3QO2xk2fbZ7IVubh6ak/6smTjv/tqvnr33bu//J4BLm7Epa9/QEbGZgzQOWd303MRA1zaTMjg0LCdCqg7fRPeOjRA7ZGdpO3TmTtJpfM9MwaYK77PrRhguxff/oX9XQH9XQH9/SyVlZPTdM+MW1g/F+bn4+Q1oVBIqtWqtFKr1aRSqdipCQQC4o/2RqPR3rfSbDbtO3rW63W7K5fL9i3teupef6tvNHrneZ7817jPF60/7DcTjUalW+KEAAgggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAgggARBAAAEkAAIIIIAEQAABBJAACCCAABIAAQQQQAIggAACSAAEEMAuzAsuit/mQDFsXwAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
-<content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\f1\fs24\i0\b\cf1 There is a match between crima scene sample and:\b0\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+<content languages="en fr" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 There is a match between crima scene sample and:\b0\par
+\par
+\li0\ri0\fi0\ul0\par
 }</RichText>
 </content>
 <resources>

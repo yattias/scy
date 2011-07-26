@@ -19,16 +19,16 @@
         </role>
         <entity>rachel</entity>
         <date>
-          <dateTime>2011-05-19T11:54:17.612+0200</dateTime>
+          <dateTime>2011-07-26T10:52:18.664+0200</dateTime>
         </date>
       </contribute>
-      <version>14</version>
+      <version>16</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1303474281695</dateCreated>
-        <dateFirstUserSaveKey>1305798857612</dateFirstUserSaveKey>
-        <dateLastModified>1305798857612</dateLastModified>
+        <dateFirstUserSaveKey>1311670338664</dateFirstUserSaveKey>
+        <dateLastModified>1311670338664</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
@@ -40,41 +40,44 @@
         <catalog>memory</catalog>
         <entry>roolo://memory/40565/0/Checklist+for+crime+scene+examination.rtf</entry>
       </identifier>
-      <las>Information</las>
+      <las>Biology Information</las>
+      <missionId>forensic</missionId>
       <missionRunning>
         <catalog>memory</catalog>
-        <entry>roolo://memory/40557/0/The+forensic+SCY-Lab.scymissionspecification</entry>
+        <entry>roolo://memory/40630/0/Forensic+mission.scymissionspecification</entry>
       </missionRunning>
       <title>
         <string language="en">Checklist for crime scene examination</string>
+        <string language="fr">Examen de la scène de crime</string>
       </title>
     </general>
     <relation>
       <kind>
         <source>LOMv1.0</source>
-        <value>is_fork_of</value>
+        <value>is_version_of</value>
       </kind>
       <resource>
-        <identifier>
-          <catalog>memory</catalog>
-          <entry>roolo://memory/40094/0/Crime+scene+examination.rtf</entry>
-        </identifier>
+        <identifier />
       </resource>
     </relation>
   </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
   <template>true</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAB90lEQVR42u3UTWsTURTG8fl+Ll3MzqUbqUs/gAtBF0IhGMlOrS9McGFCKFLIVKKBJFIkFVyYwJjCGNMmQ8hLW5Nw7DkwUy9UCAhi4P/Aw50zd7gwP5jxxuOxjEYjp5rlcknXqKeAg8HA6Wq1krPTedY4jmU4HFonk4kBp3vHxycyn18+u1ycS61Wu5x/nkmhUHDOK5VKzqyZzWZWPSvtuveu6r86zwAfBt/sJW4+iDLA3VYsk4t32zv4boCvg1dS/Xoq0+nUnn37MZZr12/Ik8onO0xnz/Nk/3BogDpXD0cStk8MUOe9g76tCqjr/ufEVk2SJBtZA7z/IpLO0bk8ff4lA9zeCcX3n0nu5TsDvL11S3o/kgxQ72vvPnpjgOn8uPjBALd3qnLnXuFifm+A6b5WAX+fNf1+fyP7x0+4Xq9njaLIabvddvZbrZYzB0HgzLlczpnL5bIza3q93kbW63Q6clW73S5do56Qv4oB5vN5GxqNhhSLRfvPNZtN+/dpfN+XMAztulKp2N5isUAvBSQAAggggARAAAEEkAAIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAASQAAggggARAAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAAQSQAAgggAASAAH87/ILFaMDAKbK2x4AAAAASUVORK5CYII=</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAABlUlEQVR42u3Qv0rDUBSA8fsAIr6G+hKd3HwENwdnBRcF6eLiILrrICnEQdDFQXCpDtIiuKgdlFLUYmup/Scx0fboPdCShAzdBPN9cGjPvZcMP9OXN/mW+mhE3iN7/P72vhDZHecgsgf9mnx+vaZmjAW6uGvL0nJW5hc3fwFbkrf7Sla2nbwM74/OruWy1FFAu9s3xbKvgHa/evD0vvtRlXb3ZTStzrNO+Cxpkt6Ne/aX31PAveOCTExOydzChgIaY/RsdetQAfdPijI9M6u/FtDe2TfO6Y0C2t09L+l9o/kktXolNaOAIo3QtCJ7/N4ChncLGN6r1bJUKo+pGbOW25H13O5o7B4/S5qkd+Oe/afvmUwmI8MGg4EEQaC/dnzfl3iu64rnefq/1+tJ2jNCAAIIIIAEIIAAAkgAAggggAQggAACSAACCCCABCCAAAJIAAIIIIAEIIAAAkgAAggggAQggAACSAACCCCAABKAAAIIIAEIIIAAEoAAAgggAQgggAASgAACCCABCCCAABKAAAIIIMX7AeVy0BqRT6zZAAAAAElFTkSuQmCC</base64>
   </thumbnail>
 </metadata>
-<content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Write your checklist here.\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\li0\ri0\fi0\ul0\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+<content languages="en fr" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Write your checklist here.\par
+\par
+\li0\ri0\fi0\ul0\par
 }</RichText>
 </content>
 <resources>

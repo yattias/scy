@@ -22,7 +22,7 @@
           <dateTime>2011-07-08T16:58:35.998+0200</dateTime>
         </date>
       </contribute>
-      <version>8</version>
+      <version>9</version>
     </lifecycle>
     <annotation>
       <entity>colorId</entity>
@@ -59,19 +59,7 @@
         <string language="fr">Rapport officiel</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
   <template>true</template>
   <thumbnail>
     <mime>png</mime>
@@ -79,38 +67,38 @@
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Firstname, lastname: \b0\par
-\par
-\b My job is:  \b0\par
-\par
-\b Case number: \b0 CY0347\b  \b0\par
-\par
-\b Object: \b0 Expert analysis for the Attorney General\par
-\par
-\b Summary of facts (according to my understanding of the crime case):    \b0\par
-\par
-\b My mission:    \b0    \par
-\par
-\b My biological material (my samples):\b0\par
-Did you manage to make chemical analysis out of the sample(s)?\par
-\par
-\b All the steps I have made (activities I have done, objects I have created):\b0\par
-\par
-\b Justification of my method, my technique:\b0\par
-\par
-\b My problems during all the mission (optional):\b0\par
-\par
-\b My conclusion:\b0\par
-Did you find a match between the evidence sample and any of the reference samples?\par
-What information does a match between evidence and reference profile give about a suspect being guilty or not?\par
-\par
-\par
-\par
-\li0\ri0\fi0\ul0\par
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Firstname, lastname: \b0\par&#xD;
+\par&#xD;
+\b My job is:  \b0\par&#xD;
+\par&#xD;
+\b Case number: \b0 CY0347\b  \b0\par&#xD;
+\par&#xD;
+\b Object: \b0 Expert analysis for the Attorney General\par&#xD;
+\par&#xD;
+\b Summary of facts (according to my understanding of the crime case):    \b0\par&#xD;
+\par&#xD;
+\b My mission:    \b0    \par&#xD;
+\par&#xD;
+\b My biological material (my samples):\b0\par&#xD;
+Did you manage to make chemical analysis out of the sample(s)?\par&#xD;
+\par&#xD;
+\b All the steps I have made (activities I have done, objects I have created):\b0\par&#xD;
+\par&#xD;
+\b Justification of my method, my technique:\b0\par&#xD;
+\par&#xD;
+\b My problems during all the mission (optional):\b0\par&#xD;
+\par&#xD;
+\b My conclusion:\b0\par&#xD;
+Did you find a match between the evidence sample and any of the reference samples?\par&#xD;
+What information does a match between evidence and reference profile give about a suspect being guilty or not?\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+\li0\ri0\fi0\ul0\par&#xD;
 }</RichText>
 </content>
 <resources>

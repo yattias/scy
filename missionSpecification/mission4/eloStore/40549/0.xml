@@ -22,7 +22,7 @@
           <dateTime>2011-07-08T14:58:19.019+0200</dateTime>
         </date>
       </contribute>
-      <version>9</version>
+      <version>10</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -59,15 +59,15 @@
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
-&#xD;
-\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Write the conclusion of your chemical experiment here.\par&#xD;
-\par&#xD;
-\b0\par&#xD;
-\par&#xD;
-\li0\ri0\fi0\ul0\par&#xD;
+<RichText>{\rtf1\ansi&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;
+&#xD;&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Write the conclusion of your chemical experiment here.\par&#xD;&#xD;
+\par&#xD;&#xD;
+\b0\par&#xD;&#xD;
+\par&#xD;&#xD;
+\li0\ri0\fi0\ul0\par&#xD;&#xD;
 }</RichText>
 </content>
 <resources>

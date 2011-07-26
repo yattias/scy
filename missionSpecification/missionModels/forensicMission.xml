@@ -256,7 +256,7 @@
                      <property name="anchorEloId" value="bioExperimentConclusion"/>
 					 <property name="intermediateEloIds">
                         <list>
-                           <!--<value>Probabilities</value>-->
+                           <value>Probabilities</value>
 						   <!--<value>chimExperimentConclusion</value>
 						   <value>chimOrganizedData</value>-->
                         </list>
