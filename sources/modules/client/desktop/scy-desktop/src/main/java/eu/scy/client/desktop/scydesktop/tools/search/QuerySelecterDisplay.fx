@@ -13,6 +13,7 @@ import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import eu.scy.client.desktop.scydesktop.tooltips.impl.TextTooltip;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipCreator;
+import roolo.search.IQueryComponent;
 
 /**
  * @author SikkenJ
@@ -20,20 +21,40 @@ import eu.scy.client.desktop.scydesktop.tooltips.TooltipCreator;
 public class QuerySelecterDisplay extends CustomNode, TooltipCreator {
 
    public-init var querySelecter: QuerySelecter;
+   public-init var querySelecterUsage: QuerySelecterUsage;
    public-init var eloIconFactory: EloIconFactory;
    public-init var windowColorScheme: WindowColorScheme;
    public-init var tooltipManager: TooltipManager;
+   public-init var selectionChanged: function(): Void;
    def querySelecterChoiceBox = ChoiceBox {};
    def iconSize = 20.0;
    def spacing = 5.0;
+   def selectedItem = bind querySelecterChoiceBox.selectedItem as String on replace { newItemSelected() }
+   def textNoneOption = "All";
+   def eloBasedNoneOption = "Ignore";
+   def noneOption = getNoneOption();
+   var created = false;
+
+   function getNoneOption():String{
+      if (QuerySelecterUsage.TEXT==querySelecterUsage){
+         textNoneOption
+      } else if (QuerySelecterUsage.ELO_BASED==querySelecterUsage){
+         eloBasedNoneOption
+      } else {
+         ""
+      }
+   }
 
    public override function create(): Node {
+      FX.deferAction(function(): Void {
+         created = true
+      });
       def icon = eloIconFactory.createEloIcon(querySelecter.getEloIconName());
       icon.size = iconSize;
       icon.windowColorScheme = windowColorScheme;
       tooltipManager.registerNode(icon, this);
       var displayItems = querySelecter.getDisplayOptions().toArray() as String[];
-      insert "All" before displayItems[0];
+      insert noneOption before displayItems[0];
       querySelecterChoiceBox.items = displayItems;
       querySelecterChoiceBox.select(0);
       HBox {
@@ -45,11 +66,30 @@ public class QuerySelecterDisplay extends CustomNode, TooltipCreator {
       }
    }
 
+   function newItemSelected() {
+      if (selectedItem == noneOption) {
+         querySelecter.setSelectedOption("");
+      } else {
+         querySelecter.setSelectedOption(selectedItem);
+      }
+      if (created) {
+         selectionChanged();
+      }
+   }
+
    public override function createTooltipNode(sourceNode: Node): Node {
       TextTooltip {
          content: querySelecter.getEloIconTooltip()
          windowColorScheme: windowColorScheme
       }
-
    }
+
+   public function getQueryComponent(): IQueryComponent {
+      if (selectedItem == noneOption) {
+         return null;
+      } else {
+         return querySelecter.getQueryComponent()
+      }
+   }
+
 }

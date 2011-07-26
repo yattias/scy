@@ -57,11 +57,19 @@ public abstract class BackgroundSearch implements Runnable
    public void run()
    {
       long startNanos = System.nanoTime();
-      doSearch();
-      totalNanos = System.nanoTime() - startNanos;
-      logger.info("found " + nrOfSearchResults + " and skipped " + nrOfSkippedSearchResults + " elos in "
-         + nanoToMillies(totalNanos) + " ms, caching " + nanoToMillies(cacheMetadataNanos) + " ms, converting " + nanoToMillies(convertNanos)
-         + " ms, other " + nanoToMillies(totalNanos - cacheMetadataNanos - convertNanos) + " ms");
+      try
+      {
+         doSearch();
+         totalNanos = System.nanoTime() - startNanos;
+         logger.info("found " + nrOfSearchResults + " and skipped " + nrOfSkippedSearchResults + " elos in "
+            + nanoToMillies(totalNanos) + " ms, caching " + nanoToMillies(cacheMetadataNanos) + " ms, converting " + nanoToMillies(convertNanos)
+            + " ms, other " + nanoToMillies(totalNanos - cacheMetadataNanos - convertNanos) + " ms");
+      }
+      catch (Exception e)
+      {
+         sendScySearchResuls(new ArrayList<ScySearchResult>());
+         throw new RuntimeException(e);
+      }
    }
 
    private String nanoToMillies(long nanos)

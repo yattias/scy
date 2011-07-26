@@ -35,9 +35,9 @@ public class QuerySelecterFactoryImpl implements QuerySelecterFactory {
          if (StringUtils.isEmpty(querySelecterCreator.getId())){
             throw new IllegalArgumentException("querySelecterCreator must have an id");
          }
-//         if (findQuerySelecterCreator(querySelecterCreator.getId())!=null){
-//            throw new IllegalArgumentException("there is allready a querySelecterCreator with id " + querySelecterCreator.getId());
-//         }
+         if (findQuerySelecterCreator(querySelecterCreator.getId())!=null){
+            throw new IllegalArgumentException("there is allready a querySelecterCreator with id " + querySelecterCreator.getId());
+         }
          querySelecterCreators.add(querySelecterCreator);
       }
    }
@@ -68,7 +68,8 @@ public class QuerySelecterFactoryImpl implements QuerySelecterFactory {
    public List<QuerySelecter> createQuerySelecters(Element root, QuerySelecterUsage querySelectorUsage)
    {
       List<QuerySelecter> querySelecters = new ArrayList<QuerySelecter>();
-      final List<Element> querySelecterChildren = root.getChildren(createQuerySelecterTagName);
+      Element createQuerySelectersElement = root.getChild(createQuerySelectersTagName);
+      final List<Element> querySelecterChildren = createQuerySelectersElement.getChildren(createQuerySelecterTagName);
       for (Element querySelecterChild : querySelecterChildren)
       {
          String id = querySelecterChild.getAttributeValue(idTagName);

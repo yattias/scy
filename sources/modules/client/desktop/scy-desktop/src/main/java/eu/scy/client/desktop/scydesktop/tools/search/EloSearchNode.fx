@@ -19,7 +19,6 @@ import java.net.URI;
 import roolo.api.IRepository;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IELOFactory;
-import eu.scy.client.desktop.scydesktop.corners.elomanagement.GridSearchNode;
 import javafx.geometry.HPos;
 import javafx.scene.control.Label;
 import com.javafx.preview.layout.Grid;
@@ -43,11 +42,17 @@ import org.jdom.Element;
 import eu.scy.common.mission.impl.jdom.JDomConversionUtils;
 import javafx.scene.layout.Flow;
 import eu.scy.client.desktop.desktoputils.art.eloicons.EloIconFactory;
+import roolo.search.IQueryComponent;
+import roolo.search.AndQuery;
+import java.util.ArrayList;
+import eu.scy.common.scyelo.ScyElo;
+import eu.scy.client.desktop.scydesktop.corners.elomanagement.ExtendedScyEloDisplayNode;
+import eu.scy.client.desktop.desktoputils.StringUtils;
 
 /**
  * @author SikkenJ
  */
-public class EloSearchNode extends GridSearchNode, Resizable, ScyToolFX, EloSaverCallBack, QuerySearchFinished {
+public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, EloSaverCallBack, QuerySearchFinished {
 
    def logger = Logger.getLogger(this.getClass());
 //   public override var width on replace { sizeChanged() };
@@ -63,18 +68,45 @@ public class EloSearchNode extends GridSearchNode, Resizable, ScyToolFX, EloSave
    public var querySelecterFactory: QuerySelecterFactory;
    def minimumWidth = 150;
    def minimumHeight = 100;
-   var searchButton: Button;
-   public var queryBox: TextBox;
+   def queryLabel = Label {
+           }
+   def searchButton: Button = Button {
+              text: ##"Search"
+              disable: bind queryBox.rawText.trim() == ""
+              action: function() {
+                 doSearch();
+              }
+           };
+   def queryBox: TextBox = TextBox {
+              text: ""
+              columns: 40
+              selectOnFocus: true
+              action: function() {
+                 if (queryBox.rawText.trim() != "") {
+                    doSearch();
+                 }
+              }
+           };
+   def baseEloInfo = ExtendedScyEloDisplayNode {
+              layoutInfo: eloInfoLayoutInfo
+              newEloCreationRegistry: newEloCreationRegistry
+              scyElo: bind baseElo
+              eloIcon: bind baseEloIcon
+           }
+   var baseElo: ScyElo;
+   var baseEloIcon: EloIcon;
    var backgroundQuerySearch: BackgroundQuerySearch;
    var elo: IELO;
    var technicalFormatKey: IMetadataKey;
    def scySearchType = "scy/search";
-   var searchResults: ScySearchResult[] on replace { showSearchResult(searchResults) }
+   var searchResults: ScySearchResult[];
    var scySearchResultXmlUtils: ScySearchResultXmlUtils;
    def jdomStringConversion = new JDomStringConversion();
    def contentTagName = "search";
    def queryTagName = "query";
+   def querySelecterUsageTagName = "querySelecterUsage";
    def simpleTextQueryTagName = "simpleText";
+   def eloUriTagName = "eloUri";
    def saveTitleBarButton = TitleBarButton {
               actionId: TitleBarButton.saveActionId
               action: doSaveElo
@@ -84,20 +116,21 @@ public class EloSearchNode extends GridSearchNode, Resizable, ScyToolFX, EloSave
               action: doSaveAsElo
            }
    def querySelectersNode = Flow {
-              hgap: 2*spacing
+              hgap: 2 * spacing
               vgap: spacing
               nodeHPos: HPos.LEFT
            }
+   var queryGridRow: GridRow;
    var querySelecterUsage = QuerySelecterUsage.TEXT;
    var querySelecterDisplays: QuerySelecterDisplay[];
-   def eloIconFactory = EloIconFactory{};
+   def usedQuerySelecters: List = new ArrayList();
+   def eloIconFactory = EloIconFactory {};
 
    public override function initialize(windowContent: Boolean): Void {
       technicalFormatKey = toolBrokerAPI.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
       eloFactory = toolBrokerAPI.getELOFactory();
       repository = toolBrokerAPI.getRepository();
       scySearchResultXmlUtils = new ScySearchResultXmlUtils(toolBrokerAPI);
-      createQuerySelecters();
    }
 
    public override function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
@@ -107,6 +140,11 @@ public class EloSearchNode extends GridSearchNode, Resizable, ScyToolFX, EloSave
                     saveAsTitleBarButton
                  ]
       }
+   }
+
+   public override function newElo(): Void {
+      setupQueryBox();
+      createQuerySelecterDisplays(querySelecterFactory.createQuerySelecters(querySelecterUsage));
    }
 
    public override function loadElo(uri: URI) {
@@ -127,105 +165,156 @@ public class EloSearchNode extends GridSearchNode, Resizable, ScyToolFX, EloSave
 
    public override function create(): Node {
       openAction = openElo;
+      useAsBaseAction = searchBasedOnElo;
       windowStyler = scyDesktop.windowStyler;
       grid = Grid {
                  managed: false
                  hgap: spacing
                  vgap: spacing
                  padding: gridPadding
-                 growRows: [0, 0, 0, 0, 1, 0]
+                 growRows: [0, 0, 0, 0, 0, 1, 0, 0]
                  growColumns: [0, 1]
-                 rows: [
-                    GridRow {
-                       cells: [
-                          getLeftColumnFiller(),
-                          Label {
-                             text: ##"Query"
-                          }
-                       ]
-                    }
-                    GridRow {
-                       cells: [
-                          getLeftColumnFiller(),
-                          HBox {
-                             spacing: spacing
-                             layoutInfo: LayoutInfo {
-                             //                           hpos: HPos.RIGHT
-                             }
-                             content: [
-                                queryBox = TextBox {
-                                           text: ""
-                                           columns: 40
-                                           selectOnFocus: true
-                                           action: function() {
-                                              if (queryBox.rawText.trim() != "") {
-                                                 doSearch();
-                                              }
-                                           }
-                                        }
-                                searchButton = Button {
-                                           text: ##"Search"
-                                           disable: bind queryBox.rawText.trim() == ""
-                                           action: function() {
-                                              doSearch();
-                                           }
-                                        }
-                             ]
-                          }
-                       ]
-                    }
-                    GridRow {
-                       cells: [
-                          getLeftColumnFiller(),
-                          querySelectersNode
-                       ]
-                    }
-                    getDevideLine(),
-                    getResultDisplayPart(),
-                    GridRow {
-                       cells: [
-                          getLeftColumnFiller(),
-                          HBox {
-                             spacing: spacing
-                             layoutInfo: LayoutInfo {
-                             //                           hpos: HPos.RIGHT
-                             }
-                             hpos: HPos.RIGHT
-                             content: [
-                                openButton,
-                                cancelButton
-                             ]
-                          }
-                       ]
-                    }
-                 ]
               }
    }
 
-   function createQuerySelecters() {
-      def querySelecters = querySelecterFactory.createQuerySelecters(querySelecterUsage);
+   function getGridRows(): GridRow[] {
+      [
+         GridRow {
+            cells: [
+               getLeftColumnFiller(),
+               queryLabel
+            ]
+         }
+         if (QuerySelecterUsage.TEXT == querySelecterUsage) {
+            GridRow {
+               cells: [
+                  getLeftColumnFiller(),
+                  HBox {
+                     spacing: spacing
+                     content: [
+                        queryBox,
+                        searchButton
+                     ]
+                  }
+               ]
+            }
+         } else if (QuerySelecterUsage.ELO_BASED == querySelecterUsage) {
+            GridRow {
+               cells: [
+                  baseEloInfo
+               ]
+            }
+         } else {
+            null
+         }
+         GridRow {
+            cells: [
+               getLeftColumnFiller(),
+               querySelectersNode
+            ]
+         }
+         getDevideLine(),
+         getResultDisplayPart(),
+         GridRow {
+            cells: [
+               getLeftColumnFiller(),
+               HBox {
+                  spacing: spacing
+                  layoutInfo: LayoutInfo {
+                  //                           hpos: HPos.RIGHT
+                  }
+                  hpos: HPos.RIGHT
+                  content: [
+                     useAsBaseButton,
+                     openButton
+                  ]
+               }
+            ]
+         }
+      ]
+   }
+
+   function setupQueryBox() {
+      grid.rows = getGridRows();
+      if (QuerySelecterUsage.TEXT == querySelecterUsage) {
+         queryLabel.text = ##"Query";
+      } else if (QuerySelecterUsage.ELO_BASED == querySelecterUsage) {
+         queryLabel.text = ##"Search based on product";
+      }
+   }
+
+   function createQuerySelecterDisplays(querySelecters: List) {
       querySelecterDisplays =
-              for (querySelecter in querySelecters) {
+              for (querySelecterObject in querySelecters) {
+                 def querySelecter = querySelecterObject as QuerySelecter;
                  QuerySelecterDisplay {
                     querySelecter: querySelecter
+                    querySelecterUsage: querySelecterUsage
                     eloIconFactory: eloIconFactory
                     windowColorScheme: window.windowColorScheme
                     tooltipManager: scyDesktop.tooltipManager
+                    selectionChanged: querySelecterChanged
                  }
               }
       querySelectersNode.content = querySelecterDisplays;
+      usedQuerySelecters.clear();
+      for (querySelecterDisplay in querySelecterDisplays) {
+         usedQuerySelecters.add(querySelecterDisplay.querySelecter)
+      }
+   }
+
+   function querySelecterChanged(): Void {
+      if (not searchButton.disabled) {
+         doSearch();
+      }
+   }
+
+   function getFilterQueries(): IQueryComponent[] {
+      for (querySelecterDisplay in querySelecterDisplays) {
+         querySelecterDisplay.getQueryComponent()
+      }
    }
 
    function doSearch() {
-      doTextQuerySearch()
+      var queries = getFilterQueries();
+      if (QuerySelecterUsage.TEXT == querySelecterUsage) {
+         def queryText = queryBox.rawText.trim();
+         if (not StringUtils.isEmpty(queryText)) {
+            def searchQueryComponent = new MetadataQueryComponent(queryText);
+            insert searchQueryComponent before queries[0];
+         }
+      } else if (QuerySelecterUsage.ELO_BASED == querySelecterUsage) {
+      }
+      if (sizeof queries >= 1) {
+         if (backgroundQuerySearch != null) {
+            backgroundQuerySearch.abort();
+         }
+         def combinedQuery = new AndQuery(queries[0]);
+         for (i in [1..<sizeof queries]) {
+            combinedQuery.addQueryComponent(queries[i]);
+         }
+         def searchQuery = new Query(combinedQuery);
+         def queryContext: QueryContext = createQueryContext(null);
+         searchQuery.setQueryContext(queryContext);
+         logger.info("Adding Query Context: {queryContext}");
+         searchQuery.setAllowedEloTypes(scyDesktop.newEloCreationRegistry.getEloTypes());
+         backgroundQuerySearch = new BackgroundQuerySearch(toolBrokerAPI, scyDesktop.newEloCreationRegistry, searchQuery, this);
+
+         backgroundQuerySearch.start();
+         showSearching();
+      } else {
+         setScySearchResults(new ArrayList());
+      }
    }
 
    function doTextQuerySearch(): Void {
       if (backgroundQuerySearch != null) {
          backgroundQuerySearch.abort();
       }
-
-      def searchQuery = new Query(new MetadataQueryComponent(queryBox.rawText.trim()));
+      def searchQueryComponent = new MetadataQueryComponent(queryBox.rawText.trim());
+      def filterQueries = getFilterQueries();
+      def queryComponentWithFilters = new AndQuery(searchQueryComponent, getFilterQueries());
+      def searchQuery = new Query(queryComponentWithFilters);
       def queryContext: QueryContext = createQueryContext(null);
       searchQuery.setQueryContext(queryContext);
       //        searchQuery.setAllowedEloTypes(getAllowedEloTypes());
@@ -258,6 +347,7 @@ public class EloSearchNode extends GridSearchNode, Resizable, ScyToolFX, EloSave
               }
       addEloIconsToSearchResults(scySearchResults);
       searchResults = scySearchResults;
+      showSearchResult(searchResults);
    }
 
    function addEloIconsToSearchResults(scySearchResults: ScySearchResult[]) {
@@ -267,8 +357,32 @@ public class EloSearchNode extends GridSearchNode, Resizable, ScyToolFX, EloSave
       }
    }
 
-   function openElo(gridSearchNode: GridSearchNode): Void {
-      scyDesktop.scyWindowControl.addOtherScyWindow(gridSearchNode.selectedSearchResult.getScyElo().getUri());
+//   function openElo(gridSearchNode: GridSearchNode): Void {
+//      scyDesktop.scyWindowControl.addOtherScyWindow(gridSearchNode.selectedSearchResult.getScyElo().getUri());
+//   }
+//
+   function openElo(): Void {
+      scyDesktop.scyWindowControl.addOtherScyWindow(selectedSearchResult.getScyElo().getUri());
+   }
+
+   function searchBasedOnElo(scyElo: ScyElo): Void {
+      querySelecterUsage = QuerySelecterUsage.ELO_BASED;
+      setupQueryBox();
+      createQuerySelecterDisplays(querySelecterFactory.createQuerySelecters(querySelecterUsage));
+      setBasedOnElo(scyElo);
+      doSearch();
+   }
+
+   function setBasedOnElo(scyElo: ScyElo) {
+      baseElo = scyElo;
+      if (scyElo == null) {
+         baseEloIcon = null;
+      } else {
+         baseEloIcon = windowStyler.getScyEloIcon(scyElo);
+      }
+      for (querySelecterDisplay in querySelecterDisplays) {
+         querySelecterDisplay.querySelecter.setBasedOnElo(baseElo)
+      }
    }
 
    function doLoadElo(eloUri: URI) {
@@ -277,9 +391,6 @@ public class EloSearchNode extends GridSearchNode, Resizable, ScyToolFX, EloSave
       if (newElo != null) {
          loadEloContent(newElo.getContent().getXmlString());
          elo = newElo;
-      //         FX.deferAction(function(): Void {
-      //            textBox.text = text;
-      //         });
       }
    }
 
@@ -302,6 +413,7 @@ public class EloSearchNode extends GridSearchNode, Resizable, ScyToolFX, EloSave
 
    function getEloContent(): String {
       def root = new Element(contentTagName);
+      root.addContent(JDomConversionUtils.createElement(querySelecterUsageTagName, querySelecterUsage));
       root.addContent(getQueryXml());
       root.addContent(scySearchResultXmlUtils.scySearchResultsToXml(searchResults));
       jdomStringConversion.xmlToString(root);
@@ -309,31 +421,51 @@ public class EloSearchNode extends GridSearchNode, Resizable, ScyToolFX, EloSave
 
    function getQueryXml(): Element {
       def root = new Element(queryTagName);
-      root.addContent(JDomConversionUtils.createElement(simpleTextQueryTagName, queryBox.rawText.trim()));
+      if (QuerySelecterUsage.TEXT == querySelecterUsage) {
+         root.addContent(JDomConversionUtils.createElement(simpleTextQueryTagName, queryBox.rawText.trim()));
+      } else if (QuerySelecterUsage.TEXT == querySelecterUsage) {
+         root.addContent(JDomConversionUtils.createElement(eloUriTagName, baseElo.getUri()));
+      }
+      root.addContent(querySelecterFactory.createQuerySelectersXml(usedQuerySelecters));
       return root
    }
 
    function loadEloContent(xmlString: String) {
       def root = jdomStringConversion.stringToXml(xmlString);
       def queryXml = root.getChild(queryTagName);
-      loadQuery(queryXml);
+      querySelecterUsage = JDomConversionUtils.getEnumValue(QuerySelecterUsage.class, root, querySelecterUsageTagName);
+      if (QuerySelecterUsage.TEXT == querySelecterUsage) {
+         loadSimpleQuery(queryXml);
+      } else if (QuerySelecterUsage.TEXT == querySelecterUsage) {
+         loadEloBasedQuery(queryXml);
+      }
+      setupQueryBox();
+      createQuerySelecterDisplays(querySelecterFactory.createQuerySelecters(root, querySelecterUsage));
       def scySearchResultsXml = root.getChild(scySearchResultXmlUtils.SCYSEARCHRESULTS);
       def scySearchResults = scySearchResultXmlUtils.scySearchResultsFromXml(scySearchResultsXml);
       addEloIconsToSearchResults(scySearchResults);
       searchResults = scySearchResults;
+      showSearchResult(searchResults);
    }
 
-   function loadQuery(root: Element) {
+   function loadSimpleQuery(root: Element) {
       def simpleTextQueryXml = root.getChild(simpleTextQueryTagName);
       if (simpleTextQueryXml != null) {
          queryBox.text = simpleTextQueryXml.getTextTrim();
+      } else {
+         queryBox.text = "";
       }
    }
 
-//   function sizeChanged(): Void {
-//      Container.resizeNode(grid, width, height);
-//   }
-//
+   function loadEloBasedQuery(root: Element) {
+      def baseEloUri = JDomConversionUtils.getUriValue(root, eloUriTagName);
+      if (baseEloUri != null) {
+         setBasedOnElo(ScyElo.loadMetadata(baseEloUri, toolBrokerAPI))
+      } else {
+         setBasedOnElo(null)
+      }
+   }
+
    public override function getPrefHeight(h: Number): Number {
       Math.max(minimumHeight, Math.max(grid.getPrefHeight(h), grid.boundsInParent.minY + grid.getPrefHeight(h)));
    }
