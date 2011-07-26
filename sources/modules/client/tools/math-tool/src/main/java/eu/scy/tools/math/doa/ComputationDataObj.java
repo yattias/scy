@@ -37,7 +37,7 @@ public class ComputationDataObj {
 			this.value = (Float) values[2];
 			this.sum = (Float) values[3];
 			this.operation = (String) values[4];
-			this.shapeId = (String) values[5];
+			this.shapeId = "";
 		}
 		
 	}
@@ -50,14 +50,14 @@ public class ComputationDataObj {
 			this.setRatio((String) vector.get(2));
 			this.setSurfaceArea((String) vector.get(3));
 			this.setVolume((String) vector.get(4));
-			this.shapeId = (String)vector.get(5);
+			this.shapeId = "";
 		} else {
 			this.columnNumber  = (Integer)vector.get(0);
 			this.name = (String) vector.get(1);
 			this.value = (Float)vector.get(2);
 			this.sum = (Float) vector.get(3);
 			this.operation = (String)vector.get(4);
-			this.shapeId = (String)vector.get(5);
+			this.shapeId = "";
 		}
 	}
 
