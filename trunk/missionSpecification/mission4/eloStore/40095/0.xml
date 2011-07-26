@@ -19,16 +19,16 @@
         </role>
         <entity>rachel</entity>
         <date>
-          <dateTime>2011-04-22T14:18:19.613+0200</dateTime>
+          <dateTime>2011-07-26T10:53:20.798+0200</dateTime>
         </date>
       </contribute>
-      <version>15</version>
+      <version>17</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1303474699613</dateCreated>
-        <dateFirstUserSaveKey>1303474699613</dateFirstUserSaveKey>
-        <dateLastModified>1305798707363</dateLastModified>
+        <dateFirstUserSaveKey>1311670400798</dateFirstUserSaveKey>
+        <dateLastModified>1311670400798</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
@@ -40,32 +40,47 @@
         <catalog>memory</catalog>
         <entry>roolo://memory/40095/0/Goal+of+the+analysis.rtf</entry>
       </identifier>
-      <las>Orientation</las>
+      <las>Biology Orientation</las>
+      <missionId>forensic</missionId>
       <missionRunning>
         <catalog>memory</catalog>
-        <entry>roolo://memory/40557/0/The+forensic+SCY-Lab.scymissionspecification</entry>
+        <entry>roolo://memory/40630/0/Forensic+mission.scymissionspecification</entry>
       </missionRunning>
       <title>
         <string language="en">Goal of the analysis</string>
+        <string language="fr">But de l'analyse</string>
       </title>
     </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
   </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
   <template>true</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACg0lEQVR42u3VTYtSURgHcL+KC3d+AL+D4MKE2fVC0CaaKCFs4UZE1IUwICHuqnEKIyFNYhzRwrCFOsY1aZHiS2DmjO8vY6I8zXnCQxcmEIoY4f+HP2eee+Rc/DH3qhkOh9Tr9VQVWS6X6AbVCMBOp6PqarWi+dlMttVqUbfb5Y7HYwZe752cnNJsNqO79xPc3XuHlMlk5P5yMadgMKg6LxqNqmaR6XTKFWetu+m1i/q/zmNAX7jBX+KWty4B3+RaND7/bkfH3xjwZfg5pb6c0WQy4c8e5ltkvHKVHsc/8mH04SEpBzeJFBsDiv1UqUdp5ZQBxXx03OZVAIr17ac+ryL9fn8ry4CegzpVvv6gJ6HPEnBvP007O0/J/+wdA+7euU3N730JKK6LOh69+gX4+sZ5rxOlrzHg3n6KHriCFHjxngHXnxcVgL/PIu12eyv7x0c4m83K1ut1VRVFUe3ncjnVHA6HVbPf71fNsVhMNYs0m82trKZSqdBFrVar6AbVEPJXkYCFQoFCoRD/9+l0On7vBQIBfpxFzGYzWSwWcjqdpNfr+SfcaDSSy+WShw0GA17tdjt5PB7+u9FoqG44Go34HlqtVl7zer1UKpWoVqvxeyWfz5Pb7ZaPt8FgIIfDQeVymaxWK9lsNorH47wn7pNIJGixWPCcTCapWCzKs+fzOa8+n49fHSaTiedIJPJvAREAAhCAAEQACEAAAhABIAABCEAEgAAEIAARAAIQgABEAAhAAAIQASAAAQhABIAABCAAEQACEIAARAAIQAACEIAIAAEIQAAiAAQgAAGIABCAAAQgAkAAAhCACAABCEAAIgAEIAABiAAQgAAEIAJAAF6q/AR9t9oqqejxZgAAAABJRU5ErkJggg==</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACHUlEQVR42u3ST4tSURjH8fsCInob1fto10to16J1QZuCmE2bFlH7WoQDtQhq0yJQ8Cb+D1TwzyIRyVGvSd2ZMc1Sf815wIuK0EADxfj9wcPxec65x8tHvbm+aKZBVNK3tX5zv1rPr/Wx2Iu1/uc80I9f/Z0pzwF9qB3q1u09Xb/58AQwlO/6O3t6HPO13H/9/qNSjSMDdL07U2hNDdD12U8T2z/+3tXh8UFU4VHHanW2rbadO+3sX95ngM/e5HXh4iVdu/HAAD3Ps9ndR68M8Pnbgi5fuWqrA3R77kzsXckAXf8y3rD94dfPCgbtnSkDlIYrFa71m/sOcLV3gKt9t9tSu93cmfLu7T/R/f2nUbl+c7attp077ew83efpDLJYLP54Zjab6X/LeDz+6zsiwNFopGKxqGQyqTAMVS6X1Wg0ooOud8lkMid/3bZ97vV6qtfryufzNp/P5zYfDAbK5XIKgsBWl1qtZmuhULC11WoplUrZ97q4ZzudjhKJRPSMe59lstmsrc1mU6VSyd6x3+8rnU7b3Pd9W6vVquLxuCqVivXL1b3LdDq1e4bDoSaTyZn8CJ4IgAACCCABEEAAASQAAggggARAAAEEkAAIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAASQAAggggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAATyH+Q0rdL/0GdOBcwAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
-<content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Calibri;\f3\fnil Times New Roman;}&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\margl1417\margr1417\margt1417\margb1417\widowctrl&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\li0\ri0\fi0\ql\f2\fs24\i\b0\ul0\cf0 "I want to know whether the blood found at the crime scene has come from the victim, or any of the suspects."\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\f3\i0\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\f1\cf1\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\li0\ri0\fi0\ul0\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+<content languages="en fr" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Calibri;\f3\fnil Times New Roman;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+\margl1417\margr1417\margt1417\margb1417\widowctrl
+\li0\ri0\fi0\ql\f2\fs24\i\b0\ul0\cf0 "I want to know whether the blood found at the crime scene has come from the victim, or any of the suspects."\par
+\par
+\f3\i0\par
+\f1\cf1\par
+\par
+\li0\ri0\fi0\ul0\par
 }</RichText>
 </content>
 <resources>

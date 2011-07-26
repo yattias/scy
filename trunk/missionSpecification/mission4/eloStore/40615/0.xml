@@ -19,10 +19,10 @@
         </role>
         <entity>rachel</entity>
         <date>
-          <dateTime>2011-07-08T14:33:33.667+0200</dateTime>
+          <dateTime>2011-07-26T11:07:43.129+0200</dateTime>
         </date>
       </contribute>
-      <version>4</version>
+      <version>6</version>
     </lifecycle>
     <annotation>
       <entity>colorId</entity>
@@ -31,8 +31,8 @@
     <technical>
       <customElements>
         <dateCreated>1303994140125</dateCreated>
-        <dateFirstUserSaveKey>1310128413667</dateFirstUserSaveKey>
-        <dateLastModified>1310128413667</dateLastModified>
+        <dateFirstUserSaveKey>1311671263129</dateFirstUserSaveKey>
+        <dateLastModified>1311671263129</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
@@ -48,32 +48,46 @@
         <catalog>memory</catalog>
         <entry>roolo://memory/40615/0/Goal+of+the+analysis.rtf</entry>
       </identifier>
-      <las>Orientation_Chim</las>
+      <las>Chemistry Orientation</las>
       <missionId>forensic</missionId>
       <missionRunning>
         <catalog>memory</catalog>
-        <entry>roolo://memory/40608/0/Forensic+mission.scymissionspecification</entry>
+        <entry>roolo://memory/40630/0/Forensic+mission.scymissionspecification</entry>
       </missionRunning>
       <title>
         <string language="en">Goal of the analysis</string>
+        <string language="fr">But de l'analyse</string>
       </title>
     </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
   </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
   <template>true</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACB0lEQVR42u3UzWoTYRTG8fcCRLwN60105c5FLsCdgsiA0G2kpRv3usiqupAUugnYRbpQBLEuSqsggdYulBLUYGvRtE3SfE0ec16ZYWZIbUoWivk/cJg55/1I+BHiQn1XXwdxST9TfXZ9+8Nmqi8Wn6b6brivdu/b1JQzoPWdI92ZW9SNWw+GgHXp7YLmb89qKZ9XtF56/k5vdo89oPWvh7W11/GA1m98PPXrJ82ajk6+xlU//uIrORtVo/aNO/ub93nAx882denyFV2/ufAb8MVd6VWgpXuBB3yyuqWrM9f80wBtv3NOxbX3HtD6lZe7fv3wx2ftH1SnpjygdJioeqrPrhtgsjfAZF+r7ala/TQ15fLLD3V/+VFc1mdno2rUvnFn/9N9bvizUaFQUKvVsld1Oh3/HAwGitLv9xWGoZrNpl/P5XJ+3u124z3RueieRqPhz+SH/6N2zlIqlfzT5uVyWdnYfbZmd/R6vdQ8+k7R59j9ye/Xbrfj97OSPJNNdP6icedtqFQqZ64lkSfZ86e92dlF7hsnQRBMdLcTmSgAAggggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAgggARBAAAEkAAIIIIAEQAABBJAACCCAABIAAQQQQAIggAACSAAE8N/ML3TFyh70bma4AAAAAElFTkSuQmCC</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACAklEQVR42u3SP2tTYRTH8ecFiPRtqO/DrUNegJuDQ6YKXW5BsnRxKHbIVgdJwQ4BO6RDoUt0KA2CBKoZLCVoQ9MWTdskzb+bY8+Be7n3ktSEDBbz/cHh3vOc53ly+RDny7kM5Cwskd+xPjk//HYQ63O5d7G+59el0z+dm3IK9PHrpbxYysji89VbwIYUtX+ZkbVcUYJ5fvezfKpcGaD2uqd03DVA7fe/39j8ulWTy+uTsBpXP62ia6Nq1L5J1/7lfQa48eFAHjxckKfPXhmgc87Wll9vGeDb7ZI8evzEngqoM92T2/ligNq/36vY/OLXD6mfVeemDFDkIlKNWJ+cK2C0V8BoX6sdS7V6NDflvM03srK5Hpb2ybVRNWrfpGv/033u9m8j2WxW2u22vkq327XncDiUIIPBQHzfl1arZfNUKmXrvV4v3BOcC+5pNpt2xvM8O6fJ5/P21PVCoSDJ6H060zv6/X5sPfim4Hf0/uj3dTqd8H1comeSCc5PG/e3DeVyeewsijzLnrv2JtemuW+SpNPpme52QmYKgAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAAQSQAAgggAACSAAEEEAACYAAAgggARBAAAEkAAIIIIAEQAABBJAACCCAABIAAbyf+QO4O8j0GeqY5gAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
-<content languages="en" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
-&#xD;
-\li0\ri0\fi0\f1\fs24\i\b0\ul0\cf1\ldblquote The attorney wants to know whether the ink on the anonymous letter comes from one of the collected pens.\rdblquote\par&#xD;
-\par&#xD;
-\i0\par&#xD;
-\li0\ri0\fi0\ul0\par&#xD;
+<content languages="en fr" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f1\fs24\i\b0\ul0\cf1\ldblquote The attorney wants to know whether the ink on the anonymous letter comes from one of the collected pens.\rdblquote\par
+\par
+\i0\par
+\par
+\li0\ri0\fi0\ul0\par
 }</RichText>
 </content>
 <resources>
