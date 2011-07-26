@@ -8,22 +8,20 @@ import eu.scy.client.desktop.scydesktop.tools.search.QuerySelecter;
 import eu.scy.client.desktop.scydesktop.tools.search.QuerySelecterCreator;
 import eu.scy.client.desktop.scydesktop.tools.search.QuerySelecterUsage;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
-import roolo.elo.api.IMetadataKey;
-import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 
 /**
  *
  * @author SikkenJ
  */
-public class LastModifiedQuerySelecterCreator implements QuerySelecterCreator
+public class AuthorQuerySelecterCreator implements QuerySelecterCreator
 {
 
-   public final static String id = "lastModified";
-   final private IMetadataKey lastModifiedKey;
+   public final static String id = "author";
+   private final ToolBrokerAPI tbi;
 
-   public LastModifiedQuerySelecterCreator(ToolBrokerAPI tbi)
+   public AuthorQuerySelecterCreator(ToolBrokerAPI tbi)
    {
-      lastModifiedKey = tbi.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DATE_LAST_MODIFIED);
+      this.tbi = tbi;
    }
 
    @Override
@@ -35,10 +33,6 @@ public class LastModifiedQuerySelecterCreator implements QuerySelecterCreator
    @Override
    public QuerySelecter createQuerySelecter(QuerySelecterUsage querySelectorUsage)
    {
-      if (QuerySelecterUsage.TEXT == querySelectorUsage)
-      {
-         return new LastModifiedQuerySelecter(lastModifiedKey);
-      }
-      return null;
+      return new AuthorQuerySelecter(tbi, id, querySelectorUsage);
    }
 }

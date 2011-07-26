@@ -2,8 +2,8 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package eu.scy.client.desktop.scydesktop.tools.search;
+
 import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorFX;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
@@ -12,25 +12,27 @@ import eu.scy.client.desktop.scydesktop.tools.search.queryselecters.QuerySelecte
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.tools.search.queryselecters.LastModifiedQuerySelecterCreator;
 import eu.scy.client.desktop.scydesktop.tools.search.queryselecters.TechnicalFormatQuerySelecterCreator;
+import eu.scy.client.desktop.scydesktop.tools.search.queryselecters.AuthorQuerySelecterCreator;
+import eu.scy.client.desktop.scydesktop.tools.search.queryselecters.MissionQuerySelecterCreator;
 
 /**
  * @author SikkenJ
  */
-
 public class EloSearchCreator extends ScyToolCreatorFX {
+
    public var scyDesktop: ScyDesktop;
-   public var toolBrokerAPI:ToolBrokerAPI on replace { setupQuerySelectorFactory() }
+   public var toolBrokerAPI: ToolBrokerAPI on replace { setupQuerySelectorFactory() }
    def querySelecterFactory: QuerySelecterFactory = new QuerySelecterFactoryImpl();
 
-   function setupQuerySelectorFactory(){
-      if (toolBrokerAPI==null){
+   function setupQuerySelectorFactory() {
+      if (toolBrokerAPI == null) {
          return;
       }
       querySelecterFactory.registerQuerySelecterCreator(new TechnicalFormatQuerySelecterCreator(toolBrokerAPI));
       querySelecterFactory.registerQuerySelecterCreator(new LastModifiedQuerySelecterCreator(toolBrokerAPI));
-      querySelecterFactory.registerQuerySelecterCreator(new LastModifiedQuerySelecterCreator(toolBrokerAPI));
+      querySelecterFactory.registerQuerySelecterCreator(new AuthorQuerySelecterCreator(toolBrokerAPI));
+      querySelecterFactory.registerQuerySelecterCreator(new MissionQuerySelecterCreator(toolBrokerAPI));
    }
-
 
    override public function createScyToolNode(eloType: String, creatorId: String, scyWindow: ScyWindow, windowContent: Boolean): Node {
       EloSearchNode {
