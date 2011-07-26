@@ -330,7 +330,7 @@ public class MathToolController {
 			shapeCanvas.requestFocusInWindow();
 
 			this.highLightShape(this.mathShape);
-			this.selectInTable(this.mathShape);
+			//this.selectInTable(this.mathShape);
 		} else {
 
 		}
@@ -627,8 +627,8 @@ public class MathToolController {
 		@Override
 		public void actionPerformed(ActionEvent actionEvent) {
 
-			if (getMathSelectedShape() == null)
-				return;
+//			if (getMathSelectedShape() == null)
+//				return;
 
 			JXButton addButton = (JXButton) actionEvent.getSource();
 			String t = (String) addButton.getClientProperty(UIUtils.TYPE);
@@ -690,14 +690,14 @@ public class MathToolController {
 
 		if (operation.equals("+")) {
 			model.addRow(new Object[] { new Integer(model.getRowCount() + 1),
-					getMathSelectedShape().getType(), new Float(text),
+					"", new Float(text),
 					new Float(oldSum + parseFloat), operation,
-					getMathSelectedShape().getId() });
+					"" });
 		} else {
 			model.addRow(new Object[] { new Integer(model.getRowCount() + 1),
-					getMathSelectedShape().getType(), new Float(text),
+					"", new Float(text),
 					new Float(oldSum - parseFloat), operation,
-					getMathSelectedShape().getId() });
+					"" });
 		}
 
 		calculator.resetLabel();
@@ -708,8 +708,8 @@ public class MathToolController {
 		@Override
 		public void actionPerformed(ActionEvent actionEvent) {
 
-			if (getMathSelectedShape() == null)
-				return;
+//			if (getMathSelectedShape() == null)
+//				return;
 
 			JXButton addButton = (JXButton) actionEvent.getSource();
 			String t = (String) addButton.getClientProperty(UIUtils.TYPE);
