@@ -48,7 +48,7 @@ import java.util.ArrayList;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.ExtendedScyEloDisplayNode;
 import eu.scy.client.desktop.desktoputils.StringUtils;
-import javafx.scene.shape.Rectangle;
+import java.lang.System;
 
 /**
  * @author SikkenJ
@@ -108,6 +108,11 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
    def querySelecterUsageTagName = "querySelecterUsage";
    def simpleTextQueryTagName = "simpleText";
    def eloUriTagName = "eloUri";
+   def contextTagName = "context";
+   def userNameTagName = "username";
+   def missionSpecificationUriTagName = "missionSpecificationUri";
+   def queryLastExcecutedTagName = "queryLastExcecuted";
+
    def saveTitleBarButton = TitleBarButton {
               actionId: TitleBarButton.saveActionId
               action: doSaveElo
@@ -121,12 +126,17 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
    var querySelecterDisplays: QuerySelecterDisplay[];
    def usedQuerySelecters: List = new ArrayList();
    def eloIconFactory = EloIconFactory {};
+   var queryContentUserName: String;
+   var queryContextMissionSpecificationUri: URI;
+   var queryLastExcecuted: Long;
 
    public override function initialize(windowContent: Boolean): Void {
       technicalFormatKey = toolBrokerAPI.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
       eloFactory = toolBrokerAPI.getELOFactory();
       repository = toolBrokerAPI.getRepository();
       scySearchResultXmlUtils = new ScySearchResultXmlUtils(toolBrokerAPI);
+      queryContentUserName = toolBrokerAPI.getLoginUserName();
+      queryContextMissionSpecificationUri = toolBrokerAPI.getMissionSpecificationURI();
    }
 
    public override function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
@@ -255,7 +265,7 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
                     windowColorScheme: window.windowColorScheme
                     tooltipManager: scyDesktop.tooltipManager
                     selectionChanged: querySelecterChanged
-                    basedOnElo:baseElo
+                    basedOnElo: baseElo
                  }
               }
       usedQuerySelecters.clear();
@@ -329,9 +339,11 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
    function createQueryContext(eloUri: String): QueryContext {
       def queryContext: QueryContext = new QueryContext();
       queryContext.setEloUri(eloUri);
-      queryContext.setUsername(toolBrokerAPI.getLoginUserName());
-      queryContext.setMission(toolBrokerAPI.getMissionSpecificationURI().toASCIIString());
-      queryContext.setTool("scy-simple-search");
+      queryContext.setUsername(queryContentUserName);
+      if (queryContextMissionSpecificationUri != null) {
+         queryContext.setMission(queryContextMissionSpecificationUri.toASCIIString());
+      }
+      queryContext.setTool("search");
       return queryContext;
    }
 
@@ -348,6 +360,7 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
       addEloIconsToSearchResults(scySearchResults);
       searchResults = scySearchResults;
       showSearchResult(searchResults);
+      queryLastExcecuted = System.currentTimeMillis();
    }
 
    function addEloIconsToSearchResults(scySearchResults: ScySearchResult[]) {
@@ -375,9 +388,9 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
       } else {
          baseEloIcon = windowStyler.getScyEloIcon(scyElo);
       }
-//      for (querySelecterDisplay in querySelecterDisplays) {
-//         querySelecterDisplay.querySelecter.setBasedOnElo(baseElo)
-//      }
+   //      for (querySelecterDisplay in querySelecterDisplays) {
+   //         querySelecterDisplay.querySelecter.setBasedOnElo(baseElo)
+   //      }
    }
 
    function doLoadElo(eloUri: URI) {
@@ -409,9 +422,18 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
    function getEloContent(): String {
       def root = new Element(contentTagName);
       root.addContent(JDomConversionUtils.createElement(querySelecterUsageTagName, querySelecterUsage));
+      root.addContent(getContextXml());
       root.addContent(getQueryXml());
       root.addContent(scySearchResultXmlUtils.scySearchResultsToXml(searchResults));
       jdomStringConversion.xmlToString(root);
+   }
+
+   function getContextXml():Element{
+      def root = new Element(contextTagName);
+      root.addContent(JDomConversionUtils.createElement(userNameTagName, queryContentUserName));
+      root.addContent(JDomConversionUtils.createElement(missionSpecificationUriTagName, queryContextMissionSpecificationUri));
+      root.addContent(JDomConversionUtils.createElement(queryLastExcecutedTagName, queryLastExcecuted));
+      return root
    }
 
    function getQueryXml(): Element {
@@ -429,6 +451,7 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
       def root = jdomStringConversion.stringToXml(xmlString);
       def queryXml = root.getChild(queryTagName);
       querySelecterUsage = JDomConversionUtils.getEnumValue(QuerySelecterUsage.class, root, querySelecterUsageTagName);
+      loadContext(queryXml);
       if (QuerySelecterUsage.TEXT == querySelecterUsage) {
          loadSimpleQuery(queryXml);
       } else if (QuerySelecterUsage.TEXT == querySelecterUsage) {
@@ -440,6 +463,13 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
       addEloIconsToSearchResults(scySearchResults);
       searchResults = scySearchResults;
       showSearchResult(searchResults);
+   }
+
+   function loadContext(root:Element){
+      def contextXml = root.getChild(contextTagName);
+      queryContentUserName = contextXml.getChildTextTrim(userNameTagName);
+      queryContextMissionSpecificationUri = JDomConversionUtils.getUriValue(contextXml, missionSpecificationUriTagName);
+      queryLastExcecuted = JDomConversionUtils.getLongValue(contextXml, queryLastExcecutedTagName);
    }
 
    function loadSimpleQuery(root: Element) {
