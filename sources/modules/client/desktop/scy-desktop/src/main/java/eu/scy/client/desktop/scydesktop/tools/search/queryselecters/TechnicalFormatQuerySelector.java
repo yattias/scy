@@ -4,13 +4,13 @@
  */
 package eu.scy.client.desktop.scydesktop.tools.search.queryselecters;
 
-import eu.scy.client.desktop.scydesktop.tools.search.QuerySelecter;
-import eu.scy.common.mission.impl.jdom.JDomConversionUtils;
-import eu.scy.common.scyelo.ScyElo;
+import eu.scy.client.desktop.desktoputils.StringUtils;
+import eu.scy.client.desktop.scydesktop.tools.search.QuerySelecterUsage;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.util.ArrayList;
 import java.util.List;
-import org.jdom.Element;
 import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.search.IQueryComponent;
 import roolo.search.MetadataQueryComponent;
 import roolo.search.SearchOperation;
@@ -19,32 +19,33 @@ import roolo.search.SearchOperation;
  *
  * @author SikkenJ
  */
-public class TechnicalFormatQuerySelector implements QuerySelecter
+public class TechnicalFormatQuerySelector extends AbstractSimpleQuerySelecter
 {
 
-   private final static String selectedOptionTagName = "selectedOption";
-   private ScyElo basedOnElo;
-   private final static String sameFormat = "same";
-   private final static String otherFormat = "other";
-   private List<String> displayOptions;
-   private String selectedOption = "";
    private final IMetadataKey technicalFormatKey;
 
-   public TechnicalFormatQuerySelector(IMetadataKey technicalFormatKey)
+   private enum TechnicalFormatOptions
    {
-      this.technicalFormatKey = technicalFormatKey;
+
+      SAME,
+      NOT_SAME;
+   }
+
+   public TechnicalFormatQuerySelector(ToolBrokerAPI tbi, String id, QuerySelecterUsage querySelectorUsage)
+   {
+      super(tbi, id, querySelectorUsage);
+      this.technicalFormatKey = getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
    }
 
    @Override
-   public String getId()
+   protected List<String> createDisplayOption()
    {
-      return TechnicalFormatQuerySelecterCreator.id;
-   }
-
-   @Override
-   public void setBasedOnElo(ScyElo elo)
-   {
-      this.basedOnElo = elo;
+      List<String> displayOptions = new ArrayList<String>();
+      for (TechnicalFormatOptions technicalFormatOption : TechnicalFormatOptions.values())
+      {
+         displayOptions.add(technicalFormatOption.toString());
+      }
+      return displayOptions;
    }
 
    @Override
@@ -60,51 +61,19 @@ public class TechnicalFormatQuerySelector implements QuerySelecter
    }
 
    @Override
-   public List<String> getDisplayOptions()
-   {
-      if (displayOptions == null)
-      {
-         displayOptions = new ArrayList<String>();
-         displayOptions.add(sameFormat);
-         displayOptions.add(otherFormat);
-      }
-      return displayOptions;
-   }
-
-   @Override
-   public String getSelectedOption()
-   {
-      return selectedOption;
-   }
-
-   @Override
-   public void setSelectedOption(String option)
-   {
-      this.selectedOption = option;
-   }
-
-   @Override
-   public void addState(Element root)
-   {
-      root.addContent(JDomConversionUtils.createElement(selectedOptionTagName, selectedOption));
-   }
-
-   @Override
-   public void setState(Element root)
-   {
-      selectedOption = root.getChildTextTrim(selectedOptionTagName);
-   }
-
-   @Override
    public IQueryComponent getQueryComponent()
    {
-      if (sameFormat.equals(selectedOption))
+      if (StringUtils.isEmpty(getSelectedOption()))
       {
-         return new MetadataQueryComponent(technicalFormatKey, SearchOperation.EQUALS, basedOnElo.getTechnicalFormat());
+         return null;
       }
-      else if (otherFormat.equals(selectedOption))
+      TechnicalFormatOptions missionOption = TechnicalFormatOptions.valueOf(getSelectedOption());
+      switch (missionOption)
       {
-         return new MetadataQueryComponent(technicalFormatKey, SearchOperation.NOT_EQUALS, basedOnElo.getTechnicalFormat());
+         case SAME:
+            return new MetadataQueryComponent(technicalFormatKey, SearchOperation.EQUALS, getBasedOnElo().getTechnicalFormat());
+         case NOT_SAME:
+            return new MetadataQueryComponent(technicalFormatKey, SearchOperation.NOT_EQUALS, getBasedOnElo().getTechnicalFormat());
       }
       return null;
    }

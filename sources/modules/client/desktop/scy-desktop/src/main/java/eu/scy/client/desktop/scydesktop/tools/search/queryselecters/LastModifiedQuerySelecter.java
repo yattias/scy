@@ -4,14 +4,14 @@
  */
 package eu.scy.client.desktop.scydesktop.tools.search.queryselecters;
 
-import eu.scy.client.desktop.scydesktop.tools.search.QuerySelecter;
-import eu.scy.common.mission.impl.jdom.JDomConversionUtils;
-import eu.scy.common.scyelo.ScyElo;
+import eu.scy.client.desktop.desktoputils.StringUtils;
+import eu.scy.client.desktop.scydesktop.tools.search.QuerySelecterUsage;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import org.jdom.Element;
 import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.search.AndQuery;
 import roolo.search.IQueryComponent;
 import roolo.search.MetadataQueryComponent;
@@ -21,32 +21,50 @@ import roolo.search.SearchOperation;
  *
  * @author SikkenJ
  */
-public class LastModifiedQuerySelecter implements QuerySelecter
+public class LastModifiedQuerySelecter extends AbstractSimpleQuerySelecter
 {
 
-   private final static String selectedOptionTagName = "selectedOption";
    private final IMetadataKey lastModifiedKey;
-   private final static String today = "today";
-   private final static String thisWeek = "this week";
-   private final static String lastWeek = "last week";
-   private List<String> displayOptions;
-   private String selectedOption = "";
 
-   public LastModifiedQuerySelecter(IMetadataKey lastModifiedKey)
+   private enum LastModifiedOptions
    {
-      this.lastModifiedKey = lastModifiedKey;
+
+      TODAY,
+      YESTERDAY,
+      THIS_WEEK,
+      LAST_WEEK,
+      SAME_DAY,
+      SAME_WEEK,
+      BEFORE,
+      AFTER;
+   }
+
+   public LastModifiedQuerySelecter(ToolBrokerAPI tbi, String id, QuerySelecterUsage querySelectorUsage)
+   {
+      super(tbi, id, querySelectorUsage);
+      this.lastModifiedKey = getMetadataKey(CoreRooloMetadataKeyIds.DATE_LAST_MODIFIED);
    }
 
    @Override
-   public String getId()
+   protected List<String> createDisplayOption()
    {
-      return LastModifiedQuerySelecterCreator.id;
-   }
-
-   @Override
-   public void setBasedOnElo(ScyElo elo)
-   {
-      throw new UnsupportedOperationException("Not supported yet.");
+      List<String> displayOptions = new ArrayList<String>();
+      switch (getQuerySelectorUsage())
+      {
+         case TEXT:
+            displayOptions.add(LastModifiedOptions.TODAY.toString());
+            displayOptions.add(LastModifiedOptions.YESTERDAY.toString());
+            displayOptions.add(LastModifiedOptions.THIS_WEEK.toString());
+            displayOptions.add(LastModifiedOptions.LAST_WEEK.toString());
+            break;
+         case ELO_BASED:
+            displayOptions.add(LastModifiedOptions.SAME_DAY.toString());
+            displayOptions.add(LastModifiedOptions.SAME_WEEK.toString());
+            displayOptions.add(LastModifiedOptions.BEFORE.toString());
+            displayOptions.add(LastModifiedOptions.AFTER.toString());
+            break;
+      }
+      return displayOptions;
    }
 
    @Override
@@ -62,45 +80,12 @@ public class LastModifiedQuerySelecter implements QuerySelecter
    }
 
    @Override
-   public List<String> getDisplayOptions()
-   {
-      if (displayOptions == null)
-      {
-         displayOptions = new ArrayList<String>();
-         displayOptions.add(today);
-         displayOptions.add(thisWeek);
-         displayOptions.add(lastWeek);
-      }
-      return displayOptions;
-   }
-
-   @Override
-   public String getSelectedOption()
-   {
-      return selectedOption;
-   }
-
-   @Override
-   public void setSelectedOption(String option)
-   {
-      this.selectedOption = option;
-   }
-
-   @Override
-   public void addState(Element root)
-   {
-      root.addContent(JDomConversionUtils.createElement(selectedOptionTagName, selectedOption));
-   }
-
-   @Override
-   public void setState(Element root)
-   {
-      selectedOption = root.getChildTextTrim(selectedOptionTagName);
-   }
-
-   @Override
    public IQueryComponent getQueryComponent()
    {
+      if (StringUtils.isEmpty(getSelectedOption()))
+      {
+         return null;
+      }
       Calendar calendar = Calendar.getInstance();
       calendar.set(Calendar.HOUR_OF_DAY, 0);
       calendar.set(Calendar.MINUTE, 0);
@@ -109,15 +94,23 @@ public class LastModifiedQuerySelecter implements QuerySelecter
       long today0_00Milis = calendar.getTimeInMillis();
       calendar.set(Calendar.DAY_OF_WEEK, 0);
       long beginOfWeekMillis = calendar.getTimeInMillis();
-      if (today.equals(selectedOption))
+      LastModifiedOptions lastModifiedOptions = LastModifiedOptions.valueOf(getSelectedOption());
+      switch (lastModifiedOptions)
       {
-         return new MetadataQueryComponent(lastModifiedKey, SearchOperation.GREATER_OR_EQUAL, today0_00Milis);
-      }
-      else if (thisWeek.equals(selectedOption))
-      {
-         IQueryComponent olderThenTodayQuery = new MetadataQueryComponent(lastModifiedKey, SearchOperation.LESS, today0_00Milis);
-         IQueryComponent fromThisWeekQuery = new MetadataQueryComponent(lastModifiedKey, SearchOperation.GREATER_OR_EQUAL, beginOfWeekMillis);
-         return new AndQuery(olderThenTodayQuery,fromThisWeekQuery);
+         case TODAY:
+            return new MetadataQueryComponent(lastModifiedKey, SearchOperation.GREATER_OR_EQUAL, today0_00Milis);
+         case YESTERDAY:
+            break;
+         case THIS_WEEK:
+            IQueryComponent olderThenTodayQuery = new MetadataQueryComponent(lastModifiedKey, SearchOperation.LESS, today0_00Milis);
+            IQueryComponent fromThisWeekQuery = new MetadataQueryComponent(lastModifiedKey, SearchOperation.GREATER_OR_EQUAL, beginOfWeekMillis);
+            return new AndQuery(olderThenTodayQuery, fromThisWeekQuery);
+         case LAST_WEEK:
+            break;
+         case SAME_DAY:
+         case SAME_WEEK:
+         case BEFORE:
+         case AFTER:
       }
       return null;
    }
