@@ -51,13 +51,13 @@ public class TechnicalFormatQuerySelector extends AbstractSimpleQuerySelecter
    @Override
    public String getEloIconName()
    {
-      return "unknown";
+      return "report";
    }
 
    @Override
    public String getEloIconTooltip()
    {
-      return "Technical format";
+      return "technical format";
    }
 
    @Override
@@ -67,8 +67,8 @@ public class TechnicalFormatQuerySelector extends AbstractSimpleQuerySelecter
       {
          return null;
       }
-      TechnicalFormatOptions missionOption = TechnicalFormatOptions.valueOf(getSelectedOption());
-      switch (missionOption)
+      TechnicalFormatOptions technicalFormatOption = TechnicalFormatOptions.valueOf(getSelectedOption());
+      switch (technicalFormatOption)
       {
          case SAME:
             return new MetadataQueryComponent(technicalFormatKey, SearchOperation.EQUALS, getBasedOnElo().getTechnicalFormat());

@@ -48,6 +48,7 @@ import java.util.ArrayList;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.ExtendedScyEloDisplayNode;
 import eu.scy.client.desktop.desktoputils.StringUtils;
+import javafx.scene.shape.Rectangle;
 
 /**
  * @author SikkenJ
@@ -115,11 +116,6 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
               actionId: TitleBarButton.saveAsActionId
               action: doSaveAsElo
            }
-   def querySelectersNode = Flow {
-              hgap: 2 * spacing
-              vgap: spacing
-              nodeHPos: HPos.LEFT
-           }
    var queryGridRow: GridRow;
    var querySelecterUsage = QuerySelecterUsage.TEXT;
    var querySelecterDisplays: QuerySelecterDisplay[];
@@ -143,8 +139,7 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
    }
 
    public override function newElo(): Void {
-      setupQueryBox();
-      createQuerySelecterDisplays(querySelecterFactory.createQuerySelecters(querySelecterUsage));
+      createNodeContent();
    }
 
    public override function loadElo(uri: URI) {
@@ -210,7 +205,12 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
          GridRow {
             cells: [
                getLeftColumnFiller(),
-               querySelectersNode
+               Flow {
+                  hgap: 2 * spacing
+                  vgap: spacing
+                  nodeHPos: HPos.LEFT
+                  content: querySelecterDisplays
+               }
             ]
          }
          getDevideLine(),
@@ -234,7 +234,8 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
       ]
    }
 
-   function setupQueryBox() {
+   function createNodeContent() {
+      createQuerySelecterDisplays(querySelecterFactory.createQuerySelecters(querySelecterUsage));
       grid.rows = getGridRows();
       if (QuerySelecterUsage.TEXT == querySelecterUsage) {
          queryLabel.text = ##"Query";
@@ -254,9 +255,9 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
                     windowColorScheme: window.windowColorScheme
                     tooltipManager: scyDesktop.tooltipManager
                     selectionChanged: querySelecterChanged
+                    basedOnElo:baseElo
                  }
               }
-      querySelectersNode.content = querySelecterDisplays;
       usedQuerySelecters.clear();
       for (querySelecterDisplay in querySelecterDisplays) {
          usedQuerySelecters.add(querySelecterDisplay.querySelecter)
@@ -317,7 +318,6 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
       def searchQuery = new Query(queryComponentWithFilters);
       def queryContext: QueryContext = createQueryContext(null);
       searchQuery.setQueryContext(queryContext);
-      //        searchQuery.setAllowedEloTypes(getAllowedEloTypes());
       logger.info("Adding Query Context: {queryContext}");
       searchQuery.setAllowedEloTypes(scyDesktop.newEloCreationRegistry.getEloTypes());
       backgroundQuerySearch = new BackgroundQuerySearch(toolBrokerAPI, scyDesktop.newEloCreationRegistry, searchQuery, this);
@@ -357,19 +357,14 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
       }
    }
 
-//   function openElo(gridSearchNode: GridSearchNode): Void {
-//      scyDesktop.scyWindowControl.addOtherScyWindow(gridSearchNode.selectedSearchResult.getScyElo().getUri());
-//   }
-//
    function openElo(): Void {
       scyDesktop.scyWindowControl.addOtherScyWindow(selectedSearchResult.getScyElo().getUri());
    }
 
    function searchBasedOnElo(scyElo: ScyElo): Void {
       querySelecterUsage = QuerySelecterUsage.ELO_BASED;
-      setupQueryBox();
-      createQuerySelecterDisplays(querySelecterFactory.createQuerySelecters(querySelecterUsage));
       setBasedOnElo(scyElo);
+      createNodeContent();
       doSearch();
    }
 
@@ -380,9 +375,9 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
       } else {
          baseEloIcon = windowStyler.getScyEloIcon(scyElo);
       }
-      for (querySelecterDisplay in querySelecterDisplays) {
-         querySelecterDisplay.querySelecter.setBasedOnElo(baseElo)
-      }
+//      for (querySelecterDisplay in querySelecterDisplays) {
+//         querySelecterDisplay.querySelecter.setBasedOnElo(baseElo)
+//      }
    }
 
    function doLoadElo(eloUri: URI) {
@@ -423,7 +418,7 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
       def root = new Element(queryTagName);
       if (QuerySelecterUsage.TEXT == querySelecterUsage) {
          root.addContent(JDomConversionUtils.createElement(simpleTextQueryTagName, queryBox.rawText.trim()));
-      } else if (QuerySelecterUsage.TEXT == querySelecterUsage) {
+      } else if (QuerySelecterUsage.ELO_BASED == querySelecterUsage) {
          root.addContent(JDomConversionUtils.createElement(eloUriTagName, baseElo.getUri()));
       }
       root.addContent(querySelecterFactory.createQuerySelectersXml(usedQuerySelecters));
@@ -439,8 +434,7 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
       } else if (QuerySelecterUsage.TEXT == querySelecterUsage) {
          loadEloBasedQuery(queryXml);
       }
-      setupQueryBox();
-      createQuerySelecterDisplays(querySelecterFactory.createQuerySelecters(root, querySelecterUsage));
+      createNodeContent();
       def scySearchResultsXml = root.getChild(scySearchResultXmlUtils.SCYSEARCHRESULTS);
       def scySearchResults = scySearchResultXmlUtils.scySearchResultsFromXml(scySearchResultsXml);
       addEloIconsToSearchResults(scySearchResults);
