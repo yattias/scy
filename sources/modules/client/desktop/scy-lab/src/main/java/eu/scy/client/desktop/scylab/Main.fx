@@ -9,7 +9,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import eu.scy.client.desktop.scydesktop.ScyDesktopCreator;
-import eu.scy.client.desktop.scydesktop.corners.elomanagement.EloManagement;
 import eu.scy.client.tools.fxdrawingtool.registration.DrawingToolCreatorFX;
 import eu.scy.client.tools.fxsimulator.registration.SimulatorContentCreator;
 import eu.scy.client.tools.fxfitex.registration.FitexToolCreatorFX;
@@ -56,6 +55,7 @@ import eu.scy.client.desktop.scydesktop.feedbackquestion.FeedbackQuestionNodeCre
 import eu.scy.client.desktop.scydesktop.tools.colorscheme.ColorSchemeEditorCreator;
 import eu.scy.client.desktop.scydesktop.tools.DrawerUIIndicator;
 import eu.scy.client.desktop.scydesktop.tools.versionviewer.VersionViewerCreator;
+import eu.scy.client.desktop.scydesktop.tools.search.EloSearchCreator;
 
 /**
  * @author sikkenj
@@ -111,6 +111,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    def feedbackQuestionId = "feedbackQuestion";
    def socialtaggingId = "socialtagging";
    def eloVersionViewerId = "versionViewer";
+   def searchId = "search";
 
    var scyDesktopCreator = ScyDesktopCreator {
               initializer: initializer;
@@ -182,7 +183,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(TestMoreInfoNodeCreator{}, testMoreInfoId);
 
-   var feedbackQuestionNodeCreator = FeedbackQuestionNodeCreator{};
+   def feedbackQuestionNodeCreator = FeedbackQuestionNodeCreator{};
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(feedbackQuestionNodeCreator, feedbackQuestionId);
    
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(SocialTaggingDrawerCreator{}, socialtaggingId);
@@ -191,14 +192,17 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(versionViewerCreator, eloVersionViewerId);
    scyDesktopCreator.eloConfigManager.addDebugCreatorId(eloVersionViewerId);
 
-   var awarenessService:IAwarenessService = missionRunConfigs.tbi.getAwarenessService();
-   var chatControllerMap = new HashMap();
+   def awarenessService:IAwarenessService = missionRunConfigs.tbi.getAwarenessService();
+   def chatControllerMap = new HashMap();
    scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(
             ChattoolDrawerContentCreatorFX {
                 awarenessService: awarenessService;
                 chatControllerMap: chatControllerMap;
                 },
             scychatId);
+
+   def eloSearchCreator = EloSearchCreator{};
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(eloSearchCreator, searchId);
 
    var scyDesktop = scyDesktopCreator.createScyDesktop();
 
@@ -210,6 +214,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
 //      technicalFormatKey: scyDesktopCreator.config.getTechnicalFormatKey();
 //   }
    scyDesktop.moreInfoToolFactory = new FlyingSaucerMoreInfoToolFactory();
+   eloSearchCreator.scyDesktop = scyDesktop;
    feedbackQuestionNodeCreator.scyDesktop = scyDesktop;
    return scyDesktop;
 }

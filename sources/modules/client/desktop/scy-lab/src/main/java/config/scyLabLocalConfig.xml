@@ -325,6 +325,12 @@
                <property name="contentCreatorId" value="image"/>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/search"/>
+               <property name="display" value="Search"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="search"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/speedTest"/>
                <property name="display" value="Speed test"/>
                <property name="creatable" value="true"/>
