@@ -68,7 +68,7 @@ public class AuthorQuerySelecter extends AbstractSimpleQuerySelecter
    @Override
    public String getEloIconTooltip()
    {
-      return "Filter on author";
+      return "author";
    }
 
    private String getBasedOnAuthor()

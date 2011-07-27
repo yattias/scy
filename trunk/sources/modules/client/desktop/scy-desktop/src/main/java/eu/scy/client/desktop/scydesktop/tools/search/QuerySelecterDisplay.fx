@@ -14,6 +14,7 @@ import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import eu.scy.client.desktop.scydesktop.tooltips.impl.TextTooltip;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipCreator;
 import roolo.search.IQueryComponent;
+import eu.scy.common.scyelo.ScyElo;
 
 /**
  * @author SikkenJ
@@ -26,6 +27,8 @@ public class QuerySelecterDisplay extends CustomNode, TooltipCreator {
    public-init var windowColorScheme: WindowColorScheme;
    public-init var tooltipManager: TooltipManager;
    public-init var selectionChanged: function(): Void;
+   public-init var basedOnElo: ScyElo;
+   public-read var noOptions = false;
    def querySelecterChoiceBox = ChoiceBox {};
    def iconSize = 20.0;
    def spacing = 5.0;
@@ -33,6 +36,9 @@ public class QuerySelecterDisplay extends CustomNode, TooltipCreator {
    def textNoneOption = "All";
    def eloBasedNoneOption = "Ignore";
    def noneOption = getNoneOption();
+   def textTooltipHeader = "filter on";
+   def eloBasedTooltipHeader = "compare on";
+   def tooltipHeader = getTooltipHeader();
    var created = false;
 
    function getNoneOption():String{
@@ -45,15 +51,27 @@ public class QuerySelecterDisplay extends CustomNode, TooltipCreator {
       }
    }
 
+   function getTooltipHeader():String{
+      if (QuerySelecterUsage.TEXT==querySelecterUsage){
+         textTooltipHeader
+      } else if (QuerySelecterUsage.ELO_BASED==querySelecterUsage){
+         eloBasedTooltipHeader
+      } else {
+         ""
+      }
+   }
+
    public override function create(): Node {
       FX.deferAction(function(): Void {
          created = true
       });
+      querySelecter.setBasedOnElo(basedOnElo);
       def icon = eloIconFactory.createEloIcon(querySelecter.getEloIconName());
       icon.size = iconSize;
       icon.windowColorScheme = windowColorScheme;
       tooltipManager.registerNode(icon, this);
       var displayItems = querySelecter.getDisplayOptions().toArray() as String[];
+      noOptions = sizeof displayItems==0;
       insert noneOption before displayItems[0];
       querySelecterChoiceBox.items = displayItems;
       querySelecterChoiceBox.select(0);
@@ -79,7 +97,7 @@ public class QuerySelecterDisplay extends CustomNode, TooltipCreator {
 
    public override function createTooltipNode(sourceNode: Node): Node {
       TextTooltip {
-         content: querySelecter.getEloIconTooltip()
+         content: "{tooltipHeader} {querySelecter.getEloIconTooltip()}"
          windowColorScheme: windowColorScheme
       }
    }

@@ -35,8 +35,8 @@ public class LastModifiedQuerySelecter extends AbstractSimpleQuerySelecter
       LAST_WEEK,
       SAME_DAY,
       SAME_WEEK,
-      BEFORE,
-      AFTER;
+      OLDER,
+      NEWER;
    }
 
    public LastModifiedQuerySelecter(ToolBrokerAPI tbi, String id, QuerySelecterUsage querySelectorUsage)
@@ -60,8 +60,8 @@ public class LastModifiedQuerySelecter extends AbstractSimpleQuerySelecter
          case ELO_BASED:
             displayOptions.add(LastModifiedOptions.SAME_DAY.toString());
             displayOptions.add(LastModifiedOptions.SAME_WEEK.toString());
-            displayOptions.add(LastModifiedOptions.BEFORE.toString());
-            displayOptions.add(LastModifiedOptions.AFTER.toString());
+            displayOptions.add(LastModifiedOptions.OLDER.toString());
+            displayOptions.add(LastModifiedOptions.NEWER.toString());
             break;
       }
       return displayOptions;
@@ -70,13 +70,13 @@ public class LastModifiedQuerySelecter extends AbstractSimpleQuerySelecter
    @Override
    public String getEloIconName()
    {
-      return "unknown";
+      return "orientation";
    }
 
    @Override
    public String getEloIconTooltip()
    {
-      return "Last modified";
+      return "last modified";
    }
 
    @Override
@@ -109,8 +109,8 @@ public class LastModifiedQuerySelecter extends AbstractSimpleQuerySelecter
             break;
          case SAME_DAY:
          case SAME_WEEK:
-         case BEFORE:
-         case AFTER:
+         case OLDER:
+         case NEWER:
       }
       return null;
    }

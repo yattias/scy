@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package eu.scy.client.desktop.scydesktop.tools.search.queryselecters;
 
 import eu.scy.client.desktop.desktoputils.StringUtils;
@@ -54,22 +53,27 @@ public class MissionQuerySelecter extends AbstractSimpleQuerySelecter
    protected List<String> createDisplayOption()
    {
       List<String> displayOptions = new ArrayList<String>();
-      switch (getQuerySelectorUsage()){
+      switch (getQuerySelectorUsage())
+      {
          case TEXT:
-            if (myMissionSpecificationUri!=null){
+            if (myMissionSpecificationUri != null)
+            {
                displayOptions.add(MissionOptions.THIS.toString());
                displayOptions.add(MissionOptions.NOT_THIS.toString());
             }
-            if (!StringUtils.isEmpty(myMissionId)){
+            if (!StringUtils.isEmpty(myMissionId))
+            {
                displayOptions.add(MissionOptions.ALL_VERSIONS_OF_THIS.toString());
             }
             break;
          case ELO_BASED:
-            if (myMissionSpecificationUri!=null){
+            if (getBasedOnElo().getMissionSpecificationEloUri() != null)
+            {
                displayOptions.add(MissionOptions.SAME.toString());
                displayOptions.add(MissionOptions.NOT_SAME.toString());
             }
-            if (!StringUtils.isEmpty(myMissionId)){
+            if (getBasedOnElo().getMissionId() != null)
+            {
                displayOptions.add(MissionOptions.ALL_VERSIONS_OF_ELO.toString());
             }
             break;
@@ -86,7 +90,7 @@ public class MissionQuerySelecter extends AbstractSimpleQuerySelecter
    @Override
    public String getEloIconTooltip()
    {
-      return "Filter on mission";
+      return "mission";
    }
 
    @Override
