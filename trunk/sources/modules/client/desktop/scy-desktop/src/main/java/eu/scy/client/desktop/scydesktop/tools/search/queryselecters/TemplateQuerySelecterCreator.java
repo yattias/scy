@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package eu.scy.client.desktop.scydesktop.tools.search.queryselecters;
 
 import eu.scy.client.desktop.scydesktop.tools.search.QuerySelecter;
@@ -14,13 +13,13 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
  *
  * @author SikkenJ
  */
-public class MissionQuerySelecterCreator implements QuerySelecterCreator
+public class TemplateQuerySelecterCreator implements QuerySelecterCreator
 {
 
-   public final static String id = "mission";
+   public final static String id = "template";
    private final ToolBrokerAPI tbi;
 
-   public MissionQuerySelecterCreator(ToolBrokerAPI tbi)
+   public TemplateQuerySelecterCreator(ToolBrokerAPI tbi)
    {
       this.tbi = tbi;
    }
@@ -34,6 +33,6 @@ public class MissionQuerySelecterCreator implements QuerySelecterCreator
    @Override
    public QuerySelecter createQuerySelecter(QuerySelecterUsage querySelectorUsage)
    {
-      return new MissionQuerySelecter(tbi, id, querySelectorUsage);
+      return new TemplateQuerySelecter(tbi, id, querySelectorUsage);
    }
 }
