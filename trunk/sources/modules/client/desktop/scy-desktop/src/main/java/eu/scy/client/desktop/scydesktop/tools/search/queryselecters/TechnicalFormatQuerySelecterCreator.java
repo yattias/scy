@@ -8,8 +8,6 @@ import eu.scy.client.desktop.scydesktop.tools.search.QuerySelecter;
 import eu.scy.client.desktop.scydesktop.tools.search.QuerySelecterCreator;
 import eu.scy.client.desktop.scydesktop.tools.search.QuerySelecterUsage;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
-import roolo.elo.api.IMetadataKey;
-import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 
 /**
  *
@@ -19,11 +17,11 @@ public class TechnicalFormatQuerySelecterCreator implements QuerySelecterCreator
 {
 
    public final static String id = "technicalFormat";
-   final private IMetadataKey technicalFormatKey;
+   private final ToolBrokerAPI tbi;
 
    public TechnicalFormatQuerySelecterCreator(ToolBrokerAPI tbi)
    {
-      technicalFormatKey = tbi.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
+      this.tbi = tbi;
    }
 
    @Override
@@ -37,7 +35,7 @@ public class TechnicalFormatQuerySelecterCreator implements QuerySelecterCreator
    {
       if (QuerySelecterUsage.ELO_BASED == querySelectorUsage)
       {
-         return new TechnicalFormatQuerySelector(technicalFormatKey);
+         return new TechnicalFormatQuerySelector(tbi, id, querySelectorUsage);
       }
       return null;
    }
