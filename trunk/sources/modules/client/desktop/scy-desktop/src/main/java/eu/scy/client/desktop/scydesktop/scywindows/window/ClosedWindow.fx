@@ -29,6 +29,7 @@ import javafx.scene.Node;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextOrigin;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.AnchorAttribute;
+import javafx.scene.text.TextBoundsType;
 
 /**
  * @author SikkenJ
@@ -109,9 +110,10 @@ public class ClosedWindow extends WindowElement {
             font: textFont
             textOrigin: TextOrigin.TOP
             textAlignment: TextAlignment.CENTER
+            boundsType: TextBoundsType.VISUAL
             x: 0
             y: 0
-//            wrappingWidth: bind thumbnailView.layoutBounds.width;
+            wrappingWidth: 2*ArtSource.thumbnailWidth;
             content: bind title;
          }
       activatedChanged();
@@ -122,7 +124,8 @@ public class ClosedWindow extends WindowElement {
             windowAttributeGroup,
             buddiesDisplayGroup,
             Stack {
-               layoutX: bind thumbnailView.layoutBounds.width/2 - titleText.layoutBounds.width/2
+               // move it a bit to the left (thumbnailView.layoutBounds.minX/2), to keep the optical balance
+               layoutX: bind thumbnailView.layoutBounds.minX/2 + thumbnailView.layoutBounds.width/2 - titleText.layoutBounds.width/2
                layoutY: thumbnailView.layoutBounds.height + 2
                nodeHPos: HPos.CENTER
                content: [
