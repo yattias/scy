@@ -10,6 +10,7 @@ import eu.scy.common.mission.impl.jdom.JDomConversionUtils;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.util.List;
+import org.apache.log4j.Logger;
 import org.jdom.Element;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.IMetadataKeyIdDefinition;
@@ -20,7 +21,7 @@ import roolo.elo.api.metadata.IMetadataKeyIdDefinition;
  */
 public abstract class AbstractSimpleQuerySelecter implements QuerySelecter
 {
-
+   private final static Logger logger = Logger.getLogger(AbstractSimpleQuerySelecter.class);
    private final static String selectedOptionTagName = "selectedOption";
    private final String id;
    private List<String> displayOptions;
@@ -29,7 +30,7 @@ public abstract class AbstractSimpleQuerySelecter implements QuerySelecter
    private final QuerySelecterUsage querySelectorUsage;
    private final ToolBrokerAPI tbi;
 
-   public AbstractSimpleQuerySelecter(ToolBrokerAPI tbi,String id,QuerySelecterUsage querySelectorUsage)
+   public AbstractSimpleQuerySelecter(ToolBrokerAPI tbi, String id, QuerySelecterUsage querySelectorUsage)
    {
       this.tbi = tbi;
       this.id = id;
@@ -52,7 +53,8 @@ public abstract class AbstractSimpleQuerySelecter implements QuerySelecter
       return tbi;
    }
 
-   public IMetadataKey getMetadataKey(IMetadataKeyIdDefinition keyId){
+   public IMetadataKey getMetadataKey(IMetadataKeyIdDefinition keyId)
+   {
       return tbi.getMetaDataTypeManager().getMetadataKey(keyId);
    }
 
@@ -72,12 +74,22 @@ public abstract class AbstractSimpleQuerySelecter implements QuerySelecter
    {
       if (displayOptions == null)
       {
-         displayOptions = createDisplayOption();
+         switch (getQuerySelectorUsage())
+         {
+            case ELO_BASED:
+               if (getBasedOnElo() == null)
+               {
+                  logger.error("can't call createDisplayOptions, bacause the basedOnElo is null, my id: " + id);
+                  break;
+               }
+            default:
+               displayOptions = createDisplayOptions();
+         }
       }
       return displayOptions;
    }
 
-   protected abstract List<String> createDisplayOption();
+   protected abstract List<String> createDisplayOptions();
 
    @Override
    public String getSelectedOption()

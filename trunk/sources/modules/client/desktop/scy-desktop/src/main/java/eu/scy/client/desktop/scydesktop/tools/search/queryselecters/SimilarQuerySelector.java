@@ -31,7 +31,7 @@ public class SimilarQuerySelector extends AbstractSimpleQuerySelecter
    }
 
    @Override
-   protected List<String> createDisplayOption()
+   protected List<String> createDisplayOptions()
    {
       List<String> displayOptions = new ArrayList<String>();
       for (SimilarOptions similarOptions : SimilarOptions.values())
