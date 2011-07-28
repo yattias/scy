@@ -758,7 +758,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                  window: window;
               }
       var functionalRoles: EloFunctionalRole[];
-      if (eloConfig.getEloFunctionalRoles() != null) {
+      if (eloConfig.getEloFunctionalRoles() != null and eloConfig.getEloFunctionalRoles().size()>0) {
          functionalRoles = for (object in eloConfig.getEloFunctionalRoles()) {
                     object as EloFunctionalRole
                  }
