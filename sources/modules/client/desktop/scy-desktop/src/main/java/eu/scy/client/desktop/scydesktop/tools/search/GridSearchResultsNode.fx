@@ -31,6 +31,8 @@ import eu.scy.client.desktop.scydesktop.corners.elomanagement.ScyEloListCellDisp
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.ScySearchResult;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.ShowSearching;
 import eu.scy.common.scyelo.ScyElo;
+import java.text.DateFormat;
+import java.util.Date;
 
 /**
  * @author SikkenJ
@@ -89,6 +91,10 @@ public class GridSearchResultsNode extends CustomNode, Resizable, ScyEloListCell
            }
    def foundLabelText = ##"Found";
    var foundLabel: Label;
+   def dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT);
+   def foundOnDateLabelText = ##"on";
+   var nrFoundString = "";
+   var dateFoundString = "";
    public-read def selectedSearchResult = bind resultsListView.selectedItem as ScySearchResult on replace {
               //         openButton.disable = selectedSearchResult == null;
               //         baseButton.disable = selectedSearchResult == null;
@@ -154,7 +160,7 @@ public class GridSearchResultsNode extends CustomNode, Resizable, ScyEloListCell
       [
          GridRow {
             vgrow: Priority.NEVER
-            vshrink:Priority.NEVER
+            vshrink: Priority.NEVER
             vfill: false
             cells: [
                getLeftColumnFiller(),
@@ -203,8 +209,18 @@ public class GridSearchResultsNode extends CustomNode, Resizable, ScyEloListCell
       setNumberOfResults("{sizeof resultsListView.items}");
    }
 
+   public function setDateFound(dateMillis: Long) {
+      dateFoundString = dateFormat.format(new Date(dateMillis));
+      setFoundLabelText()
+   }
+
    function setNumberOfResults(nr: String): Void {
-      foundLabel.text = "{foundLabelText} : {nr}";
+      nrFoundString = nr;
+      setFoundLabelText()
+   }
+
+   function setFoundLabelText(){
+      foundLabel.text = "{foundLabelText}:  {nrFoundString}  -  {foundOnDateLabelText}  {dateFoundString}";
    }
 
    public override function getPrefWidth(w: Number): Number {
