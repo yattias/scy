@@ -93,6 +93,7 @@ public class StyleMappings
       styleMappings.addStyleMapping("ard/idea", "idea", ColorSchemeId.EIGHT);
       styleMappings.addStyleMapping("ard/presentation", "presentation", ColorSchemeId.FOUR);
       styleMappings.addStyleMapping("ard/report", "report", ColorSchemeId.TWO);
+      styleMappings.addStyleMapping("scy/search", "search", ColorSchemeId.FIVE);
    }
 
    private StyleMappings()
