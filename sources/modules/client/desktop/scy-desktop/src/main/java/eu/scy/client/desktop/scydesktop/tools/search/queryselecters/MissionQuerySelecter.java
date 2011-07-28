@@ -50,7 +50,7 @@ public class MissionQuerySelecter extends AbstractSimpleQuerySelecter
    }
 
    @Override
-   protected List<String> createDisplayOption()
+   protected List<String> createDisplayOptions()
    {
       List<String> displayOptions = new ArrayList<String>();
       switch (getQuerySelectorUsage())

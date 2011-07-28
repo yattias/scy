@@ -449,12 +449,12 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
 
    function loadEloContent(xmlString: String) {
       def root = jdomStringConversion.stringToXml(xmlString);
-      def queryXml = root.getChild(queryTagName);
       querySelecterUsage = JDomConversionUtils.getEnumValue(QuerySelecterUsage.class, root, querySelecterUsageTagName);
-      loadContext(queryXml);
+      loadContext(root);
+      def queryXml = root.getChild(queryTagName);
       if (QuerySelecterUsage.TEXT == querySelecterUsage) {
          loadSimpleQuery(queryXml);
-      } else if (QuerySelecterUsage.TEXT == querySelecterUsage) {
+      } else if (QuerySelecterUsage.ELO_BASED == querySelecterUsage) {
          loadEloBasedQuery(queryXml);
       }
       createNodeContent();
