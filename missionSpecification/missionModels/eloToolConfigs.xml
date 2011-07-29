@@ -274,6 +274,10 @@
                <property name="contentCreatorId" value="resultcard"/>
             </bean>
             <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
+               <property name="eloType" value="scy/search"/>
+               <property name="contentCreatorId" value="search"/>
+            </bean>
+            <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
                <property name="eloType" value="scy/speedTest"/>
                <property name="eloSystemRole" value="SYSTEM"/>
                <property name="contentCreatorId" value="speedTestPanel"/>
