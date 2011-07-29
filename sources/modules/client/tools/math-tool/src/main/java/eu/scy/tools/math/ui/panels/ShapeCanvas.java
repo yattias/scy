@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -26,6 +27,9 @@ public class ShapeCanvas extends JPanel implements IShapeCanvas {
 
 	private boolean showGrid;
 	private ArrayList<IMathShape> mathShapes = new ArrayList<IMathShape>();
+	
+	public ArrayList<Shape> shapes = new ArrayList<Shape>();
+	
 	private ControlPanel controlPanel;
 	private String type;
 
@@ -107,6 +111,11 @@ public class ShapeCanvas extends JPanel implements IShapeCanvas {
 				ms.paintComponent(g);
 			}
 		}
+		
+		Graphics2D g2 = (Graphics2D) g;
+		for (Shape aShape : shapes) {
+			g2.draw(aShape);
+		}
 		// System.out.println("LAYOUT: "+getLayout());
 
 	}
@@ -119,6 +128,10 @@ public class ShapeCanvas extends JPanel implements IShapeCanvas {
 		return showGrid;
 	}
 
+	public void addRegularShape(Shape shape) {
+		shapes.add(shape);
+	}
+	
 	@Override
 	public void addShape(IMathShape shape) {
 		getMathShapes().add(shape);

@@ -45,8 +45,8 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import eu.scy.tools.math.adapters.AdjustSizeAdapter;
-import eu.scy.tools.math.adapters.ShapeJXLabelDropTargetListener;
 import eu.scy.tools.math.adapters.ShapeMoverAdapter;
+import eu.scy.tools.math.dnd.ShapeJXLabelDropTargetListener;
 import eu.scy.tools.math.doa.ComputationDataObj;
 import eu.scy.tools.math.doa.DataStoreObj;
 import eu.scy.tools.math.doa.ThreeDObj;

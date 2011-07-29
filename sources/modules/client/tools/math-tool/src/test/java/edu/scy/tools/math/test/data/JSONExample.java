@@ -33,8 +33,12 @@ public class JSONExample {
 	 */
 	public static void main(String[] args) {
 		
-		ArrayList<IMathToolbarShape> l = new ArrayList<IMathToolbarShape>();
+		ArrayList l = new ArrayList();
         
+		ArrayList<IMathToolbarShape> prisms = new ArrayList<IMathToolbarShape>();
+		ArrayList<IMathToolbarShape> spheres = new ArrayList<IMathToolbarShape>();
+		ArrayList<IMathToolbarShape> clyinders = new ArrayList<IMathToolbarShape>();
+
 		
 		  IRectanglarPrismToolbarShape prism = new RectanglarPrismToolbarShape();
 		  prism.setName(UIUtils.RECTANGLURAL_PRISM_NAME);
@@ -53,7 +57,7 @@ public class JSONExample {
 		  prism.setSurfaceAreaRatioMinValue("1.3");
 		  prism.setSurfaceAreaRatioMaxValue("1.3");
 		  
-		  l.add(prism);
+		  prisms.add(prism);
 		  
 		  prism = new RectanglarPrismToolbarShape();
 		  prism.setName(UIUtils.RECTANGLURAL_PRISM_NAME);
@@ -72,7 +76,9 @@ public class JSONExample {
 		  prism.setSurfaceAreaRatioMinValue("1.05");
 		  prism.setSurfaceAreaRatioMaxValue("1.05");
 		  
-		  l.add(prism);
+		  prisms.add(prism);
+		  
+		  l.add(prisms);
 		  
 		  ICylinderToolbarShape cylinder = new CylinderToolbarShape();
 		  cylinder.setName(UIUtils.CLYINDER_NAME);
@@ -96,7 +102,7 @@ public class JSONExample {
 		  cylinder.setSurfaceAreaRatioMaxValue("1.33");
 		  
 		  
-		  l.add(cylinder);
+		  clyinders.add(cylinder);
 		  
 		  cylinder = new CylinderToolbarShape();
 		  cylinder.setName(UIUtils.CLYINDER_NAME);
@@ -120,7 +126,9 @@ public class JSONExample {
 		  cylinder.setSurfaceAreaRatioMaxValue("0.996");
 		  
 		  
-		  l.add(cylinder);
+		  clyinders.add(cylinder);
+		  
+		  l.add(clyinders);
 		  
 		  SphereToolbarShape sphere = new SphereToolbarShape();
 		  sphere.setName(UIUtils.SPHERE_NAME);
@@ -142,7 +150,7 @@ public class JSONExample {
 		  sphere.setSurfaceAreaRatioMinValue("1.041");
 		  sphere.setSurfaceAreaRatioMaxValue("1.042");
 
-		  l.add(sphere);
+		  spheres.add(sphere);
 		  
 		  sphere = new SphereToolbarShape();
 		  sphere.setName(UIUtils.SPHERE_NAME);
@@ -164,7 +172,9 @@ public class JSONExample {
 		  sphere.setSurfaceAreaRatioMinValue("0.82");
 		  sphere.setSurfaceAreaRatioMaxValue("0.83");
 		
-		  l.add(sphere);
+		  spheres.add(sphere);
+		  
+		  l.add(spheres);
 		  
 		  ICircleToolbarShape circle = new CircleToolbarShape();
 		  circle.setName(UIUtils.CIRCLE_NAME);

@@ -10,6 +10,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.Action;
@@ -207,29 +208,54 @@ public class MathTool {
 //			
 //		}
 		
-		List<IMathToolbarShape> shapeList = UIUtils.getShapeList();
-		for (IMathToolbarShape toolbarShape : shapeList) {
-			
-			if( toolbarShape.getSurfaceType().equals(type)) {
-				JLabel label = new JLabel(Images.getIcon(toolbarShape.getToolbarIcon()));
-				label.setOpaque(false);
-				label.setToolTipText(UIUtils.dragAndDropShapeTip);
-				label.putClientProperty(UIUtils.SHAPE_OBJ, toolbarShape);
-				label.setName(toolbarShape.getType());
+		List newList = UIUtils.getShapeList();
+		
+		for (Iterator iterator = newList.iterator(); iterator.hasNext();) {
+			Object obj = iterator.next();
+			//three d
+			if(  obj instanceof ArrayList ) {
+				ArrayList<IMathToolbarShape> shapes = (ArrayList<IMathToolbarShape>) obj;
 				
-				label.setTransferHandler(new JLabelSelection());
+				IMathToolbarShape toolbarShape = shapes.get(0);
+				if( toolbarShape.getSurfaceType().equals(type)) {
+					JLabel createShapeLabel = createShapeLabel(toolbarShape.getToolbarIcon(), toolbarShape.getType(), shapes);
 				
-				label.addMouseListener(new MouseAdapter(){
-				      public void mousePressed(MouseEvent e){
-				    	 
-				        JComponent jc = (JComponent)e.getSource();
-				        TransferHandler th = jc.getTransferHandler();
-				        th.exportAsDrag(jc, e, TransferHandler.COPY);
-				      }
-				    });
-				labelPanel.add(label,"wrap");
+					labelPanel.add(createShapeLabel,"wrap");
+				
+				}
+			} else {
+				IMathToolbarShape toolbarShape = (IMathToolbarShape) obj;
+				if( toolbarShape.getSurfaceType().equals(type)) {
+					JLabel createShapeLabel = createShapeLabel(toolbarShape.getToolbarIcon(), toolbarShape.getType(), toolbarShape);
+					labelPanel.add(createShapeLabel,"wrap");
+				}
 			}
+			
 		}
+		
+//		List<IMathToolbarShape> shapeList = UIUtils.getShapeList();
+//		for (IMathToolbarShape toolbarShape : shapeList) {
+//			
+//			if( toolbarShape.getSurfaceType().equals(type)) {
+//				JLabel label = new JLabel(Images.getIcon(toolbarShape.getToolbarIcon()));
+//				label.setOpaque(false);
+//				label.setToolTipText(UIUtils.dragAndDropShapeTip);
+//				label.putClientProperty(UIUtils.SHAPE_OBJ, toolbarShape);
+//				label.setName(toolbarShape.getType());
+//				
+//				label.setTransferHandler(new JLabelSelection());
+//				
+//				label.addMouseListener(new MouseAdapter(){
+//				      public void mousePressed(MouseEvent e){
+//				    	 
+//				        JComponent jc = (JComponent)e.getSource();
+//				        TransferHandler th = jc.getTransferHandler();
+//				        th.exportAsDrag(jc, e, TransferHandler.COPY);
+//				      }
+//				    });
+//				labelPanel.add(label,"wrap");
+//			}
+//		}
 		
 		labelPanel.setBorder(BorderFactory.createEmptyBorder(6, 0, 0, 0));
 		
@@ -252,6 +278,26 @@ public class MathTool {
 		return shapePanel;
 	}
 
+	private JLabel createShapeLabel(String icon, String type, Object shapes) {
+		JLabel label = new JLabel(Images.getIcon(icon));
+		label.setOpaque(false);
+		label.setToolTipText(UIUtils.dragAndDropShapeTip);
+		label.putClientProperty(UIUtils.SHAPE_OBJ, shapes);
+		label.setName(type);
+		
+		label.setTransferHandler(new JLabelSelection());
+		
+		label.addMouseListener(new MouseAdapter(){
+		      public void mousePressed(MouseEvent e){
+		    	 
+		        JComponent jc = (JComponent)e.getSource();
+		        TransferHandler th = jc.getTransferHandler();
+		        th.exportAsDrag(jc, e, TransferHandler.COPY);
+		      }
+		    });
+		
+		return label;
+	}
 	
 	private List<Images> getShapes(String type) {
 		
