@@ -20,7 +20,6 @@ import java.util.Set;
 
 import org.apache.commons.collections.Bag;
 import org.apache.commons.collections.bag.HashBag;
-import org.apache.log4j.Logger;
 
 import roolo.search.ISearchResult;
 import roolo.search.util.SearchResultUtils;
@@ -63,6 +62,8 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	private static final String ONTOLOGY_AGENT_COMMAND = "surrounding";
 	
     private static final Tuple TEMPLATE_FOR_SEARCH_QUERY = new Tuple("action", String.class, Long.class, SEARCH_TYPE, String.class, SEARCH_TOOL, Field.createWildCardField());
+	private static final Tuple TEMPLATE_FOR_SESSION_LANGUAGE= new Tuple("language", String.class, String.class);
+	
     private static final String OPERATOR_AND = "AND";
     private static final String OPERATOR_OR = "OR";
     private static final String DEFAULT_FIELD = "contents";
@@ -127,10 +128,11 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	
 //    private static final Logger logger = Logger.getLogger(SearchResultEnricherAgent.class.getName());
     private Map<String, Object> config;
-    private Map<Locale, Set<String>> stopwordMap = null;
+    private Map<String, Set<String>> stopwordMap = null;
 
     private TupleSpace actionSpace;
     private TupleSpace commandSpace;
+    private TupleSpace sessionSpace;
     
     private int maxProposalNumber;
     private int maxReplaceNumber;
@@ -150,11 +152,11 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
         configure(map);
 
 		// TODO: keyword files should be set by configuration
-        this.stopwordMap = new HashMap<Locale, Set<String>>();
+        this.stopwordMap = new HashMap<String, Set<String>>();
         try {
-			this.stopwordMap.put(Locale.ENGLISH, readStopwords("/en_stopwords.txt"));
-			this.stopwordMap.put(Locale.GERMAN, readStopwords("/ger_stopwords.txt"));
-			this.stopwordMap.put(ESTONIA_LOCALE, readStopwords("/est_stopwords.txt"));
+			this.stopwordMap.put("en", readStopwords("/en_stopwords.txt"));
+			this.stopwordMap.put("de", readStopwords("/ger_stopwords.txt"));
+			this.stopwordMap.put("es", readStopwords("/est_stopwords.txt"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -162,6 +164,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
         try {
         	actionSpace = getActionSpace();
             commandSpace = getCommandSpace();
+            sessionSpace = getSessionSpace();
         	
             Callback sqc = new SearchQueryCallback();
             actionSpace.eventRegister(Command.WRITE, TEMPLATE_FOR_SEARCH_QUERY, sqc, true);
@@ -331,6 +334,21 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 		}
     }
 
+    private String getLanguage(String user) {
+    	String language = null;
+    	try {
+			for(Tuple languageTuple : sessionSpace.readAll(TEMPLATE_FOR_SESSION_LANGUAGE)) {
+				if(languageTuple.getFields().length >= 3 && languageTuple.getField(1).getValue().toString().startsWith(user)) {
+					language = languageTuple.getField(2).getValue().toString();
+					break;
+				}
+			}
+		} catch (TupleSpaceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return language;
+    }
     /**
      * Parses the query, that was received from TupleSpaces (in Lucene syntax) and extracts the user-entered query 
      * @param rawQuery
@@ -394,7 +412,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
         // Deserialize search results
         String searchQuery = parseQuery(props.getProperty(ACTION_LOG_ATTRIBUTE_QUERY));
         List<ISearchResult> referenceResults = SearchResultUtils.createSearchResultsFromXML(props.getProperty(ACTION_LOG_ATTRIBUTE_RESULT));
-        System.out.println("Origin search: " + searchQuery + " | Hit count: " + referenceResults.size());
+        System.out.println("Origin search: " + searchQuery + "| Lucene Query: " + props.getProperty(ACTION_LOG_ATTRIBUTE_QUERY) + " | Hit count: " + referenceResults.size());
 
         // Check search terms for spelling mistakes... this task is independent from the rest
 		SpellingChecker sc = new SpellingChecker(this.commandSpace, user, mission,
@@ -406,9 +424,12 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
         // Choose strategy
         SearchResultRanking ranking = null;
         if (referenceResults.size() < this.infGoodSearchInverval) {
-            ranking = extendSearchResult(eloUri, mission, searchQuery, referenceResults);
+        	String language = getLanguage(user);
+            ranking = extendSearchResult(eloUri, mission, language, searchQuery, referenceResults);
         } else if (referenceResults.size() > this.supGoodSearchInterval) {
-            ranking = pruneSearchResult(searchQuery, referenceResults);
+//        	String language = getLanguage(user);
+        	String language = "en";
+            ranking = pruneSearchResult(language, searchQuery, referenceResults);
         } else {
             // Number of results is ok, so we do nothing
         }
@@ -437,11 +458,12 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	 *
 	 * @param eloUri the elo uri
 	 * @param mission the mission
+	 * @param language the users language
 	 * @param searchQuery the search query
 	 * @param referenceResults the reference results
 	 * @return the search result ranking
 	 */
-	private SearchResultRanking extendSearchResult(String eloUri, String mission, String searchQuery, List<ISearchResult> referenceResults) {
+	private SearchResultRanking extendSearchResult(String eloUri, String mission, String language, String searchQuery, List<ISearchResult> referenceResults) {
     	
         SearchResultRanking ranking = new SearchResultRanking(this.maxProposalNumber, referenceResults, this.config, this.infGoodSearchInverval, this.supGoodSearchInterval);
         try
@@ -472,10 +494,10 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
             }
             
             // Add new keywords extracted from the search results.
-            if(referenceResults.size() > 0) {
+            if(referenceResults.size() > 0 && language != null) {
             	Set<String> items = new HashSet<String>();
             	items.addAll(Arrays.asList(searchQuery.split(" ")));
-            	List<TermEntry> termList = extractKeywordsFromSearchResults(items, Locale.ENGLISH, referenceResults);
+            	List<TermEntry> termList = extractKeywordsFromSearchResults(items, language, referenceResults);
             	
             	String userQuery = query.toLuceneString();
             	for(int i = 0; i < Math.min(this.numberOfTermsToTest, termList.size()); i++){
@@ -533,26 +555,33 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
      * Uses the search results of the origin search to extract terms, that might be of interest.
      *
      * @param items the items
-     * @param locale the locale
+     * @param language the users language
      * @param results the results
      * @return the list
      */
     @SuppressWarnings("unchecked")
-	private List<TermEntry> extractKeywordsFromSearchResults(Set<String> items, Locale locale, List<ISearchResult> results) {
+	private List<TermEntry> extractKeywordsFromSearchResults(Set<String> items, String language, List<ISearchResult> results) {
     	List<TermEntry> termList = new LinkedList<TermEntry>();
 
     	// Grab all terms and put them in a bag.
     	Bag bag = new HashBag();
     	int resultsUsed = 0;
     	for(int i = 0; i < results.size() ; i++) {
-    		// Keyword list may contains relevance entries, so we need to delete them
-
-    		String keywords = results.get(i).getTitle(locale);
+    		String keywords = null;
+    		for(Locale loc : results.get(i).getTitles().keySet()) {
+    			if(language.equals(loc.getLanguage())) {
+    				keywords = results.get(i).getTitles().get(loc);
+    				break;
+    			}
+    		}
     		if(keywords == null || keywords.equals("")){
     			continue;
     		}
+    		
+    		// Keyword list may contains relevance entries, so we need to delete them
+//    		keywords = keywords.replaceAll(" [0-9]\\.[0-9]", "");
+
     		keywords = keywords.toLowerCase();
-    		keywords = keywords.replaceAll(" [0-9]\\.[0-9]", "");
     		List<String> terms = Arrays.asList(keywords.split(" "));
     		bag.addAll(terms);
     		resultsUsed++;
@@ -570,7 +599,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
     			// Bag contains duplicate entries...
     			continue;
     		}
-    		if(stopwordMap.get(locale).contains(term)) {
+    		if(stopwordMap.get(language).contains(term)) {
     			// Keyword is in stopword list
     			continue;
     		}
@@ -624,11 +653,12 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	/**
 	 * Tries to prune the search results.
 	 *
+	 * @param language the users language
 	 * @param searchQuery the search query
 	 * @param referenceResults the reference results
 	 * @return the search result ranking
 	 */
-	private SearchResultRanking pruneSearchResult(String searchQuery, List<ISearchResult> referenceResults) {
+	private SearchResultRanking pruneSearchResult(String language, String searchQuery, List<ISearchResult> referenceResults) {
     	SearchResultRanking ranking = new SearchResultRanking(this.maxProposalNumber, referenceResults, this.config, this.infGoodSearchInverval, this.supGoodSearchInterval);
     	Set<String> items = new HashSet<String>();
     	items.addAll(Arrays.asList(searchQuery.split(" ")));
@@ -637,6 +667,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
     		Query query = Query.parse(searchQuery);
 	    	
     		if(items.size() > 1) {
+    			
 	    		// Itemset generation
 	    		String[] itemsets = generateItemSets(items);
 	        	for(int i = 0; i < itemsets.length; i++) {
@@ -673,20 +704,24 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	                    }
 	                }
 	            }
+	    	} else {
+	    		System.out.println("The user entered only one term! No term set generation and operator replacement available.");
 	    	}
-            // Only one item and too less results... this must be handled separately
 
-            List<TermEntry> termList = extractKeywordsFromSearchResults(items, Locale.ENGLISH, referenceResults);
-            for(int i = 0; i < Math.min(this.numberOfTermsToTest, termList.size()); i++){
-            	String luceneQuery = query.toString() + " " + OPERATOR_AND + " " + DEFAULT_FIELD + ":\"" + termList.get(i).getTerm() + "\"";
-            	List<ISearchResult> result = getHits(commandSpace, luceneQuery);
-            	if(result != null) {
-            		ranking.add(luceneQuery, result);
-            	} else {
-            		// RooloAccessorAgent down, so stop
-                	return ranking;
-            	}
-            }
+    		if(language != null) {
+	            List<TermEntry> termList = extractKeywordsFromSearchResults(items, language, referenceResults);
+	            String userQuery = query.toLuceneString();
+	            for(int i = 0; i < Math.min(this.numberOfTermsToTest, termList.size()); i++){
+	            	String luceneQuery = userQuery + " " + OPERATOR_AND + " " + DEFAULT_FIELD + ":\"" + termList.get(i).getTerm() + "\"";
+	            	List<ISearchResult> result = getHits(commandSpace, luceneQuery);
+	            	if(result != null) {
+	            		ranking.add(luceneQuery, result);
+	            	} else {
+	            		// RooloAccessorAgent down, so stop
+	                	return ranking;
+	            	}
+	            }
+    		}
     	} catch (TupleSpaceException e) {
     		e.printStackTrace();
     	}
