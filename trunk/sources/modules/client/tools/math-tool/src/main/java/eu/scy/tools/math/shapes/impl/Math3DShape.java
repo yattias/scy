@@ -7,13 +7,17 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.Action;
 import javax.swing.BorderFactory;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
 import javax.swing.border.CompoundBorder;
@@ -27,6 +31,7 @@ import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTextField;
 
 import eu.scy.tools.math.doa.json.ICylinderToolbarShape;
+import eu.scy.tools.math.doa.json.IRectanglarPrismToolbarShape;
 import eu.scy.tools.math.doa.json.IToolbarShape;
 import eu.scy.tools.math.shapes.I3D;
 import eu.scy.tools.math.shapes.IMathShape;
@@ -34,7 +39,7 @@ import eu.scy.tools.math.ui.UIUtils;
 import eu.scy.tools.math.ui.border.DashBorder;
 
 
-public class Math3DShape extends JXPanel implements IMathShape, I3D{
+public abstract class Math3DShape extends JXPanel implements IMathShape, I3D{
 
 
 	protected static final String NEEDS_A_NUMBER = "Needs a Number.";
@@ -51,13 +56,14 @@ public class Math3DShape extends JXPanel implements IMathShape, I3D{
 	protected JXLabel ratioLabel;
 	private JTextField ratioTextField;
 	protected JXLabel volumeLabel;
-	private JXLabel volumeValueLabel;
+	private JComboBox volumeValueCombo;
 	protected JXLabel errorLabel;
 	private boolean error = false;
 	private List<Action> shapeListeners = new ArrayList<Action>();
 	private boolean showCornerPoints;
 	private String formula;
 	protected IToolbarShape shape;
+	protected ArrayList<IToolbarShape> shapesCollection;
 	protected JXLabel iconLabel;
 	private String iconName;
 	
@@ -82,14 +88,47 @@ public class Math3DShape extends JXPanel implements IMathShape, I3D{
 		this.setLocation(x, y);
 		this.setId(id);
 		init();
-		
 	}
 
+	public Math3DShape(ArrayList<IToolbarShape> shapes, int x, int y, String iconName, String id) {
+		this.setIconName(iconName);
+		this.setLocation(x, y);
+		this.setId(id);
+		init();
+		
+		this.shape = shapes.get(0);
+		this.shapesCollection = shapes;
+		
+		Vector<String> volumes = new Vector<String>();
+		for (IToolbarShape iRectanglarPrismToolbarShape : shapes) {
+			getVolumeLabelCombo().addItem(iRectanglarPrismToolbarShape.getVolume());
+			//volumes.add(iRectanglarPrismToolbarShape.getVolume());
+		}
+		JComboBox combo = new JComboBox(volumes);
+		combo.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JComboBox source = (JComboBox) e.getSource();
+		        int selectedIndex = source.getSelectedIndex();
+		        updateLabels(selectedIndex);
+
+			}
+
+			
+		});
+		updateLabels(0);
+//		iconLabel.setIcon(Images.getIcon(this.shape.getCanvasIcon()));
+//		this.setIconName(this.shape.getCanvasIcon());
+	}
+	
+	protected abstract void updateLabels(int selectedIndex);
+	
 	protected void setupVolumeLabel() {
 		volumeLabel = new JXLabel("V = ");
-		setVolumeValueLabel(new JXLabel("100.0"));
+		setVolumeValueLabel(new JComboBox());
 		labelPanel.add(volumeLabel);
-		labelPanel.add(getVolumeValueLabel());
+		labelPanel.add(getVolumeLabelCombo());
 		labelPanel.add(new JXLabel(UIUtils.unitsVolume), "wrap");
 	}
 	protected void setupCommonInputs() {
@@ -331,12 +370,12 @@ public class Math3DShape extends JXPanel implements IMathShape, I3D{
 		return addButton;
 	}
 
-	public void setVolumeValueLabel(JXLabel volumeValueLabel) {
-		this.volumeValueLabel = volumeValueLabel;
+	public void setVolumeValueLabel(JComboBox volumeValueLabel) {
+		this.volumeValueCombo = volumeValueLabel;
 	}
 
-	public JXLabel getVolumeValueLabel() {
-		return volumeValueLabel;
+	public JComboBox getVolumeLabelCombo() {
+		return volumeValueCombo;
 	}
 
 	public void setRatioTextField(JTextField ratioTextField) {

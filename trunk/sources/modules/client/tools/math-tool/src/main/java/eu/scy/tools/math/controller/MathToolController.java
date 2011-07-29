@@ -56,6 +56,7 @@ import eu.scy.tools.math.doa.json.IMathToolbarShape;
 import eu.scy.tools.math.doa.json.IRectanglarPrismToolbarShape;
 import eu.scy.tools.math.doa.json.IRectangleToolbarShape;
 import eu.scy.tools.math.doa.json.ISphereToolbarShape;
+import eu.scy.tools.math.doa.json.IToolbarShape;
 import eu.scy.tools.math.doa.json.ITriangleToolbarShape;
 import eu.scy.tools.math.shapes.I3D;
 import eu.scy.tools.math.shapes.IMathCylinder3D;
@@ -455,75 +456,85 @@ public class MathToolController {
 
 		String id = new Integer(generator.nextInt(1000)).toString();
 
-		IMathToolbarShape clientProperty = (IMathToolbarShape) label
+//		IMathToolbarShape clientProperty = (IMathToolbarShape) label
+//				.getClientProperty(UIUtils.SHAPE_OBJ);
+
+		Object clientProperty = (Object) label
 				.getClientProperty(UIUtils.SHAPE_OBJ);
 
-		if (label.getName().equals(UIUtils.CIRCLE)) {
-			MathEllipse t = new MathEllipse(
-					(ICircleToolbarShape) clientProperty, dropPoint.x,
-					dropPoint.y, 200, 200);
-			t.setId(id);
-			t.setHasDecorations(true);
-			sc.addShape(t);
-			this.setSelectedMathShape(t);
-		} else if (label.getName().equals(UIUtils.RECTANGLE)) {
-			MathRectangle t = new MathRectangle(
-					(IRectangleToolbarShape) clientProperty, dropPoint.x,
-					dropPoint.y, 100, 100);
-			t.setHasDecorations(true);
-			t.setId(id);
-			sc.addShape(t);
-			this.setSelectedMathShape(t);
-		} else if (label.getName().equals(UIUtils.TRIANGLE)) {
-			MathTriangle t = new MathTriangle(
-					(ITriangleToolbarShape) clientProperty, dropPoint.x,
-					dropPoint.y, 200);
-			t.setId(id);
-			t.setHasDecorations(true);
-			sc.addShape(t);
-			this.setSelectedMathShape(t);
-		} else if (label.getName().equals(UIUtils.RECTANGLE3D)) {
-			MathRectangle3D t = new MathRectangle3D(
-					(IRectanglarPrismToolbarShape) clientProperty, dropPoint.x,
-					dropPoint.y,id);
-			MathShape3DFocusListener mathShape3DFocusListener = new MathShape3DFocusListener(
-					t);
-			// t.getSurfaceAreaTextField().addFocusListener(mathShape3DFocusListener);
-			// t.getRatioTextField().addFocusListener(mathShape3DFocusListener);
-			// t.getLengthTextField().addFocusListener(mathShape3DFocusListener);
-			t.setId(id);
-			t.getAddButton().addActionListener(add3dAction);
-			sc.addShape(t);
-			this.setSelectedMathShape(t);
-		} else if (label.getName().equals(UIUtils.SPHERE3D)) {
-			MathSphere3D t = new MathSphere3D(
-					(ISphereToolbarShape) clientProperty, dropPoint.x,
-					dropPoint.y,id);
-			MathShape3DFocusListener mathShape3DFocusListener = new MathShape3DFocusListener(
-					t);
-			// t.getSurfaceAreaTextField().addFocusListener(mathShape3DFocusListener);
-			// t.getRadiusTextField().addFocusListener(mathShape3DFocusListener);
-			// t.getRatioTextField().addFocusListener(mathShape3DFocusListener);
-			sc.addShape(t);
-			t.getAddButton().addActionListener(add3dAction);
-			t.setLocation(dropPoint);
-			sc.repaint();
-			this.setSelectedMathShape(t);
-		} else if (label.getName().equals(UIUtils.CYLINDER3D)) {
-			MathCylinder3D t = new MathCylinder3D(
-					(ICylinderToolbarShape) clientProperty, dropPoint.x,
-					dropPoint.y,id);
-			MathShape3DFocusListener mathShape3DFocusListener = new MathShape3DFocusListener(
-					t);
-			// t.getSurfaceAreaTextField().addFocusListener(mathShape3DFocusListener);
-			// t.getRadiusTextField().addFocusListener(mathShape3DFocusListener);
-			// t.getRatioTextField().addFocusListener(mathShape3DFocusListener);
-			t.getAddButton().addActionListener(add3dAction);
-			sc.addShape(t);
-			t.setLocation(dropPoint);
-			sc.repaint();
-			this.setSelectedMathShape(t);
+		
+		if( clientProperty instanceof ArrayList ) {
+			if (label.getName().equals(UIUtils.RECTANGLE3D)) {
+				MathRectangle3D t = new MathRectangle3D(
+						(ArrayList<IToolbarShape>) clientProperty, dropPoint.x,
+						dropPoint.y,id);
+				MathShape3DFocusListener mathShape3DFocusListener = new MathShape3DFocusListener(
+						t);
+				// t.getSurfaceAreaTextField().addFocusListener(mathShape3DFocusListener);
+				// t.getRatioTextField().addFocusListener(mathShape3DFocusListener);
+				// t.getLengthTextField().addFocusListener(mathShape3DFocusListener);
+				t.setId(id);
+				t.getAddButton().addActionListener(add3dAction);
+				sc.addShape(t);
+				this.setSelectedMathShape(t);
+			} else if (label.getName().equals(UIUtils.SPHERE3D)) {
+				MathSphere3D t = new MathSphere3D(
+						(ArrayList<IToolbarShape>) clientProperty, dropPoint.x,
+						dropPoint.y,id);
+				MathShape3DFocusListener mathShape3DFocusListener = new MathShape3DFocusListener(
+						t);
+				// t.getSurfaceAreaTextField().addFocusListener(mathShape3DFocusListener);
+				// t.getRadiusTextField().addFocusListener(mathShape3DFocusListener);
+				// t.getRatioTextField().addFocusListener(mathShape3DFocusListener);
+				sc.addShape(t);
+				t.getAddButton().addActionListener(add3dAction);
+				t.setLocation(dropPoint);
+				sc.repaint();
+				this.setSelectedMathShape(t);
+			} else if (label.getName().equals(UIUtils.CYLINDER3D)) {
+				MathCylinder3D t = new MathCylinder3D(
+						(ArrayList<IToolbarShape>) clientProperty, dropPoint.x,
+						dropPoint.y,id);
+				MathShape3DFocusListener mathShape3DFocusListener = new MathShape3DFocusListener(
+						t);
+				// t.getSurfaceAreaTextField().addFocusListener(mathShape3DFocusListener);
+				// t.getRadiusTextField().addFocusListener(mathShape3DFocusListener);
+				// t.getRatioTextField().addFocusListener(mathShape3DFocusListener);
+				t.getAddButton().addActionListener(add3dAction);
+				sc.addShape(t);
+				t.setLocation(dropPoint);
+				sc.repaint();
+				this.setSelectedMathShape(t);
+			}
+		} else {
+			if (label.getName().equals(UIUtils.CIRCLE)) {
+				MathEllipse t = new MathEllipse(
+						(ICircleToolbarShape) clientProperty, dropPoint.x,
+						dropPoint.y, 200, 200);
+				t.setId(id);
+				t.setHasDecorations(true);
+				sc.addShape(t);
+				this.setSelectedMathShape(t);
+			} else if (label.getName().equals(UIUtils.RECTANGLE)) {
+				MathRectangle t = new MathRectangle(
+						(IRectangleToolbarShape) clientProperty, dropPoint.x,
+						dropPoint.y, 100, 100);
+				t.setHasDecorations(true);
+				t.setId(id);
+				sc.addShape(t);
+				this.setSelectedMathShape(t);
+			} else if (label.getName().equals(UIUtils.TRIANGLE)) {
+				MathTriangle t = new MathTriangle(
+						(ITriangleToolbarShape) clientProperty, dropPoint.x,
+						dropPoint.y, 200);
+				t.setId(id);
+				t.setHasDecorations(true);
+				sc.addShape(t);
+				this.setSelectedMathShape(t);
+			}
 		}
+		
+		
 		sc.repaint();
 	}
 
@@ -571,7 +582,7 @@ public class MathToolController {
 			if (ashape.getError() == true)
 				return;
 
-			String volume = ashape.getVolumeValueLabel().getText();
+			String volume = (String) ashape.getVolumeLabelCombo().getSelectedItem();
 			String surfaceArea = ashape.getSurfaceAreaTextField().getText();
 			String ratio = ashape.getRatioTextField().getText();
 			String shape = ashape.getType();
@@ -865,15 +876,15 @@ public class MathToolController {
 						((MathCylinder3D) ms).getRatioTextField().getText(),
 						((MathCylinder3D) ms).getLocation(),
 						UIUtils.CYLINDER3D, ((MathCylinder3D) ms)
-								.getHeightValue(), null, ((MathCylinder3D) ms)
-								.getVolumeValueLabel().getText(),
+								.getHeightValue(), null, (String) ((MathCylinder3D) ms)
+								.getVolumeLabelCombo().getSelectedItem(),
 						((MathCylinder3D) ms).getIconName(), ms.getId()));
 			else if (ms instanceof MathSphere3D)
 				objs.add(new ThreeDObj(null, ((MathSphere3D) ms)
 						.getRadiusTextField().getText(), ((MathSphere3D) ms)
 						.getSurfaceAreaTextField().getText(),
 						((MathSphere3D) ms).getRatioTextField().getText(),
-						((MathSphere3D) ms).getLocation(), UIUtils.SPHERE3D, null, null, ((MathSphere3D) ms).getVolumeValueLabel().getText(),((MathSphere3D) ms).getIconName(), ms.getId()));
+						((MathSphere3D) ms).getLocation(), UIUtils.SPHERE3D, null, null, (String) ((MathSphere3D) ms).getVolumeLabelCombo().getSelectedItem(),((MathSphere3D) ms).getIconName(), ms.getId()));
 			else if (ms instanceof MathRectangle3D)
 				objs.add(new ThreeDObj(((MathRectangle3D) ms)
 						.getLengthTextField().getText(), null,
@@ -881,7 +892,7 @@ public class MathToolController {
 								.getText(), ((MathRectangle3D) ms)
 								.getRatioTextField().getText(),
 						((MathRectangle3D) ms).getLocation(),
-						UIUtils.RECTANGLE3D, ((MathRectangle3D) ms).getHeightValue(), ((MathRectangle3D) ms).getWidthValue(), ((MathRectangle3D) ms).getVolumeValueLabel().getText(), ((MathRectangle3D) ms).getIconName(), ms.getId()));
+						UIUtils.RECTANGLE3D, ((MathRectangle3D) ms).getHeightValue(), ((MathRectangle3D) ms).getWidthValue(), (String) ((MathRectangle3D) ms).getVolumeLabelCombo().getSelectedItem(), ((MathRectangle3D) ms).getIconName(), ms.getId()));
 		}
 		return objs;
 	}
@@ -1050,41 +1061,41 @@ public class MathToolController {
 	}
 
 	private IMathShape convertThreeObjToMathShape(ThreeDObj to) {
-		if (to.getType().equals(UIUtils.CYLINDER3D)) {
-			MathCylinder3D ms = new MathCylinder3D(to.getPosition(),to.getIcon(), to.getId());
-			ms.getRadiusTextField().setText(to.getRadius());
-			ms.getSurfaceAreaTextField().setText(to.getSurfaceArea());
-			ms.getRatioTextField().setText(to.getRatio());
-			ms.getAddButton().addActionListener(add3dAction);
-			
-			ms.getHeightValueLabel().setText(to.getHeight());
-			ms.getVolumeValueLabel().setText(to.getVolume());
-			
-			
-			return ms;
-		} else if (to.getType().equals(UIUtils.SPHERE3D)) {
-			MathSphere3D ms = new MathSphere3D(to.getPosition(), to.getIcon(), to.getId());
-			ms.getRadiusTextField().setText(to.getRadius());
-			ms.getSurfaceAreaTextField().setText(to.getSurfaceArea());
-			ms.getRatioTextField().setText(to.getRatio());
-			ms.getAddButton().addActionListener(add3dAction);
-			
-			ms.getVolumeValueLabel().setText(to.getVolume());
-			
-			
-			return ms;
-		} else if (to.getType().equals(UIUtils.RECTANGLE3D)) {
-			MathRectangle3D ms = new MathRectangle3D(to.getPosition(), to.getIcon(), to.getId());
-			ms.getLengthTextField().setText(to.getLength());
-			ms.getSurfaceAreaTextField().setText(to.getSurfaceArea());
-			ms.getRatioTextField().setText(to.getRatio());
-			ms.getAddButton().addActionListener(add3dAction);
-			
-			ms.getHeightValueLabel().setText(to.getHeight());
-			ms.getWidthValueLabel().setText(to.getWidth());
-			ms.getVolumeValueLabel().setText(to.getVolume());
-			return ms;
-		}
+//		if (to.getType().equals(UIUtils.CYLINDER3D)) {
+//			MathCylinder3D ms = new MathCylinder3D(to.getPosition(),to.getIcon(), to.getId());
+//			ms.getRadiusTextField().setText(to.getRadius());
+//			ms.getSurfaceAreaTextField().setText(to.getSurfaceArea());
+//			ms.getRatioTextField().setText(to.getRatio());
+//			ms.getAddButton().addActionListener(add3dAction);
+//			
+//			ms.getHeightValueLabel().setText(to.getHeight());
+//			ms.getVolumeLabelCombo().setText(to.getVolume());
+//			
+//			
+//			return ms;
+//		} else if (to.getType().equals(UIUtils.SPHERE3D)) {
+//			MathSphere3D ms = new MathSphere3D(to.getPosition(), to.getIcon(), to.getId());
+//			ms.getRadiusTextField().setText(to.getRadius());
+//			ms.getSurfaceAreaTextField().setText(to.getSurfaceArea());
+//			ms.getRatioTextField().setText(to.getRatio());
+//			ms.getAddButton().addActionListener(add3dAction);
+//			
+//			ms.getVolumeLabelCombo().setText(to.getVolume());
+//			
+//			
+//			return ms;
+//		} else if (to.getType().equals(UIUtils.RECTANGLE3D)) {
+//			MathRectangle3D ms = new MathRectangle3D(to.getPosition(), to.getIcon(), to.getId());
+//			ms.getLengthTextField().setText(to.getLength());
+//			ms.getSurfaceAreaTextField().setText(to.getSurfaceArea());
+//			ms.getRatioTextField().setText(to.getRatio());
+//			ms.getAddButton().addActionListener(add3dAction);
+//			
+//			ms.getHeightValueLabel().setText(to.getHeight());
+//			ms.getWidthValueLabel().setText(to.getWidth());
+//			ms.getVolumeLabelCombo().setText(to.getVolume());
+//			return ms;
+//		}
 		return null;
 	}
 

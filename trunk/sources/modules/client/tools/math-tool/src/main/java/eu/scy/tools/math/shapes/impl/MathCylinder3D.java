@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
@@ -17,7 +18,9 @@ import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTextField;
 
 import eu.scy.tools.math.doa.json.ICylinderToolbarShape;
+import eu.scy.tools.math.doa.json.IRectanglarPrismToolbarShape;
 import eu.scy.tools.math.doa.json.ISphereToolbarShape;
+import eu.scy.tools.math.doa.json.IToolbarShape;
 import eu.scy.tools.math.shapes.IMathCylinder3D;
 import eu.scy.tools.math.ui.UIUtils;
 import eu.scy.tools.math.ui.images.Images;
@@ -40,11 +43,19 @@ public class MathCylinder3D extends Math3DShape implements IMathCylinder3D {
 		super(location);
 	}
 
+	public MathCylinder3D(ArrayList<IToolbarShape> shapes, int x, int y, String id) {
+		
+		super(shapes, x, y, shapes.get(0).getCanvasIcon(), id);
+	}
+	
+	protected void updateLabels(int selectedIndex) {
+		this.shape = shapesCollection.get(selectedIndex);
+		this.getHeightValueLabel().setText(((ICylinderToolbarShape) this.shape).getHeight());
+	}
 
 	public MathCylinder3D(ICylinderToolbarShape shape, int x, int y, String id) {
 		super(x,y, shape.getCanvasIcon(), id);
 		this.shape = shape;
-		this.getVolumeValueLabel().setText(this.shape.getVolume());
 		this.getHeightValueLabel().setText(((ICylinderToolbarShape) this.shape).getHeight());
 //		this.getIconLabel().setIcon(Images.getIcon(this.shape.getCanvasIcon()));
 //		this.setIconName(this.shape.getCanvasIcon());		
