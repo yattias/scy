@@ -53,9 +53,9 @@ public class SearchResultRanking {
 	 * @param results
 	 */
 	public void add(String query, List<ISearchResult> results) {
-		double lengthQuality = evaluateLength(results.size(), this.referenceResults.size(), this.infGoodSearchInterval, this.supGoodSearchInterval);
-		double similarityQuality = evaluateSimilarity(results, this.referenceResults, this.optimalSimilarityValue);
-		double relevanceQuality = evaluateRelevance(results, this.referenceResults);
+		double lengthQuality = evaluateLength(results.size(), this.getReferenceResults().size(), this.infGoodSearchInterval, this.supGoodSearchInterval);
+		double similarityQuality = evaluateSimilarity(results, this.getReferenceResults(), this.optimalSimilarityValue);
+		double relevanceQuality = evaluateRelevance(results, this.getReferenceResults());
 
 		Result result = new Result(query, results, lengthQuality, similarityQuality, relevanceQuality);
 		int index = this.ranking.size();
@@ -75,6 +75,10 @@ public class SearchResultRanking {
 		}
 	}
 
+	public List<ISearchResult> getReferenceResults() {
+		return referenceResults;
+	}
+	
 	public Result[] getResults() {
 		Result[] resultArray = new Result[this.ranking.size()];
 		return this.ranking.toArray(resultArray);

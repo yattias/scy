@@ -29,6 +29,7 @@ import info.collide.sqlspaces.commons.Callback;
 import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
+import eu.scy.agents.Mission;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
@@ -63,11 +64,14 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	
     private static final Tuple TEMPLATE_FOR_SEARCH_QUERY = new Tuple("action", String.class, Long.class, SEARCH_TYPE, String.class, SEARCH_TOOL, Field.createWildCardField());
 	private static final Tuple TEMPLATE_FOR_SESSION_LANGUAGE= new Tuple("language", String.class, String.class);
+	private static final Tuple TEMPLATE_FOR_MISSION= new Tuple("mission", String.class, String.class, String.class);
 	
     private static final String OPERATOR_AND = "AND";
     private static final String OPERATOR_OR = "OR";
     private static final String DEFAULT_FIELD = "contents";
-
+    
+    private static final String LANGUAGE_PREFIX = "stopword_";
+    
     // Configuration values
     /**
      * This value determines the number of alternative search queries, which will be proposed.
@@ -124,7 +128,6 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	 */
 	public static final String EXTRACT_KEYWORD_TERM_NUMBER_TO_TEST = "extact_keyword_term_number_to_test";
     
-	public static final Locale ESTONIA_LOCALE = new Locale("et", "EE");
 	
 //    private static final Logger logger = Logger.getLogger(SearchResultEnricherAgent.class.getName());
     private Map<String, Object> config;
@@ -148,18 +151,15 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
     public SearchResultEnricherAgent(Map<String, Object> map) {
         super(SearchResultEnricherAgent.class.getName(), (String) map.get(AgentProtocol.PARAM_AGENT_ID), 
         		(String) map.get(AgentProtocol.TS_HOST), (Integer) map.get(AgentProtocol.TS_PORT));
-        this.config = map;
-        configure(map);
-
-		// TODO: keyword files should be set by configuration
         this.stopwordMap = new HashMap<String, Set<String>>();
-        try {
-			this.stopwordMap.put("en", readStopwords("/en_stopwords.txt"));
-			this.stopwordMap.put("de", readStopwords("/ger_stopwords.txt"));
-			this.stopwordMap.put("es", readStopwords("/est_stopwords.txt"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+        this.config = map;
+        
+        // TODO keyword files should be set by configuration
+        this.config.put(LANGUAGE_PREFIX + "en", "/en_stopwords.txt");
+        this.config.put(LANGUAGE_PREFIX + "de", "/ger_stopwords.txt");
+        this.config.put(LANGUAGE_PREFIX + "es", "/est_stopwords.txt");
+
+        configure(map);
 
         try {
         	actionSpace = getActionSpace();
@@ -170,6 +170,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
             actionSpace.eventRegister(Command.WRITE, TEMPLATE_FOR_SEARCH_QUERY, sqc, true);
         } catch (TupleSpaceException e) {
             e.printStackTrace();
+//			logger.error("Connection to TupleSpace lost!", e);
         }
     }
 
@@ -217,6 +218,18 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
         } else {
         	this.numberOfTermsToTest = 5;
         }
+		for(String lang : Locale.getISOLanguages()) {
+			try {
+				if(config.containsKey(LANGUAGE_PREFIX + lang)) {
+					this.stopwordMap.put(lang, readStopwords((String)config.get(LANGUAGE_PREFIX + lang)));
+				}
+			} catch (IOException e) {
+//				logger.debug("Could not open stopword file for language: " + lang);
+				System.out.println("Could not open stopword file for language: " + lang);
+			}
+			
+		}
+
     }
 
     @Override
@@ -230,6 +243,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
                 Thread.sleep(AgentProtocol.COMMAND_EXPIRATION);
             } catch (TupleSpaceException e) {
                 e.printStackTrace();
+//    			logger.error("Connection to TupleSpace lost!", e);
             }
         }
 	}
@@ -344,22 +358,46 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 				}
 			}
 		} catch (TupleSpaceException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+//			logger.error("Connection to TupleSpace lost!", e);
 		}
     	return language;
     }
+    
+    private String getMission(String user) {
+    	String mission = null;
+    	try {
+    		for(Tuple languageTuple : sessionSpace.readAll(TEMPLATE_FOR_MISSION)) {
+    			if(languageTuple.getFields().length >= 4 && languageTuple.getField(1).getValue().toString().startsWith(user)) {
+    				mission = languageTuple.getField(3).getValue().toString();
+    				break;
+    			}
+    		}
+    	} catch (TupleSpaceException e) {
+    		e.printStackTrace();
+//			logger.error("Connection to TupleSpace lost!", e);
+    	}
+    	return mission;
+    }
+    
     /**
      * Parses the query, that was received from TupleSpaces (in Lucene syntax) and extracts the user-entered query 
      * @param rawQuery
      * @return
      */
     private String parseQuery(String rawQuery) {
+    	// TODO: parsing won't work on contents:(bla bla)
         int queryStartPos = rawQuery.indexOf('"') + 1;
         int queryStopPos = rawQuery.lastIndexOf('"');
         return rawQuery.substring(queryStartPos, queryStopPos);
     }
     
+    /**
+     * Reads a set of stopwords from a file.
+     * @param stopwordFileName
+     * @return
+     * @throws IOException
+     */
     private Set<String> readStopwords(String stopwordFileName) throws IOException {
     	HashSet<String> stopwords = new HashSet<String>();
     	InputStream is = getClass().getResourceAsStream(stopwordFileName);
@@ -383,7 +421,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
      *
      * @param tuple the tuple
      */
-    public void evaluateSearchResult(Tuple tuple) {
+    private void evaluateSearchResult(Tuple tuple) {
 //		String userId = tuple.getField(1).getValue().toString();
         String eloUri = tuple.getField(8).getValue().toString();
         String user = tuple.getField(4).getValue().toString();
@@ -425,13 +463,13 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
         SearchResultRanking ranking = null;
         if (referenceResults.size() < this.infGoodSearchInverval) {
         	String language = getLanguage(user);
-            ranking = extendSearchResult(eloUri, mission, language, searchQuery, referenceResults);
+            ranking = extendSearchResult(user, eloUri, mission, language, searchQuery, referenceResults);
         } else if (referenceResults.size() > this.supGoodSearchInterval) {
-//        	String language = getLanguage(user);
-        	String language = "en";
+        	String language = getLanguage(user);
             ranking = pruneSearchResult(language, searchQuery, referenceResults);
         } else {
             // Number of results is ok, so we do nothing
+        	System.out.println("Search result for query: " + searchQuery + " performed well, no enrichment will be forced.");
         }
     
         // Propose search queries, if found
@@ -443,7 +481,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 //            try {
 //                    commandSpace.write(generateAlternativeQueriesTuple(user, mission, session, ranking));
 //            } catch (TupleSpaceException e) {
-//                    System.out.println(e);
+//					  logger.error("Connection to TupleSpace lost!", e);
 //            }
         }
     }
@@ -463,7 +501,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	 * @param referenceResults the reference results
 	 * @return the search result ranking
 	 */
-	private SearchResultRanking extendSearchResult(String eloUri, String mission, String language, String searchQuery, List<ISearchResult> referenceResults) {
+	private SearchResultRanking extendSearchResult(String user, String eloUri, String mission, String language, String searchQuery, List<ISearchResult> referenceResults) {
     	
         SearchResultRanking ranking = new SearchResultRanking(this.maxProposalNumber, referenceResults, this.config, this.infGoodSearchInverval, this.supGoodSearchInterval);
         try
@@ -497,34 +535,53 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
             if(referenceResults.size() > 0 && language != null) {
             	Set<String> items = new HashSet<String>();
             	items.addAll(Arrays.asList(searchQuery.split(" ")));
-            	List<TermEntry> termList = extractKeywordsFromSearchResults(items, language, referenceResults);
-            	
-            	String userQuery = query.toLuceneString();
-            	for(int i = 0; i < Math.min(this.numberOfTermsToTest, termList.size()); i++){
-            		String luceneQuery = userQuery + " " + DEFAULT_FIELD + ":\"" + termList.get(i).getTerm() + "\"";
-            		List<ISearchResult> result = getHits(commandSpace, luceneQuery);
-            		if(result != null) {
-            			ranking.add(luceneQuery, result);
-            			System.out.println("Added new query by keyword extension: " + luceneQuery);
-            		} else {
-            			// RooloAccessorAgent down, so stop
-            			return ranking;
-            		}
+            	SearchResultRanking resultRanking = extractAndTestKeywords(ranking, items, query, language, OPERATOR_OR);
+            	if(resultRanking == null) {
+        			// RooloAccessorAgent down, so stop
+            		return ranking;
             	}
             	
             } else {
             	System.out.println("Could not extract keywords, because no search results available for extraction.");
             }
-            	
             
         	// TODO ask ontology for synonyms
-        	askOntologyForSynonym(mission, eloUri, "keyword");
+        	askOntologyForSynonym(getMission(user), eloUri, "keyword");
         } catch (TupleSpaceException e) {
         	e.printStackTrace();
+//			logger.error("Connection to TupleSpace lost!", e);
         }
         return ranking;
     }
 
+	/**
+	 * Extracts a list of keywords out of the reference results titles. After extraction, those results are evaluated.
+	 * 
+	 * @param ranking the SearchResultRanking
+	 * @param query the Query object
+	 * @param searchQuery user entered search query
+	 * @param language the users language
+	 * @return the search result ranking or null if the RooloAccessorAgent didn't respond in appropriate time
+	 * @throws TupleSpaceException the tuple space exception
+	 */
+	private SearchResultRanking extractAndTestKeywords(SearchResultRanking ranking, Set<String> items, Query query, String language, String operator) throws TupleSpaceException {
+    	List<TermEntry> termList = extractKeywordsFromSearchResults(items, language, ranking.getReferenceResults());
+    	
+    	String userQuery = query.toLuceneString();
+    	for(int i = 0; i < Math.min(this.numberOfTermsToTest, termList.size()); i++){
+    		String queryWithNewKeyword = userQuery + " " + operator + " " + DEFAULT_FIELD + ":\"" + termList.get(i).getTerm() + "\"";
+    		List<ISearchResult> result = getHits(commandSpace, queryWithNewKeyword);
+    		if(result != null) {
+    			ranking.add(queryWithNewKeyword, result);
+    			System.out.println("Added new query by keyword extension: " + queryWithNewKeyword);
+    		} else {
+    			// RooloAccessorAgent down, so stop
+    			return null;
+    		}
+    	}
+    	return ranking;
+	}
+	
     /**
      * Asks the ontology for synonyms
      * @param userId
@@ -535,6 +592,12 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
     private void askOntologyForSynonym(String mission, String eloUri, String keyword) {
     	// (<ID>:String, "onto":String, "surrounding":String, <OntName>:String, <OntLabel>:String, 
     	// <Language>:String) -> (<ID>:String, <OntTerm>:String, <Surrounding>:String)
+    	
+    	System.out.println(mission);
+    	Mission m = Mission.getForName(mission);
+    	System.out.println(m.getName());
+    	System.out.println(m.getNamespace());
+    	
 //        try {
 //            String id = new VMID().toString();
 //            Tuple requestTuple = new Tuple(id, ONTOLOGY_AGENT_NAME, ONTOLOGY_AGENT_COMMAND, mission, keyword, "en");
@@ -547,7 +610,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 //            System.out.println(surrounding);
 //            }
 //        } catch (TupleSpaceException e) {
-//            e.printStackTrace();
+//			  logger.error("Connection to TupleSpace lost!", e);
 //        }
 	}
 
@@ -682,7 +745,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	        	}
 	        	
 	            // Replace OR by AND
-	            String last = query.toString();
+	            String last = query.toLuceneString();
 	            AtomicInteger ai = new AtomicInteger(0);
 	            for(int i = 1; i <= this.maxReplaceNumber; i++) {
 	                ai.set(i);
@@ -705,25 +768,19 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	                }
 	            }
 	    	} else {
-	    		System.out.println("The user entered only one term! No term set generation and operator replacement available.");
+	    		System.out.println("The user has entered only one term! No term set generation and operator replacement available.");
 	    	}
 
     		if(language != null) {
-	            List<TermEntry> termList = extractKeywordsFromSearchResults(items, language, referenceResults);
-	            String userQuery = query.toLuceneString();
-	            for(int i = 0; i < Math.min(this.numberOfTermsToTest, termList.size()); i++){
-	            	String luceneQuery = userQuery + " " + OPERATOR_AND + " " + DEFAULT_FIELD + ":\"" + termList.get(i).getTerm() + "\"";
-	            	List<ISearchResult> result = getHits(commandSpace, luceneQuery);
-	            	if(result != null) {
-	            		ranking.add(luceneQuery, result);
-	            	} else {
-	            		// RooloAccessorAgent down, so stop
-	                	return ranking;
-	            	}
-	            }
+            	SearchResultRanking resultRanking = extractAndTestKeywords(ranking, items, query, language, OPERATOR_AND);
+            	if(resultRanking == null) {
+        			// RooloAccessorAgent down, so stop
+            		return ranking;
+            	}
     		}
     	} catch (TupleSpaceException e) {
     		e.printStackTrace();
+//			logger.error("Connection to TupleSpace lost!", e);
     	}
     	return ranking;
     }
@@ -801,15 +858,15 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 				if(misspelledTerms.size() > 0) {
 					System.out.println("Misspelled terms: " + misspelledTerms.toString());
 					
-					// TODO: Uncomment if finished
+					// TODO Uncomment if finished
 //					Tuple tuple = generateMisspelledTermsTuple(misspelledTerms);
 //					commandSpace.write(tuple);
 				} else {
 					System.out.println("No misspelled terms.");
 				}
 			} catch (TupleSpaceException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
+//				logger.error("Connection to TupleSpace lost!", e);
 			}
 		}
 
@@ -868,7 +925,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	    private Tuple generateMisspelledTermsTuple(List<String> terms) {
 	    	String s = "terms=";
 	    	for(String term : terms) {
-	    		s = s + term + " ";
+	    		s += term + " ";
 	    	}
 	    	return new Tuple(AgentProtocol.NOTIFICATION, new VMID().toString(), this.userId, SEARCH_TOOL, AGENT_NAME, this.mission, this.session, s.trim());
 	    }
