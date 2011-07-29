@@ -534,6 +534,23 @@
     <eloFunctionalRoles />
   </eloToolConfig>
   <eloToolConfig>
+    <eloType>scy/search</eloType>
+    <eloSystemRole>USER</eloSystemRole>
+    <contentCreatorId>search</contentCreatorId>
+    <topDrawerCreatorId />
+    <rightDrawerCreatorId />
+    <bottomDrawerCreatorId />
+    <leftDrawerCreatorId />
+    <isContentCollaboration />
+    <isTopDrawerCollaboration />
+    <isRightDrawerCollaboration />
+    <isBottomDrawerCollaboration />
+    <isLeftDrawerCollaboration />
+    <isContentStatic />
+    <eloLogicalRoles />
+    <eloFunctionalRoles />
+  </eloToolConfig>
+  <eloToolConfig>
     <eloType>scy/speedTest</eloType>
     <eloSystemRole>SYSTEM</eloSystemRole>
     <contentCreatorId>speedTestPanel</contentCreatorId>
