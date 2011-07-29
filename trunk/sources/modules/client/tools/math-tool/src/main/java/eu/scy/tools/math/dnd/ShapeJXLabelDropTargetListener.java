@@ -1,4 +1,4 @@
-package eu.scy.tools.math.adapters;
+package eu.scy.tools.math.dnd;
 
 import java.awt.Component;
 import java.awt.Point;
@@ -13,7 +13,6 @@ import java.io.IOException;
 import javax.swing.JLabel;
 
 import eu.scy.tools.math.controller.MathToolController;
-import eu.scy.tools.math.dnd.DnDUtils;
 import eu.scy.tools.math.ui.panels.ShapeCanvas;
 
 public class ShapeJXLabelDropTargetListener implements DropTargetListener {
