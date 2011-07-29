@@ -1,7 +1,19 @@
 package eu.scy.agents.groupformation.strategies;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import eu.scy.agents.AbstractTestFixture;
+import eu.scy.agents.groupformation.GroupFormationStrategy;
+import eu.scy.agents.groupformation.cache.Group;
+import eu.scy.agents.groupformation.cache.GroupCache;
+import eu.scy.agents.groupformation.strategies.features.CMapFeatureExtractor;
+import eu.scy.agents.helper.ELOFiller;
+import org.junit.Before;
+import org.junit.Test;
+import roolo.elo.api.IELO;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import roolo.elo.metadata.keys.Contribute;
+import roolo.search.ISearchResult;
+import roolo.search.MetadataQueryComponent;
+import roolo.search.Query;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -9,20 +21,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import roolo.elo.api.IELO;
-import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-import roolo.elo.metadata.keys.Contribute;
-import roolo.search.ISearchResult;
-import roolo.search.MetadataQueryComponent;
-import roolo.search.Query;
-import eu.scy.agents.AbstractTestFixture;
-import eu.scy.agents.groupformation.GroupFormationStrategy;
-import eu.scy.agents.groupformation.cache.GroupCache;
-import eu.scy.agents.groupformation.strategies.features.CMapFeatureExtractor;
-import eu.scy.agents.helper.ELOFiller;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ClusterStrategyTest extends AbstractTestFixture {
 
@@ -87,8 +87,8 @@ public class ClusterStrategyTest extends AbstractTestFixture {
 //            IELO elo = repository.retrieveELO(eloUri.getUri());
 //            elo.getXml();
 //        }
-	    Collection<Set<String>> groups = strategy.formGroup(referenceElo) ;
-	    Set<String> group = new HashSet<String>();
+	    Collection<Group> groups = strategy.formGroup(referenceElo) ;
+	    Group group = new Group();
 	    group.add("TestUser5");
 	    assertTrue(groups.contains(group));
 	    group.clear();

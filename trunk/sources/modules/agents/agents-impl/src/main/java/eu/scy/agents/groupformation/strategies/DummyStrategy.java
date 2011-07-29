@@ -1,23 +1,21 @@
 package eu.scy.agents.groupformation.strategies;
 
+import eu.scy.agents.groupformation.GroupFormationStrategy;
+import eu.scy.agents.groupformation.cache.Group;
+import roolo.elo.api.IELO;
+
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
-import eu.scy.agents.groupformation.GroupFormationStrategy;
-
-import roolo.elo.api.IELO;
 
 public class DummyStrategy extends AbstractGroupFormationStrategy {
 
 	@Override
-	public Collection<Set<String>> formGroup(IELO elo) {
+	public Collection<Group> formGroup(IELO elo) {
 		int numberOfGroups = getNumberOfGroups(getAvailableUsers().size());
-		List<Set<String>> groups = new ArrayList<Set<String>>(numberOfGroups);
+		List<Group> groups = new ArrayList<Group>(numberOfGroups);
 		for (int i = 0; i < numberOfGroups; i++) {
-			groups.add(new HashSet<String>());
+			groups.add(new Group());
 		}
 		int groupCounter = 0;
 		for (String user : getAvailableUsers()) {
@@ -30,7 +28,22 @@ public class DummyStrategy extends AbstractGroupFormationStrategy {
 		return groups;
 	}
 
-	@Override
+    @Override
+    public Collection<Group> assignToExistingGroups(String newUser, IELO referenceElo) {
+        Collection<Group> groups = cache.getGroups();
+        int minGroupSize = Integer.MAX_VALUE;
+        Group smallestGroup = null;
+        for(Group group : groups) {
+            if(minGroupSize >= group.size()) {
+                minGroupSize = group.size();
+                smallestGroup = group;
+            }
+        }
+        smallestGroup.add(newUser);
+        return cache.getGroups();
+    }
+
+    @Override
 	public GroupFormationStrategy makeNewEmptyInstance() {
 		return new DummyStrategy();
 	}

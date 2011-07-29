@@ -3,6 +3,7 @@ package eu.scy.agents.groupformation;
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.Mission;
 import eu.scy.agents.api.AgentLifecycleException;
+import eu.scy.agents.groupformation.cache.Group;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.roolo.rooloaccessor.RooloAccessorAgent;
 import eu.scy.agents.session.SessionAgent;
@@ -17,8 +18,6 @@ import org.junit.Test;
 
 import java.rmi.dgc.VMID;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -99,7 +98,7 @@ public class GroupformationAgentTest extends AbstractTestFixture {
         GroupFormationAgent groupFormationAgent = new GroupFormationAgent(
                 new HashMap<String, Object>());
 
-        Set<String> group = new HashSet<String>();
+        Group group = new Group();
         group.add("user1@scy.collide.info");
         group.add("user2@scy.collide.info");
         group.add("user3@scy.collide.info");
@@ -107,7 +106,7 @@ public class GroupformationAgentTest extends AbstractTestFixture {
                 "user1@scy.collide.info", group);
         assertEquals("user2; user3", createUserListString);
 
-        Set<String> group2 = new HashSet<String>();
+        Group group2 = new Group();
         group2.add("user1@scy.collide.info");
         group2.add("user2@scy.collide.info");
         String createUserListString2 = groupFormationAgent

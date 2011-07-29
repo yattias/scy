@@ -1,16 +1,13 @@
 package eu.scy.agents.groupformation.strategies;
 
+import eu.scy.agents.groupformation.GroupFormationStrategy;
+import eu.scy.agents.groupformation.cache.GroupCache;
 import info.collide.sqlspaces.client.TupleSpace;
+import roolo.api.IRepository;
 
 import java.util.Set;
 
-import roolo.api.IRepository;
-
-import eu.scy.agents.groupformation.GroupFormationStrategy;
-import eu.scy.agents.groupformation.cache.GroupCache;
-
-public abstract class AbstractGroupFormationStrategy implements
-		GroupFormationStrategy {
+public abstract class AbstractGroupFormationStrategy implements GroupFormationStrategy {
 
 	protected GroupCache cache;
 	protected TupleSpace commandSpace;
