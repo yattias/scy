@@ -2,6 +2,7 @@ package eu.scy.tools.math.shapes.impl;
 
 import java.awt.BorderLayout;
 import java.awt.Point;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
@@ -13,7 +14,9 @@ import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTextField;
 
+import eu.scy.tools.math.doa.json.IRectanglarPrismToolbarShape;
 import eu.scy.tools.math.doa.json.ISphereToolbarShape;
+import eu.scy.tools.math.doa.json.IToolbarShape;
 import eu.scy.tools.math.shapes.IMathSphere3D;
 import eu.scy.tools.math.ui.UIUtils;
 import eu.scy.tools.math.ui.images.Images;
@@ -32,13 +35,16 @@ public class MathSphere3D extends Math3DShape implements IMathSphere3D {
 		// TODO Auto-generated constructor stub
 	}
 
-	public MathSphere3D(ISphereToolbarShape shape, int x, int y, String id) {
-		super(x, y, shape.getCanvasIcon(), id);
-		this.shape = shape;
-		this.getVolumeValueLabel().setText(this.shape.getVolume());
-//		iconLabel.setIcon(Images.getIcon(this.shape.getCanvasIcon()));
-//		this.setIconName(this.shape.getCanvasIcon());
+	public MathSphere3D(ArrayList<IToolbarShape> shapes, int x, int y, String id) {
+		
+		super(shapes, x, y, shapes.get(0).getCanvasIcon(), id);
 	}
+	
+	protected void updateLabels(int selectedIndex) {
+		this.shape = shapesCollection.get(selectedIndex);
+		
+	}
+	
 
 	protected void init() {
 		super.init();

@@ -3,8 +3,14 @@ package eu.scy.tools.math.shapes.impl;
 import java.awt.BorderLayout;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Vector;
 
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -14,6 +20,7 @@ import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTextField;
 
 import eu.scy.tools.math.doa.json.IRectanglarPrismToolbarShape;
+import eu.scy.tools.math.doa.json.IToolbarShape;
 import eu.scy.tools.math.shapes.IMathRectangle3D;
 import eu.scy.tools.math.ui.UIUtils;
 import eu.scy.tools.math.ui.images.Images;
@@ -43,13 +50,24 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 		super(x,y,shape.getCanvasIcon(),id);
 		this.shape = shape;
 		
-		getVolumeValueLabel().setText(this.shape.getVolume());
+		//getVolumeLabelCombo().setText(this.shape.getVolume());
 		getHeightValueLabel().setText(((IRectanglarPrismToolbarShape) this.shape).getHeight());
 		getWidthValueLabel().setText(((IRectanglarPrismToolbarShape) this.shape).getWidth());
 //		iconLabel.setIcon(Images.getIcon(this.shape.getCanvasIcon()));
 //		this.setIconName(this.shape.getCanvasIcon());
 	}
 
+	public MathRectangle3D(ArrayList<IToolbarShape> shapes, int x, int y, String id) {
+		
+		super(shapes, x, y, shapes.get(0).getCanvasIcon(), id);
+	}
+	
+	protected void updateLabels(int selectedIndex) {
+		this.shape = shapesCollection.get(selectedIndex);
+		getHeightValueLabel().setText(((IRectanglarPrismToolbarShape) this.shape).getHeight());
+		getWidthValueLabel().setText(((IRectanglarPrismToolbarShape) this.shape).getWidth());
+	}
+	
 	protected void init() {
 		super.init();
 		
