@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<reference_model name="danish_glucose"
+		 notation="system_dynamics"
+		 concept_set="danish_glucose">
+
+  <node id="gl" concept="blood_glucose_level"
+	        type="stock"
+	        low_value="5000"
+	        high_value="9000"
+	        default_value="6000"
+	        />
+  <node id="il" concept="insulin_level"
+	        type="stock"
+	        low_value="2000"
+	        high_value="12000"
+	        default_value="9000"
+	        />
+ <node id="gs" concept="glucagon_secretion"
+	        type="auxiliary"
+	        formula="abs(sign(max(blood_glucose_level,6000)-6000)-1)*500"/>    <!-- Glucagon secretion when the amount of blood glucose is less than 6000 mg --> 
+  <node id="gr" concept="glucose_release"
+	        type="auxiliary"
+	        formula="glucose_release_rate*(1/(1+exp(-10*(time-30)))-1/(1+exp(-10*(time-60))))"/>
+  <node id="is" concept="insulin_secretion"
+	        type="auxiliary"
+	        />
+   <node id="gu" concept="glucose_used_by_cells"
+	        type="auxiliary"/>
+	<node id="ib" concept="insulin_breakdown"
+	        type="auxiliary"
+	        formula="insulin_level*insulin_breakdown_rate"/>
+	<node id="guf" concept="glucose_usage_fraction"
+	        type="auxiliary"/>
+  <node id="br" concept="insulin_breakdown_rate" 
+  			type="constant"
+  			low_value="0.1"
+	        high_value="1.0"
+	        default_value="0.167" />
+  <node id="rr" concept="glucose_release_rate" 
+  		 type="constant"
+  		 low_value="10"
+	     high_value="10000"
+  		 default_value="200" />
+  
+
+  <edge from="gr" to="gl"/>
+  
+  <edge from="gl" to="is">
+  	<expression type="linear_up" formula="-0.000000003*blood_glucose_level^3+0.00005*blood_glucose_level^2-0.114*blood_glucose_level+72.5"/>
+  </edge>
+
+  <edge from="is" to="il"/>
+  
+  <edge from="il" to="ib"/>
+  
+  <edge from="il" to="gu">
+    	<expression type="linear_up" formula="0.00000000000002*insulin_level^3+0.0000000005*insulin_level^2+0.00000001*insulin_level+0.0083"/>
+  </edge>
+  
+  <edge from="gl" to="gu"/>
+  
+  <edge from="gl" to="gs"/>  
+    
+</reference_model>

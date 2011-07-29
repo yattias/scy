@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<concept_set name="danish_glucose"
+             word_order="any">
+
+  <concept name="blood_glucose_level">
+    <term type="stock">blood_glucose_level</term>
+    <term>glucose</term>
+    <term>glucose_level</term>
+    <term>blood_glucose</term>
+    <term>bloodglucose</term>
+  </concept>
+
+   <concept name="insulin_level">
+    <term type="stock">insulin_level</term>
+    <term>insulin</term>
+    <term>blood_insulin_level</term>
+    <term>insulinlevel</term>
+  </concept>
+  
+  <concept name="glucose_intake">
+    <term>glucose_intake</term>
+    <term>glucoseintake</term>
+    <term>food_intake</term>
+    <term>chocolate_bar</term>
+    <term>pizza</term>
+ </concept>
+  
+  <concept name="glucose_release">
+    <term type="auxiliary">glucose_release</term>
+    <term type="auxiliary">glucose release</term>
+  </concept>
+
+  <concept name="glucagon_secretion">
+    <term type="auxiliary">glucagon_secretion</term>
+    <term type="auxiliary">glucagon secretion</term>
+    <term type="auxiliary">glucagon release</term>
+    <term type="auxiliary">glucagon</term>
+  </concept>
+  
+  <concept name="insulin_secretion">
+    <term type="auxiliary">insulin_secretion</term>
+    <term type="auxiliary">insulin secretion</term>
+    <term type="auxiliary">insulin release</term>
+    <term type="auxiliary">insulin</term>
+  </concept>
+
+   <concept name="insulin_breakdown">
+    <term type="auxiliary">insulin_breakdown</term>
+    <term type="auxiliary">insulin_decompose</term>
+    <term type="auxiliary">insulin breakdown</term>
+    <term type="auxiliary">breakdown of insulin</term>
+  </concept>
+  
+  <concept name="glucose_usage_fraction">
+    <term type="auxiliary">glucose_usage</term>
+    <term type="auxiliary">glucose-usage-fraction</term>
+    <term type="auxiliary">glucose_usage_fraction</term>
+  </concept>
+
+    <concept name="glucose_used_by_cells">
+    <term type="auxiliary">glucose_used_by_cells</term>
+    <term type="auxiliary">cells_glucose_use</term>
+    <term type="auxiliary">glucose-used-by-cells</term>
+  </concept>
+ 
+  <concept name="insulin_breakdown_rate">
+    <term>insulin breakdown rate</term>
+    <term type="constant">insulin_breakdown_constant</term>
+  </concept>
+</concept_set>
+

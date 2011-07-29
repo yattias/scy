@@ -30,7 +30,7 @@ import colab.um.tools.JTools;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import eu.scy.client.tools.scydynamics.editor.ModelEditor.Mode;
 import eu.scy.client.tools.scydynamics.model.ModelUtils;
-import eu.scy.client.tools.scydynamics.model.ModelUtils.QualitativeInfluenceType;
+import eu.scy.client.tools.scydynamics.model.QualitativeInfluenceType;
 
 @SuppressWarnings("serial")
 public class VariableDialog extends JDialog {
@@ -421,6 +421,7 @@ public class VariableDialog extends JDialog {
 	void setQualitativeRelations() {
 		for (JComboBox box: qualitativeComboboxes) {
 			JdRelation relation = ModelUtils.getRelationBetween(editor.getModel(), box.getName(), this.label);
+			// default value
 			int relationType = 6;
 			try {
 				relationType = Integer.parseInt(((ImageIcon)box.getSelectedItem()).getDescription());
@@ -431,7 +432,7 @@ public class VariableDialog extends JDialog {
 		}
 	}
 
-	HashMap<JdFigure, QualitativeInfluenceType> getQualitativeRelations() {
+	public HashMap<JdFigure, QualitativeInfluenceType> getQualitativeRelations() {
 		HashMap<JdFigure, QualitativeInfluenceType> relations = new HashMap<JdFigure, QualitativeInfluenceType>();
 
 		for (JComboBox box: qualitativeComboboxes) {

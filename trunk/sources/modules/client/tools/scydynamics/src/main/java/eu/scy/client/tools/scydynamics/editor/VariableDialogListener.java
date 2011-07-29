@@ -136,7 +136,7 @@ public class VariableDialogListener implements ActionListener, MouseListener {
 			case JdFigure.STOCK:
 				return variableDialog.getQualitativeValue()+"";
 			case JdFigure.AUX:
-				return ModelUtils.getQualitativeExpression(variableDialog.getQualitativeRelations(), variableDialog.getEditor().getModel());
+				return ModelUtils.getQualitativeExpression(variableDialog.getFigure(), variableDialog.getQualitativeRelations(), variableDialog.getEditor());
 		}
 		}
 		// default = 0

@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,16 +14,18 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import eu.scy.client.tools.scydynamics.model.QualitativeInfluenceType;
+
 public class TestReferenceModel {
 
-	private String fileName = "reference_model_mulder_2009.xml";
+	private String fileName = "test_referenceModel.xml";
 	private ReferenceModel referenceModel;
 
 	public TestReferenceModel() throws FileNotFoundException {
 		unmarshalReferenceModel();
 		//createReferenceModel();
 		marshalReferenceModel(System.out);
-		marshalReferenceModel(new FileOutputStream("test_referenceModel.xml"));
+		//marshalReferenceModel(new FileOutputStream("test_referenceModel.xml"));
 		
 		System.out.println(referenceModel.getNodes().size());
 	}
@@ -92,12 +95,16 @@ public class TestReferenceModel {
 		Edge relation1 = new Edge();
 		relation1.setFrom("a");
 		relation1.setTo("b");
-		relation1.setQualitative("inverse");
+		//relation1.setQualitative("inverse");
 
 		Edge relation2 = new Edge();
 		relation2.setFrom("c");
 		relation2.setTo("rel1");
-		relation2.setQualitative("linear");
+		List<Expression> expressions = new ArrayList<Expression>();
+		expressions.add(new Expression(QualitativeInfluenceType.LINEAR_UP, "test*bla"));
+		expressions.add(new Expression(QualitativeInfluenceType.LINEAR_DOWN, "(-test*bla)"));
+		relation2.setExpressions(expressions);
+		//relation2.setQualitative("linear");
 
 		ArrayList<Edge> relations = new ArrayList<Edge>();
 		relations.add(relation1);
