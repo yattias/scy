@@ -14,7 +14,15 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class Query {
 
+	/**
+	 * The default lucene document to search in.
+	 */
 	private static final String DEFAULT_FIELD = "contents";
+    
+    private static final String OPERATOR_AND = "AND";
+    
+    private static final String OPERATOR_OR = "OR";
+
     private String term;
 
     private Query leftChild;
@@ -29,32 +37,34 @@ public class Query {
     public static void main(String[] args) {
         // for testing purposes
         Query query;
-//        query = QueryTerm.parse("(test  AND evaluation  test2)");
-//        System.out.println(query.toString());
-//        query = QueryTerm.parse("(test evaluation)");
-//        System.out.println(query.toString());
-//        query = QueryTerm.parse("test evaluation");
-//        System.out.println(query.toString());
-//        query = QueryTerm.parse("(test AND evaluation)");
-//        System.out.println(query.toString());
-//        query = QueryTerm.parse("(test OR evaluation)");
-//        System.out.println(query.toString());
         query = Query.parse("first AND (test and evaluation) OR notLast last");
-        System.out.println(query.toString());
-        query = Query.parse("first AND (test and evaluation) OR notLast last");
-        System.out.println(query.replaceOperator("OR", "AND", new AtomicInteger(2)));
-//        query = QueryTerm.parse("last");
-//        System.out.println(query.toString());
-//        query = QueryTerm.parse("(last) ()");
-//        System.out.println(query.toString());
+        System.out.println(query.toLuceneString());
+        System.out.println(query.replaceOperator("AND", "OR", new AtomicInteger(0)));
+        System.out.println(query.replaceOperator("AND", "OR", new AtomicInteger(1)));
+        System.out.println(query.replaceOperator("AND", "OR", new AtomicInteger(2)));
+//        query = Query.parse("first AND (test and evaluation) OR notLast last");
+//        System.out.println(query.replaceOperator("OR", "AND", new AtomicInteger(2)));
     }
 
 
+    /**
+     * Instantiates a new query which contains only one term.
+     *
+     * @param term the term
+     */
     private Query(String term) {
         this.term = term;
         this.hasBracket = false;
     }
 
+    /**
+     * Instantiates a new query, which contains two sub-queries
+     * connected by an operator.
+     *
+     * @param term1 the left sub-query
+     * @param operator the operator
+     * @param term2 the right sub-query
+     */
     private Query(Query term1, String operator, Query term2) {
         this.leftChild = term1;
         this.rightChild = term2;
@@ -62,30 +72,66 @@ public class Query {
         this.hasBracket = false;
     }
 
+    /**
+     * Gets the operator.
+     *
+     * @return the operator
+     */
     public String getOperator() {
         return operator;
     }
 
+    /**
+     * Gets the term.
+     *
+     * @return the term
+     */
     public String getTerm() {
         return term;
     }
 
+    /**
+     * Gets the left child.
+     *
+     * @return the left child
+     */
     public Query getLeftChild() {
         return leftChild;
     }
 
+    /**
+     * Gets the right child.
+     *
+     * @return the right child
+     */
     public Query getRightChild() {
         return rightChild;
     }
 
+    /**
+     * Returns true if the sub-query has brackets.
+     *
+     * @return true, if sub-query has brackets
+     */
     public boolean hasBracket() {
         return hasBracket;
     }
 
+    /**
+     * Sets that the sub-query has brackets. i.e.: (bla AND blubb)
+     *
+     * @param hasBracket the new bracket
+     */
     public void setBracket(boolean hasBracket) {
         this.hasBracket = hasBracket;
     }
 
+    /**
+     * Parses a query and creates the corresponding query tree.
+     *
+     * @param query the query
+     * @return the query
+     */
     public static Query parse(String query) {
         if(query == null) {
             throw new IllegalArgumentException("query can not be null");
@@ -95,6 +141,12 @@ public class Query {
         return parse(list);
     }
 
+    /**
+     * Parses the.
+     *
+     * @param query the query
+     * @return the query
+     */
     private static Query parse(List<String> query) {
         if(query.isEmpty()) {
             return new Query("");
@@ -103,18 +155,18 @@ public class Query {
             return new Query(query.get(0));
         } else if(query.size() == 2) {
             // two terms means they are linked by OR
-            return new Query(new Query(query.get(0)), "OR", new Query(query.get(1)));
+            return new Query(new Query(query.get(0)), OPERATOR_OR, new Query(query.get(1)));
         } else {
             // three or more terms...
 
             if(!query.get(0).equals("(")) {
                 // no bracket at the beginning
 
-                if(query.get(1).equals("AND") || query.get(1).equals("OR")) {
+                if(query.get(1).equals(OPERATOR_AND) || query.get(1).equals(OPERATOR_OR)) {
                     return new Query(new Query(query.get(0)), query.get(1), parse(query.subList(2, query.size())));
                 } else {
                     // if the second term is not AND and not OR, it must be a term
-                    return new Query(new Query(query.get(0)), "OR", parse(query.subList(1, query.size())));
+                    return new Query(new Query(query.get(0)), OPERATOR_OR, parse(query.subList(1, query.size())));
                 }
             } else {
                 // The term has brackets so we need to find the end...
@@ -154,12 +206,12 @@ public class Query {
                             // one other term behind the bracket
                             Query leftTerm = parse(query.subList(0, endIndex));
                             Query rightTerm = new Query(query.get(endIndex + 1));
-                            Query queryTerm = new Query(leftTerm, "OR", rightTerm);
+                            Query queryTerm = new Query(leftTerm, OPERATOR_OR, rightTerm);
                             queryTerm.setBracket(true);
                             return queryTerm;
                         } else {
                             // more than one term behind the bracket
-                            if(query.get(endIndex + 1).equals("AND") || query.get(endIndex + 1).equals("OR")) {
+                            if(query.get(endIndex + 1).equals(OPERATOR_AND) || query.get(endIndex + 1).equals(OPERATOR_OR)) {
                                 Query leftTerm = parse(query.subList(0, endIndex + 1));
                                 Query rightTerm = parse(query.subList(endIndex + 2, query.size()));
                                 Query queryTerm = new Query(leftTerm, query.get(endIndex + 1), rightTerm);
@@ -169,7 +221,7 @@ public class Query {
                                 // if the second term is not AND and not OR, it must be a term
                                 Query leftTerm = parse(query.subList(0, endIndex + 1));
                                 Query rightTerm = parse(query.subList(endIndex + 1, query.size() - 1));
-                                Query queryTerm = new Query(leftTerm, "OR", rightTerm);
+                                Query queryTerm = new Query(leftTerm, OPERATOR_OR, rightTerm);
                                 queryTerm.setBracket(true);
                                 return queryTerm;
 
@@ -181,6 +233,14 @@ public class Query {
         }
     }
 
+    /**
+     * This method replaces a specific number of operators.
+     *
+     * @param from the operator which will be replaced
+     * @param to the operator which will be used as replacement
+     * @param numberOfReplacements the number of replacements
+     * @return the lucene query 
+     */
     public String replaceOperator(String from, String to, AtomicInteger numberOfReplacements) {
         if(this.term != null) {
             if(this.hasBracket()) {
@@ -206,17 +266,9 @@ public class Query {
                 // Replace on the right child
                 String rightTerm = this.rightChild.replaceOperator(from, to, numberOfReplacements);
 
-                if(!op.equals("AND")) {
-                    result = leftTerm + " " + rightTerm;
-                } else {
-                    result = leftTerm + " " + op + " " + rightTerm;
-                }
+                result = leftTerm + " " + op + " " + rightTerm;
             } else {
-                if(!this.operator.equals("AND")) {
-                    result = this.leftChild.toString() + " " + this.rightChild.toString();
-                } else {
-                    result = this.leftChild.toString() + " " + this.operator + " " + this.rightChild.toString();
-                }
+            	result = this.leftChild.toLuceneString() + " " + this.operator + " " + this.rightChild.toLuceneString();
             }
             
             if(this.hasBracket()) {
@@ -227,6 +279,11 @@ public class Query {
         }
     }
 
+    /**
+     * Creates a lucene query.
+     *
+     * @return the string
+     */
     public String toLuceneString() {
         if(this.term != null) {
             if(this.hasBracket()) {
@@ -235,12 +292,7 @@ public class Query {
                 return DEFAULT_FIELD + ":\"" + this.term + "\"";
             }
         } else {
-            String result;
-            if(!this.operator.equals("AND")) {
-                result = this.leftChild.toString() + " " + this.rightChild.toString();
-            } else {
-                result = this.leftChild.toString() + " " + this.operator + " " + this.rightChild.toString();
-            }
+            String result = this.leftChild.toLuceneString() + " " + this.operator + " " + this.rightChild.toLuceneString();
             if(this.hasBracket()) {
                 return "(" + result + ")";
             } else {
@@ -249,9 +301,12 @@ public class Query {
         }
     }
 
-    /*
-     * this method will insert white spaces after opening bracket and before closing
+    /**
+     * Insert white spaces after opening bracket and before closing
      * bracket. So we can simply split the query using white spaces.
+     *
+     * @param query the query
+     * @return the new query with whitespaces inserted
      */
     private static String insertWhiteSpaces(String query) {
         StringBuilder newQuery = new StringBuilder();
