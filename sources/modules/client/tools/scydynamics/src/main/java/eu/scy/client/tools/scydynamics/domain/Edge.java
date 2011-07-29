@@ -1,12 +1,17 @@
 package eu.scy.client.tools.scydynamics.domain;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+
+import eu.scy.client.tools.scydynamics.model.QualitativeInfluenceType;
 
 public class Edge {
 
 	private String from;
 	private String to;
-	private String qualitative;
+	private List<Expression> expressions;
 
 	public Edge() {}
 
@@ -27,13 +32,26 @@ public class Edge {
 	public void setTo(String to) {
 		this.to = to;
 	}
-
-	@XmlAttribute
-	public String getQualitative() {
-		return qualitative;
+	
+	@XmlElement(name = "expression")
+	public List<Expression> getExpressions() {
+		return expressions;
 	}
 
-	public void setQualitative(String qualitative) {
-		this.qualitative = qualitative;
+	public void setExpressions(List<Expression> expressions) {
+		this.expressions = expressions;
 	}
+
+	public String getExpression(QualitativeInfluenceType qualitativeInfluenceType) {
+		if (expressions != null) {
+			for (Expression expression: expressions) {
+				QualitativeInfluenceType type = expression.getType();
+				if (type.equals(qualitativeInfluenceType)) {
+					return expression.getFormula();
+				}
+			}
+		}
+		return null;
+	}
+
 }

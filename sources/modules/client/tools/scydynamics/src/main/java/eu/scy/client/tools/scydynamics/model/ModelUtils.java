@@ -10,11 +10,13 @@ import javax.swing.JTextField;
 import colab.um.draw.JdFigure;
 import colab.um.draw.JdLink;
 import colab.um.draw.JdRelation;
+import eu.scy.client.tools.scydynamics.domain.Concept;
 import eu.scy.client.tools.scydynamics.domain.Domain;
+import eu.scy.client.tools.scydynamics.domain.Edge;
+import eu.scy.client.tools.scydynamics.editor.ModelEditor;
 
 public class ModelUtils {
 	
-	public enum QualitativeInfluenceType {UNSPECIFIED, LINEAR_UP, LINEAR_DOWN, CURVE_UP, CURVE_DOWN, ASYMPTOTE_UP};
 	private final static Logger DEBUGLOGGER = Logger.getLogger(ModelUtils.class.getName());
 	
 	public static JdRelation getRelationBetween(Model model, String start, String end) {	
@@ -44,31 +46,17 @@ public class ModelUtils {
         return listItems;
     }
 
-	public static String getQualitativeExpression(HashMap<JdFigure, QualitativeInfluenceType> qualitativeRelations, Model model) {
+	public static String getQualitativeExpression(JdFigure figure, HashMap<JdFigure, QualitativeInfluenceType> qualitativeRelations, ModelEditor modelEditor) {
 		String expression = "";
-		for (JdFigure figure: qualitativeRelations.keySet()) {
-			String varName = (String) figure.getProperties().get("label");
-			String newExpression;
-			switch (qualitativeRelations.get(figure)) {
-			case LINEAR_UP:
-				newExpression = varName;
-				break;
-			case LINEAR_DOWN:
-				newExpression = "(-"+varName+")";
-				break;
-			case CURVE_UP:
-				newExpression = varName+"*"+varName;
-				break;
-			case CURVE_DOWN:
-				newExpression = "1/"+varName;
-				break;
-			case ASYMPTOTE_UP:
-				newExpression = "(1-exp("+varName+"))";
-				break;
-			default:
-				newExpression = " error ";
-				break;
+		for (JdFigure otherFigure: qualitativeRelations.keySet()) {		
+			String newExpression = null;
+			// trying to get expression from domain
+			newExpression = getExpressionFromDomain(figure, otherFigure, qualitativeRelations, modelEditor);
+			if (newExpression == null) {
+				// no expression from domain, generate it
+				newExpression = generateExpressionFromRelation((String) otherFigure.getProperties().get("label"), qualitativeRelations.get(otherFigure));
 			}
+			
 			if (expression.isEmpty()) {
 				expression = newExpression;
 			} else {
@@ -76,6 +64,38 @@ public class ModelUtils {
 			}
 		}
 		return expression;
+	}
+	
+	private static String getExpressionFromDomain(JdFigure thisFigure, JdFigure otherFigure, HashMap<JdFigure, QualitativeInfluenceType> qualitativeRelations, ModelEditor modelEditor) {
+		try {
+			String thisName = (String) thisFigure.getProperties().get("label");
+			String otherName = (String) otherFigure.getProperties().get("label");
+			Edge edge = modelEditor.getDomain().getEdgeBetweenNodeTerms(otherName.toLowerCase(), thisName.toLowerCase());
+			String expression = edge.getExpression(qualitativeRelations.get(otherFigure));
+			System.out.println("expression from domain: "+expression);
+			expression = expression.replaceAll(modelEditor.getDomain().getConceptByTerm(otherName), otherName);
+			System.out.println("expression adapted: "+expression);
+			return expression;
+		} catch (Exception ex) {
+			return null;
+		}
+	}
+
+	public static String generateExpressionFromRelation(String varName, QualitativeInfluenceType relationType) {
+		switch (relationType) {
+		case LINEAR_UP:
+			return varName;
+		case LINEAR_DOWN:
+			return "(-"+varName+")";
+		case CURVE_UP:
+			return varName+"*"+varName;
+		case CURVE_DOWN:
+			return "1/"+varName;
+		case ASYMPTOTE_UP:
+			return "(1-exp("+varName+"))";
+		default:
+			return " error ";
+		}
 	}
 	
 	public static Domain loadDomain(Properties props) {

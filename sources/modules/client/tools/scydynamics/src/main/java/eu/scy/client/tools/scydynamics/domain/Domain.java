@@ -103,5 +103,23 @@ public class Domain {
 		}
 		return null;
 	}
+
+	public Edge getEdgeBetweenNodeTerms(String fromNodeTerm, String toNodeTerm) {
+		Edge returnEdge = null;
+		try {
+		String fromConcept = getConceptByTerm(fromNodeTerm);
+		String toConcept = getConceptByTerm(toNodeTerm);
+		Node fromNode = getNodeByConcept(fromConcept);
+		Node toNode = getNodeByConcept(toConcept);	
+		for (Edge edge: referenceModel.getEdges()) {
+			if (edge.getFrom().equals(fromNode.getId()) && edge.getTo().equals(toNode.getId())) {
+				returnEdge = edge;
+			}
+		}
+		} catch (Exception ex) {
+			// nothing
+		}
+		return returnEdge;
+	}
 	
 }

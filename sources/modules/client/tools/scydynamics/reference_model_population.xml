@@ -10,37 +10,43 @@
 	        high_value="100"
 	        default_value="10"
 	        />
-  <node id="births" concept="births"
+  <node id="b" concept="births"
 	        type="auxiliary"
-	        formula="population * birth_rate"
 	        />
-  <node id="birth_rate" concept="birth_rate"
+  <node id="br" concept="birth_rate"
 	        type="constant"
 	        low_value="0.01"
 	        high_value="0.1"
 	        default_value="0.03"
 	        />
-  <node id="deaths" concept="deaths"
+  <node id="d" concept="deaths"
 	        type="auxiliary"
 	        />
-  <node id="death_rate" concept="death_rate"
+  <node id="dr" concept="death_rate"
 	        type="constant"
 	        low_value="0.01"
 	        high_value="0.1"
 	        default_value="0.02"
 	        />
 
-  <node id="pop_in" type="flow"/>
-  <node id="pop_out" type="flow"/>
+  <node id="pop_in"
+  			type="flow"
+  			/>
+  <node id="pop_out"
+  			type="flow"
+  			/>
 
-  <edge from="births" to="pop_in"/>
-  <edge from="pop_in" to="population"/>
-  <edge from="population" to="births" qualitative="linear"/>
-  <edge from="birth_rate" to="births" qualitative="linear"/>
+  <edge from="b" to="pop_in"/>
+  <edge from="pop_in" to="pop"/>
+  <edge from="pop" to="b"/>
+  <edge from="br" to="b">
+  	<expression type="linear_up" formula="birth_rate"/>
+  	<expression type="linear_down" formula="(-birth_rate)"/>
+  </edge>
   
-  <edge from="deaths" to="pop_out"/>
-  <edge from="pop_out" to="deaths"/>
-  <edge from="population" to="deaths" qualitative="linear"/>
-  <edge from="death_rate" to="deaths" qualitative="linear"/>
+  <edge from="d" to="pop_out"/>
+  <edge from="pop_out" to="d"/>
+  <edge from="pop" to="d"/>
+  <edge from="dr" to="d"/>
   
 </reference_model>
