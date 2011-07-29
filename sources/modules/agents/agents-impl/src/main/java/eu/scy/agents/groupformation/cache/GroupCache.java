@@ -4,27 +4,26 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.Set;
 
 public class GroupCache {
 
-	private Map<String, Set<String>> groupCache;
+	private Map<String, Group> groupCache;
 
 	public GroupCache() {
-		groupCache = new LinkedHashMap<String, Set<String>>();
+		groupCache = new LinkedHashMap<String, Group>();
 	}
 
-	public Set<String> getGroup(String user) {
+	public Group getGroup(String user) {
 		return groupCache.get(user);
 	}
 
-	public void addGroups(Collection<Set<String>> formedGroup) {
-		for (Set<String> group : formedGroup) {
+	public void addGroups(Collection<Group> formedGroup) {
+		for (Group group : formedGroup) {
 			addGroup(group);
 		}
 	}
 
-	public void addGroup(Set<String> group) {
+	public void addGroup(Group group) {
 		for (String user : group) {
 			groupCache.put(user, group);
 		}
@@ -34,12 +33,12 @@ public class GroupCache {
 		groupCache.clear();
 	}
 
-	public Collection<Set<String>> getGroups() {
-		return new LinkedHashSet<Set<String>>(groupCache.values());
+	public Collection<Group> getGroups() {
+		return new LinkedHashSet<Group>(groupCache.values());
 	}
 
 	public void removeFromCache(String userToRemove, int minGroupSize) {
-		Set<String> group = groupCache.get(userToRemove);
+		Group group = groupCache.get(userToRemove);
 		if (group == null) {
 			return;
 		}

@@ -1,5 +1,6 @@
 package eu.scy.agents.groupformation;
 
+import eu.scy.agents.groupformation.cache.Group;
 import eu.scy.agents.groupformation.cache.GroupCache;
 import info.collide.sqlspaces.client.TupleSpace;
 import roolo.api.IRepository;
@@ -10,7 +11,9 @@ import java.util.Set;
 
 public interface GroupFormationStrategy {
 
-    public Collection<Set<String>> formGroup(IELO elo);
+    public Collection<Group> formGroup(IELO elo);
+
+    public Collection<Group> assignToExistingGroups(String newUser, IELO referenceElo);
 
     public void setCommandSpace(TupleSpace commandSpace);
 
@@ -31,5 +34,4 @@ public interface GroupFormationStrategy {
     public  IRepository getRepository();
 
     public  void setRepository(IRepository repository);
-
 }

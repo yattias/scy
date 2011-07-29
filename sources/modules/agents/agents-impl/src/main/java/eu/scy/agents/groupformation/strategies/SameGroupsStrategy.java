@@ -1,14 +1,12 @@
 package eu.scy.agents.groupformation.strategies;
 
+import eu.scy.agents.groupformation.GroupFormationStrategy;
+import eu.scy.agents.groupformation.cache.Group;
+import org.apache.log4j.Logger;
+import roolo.elo.api.IELO;
+
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Set;
-
-import org.apache.log4j.Logger;
-
-import eu.scy.agents.groupformation.GroupFormationStrategy;
-
-import roolo.elo.api.IELO;
 
 public class SameGroupsStrategy extends AbstractGroupFormationStrategy {
 
@@ -16,16 +14,20 @@ public class SameGroupsStrategy extends AbstractGroupFormationStrategy {
 			.getLogger(SameGroupsStrategy.class);
 
 	@Override
-	public Collection<Set<String>> formGroup(IELO elo) {
+	public Collection<Group> formGroup(IELO elo) {
 		if (cache == null) {
-			LOGGER
-					.info("No previous groups formed. Cannot return same groups as before");
+			LOGGER.info("No previous groups formed. Cannot return same groups as before");
 			return Collections.emptyList();
 		}
 		return cache.getGroups();
 	}
 
-	@Override
+    @Override
+    public Collection<Group> assignToExistingGroups(String newUser, IELO referenceElo) {
+        return cache.getGroups();
+    }
+
+    @Override
 	public GroupFormationStrategy makeNewEmptyInstance() {
 		return new SameGroupsStrategy();
 	}

@@ -9,6 +9,7 @@ import eu.scy.agents.Mission;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IRepositoryAgent;
 import eu.scy.agents.api.parameter.AgentParameter;
+import eu.scy.agents.groupformation.cache.Group;
 import eu.scy.agents.groupformation.cache.MissionGroupCache;
 import eu.scy.agents.impl.AbstractRequestAgent;
 import eu.scy.agents.impl.ActionConstants;
@@ -219,8 +220,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
         groupFormationStrategy.setMaximumGroupSize(maxGroupSize);
         groupFormationStrategy.setAvailableUsers(availableUsers);
 
-        Collection<Set<String>> formedGroups = groupFormationStrategy
-                .formGroup(elo);
+        Collection<Group> formedGroups = groupFormationStrategy.formGroup(elo);
 
         // if (groupsAreOk(formedGroup, minGroupSize, maxGroupSize)) {
         missionGroupsCache.addGroups(mission, las, formedGroups);
@@ -246,10 +246,9 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
         for (Tuple t : allUsersInLas) {
             availableUsers.add((String) t.getField(1).getValue());
         }
-        Collection<Set<String>> groups = missionGroupsCache.getGroups(mission,
-                las);
-        for (Set<String> group : groups) {
-            availableUsers.removeAll(group);
+        Collection<Group> groups = missionGroupsCache.getGroups(mission, las);
+        for (Group group : groups) {
+            availableUsers.removeAll(group.asSet());
         }
         return availableUsers;
     }
@@ -265,9 +264,9 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
     // }
 
     private void sendGroupNotification(IAction action,
-                                       Collection<Set<String>> formedGroups) throws TupleSpaceException {
+                                       Collection<Group> formedGroups) throws TupleSpaceException {
 
-        for (Set<String> group : formedGroups) {
+        for (Group group : formedGroups) {
 
             for (String user : group) {
                 String notificationId = createId();
@@ -398,7 +397,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
         return notificationTuple;
     }
 
-    String createUserListString(String userToNotify, Set<String> group) {
+    String createUserListString(String userToNotify, Group group) {
         StringBuilder message = new StringBuilder();
         int i = 0;
         for (String user : group) {

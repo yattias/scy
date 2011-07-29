@@ -8,6 +8,7 @@ import eu.scy.actionlogging.api.IAction;
 import eu.scy.agents.Mission;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IRepositoryAgent;
+import eu.scy.agents.groupformation.cache.Group;
 import eu.scy.agents.groupformation.cache.MissionGroupCache;
 import eu.scy.agents.impl.AbstractRequestAgent;
 import eu.scy.agents.impl.ActionConstants;
@@ -72,10 +73,10 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
     public GroupFormationAgent2(Map<String, Object> params) {
         super(NAME, params);
         lock = new Object();
-        if (params.containsKey(AgentProtocol.TS_HOST)) {
+        if ( params.containsKey(AgentProtocol.TS_HOST) ) {
             host = (String) params.get(AgentProtocol.TS_HOST);
         }
-        if (params.containsKey(AgentProtocol.TS_PORT)) {
+        if ( params.containsKey(AgentProtocol.TS_PORT) ) {
             port = (Integer) params.get(AgentProtocol.TS_PORT);
         }
         configuration.addAllParameter(params);
@@ -84,7 +85,7 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
         try {
             listenerId = getActionSpace().eventRegister(Command.WRITE,
                     getActivationTuple(), this, true);
-        } catch (TupleSpaceException e) {
+        } catch ( TupleSpaceException e ) {
             e.printStackTrace();
         }
 
@@ -99,11 +100,11 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
 
     @Override
     protected void doRun() throws TupleSpaceException, AgentLifecycleException, InterruptedException {
-        while (status == Status.Running) {
+        while ( status == Status.Running ) {
             sendAliveUpdate();
             try {
                 Thread.sleep(AgentProtocol.ALIVE_INTERVAL / 3);
-            } catch (InterruptedException e) {
+            } catch ( InterruptedException e ) {
                 throw new AgentLifecycleException(e.getMessage(), e);
             }
         }
@@ -127,7 +128,7 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
     @Override
     public void call(Command command, int seq, Tuple afterTuple,
                      Tuple beforeTuple) {
-        if (listenerId != seq) {
+        if ( listenerId != seq ) {
             logger.debug("Callback passed to Superclass.");
             super.call(command, seq, afterTuple, beforeTuple);
             return;
@@ -136,22 +137,22 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
                     .getActionFromTuple(afterTuple);
             String missionUri = action.getContext(ContextConstants.mission);
             String type = action.getType();
-            if (type.equals(ActionConstants.ACTION_LAS_CHANGED)) {
+            if ( type.equals(ActionConstants.ACTION_LAS_CHANGED) ) {
                 String las = action.getAttribute(LAS);
                 GroupFormationActivation groupFormationActivation = getGroupFormationActivation(
                         URI.create(missionUri), action.getUser());
-                if (groupFormationActivation.shouldActivate(las)) {
+                if ( groupFormationActivation.shouldActivate(las) ) {
                     try {
                         runGroupFormation(action, groupFormationActivation.getGroupFormationInfo(las));
-                    } catch (TupleSpaceException e) {
+                    } catch ( TupleSpaceException e ) {
                         LOGGER.warn("", e);
                     }
                 } else {
-
+                    // TODO implement: think about different cases
                 }
             }
-            if (type.equals(ActionConstants.ACTION_LOG_OUT)) {
-
+            if ( type.equals(ActionConstants.ACTION_LOG_OUT) ) {
+                // TODO implement: think about different cases
             }
         }
     }
@@ -161,7 +162,7 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
         Mission mission = getSession().getMission(user);
         GroupFormationActivation groupformationActivation = missionSpecsMap
                 .get(mission);
-        if (groupformationActivation == null) {
+        if ( groupformationActivation == null ) {
             groupformationActivation = readGroupFormationActivation(missionUri,
                     mission);
         }
@@ -183,25 +184,25 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
 
         List<RuntimeSetting> settings = runtimeSettingsEloContent
                 .getAllSettings();
-        for (RuntimeSetting setting : settings) {
+        for ( RuntimeSetting setting : settings ) {
             RuntimeSettingKey key = setting.getKey();
-            if (key.getName().equals(GROUPFORMATION_STRATEGY_SETTING)) {
+            if ( key.getName().equals(GROUPFORMATION_STRATEGY_SETTING) ) {
                 String las = key.getLasId();
                 StrategyType strategy = StrategyType
                         .valueOf(setting.getValue());
                 activation.addStrategy(las, strategy);
             }
-            if (key.getName().equals(GROUPFORMATION_MAXUSER_SETTING)) {
+            if ( key.getName().equals(GROUPFORMATION_MAXUSER_SETTING) ) {
                 String las = key.getLasId();
                 int maxUsers = Integer.parseInt(setting.getValue());
                 activation.addMaximumUsers(las, maxUsers);
             }
-            if (key.getName().equals(GROUPFORMATION_MINUSER_SETTING)) {
+            if ( key.getName().equals(GROUPFORMATION_MINUSER_SETTING) ) {
                 String las = key.getLasId();
                 int minUsers = Integer.parseInt(setting.getValue());
                 activation.addMinimumUsers(las, minUsers);
             }
-            if (key.getName().equals(GROUPFORMATION_REFERENCEELO_SETTING)) {
+            if ( key.getName().equals(GROUPFORMATION_REFERENCEELO_SETTING) ) {
                 String las = key.getLasId();
                 URI referenceElo = URI.create(setting.getValue());
                 activation.addReferenceElo(las, referenceElo);
@@ -218,25 +219,52 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
         IELO referenceElo = rooloServices.getRepository().retrieveELO(groupFormationInfo.getReferenceElo());
         Set<String> availableUsers = getAvailableUsers(mission, las, action.getUser());
 
-        int n = 1;
+        int n = 2;
 
-        if (missionGroupsCache.contains(mission, las, action.getUser())) {
+
+        if ( missionGroupsCache.contains(mission, las, action.getUser()) ) {
             // user was already assigned to a group in this las
-            Set<String> group = missionGroupsCache.getGroup(mission, las, action.getUser());
-            if (availableUsers.containsAll(group)) {
-                Set<Set<String>> groups = new HashSet<Set<String>>();
+            Group group = missionGroupsCache.getGroup(mission, las, action.getUser());
+            if ( availableUsers.containsAll(group.asSet()) ) {
+                // all users present -> send form group notification
+                Set<Group> groups = new HashSet<Group>();
                 groups.add(group);
                 sendGroupNotification(action, groups, language);
             } else {
+                // not all present -> send "wait for group" notification
                 sendWaitForExistingGroupNotification(action, language, group);
             }
         } else {
-            // user was not assigned will be assigned.
-            if (availableUsers.size() < n * groupFormationInfo.getMinimumUsers()) {
-                // to few user available to assign to a group
-                sendWaitNotification(action, language);
+            // not assigned -> get already existing groups
+            Collection<Group> groups = missionGroupsCache.getGroups(mission, las);
+
+            if ( groups.isEmpty() ) {
+                // no groups formed yet
+                if ( availableUsers.size() < n * groupFormationInfo.getMinimumUsers() ) {
+                    // to few user available to assign to a group  -> wait
+                    sendWaitNotification(action, language);
+                } else {
+                    // enough users available assign a new group
+                    GroupFormationStrategy groupFormationStrategy = factory.getStrategy(groupFormationInfo.getStrategy());
+                    groupFormationStrategy.setGroupFormationCache(missionGroupsCache.get(mission, las));
+                    groupFormationStrategy.setLas(las);
+                    groupFormationStrategy.setMission(mission.getName());
+                    groupFormationStrategy.setMinimumGroupSize(groupFormationInfo.getMinimumUsers());
+                    groupFormationStrategy.setMaximumGroupSize(groupFormationInfo.getMaximumUsers());
+                    groupFormationStrategy.setAvailableUsers(availableUsers);
+                    groupFormationStrategy.setRepository(rooloServices.getRepository());
+                    Collection<Group> formedGroups = groupFormationStrategy.formGroup(referenceElo);
+                    missionGroupsCache.addGroups(mission, las, formedGroups);
+                    try {
+                        synchronized ( lock ) {
+                            sendGroupNotification(action, formedGroups, language);
+                        }
+                    } catch ( TupleSpaceException e ) {
+                        LOGGER.error("Could not write into Tuplespace", e);
+                    }
+                }
             } else {
-                // enough users available assign a new group
+                // already formed groups -> put into existing group
                 GroupFormationStrategy groupFormationStrategy = factory.getStrategy(groupFormationInfo.getStrategy());
                 groupFormationStrategy.setGroupFormationCache(missionGroupsCache.get(mission, las));
                 groupFormationStrategy.setLas(las);
@@ -245,20 +273,30 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
                 groupFormationStrategy.setMaximumGroupSize(groupFormationInfo.getMaximumUsers());
                 groupFormationStrategy.setAvailableUsers(availableUsers);
                 groupFormationStrategy.setRepository(rooloServices.getRepository());
-                Collection<Set<String>> formedGroups = groupFormationStrategy.formGroup(referenceElo);
-                missionGroupsCache.addGroups(mission, las, formedGroups);
+                Collection<Group> newGroups = groupFormationStrategy.assignToExistingGroups(action.getUser(), referenceElo);
+                missionGroupsCache.addGroups(mission, las, newGroups);
                 try {
-                    synchronized (lock) {
-                        sendGroupNotification(action, formedGroups, language);
+                    synchronized ( lock ) {
+                        sendStudentAddedToGroupNotification(action, action.getUser(), newGroups, language);
                     }
-                } catch (TupleSpaceException e) {
+                } catch ( TupleSpaceException e ) {
                     LOGGER.error("Could not write into Tuplespace", e);
                 }
             }
         }
     }
 
-    private void sendWaitForExistingGroupNotification(IAction action, String language, Set<String> group) {
+    private void sendStudentAddedToGroupNotification(IAction action, String newUser, Collection<Group> newGroups,
+                                                     String language) throws TupleSpaceException {
+        // TODO implement
+        // buddify group toNewUser
+        // send special notification to newUser
+
+        // buddify newUser to group
+        // inform other users that somebody entered their group
+    }
+
+    private void sendWaitForExistingGroupNotification(IAction action, String language, Group group) {
         ResourceBundle messages = ResourceBundle.getBundle("agent_messages", new Locale(language));
         StringBuilder message = new StringBuilder();
         message.append(messages.getString("GF_WAIT_GROUP_MESSAGE"));
@@ -267,7 +305,7 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
         Tuple notificationTuple = createMessageNotificationTuple(action, createId(), message.toString(), action.getUser());
         try {
             getCommandSpace().write(notificationTuple);
-        } catch (TupleSpaceException e) {
+        } catch ( TupleSpaceException e ) {
             e.printStackTrace();
         }
     }
@@ -277,22 +315,21 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
         availableUsers.add(thisUser);
         Tuple[] allUsersInLas = getSessionSpace().readAll(new Tuple(Session.LAS, String.class, mission.getName(),
                 las));
-        for (Tuple t : allUsersInLas) {
+        for ( Tuple t : allUsersInLas ) {
             availableUsers.add((String) t.getField(1).getValue());
         }
-        Collection<Set<String>> groups = missionGroupsCache.getGroups(mission, las);
-        for (Set<String> group : groups) {
-            availableUsers.removeAll(group);
+        Collection<Group> groups = missionGroupsCache.getGroups(mission, las);
+        for ( Group group : groups ) {
+            availableUsers.removeAll(group.asSet());
         }
         return availableUsers;
     }
 
-    private void sendGroupNotification(IAction action, Collection<Set<String>> formedGroups,
-                                       String language) throws TupleSpaceException {
+    private void sendGroupNotification(IAction action, Collection<Group> formedGroups, String language) throws TupleSpaceException {
         ResourceBundle messages = ResourceBundle.getBundle("agent_messages", new Locale(language));
-        for (Set<String> group : formedGroups) {
+        for ( Group group : formedGroups ) {
 
-            for (String user : group) {
+            for ( String user : group ) {
                 String notificationId = createId();
                 Tuple removeAllBuddiesTuple = createRemoveAllBuddiesNotification(
                         action, notificationId, user);
@@ -302,12 +339,12 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
                         + "was not processed");
             }
 
-            for (String user : group) {
+            for ( String user : group ) {
                 StringBuilder message = new StringBuilder();
                 message.append(messages.getString("GF_COLLABORATE"));
                 message.append("\n");
 
-                String userListString = createUserListString(user, new HashSet<String>(group));
+                String userListString = createUserListString(user, group);
                 message.append(userListString);
 
                 String messageNotificationId = createId();
@@ -315,8 +352,8 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
                         action, messageNotificationId, message.toString(), user);
                 logGroupFormation(action, userListString, user);
 
-                for (String userToBuddify : group) {
-                    if (!user.equals(userToBuddify)) {
+                for ( String userToBuddify : group ) {
+                    if ( !user.equals(userToBuddify) ) {
                         String buddifyNotificationId = messageNotificationId;
                         Tuple buddifyNotification = createBuddifyNotificationTuple(
                                 action, buddifyNotificationId, user,
@@ -342,7 +379,7 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
                 new Tuple(ActionConstants.ACTION, notificationId, Long.class,
                         String.class, Field.createWildCardField()),
                 AgentProtocol.MILLI_SECOND * 10);
-        if (notificationProcessedTuple == null) {
+        if ( notificationProcessedTuple == null ) {
             logger.warn(message);
         }
     }
@@ -398,7 +435,7 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
                 .getActionAsTuple(groupFormationAction);
         try {
             getActionSpace().write(actionAsTuple);
-        } catch (TupleSpaceException e) {
+        } catch ( TupleSpaceException e ) {
             LOGGER.error("Could not write action into Tuplespace", e);
         }
     }
@@ -421,17 +458,17 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
         return notificationTuple;
     }
 
-    String createUserListString(String userToNotify, Set<String> group) {
+    String createUserListString(String userToNotify, Group group) {
         StringBuilder message = new StringBuilder();
         int i = 0;
         group.remove(userToNotify);
-        for (String user : group) {
-            if (user.equals(userToNotify)) {
+        for ( String user : group ) {
+            if ( user.equals(userToNotify) ) {
                 i++;
                 continue;
             }
             message.append(sanitizeName(user));
-            if (i != group.size() - 1) {
+            if ( i != group.size() - 1 ) {
                 message.append("; ");
             }
             i++;
@@ -441,7 +478,7 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
 
     private String sanitizeName(String user) {
         int indexOf = user.indexOf("@");
-        if (indexOf != -1) {
+        if ( indexOf != -1 ) {
             return user.substring(0, indexOf);
         }
         return user;
@@ -450,7 +487,7 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
     private IELO getElo(String eloUri) {
         try {
             return rooloServices.getRepository().retrieveELO(new URI(eloUri));
-        } catch (URISyntaxException e) {
+        } catch ( URISyntaxException e ) {
             e.printStackTrace();
             return null;
         }
@@ -462,7 +499,7 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
                 messages.getString("GF_WAIT_MESSAGE"), action.getUser());
         try {
             getCommandSpace().write(notificationTuple);
-        } catch (TupleSpaceException e) {
+        } catch ( TupleSpaceException e ) {
             e.printStackTrace();
         }
     }
