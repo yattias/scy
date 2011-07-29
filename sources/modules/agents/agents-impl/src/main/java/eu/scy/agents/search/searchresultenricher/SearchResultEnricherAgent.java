@@ -508,6 +508,9 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
         {
         	Query query = Query.parse(searchQuery);
 
+        	Set<String> items = new HashSet<String>();
+        	items.addAll(Arrays.asList(searchQuery.split(" ")));
+        	
         	// Replace AND by OR
             String last = query.toLuceneString();
             for(int i = 1; i <= this.maxReplaceNumber; i++) {
@@ -531,29 +534,34 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
                 }
             }
             
+            // Both extraction methods need a language to extract keywords...
+            if(language == null) {
+            	System.out.println("Could not extract keywords, because no language information available.");
+            	return ranking;
+            }
+            
             // Add new keywords extracted from the search results.
-            if(referenceResults.size() > 0 && language != null) {
-            	Set<String> items = new HashSet<String>();
-            	items.addAll(Arrays.asList(searchQuery.split(" ")));
-            	SearchResultRanking resultRanking = extractAndTestKeywords(ranking, items, query, language, OPERATOR_OR);
-            	if(resultRanking == null) {
+            if(referenceResults.size() > 0) {
+            	boolean resultsReceived = extractAndTestKeywords(ranking, items, query, language, OPERATOR_OR);
+            	if(!resultsReceived) {
         			// RooloAccessorAgent down, so stop
             		return ranking;
             	}
-            	
+
             } else {
             	System.out.println("Could not extract keywords, because no search results available for extraction.");
             }
-            
-        	// TODO ask ontology for synonyms
-        	askOntologyForSynonym(getMission(user), eloUri, "keyword");
+
+            // TODO ask ontology for synonyms
+//            extractAndTestOntologyKeywords(getMission(user), eloUri, items, language);
+
         } catch (TupleSpaceException e) {
         	e.printStackTrace();
 //			logger.error("Connection to TupleSpace lost!", e);
         }
         return ranking;
     }
-
+	
 	/**
 	 * Extracts a list of keywords out of the reference results titles. After extraction, those results are evaluated.
 	 * 
@@ -561,10 +569,10 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	 * @param query the Query object
 	 * @param searchQuery user entered search query
 	 * @param language the users language
-	 * @return the search result ranking or null if the RooloAccessorAgent didn't respond in appropriate time
+	 * @return false if the RooloAccessorAgent didn't respond in appropriate time
 	 * @throws TupleSpaceException the tuple space exception
 	 */
-	private SearchResultRanking extractAndTestKeywords(SearchResultRanking ranking, Set<String> items, Query query, String language, String operator) throws TupleSpaceException {
+	private boolean extractAndTestKeywords(SearchResultRanking ranking, Set<String> items, Query query, String language, String operator) throws TupleSpaceException {
     	List<TermEntry> termList = extractKeywordsFromSearchResults(items, language, ranking.getReferenceResults());
     	
     	String userQuery = query.toLuceneString();
@@ -576,12 +584,35 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
     			System.out.println("Added new query by keyword extension: " + queryWithNewKeyword);
     		} else {
     			// RooloAccessorAgent down, so stop
-    			return null;
+    			return false;
     		}
     	}
-    	return ranking;
+    	return true;
 	}
 	
+	private boolean extractAndTestOntologyKeywords(String mission, String eloUri, Set<String> items, String language) {
+		
+		
+		List<String> synonyms = askOntologyForSynonym(mission, eloUri, "caspar", language);
+		if(synonyms == null) {
+			return false;
+		}
+		
+//        System.out.println("Surrounding: " + items.toString());
+
+//    	for(String synonym : synonyms) {
+//            List<ISearchResult> result =  getHits(commandSpace, luceneQuery);
+//            if(result != null) {
+//                ranking.add(luceneQuery, result);
+//                System.out.println("Added new query by AND -> OR replacement: " + luceneQuery);
+//            } else {
+//            	// RooloAccessorAgent down, so stop
+//            	return ranking;
+//            }        		
+//    	}
+		return true;
+	}
+
     /**
      * Asks the ontology for synonyms
      * @param userId
@@ -589,29 +620,33 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
      * @param keyword
      * @return
      */
-    private void askOntologyForSynonym(String mission, String eloUri, String keyword) {
+    private List<String> askOntologyForSynonym(String mission, String eloUri, String keyword, String language) {
     	// (<ID>:String, "onto":String, "surrounding":String, <OntName>:String, <OntLabel>:String, 
     	// <Language>:String) -> (<ID>:String, <OntTerm>:String, <Surrounding>:String)
     	
-    	System.out.println(mission);
-    	Mission m = Mission.getForName(mission);
-    	System.out.println(m.getName());
-    	System.out.println(m.getNamespace());
-    	
-//        try {
-//            String id = new VMID().toString();
-//            Tuple requestTuple = new Tuple(id, ONTOLOGY_AGENT_NAME, ONTOLOGY_AGENT_COMMAND, mission, keyword, "en");
-//            this.commandSpace.write(requestTuple);
-//            Tuple responseTuple = this.commandSpace.waitToTake(new Tuple(id, Field.createWildCardField()));
-//            if(responseTuple != null) {
-//            String ontTerm = (String)responseTuple.getField(1).getValue();
-//            String surrounding = (String)responseTuple.getField(2).getValue();
-//            System.out.println(ontTerm);
-//            System.out.println(surrounding);
-//            }
-//        } catch (TupleSpaceException e) {
-//			  logger.error("Connection to TupleSpace lost!", e);
-//        }
+    	List<String> synonyms = new ArrayList<String>();
+        try {
+            String id = new VMID().toString();
+            Tuple requestTuple = new Tuple(id, ONTOLOGY_AGENT_NAME, ONTOLOGY_AGENT_COMMAND, Mission.getForName(mission).getNamespace(), keyword, language);
+            this.commandSpace.write(requestTuple);
+            Tuple responseTuple = this.commandSpace.waitToTake(new Tuple(id, Field.createWildCardField()));
+            System.out.println(responseTuple);
+            if(responseTuple != null) {
+	            String surrounding = (String)responseTuple.getField(2).getValue();
+	            System.out.println(surrounding);
+//	            String[] surroundKeywords = surrounding.split(",");
+	            
+//	            for(String ontKeyword : surroundKeywords) {
+//	            	synonyms.add(ontKeyword);
+//	            }
+            } else {
+            	// OntologyAgent is down
+            	return null;
+            }
+        } catch (TupleSpaceException e) {
+			  logger.error("Connection to TupleSpace lost!", e);
+        }
+        return synonyms;
 	}
 
     /**
@@ -772,8 +807,8 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	    	}
 
     		if(language != null) {
-            	SearchResultRanking resultRanking = extractAndTestKeywords(ranking, items, query, language, OPERATOR_AND);
-            	if(resultRanking == null) {
+    			boolean resultsReceived = extractAndTestKeywords(ranking, items, query, language, OPERATOR_AND);
+            	if(resultsReceived) {
         			// RooloAccessorAgent down, so stop
             		return ranking;
             	}
