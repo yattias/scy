@@ -358,9 +358,13 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
                  scySearchResult
               }
       addEloIconsToSearchResults(scySearchResults);
+      queryLastExcecuted = System.currentTimeMillis();
       searchResults = scySearchResults;
       showSearchResult(searchResults);
-      queryLastExcecuted = System.currentTimeMillis();
+   }
+
+   override function showSearchResult(results: Object[]): Void{
+      super.showSearchResult(results);
       setDateFound(queryLastExcecuted);
    }
 
