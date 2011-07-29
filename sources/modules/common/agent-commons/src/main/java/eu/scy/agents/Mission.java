@@ -35,7 +35,7 @@ public enum Mission {
 
     public static Mission getForName(String name) {
         for (Mission mo : Mission.values()) {
-            if (mo.getName().equals(name)) {
+            if (mo.getName().equalsIgnoreCase(name)) {
                 return mo;
             }
         }
