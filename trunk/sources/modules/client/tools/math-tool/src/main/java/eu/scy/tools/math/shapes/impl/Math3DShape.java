@@ -3,6 +3,7 @@ package eu.scy.tools.math.shapes.impl;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Point;
@@ -11,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -66,6 +69,7 @@ public abstract class Math3DShape extends JXPanel implements IMathShape, I3D{
 	protected ArrayList<IToolbarShape> shapesCollection;
 	protected JXLabel iconLabel;
 	private String iconName;
+	protected JComboBox itemCombo;
 	
 	public Math3DShape(Point point, String iconName, String id) {
 		this.setLocation(point);
@@ -94,18 +98,35 @@ public abstract class Math3DShape extends JXPanel implements IMathShape, I3D{
 		this.setIconName(iconName);
 		this.setLocation(x, y);
 		this.setId(id);
-		init();
+		
 		
 		this.shape = shapes.get(0);
 		this.shapesCollection = shapes;
 		
-		Vector<String> volumes = new Vector<String>();
-		for (IToolbarShape iRectanglarPrismToolbarShape : shapes) {
-			getVolumeLabelCombo().addItem(iRectanglarPrismToolbarShape.getVolume());
-			//volumes.add(iRectanglarPrismToolbarShape.getVolume());
+		itemCombo = new JComboBox();
+		
+		//Vector<String> volumes = new Vector<String>();
+		for (IToolbarShape toolBarShape : shapes) {
+			//volumes.add(toolBarShape.getVolume());
+			itemCombo.addItem(toolBarShape.getVolume());
+			itemCombo.setPrototypeDisplayValue(toolBarShape.getVolume());
 		}
-		JComboBox combo = new JComboBox(volumes);
-		combo.addActionListener(new ActionListener() {
+		
+		
+		itemCombo.setSelectedIndex(0);
+		itemCombo.setPreferredSize(new Dimension(50, itemCombo.getPreferredSize().height));
+
+		itemCombo.addItemListener(new ItemListener() {
+			
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				JComboBox source = (JComboBox) e.getSource();
+		        int selectedIndex = source.getSelectedIndex();
+		        updateLabels(selectedIndex);
+				
+			}
+		});
+		itemCombo.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -117,6 +138,9 @@ public abstract class Math3DShape extends JXPanel implements IMathShape, I3D{
 
 			
 		});
+		
+		setVolumeValueLabel(itemCombo);
+		init();
 		updateLabels(0);
 //		iconLabel.setIcon(Images.getIcon(this.shape.getCanvasIcon()));
 //		this.setIconName(this.shape.getCanvasIcon());
@@ -126,9 +150,9 @@ public abstract class Math3DShape extends JXPanel implements IMathShape, I3D{
 	
 	protected void setupVolumeLabel() {
 		volumeLabel = new JXLabel("V = ");
-		setVolumeValueLabel(new JComboBox());
+		
 		labelPanel.add(volumeLabel);
-		labelPanel.add(getVolumeLabelCombo());
+		labelPanel.add(getVolumeLabelCombo(), "width 60::60");
 		labelPanel.add(new JXLabel(UIUtils.unitsVolume), "wrap");
 	}
 	protected void setupCommonInputs() {

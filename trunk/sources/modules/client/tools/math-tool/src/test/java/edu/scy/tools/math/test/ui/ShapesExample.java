@@ -35,6 +35,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import net.miginfocom.swing.MigLayout;
 import eu.scy.tools.math.adapters.AdjustSizeAdapter;
+import eu.scy.tools.math.adapters.RotateAdapter;
 import eu.scy.tools.math.adapters.ShapeMoverAdapter;
 import eu.scy.tools.math.shapes.IMathRectangle;
 import eu.scy.tools.math.shapes.IMathShape;
@@ -60,19 +61,20 @@ public class ShapesExample {
 		
 		final MathTriangle t = new MathTriangle(200, 100,103);
 		t.setHasDecorations(true);
-		final MathRectangle mtr = new MathRectangle(250, 100, 100, 100);
+		final MathRectangle mtr = new MathRectangle(250, 600, 100, 100);
 		mtr.setHasDecorations(true);
 		final MathEllipse me = new MathEllipse(300, 100, 200, 200);
 		me.setHasDecorations(true);
 		final ShapeCanvas shapeCanvas = new ShapeCanvas(false);
 		
+	
+		new RotateAdapter(shapeCanvas);
+//		new ShapeMoverAdapter(shapeCanvas);
+//		new AdjustSizeAdapter(shapeCanvas);
 		
-		new ShapeMoverAdapter(shapeCanvas);
-		new AdjustSizeAdapter(shapeCanvas);
-		
-		shapeCanvas.addShape(t);
+//		shapeCanvas.addShape(t);
 		shapeCanvas.addShape(mtr);
-		shapeCanvas.addShape(me);
+//		shapeCanvas.addShape(me);
 		
 //		new ShapeMoverAdapter(r);
 //		new AdjustSizeAdapter(r);

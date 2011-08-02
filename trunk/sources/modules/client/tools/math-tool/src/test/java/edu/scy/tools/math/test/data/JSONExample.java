@@ -66,8 +66,8 @@ public class JSONExample {
 		  prism.setToolbarIcon("rectangle3dRed.png");
 		  prism.setCanvasIcon("rectangle3dLargeRed.png");
 		  prism.setVolume("200.0");
-		  prism.setHeight("5.0");
-		  prism.setWidth("5.0");
+		  prism.setHeight("10.0");
+		  prism.setWidth("10.0");
 		  prism.setLength("8");
 		  prism.setSurfaceArea("210");
 		  prism.setSurfaceAreaMinValue("210");
@@ -111,7 +111,7 @@ public class JSONExample {
 		  cylinder.setToolbarIcon("cylinder3dRed.png");
 		  cylinder.setCanvasIcon("cylinder3dLargeRed.png");
 		  cylinder.setVolume("200.0");
-		  cylinder.setHeight("10");
+		  cylinder.setHeight("20");
 
 		  cylinder.setRadius("2.52");
 		  cylinder.setRadiusMinValue("2.52");
