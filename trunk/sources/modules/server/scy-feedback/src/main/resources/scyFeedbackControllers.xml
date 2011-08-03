@@ -43,6 +43,9 @@
                 /app/feedback/CriteriaBasedEvaluation.html=criteriaBasedEvaluationController
                 /app/feedback/storeCriteriaBasedEvaluation.html=storeNewCriteriaBasedEvaluationController
                 /app/feedback/storeELORefComment.html=storeELORefCommentController
+                /app/feedback/web/WebFeedback.html=WebFeedbackController
+                /app/feedback/web/NewestELOs.html=NewestELOs
+
 
                 /app/feedback/xml/feedbackEloService.html=feedbackEloService
                 /app/feedback/xml/myElosFeedbackService.html=myElosFeedbackService
@@ -50,7 +53,9 @@
                 /app/feedback/xml/savefeedback.html=saveFeedbackService
                 /app/feedback/xml/saveReplyTofeedback.html=savereplyfeedback
 
-                /app/feedback/webversion/MyElosList.html=myElosListController
+                /app/feedback/webversion/MyElosList.html=myElosList
+                /app/feedback/webversion/NewestElosList.html=newestElosList
+                /app/feedback/webversion/ContributedElosList.html=contributedElosList
                 /app/feedback/webversion/fbIndex.html=fbIndexController
                 /app/feedback/webversion/ViewFeedbackForElo.html=ViewFeedbackForEloController
 
@@ -85,6 +90,22 @@
         <property name="userService" ref="userService"/>
         <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
         <property name="missionELOService" ref="missionELOService"/>
+    </bean>
+
+    <bean id="WebFeedbackController" class="eu.scy.server.controllers.scyfeedback.web.WebFeedbackController">
+        <property name="userService" ref="userService"/>
+        <!--property name="xmlTransferObjectService" ref="xmlTransferObjectService"/-->
+        <!--property name="missionELOService" ref="missionELOService"/-->
+    </bean>
+    <bean id="NewestELOs" class="eu.scy.server.controllers.scyfeedback.web.NewestELOs">
+        <property name="userService" ref="userService"/>
+
+         <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        
+
+        <!--property name="xmlTransferObjectService" ref="xmlTransferObjectService"/-->
+        <!--property name="missionELOService" ref="missionELOService"/-->
     </bean>
 
     <bean id="saveFeedbackService" class="eu.scy.server.controllers.scyfeedback.xml.SaveFeedbackService">
@@ -173,7 +194,17 @@
         <property name="playfulAssessmentService" ref="playfulAssessmentService"/>
     </bean>
 
-    <bean id="myElosListController" class="eu.scy.server.controllers.scyfeedback.webversion.MyElosList">
+    <bean id="myElosList" class="eu.scy.server.controllers.scyfeedback.webversion.MyElosList">
+        <property name="userService" ref="userService"/>
+        <property name="runtimeELOService" ref="runtimeELOService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+    </bean>
+    <bean id="newestElosList" class="eu.scy.server.controllers.scyfeedback.webversion.NewestElosList">
+        <property name="userService" ref="userService"/>
+        <property name="runtimeELOService" ref="runtimeELOService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+    </bean>
+    <bean id="contributedElosList" class="eu.scy.server.controllers.scyfeedback.webversion.ContributedElosList">
         <property name="userService" ref="userService"/>
         <property name="runtimeELOService" ref="runtimeELOService"/>
         <property name="missionELOService" ref="missionELOService"/>
