@@ -13,16 +13,15 @@ import java.net.URI;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Henrik
- * Date: 03.jul.2011
- * Time: 07:45:42
+ * User: Lars
+ * Date: 05.jul.2011
+ * Time: 05:57:32
  * To change this template use File | Settings | File Templates.
  */
-public class MyElosList extends BaseController {
-
+public class NewestElosList extends BaseController {
     private MissionELOService missionELOService;
     private RuntimeELOService runtimeELOService;
-
+   
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
 
@@ -30,11 +29,16 @@ public class MyElosList extends BaseController {
         URI runtimeURI = getURI(uri);
         MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(runtimeURI, getMissionELOService());
 
-        NewestElos elos = getMissionELOService().getMyElosWithFeedback(missionRuntimeElo, getCurrentUserName(request));
-        
+        NewestElos elos = getMissionELOService().getNewestElosForFeedback(missionRuntimeElo, getCurrentUserName(request));
+
         modelAndView.addObject("elos", elos.getElos());
 
-    }
+        String listUri = request.getParameter("eloURI");
+        modelAndView.addObject("listUri", listUri);
+
+
+    }   
+
 
     public MissionELOService getMissionELOService() {
         return missionELOService;
