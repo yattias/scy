@@ -218,6 +218,7 @@
     <bean id="ViewFeedbackForEloController" class="eu.scy.server.controllers.scyfeedback.webversion.ViewFeedbackForElo">
         <property name="userService" ref="userService"/>
         <property name="missionELOService" ref="missionELOService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
     </bean>
 
 
