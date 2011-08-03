@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -160,9 +161,10 @@ public abstract class BaseController extends AbstractController {
 
     protected URI getURI(String uri) {
         try {
+            uri = URLDecoder.decode(uri, "UTF-8");
             URI _uri = new URI(uri);
             return _uri;
-        } catch (URISyntaxException e) {
+        } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
         return null;
