@@ -58,21 +58,32 @@ public class DomainUtils {
 		return p[n];
 	}
 
-	public static final int chooseDifferentLabelDialog(Frame frameForComponent, List<String> proposedNames) {
-		String message = new String();
-		int choice;
-		if (proposedNames.isEmpty()) {
-			message = "The label of this object could not be identified.\n" +
-			"Would you like to choose a different one?";
-			choice = JOptionPane.showConfirmDialog(frameForComponent, message, "Choose label...", JOptionPane.YES_NO_OPTION);
-		} else {
-			message = "The label of this object could not be fully identified.\n" +
-			"Would you like to enter one of the following ones?\n\n";
-			for (String name: proposedNames) {
-				message = message + name + "\n";
-			}
-			choice = JOptionPane.showConfirmDialog(frameForComponent, message, "Choose label...", JOptionPane.YES_NO_OPTION);
-		}
-		return choice;
-	}
+//	public static final int chooseDifferentLabelDialog(Frame frameForComponent, List<String> proposedNames) {
+//		String message = new String();
+//		int choice;
+//		if (proposedNames.isEmpty()) {
+//			message = "The label of this object could not be identified.\n" +
+//			"Would you like to choose a different one?";
+//			choice = JOptionPane.showConfirmDialog(frameForComponent, message, "Choose label...", JOptionPane.YES_NO_OPTION);
+//		} else {
+//			message = "The label of this object could not be fully identified.\n" +
+//			"Would you like to use one of the following ones?\n\n";
+//			//for (String name: proposedNames) {
+//			//	message = message + name + "\n";
+//			//}
+//			String s = (String)JOptionPane.showInputDialog(
+//					frameForComponent, message, "Choose label...", JOptionPane.PLAIN_MESSAGE,
+//                    null,
+//                    proposedNames.toArray(),
+//                    proposedNames.get(0));
+//			System.out.println("choice: "+s);
+//			if ((s != null) && (s.length()>0)) {
+//				choice = JOptionPane.YES_OPTION;
+//			} else {
+//				choice = JOptionPane.NO_OPTION;
+//			}
+//			//choice = JOptionPane.showConfirmDialog(frameForComponent, message, "Choose label...", JOptionPane.YES_NO_OPTION);
+//		}
+//		return choice;
+//	}
 }

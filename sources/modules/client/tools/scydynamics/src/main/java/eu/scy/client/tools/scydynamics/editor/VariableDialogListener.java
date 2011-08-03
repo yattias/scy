@@ -58,24 +58,41 @@ public class VariableDialogListener implements ActionListener, MouseListener {
 			String oldUnit = (String) variableDialog.getFigureProperty("unit");
 
 			// removing spaces and special chars in variable name
-			// (as they may crash the simulation engine
-			// or xml serialising)
+			// (as they may crash the simulation engine or xml serialising)
 			String newName = variableDialog.getNewName();
 			newName = newName.replaceAll("\\s+", "_");
 			newName = newName.replaceAll("<", "");
 			newName = newName.replaceAll(">", "");
 			newName = newName.replaceAll("&", "");
 			newName = newName.toLowerCase();
-			int labelChoice = JOptionPane.NO_OPTION;
+
+			boolean closeDialog = true;
 			variableDialog.setFigureProperty("label", newName);
 			if (variableDialog.getEditor().getDomain()!= null && !newName.equals(oldName)) {
+				// domain exists & label has been changed
 				System.out.println("newName: "+newName);
 				List<String> proposedNames = variableDialog.getEditor().getDomain().proposeNames(newName);
-				System.out.println("proposedNames: "+proposedNames);
-				if (proposedNames == null) {
-					// the label could be found in domain, doing nothing
+				if (proposedNames.isEmpty()) {
+					String message = "The label of this object could not be identified.\n" +
+							"Would you like to enter a different one?";
+					int choice = JOptionPane.showConfirmDialog(JOptionPane.getFrameForComponent(variableDialog), message, "Unknown label...", JOptionPane.YES_NO_OPTION);
+					if (choice == JOptionPane.YES_OPTION) {
+						closeDialog = false;
+					}
 				} else {
-					labelChoice = DomainUtils.chooseDifferentLabelDialog(JOptionPane.getFrameForComponent(variableDialog), proposedNames);
+					System.out.println("proposedNames: "+proposedNames);
+					String message = "The label of this object could not be fully identified.\n" +
+							"Would you like to use one of the following ones?\n\n";
+					String s = (String)JOptionPane.showInputDialog(
+							JOptionPane.getFrameForComponent(variableDialog), message, "Choose label...", JOptionPane.PLAIN_MESSAGE,
+							null,
+							proposedNames.toArray(),
+							proposedNames.get(0));
+					System.out.println("choice: "+s);
+					if (s != null) {
+						newName = s;
+						variableDialog.setFigureProperty("label", newName);
+					}
 				}
 			}
 
@@ -90,7 +107,7 @@ public class VariableDialogListener implements ActionListener, MouseListener {
 
 			variableDialog.setFigureProperty("unit", unit);            
 			variableDialog.submitFigureProperties(oldName);
-			
+
 			if (!variableDialog.getNewColor().equals(variableDialog.getEditor().getModel().getObjectOfName((String) variableDialog.getFigureProperty("label")).getLabelColor())
 					|| !oldName.equals(newName)
 					|| !oldExpr.equals(variableDialog.getQuantitativeExpression())
@@ -101,11 +118,9 @@ public class VariableDialogListener implements ActionListener, MouseListener {
 				variableDialog.getEditor().getModel().getObjectOfName((String) variableDialog.getFigureProperty("label")).setLabelColor(variableDialog.getNewColor());
 			}
 
-			if (labelChoice == JOptionPane.NO_OPTION) {
-				// user said no, closing
+			if (closeDialog) {
 				variableDialog.closeDialog();
 			} else {
-				// user said 'yay', returning
 				return;
 			}
 
@@ -122,7 +137,7 @@ public class VariableDialogListener implements ActionListener, MouseListener {
 			ModelUtils.paste(event.getActionCommand(), variableDialog.getQuantitativeExpressionTextField());
 		}
 	}
-	
+
 	private String getExpression() {
 		if (variableDialog.getEditor().getMode().equals(ModelEditor.Mode.QUANTITATIVE_MODELLING)) {
 			String newExpression = variableDialog.getQuantitativeExpression();
@@ -137,10 +152,10 @@ public class VariableDialogListener implements ActionListener, MouseListener {
 				return variableDialog.getQualitativeValue()+"";
 			case JdFigure.AUX:
 				return ModelUtils.getQualitativeExpression(variableDialog.getFigure(), variableDialog.getQualitativeRelations(), variableDialog.getEditor());
-		}
+			}
 		}
 		// default = 0
 		return "0";
 	}
-	
+
 }
