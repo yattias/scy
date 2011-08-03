@@ -1,6 +1,10 @@
 package eu.scy.server.controllers.scyfeedback.webversion;
 
 import eu.scy.common.scyelo.ScyElo;
+import eu.scy.core.XMLTransferObjectService;
+import eu.scy.core.model.transfer.FeedbackEloTransfer;
+import eu.scy.core.model.transfer.FeedbackTransfer;
+import eu.scy.core.model.transfer.TransferElo;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.server.controllers.BaseController;
 import eu.scy.server.controllers.scyfeedback.xml.FeedbackEloService;
@@ -9,6 +13,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLDecoder;
 import java.util.List;
 
 /**
@@ -30,6 +36,15 @@ public class ViewFeedbackForElo extends BaseController {
     }
 
     private MissionELOService missionELOService;
+    private XMLTransferObjectService xmlTransferObjectService;
+
+    public XMLTransferObjectService getXmlTransferObjectService() {
+        return xmlTransferObjectService;
+    }
+
+    public void setXmlTransferObjectService(XMLTransferObjectService xmlTransferObjectService) {
+        this.xmlTransferObjectService = xmlTransferObjectService;
+    }
 
     public FeedbackEloService getFeedbackEloService() {
         return feedbackEloService;
@@ -51,27 +66,39 @@ public class ViewFeedbackForElo extends BaseController {
         ScyElo scyElo = ScyElo.loadLastVersionElo(uri, getMissionELOService());
         setScyElo(scyElo);
 
-
-
         modelAndView.addObject("eloURI", getEncodedUri(request.getParameter(ELO_URI)));
         URI listUri = scyElo.getUri();
-        System.out.println("################# listUri: " + listUri);
         modelAndView.addObject("listUri", listUri);
-        modelAndView.addObject("elo", getMissionELOService().getTransferElo(scyElo));
-
-        
-
-        //getMissionELOService().getTransferElo(scyElo).getF
-
-        
-        //String feedbackUri = getMissionELOService().getTransferElo(scyElo).getFeedbackEloURI();
-
-        //modelAndView.addObject("createdByUser", getCreatedByUser());
-
-        
+        TransferElo transferElo = getMissionELOService().getTransferElo(scyElo);
+        try {
+            String fbURI = transferElo.getFeedbackEloURI();
+            fbURI = URLDecoder.decode(fbURI, "UTF-8");
+            URI feedbackURI = new URI(fbURI);
 
 
 
+            ScyElo feedbackElo = ScyElo.loadLastVersionElo(feedbackURI, getMissionELOService());
+            String feedbackRepresentation = feedbackElo.getContent().getXmlString();
+            FeedbackEloTransfer feedbackEloTransfer = (FeedbackEloTransfer) getXmlTransferObjectService().getObject(feedbackRepresentation);
+            String shown = feedbackEloTransfer.getShown();
+            Integer shownInteger = 0;
+            if(shown != null) {
+                shownInteger = new Integer(shown);
+            }
+
+            //shownInteger++;
+
+            feedbackEloTransfer.setShown(String.valueOf(shownInteger));
+            feedbackElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(feedbackEloTransfer));
+            feedbackElo.updateElo();
+            
+            modelAndView.addObject("feedbackElo", feedbackEloTransfer);
+            
+
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+        modelAndView.addObject("transferElo", transferElo);
     }
 
 

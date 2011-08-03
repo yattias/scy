@@ -445,7 +445,10 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
         for (int i = 0; i < feedback.size(); i++) {
             ScyElo feedbackElo = (ScyElo) feedback.get(i);
             URI parentEloURI = feedbackElo.getFeedbackOnEloUri();
-            if(parentEloURI.equals(scyElo.getUri())) {
+
+            ScyElo parentCandidate = ScyElo.loadLastVersionElo(parentEloURI, this);
+
+            if(parentCandidate.getUri().equals(scyElo.getUri())) {
                 TransferElo transferElo = new TransferElo(scyElo);
                 transferElo.setFeedbackELO(feedbackElo);
                 return transferElo;

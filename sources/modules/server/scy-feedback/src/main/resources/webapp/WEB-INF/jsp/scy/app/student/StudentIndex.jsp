@@ -41,7 +41,7 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <strong><a href="/webapp/app/feedback/webversion/fbIndex.html?eloURI=${missionSpecificationTransporter.uri}">Feedback</a></strong>
+                    <strong><a href="/webapp/app/feedback/web/WebFeedback.html?eloURI=${missionSpecificationTransporter.uri}">Feedback</a></strong>
                 </td>
             </tr>
             <tr>
