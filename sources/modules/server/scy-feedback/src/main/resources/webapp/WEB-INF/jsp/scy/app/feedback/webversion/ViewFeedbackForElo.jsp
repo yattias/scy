@@ -12,23 +12,48 @@
             Quality Score Average: ${elo.grade}
         </td>
         <td style="width:70%;">
-            <textarea style="width:100%;height:50px;"></textarea><br/>
-            <!--s:ajaxELOSlider sliderValues="${feedbackLevels}" defaultValue="${scaffoldingLevel}" eloURI="${transferElo.uri}" property="globalMissionScaffoldingLevel" rooloServices="${rooloServices}"/-->
-            Quality: (Slider here) |----------------------|-----------------------|--------------------|
-            <input type="Submit" value="GIVE/GET FEEDBACK" />
+            <form method="POST" accept-charset="UTF-8" action="/webapp/app/feedback/webversion/AddFeedback.html">
+                <textarea id="feedbacktext" name="feedbacktext"style="width:100%;height:50px;"></textarea><br/>
+                <input type="hidden" name="feedbackEloURI" id="feedbackEloURI" value="${feedbackElo.uri}"/>
+                <!--s:ajaxELOSlider sliderValues="${feedbackLevels}" defaultValue="${scaffoldingLevel}" eloURI="${transferElo.uri}" property="globalMissionScaffoldingLevel" rooloServices="${rooloServices}"/-->
+                <input type="text" name="score" id="score"/>
+                Quality: (Slider here) |----------------------|-----------------------|--------------------|
+                <input type="Submit" value="GIVE/GET FEEDBACK" />
+            </form>
 
-<c:choose>
-    <c:when test="${fn:length(feedbackElo.feedbacks) > 0}">
-            <c:forEach var="feedbackItem" items="${feedbackElo.feedbacks}">
-                ${feedbackItem.comment}
-            </c:forEach>
-    </c:when>
-</c:choose>
+
+
 
 
         </td>
     </tr>
 </table>
+
+<table>
+    <c:choose>
+        <c:when test="${fn:length(feedbackElo.feedbacks) > 0}">
+                <c:forEach var="feedbackItem" items="${feedbackElo.feedbacks}">
+                    <tr>
+                        <td>
+                            ${feedbackItem.comment}
+                        </td>
+                        <td>
+                            ${feedbackItem.evalu}
+                        </td>
+                        <td>
+                            ${feedbackItem.createdBy}
+                        </td>
+                        <td>
+                            ${feedbackItem.createdByPicture}
+                        </td>
+                    </tr>
+
+                </c:forEach>
+        </c:when>
+    </c:choose>
+
+</table>
+
 <table>
     <tr>
         <td style="width:100%;height:200px;">

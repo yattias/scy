@@ -402,9 +402,12 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
         for (int i = 0; i < feedbackTransfers.size(); i++) {
             FeedbackTransfer feedbackTransfer = feedbackTransfers.get(i);
             List<FeedbackReplyTransfer> replies = feedbackTransfer.getReplies();
-            for (int j = 0; j < replies.size(); j++) {
-                FeedbackReplyTransfer transfer = replies.get(j);
-                if (transfer.getCreatedBy().equals(currentUserName)) return true;
+            if(replies != null) {
+                for (int j = 0; j < replies.size(); j++) {
+                    FeedbackReplyTransfer transfer = replies.get(j);
+                    if (transfer.getCreatedBy().equals(currentUserName)) return true;
+                }
+                
             }
             if (feedbackTransfer.getCreatedBy().equals(currentUserName)) return true;
         }
