@@ -128,8 +128,14 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	 */
 	public static final String EXTRACT_KEYWORD_TERM_NUMBER_TO_TEST = "extact_keyword_term_number_to_test";
     
+	/**
+	 * This configuration value is used for extraction new keyword by asking the ontology.
+	 * This value must be >= 0 and determines the maximal number of words to use.
+	 */
+	public static final String MAX_ONTOLOGY_KEYWORDS = "max_ontology_keywords";
 	
 //    private static final Logger logger = Logger.getLogger(SearchResultEnricherAgent.class.getName());
+	private static final String[] EMPTY_STRING_ARRAY = new String[0];
     private Map<String, Object> config;
     private Map<String, Set<String>> stopwordMap = null;
 
@@ -143,6 +149,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
     private int supGoodSearchInterval;
     private double fuzzySearchTermSimilarityTolerance;
     private double fuzzySearchResultTolerance;
+    private int maxOntologyKeywordNumber;
     
     private int numberOfResultsUsedForExtension;
     private int numberOfTermsToTest;
@@ -218,6 +225,11 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
         } else {
         	this.numberOfTermsToTest = 5;
         }
+        if(config.get(MAX_ONTOLOGY_KEYWORDS) != null) {
+        	this.maxOntologyKeywordNumber = (Integer) config.get(MAX_ONTOLOGY_KEYWORDS); 
+        } else {
+        	this.maxOntologyKeywordNumber = 5;
+        }
 		for(String lang : Locale.getISOLanguages()) {
 			try {
 				if(config.containsKey(LANGUAGE_PREFIX + lang)) {
@@ -227,9 +239,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 //				logger.debug("Could not open stopword file for language: " + lang);
 				System.out.println("Could not open stopword file for language: " + lang);
 			}
-			
 		}
-
     }
 
     @Override
@@ -453,11 +463,11 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
         System.out.println("Origin search: " + searchQuery + "| Lucene Query: " + props.getProperty(ACTION_LOG_ATTRIBUTE_QUERY) + " | Hit count: " + referenceResults.size());
 
         // Check search terms for spelling mistakes... this task is independent from the rest
-		SpellingChecker sc = new SpellingChecker(this.commandSpace, user, mission,
-				session, searchQuery.split(" "),
-				this.fuzzySearchTermSimilarityTolerance,
-				this.fuzzySearchResultTolerance);
-        new Thread(sc).start();
+//		SpellingChecker sc = new SpellingChecker(this.commandSpace, user, mission,
+//				session, searchQuery.split(" "),
+//				this.fuzzySearchTermSimilarityTolerance,
+//				this.fuzzySearchResultTolerance);
+//        new Thread(sc).start();
     	
         // Choose strategy
         SearchResultRanking ranking = null;
@@ -553,7 +563,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
             }
 
             // TODO ask ontology for synonyms
-//            extractAndTestOntologyKeywords(getMission(user), eloUri, items, language);
+            extractAndTestOntologyKeywords(getMission(user), eloUri, items, language);
 
         } catch (TupleSpaceException e) {
         	e.printStackTrace();
@@ -591,15 +601,21 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	}
 	
 	private boolean extractAndTestOntologyKeywords(String mission, String eloUri, Set<String> items, String language) {
-		
-		
-		List<String> synonyms = askOntologyForSynonym(mission, eloUri, "caspar", language);
-		if(synonyms == null) {
-			return false;
-		}
-		
-//        System.out.println("Surrounding: " + items.toString());
+		List<String> keywords = new ArrayList<String>();
 
+		// Collect keywords
+		for(String item : items.toArray(EMPTY_STRING_ARRAY)) {
+			List<String> newKeywords = askOntologyForSurroundingWords(mission, eloUri, language, item);
+			if(newKeywords == null) {
+				return false;
+			}
+			
+			keywords.addAll(newKeywords);
+			if(keywords.size() > this.maxOntologyKeywordNumber) {
+				break;
+			}
+		}
+			
 //    	for(String synonym : synonyms) {
 //            List<ISearchResult> result =  getHits(commandSpace, luceneQuery);
 //            if(result != null) {
@@ -614,22 +630,24 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	}
 
     /**
-     * Asks the ontology for synonyms
-     * @param userId
-     * @param eloUri
-     * @param keyword
-     * @return
+     * Asks the ontology for keywords, that are directly connected to a specific word.
+     * @param mission the user's mission
+     * @param eloUri the eloUri of currently opened elo
+     * @param language the user's language
+     * @param word the word used to search for surroundings
+     * @return a list of keywords or null if the ontology agent is down
      */
-    private List<String> askOntologyForSynonym(String mission, String eloUri, String keyword, String language) {
+    private List<String> askOntologyForSurroundingWords(String mission, String eloUri, String language, String word) {
     	// (<ID>:String, "onto":String, "surrounding":String, <OntName>:String, <OntLabel>:String, 
     	// <Language>:String) -> (<ID>:String, <OntTerm>:String, <Surrounding>:String)
     	
     	List<String> synonyms = new ArrayList<String>();
         try {
             String id = new VMID().toString();
-            Tuple requestTuple = new Tuple(id, ONTOLOGY_AGENT_NAME, ONTOLOGY_AGENT_COMMAND, Mission.getForName(mission).getNamespace(), keyword, language);
+            Tuple requestTuple = new Tuple(id, ONTOLOGY_AGENT_NAME, ONTOLOGY_AGENT_COMMAND, Mission.getForName(mission).getNamespace(), word, language);
             this.commandSpace.write(requestTuple);
             Tuple responseTuple = this.commandSpace.waitToTake(new Tuple(id, Field.createWildCardField()));
+            // TODO handle empty list
             System.out.println(responseTuple);
             if(responseTuple != null) {
 	            String surrounding = (String)responseTuple.getField(2).getValue();
@@ -828,7 +846,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
     private String[] generateItemSets(Set<String> items) {
     	String[] itemsets = new String[items.size()];
 
-    	String[] array = items.toArray(new String[0]);
+    	String[] array = items.toArray(EMPTY_STRING_ARRAY);
     	// Generate queries
     	for (int i = 0; i < array.length; i++) {
             String s = "";
