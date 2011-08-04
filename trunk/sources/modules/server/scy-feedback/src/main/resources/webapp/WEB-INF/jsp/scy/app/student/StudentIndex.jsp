@@ -41,12 +41,12 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <strong><a href="/webapp/app/feedback/web/WebFeedback.html?eloURI=${missionSpecificationTransporter.uri}">Feedback</a></strong>
+                    <strong><a href="/webapp/app/feedback/web/WebFeedback.html?eloURI=${missionSpecificationTransporter.uri}">Feedback [Under construction]</a></strong>
                 </td>
             </tr>
             <tr>
                 <td colspan="2">
-                    <strong><a href="/webapp/app/eportfolio/webversion/epIndex.html?eloURI=${missionSpecificationTransporter.uri}">Portfolio</a></strong>
+                    <strong><a href="/webapp/app/webeport/webEportIndex.html?eloURI=${missionSpecificationTransporter.uri}">Portfolio [Under construction]</a></strong>
                 </td>
             </tr>
 

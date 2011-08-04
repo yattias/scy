@@ -54,6 +54,7 @@
                 /app/feedback/newElosForFeedbackService.html=newElosForFeedbackService
 
                 /app/feedback/feedbackindex.html=feedbackIndexController
+                /app/webeport/webEportIndex.html=webeportindex
             </value>
         </property>
     </bean>
@@ -157,6 +158,13 @@
         <property name="missionELOService" ref="missionELOService"/>
         <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
         <property name="urlInspector" ref="urlInspector"/>
+	</bean>
+
+    <bean id="webeportindex" class="eu.scy.server.webeport.WebEportIndex">
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
 	</bean>
 
     <bean id="currentMissionRuntimeInfo" class="eu.scy.server.eportfolio.xml.CurrentMissionRuntimeInfoController">
