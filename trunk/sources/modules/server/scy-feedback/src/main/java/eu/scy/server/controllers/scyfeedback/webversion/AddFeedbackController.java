@@ -5,12 +5,15 @@ import eu.scy.core.XMLTransferObjectService;
 import eu.scy.core.model.transfer.FeedbackEloTransfer;
 import eu.scy.core.model.transfer.FeedbackTransfer;
 import eu.scy.core.roolo.MissionELOService;
+import eu.scy.server.actionlogging.ActionLoggerService;
 import eu.scy.server.controllers.BaseController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by IntelliJ IDEA.
@@ -23,6 +26,7 @@ public class AddFeedbackController extends BaseController {
 
     private MissionELOService missionELOService;
     private XMLTransferObjectService xmlTransferObjectService;
+    private ActionLoggerService actionLoggerService;
 
 
     @Override
@@ -38,17 +42,22 @@ public class AddFeedbackController extends BaseController {
         String feedbackRepresentation = feedbackElo.getContent().getXmlString();
         FeedbackEloTransfer feedbackEloTransfer = (FeedbackEloTransfer) getXmlTransferObjectService().getObject(feedbackRepresentation);
 
+        Date now = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm");
+
         FeedbackTransfer feedbackTransfer = new FeedbackTransfer();
         feedbackTransfer.setComment(feedbackString);
         feedbackTransfer.setCreatedBy(getCurrentUserName(request));
         feedbackTransfer.setEvalu(score);
+        feedbackTransfer.setCalendarDate(simpleDateFormat.format(now));
+        feedbackTransfer.setCalendarTime(timeFormat.format(now));
 
         feedbackEloTransfer.addFeedback(feedbackTransfer);
         feedbackElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(feedbackEloTransfer));
         feedbackElo.updateElo();
 
-        
-
+        getActionLoggerService().logAction("feedback_added", getCurrentUserName(request), "feedback");
     }
 
 
@@ -66,5 +75,13 @@ public class AddFeedbackController extends BaseController {
 
     public void setXmlTransferObjectService(XMLTransferObjectService xmlTransferObjectService) {
         this.xmlTransferObjectService = xmlTransferObjectService;
+    }
+
+    public ActionLoggerService getActionLoggerService() {
+        return actionLoggerService;
+    }
+
+    public void setActionLoggerService(ActionLoggerService actionLoggerService) {
+        this.actionLoggerService = actionLoggerService;
     }
 }

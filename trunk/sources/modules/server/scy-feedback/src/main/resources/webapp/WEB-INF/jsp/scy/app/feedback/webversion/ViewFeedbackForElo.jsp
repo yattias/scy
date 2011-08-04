@@ -39,11 +39,11 @@
                 <c:forEach var="feedbackItem" items="${feedbackElo.feedbacks}">
                     <div style="clear:both;">
                         <fieldset style="clear:both;border:1px solid #000000;margin:5px;" >
-                            <legend style="font-weight:bold;border:1px solid #000000;padding:2px;">DATE ...</legend>
+                            <legend style="font-weight:bold;border:1px solid #000000;padding:2px;">${feedbackItem.calendarDate}</legend>
                             <div style="float:left;width:10%;" class="greenBackgrounds greenBorders">
 
                                 <div style="height:40px;width:35px;background-color:#ffffff;padding:2px;margin:3px;">
-                                ${feedbackItem.createdByPicture}
+                                <img src="/webapp/common/filestreamer.html?username=${feedbackItem.createdBy}&showIcon"/>
                                 </div>
                             </div>
                             <div style="float:left;width:55%;padding:5px;">

@@ -226,6 +226,7 @@
         <property name="userService" ref="userService"/>
         <property name="missionELOService" ref="missionELOService"/>
         <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="actionLoggerService" ref="actionLoggerService"/>
     </bean>
 
 
