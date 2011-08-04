@@ -10,6 +10,20 @@
             function loadAccordionContentWithEscapedURL(container, url){
                dijit.byId(container).attr('href', escape(url)); 
             }
+
+            function postFeedback(form, returnContainer){
+                postForm(form, returnContainer);
+            }
+
+            function openDialog(title){
+                var dialog = new dijit.Dialog({
+                    title:title, 
+                    content: "<h2>Show the ELO here!</h2>"
+                });
+                dialog.style.width = "600px";
+
+                dialog.show();
+            }
         </script>
         <style type="text/css">
             .feedbackEloContainer{
@@ -71,9 +85,9 @@
             <div class="feedbackHeader" >ELO Gallery</div>
             <p>Click on an ELO to give feedback</p>
         <div dojoType="dijit.layout.TabContainer" style="width:100%;height:90%;">
-            <div dojoType="dojox.layout.ContentPane" preload="true" title="Newest ELOs" href="/webapp/app/feedback/webversion/NewestElosList.html?eloURI=${eloURI}" executeScripts="true" id="newestElosContainer"></div>
-            <div dojoType="dojox.layout.ContentPane" preload="true" title="My ELOs" href="/webapp/app/feedback/webversion/MyElosList.html?eloURI=${eloURI}" executeScripts="true"></div>
-            <div dojoType="dojox.layout.ContentPane" preload="true" title="ELOs I have commented on" href="/webapp/app/feedback/webversion/ContributedElosList.html?eloURI=${eloURI}" executeScripts="true"></div>
+            <div dojoType="dojox.layout.ContentPane"  title="Newest ELOs" href="/webapp/app/feedback/webversion/NewestElosList.html?eloURI=${eloURI}" executeScripts="true" id="newestElosContainer"></div>
+            <div dojoType="dojox.layout.ContentPane"  title="My ELOs" href="/webapp/app/feedback/webversion/MyElosList.html?eloURI=${eloURI}" executeScripts="true"></div>
+            <div dojoType="dojox.layout.ContentPane"  title="ELOs I have commented on" href="/webapp/app/feedback/webversion/ContributedElosList.html?eloURI=${eloURI}" executeScripts="true"></div>
 
         </div>
         </div>

@@ -3,7 +3,10 @@
 <table>
     <tr>
         <td style="width:30%;">
-            <img src="${transferElo.thumbnail}" alt="" /><br/>
+            <a href="javascript:openDialog('${transferElo.myname}');">
+                <img src="${transferElo.thumbnail}" alt="" style="border:0;"/>
+            </a>
+            <br/>
             <strong>${transferElo.myname}</strong><br/>
             By: ${transferElo.createdBy}<br/>
             Entered: ${transferElo.createdDate} <br/>
@@ -12,7 +15,7 @@
             Quality Score Average: ${elo.grade}
         </td>
         <td style="width:70%;">
-            <form method="POST" accept-charset="UTF-8" action="/webapp/app/feedback/webversion/AddFeedback.html">
+            <form method="POST" accept-charset="UTF-8" action="/webapp/app/feedback/webversion/AddFeedback.html" onsubmit="postFeedback(this, 'feedbackReturnContainer');return false;">
                 <textarea id="feedbacktext" name="feedbacktext"style="width:100%;height:50px;"></textarea><br/>
                 <input type="hidden" name="feedbackEloURI" id="feedbackEloURI" value="${feedbackElo.uri}"/>
                 <!--s:ajaxELOSlider sliderValues="${feedbackLevels}" defaultValue="${scaffoldingLevel}" eloURI="${transferElo.uri}" property="globalMissionScaffoldingLevel" rooloServices="${rooloServices}"/-->
@@ -28,12 +31,37 @@
         </td>
     </tr>
 </table>
-
-<table>
+<div style="width:100%;" class="lightGreenBackgrounds">
+    <div id="feedbackReturnContainer"></div>
+<!--table-->
     <c:choose>
         <c:when test="${fn:length(feedbackElo.feedbacks) > 0}">
                 <c:forEach var="feedbackItem" items="${feedbackElo.feedbacks}">
-                    <tr>
+                    <div style="clear:both;">
+                        <fieldset style="clear:both;border:1px solid #000000;margin:5px;" >
+                            <legend style="font-weight:bold;border:1px solid #000000;padding:2px;">DATE ...</legend>
+                            <div style="float:left;width:10%;" class="greenBackgrounds greenBorders">
+
+                                <div style="height:40px;width:35px;background-color:#ffffff;padding:2px;margin:3px;">
+                                ${feedbackItem.createdByPicture}
+                                </div>
+                            </div>
+                            <div style="float:left;width:55%;padding:5px;">
+                                 Time: ${feedbackItem.createdBy} wrote:
+                                 <p>${feedbackItem.comment}</p>
+                                <p><a href="#" style="color:#ffffff;">Reply on feeback</a></p>
+                            </div>
+                            <div style="float:left;width:30%;">
+                                 Quality score:<br/>
+
+                                <img src="/webapp/themes/scy/default/images/smiley_${feedbackItem.evalu}.png" alt=""  />
+                            </div>
+                            <div style="clear:both;"></div>
+                        </fieldset>    
+
+                    </div>
+
+                    <!--tr>
                         <td>
                             ${feedbackItem.comment}
                         </td>
@@ -46,15 +74,15 @@
                         <td>
                             ${feedbackItem.createdByPicture}
                         </td>
-                    </tr>
+                    </tr-->
 
                 </c:forEach>
         </c:when>
     </c:choose>
+ </div>
+<!--/table-->
 
-</table>
-
-<table>
+<!--table>
     <tr>
         <td style="width:100%;height:200px;">
             <div dojoType="dojox.layout.ContentPane" href="${transferElo.feedbackEloUrl}">
@@ -62,8 +90,8 @@
             </div>
         </td>
     </tr>
-</table>
-<a href="javascript:loadAccordionContent('newestElosContainer', '/webapp/app/feedback/webversion/NewestElosList.html?eloURI=${missionURI}');">Cancel</a>
+</table-->
+<!--a href="javascript:loadAccordionContent('newestElosContainer', '/webapp/app/feedback/webversion/NewestElosList.html?eloURI=${missionURI}');">Cancel</a-->
 
 
 <!--Her maa du see paa TransferElo for aa se hvilke properties du kan hente ut-->
