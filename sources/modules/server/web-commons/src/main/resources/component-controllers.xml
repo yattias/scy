@@ -374,6 +374,10 @@
 
     </bean>
 
+    <bean id="actionLoggerService" class="eu.scy.server.actionlogging.impl.ActionLoggerServiceImpl">
+        <property name="sqlSpacesActionLogger" ref="actionLogger"/>
+    </bean>
+
 
 
 </beans>
