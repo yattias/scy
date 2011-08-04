@@ -20,7 +20,7 @@
                     <a href="/webapp/app/eportfolio/EPortfolioIndex.html?eloURI=${missionSpecificationTransporter.uri}"><spring:message code="OPEN_MY_PORTFOLIO"/></a>
                 </td>
                 <td>
-                    ${portfolioStatus}
+                    <!--${portfolioStatus}-->
                 </td>
             </tr>
             <tr class="${oddEven.oddEven}">
