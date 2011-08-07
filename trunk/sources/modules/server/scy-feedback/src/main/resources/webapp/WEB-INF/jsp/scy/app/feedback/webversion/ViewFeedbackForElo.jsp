@@ -19,10 +19,22 @@
                 <textarea id="feedbacktext" name="feedbacktext"style="width:100%;height:50px;"></textarea><br/>
                 <input type="hidden" name="feedbackEloURI" id="feedbackEloURI" value="${feedbackElo.uri}"/>
                 <!--s:ajaxELOSlider sliderValues="${feedbackLevels}" defaultValue="${scaffoldingLevel}" eloURI="${transferElo.uri}" property="globalMissionScaffoldingLevel" rooloServices="${rooloServices}"/-->
-                <input type="text" name="score" id="score"/>
-                Quality: (Slider here) |----------------------|-----------------------|--------------------|
-                <input type="Submit" value="GIVE/GET FEEDBACK" />
-            </form>
+                <input type="text" name="score" id="score" value="1" style="display:none;"/>
+                Quality:
+<div id="horizontalSlider" dojoType="dijit.form.HorizontalSlider" value="1" minimum="1" maximum="4" discreteValues="1" intermediateChanges="false" showButtons="false" style="width:400px;margin-top:5px;" onChange="document.getElementById('score').value = Math.round(this.value);">
+    <ol dojoType="dijit.form.HorizontalRuleLabels" container="topDecoration" style="height:1.5em;font-size:75%;color:gray;">
+        <li style="margin-bottom:5px;"><img src="/webapp/themes/scy/default/images/smiley_1.png" alt=""  /></li>
+        <li style="margin-bottom:5px;"><img src="/webapp/themes/scy/default/images/smiley_2.png" alt=""  /></li>
+        <li style="margin-bottom:5px;"><img src="/webapp/themes/scy/default/images/smiley_3.png" alt=""  /></li>
+        <li style="margin-bottom:5px;"><img src="/webapp/themes/scy/default/images/smiley_4.png" alt=""  /></li>
+    </ol>
+    <div dojoType="dijit.form.HorizontalRule" container="bottomDecoration" count="4" style="height:5px;">
+        <ol dojoType="dijit.form.HorizontalRuleLabels" container="bottomDecoration" style="height:1em;font-size:75%;color:gray;"></ol>
+    </div>
+</div>
+
+<input type="Submit" value="GIVE/GET FEEDBACK" />
+</form>
 
 
 
@@ -31,8 +43,9 @@
         </td>
     </tr>
 </table>
+<div id="feedbackReturnContainer"></div>
 <div style="width:100%;" class="lightGreenBackgrounds">
-    <div id="feedbackReturnContainer"></div>
+
 <!--table-->
     <c:choose>
         <c:when test="${fn:length(feedbackElo.feedbacks) > 0}">
@@ -42,7 +55,7 @@
                             <legend style="font-weight:bold;border:1px solid #000000;padding:2px;">${feedbackItem.calendarDate}</legend>
                             <div style="float:left;width:10%;" class="greenBackgrounds greenBorders">
 
-                                <div style="height:40px;width:35px;background-color:#ffffff;padding:2px;margin:3px;">
+                                <div style="height:70px;width:70px;background-color:#ffffff;padding:2px;margin:3px;text-align:center;vertical-align:middle;">
                                 <img src="/webapp/common/filestreamer.html?username=${feedbackItem.createdBy}&showIcon"/>
                                 </div>
                             </div>

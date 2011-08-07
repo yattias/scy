@@ -3,7 +3,6 @@ package eu.scy.server.controllers.scyfeedback.webversion;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.XMLTransferObjectService;
 import eu.scy.core.model.transfer.FeedbackEloTransfer;
-import eu.scy.core.model.transfer.FeedbackTransfer;
 import eu.scy.core.model.transfer.TransferElo;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.server.controllers.BaseController;
@@ -13,7 +12,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URLDecoder;
 import java.util.List;
 
@@ -114,8 +112,7 @@ public class ViewFeedbackForElo extends BaseController {
     
 
     public List getFeedbackForElo(){
-       List feedback = getMissionELOService().getFeedback();
-
+       List feedback = getMissionELOService().getFeedback();       
        return feedback;
     }
 
