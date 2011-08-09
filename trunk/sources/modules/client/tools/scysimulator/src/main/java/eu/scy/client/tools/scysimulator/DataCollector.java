@@ -61,10 +61,12 @@ import javax.swing.JTable;
  * @author Lars Bollen
  * 
  */
+@SuppressWarnings("serial")
 public class DataCollector extends JPanel implements INotifiable, ActionListener, IDataClient {
 
 	private final static Logger debugLogger = Logger.getLogger(DataCollector.class.getName());
 	private ModelVariable rotationVariable = null;
+	private ModelVariable feedbackVariable = null;
 	private final ResourceBundleWrapper bundle;
 	private JButton selectVariablesButton;
 
@@ -97,6 +99,7 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
 	private Vector<String> shownMessages;
 	private String notificationSender;
 	private MODE mode = MODE.collect_data;
+	private JButton feedbackButton;
 
 	public DataCollector(SimQuestViewer simquestViewer, ToolBrokerAPI tbi, String eloURI) {
 		this.bundle = new ResourceBundleWrapper(this);
@@ -120,6 +123,19 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
 		}
 		logger.logListOfVariables(ScySimLogger.VARIABLES_CONTAINED, logger.getInputVariables());
 		setSelectedVariables(new ArrayList<ModelVariable>());
+		
+		// rotation and feedback stuff
+		for (ModelVariable var : simquestViewer.getDataServer().getVariables("name is not relevant")) {
+			if (var.getName().equals("rotation")) {
+				rotationVariable = var;
+				debugLogger.info("rotation variable found.");
+			}
+			if (var.getName().equals("_feedback")) {
+				feedbackVariable = var;
+				debugLogger.info("feedback variable found.");
+			}
+		}
+		
 		// initialize user interface
 		initGUI();
 		// setting some often-used variable
@@ -130,13 +146,6 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
 		dataAgent.add(simquestViewer.getDataServer().getVariables("name is not relevant"));
 		simquestViewer.getDataServer().register(dataAgent);
 
-		// rotation awareness stuff
-		for (ModelVariable var : simquestViewer.getDataServer().getVariables("name is not relevant")) {
-			if (var.getName().equals("rotation")) {
-				rotationVariable = var;
-				debugLogger.info("rotation variable found.");
-			}
-		}
 		if (simquestViewer.getApplication().getHeader().getDescription().equals("balance")) {
 			balanceSlider = new BalanceSlider(simquestViewer.getDataServer());
 			debugLogger.info("balance simulation found.");
@@ -188,6 +197,13 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
 		button.setActionCommand("cleardata");
 		button.addActionListener(this);
 		buttonPanel.add(button);
+		
+		if (feedbackVariable != null) {
+			feedbackButton = new JButton(getBundleString("DATACOLLECTOR_FEEDBACK"));
+			feedbackButton.setActionCommand("feedback");
+			feedbackButton.addActionListener(this);
+			buttonPanel.add(feedbackButton);
+		}
 		
 		notifyButton = new JButton("!");
 		notifyButton.setFont(notifyButton.getFont().deriveFont(Font.BOLD));
@@ -253,6 +269,8 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
 	public void actionPerformed(ActionEvent evt) {
 		if (evt.getActionCommand().equals("adddata")) {
 			addCurrentDatapoint();
+		} else if (evt.getActionCommand().equals("feedback")) {
+            JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(this), feedbackVariable.getValueString(), getBundleString("DATACOLLECTOR_FEEDBACK"), JOptionPane.INFORMATION_MESSAGE);
 		} else if (evt.getActionCommand().equals("cleardata")) {
 			cleanDataSet();
 		} else if (evt.getActionCommand().equals("configure")) {

@@ -34,16 +34,17 @@ public class SCYSimulatorStandalone implements INotifiable {
 
 		// URI fileUri = new
 		// URI("http://www.scy-lab.eu/sqzx/RotatingPendulum.sqzx");
-		 URI fileUri = new URI("http://www.scy-lab.eu/sqzx/balance.sqzx");
+		// URI fileUri = new URI("http://www.scy-lab.eu/sqzx/balance.sqzx");
 		 //URI fileUri = new URI("http://www.scy-lab.eu/sqzx/co2_house.sqzx");
-		//URI fileUri = new URI("http://www.scy-lab.eu/sqzx/pizzanl.sqzx");
+		//URI fileUri = new URI("http://www.scy-lab.eu/sqzx/pizzagr.sqzx");
 		// URI fileUri = new URI("http://alephnull.de/co2_house.sqzx");
 
 		// FileName fileName = new
 		//FileName fileName = new FileName("D:/projects/scy/sqzx/co2-converter/co2_converter.sqzx");
-		// FileName("D:/projects/scy/sqzx/pizza/PizzaSimulation/pizza.sqx");
+		//FileName("D:/projects/scy/sqzx/pizza/PizzaSimulation/pizza.sqx");
 		// URI fileUri = new URI("file:lib/sqzx/pizza.sqzx");
-		 //URI fileUri = fileName.toURI();
+		FileName fileName = new FileName("D:/projects/scy/sqzx/pizza/pizzagr/pizzagr.sqx");
+		URI fileUri = fileName.toURI();
 
 		LOGGER.log(Level.INFO, "trying to load: {0}", fileUri.toString());
 		simquestViewer.setFile(fileUri);
@@ -96,42 +97,6 @@ public class SCYSimulatorStandalone implements INotifiable {
 		// toolAliveSpace = new TupleSpace(new User(userName),
 		// "scy.collide.info", 2525, "toolAliveSpace");
 		// startAliveThread(toolAliveSpace, userName, toolName);
-	}
-
-	private void startAliveThread(final TupleSpace toolAliveSpace, final String userName, final String toolName) {
-		// Thread t = new Thread(new Runnable() {
-		//
-		// @Override
-		// public void run() {
-		// TupleID alive = null;
-		// while (true) {
-		//
-		// synchronized (this) {
-		// try {
-		// this.wait(2000);
-		// } catch (InterruptedException e) {
-		// e.printStackTrace();
-		// }
-		// }
-		//
-		// try {
-		// Tuple tuple = new Tuple(toolName, userName,
-		// "i'm alive...nanannannannannaa",
-		// TimeFormatHelper.getInstance().getCurrentTimeMillisAsISO8601());
-		// tuple.setExpiration(3000);
-		// if (alive == null) {
-		// alive = toolAliveSpace.write(tuple);
-		// } else {
-		// toolAliveSpace.update(alive, tuple);
-		// }
-		// } catch (TupleSpaceException e) {
-		// e.printStackTrace();
-		// }
-		// }
-		//
-		// }
-		// });
-		// t.start();
 	}
 
 	public static void main(String[] args) throws URISyntaxException, InterruptedException, TupleSpaceException {

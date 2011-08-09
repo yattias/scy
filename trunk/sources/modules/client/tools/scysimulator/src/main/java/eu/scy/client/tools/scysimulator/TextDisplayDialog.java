@@ -11,12 +11,8 @@ import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+@SuppressWarnings("serial")
 public class TextDisplayDialog extends JDialog implements ActionListener {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7809983127880229969L;
 
 	public TextDisplayDialog(Frame owner, String text, String title) {
 		super(owner, true); // modal
