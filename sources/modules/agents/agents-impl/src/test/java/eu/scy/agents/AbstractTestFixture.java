@@ -37,24 +37,34 @@ import java.util.Map;
 public class AbstractTestFixture {
 
     public static final boolean STANDALONE = true;
+
     protected static final String MISSION1 = "roolo://memory/0/0/Design+a+CO2-friendly+house.scymissionspecification";
 
     protected static final String MISSION2 = "roolo://memory/1/0/Eco.scymissionspecification";
 
     protected static String TSHOST = "localhost";
+
     // protected static String TSHOST = "scy.collide.info";
     protected static int TSPORT = 2525;
+
     protected static ClassPathXmlApplicationContext applicationContext;
 
     protected IMetadataTypeManager typeManager;
+
     protected IExtensionManager extensionManager;
+
     protected IRepository repository;
+
     protected Map<String, Map<String, Object>> agentMap = new HashMap<String, Map<String, Object>>();
 
     private AgentManager agentFramework;
+
     private ArrayList<String> agentList;
+
     private TupleSpace tupleSpace;
+
     private TupleSpace sessionSpace;
+
     private TupleSpace actionSpace;
 
     public AbstractTestFixture() {
@@ -68,12 +78,12 @@ public class AbstractTestFixture {
     @Before
     public void setUp() throws Exception {
         if (Server.isRunning()) {
-            tupleSpace = new TupleSpace(new User("test"), TSHOST, TSPORT,
-                    false, false, AgentProtocol.COMMAND_SPACE_NAME);
-            actionSpace = new TupleSpace(new User("test"), TSHOST, TSPORT,
-                    false, false, AgentProtocol.ACTION_SPACE_NAME);
-            sessionSpace = new TupleSpace(new User("test"), TSHOST, TSPORT,
-                    false, false, AgentProtocol.SESSION_SPACE_NAME);
+            tupleSpace = new TupleSpace(new User("test"), TSHOST, TSPORT, false, false,
+                                        AgentProtocol.COMMAND_SPACE_NAME);
+            actionSpace = new TupleSpace(new User("test"), TSHOST, TSPORT, false, false,
+                                         AgentProtocol.ACTION_SPACE_NAME);
+            sessionSpace = new TupleSpace(new User("test"), TSHOST, TSPORT, false, false,
+                                          AgentProtocol.SESSION_SPACE_NAME);
         }
 
         agentMap.clear();
@@ -83,12 +93,9 @@ public class AbstractTestFixture {
         if (applicationContext == null) {
             readApplicationContext();
         }
-        typeManager = (IMetadataTypeManager) applicationContext
-                .getBean("metadataTypeManager");
-        extensionManager = (IExtensionManager) applicationContext
-                .getBean("extensionManager");
-        repository = (IRepository) applicationContext
-                .getBean("localRepository");
+        typeManager = (IMetadataTypeManager) applicationContext.getBean("metadataTypeManager");
+        extensionManager = (IExtensionManager) applicationContext.getBean("extensionManager");
+        repository = (IRepository) applicationContext.getBean("localRepository");
 
     }
 
@@ -104,8 +111,7 @@ public class AbstractTestFixture {
                 actionSpace.takeAll(new Tuple());
                 tupleSpace.disconnect();
                 actionSpace.disconnect();
-                System.err
-                        .println("********** Disconnected from TS ******************");
+                System.err.println("********** Disconnected from TS ******************");
             } catch (TupleSpaceException e) {
                 e.printStackTrace();
             }
@@ -119,18 +125,9 @@ public class AbstractTestFixture {
 
     protected IELO createNewElo(String title, String type) {
         BasicELO elo = new BasicELO();
-        IMetadataValueContainer titleContainer = elo.getMetadata()
-                .getMetadataValueContainer(
-                        typeManager
-                                .getMetadataKey(CoreRooloMetadataKeyIds.TITLE
-                                        .getId()));
+        IMetadataValueContainer titleContainer = elo.getMetadata().getMetadataValueContainer(typeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId()));
         titleContainer.setValue(title);
-        IMetadataValueContainer typeContainer = elo
-                .getMetadata()
-                .getMetadataValueContainer(
-                        typeManager
-                                .getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT
-                                        .getId()));
+        IMetadataValueContainer typeContainer = elo.getMetadata().getMetadataValueContainer(typeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId()));
         typeContainer.setValue(type);
         return elo;
     }
@@ -172,8 +169,7 @@ public class AbstractTestFixture {
         for (String agentName : agents.keySet()) {
             Map<String, Object> params = agents.get(agentName);
             try {
-                agentList.add(agentFramework.startAgent(agentName, params)
-                        .getId());
+                agentList.add(agentFramework.startAgent(agentName, params).getId());
             } catch (AgentLifecycleException e) {
                 // TODO what to do with these exception.
                 e.printStackTrace();
@@ -188,7 +184,6 @@ public class AbstractTestFixture {
     public TupleSpace getSessionSpace() {
         return sessionSpace;
     }
-
 
     public TupleSpace getActionSpace() {
         return actionSpace;
@@ -222,11 +217,11 @@ public class AbstractTestFixture {
     // }
     // }
 
-    protected Tuple getTestActionTuple(String eloUri, String type,
-                                       long currentTimeInMillis, String uuid) {
-        return new Tuple("action", uuid, currentTimeInMillis,
-                ActionConstants.ACTION_ELO_SAVED, "testUser", "SomeTool",
-                "SomeMission", "TestSession", eloUri, "type=" + type);
+    protected Tuple getTestActionTuple(String eloUri, String type, long currentTimeInMillis,
+                                       String uuid) {
+        return new Tuple("action", uuid, currentTimeInMillis, ActionConstants.ACTION_ELO_SAVED,
+                         "testUser", "SomeTool", "SomeMission", "TestSession", eloUri, "type="
+                                                                                       + type);
     }
 
     protected boolean hasItems(List<String> keywords, String... values) {
@@ -255,8 +250,7 @@ public class AbstractTestFixture {
 
     protected String readFile(InputStream inStream) throws IOException {
         // reads text from file and creates one String
-        BufferedReader reader = new BufferedReader(new InputStreamReader(
-                inStream));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inStream));
         String text = "";
         String line = "";
         while ((line = reader.readLine()) != null) {
@@ -280,25 +274,25 @@ public class AbstractTestFixture {
     // }
 
     protected Tuple logout(String user, String mission) {
-        return new Tuple(ActionConstants.ACTION, new VMID().toString(),
-                System.currentTimeMillis(), ActionConstants.ACTION_LOG_OUT,
-                user, "scy-desktop", mission, "n/a",
-                "n/a");
+        return new Tuple(ActionConstants.ACTION, new VMID().toString(), System.currentTimeMillis(),
+                         ActionConstants.ACTION_LOG_OUT, user, "scy-desktop", mission, "n/a", "n/a");
     }
 
-    protected Tuple lasChangeTuple(String user, String mission, String las, String oldLas, String eloUri) {
-        return new Tuple(ActionConstants.ACTION, new VMID().toString(),
-                System.currentTimeMillis(), ActionConstants.ACTION_LAS_CHANGED,
-                user, "scymapper", mission, "session1",
-                eloUri, "newLasId=" + las, "oldLasId=" + oldLas);
+    protected Tuple lasChangeTuple(String user, String mission, String las, String oldLas,
+                                   String eloUri) {
+        return new Tuple(ActionConstants.ACTION, new VMID().toString(), System.currentTimeMillis(),
+                         ActionConstants.ACTION_LAS_CHANGED, user, "scymapper", mission,
+                         "session1", eloUri, "newLasId=" + las, "oldLasId=" + oldLas);
     }
 
-    protected Tuple login(String user, String mission, String missionName, String language) {
-        return new Tuple(ActionConstants.ACTION, new VMID().toString(),
-                System.currentTimeMillis(), ActionConstants.ACTION_LOG_IN,
-                user, "scy-desktop", mission, "n/a",
-                "roolo://memory/16/0/eco_reference_map.mapping",
-                "missionSpecification=" + mission, "language=" + language,
-                "missionName=" + missionName);
+    protected Tuple login(String user, String mission, String missionName, String language) throws TupleSpaceException {
+        Tuple tuple = new Tuple(ActionConstants.ACTION, new VMID().toString(),
+                                System.currentTimeMillis(), ActionConstants.ACTION_LOG_IN, user,
+                                "scy-desktop", mission, "n/a",
+                                "roolo://memory/16/0/eco_reference_map.mapping",
+                                "missionSpecification=" + mission, "language=" + language,
+                                "missionName=" + missionName);
+        getActionSpace().write(tuple);
+        return tuple;
     }
 }

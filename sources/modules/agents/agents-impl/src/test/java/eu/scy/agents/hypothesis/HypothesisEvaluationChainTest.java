@@ -23,6 +23,7 @@ import roolo.elo.api.IMetadata;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.content.BasicContent;
 import eu.scy.agents.AbstractTestFixture;
+import eu.scy.agents.Mission;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
@@ -30,6 +31,8 @@ import eu.scy.agents.keywords.ExtractKeywordsAgent;
 import eu.scy.agents.keywords.ExtractTfIdfKeywordsAgent;
 import eu.scy.agents.keywords.ExtractTopicModelKeywordsAgent;
 import eu.scy.agents.keywords.OntologyKeywordsAgent;
+import eu.scy.agents.session.Session;
+import eu.scy.agents.session.SessionAgent;
 
 public class HypothesisEvaluationChainTest extends AbstractTestFixture {
 
@@ -72,6 +75,7 @@ public class HypothesisEvaluationChainTest extends AbstractTestFixture {
 		this.agentMap.put(OntologyKeywordsAgent.NAME, params);
 		this.agentMap.put(HypothesisEvaluationAgent.NAME, params);
 		this.agentMap.put(HypothesisDecisionMakerAgent.NAME, params);
+		this.agentMap.put(SessionAgent.NAME, params);
 
 		this.startAgentFramework(this.agentMap);
 
@@ -115,6 +119,8 @@ public class HypothesisEvaluationChainTest extends AbstractTestFixture {
 	@Test
 	public void testRun() throws InterruptedException, TupleSpaceException,
 			IOException {
+	    login("testUser", MISSION1, Mission.MISSION1.getName(), "en");
+	    
 		Tuple response = writeTupleGetResponse(this.eloPath);
 		assertNotNull("no response received", response);
 		String message = (String) response.getField(7).getValue();
