@@ -11,6 +11,8 @@ import java.io.InputStream;
 import java.net.URI;
 import java.rmi.dgc.VMID;
 import java.util.HashMap;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -119,17 +121,21 @@ public class HypothesisEvaluationChainTest extends AbstractTestFixture {
 	@Test
 	public void testRun() throws InterruptedException, TupleSpaceException,
 			IOException {
+
+        ResourceBundle messages = ResourceBundle.getBundle("agent_messages", new Locale("en"));
 	    login("testUser", MISSION1, Mission.MISSION1.getName(), "en");
 	    
 		Tuple response = writeTupleGetResponse(this.eloPath);
 		assertNotNull("no response received", response);
 		String message = (String) response.getField(7).getValue();
-		assertEquals(message, "message=ok");
+		String expMsg = "message=" + messages.getString("HYPO_OK");
+		assertEquals(message, expMsg);
 		// assertEquals(message, "message=too few keywords or text too long");
 		response = writeTupleGetResponse(this.smallEloPath);
 		assertNotNull("no response received", response);
 		message = (String) response.getField(7).getValue();
-		assertEquals(message, "message=too few keywords or text too long");
+		expMsg = "message=" + messages.getString("HYPO_TOO_FEW_KEYWORDS");
+		assertEquals(message, expMsg);
 	}
 
 	private Tuple writeTupleGetResponse(String eloPath)
