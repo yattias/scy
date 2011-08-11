@@ -29,11 +29,10 @@ import eu.scy.agents.Mission;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
+import eu.scy.agents.keywords.ExtractKeyphrasesAgent;
 import eu.scy.agents.keywords.ExtractKeywordsAgent;
-import eu.scy.agents.keywords.ExtractTfIdfKeywordsAgent;
 import eu.scy.agents.keywords.ExtractTopicModelKeywordsAgent;
 import eu.scy.agents.keywords.OntologyKeywordsAgent;
-import eu.scy.agents.session.Session;
 import eu.scy.agents.session.SessionAgent;
 
 public class HypothesisEvaluationChainTest extends AbstractTestFixture {
@@ -72,7 +71,7 @@ public class HypothesisEvaluationChainTest extends AbstractTestFixture {
 		params.put(AgentProtocol.TS_HOST, TSHOST);
 		params.put(AgentProtocol.TS_PORT, TSPORT);
 		this.agentMap.put(ExtractKeywordsAgent.NAME, params);
-		this.agentMap.put(ExtractTfIdfKeywordsAgent.NAME, params);
+        this.agentMap.put(ExtractKeyphrasesAgent.NAME, params);
 		this.agentMap.put(ExtractTopicModelKeywordsAgent.NAME, params);
 		this.agentMap.put(OntologyKeywordsAgent.NAME, params);
 		this.agentMap.put(HypothesisEvaluationAgent.NAME, params);
