@@ -5,15 +5,21 @@ import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
 
 import roolo.api.IRepository;
+import roolo.elo.JDomBasicELOFactory;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadata;
+import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
+import roolo.elo.api.IMetadataValueContainer;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import roolo.elo.metadata.BasicMetadata;
 import roolo.search.ISearchResult;
 import roolo.search.MetadataQueryComponent;
 import roolo.search.Query;
@@ -36,7 +42,9 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements IReposi
     private static final String SEARCH = "search";
 
     private static final String HIT_COUNT = "hit-count";
-    
+
+    private static final String ADD_METADATA = "addmetadata";
+
     static final String AGENT_NAME = "roolo-agent";
 
     public static final String NAME = RooloAccessorAgent.class.getName();
@@ -48,6 +56,8 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements IReposi
     private IMetadataTypeManager metadataTypeManager;
 
     private int listenerId;
+
+    private JDomBasicELOFactory jDomBasicELOFactory;
 
     public RooloAccessorAgent(Map<String, Object> map) {
         super(NAME, (String) map.get(AgentProtocol.PARAM_AGENT_ID), (String) map.get(AgentProtocol.TS_HOST), (Integer) map.get(AgentProtocol.TS_PORT));
@@ -114,14 +124,25 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements IReposi
                     logger.debug("Request to fetch metadata for ELO, but Repository is null: " + eloURI + " RequestID was: " + requestUID);
                 }
             } else if (type.equals(ELO)) {
+                long start = System.currentTimeMillis();
+                long uricreationStarted = System.currentTimeMillis();
                 URI eloURI = new URI(tuple.getField(3).getValue().toString());
+                long uricreationFinished = System.currentTimeMillis();
+                logger.debug("URI creation took: " + (uricreationFinished - uricreationStarted) + "ms");
                 if (rooloServices != null) {
                     logger.debug("Request to fetch ELO: " + eloURI + " RequestID was: " + requestUID);
+                    long retrievingStarted = System.currentTimeMillis();
                     IELO elo = rooloServices.retrieveELO(eloURI);
+                    long end = System.currentTimeMillis();
+                    logger.debug("Retrieving ELO (without response) took " + (end - retrievingStarted) + " ms.");
+                    long responseStarted = System.currentTimeMillis();
                     sendResponse(elo, requestUID);
-                } else {
-                    logger.debug("Request to fetch ELO, but Repository is null: " + eloURI + " RequestID was: " + requestUID);
+                    long responseFinished = System.currentTimeMillis();
+
+                    logger.debug("Answering took: " + (responseFinished - responseStarted) + "ms");
                 }
+                long end = System.currentTimeMillis();
+                logger.debug("Retrieving ELO AND sendResponse took " + (end - start) + " ms.");
             } else if (type.equals(SEARCH)) {
                 String keywords = new String(tuple.getField(3).getValue().toString());
                 if (rooloServices != null) {
@@ -132,16 +153,27 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements IReposi
                     logger.debug("Request to search for ELOs, but Repository is null: " + keywords + " RequestID was: " + requestUID);
                 }
             } else if (type.equals(HIT_COUNT)) {
-            	String keywords = new String(tuple.getField(3).getValue().toString());
-            	if (rooloServices != null) {
-            		logger.debug("Request hit number for search: " + keywords + " RequestID was: " + requestUID);
-            		Query query = new Query(new MetadataQueryComponent("contents", keywords));
-            		query.setMaxResults(Integer.MAX_VALUE);
-            		int hits = rooloServices.getHits(query);
-            		sendResponse(hits, requestUID);
-            	} else {
-            		logger.debug("Request to search for ELOs, but Repository is null: " + keywords + " RequestID was: " + requestUID);
-            	}
+                String keywords = new String(tuple.getField(3).getValue().toString());
+                if (rooloServices != null) {
+                    logger.debug("Request hit number for search: " + keywords + " RequestID was: " + requestUID);
+                    Query query = new Query(new MetadataQueryComponent("contents", keywords));
+                    query.setMaxResults(Integer.MAX_VALUE);
+                    int hits = rooloServices.getHits(query);
+                    sendResponse(hits, requestUID);
+                } else {
+                    logger.debug("Request to search for ELOs, but Repository is null: " + keywords + " RequestID was: " + requestUID);
+                }
+            } else if (type.equals(ADD_METADATA)) {
+                String elouri = new String(tuple.getField(3).getValue().toString());
+                String key = new String(tuple.getField(4).getValue().toString());
+                String value = new String(tuple.getField(4).getValue().toString());
+                if (rooloServices != null) {
+                    logger.debug("Request to add metadata to elo: " + elouri + " RequestID was: " + requestUID + "Key: " + key + " Value: " + value);
+                    IMetadata metadata = addStringMetadata(new URI(elouri), key, value);
+                    sendResponse(metadata, requestUID);
+                } else {
+                    logger.debug("Request to addmetadata to ELO " + elouri + ", but Repository is null: " + key + " RequestID was: " + requestUID);
+                }
             }
 
             else {
@@ -153,15 +185,27 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements IReposi
         }
     }
 
-    private void sendResponse(int hitCount, String requestUID) {
-		Tuple answerTuple = new Tuple(requestUID, ROOLO_RESPONSE, hitCount);
-		try {
-			getCommandSpace().write(answerTuple);
-		} catch (TupleSpaceException e) {
-			e.printStackTrace();
-		}
+    private IMetadata addStringMetadata(URI uri, String key, String value) {
+        IMetadata newMetadata = jDomBasicELOFactory.createMetadata();
+        IMetadataKey metadataKey = metadataTypeManager.getMetadataKey(key);
+        IMetadataValueContainer valueContainer = newMetadata.getMetadataValueContainer(metadataKey);
+        valueContainer.addValue(value);
+        newMetadata.addMetadataPair(metadataKey, valueContainer);
+        rooloServices.addMetadata(uri, newMetadata);
+        return rooloServices.retrieveMetadata(uri);
+
+        //
     }
-    
+
+    private void sendResponse(int hitCount, String requestUID) {
+        Tuple answerTuple = new Tuple(requestUID, ROOLO_RESPONSE, hitCount);
+        try {
+            getCommandSpace().write(answerTuple);
+        } catch (TupleSpaceException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void sendResponse(List<ISearchResult> searchResults, String requestUID) {
         if (searchResults != null) {
             String xmlResults = SearchResultUtils.createXmlStringFromSearchResults(searchResults);
@@ -211,6 +255,7 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements IReposi
     @Override
     public void setMetadataTypeManager(IMetadataTypeManager manager) {
         metadataTypeManager = manager;
+        jDomBasicELOFactory = new JDomBasicELOFactory(metadataTypeManager);
     }
 
     @Override
