@@ -73,6 +73,7 @@
 				<ref bean="keywordsTfIdf" />
 				<ref bean="keywordsTopic" />
 				<ref bean="keywordsOntology" />
+                <ref bean="keyphrasesAgent" />
 				<ref bean="keywords" />
 				<ref bean="keywordsDecisionMaker" />
 				<ref bean="addKeywordsToMetadataAgent" />
