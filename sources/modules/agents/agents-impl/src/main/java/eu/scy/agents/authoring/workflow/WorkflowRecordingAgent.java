@@ -82,13 +82,13 @@ public class WorkflowRecordingAgent extends AbstractThreadedAgent implements
         rooloService = new AgentRooloServiceImpl();
 
         try {
-            listenerId = getCommandSpace().eventRegister(
+            listenerId = getActionSpace().eventRegister(
                     Command.WRITE,
                     new Tuple(ActionConstants.ACTION, String.class, Long.class,
                             ActionConstants.ACTION_LAS_CHANGED, Field
                             .createWildCardField()), this, true);
 
-            logoutListenerId = getCommandSpace().eventRegister(
+            logoutListenerId = getActionSpace().eventRegister(
                     Command.WRITE,
                     new Tuple(ActionConstants.ACTION, String.class, Long.class,
                             ActionConstants.ACTION_LOG_OUT, Field
