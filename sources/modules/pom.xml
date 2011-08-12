@@ -455,7 +455,6 @@
     <!--
          the modules may be commented out to avoid top-to-bottom dependencies
          in the pom hierarchy
-	  	-->
        	
     <modules>
         <module>common</module>
@@ -464,6 +463,7 @@
         <module>server</module>
     </modules>
 
+	  	-->
 	
 
     <properties>
