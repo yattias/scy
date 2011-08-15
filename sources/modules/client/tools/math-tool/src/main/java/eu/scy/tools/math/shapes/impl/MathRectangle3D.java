@@ -21,6 +21,8 @@ import org.jdesktop.swingx.JXTextField;
 
 import eu.scy.tools.math.doa.json.IRectanglarPrismToolbarShape;
 import eu.scy.tools.math.doa.json.IToolbarShape;
+import eu.scy.tools.math.doa.result.RectanglarPrismResult;
+import eu.scy.tools.math.doa.result.ShapeResult;
 import eu.scy.tools.math.shapes.IMathRectangle3D;
 import eu.scy.tools.math.ui.UIUtils;
 import eu.scy.tools.math.ui.images.Images;
@@ -51,6 +53,10 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 		this.shape = shape;
 		
 		//getVolumeLabelCombo().setText(this.shape.getVolume());
+		
+		
+		
+		
 		getHeightValueLabel().setText(((IRectanglarPrismToolbarShape) this.shape).getHeight());
 		getWidthValueLabel().setText(((IRectanglarPrismToolbarShape) this.shape).getWidth());
 //		iconLabel.setIcon(Images.getIcon(this.shape.getCanvasIcon()));
@@ -64,6 +70,16 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 	
 	protected void updateLabels(int selectedIndex) {
 		this.shape = shapesCollection.get(selectedIndex);
+		
+		if( resultMap.containsKey(this.shape.getVolume()) == false  ) {
+			resultMap.put(this.shape.getVolume(), new RectanglarPrismResult());
+		} else {
+			RectanglarPrismResult shapeResult = (RectanglarPrismResult) resultMap.get(this.shape.getVolume());
+			getLengthTextField().setText(shapeResult.getLength());
+			getSurfaceAreaTextField().setText(shapeResult.getSurfaceArea());
+			getRatioTextField().setText(shapeResult.getSurfaceAreaRatio());
+		}
+		
 		getHeightValueLabel().setText(((IRectanglarPrismToolbarShape) this.shape).getHeight());
 		getWidthValueLabel().setText(((IRectanglarPrismToolbarShape) this.shape).getWidth());
 	}
@@ -122,6 +138,26 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 		
 		this.add(allPanel,BorderLayout.CENTER);
 		this.setSize(allPanel.getPreferredSize());
+		
+	}
+	
+	@Override
+	protected void addButtonPanel() {
+		super.addButtonPanel();
+		
+		getAddButton().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String selectedItem = (String) itemCombo.getSelectedItem();
+				
+				RectanglarPrismResult shapeResult = (RectanglarPrismResult) resultMap.get(selectedItem);
+				shapeResult.setLength(getLengthValue());
+				shapeResult.setSurfaceArea(getSurfaceAreaTextField().getText());
+				shapeResult.setSurfaceAreaRatio(getRatioTextField().getText());
+				
+			}
+		});
 		
 	}
 	

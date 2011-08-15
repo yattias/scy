@@ -21,6 +21,8 @@ import eu.scy.tools.math.doa.json.ICylinderToolbarShape;
 import eu.scy.tools.math.doa.json.IRectanglarPrismToolbarShape;
 import eu.scy.tools.math.doa.json.ISphereToolbarShape;
 import eu.scy.tools.math.doa.json.IToolbarShape;
+import eu.scy.tools.math.doa.result.CircularShapeResult;
+import eu.scy.tools.math.doa.result.CircularShapeResult;
 import eu.scy.tools.math.shapes.IMathCylinder3D;
 import eu.scy.tools.math.ui.UIUtils;
 import eu.scy.tools.math.ui.images.Images;
@@ -50,6 +52,16 @@ public class MathCylinder3D extends Math3DShape implements IMathCylinder3D {
 	
 	protected void updateLabels(int selectedIndex) {
 		this.shape = shapesCollection.get(selectedIndex);
+		
+		if( resultMap.containsKey(this.shape.getVolume()) == false  ) {
+			resultMap.put(this.shape.getVolume(), new CircularShapeResult());
+		} else {
+			CircularShapeResult shapeResult = (CircularShapeResult) resultMap.get(this.shape.getVolume());
+			getRadiusTextField().setText(shapeResult.getRadius());
+			getSurfaceAreaTextField().setText(shapeResult.getSurfaceArea());
+			getRatioTextField().setText(shapeResult.getSurfaceAreaRatio());
+		}
+		
 		this.getHeightValueLabel().setText(((ICylinderToolbarShape) this.shape).getHeight());
 	}
 
@@ -114,6 +126,25 @@ public class MathCylinder3D extends Math3DShape implements IMathCylinder3D {
 		});
 	}
 	
+	@Override
+	protected void addButtonPanel() {
+		super.addButtonPanel();
+		
+		getAddButton().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String selectedItem = (String) itemCombo.getSelectedItem();
+				
+				CircularShapeResult shapeResult = (CircularShapeResult) resultMap.get(selectedItem);
+				shapeResult.setRadius(getRadiusTextField().getText());
+				shapeResult.setSurfaceArea(getSurfaceAreaTextField().getText());
+				shapeResult.setSurfaceAreaRatio(getRatioTextField().getText());
+				
+			}
+		});
+		
+	}
 
 	@Override
 	public boolean checkForError() {
