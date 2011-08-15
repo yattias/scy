@@ -15,6 +15,7 @@ import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
@@ -36,6 +37,7 @@ import org.jdesktop.swingx.JXTextField;
 import eu.scy.tools.math.doa.json.ICylinderToolbarShape;
 import eu.scy.tools.math.doa.json.IRectanglarPrismToolbarShape;
 import eu.scy.tools.math.doa.json.IToolbarShape;
+import eu.scy.tools.math.doa.result.ShapeResult;
 import eu.scy.tools.math.shapes.I3D;
 import eu.scy.tools.math.shapes.IMathShape;
 import eu.scy.tools.math.ui.UIUtils;
@@ -70,6 +72,7 @@ public abstract class Math3DShape extends JXPanel implements IMathShape, I3D{
 	protected JXLabel iconLabel;
 	private String iconName;
 	protected JComboBox itemCombo;
+	protected HashMap<String, ShapeResult> resultMap = new HashMap<String, ShapeResult>();
 	
 	public Math3DShape(Point point, String iconName, String id) {
 		this.setLocation(point);
@@ -180,13 +183,14 @@ public abstract class Math3DShape extends JXPanel implements IMathShape, I3D{
 		labelPanel.add(new JXLabel(" "),"wrap");
 	}
 	
-	protected void addButtonPanel() {
+	 protected void addButtonPanel() {
 		JXPanel buttonPanel = new JXPanel(new GridLayout(2,1, 1,1));
 //		buttonPanel.setBackground(Color.yellow);
 		errorLabel = new JXLabel(NEEDS_A_NUMBER);
 		errorLabel.setForeground(UIUtils.NONSHAPE_SHAPE_COLOR);
 		addButton = new JXButton("Add");
 		addButton.setEnabled(false);
+	
 		
 		buttonPanel.setOpaque(false);
 		buttonPanel.add(errorLabel);
