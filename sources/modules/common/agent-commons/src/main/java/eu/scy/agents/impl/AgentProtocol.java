@@ -112,8 +112,8 @@ public final class AgentProtocol {
 	 * <User>:String, <ParameterName>:String, <ParameterValue>:*)<br/>
 	 * 
 	 */
-	public static final Tuple getParameterSetTupleTemplate(String agentName) {
-		return new Tuple(AgentProtocol.AGENT_PARAMETER_SET, agentName,
+	public static final Tuple getParameterSetTupleTemplate() {
+		return new Tuple(AgentProtocol.AGENT_PARAMETER_SET, String.class,
 				String.class, String.class, String.class,
 				Field.createWildCardField());
 	}
@@ -124,9 +124,9 @@ public final class AgentProtocol {
 	 * <Mission>:String, <User>:String, <ParameterName>:String)<br/>
 	 * 
 	 */
-	public static final Tuple getParameterGetQueryTupleTemplate(String agentName) {
+	public static final Tuple getParameterGetQueryTupleTemplate() {
 		return new Tuple(AgentProtocol.AGENT_PARAMETER_GET,
-				AgentProtocol.QUERY, agentName, String.class, String.class,
+				AgentProtocol.QUERY, String.class, String.class, String.class,
 				String.class);
 	}
 
