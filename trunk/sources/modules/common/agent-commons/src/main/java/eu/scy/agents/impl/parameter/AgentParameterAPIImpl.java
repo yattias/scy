@@ -17,9 +17,9 @@ import java.util.List;
 public class AgentParameterAPIImpl implements AgentParameterAPI {
 
     public static final String GLOBAL = "global";
+    private static final String NA = "n/a";
 
     private static final String TS_USER = "AgentParameterSetterImpl";
-
     private TupleSpace tupleSpace;
 
     public AgentParameterAPIImpl() {
@@ -39,9 +39,19 @@ public class AgentParameterAPIImpl implements AgentParameterAPI {
     private <T> Tuple createSetParameterTupleTemplate(String agentName,
                                                       String mission, String user, String parameterName, T value) {
         Tuple setParameterTuple = AgentProtocol
-                .getParameterSetTupleTemplate(agentName);
-        setParameterTuple.getField(2).setValue(mission);
-        setParameterTuple.getField(3).setValue(user);
+                .getParameterSetTupleTemplate();
+        setParameterTuple.getField(1).setValue(agentName);
+        if ( mission == null ) {
+            setParameterTuple.getField(2).setValue(NA);
+        } else {
+
+            setParameterTuple.getField(2).setValue(mission);
+        }
+        if ( user == null ) {
+            setParameterTuple.getField(3).setValue(NA);
+        } else {
+            setParameterTuple.getField(3).setValue(user);
+        }
         setParameterTuple.getField(4).setValue(parameterName);
         setParameterTuple.getField(5).setValue(value);
 
@@ -51,9 +61,18 @@ public class AgentParameterAPIImpl implements AgentParameterAPI {
     private <T> Tuple createGetParameterTupleTemplate(String agentName,
                                                       String mission, String user, String parameterName) {
         Tuple getParameterTuple = AgentProtocol
-                .getParameterGetQueryTupleTemplate(agentName);
-        getParameterTuple.getField(3).setValue(mission);
-        getParameterTuple.getField(4).setValue(user);
+                .getParameterGetQueryTupleTemplate();
+        getParameterTuple.getField(2).setValue(agentName);
+        if ( mission == null ) {
+            getParameterTuple.getField(3).setValue(NA);
+        } else {
+            getParameterTuple.getField(3).setValue(mission);
+        }
+        if ( user == null ) {
+            getParameterTuple.getField(4).setValue(NA);
+        } else {
+            getParameterTuple.getField(4).setValue(user);
+        }
         getParameterTuple.getField(5).setValue(parameterName);
 
         return getParameterTuple;

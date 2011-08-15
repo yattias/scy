@@ -25,6 +25,7 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements
         IThreadedAgent, Callback {
 
     private static final String GLOBAL = "global";
+    private static final String NA = "n/a";
 
     /** Statuses of a threaded agent. */
     public static enum Status {
@@ -168,9 +169,15 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements
 
     private AgentParameter createAgentParameter(Tuple afterTuple) {
         AgentParameter agentParameter = new AgentParameter();
-        agentParameter.setMission((String) afterTuple.getField(2)
-                .getValue());
-        agentParameter.setUser((String) afterTuple.getField(3).getValue());
+        String mission = (String) afterTuple.getField(2)
+                .getValue();
+        if ( !NA.equals(mission) ) {
+            agentParameter.setMission(mission);
+        }
+        String user = (String) afterTuple.getField(3).getValue();
+        if ( !NA.equals(user) ) {
+            agentParameter.setUser(user);
+        }
         agentParameter.setParameterName((String) afterTuple.getField(4)
                 .getValue());
         agentParameter.setParameterValue(afterTuple.getField(5).getValue());
@@ -186,10 +193,16 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements
 
     private void handleParameterGetCommand(Tuple afterTuple) {
         String agentName = (String) afterTuple.getField(2).getValue();
-        if ( getName().equals(agentName) ) {
+        if ( getName().equals(agentName) || GLOBAL.equals(agentName) ) {
             AgentParameter parameter = new AgentParameter();
-            parameter.setMission((String) afterTuple.getField(3).getValue());
-            parameter.setUser((String) afterTuple.getField(4).getValue());
+            String mission = (String) afterTuple.getField(3).getValue();
+            if ( !mission.equals(NA) ) {
+                parameter.setMission(mission);
+            }
+            String user = (String) afterTuple.getField(4).getValue();
+            if ( !user.equals(NA) ) {
+                parameter.setUser(user);
+            }
             parameter.setParameterName((String) afterTuple.getField(5)
                     .getValue());
             Object value = configuration.getParameter(parameter);
@@ -372,10 +385,10 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements
             identifyId = getCommandSpace().eventRegister(Command.WRITE,
                     AgentProtocol.getIdentifyTuple(id, name), this, true);
             parameterSetId = getCommandSpace().eventRegister(Command.WRITE,
-                    AgentProtocol.getParameterSetTupleTemplate(name), this,
+                    AgentProtocol.getParameterSetTupleTemplate(), this,
                     true);
             parameterGetId = getCommandSpace().eventRegister(Command.WRITE,
-                    AgentProtocol.getParameterGetQueryTupleTemplate(name),
+                    AgentProtocol.getParameterGetQueryTupleTemplate(),
                     this, true);
             listParametersListenerId = getCommandSpace().eventRegister(
                     Command.WRITE, AgentProtocol.LIST_PARAMETER_QUERY, this,
