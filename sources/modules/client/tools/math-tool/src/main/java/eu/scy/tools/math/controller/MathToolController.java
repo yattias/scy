@@ -331,7 +331,7 @@ public class MathToolController {
 			shapeCanvas.requestFocusInWindow();
 
 			this.highLightShape(this.mathShape);
-			//this.selectInTable(this.mathShape);
+			this.selectInTable(this.mathShape);
 		} else {
 
 		}
@@ -400,14 +400,15 @@ public class MathToolController {
 				}
 
 			}
+			shapeCanvas.repaint();
 		}
 
-		Calculator calculator = calculators.get(type);
-		calculator.getSumTextField().setEnabled(true);
-		calculator.setForumla(mathShape.getFormula());
-		calculator.setResultValue(mathShape.getResult());
-		mathShape.setShowCornerPoints(true);
-		mathShape.repaint();
+//		Calculator calculator = calculators.get(type);
+//		calculator.getSumTextField().setEnabled(true);
+//		calculator.setForumla(mathShape.getFormula());
+//		calculator.setResultValue(mathShape.getResult());
+//		mathShape.setShowCornerPoints(true);
+//		mathShape.repaint();
 	}
 
 	protected void selectInTable(IMathShape mathShape) {
@@ -606,9 +607,8 @@ public class MathToolController {
 
 	public void addComputationTable(String type, JXTable computationTable) {
 
-		// if( type.equals(UIUtils._2D))
-		// computationTable.getSelectionModel().addListSelectionListener(new
-		// TwoDeeTableSelectionListener());
+		 if( type.equals(UIUtils._2D))
+		 computationTable.getSelectionModel().addListSelectionListener(new TwoDeeTableSelectionListener());
 		//
 
 		// computationTable.getSelectionModel().addListSelectionListener(new
@@ -701,14 +701,14 @@ public class MathToolController {
 
 		if (operation.equals("+")) {
 			model.addRow(new Object[] { new Integer(model.getRowCount() + 1),
-					"", new Float(text),
+					getMathSelectedShape().getType(), new Float(text),
 					new Float(oldSum + parseFloat), operation,
-					"" });
+					getMathSelectedShape().getId() });
 		} else {
 			model.addRow(new Object[] { new Integer(model.getRowCount() + 1),
-					"", new Float(text),
+					getMathSelectedShape().getType(), new Float(text),
 					new Float(oldSum - parseFloat), operation,
-					"" });
+					getMathSelectedShape().getId() });
 		}
 
 		calculator.resetLabel();
@@ -775,7 +775,8 @@ public class MathToolController {
 		public void valueChanged(ListSelectionEvent e) {
 
 			if (e.getValueIsAdjusting()) {
-				int firstIndex = e.getFirstIndex();
+				int firstIndex = getComputationTables()
+						.get(UIUtils._2D).getSelectedRow();
 
 				DefaultTableModel model = (DefaultTableModel) getComputationTables()
 						.get(UIUtils._2D).getModel();
@@ -787,17 +788,15 @@ public class MathToolController {
 
 				for (IMathShape ms : sc.getMathShapes()) {
 					if (ms.getId().equals(shapeId)) {
-						ms.setShowCornerPoints(true);
-						ms.repaint();
+//						ms.setShowCornerPoints(true);
+						setSelectedMathShape(ms);
+//						ms.repaint();
 						log.info("found shape" + ms);
-					} else {
-						ms.setShowCornerPoints(false);
-						ms.repaint();
-						log.info("no found shape" + ms);
+				
 					}
 				}
 
-				sc.repaint();
+				//sc.repaint();
 
 			}
 		}

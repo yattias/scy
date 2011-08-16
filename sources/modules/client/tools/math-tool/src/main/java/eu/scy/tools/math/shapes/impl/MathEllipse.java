@@ -222,7 +222,7 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 
 	@Override
 	public String toString() {
-		return "x : " + this.x + " y; " + this.y + " w: " + this.width + " h: " + this.height + " type: " + this.getType();
+		return "id: " + this.id + "x : " + this.x + " y; " + this.y + " w: " + this.width + " h: " + this.height + " type: " + this.getType();
 	}
 
 	@Override
