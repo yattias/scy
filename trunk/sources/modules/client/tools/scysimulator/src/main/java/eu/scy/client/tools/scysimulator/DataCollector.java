@@ -270,7 +270,9 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
 		if (evt.getActionCommand().equals("adddata")) {
 			addCurrentDatapoint();
 		} else if (evt.getActionCommand().equals("feedback")) {
-            JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(this), feedbackVariable.getValueString(), getBundleString("DATACOLLECTOR_FEEDBACK"), JOptionPane.INFORMATION_MESSAGE);
+			String feedback = feedbackVariable.getValueString();
+			feedback = feedback.replace("\\comma", ",");
+			JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(this), feedback, getBundleString("DATACOLLECTOR_FEEDBACK"), JOptionPane.INFORMATION_MESSAGE);
 		} else if (evt.getActionCommand().equals("cleardata")) {
 			cleanDataSet();
 		} else if (evt.getActionCommand().equals("configure")) {
