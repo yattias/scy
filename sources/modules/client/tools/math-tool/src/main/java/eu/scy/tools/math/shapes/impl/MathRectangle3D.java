@@ -1,6 +1,7 @@
 package eu.scy.tools.math.shapes.impl;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -21,6 +22,7 @@ import org.jdesktop.swingx.JXTextField;
 
 import eu.scy.tools.math.doa.json.IRectanglarPrismToolbarShape;
 import eu.scy.tools.math.doa.json.IToolbarShape;
+import eu.scy.tools.math.doa.result.CircularShapeResult;
 import eu.scy.tools.math.doa.result.RectanglarPrismResult;
 import eu.scy.tools.math.doa.result.ShapeResult;
 import eu.scy.tools.math.shapes.IMathRectangle3D;
@@ -54,8 +56,7 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 		
 		//getVolumeLabelCombo().setText(this.shape.getVolume());
 		
-		
-		
+	
 		
 		getHeightValueLabel().setText(((IRectanglarPrismToolbarShape) this.shape).getHeight());
 		getWidthValueLabel().setText(((IRectanglarPrismToolbarShape) this.shape).getWidth());
@@ -71,15 +72,22 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 	protected void updateLabels(int selectedIndex) {
 		this.shape = shapesCollection.get(selectedIndex);
 		
+		String shapeName = this.shape.getName();
 		if( resultMap.containsKey(this.shape.getVolume()) == false  ) {
-			resultMap.put(this.shape.getVolume(), new RectanglarPrismResult());
+			resultMap.put(shapeName, new RectanglarPrismResult(shapeName, null, null));
 		} else {
-			RectanglarPrismResult shapeResult = (RectanglarPrismResult) resultMap.get(this.shape.getVolume());
+			RectanglarPrismResult shapeResult = (RectanglarPrismResult) resultMap.get(shapeName);
 			getLengthTextField().setText(shapeResult.getLength());
 			getSurfaceAreaTextField().setText(shapeResult.getSurfaceArea());
 			getRatioTextField().setText(shapeResult.getSurfaceAreaRatio());
+			
+
 		}
 		
+		getIconLabel().setIcon(Images.getIcon(this.shape.getCanvasIcon()));
+		getIconLabel().setPreferredSize(new Dimension(120, 100));
+		
+		getVolumeValueLabel().setText(this.shape.getVolume());
 		getHeightValueLabel().setText(((IRectanglarPrismToolbarShape) this.shape).getHeight());
 		getWidthValueLabel().setText(((IRectanglarPrismToolbarShape) this.shape).getWidth());
 	}
@@ -93,6 +101,9 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 //		ImageIcon icon = (ImageIcon) Images.Rectangle3dLarge.getIcon();
 		
 		setIconLabel(new JXLabel(Images.getIcon(this.getIconName())));
+		
+		getIconLabel().setPreferredSize(new Dimension(120, 100));
+
 //		iconLabel.setSize(iconLabel.getSize());
 		allPanel.add(getIconLabel(),BorderLayout.CENTER);
 		
@@ -149,7 +160,7 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String selectedItem = (String) itemCombo.getSelectedItem();
+				String selectedItem = (String) getItemCombo().getSelectedItem();
 				
 				RectanglarPrismResult shapeResult = (RectanglarPrismResult) resultMap.get(selectedItem);
 				shapeResult.setLength(getLengthValue());

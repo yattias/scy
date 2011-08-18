@@ -12,6 +12,10 @@ public class CircularShapeResult extends ShapeResult {
 		super(surfaceArea, surfaceAreaRatio);
 		this.radius = radius;
 	}
+	
+	public CircularShapeResult(String name) {
+		super(name, null, null);
+	}
 
 	public String getRadius() {
 		return radius;

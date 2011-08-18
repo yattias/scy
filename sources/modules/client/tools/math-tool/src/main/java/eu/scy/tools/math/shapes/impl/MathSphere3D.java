@@ -1,6 +1,7 @@
 package eu.scy.tools.math.shapes.impl;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -47,13 +48,17 @@ public class MathSphere3D extends Math3DShape implements IMathSphere3D {
 	protected void updateLabels(int selectedIndex) {
 		this.shape = shapesCollection.get(selectedIndex);
 		
-		if( resultMap.containsKey(this.shape.getVolume()) == false  ) {
-			resultMap.put(this.shape.getVolume(), new CircularShapeResult());
+		if( resultMap.containsKey(this.shape.getName()) == false  ) {
+			resultMap.put(this.shape.getName(), new CircularShapeResult(this.shape.getName()));
 		} else {
-			CircularShapeResult shapeResult = (CircularShapeResult) resultMap.get(this.shape.getVolume());
+			CircularShapeResult shapeResult = (CircularShapeResult) resultMap.get(this.shape.getName());
+			getVolumeValueLabel().setText(this.shape.getVolume());
 			getRadiusTextField().setText(shapeResult.getRadius());
 			getSurfaceAreaTextField().setText(shapeResult.getSurfaceArea());
 			getRatioTextField().setText(shapeResult.getSurfaceAreaRatio());
+			
+			getIconLabel().setIcon(Images.getIcon(this.shape.getCanvasIcon()));
+			getIconLabel().setPreferredSize(new Dimension(90, 90));
 		}
 		
 		
@@ -67,6 +72,8 @@ public class MathSphere3D extends Math3DShape implements IMathSphere3D {
 		allPanel.setOpaque(false);
 
 		setIconLabel(new JXLabel(Images.getIcon(this.getIconName())));
+		
+		getIconLabel().setPreferredSize(new Dimension(90, 90));
 		// iconLabel.setSize(iconLabel.getSize());
 		allPanel.add(iconLabel, BorderLayout.CENTER);
 
@@ -105,7 +112,7 @@ public class MathSphere3D extends Math3DShape implements IMathSphere3D {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String selectedItem = (String) itemCombo.getSelectedItem();
+				String selectedItem = (String) getItemCombo().getSelectedItem();
 				
 				CircularShapeResult shapeResult = (CircularShapeResult) resultMap.get(selectedItem);
 				shapeResult.setRadius(getRadiusTextField().getText());

@@ -2,6 +2,7 @@ package eu.scy.tools.math.shapes.impl;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -53,22 +54,28 @@ public class MathCylinder3D extends Math3DShape implements IMathCylinder3D {
 	protected void updateLabels(int selectedIndex) {
 		this.shape = shapesCollection.get(selectedIndex);
 		
-		if( resultMap.containsKey(this.shape.getVolume()) == false  ) {
-			resultMap.put(this.shape.getVolume(), new CircularShapeResult());
+		if( resultMap.containsKey(this.shape.getName()) == false  ) {
+			resultMap.put(this.shape.getName(), new CircularShapeResult());
 		} else {
-			CircularShapeResult shapeResult = (CircularShapeResult) resultMap.get(this.shape.getVolume());
+			CircularShapeResult shapeResult = (CircularShapeResult) resultMap.get(this.shape.getName());
 			getRadiusTextField().setText(shapeResult.getRadius());
 			getSurfaceAreaTextField().setText(shapeResult.getSurfaceArea());
 			getRatioTextField().setText(shapeResult.getSurfaceAreaRatio());
 		}
 		
 		this.getHeightValueLabel().setText(((ICylinderToolbarShape) this.shape).getHeight());
+		getIconLabel().setIcon(Images.getIcon(this.shape.getCanvasIcon()));
+		getIconLabel().setPreferredSize(new Dimension(110, 100));
 	}
 
 	public MathCylinder3D(ICylinderToolbarShape shape, int x, int y, String id) {
 		super(x,y, shape.getCanvasIcon(), id);
 		this.shape = shape;
+		getVolumeValueLabel().setText(this.shape.getVolume());
 		this.getHeightValueLabel().setText(((ICylinderToolbarShape) this.shape).getHeight());
+		
+		
+		
 //		this.getIconLabel().setIcon(Images.getIcon(this.shape.getCanvasIcon()));
 //		this.setIconName(this.shape.getCanvasIcon());		
 	}
@@ -82,6 +89,7 @@ public class MathCylinder3D extends Math3DShape implements IMathCylinder3D {
 //		ImageIcon icon = (ImageIcon) Images.Cylinder3dLarge.getIcon();
 
 		setIconLabel(new JXLabel(Images.getIcon(this.getIconName())));
+		getIconLabel().setPreferredSize(new Dimension(110, 100));
 		// iconLabel.setSize(iconLabel.getSize());
 		allPanel.add(getIconLabel(), BorderLayout.CENTER);
 
@@ -134,7 +142,7 @@ public class MathCylinder3D extends Math3DShape implements IMathCylinder3D {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String selectedItem = (String) itemCombo.getSelectedItem();
+				String selectedItem = (String) getItemCombo().getSelectedItem();
 				
 				CircularShapeResult shapeResult = (CircularShapeResult) resultMap.get(selectedItem);
 				shapeResult.setRadius(getRadiusTextField().getText());
