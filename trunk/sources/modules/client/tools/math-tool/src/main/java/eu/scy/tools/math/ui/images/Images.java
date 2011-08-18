@@ -12,13 +12,15 @@ import org.jdesktop.swingx.graphics.GraphicsUtilities;
 
 public enum Images {
 
+			
 	// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 	// images
 	// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 	SketchUp("sketchup.png"), Circle("circle.png"), Rectangle("rectangle.png"), Triangle("triangle.png"), 
 	Cube("cube.png"), Sphere("sphere.png"), Prism("prism.png"), Grid("grid.png"),Rectangle3d("rectangle3d.png"),Sphere3d("sphere3d.png"),
-	Cylinder3d("cylinder3d.png"),Rectangle3dLarge("rectangle3dLarge.png"),Sphere3dLarge("sphere3dLarge.png"),
-	Cylinder3dLarge("cylinder3dLarge.png"),Trash("trash.png");
+	Cylinder3d("cylinder3d.png"),Rectangle3dLarge("rectangle3dLarge.png"),Sphere3dLarge("sphere3dLarge.png"),Sphere_v100("sphere_v100.png"),Sphere_v200("sphere_v200.png"),
+	Prism_v100_h10_v2("prism_v100_h10_v2.png"),Prism_v100_h5_v2("prism_v100_h5_v2.png"),Prism_v200_h10_v2("prism_v200_h10_v2.png"),Prism_v200_h5_v2("prism_v200_h5_v2.png"),
+	Cylinder3dLarge("cylinder3dLarge.png"),Trash("trash.png"), Cylinder_v100_h5_v2("cylinder_v100_h5_v2.png"),Cylinder_v100_h10_v2("cylinder_v100_h10_v2.png"),Cylinder_v200_h5_v2("Cylinder_v200_h5_v2.png"),Cylinder_v200_h10_v2("cylinder_v200_h10_v2.png");
 	// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 	// data
 	// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

@@ -583,7 +583,7 @@ public class MathToolController {
 			if (ashape.getError() == true)
 				return;
 
-			String volume = (String) ashape.getVolumeLabelCombo().getSelectedItem();
+			String volume = (String) ashape.getVolumeValueLabel().getText();
 			String surfaceArea = ashape.getSurfaceAreaTextField().getText();
 			String ratio = ashape.getRatioTextField().getText();
 			String shape = ashape.getType();
@@ -876,14 +876,14 @@ public class MathToolController {
 						((MathCylinder3D) ms).getLocation(),
 						UIUtils.CYLINDER3D, ((MathCylinder3D) ms)
 								.getHeightValue(), null, (String) ((MathCylinder3D) ms)
-								.getVolumeLabelCombo().getSelectedItem(),
+								.getVolumeValueLabel().getText(),
 						((MathCylinder3D) ms).getIconName(), ms.getId()));
 			else if (ms instanceof MathSphere3D)
 				objs.add(new ThreeDObj(null, ((MathSphere3D) ms)
 						.getRadiusTextField().getText(), ((MathSphere3D) ms)
 						.getSurfaceAreaTextField().getText(),
 						((MathSphere3D) ms).getRatioTextField().getText(),
-						((MathSphere3D) ms).getLocation(), UIUtils.SPHERE3D, null, null, (String) ((MathSphere3D) ms).getVolumeLabelCombo().getSelectedItem(),((MathSphere3D) ms).getIconName(), ms.getId()));
+						((MathSphere3D) ms).getLocation(), UIUtils.SPHERE3D, null, null, (String) ((MathSphere3D) ms).getVolumeValueLabel().getText(),((MathSphere3D) ms).getIconName(), ms.getId()));
 			else if (ms instanceof MathRectangle3D)
 				objs.add(new ThreeDObj(((MathRectangle3D) ms)
 						.getLengthTextField().getText(), null,
@@ -891,7 +891,7 @@ public class MathToolController {
 								.getText(), ((MathRectangle3D) ms)
 								.getRatioTextField().getText(),
 						((MathRectangle3D) ms).getLocation(),
-						UIUtils.RECTANGLE3D, ((MathRectangle3D) ms).getHeightValue(), ((MathRectangle3D) ms).getWidthValue(), (String) ((MathRectangle3D) ms).getVolumeLabelCombo().getSelectedItem(), ((MathRectangle3D) ms).getIconName(), ms.getId()));
+						UIUtils.RECTANGLE3D, ((MathRectangle3D) ms).getHeightValue(), ((MathRectangle3D) ms).getWidthValue(), (String) ((MathRectangle3D) ms).getVolumeValueLabel().getText(), ((MathRectangle3D) ms).getIconName(), ms.getId()));
 		}
 		return objs;
 	}
