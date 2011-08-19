@@ -12,6 +12,7 @@ public interface IMathShape {
 	public void addX(int x);
 	public void addY(int y);
 	
+	public String getSelectedItemName();
 
 	public void setId(String id);
 	
@@ -52,4 +53,6 @@ public interface IMathShape {
 	public void setResult(String result);
 	
 	public void setHasDecorations(boolean hasDecorations);
+
+	public void setSelectedItem(String item);
 }

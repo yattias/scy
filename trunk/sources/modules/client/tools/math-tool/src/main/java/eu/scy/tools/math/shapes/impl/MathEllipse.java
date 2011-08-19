@@ -297,4 +297,14 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 		this.hasDecorations = hasDecorations;
 	}
 
+	@Override
+	public String getSelectedItemName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setSelectedItem(String item) {
+	}
+
 }

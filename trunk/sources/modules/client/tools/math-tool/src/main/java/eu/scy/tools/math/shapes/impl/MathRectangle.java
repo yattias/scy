@@ -286,6 +286,18 @@ public class MathRectangle extends Rectangle implements IMathRectangle {
 		this.hasDecorations = hasDecorations;
 	}
 
+	@Override
+	public String getSelectedItemName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setSelectedItem(String item) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 
 }
