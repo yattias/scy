@@ -155,6 +155,18 @@ public abstract class Math3DShape extends JXPanel implements IMathShape, I3D{
 		labelPanel.add(getVolumeValueLabel(), "width 60::60");
 		labelPanel.add(new JXLabel(UIUtils.unitsVolume), "wrap");
 	}
+	
+	public String getSelectedItemName() {
+		return (String) getItemCombo().getSelectedItem();
+	}
+
+
+	@Override
+	public void setSelectedItem(String item) {
+		
+		getItemCombo().setSelectedItem(item);
+	}
+	
 	protected void setupCommonInputs() {
 		
 		surfaceAreaLabel = new JXLabel("SA = ");

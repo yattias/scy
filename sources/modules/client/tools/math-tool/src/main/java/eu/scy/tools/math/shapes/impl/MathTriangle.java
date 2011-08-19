@@ -416,4 +416,18 @@ public class MathTriangle extends Rectangle implements IMathTriangle {
 	}
 
 
+	@Override
+	public String getSelectedItemName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void setSelectedItem(String item) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 }

@@ -587,7 +587,13 @@ public class MathToolController {
 			String surfaceArea = ashape.getSurfaceAreaTextField().getText();
 			String ratio = ashape.getRatioTextField().getText();
 			String shape = ashape.getType();
-			String shapeId = ashape.getId();
+			
+			String shapeId;
+			
+			if( ashape.getSelectedItemName() != null)
+				shapeId = ashape.getId() + " " + ashape.getSelectedItemName();
+			else
+				shapeId = ashape.getId();
 
 			JXTable table = getComputationTables().get(UIUtils._3D);
 			ShapeCanvas sc = getShapeCanvases().get(UIUtils._3D);
@@ -608,9 +614,13 @@ public class MathToolController {
 	public void addComputationTable(String type, JXTable computationTable) {
 
 		 if( type.equals(UIUtils._2D))
-		 computationTable.getSelectionModel().addListSelectionListener(new TwoDeeTableSelectionListener());
+			 computationTable.getSelectionModel().addListSelectionListener(new TwoDeeTableSelectionListener());
 		//
 
+		 if( type.equals(UIUtils._3D))
+			 computationTable.getSelectionModel().addListSelectionListener(new ThreeDeeTableSelectionListener());
+		 
+			 
 		// computationTable.getSelectionModel().addListSelectionListener(new
 		// ForumlaTableSelectionListener(type));
 		this.getComputationTables().put(type, computationTable);
@@ -802,6 +812,48 @@ public class MathToolController {
 		}
 	}
 
+	class ThreeDeeTableSelectionListener implements ListSelectionListener {
+
+		@Override
+		public void valueChanged(ListSelectionEvent e) {
+
+			if (e.getValueIsAdjusting()) {
+				int firstIndex = getComputationTables()
+						.get(UIUtils._3D).getSelectedRow();
+
+				DefaultTableModel model = (DefaultTableModel) getComputationTables()
+						.get(UIUtils._3D).getModel();
+
+				String shapeId = (String) model.getValueAt(firstIndex, 5);
+
+				log.info("shapeId " + shapeId);
+				
+				
+				String[] split = StringUtils.split(shapeId, " ");
+				
+				String newId = split[0];
+				
+				String subElement = StringUtils.strip(StringUtils.remove(shapeId, newId));
+				
+				ShapeCanvas sc = shapeCanvases.get(UIUtils._3D);
+
+				for (IMathShape ms : sc.getMathShapes()) {
+					if (ms.getId().equals(newId)) {
+						ms.setSelectedItem(subElement);
+//						ms.setShowCornerPoints(true);
+						setSelectedMathShape(ms);
+//						ms.repaint();
+						log.info("found shape" + ms);
+				
+					}
+				}
+
+				//sc.repaint();
+
+			}
+		}
+	}
+	
 	public String save() {
 		JFileChooser fc = new JFileChooser();
 
@@ -868,6 +920,9 @@ public class MathToolController {
 			// private String volume;
 			// private String icon;
 			//
+			
+			String shapeId = ms.getId() +" "+ms.getSelectedItemName();
+			
 			if (ms instanceof MathCylinder3D)
 				objs.add(new ThreeDObj(null, ((MathCylinder3D) ms)
 						.getRadiusTextField().getText(), ((MathCylinder3D) ms)
@@ -877,13 +932,13 @@ public class MathToolController {
 						UIUtils.CYLINDER3D, ((MathCylinder3D) ms)
 								.getHeightValue(), null, (String) ((MathCylinder3D) ms)
 								.getVolumeValueLabel().getText(),
-						((MathCylinder3D) ms).getIconName(), ms.getId()));
+						((MathCylinder3D) ms).getIconName(), shapeId));
 			else if (ms instanceof MathSphere3D)
 				objs.add(new ThreeDObj(null, ((MathSphere3D) ms)
 						.getRadiusTextField().getText(), ((MathSphere3D) ms)
 						.getSurfaceAreaTextField().getText(),
 						((MathSphere3D) ms).getRatioTextField().getText(),
-						((MathSphere3D) ms).getLocation(), UIUtils.SPHERE3D, null, null, (String) ((MathSphere3D) ms).getVolumeValueLabel().getText(),((MathSphere3D) ms).getIconName(), ms.getId()));
+						((MathSphere3D) ms).getLocation(), UIUtils.SPHERE3D, null, null, (String) ((MathSphere3D) ms).getVolumeValueLabel().getText(),((MathSphere3D) ms).getIconName(), shapeId));
 			else if (ms instanceof MathRectangle3D)
 				objs.add(new ThreeDObj(((MathRectangle3D) ms)
 						.getLengthTextField().getText(), null,
@@ -891,7 +946,7 @@ public class MathToolController {
 								.getText(), ((MathRectangle3D) ms)
 								.getRatioTextField().getText(),
 						((MathRectangle3D) ms).getLocation(),
-						UIUtils.RECTANGLE3D, ((MathRectangle3D) ms).getHeightValue(), ((MathRectangle3D) ms).getWidthValue(), (String) ((MathRectangle3D) ms).getVolumeValueLabel().getText(), ((MathRectangle3D) ms).getIconName(), ms.getId()));
+						UIUtils.RECTANGLE3D, ((MathRectangle3D) ms).getHeightValue(), ((MathRectangle3D) ms).getWidthValue(), (String) ((MathRectangle3D) ms).getVolumeValueLabel().getText(), ((MathRectangle3D) ms).getIconName(), shapeId));
 		}
 		return objs;
 	}

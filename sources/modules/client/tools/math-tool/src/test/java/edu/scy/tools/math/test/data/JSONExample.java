@@ -205,6 +205,8 @@ public class JSONExample {
 
 		l.add(clyinders);
 
+		
+			
 		SphereToolbarShape sphere = new SphereToolbarShape();
 		sphere.setName("Sphere v100");
 		sphere.setType(UIUtils.SPHERE3D);
@@ -213,13 +215,13 @@ public class JSONExample {
 		sphere.setCanvasIcon("sphere_v100.png");
 		sphere.setVolume("100.0");
 
-		sphere.setRadius("2.78");
-		sphere.setRadiusMinValue("2.77");
-		sphere.setRadiusMaxValue("2.79");
+		sphere.setRadius("2.88");
+		sphere.setRadiusMinValue("2.87");
+		sphere.setRadiusMaxValue("2.89");
 
-		sphere.setSurfaceArea("104.16");
-		sphere.setSurfaceAreaMinValue("104.15");
-		sphere.setSurfaceAreaMaxValue("104.17");
+		sphere.setSurfaceArea("104.19");
+		sphere.setSurfaceAreaMinValue("104.09");
+		sphere.setSurfaceAreaMaxValue("104.29");
 
 		sphere.setSurfaceAreaRatioMinValue("1.03");
 		sphere.setSurfaceAreaRatioMaxValue("1.05");
@@ -234,16 +236,16 @@ public class JSONExample {
 		sphere.setCanvasIcon("sphere_v200.png");
 		sphere.setVolume("200.0");
 
-		sphere.setRadius("3.62");
-		sphere.setRadiusMinValue("3.61");
-		sphere.setRadiusMaxValue("3.63");
+		sphere.setRadius("3.63");
+		sphere.setRadiusMinValue("3.62");
+		sphere.setRadiusMaxValue("3.64");
 
-		sphere.setSurfaceArea("165.38");
-		sphere.setSurfaceAreaMinValue("165.37");
+		sphere.setSurfaceArea("165.39");
+		sphere.setSurfaceAreaMinValue("165.29");
 		sphere.setSurfaceAreaMaxValue("165.39");
 
 		sphere.setSurfaceAreaRatioMinValue("0.82");
-		sphere.setSurfaceAreaRatioMaxValue("0.83");
+		sphere.setSurfaceAreaRatioMaxValue("0.84");
 
 		spheres.add(sphere);
 
