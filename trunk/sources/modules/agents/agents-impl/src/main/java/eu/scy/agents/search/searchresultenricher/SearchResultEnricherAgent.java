@@ -61,6 +61,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
     // OntologyAgent
 	private static final String ONTOLOGY_AGENT_NAME = "onto";
 	private static final String ONTOLOGY_AGENT_COMMAND = "surrounding";
+	private static final int ONTOLOGY_AGENT_TIMEOUT = 5000;
 	
     private static final Tuple TEMPLATE_FOR_SEARCH_QUERY = new Tuple("action", String.class, Long.class, SEARCH_TYPE, String.class, SEARCH_TOOL, Field.createWildCardField());
 	private static final Tuple TEMPLATE_FOR_SESSION_LANGUAGE= new Tuple("language", String.class, String.class);
@@ -432,8 +433,8 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
      * @param tuple the tuple
      */
     private void evaluateSearchResult(Tuple tuple) {
-//		String userId = tuple.getField(1).getValue().toString();
-        String eloUri = tuple.getField(8).getValue().toString();
+//    	String userId = tuple.getField(1).getValue().toString();
+//      String eloUri = tuple.getField(8).getValue().toString();
         String user = tuple.getField(4).getValue().toString();
         String mission = tuple.getField(6).getValue().toString();
         String session = tuple.getField(7).getValue().toString();
@@ -473,10 +474,10 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
         SearchResultRanking ranking = null;
         if (referenceResults.size() < this.infGoodSearchInverval) {
         	String language = getLanguage(user);
-            ranking = extendSearchResult(user, eloUri, mission, language, searchQuery, referenceResults);
+            ranking = extendSearchResult(user, language, searchQuery, referenceResults);
         } else if (referenceResults.size() > this.supGoodSearchInterval) {
         	String language = getLanguage(user);
-            ranking = pruneSearchResult(language, searchQuery, referenceResults);
+            ranking = pruneSearchResult(user, language, searchQuery, referenceResults);
         } else {
             // Number of results is ok, so we do nothing
         	System.out.println("Search result for query: " + searchQuery + " performed well, no enrichment will be forced.");
@@ -511,7 +512,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	 * @param referenceResults the reference results
 	 * @return the search result ranking
 	 */
-	private SearchResultRanking extendSearchResult(String user, String eloUri, String mission, String language, String searchQuery, List<ISearchResult> referenceResults) {
+	private SearchResultRanking extendSearchResult(String user, String language, String searchQuery, List<ISearchResult> referenceResults) {
     	
         SearchResultRanking ranking = new SearchResultRanking(this.maxProposalNumber, referenceResults, this.config, this.infGoodSearchInverval, this.supGoodSearchInterval);
         try
@@ -545,25 +546,23 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
             }
             
             // Both extraction methods need a language to extract keywords...
-            if(language == null) {
-            	System.out.println("Could not extract keywords, because no language information available.");
-            	return ranking;
-            }
-            
-            // Add new keywords extracted from the search results.
-            if(referenceResults.size() > 0) {
-            	boolean resultsReceived = extractAndTestKeywords(ranking, items, query, language, OPERATOR_OR);
-            	if(!resultsReceived) {
-        			// RooloAccessorAgent down, so stop
-            		return ranking;
+            if(language != null) {
+            	// Add new keywords extracted from the search results.
+            	if(referenceResults.size() > 0) {
+            		boolean resultsReceived = extractAndTestKeywords(ranking, items, query, language, OPERATOR_OR);
+            		if(!resultsReceived) {
+            			// RooloAccessorAgent down, so stop
+            			return ranking;
+            		}
+            		
+            	} else {
+            		System.out.println("Could not extract keywords, because no search results available for extraction.");
             	}
-
+            	
+            	extractAndTestOntologyKeywords(ranking, getMission(user), items, language, query, OPERATOR_OR);
             } else {
-            	System.out.println("Could not extract keywords, because no search results available for extraction.");
+            	System.out.println("Could not extract keywords, because no language information available.");
             }
-
-            // TODO ask ontology for synonyms
-            extractAndTestOntologyKeywords(getMission(user), eloUri, items, language);
 
         } catch (TupleSpaceException e) {
         	e.printStackTrace();
@@ -600,32 +599,36 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
     	return true;
 	}
 	
-	private boolean extractAndTestOntologyKeywords(String mission, String eloUri, Set<String> items, String language) {
+	private boolean extractAndTestOntologyKeywords(SearchResultRanking ranking, String mission, Set<String> items, String language, Query query, String operator) throws TupleSpaceException {
 		List<String> keywords = new ArrayList<String>();
 
 		// Collect keywords
 		for(String item : items.toArray(EMPTY_STRING_ARRAY)) {
-			List<String> newKeywords = askOntologyForSurroundingWords(mission, eloUri, language, item);
+			List<String> newKeywords = askOntologyForSurroundingWords(mission, language, item);
 			if(newKeywords == null) {
 				return false;
 			}
 			
 			keywords.addAll(newKeywords);
-			if(keywords.size() > this.maxOntologyKeywordNumber) {
+			if(keywords.size() >= this.maxOntologyKeywordNumber) {
 				break;
 			}
 		}
-			
-//    	for(String synonym : synonyms) {
-//            List<ISearchResult> result =  getHits(commandSpace, luceneQuery);
+		
+		// Test words
+    	String userQuery = query.toLuceneString();
+    	for(String keyword: keywords) {
+    		System.out.println(keyword);
+//    		String queryWithNewKeyword = userQuery + " " + operator + " " + DEFAULT_FIELD + ":\"" + keyword + "\"";
+//            List<ISearchResult> result =  getHits(commandSpace, queryWithNewKeyword);
 //            if(result != null) {
-//                ranking.add(luceneQuery, result);
-//                System.out.println("Added new query by AND -> OR replacement: " + luceneQuery);
+//                ranking.add(queryWithNewKeyword, result);
+//                System.out.println("Added new query by AND -> OR replacement: " + queryWithNewKeyword);
 //            } else {
 //            	// RooloAccessorAgent down, so stop
-//            	return ranking;
+//            	return false;
 //            }        		
-//    	}
+    	}
 		return true;
 	}
 
@@ -637,7 +640,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
      * @param word the word used to search for surroundings
      * @return a list of keywords or null if the ontology agent is down
      */
-    private List<String> askOntologyForSurroundingWords(String mission, String eloUri, String language, String word) {
+    private List<String> askOntologyForSurroundingWords(String mission, String language, String word) {
     	// (<ID>:String, "onto":String, "surrounding":String, <OntName>:String, <OntLabel>:String, 
     	// <Language>:String) -> (<ID>:String, <OntTerm>:String, <Surrounding>:String)
     	
@@ -646,17 +649,22 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
             String id = new VMID().toString();
             Tuple requestTuple = new Tuple(id, ONTOLOGY_AGENT_NAME, ONTOLOGY_AGENT_COMMAND, Mission.getForName(mission).getNamespace(), word, language);
             this.commandSpace.write(requestTuple);
-            Tuple responseTuple = this.commandSpace.waitToTake(new Tuple(id, Field.createWildCardField()));
-            // TODO handle empty list
-            System.out.println(responseTuple);
+            Tuple responseTuple = this.commandSpace.waitToTake(new Tuple(id, Field.createWildCardField()), ONTOLOGY_AGENT_TIMEOUT);
+
             if(responseTuple != null) {
-	            String surrounding = (String)responseTuple.getField(2).getValue();
-	            System.out.println(surrounding);
+            	System.out.println(responseTuple);
+            	// No third tuple when no keywords were found.
+            	if(responseTuple.getFields().length > 2) {
+            		String surrounding = (String)responseTuple.getField(2).getValue();
+            		System.out.println(surrounding);
 //	            String[] surroundKeywords = surrounding.split(",");
-	            
+            		
 //	            for(String ontKeyword : surroundKeywords) {
 //	            	synonyms.add(ontKeyword);
 //	            }
+            	} else {
+            		System.out.println("No keywords found in the ontology for term " + word);
+            	}
             } else {
             	// OntologyAgent is down
             	return null;
@@ -774,7 +782,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 	 * @param referenceResults the reference results
 	 * @return the search result ranking
 	 */
-	private SearchResultRanking pruneSearchResult(String language, String searchQuery, List<ISearchResult> referenceResults) {
+	private SearchResultRanking pruneSearchResult(String user, String language, String searchQuery, List<ISearchResult> referenceResults) {
     	SearchResultRanking ranking = new SearchResultRanking(this.maxProposalNumber, referenceResults, this.config, this.infGoodSearchInverval, this.supGoodSearchInterval);
     	Set<String> items = new HashSet<String>();
     	items.addAll(Arrays.asList(searchQuery.split(" ")));
@@ -826,10 +834,14 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 
     		if(language != null) {
     			boolean resultsReceived = extractAndTestKeywords(ranking, items, query, language, OPERATOR_AND);
-            	if(resultsReceived) {
+            	if(!resultsReceived) {
         			// RooloAccessorAgent down, so stop
             		return ranking;
             	}
+
+            	extractAndTestOntologyKeywords(ranking, getMission(user), items, language, query, OPERATOR_AND);
+            } else {
+            	System.out.println("Could not extract keywords, because no language information available.");
     		}
     	} catch (TupleSpaceException e) {
     		e.printStackTrace();
