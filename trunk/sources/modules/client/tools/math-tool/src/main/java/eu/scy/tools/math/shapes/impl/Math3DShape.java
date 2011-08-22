@@ -62,7 +62,7 @@ public abstract class Math3DShape extends JXPanel implements IMathShape, I3D{
 	protected JXLabel iconLabel;
 	private String iconName;
 	private JComboBox itemCombo;
-	protected HashMap<String, ShapeResult> resultMap = new HashMap<String, ShapeResult>();
+	private HashMap<String, ShapeResult> resultMap = new HashMap<String, ShapeResult>();
 	
 	public Math3DShape(Point point, String iconName, String id) {
 		this.setLocation(point);
@@ -496,5 +496,13 @@ public abstract class Math3DShape extends JXPanel implements IMathShape, I3D{
 
 	public void setItemCombo(JComboBox itemCombo) {
 		this.itemCombo = itemCombo;
+	}
+
+	public HashMap<String, ShapeResult> getResultMap() {
+		return resultMap;
+	}
+
+	public void setResultMap(HashMap<String, ShapeResult> resultMap) {
+		this.resultMap = resultMap;
 	}
 }

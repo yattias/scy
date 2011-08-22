@@ -58,6 +58,8 @@ import eu.scy.tools.math.doa.json.IRectangleToolbarShape;
 import eu.scy.tools.math.doa.json.ISphereToolbarShape;
 import eu.scy.tools.math.doa.json.IToolbarShape;
 import eu.scy.tools.math.doa.json.ITriangleToolbarShape;
+import eu.scy.tools.math.doa.result.CircularShapeResult;
+import eu.scy.tools.math.doa.result.RectanglarPrismResult;
 import eu.scy.tools.math.shapes.I3D;
 import eu.scy.tools.math.shapes.IMathCylinder3D;
 import eu.scy.tools.math.shapes.IMathEllipse;
@@ -579,9 +581,9 @@ public class MathToolController {
 					ashape = (Math3DShape) ms;
 			}
 
-			ashape.checkForError();
-			if (ashape.getError() == true)
-				return;
+//			ashape.checkForError();
+//			if (ashape.getError() == true)
+//				return;
 
 			String volume = (String) ashape.getVolumeValueLabel().getText();
 			String surfaceArea = ashape.getSurfaceAreaTextField().getText();
@@ -921,32 +923,53 @@ public class MathToolController {
 			// private String icon;
 			//
 			
-			String shapeId = ms.getId() +" "+ms.getSelectedItemName();
 			
-			if (ms instanceof MathCylinder3D)
-				objs.add(new ThreeDObj(null, ((MathCylinder3D) ms)
-						.getRadiusTextField().getText(), ((MathCylinder3D) ms)
-						.getSurfaceAreaTextField().getText(),
-						((MathCylinder3D) ms).getRatioTextField().getText(),
-						((MathCylinder3D) ms).getLocation(),
-						UIUtils.CYLINDER3D, ((MathCylinder3D) ms)
-								.getHeightValue(), null, (String) ((MathCylinder3D) ms)
-								.getVolumeValueLabel().getText(),
-						((MathCylinder3D) ms).getIconName(), shapeId));
-			else if (ms instanceof MathSphere3D)
-				objs.add(new ThreeDObj(null, ((MathSphere3D) ms)
-						.getRadiusTextField().getText(), ((MathSphere3D) ms)
-						.getSurfaceAreaTextField().getText(),
-						((MathSphere3D) ms).getRatioTextField().getText(),
-						((MathSphere3D) ms).getLocation(), UIUtils.SPHERE3D, null, null, (String) ((MathSphere3D) ms).getVolumeValueLabel().getText(),((MathSphere3D) ms).getIconName(), shapeId));
-			else if (ms instanceof MathRectangle3D)
-				objs.add(new ThreeDObj(((MathRectangle3D) ms)
-						.getLengthTextField().getText(), null,
-						((MathRectangle3D) ms).getSurfaceAreaTextField()
-								.getText(), ((MathRectangle3D) ms)
-								.getRatioTextField().getText(),
-						((MathRectangle3D) ms).getLocation(),
-						UIUtils.RECTANGLE3D, ((MathRectangle3D) ms).getHeightValue(), ((MathRectangle3D) ms).getWidthValue(), (String) ((MathRectangle3D) ms).getVolumeValueLabel().getText(), ((MathRectangle3D) ms).getIconName(), shapeId));
+			if (ms instanceof MathCylinder3D) {
+				
+				   Iterator it = ((MathCylinder3D) ms).getResultMap().entrySet().iterator();
+				   while (it.hasNext()) {
+				        Map.Entry pairs = (Map.Entry)it.next();
+				        System.out.println(pairs.getKey() + " = " + pairs.getValue());
+				        
+				        CircularShapeResult result = (CircularShapeResult) pairs.getValue();
+				        
+				        objs.add(new ThreeDObj(null, result.getRadius(), result.getSurfaceArea(),
+								result.getSurfaceAreaRatio(),
+								((MathCylinder3D) ms).getLocation(),
+								UIUtils.CYLINDER3D,
+								result.getHeight(), null, result.getVolume(),
+								result.getImageIconName(), ms.getId() + " " + result.getName()));
+				        
+				    }
+			} else if (ms instanceof MathSphere3D) {
+				
+				   Iterator it = ((MathSphere3D) ms).getResultMap().entrySet().iterator();
+				   while (it.hasNext()) {
+				        Map.Entry pairs = (Map.Entry)it.next();
+				        System.out.println(pairs.getKey() + " = " + pairs.getValue());
+				        
+				        CircularShapeResult result = (CircularShapeResult) pairs.getValue();
+				        
+				        objs.add(new ThreeDObj(null, result.getRadius(), result.getSurfaceArea(),
+								result.getSurfaceAreaRatio(),
+								((MathSphere3D) ms).getLocation(), UIUtils.SPHERE3D, null, null, result.getVolume(),result.getImageIconName(), ms.getId() + " " + result.getName()));
+				        
+				    }
+			} else if (ms instanceof MathRectangle3D) {
+				
+				  Iterator it = ((MathRectangle3D) ms).getResultMap().entrySet().iterator();
+				   while (it.hasNext()) {
+				        Map.Entry pairs = (Map.Entry)it.next();
+				        System.out.println(pairs.getKey() + " = " + pairs.getValue());
+				        
+				        RectanglarPrismResult result = (RectanglarPrismResult) pairs.getValue();
+				        
+				        objs.add(new ThreeDObj(result.getLength(), null,
+								result.getSurfaceArea(), result.getSurfaceAreaRatio(),
+								((MathRectangle3D) ms).getLocation(),
+								UIUtils.RECTANGLE3D, result.getHeight(), result.getWidth(), result.getVolume(), result.getVolume(), ms.getId() + " " + result.getName()));
+				    }
+			}
 		}
 		return objs;
 	}

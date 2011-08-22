@@ -18,6 +18,7 @@ import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTextField;
 
+import eu.scy.tools.math.doa.json.CylinderToolbarShape;
 import eu.scy.tools.math.doa.json.ICylinderToolbarShape;
 import eu.scy.tools.math.doa.json.IRectanglarPrismToolbarShape;
 import eu.scy.tools.math.doa.json.ISphereToolbarShape;
@@ -54,10 +55,11 @@ public class MathCylinder3D extends Math3DShape implements IMathCylinder3D {
 	protected void updateLabels(int selectedIndex) {
 		this.shape = shapesCollection.get(selectedIndex);
 		
-		if( resultMap.containsKey(this.shape.getName()) == false  ) {
-			resultMap.put(this.shape.getName(), new CircularShapeResult());
+		CylinderToolbarShape cyl = (CylinderToolbarShape) this.shape;
+		if( getResultMap().containsKey(this.shape.getName()) == false  ) {
+			getResultMap().put(this.shape.getName(), new CircularShapeResult(this.shape.getName(), null, null, this.shape.getVolume(), this.shape.getCanvasIcon(),cyl.getHeight() ));
 		} else {
-			CircularShapeResult shapeResult = (CircularShapeResult) resultMap.get(this.shape.getName());
+			CircularShapeResult shapeResult = (CircularShapeResult) getResultMap().get(this.shape.getName());
 			getRadiusTextField().setText(shapeResult.getRadius());
 			getSurfaceAreaTextField().setText(shapeResult.getSurfaceArea());
 			getRatioTextField().setText(shapeResult.getSurfaceAreaRatio());
@@ -144,7 +146,7 @@ public class MathCylinder3D extends Math3DShape implements IMathCylinder3D {
 			public void actionPerformed(ActionEvent e) {
 				String selectedItem = (String) getItemCombo().getSelectedItem();
 				
-				CircularShapeResult shapeResult = (CircularShapeResult) resultMap.get(selectedItem);
+				CircularShapeResult shapeResult = (CircularShapeResult) getResultMap().get(selectedItem);
 				shapeResult.setRadius(getRadiusTextField().getText());
 				shapeResult.setSurfaceArea(getSurfaceAreaTextField().getText());
 				shapeResult.setSurfaceAreaRatio(getRatioTextField().getText());

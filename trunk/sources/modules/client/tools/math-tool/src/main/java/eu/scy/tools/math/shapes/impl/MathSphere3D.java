@@ -48,10 +48,10 @@ public class MathSphere3D extends Math3DShape implements IMathSphere3D {
 	protected void updateLabels(int selectedIndex) {
 		this.shape = shapesCollection.get(selectedIndex);
 		
-		if( resultMap.containsKey(this.shape.getName()) == false  ) {
-			resultMap.put(this.shape.getName(), new CircularShapeResult(this.shape.getName()));
+		if( getResultMap().containsKey(this.shape.getName()) == false  ) {
+			getResultMap().put(this.shape.getName(), new CircularShapeResult(this.shape.getName(), null, null, this.shape.getVolume(), this.shape.getCanvasIcon(), null));
 		} else {
-			CircularShapeResult shapeResult = (CircularShapeResult) resultMap.get(this.shape.getName());
+			CircularShapeResult shapeResult = (CircularShapeResult) getResultMap().get(this.shape.getName());
 			getVolumeValueLabel().setText(this.shape.getVolume());
 			getRadiusTextField().setText(shapeResult.getRadius());
 			getSurfaceAreaTextField().setText(shapeResult.getSurfaceArea());
@@ -114,7 +114,7 @@ public class MathSphere3D extends Math3DShape implements IMathSphere3D {
 			public void actionPerformed(ActionEvent e) {
 				String selectedItem = (String) getItemCombo().getSelectedItem();
 				
-				CircularShapeResult shapeResult = (CircularShapeResult) resultMap.get(selectedItem);
+				CircularShapeResult shapeResult = (CircularShapeResult) getResultMap().get(selectedItem);
 				shapeResult.setRadius(getRadiusTextField().getText());
 				shapeResult.setSurfaceArea(getSurfaceAreaTextField().getText());
 				shapeResult.setSurfaceAreaRatio(getRatioTextField().getText());
