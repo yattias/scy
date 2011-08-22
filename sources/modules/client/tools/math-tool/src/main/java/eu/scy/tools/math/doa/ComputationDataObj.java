@@ -50,14 +50,14 @@ public class ComputationDataObj {
 			this.setRatio((String) vector.get(2));
 			this.setSurfaceArea((String) vector.get(3));
 			this.setVolume((String) vector.get(4));
-			this.shapeId = "";
+			this.shapeId = (String) vector.get(5);
 		} else {
 			this.columnNumber  = (Integer)vector.get(0);
 			this.name = (String) vector.get(1);
 			this.value = (Float)vector.get(2);
 			this.sum = (Float) vector.get(3);
 			this.operation = (String)vector.get(4);
-			this.shapeId = "";
+			this.shapeId = (String) vector.get(5);
 		}
 	}
 

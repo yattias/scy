@@ -22,6 +22,7 @@ import org.jdesktop.swingx.JXTextField;
 
 import eu.scy.tools.math.doa.json.IRectanglarPrismToolbarShape;
 import eu.scy.tools.math.doa.json.IToolbarShape;
+import eu.scy.tools.math.doa.json.RectanglarPrismToolbarShape;
 import eu.scy.tools.math.doa.result.CircularShapeResult;
 import eu.scy.tools.math.doa.result.RectanglarPrismResult;
 import eu.scy.tools.math.doa.result.ShapeResult;
@@ -72,11 +73,12 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 	protected void updateLabels(int selectedIndex) {
 		this.shape = shapesCollection.get(selectedIndex);
 		
+		RectanglarPrismToolbarShape prism = (RectanglarPrismToolbarShape) this.shape;
 		String shapeName = this.shape.getName();
-		if( resultMap.containsKey(this.shape.getVolume()) == false  ) {
-			resultMap.put(shapeName, new RectanglarPrismResult(shapeName, null, null));
+		if( getResultMap().containsKey(this.shape.getName()) == false  ) {
+			getResultMap().put(shapeName, new RectanglarPrismResult(this.shape.getName(), null, null, this.shape.getVolume(), this.shape.getCanvasIcon(),prism.getHeight(),"5"));
 		} else {
-			RectanglarPrismResult shapeResult = (RectanglarPrismResult) resultMap.get(shapeName);
+			RectanglarPrismResult shapeResult = (RectanglarPrismResult) getResultMap().get(shapeName);
 			getLengthTextField().setText(shapeResult.getLength());
 			getSurfaceAreaTextField().setText(shapeResult.getSurfaceArea());
 			getRatioTextField().setText(shapeResult.getSurfaceAreaRatio());
@@ -162,7 +164,7 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 			public void actionPerformed(ActionEvent e) {
 				String selectedItem = (String) getItemCombo().getSelectedItem();
 				
-				RectanglarPrismResult shapeResult = (RectanglarPrismResult) resultMap.get(selectedItem);
+				RectanglarPrismResult shapeResult = (RectanglarPrismResult) getResultMap().get(selectedItem);
 				shapeResult.setLength(getLengthValue());
 				shapeResult.setSurfaceArea(getSurfaceAreaTextField().getText());
 				shapeResult.setSurfaceAreaRatio(getRatioTextField().getText());
