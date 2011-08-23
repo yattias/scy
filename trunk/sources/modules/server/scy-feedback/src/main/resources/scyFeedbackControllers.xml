@@ -59,6 +59,7 @@
                 /app/feedback/webversion/fbIndex.html=fbIndexController
                 /app/feedback/webversion/ViewFeedbackForElo.html=ViewFeedbackForEloController
                 /app/feedback/webversion/AddFeedback.html=AddFeedbackController
+                /app/feedback/webversion/AddReplyToFeedback.html=AddReplyToFeedbackController
 
             </value>
         </property>
@@ -227,6 +228,12 @@
         <property name="missionELOService" ref="missionELOService"/>
         <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
         <property name="actionLoggerService" ref="actionLoggerService"/>
+    </bean>
+
+    <bean id="AddReplyToFeedbackController" class="eu.scy.server.controllers.scyfeedback.webversion.AddReplyToFeedbackController">
+        <property name="userService" ref="userService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
     </bean>
 
 
