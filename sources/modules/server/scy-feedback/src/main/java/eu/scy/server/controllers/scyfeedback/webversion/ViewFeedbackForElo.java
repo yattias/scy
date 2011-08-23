@@ -88,7 +88,9 @@ public class ViewFeedbackForElo extends BaseController {
 
             feedbackEloTransfer.setShown(String.valueOf(shownInteger));
             feedbackElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(feedbackEloTransfer));
+            feedbackEloTransfer.setUri(fbURI);
             feedbackElo.updateElo();
+
             
             modelAndView.addObject("feedbackElo", feedbackEloTransfer);
             

@@ -67,6 +67,34 @@
                             <div style="float:left;width:30%;">
                                  Quality score:<br/>
 
+                                <form action="/webapp/app/feedback/webversion/AddReplyToFeedback.html" method="POST" accept-charset="UTF-8" >
+
+                                    <input type="hidden" name="feedbackId" value="${feedbackItem.id}"/>
+                                    <input type="hidden" name="feedbackEloURI" value="${feedbackElo.uri}"/>
+                                    <input type="textarea" name="reply" style="width:100%;height:50px;"/>
+                                    <input type="submit">
+                                </form>
+
+                                <c:choose>
+                                    <c:when test="${fn:length(feedbackItem.replies) > 0}">
+                                        <table>
+                                            <c:forEach var="reply" items="${feedbackItem.replies}">
+                                                <tr>
+                                                    <td>
+                                                        <strong>${reply.calendarDate}</strong><br/>
+                                                        ${reply.calendarTime}
+                                                    </td>
+                                                    <td>
+                                                        ${reply.comment}
+                                                    </td>
+                                                </tr>
+
+                                            </c:forEach>
+                                        </table>
+                                    </c:when>
+                                </c:choose>
+
+
                                 <img src="/webapp/themes/scy/default/images/smiley_${feedbackItem.evalu}.png" alt=""  />
                             </div>
                             <div style="clear:both;"></div>

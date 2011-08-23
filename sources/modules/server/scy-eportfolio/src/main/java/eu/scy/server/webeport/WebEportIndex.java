@@ -9,6 +9,7 @@ import eu.scy.core.model.transfer.Portfolio;
 import eu.scy.core.model.transfer.TransferElo;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.core.roolo.PedagogicalPlanELOService;
+import eu.scy.core.roolo.PortfolioELOService;
 import eu.scy.server.controllers.BaseController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -29,6 +30,7 @@ public class WebEportIndex extends BaseController {
     private MissionELOService missionELOService;
     private XMLTransferObjectService xmlTransferObjectService;
     private PedagogicalPlanELOService pedagogicalPlanELOService;
+    private PortfolioELOService portfolioELOService;
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
@@ -73,5 +75,13 @@ public class WebEportIndex extends BaseController {
 
     public void setPedagogicalPlanELOService(PedagogicalPlanELOService pedagogicalPlanELOService) {
         this.pedagogicalPlanELOService = pedagogicalPlanELOService;
+    }
+
+    public PortfolioELOService getPortfolioELOService() {
+        return portfolioELOService;
+    }
+
+    public void setPortfolioELOService(PortfolioELOService portfolioELOService) {
+        this.portfolioELOService = portfolioELOService;
     }
 }
