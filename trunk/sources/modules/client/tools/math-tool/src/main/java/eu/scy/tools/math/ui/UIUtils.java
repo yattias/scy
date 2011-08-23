@@ -143,6 +143,10 @@ public class UIUtils {
 	public static String invalidExpressionErrorMessage = startTags +
 														"Formula was invalid. Please check its notation.<br><br>" +
 														notationHtml + endTags;
+	
+	public static String duplicate3DShapeError = startTags +
+			"Only one shape of this type is allowed on the canvas at a time<br><br>" + endTags;
+	
 														
 	public static String notationHelpMessage = startTags + notationHtml +
 												endTags;

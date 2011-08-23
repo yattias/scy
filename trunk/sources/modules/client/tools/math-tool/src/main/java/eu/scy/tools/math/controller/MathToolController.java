@@ -458,7 +458,34 @@ public class MathToolController {
 	public void addShape(JLabel label, Point dropPoint, String type, String shapeId, HashMap<String, ShapeResult> resultMap) {
 		// System.out.println("ShapeCanvas.addShape()" + label.getName());
 
+		String newShapeName = label.getName();
+		
 		ShapeCanvas sc = getShapeCanvases().get(type);
+		
+		ArrayList<IMathShape> mathShapes = sc.getMathShapes();
+		
+		boolean isAlready = false;
+		
+		for (IMathShape iMathShape : mathShapes) {
+			
+			if( newShapeName.equals(UIUtils.RECTANGLE3D) && iMathShape instanceof MathRectangle3D ) {
+				isAlready = true;
+			} else if(newShapeName.equals(UIUtils.SPHERE3D) && iMathShape instanceof MathSphere3D){
+				isAlready = true;
+			} else if(newShapeName.equals(UIUtils.CYLINDER3D) && iMathShape instanceof MathCylinder3D) {
+				isAlready = true;
+			}
+			
+			if( isAlready ) {
+				
+				JOptionPane.showMessageDialog(null,
+						UIUtils.duplicate3DShapeError,
+						"Duplicate Shape", JOptionPane.INFORMATION_MESSAGE,
+						null);
+				return;
+			}
+				
+		}
 
 		String id;
 		if( shapeId == null)
