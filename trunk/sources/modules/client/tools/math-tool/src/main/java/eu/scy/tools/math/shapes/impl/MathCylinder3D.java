@@ -7,6 +7,7 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 
@@ -25,6 +26,7 @@ import eu.scy.tools.math.doa.json.ISphereToolbarShape;
 import eu.scy.tools.math.doa.json.IToolbarShape;
 import eu.scy.tools.math.doa.result.CircularShapeResult;
 import eu.scy.tools.math.doa.result.CircularShapeResult;
+import eu.scy.tools.math.doa.result.ShapeResult;
 import eu.scy.tools.math.shapes.IMathCylinder3D;
 import eu.scy.tools.math.ui.UIUtils;
 import eu.scy.tools.math.ui.images.Images;
@@ -47,9 +49,9 @@ public class MathCylinder3D extends Math3DShape implements IMathCylinder3D {
 		super(location);
 	}
 
-	public MathCylinder3D(ArrayList<IToolbarShape> shapes, int x, int y, String id) {
+	public MathCylinder3D(ArrayList<IToolbarShape> shapes, int x, int y, String id, HashMap<String, ShapeResult> resultMap) {
 		
-		super(shapes, x, y, shapes.get(0).getCanvasIcon(), id);
+		super(shapes, x, y, shapes.get(0).getCanvasIcon(), id, resultMap);
 	}
 	
 	protected void updateLabels(int selectedIndex) {

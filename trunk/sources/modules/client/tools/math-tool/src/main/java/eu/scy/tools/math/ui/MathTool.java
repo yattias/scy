@@ -221,6 +221,7 @@ public class MathTool {
 					JLabel createShapeLabel = createShapeLabel(toolbarShape.getToolbarIcon(), toolbarShape.getType(), shapes);
 				
 					labelPanel.add(createShapeLabel,"wrap");
+					mathToolController.add3dShapeLabel(createShapeLabel(toolbarShape.getToolbarIcon(), toolbarShape.getType(), shapes));
 				
 				}
 			} else {

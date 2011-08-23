@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 
@@ -22,6 +23,7 @@ import eu.scy.tools.math.doa.json.ISphereToolbarShape;
 import eu.scy.tools.math.doa.json.IToolbarShape;
 import eu.scy.tools.math.doa.result.CircularShapeResult;
 import eu.scy.tools.math.doa.result.RectanglarPrismResult;
+import eu.scy.tools.math.doa.result.ShapeResult;
 import eu.scy.tools.math.shapes.IMathSphere3D;
 import eu.scy.tools.math.ui.UIUtils;
 import eu.scy.tools.math.ui.images.Images;
@@ -40,9 +42,8 @@ public class MathSphere3D extends Math3DShape implements IMathSphere3D {
 		// TODO Auto-generated constructor stub
 	}
 
-	public MathSphere3D(ArrayList<IToolbarShape> shapes, int x, int y, String id) {
-		
-		super(shapes, x, y, shapes.get(0).getCanvasIcon(), id);
+	public MathSphere3D(ArrayList<IToolbarShape> shapes, int x, int y, String id, HashMap<String, ShapeResult> resultMap) {
+		super(shapes, x, y, shapes.get(0).getCanvasIcon(), id, resultMap);
 	}
 	
 	protected void updateLabels(int selectedIndex) {
@@ -52,7 +53,7 @@ public class MathSphere3D extends Math3DShape implements IMathSphere3D {
 			getResultMap().put(this.shape.getName(), new CircularShapeResult(this.shape.getName(), null, null, this.shape.getVolume(), this.shape.getCanvasIcon(), null));
 		} else {
 			CircularShapeResult shapeResult = (CircularShapeResult) getResultMap().get(this.shape.getName());
-			getVolumeValueLabel().setText(this.shape.getVolume());
+			getVolumeValueLabel().setText(shapeResult.getVolume());
 			getRadiusTextField().setText(shapeResult.getRadius());
 			getSurfaceAreaTextField().setText(shapeResult.getSurfaceArea());
 			getRatioTextField().setText(shapeResult.getSurfaceAreaRatio());
