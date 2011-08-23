@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -65,9 +66,9 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 //		this.setIconName(this.shape.getCanvasIcon());
 	}
 
-	public MathRectangle3D(ArrayList<IToolbarShape> shapes, int x, int y, String id) {
+	public MathRectangle3D(ArrayList<IToolbarShape> shapes, int x, int y, String id, HashMap<String, ShapeResult> resultMap) {
 		
-		super(shapes, x, y, shapes.get(0).getCanvasIcon(), id);
+		super(shapes, x, y, shapes.get(0).getCanvasIcon(), id, resultMap);
 	}
 	
 	protected void updateLabels(int selectedIndex) {

@@ -60,6 +60,7 @@ import eu.scy.tools.math.doa.json.IToolbarShape;
 import eu.scy.tools.math.doa.json.ITriangleToolbarShape;
 import eu.scy.tools.math.doa.result.CircularShapeResult;
 import eu.scy.tools.math.doa.result.RectanglarPrismResult;
+import eu.scy.tools.math.doa.result.ShapeResult;
 import eu.scy.tools.math.shapes.I3D;
 import eu.scy.tools.math.shapes.IMathCylinder3D;
 import eu.scy.tools.math.shapes.IMathEllipse;
@@ -91,6 +92,8 @@ public class MathToolController {
 	protected Map<String, Calculator> calculators = new HashMap<String, Calculator>();
 	protected Map<String, JXTable> computationTables = new HashMap<String, JXTable>();
 	protected Map<String, String> shapeIdToForumla = new HashMap<String, String>();
+	protected ArrayList<JLabel> threeDShapeLabels = new ArrayList<JLabel>();
+
 
 	protected IMathShape mathShape;
 	Random generator = new Random(19580427);
@@ -452,12 +455,16 @@ public class MathToolController {
 		return shapeCanvases;
 	}
 
-	public void addShape(JLabel label, Point dropPoint, String type) {
+	public void addShape(JLabel label, Point dropPoint, String type, String shapeId, HashMap<String, ShapeResult> resultMap) {
 		// System.out.println("ShapeCanvas.addShape()" + label.getName());
 
 		ShapeCanvas sc = getShapeCanvases().get(type);
 
-		String id = new Integer(generator.nextInt(1000)).toString();
+		String id;
+		if( shapeId == null)
+		 id = new Integer(generator.nextInt(1000)).toString();
+		else
+		 id = shapeId;
 
 //		IMathToolbarShape clientProperty = (IMathToolbarShape) label
 //				.getClientProperty(UIUtils.SHAPE_OBJ);
@@ -470,7 +477,7 @@ public class MathToolController {
 			if (label.getName().equals(UIUtils.RECTANGLE3D)) {
 				MathRectangle3D t = new MathRectangle3D(
 						(ArrayList<IToolbarShape>) clientProperty, dropPoint.x,
-						dropPoint.y,id);
+						dropPoint.y,id,resultMap);
 				MathShape3DFocusListener mathShape3DFocusListener = new MathShape3DFocusListener(
 						t);
 				// t.getSurfaceAreaTextField().addFocusListener(mathShape3DFocusListener);
@@ -483,7 +490,7 @@ public class MathToolController {
 			} else if (label.getName().equals(UIUtils.SPHERE3D)) {
 				MathSphere3D t = new MathSphere3D(
 						(ArrayList<IToolbarShape>) clientProperty, dropPoint.x,
-						dropPoint.y,id);
+						dropPoint.y,id, resultMap);
 				MathShape3DFocusListener mathShape3DFocusListener = new MathShape3DFocusListener(
 						t);
 				// t.getSurfaceAreaTextField().addFocusListener(mathShape3DFocusListener);
@@ -497,7 +504,7 @@ public class MathToolController {
 			} else if (label.getName().equals(UIUtils.CYLINDER3D)) {
 				MathCylinder3D t = new MathCylinder3D(
 						(ArrayList<IToolbarShape>) clientProperty, dropPoint.x,
-						dropPoint.y,id);
+						dropPoint.y,id, resultMap);
 				MathShape3DFocusListener mathShape3DFocusListener = new MathShape3DFocusListener(
 						t);
 				// t.getSurfaceAreaTextField().addFocusListener(mathShape3DFocusListener);
@@ -1101,11 +1108,29 @@ public class MathToolController {
 					}
 
 					if (key.equals(UIUtils._3D)) {
+						
+						ArrayList<ThreeDObj> cylinders = new ArrayList<ThreeDObj>();
+						ArrayList<ThreeDObj> spheres = new ArrayList<ThreeDObj>();
+						ArrayList<ThreeDObj> prisms = new ArrayList<ThreeDObj>();
 						List<ThreeDObj> threeObjects = dataStoreObj
 								.getThreeDMathShapes();
 						for (ThreeDObj to : threeObjects) {
-							sc.addShape(convertThreeObjToMathShape(to));
+//							sc.addShape(convertThreeObjToMathShape(to));
+							if( to.getType().equals(UIUtils.SPHERE3D) ) {
+								spheres.add(to);
+							} else if( to.getType().equals(UIUtils.RECTANGLE3D)) {
+								prisms.add(to);
+							} else if( to.getType().equals(UIUtils.CYLINDER3D)) {
+								cylinders.add(to);
+							}
 						}
+						
+						convertThreeObjToMathShape(spheres, UIUtils.SPHERE3D);
+						convertThreeObjToMathShape(prisms, UIUtils.RECTANGLE3D);	
+						convertThreeObjToMathShape(cylinders, UIUtils.CYLINDER3D);
+						
+						
+						
 
 					} else {
 						List<IMathShape> mathShapes = dataStoreObj.getTwoDMathShapes();
@@ -1137,42 +1162,108 @@ public class MathToolController {
 		}
 	}
 
-	private IMathShape convertThreeObjToMathShape(ThreeDObj to) {
-//		if (to.getType().equals(UIUtils.CYLINDER3D)) {
-//			MathCylinder3D ms = new MathCylinder3D(to.getPosition(),to.getIcon(), to.getId());
-//			ms.getRadiusTextField().setText(to.getRadius());
-//			ms.getSurfaceAreaTextField().setText(to.getSurfaceArea());
-//			ms.getRatioTextField().setText(to.getRatio());
-//			ms.getAddButton().addActionListener(add3dAction);
-//			
-//			ms.getHeightValueLabel().setText(to.getHeight());
-//			ms.getVolumeLabelCombo().setText(to.getVolume());
-//			
-//			
-//			return ms;
-//		} else if (to.getType().equals(UIUtils.SPHERE3D)) {
-//			MathSphere3D ms = new MathSphere3D(to.getPosition(), to.getIcon(), to.getId());
-//			ms.getRadiusTextField().setText(to.getRadius());
-//			ms.getSurfaceAreaTextField().setText(to.getSurfaceArea());
-//			ms.getRatioTextField().setText(to.getRatio());
-//			ms.getAddButton().addActionListener(add3dAction);
-//			
-//			ms.getVolumeLabelCombo().setText(to.getVolume());
-//			
-//			
-//			return ms;
-//		} else if (to.getType().equals(UIUtils.RECTANGLE3D)) {
-//			MathRectangle3D ms = new MathRectangle3D(to.getPosition(), to.getIcon(), to.getId());
-//			ms.getLengthTextField().setText(to.getLength());
-//			ms.getSurfaceAreaTextField().setText(to.getSurfaceArea());
-//			ms.getRatioTextField().setText(to.getRatio());
-//			ms.getAddButton().addActionListener(add3dAction);
-//			
-//			ms.getHeightValueLabel().setText(to.getHeight());
-//			ms.getWidthValueLabel().setText(to.getWidth());
-//			ms.getVolumeLabelCombo().setText(to.getVolume());
-//			return ms;
-//		}
+	private IMathShape convertThreeObjToMathShape(ArrayList<ThreeDObj> shapes, String shapeType) {
+		
+		if( !shapes.isEmpty() ) {
+			for (Iterator iterator = this.threeDShapeLabels.iterator(); iterator.hasNext();) {
+				JLabel label = (JLabel) iterator.next();
+				
+				if(label.getName().equals(shapeType)) {
+					
+					
+					ThreeDObj threeDObj = shapes.get(0);
+					String[] split = StringUtils.split(threeDObj.getId(), " ");
+					
+					String newId = split[0];
+					
+					HashMap<String, ShapeResult> resultMap = convertToResultMap(shapes, shapeType);
+					
+					this.addShape(label, threeDObj.getPosition(), UIUtils._3D, newId, resultMap);
+				}
+			} 
+			
+			
+		}
+
+		return null;
+	}
+
+	private HashMap<String, ShapeResult> convertToResultMap(ArrayList<ThreeDObj> shapes, String shapeType) {
+		
+		HashMap<String, ShapeResult> resultMap = new HashMap<String, ShapeResult>();
+		
+		if( shapeType.equals(UIUtils.SPHERE3D)) {
+			for (ThreeDObj threeDObj : shapes) {
+				
+				String[] split = StringUtils.split(threeDObj.getId(), " ");
+				
+				String newId = split[0];
+				
+				String name = StringUtils.trim( StringUtils.removeStart(threeDObj.getId(),newId) );
+				
+				CircularShapeResult sr = new CircularShapeResult();
+			
+				sr.setImageIconName(threeDObj.getIcon());
+				sr.setName(name);
+				sr.setRadius(threeDObj.getRadius());
+				sr.setSurfaceArea(threeDObj.getSurfaceArea());
+				sr.setSurfaceAreaRatio(threeDObj.getRatio());
+				sr.setVolume(threeDObj.getVolume());
+				resultMap.put(name, sr);
+			}
+			
+			return resultMap;
+			
+		} else if(shapeType.equals(UIUtils.RECTANGLE3D) ) {
+			
+			for (ThreeDObj threeDObj : shapes) {
+
+				String[] split = StringUtils.split(threeDObj.getId(), " ");
+
+				String newId = split[0];
+
+				String name = StringUtils.trim(StringUtils.removeStart(
+						threeDObj.getId(), newId));
+
+				RectanglarPrismResult sr = new RectanglarPrismResult();
+
+				sr.setImageIconName(threeDObj.getIcon());
+				sr.setName(name);
+				sr.setLength(threeDObj.getLength());
+				sr.setSurfaceArea(threeDObj.getSurfaceArea());
+				sr.setSurfaceAreaRatio(threeDObj.getRatio());
+				sr.setVolume(threeDObj.getVolume());
+				resultMap.put(name, sr);
+			}
+			
+			return resultMap;
+			
+			
+		} else if(shapeType.equals(UIUtils.CYLINDER3D)) {
+			
+			
+			for (ThreeDObj threeDObj : shapes) {
+				
+				String[] split = StringUtils.split(threeDObj.getId(), " ");
+				
+				String newId = split[0];
+				
+				String name = StringUtils.trim( StringUtils.removeStart(threeDObj.getId(),newId) );
+				
+				CircularShapeResult sr = new CircularShapeResult();
+			
+				sr.setImageIconName(threeDObj.getIcon());
+				sr.setName(name);
+				sr.setRadius(threeDObj.getRadius());
+				sr.setSurfaceArea(threeDObj.getSurfaceArea());
+				sr.setSurfaceAreaRatio(threeDObj.getRatio());
+				sr.setVolume(threeDObj.getVolume());
+				resultMap.put(name, sr);
+			}
+			
+			return resultMap;
+		} 		
+		
 		return null;
 	}
 
@@ -1343,6 +1434,16 @@ public class MathToolController {
 			return savedFile.getPath();
 
 		return null;
+	}
+
+	public void add3dShapeLabel(JLabel createShapeLabel) {
+		this.threeDShapeLabels.add(createShapeLabel);
+		
+	}
+
+	public void addShape(JLabel label, Point dropPoint, String type) {
+		this.addShape(label, dropPoint, type, null, null);
+		
 	}
 
 }

@@ -73,6 +73,14 @@ public abstract class Math3DShape extends JXPanel implements IMathShape, I3D{
 		
 	}
 	
+	public Math3DShape(Point point, String iconName, String id, HashMap<String, ShapeResult> resultMap) {
+		this.setLocation(point);
+		this.setIconName(iconName);
+		this.setId(id);
+		this.resultMap = resultMap;
+		init();
+	}
+	
 	public Math3DShape(Point location) {
 		this.setLocation(location);
 		init();
@@ -87,10 +95,12 @@ public abstract class Math3DShape extends JXPanel implements IMathShape, I3D{
 		init();
 	}
 
-	public Math3DShape(ArrayList<IToolbarShape> shapes, int x, int y, String iconName, String id) {
+	public Math3DShape(ArrayList<IToolbarShape> shapes, int x, int y, String iconName, String id, HashMap<String, ShapeResult> resultMap) {
 		this.setIconName(iconName);
 		this.setLocation(x, y);
 		this.setId(id);
+		if( resultMap != null)
+			this.resultMap = resultMap;
 		
 		
 		this.shape = shapes.get(0);
