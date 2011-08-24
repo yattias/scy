@@ -51,7 +51,7 @@ public abstract class Math3DShape extends JXPanel implements IMathShape, I3D{
 	protected JXLabel ratioLabel;
 	private JTextField ratioTextField;
 	protected JXLabel volumeLabel;
-	private JXLabel volumeValueLabe¿;
+	private JXLabel volumeValueLabel;
 	protected JXLabel errorLabel;
 	private boolean error = false;
 	private List<Action> shapeListeners = new ArrayList<Action>();
@@ -418,11 +418,11 @@ public abstract class Math3DShape extends JXPanel implements IMathShape, I3D{
 	}
 
 	public void setVolumeValueLabel(JXLabel volumeValueLabel) {
-		this.volumeValueLabe¿ = volumeValueLabel;
+		this.volumeValueLabel = volumeValueLabel;
 	}
 
 	public JXLabel getVolumeValueLabel() {
-		return volumeValueLabe¿;
+		return volumeValueLabel;
 	}
 
 	public void setRatioTextField(JTextField ratioTextField) {
