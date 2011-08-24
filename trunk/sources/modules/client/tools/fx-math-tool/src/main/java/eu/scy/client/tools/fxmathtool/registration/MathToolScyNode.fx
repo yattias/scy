@@ -181,6 +181,15 @@ public class MathToolScyNode extends MathToolNode, ScyToolFX, EloSaverCallBack {
 
    public override function onQuit() {
       // mathTool.insertedTextToActionLog();
+       if (elo!=null){
+         def oldContentXml = elo.getContent().getXmlString();
+         def newContentXml = getElo().getContent().getXmlString();
+         if (oldContentXml==newContentXml){
+            // nothing changed
+            return;
+         }
+      }
+      doSaveElo();
    }
 
    public override function getThumbnail(width: Integer, height: Integer): BufferedImage {
