@@ -154,6 +154,8 @@
     <bean id="ajaxELOSliderController" class="eu.scy.server.controllers.AjaxELOSliderController">
         <property name="rooloServices" ref="missionELOService"/>
         <property name="actionLoggingService" ref="actionLoggingService"/>
+        <property name="agentParameterAPI" ref="agentParameterAPI"/>
+        <property name="missionELOService" ref="missionELOService"/>
 	</bean>
 
     <bean id="agentParameterTextFieldController" class="eu.scy.server.controllers.AgentParameterTextFieldController">
