@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<jnlp codebase="http://www.intermedia.uio.no/www-data-public/app-scy/mathtool/" href="math-tool-31-SNAPSHOT.jnlp">
+<jnlp codebase="http://www.intermedia.uio.no/www-data-public/app-scy/mathtool/" href="math-tool-35-SNAPSHOT.jnlp">
   <information>
     <title>Math-Tool</title>
     <vendor>University of Oslo, Intermedia<vendor/>
@@ -15,7 +15,7 @@
      max-heap-size="128m"
      />
      
-<jar href="lib/math-tool-31-SNAPSHOT.jar" main="true"/>
+<jar href="lib/math-tool-35-SNAPSHOT.jar" main="true"/>
 <jar href="lib/json-20070829.jar"/>
 <jar href="lib/jettison-1.2.jar"/>
 <jar href="lib/swingx-1.6.1.jar"/>
