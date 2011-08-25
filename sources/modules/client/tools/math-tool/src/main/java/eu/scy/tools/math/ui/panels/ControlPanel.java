@@ -201,7 +201,7 @@ public class ControlPanel extends JXPanel {
 				
 				ControlPanel.this.getComputationTable().revalidate();
 			} else {
-				JOptionPane.showMessageDialog(ControlPanel.this,"Please Select a Row to Remove");
+				JOptionPane.showMessageDialog(ControlPanel.this,"There are no more Entries to remove.");
 			}
 			
 		}
