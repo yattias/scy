@@ -615,9 +615,9 @@ public class MathToolController {
 					ashape = (Math3DShape) ms;
 			}
 
-			ashape.checkForError();
-			if (ashape.getError() == true)
-				return;
+//			ashape.checkForError();
+//			if (ashape.getError() == true)
+//				return;
 
 			String volume = (String) ashape.getVolumeValueLabel().getText();
 			String surfaceArea = ashape.getSurfaceAreaTextField().getText();
@@ -795,8 +795,12 @@ public class MathToolController {
 		public void valueChanged(ListSelectionEvent e) {
 			if (e.getValueIsAdjusting()) {
 
+				
 				int firstIndex = e.getFirstIndex();
 
+				if( firstIndex == -1)
+					return;
+				
 				DefaultTableModel model = (DefaultTableModel) getComputationTables()
 						.get(UIUtils._2D).getModel();
 
@@ -823,6 +827,10 @@ public class MathToolController {
 			if (e.getValueIsAdjusting()) {
 				int firstIndex = getComputationTables()
 						.get(UIUtils._2D).getSelectedRow();
+				
+				if( firstIndex == -1)
+					return;
+				
 
 				DefaultTableModel model = (DefaultTableModel) getComputationTables()
 						.get(UIUtils._2D).getModel();
@@ -856,6 +864,10 @@ public class MathToolController {
 			if (e.getValueIsAdjusting()) {
 				int firstIndex = getComputationTables()
 						.get(UIUtils._3D).getSelectedRow();
+				
+				
+				if( firstIndex == -1)
+					return;
 
 				DefaultTableModel model = (DefaultTableModel) getComputationTables()
 						.get(UIUtils._3D).getModel();
