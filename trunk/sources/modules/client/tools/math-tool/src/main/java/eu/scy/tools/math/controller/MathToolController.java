@@ -312,7 +312,7 @@ public class MathToolController {
 	public void setSelectedMathShape(IMathShape mathShape) {
 		IMathShape oldMathShape = this.mathShape;
 		this.mathShape = mathShape;
-		Calculator calc = null;
+		//Calculator calc = null;
 
 		// save the forumla of the last shape
 		// if( oldMathShape != null ) {
@@ -843,7 +843,9 @@ public class MathToolController {
 				for (IMathShape ms : sc.getMathShapes()) {
 					if (ms.getId().equals(shapeId)) {
 //						ms.setShowCornerPoints(true);
-						setSelectedMathShape(ms);
+//						setSelectedMathShape(ms);
+						highLightShape(ms);
+						//selectInTable(ms);
 //						ms.repaint();
 						log.info("found shape" + ms);
 				
@@ -888,15 +890,16 @@ public class MathToolController {
 				for (IMathShape ms : sc.getMathShapes()) {
 					if (ms.getId().equals(newId)) {
 						ms.setSelectedItem(subElement);
-//						ms.setShowCornerPoints(true);
+						ms.setShowCornerPoints(true);
+						highLightShape(ms);
 						setSelectedMathShape(ms);
-//						ms.repaint();
+						ms.repaint();
 						log.info("found shape" + ms);
 				
 					}
 				}
 
-				//sc.repaint();
+				sc.repaint();
 
 			}
 		}
