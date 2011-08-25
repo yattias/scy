@@ -4,9 +4,6 @@
         <table>
             <tr>
                 <th>
-                    <spring:message code="MINUTES"/>
-                </th>
-                <th>
                     <spring:message code="ANCHOR_ELO"/>
                 </th>
                 <th>
@@ -23,15 +20,11 @@
             <c:forEach var="las" items="${pedagogicalPlan.missionPlan.lasTransfers}">
                 <tr>
                     <td>
-                        <s:ajaxTransferObjectNumberField transferObjectServiceCollection="${transferObjectServiceCollection}" transferObject="${las}" transferEloURI="${pedagogicalPlan.pedagogicalPlanURI}" id="${las.id}" property="minutesPlannedUsedInLas"/>
-
-                    </td>
-                    <td>
                         <div id="external${las.id}" dojoType="dijit.Dialog" title="${las.anchorElo.name}" href="${las.instructions}" style="overflow:auto; width: 400px; height: 400px;"> </div>
                         <a href="#" onClick="dijit.byId('external${las.id}').show();">${las.anchorElo.name}</a>
                     </td>
                     <td>
-                        ${las.name}
+                        ${las.lasType}
                     </td>
                     <td>
                          <s:ajaxTransferObjectCheckBox transferObjectServiceCollection="${transferObjectServiceCollection}" transferObject="${las.anchorElo}" transferEloURI="${pedagogicalPlan.pedagogicalPlanURI}" id="${las.anchorElo.id}" property="obligatoryInPortfolio"/>
