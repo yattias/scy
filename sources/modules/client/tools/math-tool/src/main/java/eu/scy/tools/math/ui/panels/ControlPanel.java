@@ -148,7 +148,7 @@ public class ControlPanel extends JXPanel {
 	    temp.add(buttonPanel,"grow");
 	    
 		TableColumn col = table.getColumnModel().getColumn(0);
-	    int width = 4;
+	    int width = 8;
 	    col.setPreferredWidth(width);
 	    
 //	    if( type.equals(UIUtils._2D) ) {
