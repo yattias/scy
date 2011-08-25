@@ -1,4 +1,9 @@
 <%@ include file="common-taglibs.jsp" %>
+
+<p>
+    <spring:message code="TEACHER_INTRO_TO_PEDAGOGICAL_PLAN_TAB"/>
+</p>
+
 <c:choose>
     <c:when test="${fn:length(pedagogicalPlan.missionPlan.lasTransfers) > 0}">
         <table>
@@ -20,11 +25,11 @@
             <c:forEach var="las" items="${pedagogicalPlan.missionPlan.lasTransfers}">
                 <tr>
                     <td>
-                        <div id="external${las.id}" dojoType="dijit.Dialog" title="${las.anchorElo.name}" href="${las.instructions}" style="overflow:auto; width: 400px; height: 400px;"> </div>
-                        <a href="#" onClick="dijit.byId('external${las.id}').show();">${las.anchorElo.name}</a>
+                        ${las.anchorElo.name} <!--(Legg inn beskrivelse fra hoover her) Denne skal aapne opp en dialog-->
                     </td>
                     <td>
-                        ${las.lasType}
+                        <div id="external${las.id}" dojoType="dijit.Dialog" title="${las.anchorElo.name}" href="${las.instructions}" style="overflow:auto; width: 400px; height: 400px;"> </div>
+                        <a href="#" onClick="dijit.byId('external${las.id}').show();">${las.lasType}<!--(IKON HER)--></a>
                     </td>
                     <td>
                          <s:ajaxTransferObjectCheckBox transferObjectServiceCollection="${transferObjectServiceCollection}" transferObject="${las.anchorElo}" transferEloURI="${pedagogicalPlan.pedagogicalPlanURI}" id="${las.anchorElo.id}" property="obligatoryInPortfolio"/>
