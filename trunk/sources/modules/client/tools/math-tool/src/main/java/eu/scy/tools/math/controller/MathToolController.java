@@ -845,7 +845,7 @@ public class MathToolController {
 						highLightShape(ms);
 						//selectInTable(ms);
 //						ms.repaint();
-						log.info("found shape" + ms);
+//						log.info("found shape" + ms);
 				
 					}
 				}
@@ -874,7 +874,7 @@ public class MathToolController {
 
 				String shapeId = (String) model.getValueAt(firstIndex, 5);
 
-				log.info("shapeId " + shapeId);
+//				log.info("shapeId " + shapeId);
 				
 				
 				String[] split = StringUtils.split(shapeId, " ");
@@ -894,7 +894,7 @@ public class MathToolController {
 						mathShape = ms;
 						//setSelectedMathShape(ms);
 						ms.repaint();
-						log.info("found shape" + ms);
+//						log.info("found shape" + ms);
 				
 					}
 				}
