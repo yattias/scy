@@ -279,7 +279,6 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
 			feedback = feedback.replace("\\comma", ",");
 			String newLine = System.getProperty("line.separator");
 			feedback = feedback.replace("\\n", newLine);
-			System.out.println("feedback: "+feedback);			
 			JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(this), feedback, getBundleString("DATACOLLECTOR_FEEDBACK"), JOptionPane.INFORMATION_MESSAGE);
 		} else if (evt.getActionCommand().equals("cleardata")) {
 			cleanDataSet();
