@@ -611,9 +611,9 @@ public class MathToolController {
 					ashape = (Math3DShape) ms;
 			}
 
-//			ashape.checkForError();
-//			if (ashape.getError() == true)
-//				return;
+			ashape.checkForError();
+			if (ashape.getError() == true)
+				return;
 
 			String volume = (String) ashape.getVolumeValueLabel().getText();
 			String surfaceArea = ashape.getSurfaceAreaTextField().getText();
