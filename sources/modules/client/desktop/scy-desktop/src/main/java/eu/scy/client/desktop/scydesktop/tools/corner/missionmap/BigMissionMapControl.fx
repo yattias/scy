@@ -30,6 +30,9 @@ import javafx.scene.CacheHint;
 /**
  * @author SikkenJ
  */
+
+public def defaultMissionMapIconName = "mission_map";
+
 public class BigMissionMapControl extends CustomNode {
 
    public var bigMissionMap: BigMissionMap;
@@ -43,7 +46,7 @@ public class BigMissionMapControl extends CustomNode {
    public var buttonActionScheme = 1;
    public var moreInfoToolFactory: MoreInfoToolFactory on replace { moreInfoToolFactoryChanged() };
    public var moreInfoManager: MoreInfoManager;
-   var eloIcon = windowStyler.getScyEloIcon("mission_map");
+   var eloIcon = windowStyler.getScyEloIcon(defaultMissionMapIconName);
    def missionMapWindow: MoreInfoWindow = MoreInfoWindow {
               title: ##"Mission navigation"
               eloIcon: eloIcon.clone()

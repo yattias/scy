@@ -15,6 +15,7 @@ import eu.scy.client.desktop.scydesktop.tooltips.impl.TextTooltip;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipCreator;
 import roolo.search.IQueryComponent;
 import eu.scy.common.scyelo.ScyElo;
+import eu.scy.client.desktop.desktoputils.art.EloIcon;
 
 /**
  * @author SikkenJ
@@ -28,6 +29,7 @@ public class QuerySelecterDisplay extends CustomNode, TooltipCreator {
    public-init var tooltipManager: TooltipManager;
    public-init var selectionChanged: function(): Void;
    public-init var basedOnElo: ScyElo;
+   public-init var iconNameFilter: function(String):String;
    public-read var noOptions = false;
    def querySelecterChoiceBox = ChoiceBox {};
    def iconSize = 20.0;
@@ -61,12 +63,20 @@ public class QuerySelecterDisplay extends CustomNode, TooltipCreator {
       }
    }
 
+   function getEloIcon(): EloIcon{
+      var desiredIconName = querySelecter.getEloIconName();
+      if (iconNameFilter!=null){
+         desiredIconName = iconNameFilter(desiredIconName)
+      }
+      return eloIconFactory.createEloIcon(desiredIconName);
+   }
+
    public override function create(): Node {
       FX.deferAction(function(): Void {
          created = true
       });
       querySelecter.setBasedOnElo(basedOnElo);
-      def icon = eloIconFactory.createEloIcon(querySelecter.getEloIconName());
+      def icon = getEloIcon();
       icon.size = iconSize;
       icon.windowColorScheme = windowColorScheme;
       tooltipManager.registerNode(icon, this);
