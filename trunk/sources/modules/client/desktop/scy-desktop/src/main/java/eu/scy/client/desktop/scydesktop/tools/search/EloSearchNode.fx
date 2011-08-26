@@ -49,6 +49,7 @@ import eu.scy.common.scyelo.ScyElo;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.ExtendedScyEloDisplayNode;
 import eu.scy.client.desktop.desktoputils.StringUtils;
 import java.lang.System;
+import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.BigMissionMapControl;
 
 /**
  * @author SikkenJ
@@ -266,12 +267,22 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
                     tooltipManager: scyDesktop.tooltipManager
                     selectionChanged: querySelecterChanged
                     basedOnElo: baseElo
+                    iconNameFilter:iconNameFilter
                  }
               }
       usedQuerySelecters.clear();
       for (querySelecterDisplay in querySelecterDisplays) {
          usedQuerySelecters.add(querySelecterDisplay.querySelecter)
       }
+   }
+
+   function iconNameFilter(iconName: String): String{
+      if (scyDesktop.missionModelFX.missionMapButtonIconType != "") {
+         if (iconName==BigMissionMapControl.defaultMissionMapIconName){
+            return scyDesktop.missionModelFX.missionMapButtonIconType
+         }
+      }
+      return iconName
    }
 
    function querySelecterChanged(): Void {
