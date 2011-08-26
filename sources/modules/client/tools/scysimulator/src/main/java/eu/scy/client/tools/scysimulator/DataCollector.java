@@ -100,6 +100,7 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
 	private String notificationSender;
 	private MODE mode = MODE.collect_data;
 	private JButton feedbackButton;
+	private ModelVariable allFeedbackVariable;
 
 	public DataCollector(SimQuestViewer simquestViewer, ToolBrokerAPI tbi, String eloURI) {
 		this.bundle = new ResourceBundleWrapper(this);
@@ -133,6 +134,10 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
 			if (var.getName().equals("_feedback")) {
 				feedbackVariable = var;
 				debugLogger.info("feedback variable found.");
+			}
+			if (var.getName().equals("_allfeedback")) {
+				allFeedbackVariable = var;
+				debugLogger.info("allFeedback variable found.");
 			}
 		}
 		
@@ -272,6 +277,9 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
 		} else if (evt.getActionCommand().equals("feedback")) {
 			String feedback = feedbackVariable.getValueString();
 			feedback = feedback.replace("\\comma", ",");
+			String newLine = System.getProperty("line.separator");
+			feedback = feedback.replace("\\n", newLine);
+			System.out.println("feedback: "+feedback);			
 			JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(this), feedback, getBundleString("DATACOLLECTOR_FEEDBACK"), JOptionPane.INFORMATION_MESSAGE);
 		} else if (evt.getActionCommand().equals("cleardata")) {
 			cleanDataSet();
