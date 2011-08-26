@@ -51,11 +51,7 @@ import eu.scy.tools.math.doa.ComputationDataObj;
 import eu.scy.tools.math.doa.DataStoreObj;
 import eu.scy.tools.math.doa.ThreeDObj;
 import eu.scy.tools.math.doa.json.ICircleToolbarShape;
-import eu.scy.tools.math.doa.json.ICylinderToolbarShape;
-import eu.scy.tools.math.doa.json.IMathToolbarShape;
-import eu.scy.tools.math.doa.json.IRectanglarPrismToolbarShape;
 import eu.scy.tools.math.doa.json.IRectangleToolbarShape;
-import eu.scy.tools.math.doa.json.ISphereToolbarShape;
 import eu.scy.tools.math.doa.json.IToolbarShape;
 import eu.scy.tools.math.doa.json.ITriangleToolbarShape;
 import eu.scy.tools.math.doa.result.CircularShapeResult;
@@ -844,6 +840,8 @@ public class MathToolController {
 					if (ms.getId().equals(shapeId)) {
 //						ms.setShowCornerPoints(true);
 //						setSelectedMathShape(ms);
+						IMathShape oldMathShape = mathShape;
+						mathShape = ms;
 						highLightShape(ms);
 						//selectInTable(ms);
 //						ms.repaint();
@@ -892,7 +890,9 @@ public class MathToolController {
 						ms.setSelectedItem(subElement);
 						ms.setShowCornerPoints(true);
 						highLightShape(ms);
-						setSelectedMathShape(ms);
+						IMathShape oldMathShape = mathShape;
+						mathShape = ms;
+						//setSelectedMathShape(ms);
 						ms.repaint();
 						log.info("found shape" + ms);
 				
@@ -1331,7 +1331,7 @@ public class MathToolController {
 		ArrayList<IMathShape> mathShapes = shapeCanvas.getMathShapes();
 
 		if (mathShapes.isEmpty()) {
-			calculator.getSumTextField().setEnabled(false);
+			calculator.getSumTextField().setEnabled(true);
 			calculator.getSumTextField().setText(null);
 			calculator.getResultLabel().setText("0.00");
 			return;
@@ -1344,7 +1344,7 @@ public class MathToolController {
 				calculator.getResultLabel().setText("0.00");
 				return;
 			} else {
-				calculator.getSumTextField().setEnabled(false);
+				calculator.getSumTextField().setEnabled(true);
 				calculator.getSumTextField().setText(null);
 				calculator.getResultLabel().setText("0.00");
 			}
@@ -1363,14 +1363,23 @@ public class MathToolController {
 
 		List<ComputationDataObj> cdos = new ArrayList<ComputationDataObj>();
 
-		for (Vector data : dataVector) {
-			ComputationDataObj computationDataObj = new ComputationDataObj(
-					data, type);
-			if (!computationDataObj.getShapeId().equals(
-					mathSelectedShape.getId()))
-				cdos.add(computationDataObj);
+		if( type.equals(UIUtils._3D)) {
+			for (Vector data : dataVector) {
+				ComputationDataObj computationDataObj = new ComputationDataObj(
+						data, type);
+				if (!computationDataObj.getName().equals(
+						mathSelectedShape.getType()))
+					cdos.add(computationDataObj);
+			}
+		} else {
+			for (Vector data : dataVector) {
+				ComputationDataObj computationDataObj = new ComputationDataObj(
+						data, type);
+				if (!computationDataObj.getShapeId().equals(
+						mathSelectedShape.getId()))
+					cdos.add(computationDataObj);
+			}
 		}
-
 		this.recalculateModel(model, cdos, type);
 	}
 
