@@ -7,7 +7,6 @@ import eu.scy.core.model.transfer.FeedbackReplyTransfer;
 import eu.scy.core.model.transfer.FeedbackTransfer;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.server.controllers.BaseController;
-import eu.scy.server.controllers.xml.ActionLoggingService;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,12 +28,22 @@ public class AddReplyToFeedbackController extends BaseController {
     private MissionELOService missionELOService;
     private XMLTransferObjectService xmlTransferObjectService;
 
+    private String commentContent;
+
+    public String getCommentContent() {
+        return commentContent;
+    }
+
+    public void setCommentContent(String commentContent) {
+        this.commentContent = commentContent;
+    }
+
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
         String feedbackId = request.getParameter("feedbackId");
         String feedbackELOUri = request.getParameter("feedbackEloURI");
         String reply = request.getParameter("reply");
-
+        setCommentContent(reply);
         logger.info("FEEDBACK ID: " + feedbackId);
         logger.info("FEEDBACK ELO URI: " + feedbackELOUri);
 
@@ -52,6 +61,7 @@ public class AddReplyToFeedbackController extends BaseController {
             FeedbackTransfer feedbackTransfer = feedbackTransferList.get(i);
             if(feedbackTransfer.getId().equals(feedbackId)) {
                 FeedbackReplyTransfer frt = new FeedbackReplyTransfer();
+                
                 frt.setComment(reply);
                 frt.setCreatedBy(getCurrentUserName(request));
                 frt.setCalendarTime(timeFormat.format(new Date()));
@@ -64,7 +74,7 @@ public class AddReplyToFeedbackController extends BaseController {
             }
         }
 
-        if(feedbackAdded ) logger.info("Feedback reply was given");
+        if(feedbackAdded ) logger.info("Feedback reply was given: " + reply);
         else logger.info("Did not add feedback reply.");
 
     }
@@ -83,6 +93,12 @@ public class AddReplyToFeedbackController extends BaseController {
 
     public void setXmlTransferObjectService(XMLTransferObjectService xmlTransferObjectService) {
         this.xmlTransferObjectService = xmlTransferObjectService;
+    }
+
+    public String getFeedbackString(){
+        String feedback = "";
+        feedback += getCommentContent();
+        return feedback;
     }
 
 

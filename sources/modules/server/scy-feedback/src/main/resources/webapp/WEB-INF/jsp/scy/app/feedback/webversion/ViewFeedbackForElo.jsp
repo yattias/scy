@@ -59,15 +59,15 @@
                                 <img src="/webapp/common/filestreamer.html?username=${feedbackItem.createdBy}&showIcon"/>
                                 </div>
                             </div>
-                            <div style="float:left;width:55%;padding:5px;">
+                            <div style="float:left;width:45%;padding:5px;">
                                  Time: ${feedbackItem.createdBy} wrote:
                                  <p>${feedbackItem.comment}</p>
                                 <p><a href="#" style="color:#ffffff;">Reply on feeback</a></p>
                             </div>
-                            <div style="float:left;width:30%;">
-                                 Quality score:<br/>
+                            <div style="float:left;width:40%;">
+                                 Quality score: <img src="/webapp/themes/scy/default/images/smiley_${feedbackItem.evalu}.png" alt=""  /><br/>
 
-                                <form action="/webapp/app/feedback/webversion/AddReplyToFeedback.html" method="POST" accept-charset="UTF-8" >
+                                <form action="/webapp/app/feedback/webversion/AddReplyToFeedback.html" method="POST" accept-charset="UTF-8" onsubmit="postFeedback(this, 'feedback_on_feedback_${feedbackItem.id}');return false;">
 
                                     <input type="hidden" name="feedbackId" value="${feedbackItem.id}"/>
                                     <input type="hidden" name="feedbackEloURI" value="${feedbackElo.uri}"/>
@@ -77,6 +77,7 @@
 
                                 <c:choose>
                                     <c:when test="${fn:length(feedbackItem.replies) > 0}">
+                                        <div id="feedback_on_feedback_${feedbackItem.id}"></div>
                                         <table>
                                             <c:forEach var="reply" items="${feedbackItem.replies}">
                                                 <tr>
@@ -95,7 +96,7 @@
                                 </c:choose>
 
 
-                                <img src="/webapp/themes/scy/default/images/smiley_${feedbackItem.evalu}.png" alt=""  />
+
                             </div>
                             <div style="clear:both;"></div>
                         </fieldset>    
