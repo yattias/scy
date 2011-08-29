@@ -19,16 +19,16 @@
         </role>
         <entity>Caspar</entity>
         <date>
-          <dateTime>2011-08-29T15:32:27.265+0200</dateTime>
+          <dateTime>2011-08-29T16:37:42.796+0200</dateTime>
         </date>
       </contribute>
-      <version>5</version>
+      <version>6</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1304610168343</dateCreated>
-        <dateFirstUserSaveKey>1314624747265</dateFirstUserSaveKey>
-        <dateLastModified>1314624747265</dateLastModified>
+        <dateFirstUserSaveKey>1314628662796</dateFirstUserSaveKey>
+        <dateLastModified>1314628662796</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
@@ -66,7 +66,7 @@
   <template>false</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>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</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAADFklEQVR42u3a3UtTcRgH8PMPCIJ47714q+iF4MvUbsRLKUL0wi4CHYjotItdSFgp5EXdOPFtbYsGpVFzavZCMwNjZrEyw0iztgUbudmMvTztedY5OEkFr3T7PvD4ez2/8+PDzhn+VAnEiPyRmJZbwXBaOxhPH/9fmkymtLbFZiNveC8rUmFA11qY3vlSJQM+94TI9TGZayEB9CVRLl3Wk/sb0W9KgfJcbr9a3xVAbqtpsd2l7cCvrEgBNDve0qPX36VkwJGpN3Tv6Sdpq4BWi5mscx80QB6zzL6nOzOrAshtrk8+XhHAr15/VqQA6i4YtGTAmos9WpsBA1Gi6vOpdugfINe571zzFQHkupoMuLG5lRWp+EJ75Avvy4Ntte+w/uPmZfh6SiKRIMTJQ+EfY2MrpCgGikbjaYOtrQ+pqOg25eRcPXIRv383eb1e6kNDS1J6vaFkXw8VFNzU5rndPw5cFyaP5+fZB0QAEIAABCACgAAEIAARAAQgAAGIACAAAZidgHxAzQernHxavf+QVe0/mHwwqo7H4wmtnyMWS/VxZiTgUUf6NTWT+2CPBxgddR86lql/OsAjDMBTAOjx+Kmx0U463QRVVo5TSckwLSx8oeXl7WTdROXlo1Rfb6VgMEJ5edfIYlklo/EZlZWNyCJVVRNSVldP0PT0GnV2zspanE1N96m394mMu1ybUjY02KTc2AhIyfcrLh6m3Nx+UhSjtrmWlintHhy8t9JSk6zLr4TBwUV51/Le+N4VFWM0MLAo19TWmmV+XZ357HwC8/NvHDkeiURPsOZ1PMJ4ByIACMDTDOh0fqbu7nkyGOapq2uO2tocWtnc/EDGOLnN/6qh189QR4dTSg4eU0v+1uN5fX0v5LeP9naHjPFc7udvzJ2dP2mb4PsWFt6i/v6X2j64XFrakpL3ou6B6w7HuszhtdW5Wf0JtNs9eITxDkQAEIAABCACgAAEIAARAAQgAAGIACAAAQhABAABCEAAIgAIQAACEAFAAAIQgAgAAhCAAEQAEIAABCAAQQBAAAIQgAgAAvBsxl+1s4flwNWlSgAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
 <content languages="en" contentType="xml">
@@ -88,7 +88,8 @@
 \b0 What are the effects of glucose ingestion on blood glucose concentration?\par
 \par
 \par
-What are the effects of exercise on blood glucose concentration?\f1\ul0\cf1\par
+What are the effects of exercise on blood glucose concentration?\f1\cf1\par
+\li0\ri0\fi0\ul0\par
 }</RichText>
 </content>
 <resources>

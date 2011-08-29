@@ -19,16 +19,16 @@
         </role>
         <entity>Caspar</entity>
         <date>
-          <dateTime>2011-08-29T15:27:41.515+0200</dateTime>
+          <dateTime>2011-08-29T16:37:15.203+0200</dateTime>
         </date>
       </contribute>
-      <version>4</version>
+      <version>5</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1304067877788</dateCreated>
-        <dateFirstUserSaveKey>1314624461515</dateFirstUserSaveKey>
-        <dateLastModified>1314624461515</dateLastModified>
+        <dateFirstUserSaveKey>1314628635203</dateFirstUserSaveKey>
+        <dateLastModified>1314628635203</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
@@ -99,20 +99,20 @@
   <socialTags>
     <tags />
   </socialTags>
-  <template>TRUE</template>
+  <template>false</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAADx0lEQVR42u2cS0wTQRjHx4OSKFdOmGiCARONqHDx5kHjhQRiYjxxhpNpjUaNYDAaTUx8xGcgipEYpQclMb6isai8ReThAwMIFtcWW9pCC9hC6efO7HbYLVhB8VD9/5N/9pv5ZqbpLzPNZHa37HrlNaKgV3PAOxOP+WfiOIe9Q3P34f4emDNXUV7+0/FC6njJalapApyeCJJvgqTDRBQZ8dCk7xt5x8mUe9feKQBOqjbWc/P2Asi0Xqf3PXDqhgDI8/F9oqMeCrqdNKbbGMf7b7Yb+812TMzAUJBevvdT1rqN1D1M1NofkgDtb30it3b9ZmpzTFPn63YJkNfbO9yUvmqNiGMAFd+kKHNvz9tFhfsvSYC8rq57VOajgWHyu5SktQYwPE53aj/S0qXLKGfLVnrQOCABVj/9QPfq+0Weu6ttBiAv25500koVII8FQHXZ9ip+umPvpuUrUkX97j1nqFwHyMuVNY3EGBMxn4FuZZA8SWoVYKW69ibosq2OLlW/FNerd5slwHM3a0VdzF1vOiTAHQWFlLF2gzDPxWZgZ4/TNF5+0Uk5A2PjVD3sElc+A52OAXINfhY2xvH+m+0SOVE7MQOVvl6yP6tXXadd7fUSYK29Xs9pHlWnLQcYGXGb+6iOAXzxvMGUa2pokQCNY3FP+d3kGOhPWrOw10Wh4YWZg1hon0Tu6+ujT0lqRtAfCQAXC2BW1kVxffSo19QgEAhTauoJWQ6HIz8dzOUK/r8Ac3MrKC3tFNXUdGsJViobpaefFpad1FxBQbV63Uuh0BQ1N6v7IWYhRQmI/NmzTWp5H5YwBIAACIAACP0SYHHxfXMlsxpiiyn36tVXGe/caQPA2F7PvD2xiu1JR8eQ3J4wdkT1HmptnQGYl3eLliw5Sj09XiopsWMJJ1I0iuWK30AABEAAhAAQAAEQACEABEAABEBIB8jvujmdAVOCHx7gAGEBM7ClRRFHWPxOG78zl5JynHJyKig//7ZadwiksIQBEAABEAJAAARAAIQAEAABEAAhAFw0gIwdnpVISTlG2dlXQGg+AC2Wx/KpK49nXAeoHWdBWMIACIAACAEgAAIgAEIACIAACIAQAC42wLKy57Ji27aqWY18vu/zHtDhGJFxJDJNNts78weyIlO5qelL8gO0Wh/rX0572TAz84IoG4+zGDsojr2M7bQXE0spI+O8yA8OjuovJlrE8Rh/2os/6cWf+Fq9+pzeV3t50dhu06byf38Jx/5QAsJvIAACIABCAAiAAAiAEAACIAACIABCAAiAAPi/6gcbDjjW1gHaWwAAAABJRU5ErkJggg==</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACKklEQVR42u3bwUvTYRzH8Sc8DI9BB0/+A/4VQgVdxHMjJC8Jy4pAxkokFp0KOnVywSDbbxERMlaZUQRKJ8tWVNMIzELnYRJbJaZ8ep7n1364KIIsEPf+wIfn+T77scOLB36XzVQ3pJWvG1EXV+tN8+pm8+e/aiaTaZpz+byW62stUeMA9TQtzV/0qwN8/Kqm6Te25ZoHrFiUY4lTevZB+qIQdLpc9/OT+c8e0M2N5vI39LH6qSUaAj4c1N59Mb86wKvjM7r5aE5jd59HgEFuTMHk6wjQfZa7/1LX75U8oJvd/tqdWQ+4sLzSEvWAZk86qgM8eOSMDsRTvg6w+k3afzicaz8A3d6dHTo67AHdvlEH+O79YkvUVGprqtS39Oe5cfa78z89t8u/z4hsKxGgMcN+7ekJ/JpKPVBvb179/eNaX99UMjmpvr7b6uq6os7Oy/b5E+htBSQAAggggOSvAZeWavbNOuLfrsactj1uO2h7VoVCGSluIIAAAkgABBBAAAmAAAIIIAEQwJ0CaMxJ25Ta2tL+cGCgoGx2Fh1uIIAAAkgABBBAAAmAAAIIIAEQwJ0I6H6FFYudV3v7BUS4gQACCCABEEAAASQAAggggATA/w44NbUQDuacX4vFOb8GwQuVShV/HnZE8fgt/1+6iYm30XlHxyW7JjU6OqNEomj3Q9zA7aS7OwsgARBAAAEkAAIIIIAEQAABBJAACCCAABIAAQQQQALgP8p3SkDFPhjGg5kAAAAASUVORK5CYII=</base64>
   </thumbnail>
 </metadata>
 <content languages="en" contentType="xml">
 <RichText>{\rtf1\ansi
 {\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Verdana;}
 {\colortbl\red0\green0\blue0;\red51\green51\blue51;\red0\green0\blue128;}
-{\stylesheet{\s3\li0\ri0\fi0\sbasedon2 default;}{\s1\li0\ri0\fi0\sa80\sb80\sbasedon2\snext1 DP Document;}{\s2\f1\fs24\i0\b0\cf1 default;}}
+{\stylesheet{\s1\li0\ri0\fi0\sa80\sb80\sbasedon2\snext1 DP Document;}{\s3\li0\ri0\fi0\sbasedon2 default;}{\s2\f1\fs24\i0\b0\cf1 default;}}
 \paperw11906\paperh16838\margl1417\margr1417\margt1417\margb1417\widowctrl
-\s1\li0\ri0\fi0\sa80\sb80\f2\fs24\i0\b\ul0\cf2 List of information:\par
-\pard\s3\ql\par
+\s1\li0\ri0\fi0\sa80\sb80\f2\fs24\i\b\ul0\cf2 list of information\i0\par
+\pard\s3\ql\sa80\sb80\par
 Carbohydrates\par
 \par
 \par
@@ -129,10 +129,11 @@ Insulin\par
 \par
 \par
 Role of glucose in the body\par
-\pard\li0\ri0\fi0\par
+\pard\ql\sa80\sb80\par
 \par
 \par
-\f1\b0\ul0\cf1\par
+\f1\b0\cf1\par
+\li0\ri0\fi0\ul0\par
 }</RichText>
 </content>
 <resources>
