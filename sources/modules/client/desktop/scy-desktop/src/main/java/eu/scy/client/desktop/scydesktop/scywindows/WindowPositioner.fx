@@ -151,4 +151,16 @@ public mixin class WindowPositioner {
     */
     public abstract function getWindowPositionsState():WindowPositionsState;
 
+    /**
+    * returns a new WindowPositionState obeject, created for the specified xml
+    */
+    public function createWindowPositionsState(xml: String):WindowPositionsState{
+       def windowPositionState = StandardWindowPositionsState{}
+       windowPositionState.setXml(xml);
+       windowPositionState
+    }
+
+
+
+
 }
