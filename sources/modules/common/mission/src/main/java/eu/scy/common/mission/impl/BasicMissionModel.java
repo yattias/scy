@@ -2,6 +2,7 @@ package eu.scy.common.mission.impl;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -191,5 +192,23 @@ public class BasicMissionModel implements MissionModel
 	{
 		return missionModelElo;
 	}
+
+   @Override
+   public String getWindowStatesXml(String lasId)
+   {
+      return missionModelEloContent.getWindowStatesXml(lasId);
+   }
+
+   @Override
+   public void setWindowStatesXml(String lasId, String xml)
+   {
+      missionModelEloContent.setWindowStatesXml(lasId, xml);
+   }
+
+   @Override
+   public Collection<String> getWindowStatesXmlIds()
+   {
+      return missionModelEloContent.getWindowStatesXmlIds();
+   }
 
 }
