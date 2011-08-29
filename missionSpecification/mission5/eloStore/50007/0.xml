@@ -19,59 +19,76 @@
         </role>
         <entity>Caspar</entity>
         <date>
-          <dateTime>2011-05-05T17:42:48.343+0200</dateTime>
+          <dateTime>2011-08-29T15:32:27.265+0200</dateTime>
         </date>
       </contribute>
-      <version>3</version>
+      <version>5</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1304610168343</dateCreated>
-        <dateFirstUserSaveKey>1304610168343</dateFirstUserSaveKey>
-        <dateLastModified>1304610168343</dateLastModified>
+        <dateFirstUserSaveKey>1314624747265</dateFirstUserSaveKey>
+        <dateLastModified>1314624747265</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
     <educational>
-      <learningResourceType>experimentalConclusion</learningResourceType>
+      <learningResourceType>reportFinal</learningResourceType>
     </educational>
     <general>
       <identifier>
         <catalog>memory</catalog>
         <entry>roolo://memory/50007/0/Conclusion+of+experiment.rtf</entry>
       </identifier>
-      <las />
+      <las>experiment</las>
+      <missionId>mini1</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/50054/0/Run+for+your+life%21.scymissionspecification</entry>
+      </missionRunning>
       <title>
         <string language="en">Conclusion of experiment</string>
       </title>
     </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
   </lom>
-  <template>true</template>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <template>false</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAFd0lEQVR42u2cbUyVZRjHz/rQtxqfmWvWgC1GNBdr9M2GOsNF8QUWlLYWK2sZkCMDFbARzLnp8CgcIWBAvEhCIC8OxstBguJVUuAITuRdEDjIOUC8/vO63PP4HDkHWY0t9fpv/93X/frc/Hhe7nN2P0eXnp6OJ2ltbU3swDoCODk5iYmJCYyPj3Oqja1WK+rq6uz6+vXrWFxcxNLSko1Jjvrk5OTYLS8sLHTYp62tzW650WhEfX29w/FoLvbmp3ijus22swFozwTw/v37wOoK1lQvIz2/DENDQ5iamsL09LTq4eFhHpjiV149Z2Mqa29v5/o1zXjLS4vo6OjgsWhsbZ3FMsv/qPV1y5iZmcHysm17coI+G5cvX8bc3NyWWwW4M+ImPkq8h5kHrBIvmNYBNHbPYsy8iMkH9e9804pvo/UMkKB8kdKOwellmM0PAS4sLHA52mLxd9MxrLXGcExldDY9uCmgwWSBsWsGNZ33UHfDrAKk8rd2vIGUrCKOF+atKkDKk3U6HacKwOZbVrWOvDvoCAOcnZ3dcqsA3z92Cz/mTeG7lHF8kAZ8crjDBmBBzU1c6ljEL03z2HVsEGEx51WA+jOnkJZ6ASMjIwyQBmaAVw9D96IOxT99yLFyBpKK6vvw0stOnP5aY1IBFhn7sHePD86nXeQ6LUCqS0gqQHXnw1gBeOWPfhz46ggM+XXcZ3fwDygtLeXjPX6FaL1R3Wbb6TIyMhjgrggTfusHPku04rX3bqw7AxNz6hGRMQJj/V/YG9GD8BNJKsCEuBNISk7hSRNAZXBUfA7UfAlcCeFYCzCtpA3JBb+zz+VfVQFS3tV9B15/822c+rnMBiDVJV1sUPspALNKWzifUvgnDJeasCc4kudC9/GttgpwZHQcw4pHxtcB9Pn4CN4N/J69MzAC+vRLKsDH74HUj+IXdEdtrFzCR0+mqmOR9xyIVAFqy8lzVgsDJJB0XO0cFIB7P42y6fP10TMMcHR0dMutAtzoIZKXl4f8/HzVSv7u3bsYGBjA4OCgjelS1rbTxtnZ2TZjKXW5ubnr+ii+c+eOw/Hstaey5uZmnou9+SneqG6z7XR6vR4VFRUOXVlZidu3b4sdWBd10oBHTnYQP+5nsZ3hX7XTQfSfxAB7enqQmZkJFxcXREVF4dChQwgJCeH73/79+3H27FmUlZVxvrGxkTv6+PggODgYqampvPKPi4vD8ePHkZCQgM7OzucLoJ+fHwIDA7F9+3YcPHgQ4eHhHNNnPScnJ24YEBCAlZUVdHd3c57aUT9allBZWFgYP0Wrqqr46fxcARQJQAEoAAWgSAAKQAEoAEUCUAAKQAEoEoACUAAKQJEAFIACUACKBKAAFIACUPQEgCaTiXce0Obs2NhYeHp68va106dPIysrC/Hx8YiJieH9eCI7AL28vBjgtm3beCMkAYyOjkZycjJ8fX3R0NAAZ2dndHV1CTW5hAWgABSAokcACwoK+AGiiPb8ra6uctzX18dP4draWvT39/POeEW04VIR7REsLi5GSUkJQkND0drayuW0x5BfeXjWz8Br167xK1j+/v78ogyJdpyS5ufnYbFY1E6urq7o7e3lTegk2mg5Njam1hsMBk7d3Nw4DQoK4tTb21suYZEAFIACUACKBKAA/B8BpDccacGrSPuVFS2w6a1EWiNSrG2nxNoy+n0BZRFOKi8vtzkgjU1ttKI8jaH83sJTu5CmP5wW0rRIJrW0tHBqNpttPk14eHjwwlpZSO/bt49Td3d3TiMjI9V2ylufFGsX1dXV1epx5RLepLRnqtwDRQJQAApAASgABYEAFIACUACKBKAAFIACUCQABaAAFIAiASgABaAAFAlAAfg06B/Za09wvvvTKAAAAABJRU5ErkJggg==</base64>
+    <base64>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</base64>
   </thumbnail>
 </metadata>
-<content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;
-&#xD;&#xD;
-\f1\fs24\i0\b\cf1 Symmary of results\b0\par&#xD;&#xD;
-\par&#xD;&#xD;
-\par&#xD;&#xD;
-\par&#xD;&#xD;
-\par&#xD;&#xD;
-\par&#xD;&#xD;
-\par&#xD;&#xD;
-\par&#xD;&#xD;
-\par&#xD;&#xD;
-\b Conclusion\b0\par&#xD;&#xD;
-\par&#xD;&#xD;
-Answer to your hypothesis:\par&#xD;&#xD;
-\par&#xD;&#xD;
-\par&#xD;&#xD;
-Answer to your research question:\par&#xD;&#xD;
+<content languages="en" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Verdana;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;\red0\green0\blue128;}
+\paperw11906\paperh16838\margl1273\margr1273\margt1417\margb1134\widowctrl
+\li0\ri0\fi0\ql\f2\fs24\i0\b\ul0\cf2 Write a short summary of your results\'85\par
+\b0\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+\b Answer your research questions\'85\par
+\par
+\b0 What are the effects of glucose ingestion on blood glucose concentration?\par
+\par
+\par
+What are the effects of exercise on blood glucose concentration?\f1\ul0\cf1\par
 }</RichText>
 </content>
 <resources>
