@@ -19,6 +19,8 @@ import eu.scy.actionlogging.api.IAction;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.desktoputils.XFX;
+import java.lang.UnsupportedOperationException;
+import java.util.Collection;
 
 /**
  * @author SikkenJ
@@ -42,6 +44,7 @@ public class MissionModelFX extends MissionModel {
    public-read var missionMapButtonIconType: String;
    public var saveUpdatedModel = false;
    public var scyDesktop: ScyDesktop;
+   public var storedWindowStatesXmlsChanged = false;
    var contentChanged = false;
 
    function newMissionModel(): Void {
@@ -51,13 +54,13 @@ public class MissionModelFX extends MissionModel {
       delete  lasses;
       if (missionModel.getLasses() != null) {
          lasses = for (lasObject in missionModel.getLasses()) {
-               missionUtils.getLasFX(lasObject as Las)
-            }
+                    missionUtils.getLasFX(lasObject as Las)
+                 }
       }
       missionMapBackgroundImageUri = missionModel.getMissionMapBackgroundImageUri();
       missionMapInstructionUri = missionModel.getMissionMapInstructionUri();
       missionMapButtonIconType = missionModel.getMissionMapButtonIconType();
-      // the active las is set a bit later, so that the fullscreen mission map is shown first
+   // the active las is set a bit later, so that the fullscreen mission map is shown first
    }
 
    public function initActiveLas(): Void {
@@ -158,8 +161,7 @@ public class MissionModelFX extends MissionModel {
             insert newEloUri into loEloUris;
          }
          contentChanged = true;
-      }
-      else {
+      } else {
          loEloUris = updateEloUris(loEloUris, oldEloUri, newEloUri);
          for (las in lasses) {
             updateLasEloUri(las, oldEloUri, newEloUri)
@@ -201,10 +203,11 @@ public class MissionModelFX extends MissionModel {
    }
 
    override public function updateElo(): Void {
-      if (saveUpdatedModel) {
+      if (saveUpdatedModel or storedWindowStatesXmlsChanged) {
          missionModel.updateElo();
       }
       contentChanged = false;
+      storedWindowStatesXmlsChanged = false;
    }
 
    override public function loadMetadata(rooloServices: RooloServices): Void {
@@ -245,13 +248,26 @@ public class MissionModelFX extends MissionModel {
       return missionModel.getMissionMapBackgroundImageUri();
    }
 
-    override public function getMissionMapButtonIconType () : String {
-        return missionModel.getMissionMapButtonIconType();
+   override public function getMissionMapButtonIconType(): String {
+      return missionModel.getMissionMapButtonIconType();
+   }
+
+   override public function getMissionMapInstructionUri(): URI {
+      return missionModel.getMissionMapInstructionUri();
+   }
+
+    override public function getWindowStatesXmlIds () : Collection {
+        missionModel.getWindowStatesXmlIds()
     }
 
-    override public function getMissionMapInstructionUri () : URI {
-        return missionModel.getMissionMapInstructionUri();
+    override public function getWindowStatesXml (lasId : String) : String {
+        missionModel.getWindowStatesXml(lasId)
     }
 
-
+    override public function setWindowStatesXml (lasId : String, xml : String) : Void {
+      if (xml != missionModel.getWindowStatesXml(lasId)) {
+         storedWindowStatesXmlsChanged = true
+      }
+      missionModel.setWindowStatesXml(lasId, xml);
+    }
 }
