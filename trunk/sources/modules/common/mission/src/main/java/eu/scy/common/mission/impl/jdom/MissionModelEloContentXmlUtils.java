@@ -22,6 +22,7 @@ import static eu.scy.common.mission.impl.jdom.JDomConversionUtils.*;
 
 public class MissionModelEloContentXmlUtils
 {
+
    private final static String missionModelName = "missionModel";
    private final static String idName = "id";
    private final static String loElosName = "loElos";
@@ -55,8 +56,10 @@ public class MissionModelEloContentXmlUtils
    private final static String assignmentUriName = "assignmentUri";
    private final static String resourcesUriName = "resourcesUri";
    private final static String colorSchemeName = "colorScheme";
-
+   private final static String windowStatesXmlsName = "windowStatesXmls";
+   private final static String windowStatesXmlName = "windowStatesXml";
    private final static Logger logger = Logger.getLogger(MissionModelEloContentXmlUtils.class);
+   private final static JDomStringConversion jdomStringConversion = new JDomStringConversion();
 
    private MissionModelEloContentXmlUtils()
    {
@@ -83,6 +86,7 @@ public class MissionModelEloContentXmlUtils
       {
          lasses.addContent(createLasXml(las));
       }
+      root.addContent(createWindowStatesXmls(missionModel));
       return new JDomStringConversion().xmlToString(root);
    }
 
@@ -104,7 +108,7 @@ public class MissionModelEloContentXmlUtils
       for (MissionAnchor intermediaAnchor : las.getIntermediateAnchors())
       {
          intermediateAnchorsRoot.addContent(createMissionAnchorXml(intermediateAnchorName,
-                  intermediaAnchor));
+            intermediaAnchor));
       }
       Element nextLassesRoot = new Element(nextLassesName);
       lasRoot.addContent(nextLassesRoot);
@@ -123,12 +127,9 @@ public class MissionModelEloContentXmlUtils
       root.addContent(createElement(iconTypeName, missionAnchor.getIconType()));
       // root.addContent(createElement(mainAnchorName, missionAnchor.mainAnchor));
       root.addContent(createElement(loElosName, eloUriName, missionAnchor.getLoEloUris()));
-      root
-               .addContent(createAnchorListXml(inputAnchorsName, missionAnchor
-                        .getInputMissionAnchors()));
+      root.addContent(createAnchorListXml(inputAnchorsName, missionAnchor.getInputMissionAnchors()));
       root.addContent(createElement(relationsName, eloUriName, missionAnchor.getRelationNames()));
-      root.addContent(createElement(targetDescriptionUriName, missionAnchor
-               .getTargetDescriptionUri()));
+      root.addContent(createElement(targetDescriptionUriName, missionAnchor.getTargetDescriptionUri()));
       root.addContent(createElement(assignmentUriName, missionAnchor.getAssignmentUri()));
       root.addContent(createElement(resourcesUriName, missionAnchor.getResourcesUri()));
       root.addContent(createElement(colorSchemeName, missionAnchor.getColorSchemeId()));
@@ -136,7 +137,7 @@ public class MissionModelEloContentXmlUtils
    }
 
    private static Element createAnchorListXml(String tagName,
-            List<MissionAnchor> inputMissionAnchors)
+      List<MissionAnchor> inputMissionAnchors)
    {
       Element anchorList = new Element(tagName);
       for (MissionAnchor anchor : inputMissionAnchors)
@@ -144,6 +145,24 @@ public class MissionModelEloContentXmlUtils
          anchorList.addContent(createElement(anchorName, anchor.getEloUri()));
       }
       return anchorList;
+   }
+
+   private static Element createWindowStatesXmls(MissionModelEloContent missionModel)
+   {
+      final Element windowStatesXmlsElement = new Element(windowStatesXmlsName);
+      for (String lasId : missionModel.getWindowStatesXmlIds())
+      {
+         final String windowStateXml = missionModel.getWindowStatesXml(lasId);
+         final Element windowStateXmlElement = new Element(windowStatesXmlName);
+         windowStateXmlElement.setAttribute(idName, lasId);
+         if (windowStateXml != null && windowStateXml.length() > 0)
+         {
+            Element xmlElement = jdomStringConversion.stringToXml(windowStateXml);
+            windowStateXmlElement.addContent(xmlElement);
+         }
+         windowStatesXmlsElement.addContent(windowStateXmlElement);
+      }
+      return windowStatesXmlsElement;
    }
 
    public static MissionModelEloContent missionModelFromXml(String xml) throws URISyntaxException
@@ -179,18 +198,19 @@ public class MissionModelEloContentXmlUtils
       {
          missionModel.setSelectedLas(lassesMap.get(selectedLasId));
       }
-      missionModel.setMissionMapBackgroundImageUri(getUriValue(root,missionMapBackgroundImageUriName));
-      missionModel.setMissionMapInstructionUri(getUriValue(root,missionMapInstructionUriName));
+      missionModel.setMissionMapBackgroundImageUri(getUriValue(root, missionMapBackgroundImageUriName));
+      missionModel.setMissionMapInstructionUri(getUriValue(root, missionMapInstructionUriName));
       missionModel.setMissionMapButtonIconType(root.getChildTextTrim(missionMapButtonIconTypeName));
       if (!missionModel.getLasses().isEmpty())
       {
          fillInMissingLinks(lassesMap, anchorsMap, lassesRoot);
       }
+      setWindowStatesXmls(root, missionModel);
       return missionModel;
    }
 
    private static Las createLas(Element root, HashMap<URI, MissionAnchor> anchorsMap)
-            throws URISyntaxException
+      throws URISyntaxException
    {
       BasicLas las = new BasicLas();
       las.setId(root.getChildTextTrim(idName));
@@ -208,8 +228,7 @@ public class MissionModelEloContentXmlUtils
       Element intermediateAnchorsRoot = root.getChild(intermediateAnchorsName);
       List<MissionAnchor> intermediateAnchors = new ArrayList<MissionAnchor>();
       @SuppressWarnings("unchecked")
-      List<Element> intermediateAnchorslist = intermediateAnchorsRoot
-               .getChildren(intermediateAnchorName);
+      List<Element> intermediateAnchorslist = intermediateAnchorsRoot.getChildren(intermediateAnchorName);
       if (intermediateAnchorslist != null)
       {
          for (Element intermediateAnchorRoot : intermediateAnchorslist)
@@ -239,7 +258,7 @@ public class MissionModelEloContentXmlUtils
    }
 
    private static void fillInMissingLinks(HashMap<String, Las> lassesMap,
-            HashMap<URI, MissionAnchor> anchorsMap, Element lassesRoot) throws URISyntaxException
+      HashMap<URI, MissionAnchor> anchorsMap, Element lassesRoot) throws URISyntaxException
    {
       @SuppressWarnings("unchecked")
       List<Element> lasChildrenRoot = lassesRoot.getChildren(lasName);
@@ -257,8 +276,7 @@ public class MissionModelEloContentXmlUtils
          fillInMissingAnchorLinks(lasChild.getChild(mainAnchorName), anchorsMap);
          Element intermediateAnchorsRoot = lasChild.getChild(intermediateAnchorsName);
          @SuppressWarnings("unchecked")
-         List<Element> intermediateAnchorslist = intermediateAnchorsRoot
-                  .getChildren(intermediateAnchorName);
+         List<Element> intermediateAnchorslist = intermediateAnchorsRoot.getChildren(intermediateAnchorName);
          if (intermediateAnchorslist != null)
          {
             for (Element intermediateAnchorRoot : intermediateAnchorslist)
@@ -270,7 +288,7 @@ public class MissionModelEloContentXmlUtils
    }
 
    private static void fillInMissingAnchorLinks(Element anchorRoot,
-            HashMap<URI, MissionAnchor> anchorsMap) throws URISyntaxException
+      HashMap<URI, MissionAnchor> anchorsMap) throws URISyntaxException
    {
       String eloUriString = anchorRoot.getChildTextTrim(eloUriName);
       MissionAnchor anchor = anchorsMap.get(new URI(eloUriString));
@@ -280,7 +298,7 @@ public class MissionModelEloContentXmlUtils
          return;
       }
       List<String> inputAnchorsUriStrings = getStringListValue(anchorRoot, inputAnchorsName,
-               anchorName);
+         anchorName);
       List<MissionAnchor> inputMissionAnchors = new ArrayList<MissionAnchor>();
       for (String inputAnchorUriString : inputAnchorsUriStrings)
       {
@@ -292,10 +310,33 @@ public class MissionModelEloContentXmlUtils
          else
          {
             logger.warn("mission anchor " + anchor.getEloUri()
-                     + " has a not created anchor as input: " + inputAnchorUriString);
+               + " has a not created anchor as input: " + inputAnchorUriString);
          }
       }
       anchor.setInputMissionAnchors(inputMissionAnchors);
    }
 
+   private static void setWindowStatesXmls(Element root, MissionModelEloContent missionModel)
+   {
+      final Element windowStatesXmlsElement = root.getChild(windowStatesXmlsName);
+      if (windowStatesXmlsElement != null)
+      {
+         @SuppressWarnings("unchecked")
+         List<Element> windowStatesXmlList = windowStatesXmlsElement.getChildren(windowStatesXmlName);
+         if (windowStatesXmlList != null)
+         {
+            for (Element windowStatesXmlElement : windowStatesXmlList)
+            {
+               final String lasId = windowStatesXmlElement.getAttributeValue(idName);
+               String xml = "";
+               List<Element> children = windowStatesXmlElement.getChildren();
+               if (children != null && children.size() > 0)
+               {
+                  xml = jdomStringConversion.xmlToString(children.get(0));
+               }
+               missionModel.setWindowStatesXml(lasId, xml);
+            }
+         }
+      }
+   }
 }

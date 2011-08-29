@@ -6,6 +6,9 @@ import java.util.List;
 
 import eu.scy.common.mission.Las;
 import eu.scy.common.mission.MissionModelEloContent;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BasicMissionModelEloContent implements MissionModelEloContent
 {
@@ -15,6 +18,7 @@ public class BasicMissionModelEloContent implements MissionModelEloContent
    private URI missionMapBackgroundImageUri;
    private URI missionMapInstructionUri;
    private String missionMapButtonIconType;
+   private Map<String,String> desktopStatesXml = new HashMap<String, String>();
 
    @Override
    public List<URI> getLoEloUris()
@@ -83,6 +87,23 @@ public class BasicMissionModelEloContent implements MissionModelEloContent
    public void setMissionMapInstructionUri(URI missionMapInstructionUri)
    {
       this.missionMapInstructionUri = missionMapInstructionUri;
+   }
+
+   @Override
+   public String getWindowStatesXml(String lasId)
+   {
+      return desktopStatesXml.get(lasId);
+   }
+
+   @Override
+   public void setWindowStatesXml(String lasId, String xml)
+   {
+      desktopStatesXml.put(lasId, xml);
+   }
+
+   @Override
+   public Collection<String> getWindowStatesXmlIds(){
+      return desktopStatesXml.keySet();
    }
 
 }
