@@ -17,798 +17,615 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class MissionModel extends AbstractGuidanceObject {	
-	
-	private String name;
-	private String pedagogicalScenario;
-	private LASModel[] lasModels = new LASModel[0];
-	private ELOModel[] eloModels = new ELOModel[0];
+public class MissionModel extends AbstractGuidanceObject {
 
-	public MissionModel(String missionID, String missionName) {
-		id = missionID;
-		name = missionName;
-	}
+    private String name;
 
-	public String getName() {
-		return name;
-	}
+    private String pedagogicalScenario;
 
-	public void setName(String aName) {
-		name = aName;
-	}
+    private LASModel[] lasModels = new LASModel[0];
 
-	public String getPedagogicalModel() {
-		return pedagogicalScenario;
-	}
+    private ELOModel[] eloModels = new ELOModel[0];
 
-	public void addELOModel(ELOModel eloModel) {
-		ELOModel[] newELOModels = (ELOModel[]) Arrays.copyOf(eloModels,
-				eloModels.length + 1);
-		newELOModels[newELOModels.length - 1] = eloModel;
-		eloModels = newELOModels;
-	}
+    public MissionModel(String missionID, String missionName) {
+        id = missionID;
+        name = missionName;
+    }
 
-	public ELOModel findELOModelByID(String eloID) {
-		for (int i = 0; i < eloModels.length; i++) {
-			if (eloID.equalsIgnoreCase(eloModels[i].getId())) {
-				return eloModels[i];
-			}
-		}
-		return null;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void addLASModel(LASModel lasModel) {
-		LASModel[] newLASModels = (LASModel[]) Arrays.copyOf(lasModels,
-				lasModels.length + 1);
-		newLASModels[newLASModels.length - 1] = lasModel;
-		lasModels = newLASModels;
+    public void setName(String aName) {
+        name = aName;
+    }
 
-	}
+    public String getPedagogicalModel() {
+        return pedagogicalScenario;
+    }
 
-	public LASModel findLASModelByID(String lasID) {
-		for (int i = 0; i < lasModels.length; i++) {
-			if (lasID.equalsIgnoreCase(lasModels[i].getId())) {
-				return lasModels[i];
-			}
-		}
-		return null;
-	}
+    public void addELOModel(ELOModel eloModel) {
+        ELOModel[] newELOModels = (ELOModel[]) Arrays.copyOf(eloModels, eloModels.length + 1);
+        newELOModels[newELOModels.length - 1] = eloModel;
+        eloModels = newELOModels;
+    }
 
-	public String toString() {
-		String result;
+    public ELOModel findELOModelByID(String eloID) {
+        for (int i = 0; i < eloModels.length; i++) {
+            if (eloID.equalsIgnoreCase(eloModels[i].getId())) {
+                return eloModels[i];
+            }
+        }
+        return null;
+    }
 
-		result = new String("missionID="+getCode()+", name="+name+"\n\n"); 
-		for (int i=0; i<lasModels.length; i++) { 
-			result += lasModels[i].toString() + new String("\n"); 
-		}
+    public void addLASModel(LASModel lasModel) {
+        LASModel[] newLASModels = (LASModel[]) Arrays.copyOf(lasModels, lasModels.length + 1);
+        newLASModels[newLASModels.length - 1] = lasModel;
+        lasModels = newLASModels;
 
-		/*
-		result = new String("missionModel id=" + getCode() + ", name=" + name
-				+ ", ELOs: "+"\n ");
-		for (int i = 0; i < eloModels.length; i++) {
-			result += eloModels[i].toString() + new String("\n ");
-		}
-		*/
-		return result;
-	}
+    }
 
-	public void buildMissionModel() {
-		try {
-			String elo_xml = loadELO(id);
-			Document doc = XMLUtils.parseString(elo_xml);
-			XPath xPath = XPathFactory.newInstance().newXPath();
-			String model_URI = (String) xPath.evaluate(
-					"/elo/content/missionSpeicification/missionMapModelEloUri",
-					doc, XPathConstants.STRING);
+    public LASModel findLASModelByID(String lasID) {
+        for (int i = 0; i < lasModels.length; i++) {
+            if (lasID.equalsIgnoreCase(lasModels[i].getId())) {
+                return lasModels[i];
+            }
+        }
+        return null;
+    }
 
-			elo_xml = loadELO(model_URI); // missionMapModelEloUri
-			doc = XMLUtils.parseString(elo_xml);
-			xPath = XPathFactory.newInstance().newXPath();
-			String title = (String) xPath.evaluate(
-					"/elo/metadata/lom/general/title/string", doc,
-					XPathConstants.STRING);
-			System.out
-					.println("MissionModel[] newMissionModels = (MissionModel[]) Arrays.copyOf(missionModels, missionModels.length + 1);");
-			System.out.println("MissionModel aModel = new MissionModel(\"" + id
-					+ "\", \"" + title + "\");");
-			System.out
-					.println("newMissionModels[newMissionModels.length - 1] = aModel;");
-			System.out.println("missionModels = newMissionModels;");
+    @Override
+    public String toString() {
+        String result;
 
-			NodeList lasNodes = (NodeList) xPath.evaluate(
-					"/elo/content/missionModel/lasses/las", doc,
-					XPathConstants.NODESET);
-			for (int i = 0; i < lasNodes.getLength(); i++) {
-				LASModel aLASModel = new LASModel(this);
-				this.addLASModel(aLASModel);
-				aLASModel.buildLASModel((Node) lasNodes.item(i));
-			}
-		} catch (XPathExpressionException e) {
-			e.printStackTrace();
-		} catch (DOMException e) {
-			e.printStackTrace();
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (TupleSpaceException e) {
-			e.printStackTrace();
-		}
-	}
+        result = new String("missionID=" + getCode() + ", name=" + name + "\n\n");
+        for (int i = 0; i < lasModels.length; i++) {
+            result += lasModels[i].toString() + new String("\n");
+        }
 
-	public void buildPizzaMission() {
-		LASModel aLAS = new LASModel("design", "DESIGN");
-		ELOModel aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/239.239#0",
-				"My Optimized Healthy Pizza", "scy/simconfig");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/237.237#0",
-				"My Favourite Pizza", "scy/simconfig");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/238.238#0",
-				"My First Healthy Pizza", "scy/simconfig");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+        /*
+         * result = new String("missionModel id=" + getCode() + ", name=" + name +
+         * ", ELOs: "+"\n "); for (int i = 0; i < eloModels.length; i++) { result +=
+         * eloModels[i].toString() + new String("\n "); }
+         */
+        return result;
+    }
 
-		aLAS = new LASModel("experiment", "EXPERIMENT");
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/249.249#0",
-				"My Health Passport", "scy/resultcard");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/204.204#0",
-				"Food And Exercise Diary", "scy/pds");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/205.205#0",
-				"Daily Calorie Intake", "scy/pds");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/232.232#0",
-				"Evaluate Your Diet (Health Passport)", "scy/rtf");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/233.233#0",
-				"Basal Metabolic Rate (Health Passport)", "scy/rtf");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/234.234#0",
-				"Body Mass Index (Health Passport)", "scy/rtf");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/235.235#0",
-				"Heart Rate (Health Passport)", "scy/rtf");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/208.208#0",
-				"Estimated Energy Requirements (Health Passport)", "scy/pds");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+    public void buildMissionModel() {
+        try {
+            String elo_xml = loadELO(id);
+            Document doc = XMLUtils.parseString(elo_xml);
+            XPath xPath = XPathFactory.newInstance().newXPath();
+            String model_URI = (String) xPath.evaluate("/elo/content/missionSpeicification/missionMapModelEloUri", doc, XPathConstants.STRING);
 
-		aLAS = new LASModel("information", "INFORMATION");
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/213.213#0",
-				"Questions About Pizza Benefits", "scy/rtf");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/212.212#0",
-				"Notes On Unhealthy Diet", "scy/rtf");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+            elo_xml = loadELO(model_URI); // missionMapModelEloUri
+            doc = XMLUtils.parseString(elo_xml);
+            xPath = XPathFactory.newInstance().newXPath();
+            String title = (String) xPath.evaluate("/elo/metadata/lom/general/title/string", doc, XPathConstants.STRING);
+            System.out.println("MissionModel[] newMissionModels = (MissionModel[]) Arrays.copyOf(missionModels, missionModels.length + 1);");
+            System.out.println("MissionModel aModel = new MissionModel(\"" + id + "\", \"" + title + "\");");
+            System.out.println("newMissionModels[newMissionModels.length - 1] = aModel;");
+            System.out.println("missionModels = newMissionModels;");
 
-		aLAS = new LASModel("conceptualization1", "CONCEPTUALISATION");
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/255.255#0",
-				"Nutrient And Energy Calculations", "scy/rtf");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/214.214#0",
-				"Nutrition Table", "scy/pds");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/216.216#0",
-				"Pizza Ingredient Table", "scy/pds");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+            NodeList lasNodes = (NodeList) xPath.evaluate("/elo/content/missionModel/lasses/las", doc, XPathConstants.NODESET);
+            for (int i = 0; i < lasNodes.getLength(); i++) {
+                LASModel aLASModel = new LASModel(this);
+                this.addLASModel(aLASModel);
+                aLASModel.buildLASModel((Node) lasNodes.item(i));
+            }
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
+        } catch (DOMException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TupleSpaceException e) {
+            e.printStackTrace();
+        }
+    }
 
-		aLAS = new LASModel("conceptualization2", "CONCEPTUALISATION");
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/218.218#0",
-				"Construction Of The Food Pyramid", "scy/model");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/217.217#0",
-				"Questions About The Food Pyramid", "scy/rtf");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+    public void buildPizzaMission() {
+        LASModel aLAS = new LASModel("design", "DESIGN");
+        ELOModel aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/239.239#0", "My Optimized Healthy Pizza", "scy/simconfig");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/237.237#0", "My Favourite Pizza", "scy/simconfig");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/238.238#0", "My First Healthy Pizza", "scy/simconfig");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-		aLAS = new LASModel("conceptualization3", "CONCEPTUALISATION");
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/219.219#0",
-				"Energy Fact Sheet", "scy/mapping");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+        aLAS = new LASModel("experiment", "EXPERIMENT");
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/249.249#0", "My Health Passport", "scy/resultcard");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/204.204#0", "Food And Exercise Diary", "scy/pds");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/205.205#0", "Daily Calorie Intake", "scy/pds");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/232.232#0", "Evaluate Your Diet (Health Passport)", "scy/rtf");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/233.233#0", "Basal Metabolic Rate (Health Passport)", "scy/rtf");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/234.234#0", "Body Mass Index (Health Passport)", "scy/rtf");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/235.235#0", "Heart Rate (Health Passport)", "scy/rtf");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/208.208#0", "Estimated Energy Requirements (Health Passport)", "scy/pds");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-		aLAS = new LASModel("conceptualization4", "CONCEPTUALISATION");
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/248.248#0",
-				"mapOfDigestiveSystem", "scy/drawing");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/221.221#0",
-				"Fact Sheet Of One Organ", "scy/rtf");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+        aLAS = new LASModel("information", "INFORMATION");
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/213.213#0", "Questions About Pizza Benefits", "scy/rtf");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/212.212#0", "Notes On Unhealthy Diet", "scy/rtf");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-		aLAS = new LASModel("reflection1", "REFLECTION");
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/222.222#0",
-				"Personal Comments", "scy/rtf");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+        aLAS = new LASModel("conceptualization1", "CONCEPTUALISATION");
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/255.255#0", "Nutrient And Energy Calculations", "scy/rtf");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/214.214#0", "Nutrition Table", "scy/pds");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/216.216#0", "Pizza Ingredient Table", "scy/pds");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-		aLAS = new LASModel("reflection2", "REFLECTION");
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/227.227#0",
-				"Criteria Final Table", "scy/pds");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/223.223#0",
-				"Methodology Steps", "scy/xproc");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/224.224#0",
-				"Reflection On Importance Of Criteria", "scy/rtf");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/225.225#0",
-				"Criteria Table", "scy/pds");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/226.226#0",
-				"Criteria Weight Table", "scy/pds");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+        aLAS = new LASModel("conceptualization2", "CONCEPTUALISATION");
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/218.218#0", "Construction Of The Food Pyramid", "scy/model");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/217.217#0", "Questions About The Food Pyramid", "scy/rtf");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-		aLAS = new LASModel("evaluation", "EVALUATION");
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/231.231#0",
-				"Letter To School Canteen", "scy/rtf");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/228.228#0",
-				"Individual Report", "scy/rtf");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/229.229#0",
-				"Group Report", "scy/rtf");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+        aLAS = new LASModel("conceptualization3", "CONCEPTUALISATION");
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/219.219#0", "Energy Fact Sheet", "scy/mapping");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-		aLAS = new LASModel("build", "CONSTRUCTION");
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/230.230#0",
-				"Taste Scores", "scy/pds");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+        aLAS = new LASModel("conceptualization4", "CONCEPTUALISATION");
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/248.248#0", "mapOfDigestiveSystem", "scy/drawing");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/221.221#0", "Fact Sheet Of One Organ", "scy/rtf");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-		buildPizzaMissionPath();
-		buildPizzaMissionDependances();
-	}
+        aLAS = new LASModel("reflection1", "REFLECTION");
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/222.222#0", "Personal Comments", "scy/rtf");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-	public void buildECOMission() {
+        aLAS = new LASModel("reflection2", "REFLECTION");
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/227.227#0", "Criteria Final Table", "scy/pds");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/223.223#0", "Methodology Steps", "scy/xproc");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/224.224#0", "Reflection On Importance Of Criteria", "scy/rtf");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/225.225#0", "Criteria Table", "scy/pds");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/226.226#0", "Criteria Weight Table", "scy/pds");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-		LASModel aLAS = new LASModel("startPage", "ORIENTATION");
-		ELOModel aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/175.175#0",
-				"Challenge", "scy/url");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+        aLAS = new LASModel("evaluation", "EVALUATION");
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/231.231#0", "Letter To School Canteen", "scy/rtf");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/228.228#0", "Individual Report", "scy/rtf");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/229.229#0", "Group Report", "scy/rtf");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-		aLAS = new LASModel("conceptualisatsionConceptMap", "CONCEPTUALISATION");
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/176.176#0",
-				"Concept map", "scy/mapping");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+        aLAS = new LASModel("build", "CONSTRUCTION");
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/230.230#0", "Taste Scores", "scy/pds");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-		aLAS = new LASModel("reportingVideo", "REPORTING");
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/188.188#0",
-				"Video report", "scy/youtuber");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+        buildPizzaMissionPath();
+        buildPizzaMissionDependances();
+    }
 
-		aLAS = new LASModel("orientation_B1", "ORIENTATION");
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/159.159#0",
-				"Hypotheses", "scy/rtf");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/157.157#0",
-				"Problem formulation", "scy/rtf");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/158.158#0",
-				"Research questions", "scy/rtf");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+    public void buildECOMission() {
 
-		aLAS = new LASModel("orientation_B2", "ORIENTATION");
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/153.153#0",
-				"Hypotheses", "scy/rtf");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/151.151#0",
-				"Problem formulation", "scy/rtf");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/152.152#0",
-				"Research questions", "scy/rtf");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+        LASModel aLAS = new LASModel("startPage", "ORIENTATION");
+        ELOModel aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/175.175#0", "Challenge", "scy/url");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-		aLAS = new LASModel("orientation_B3", "ORIENTATION");
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/178.178#0",
-				"Hypotheses", "scy/rtf");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/150.150#0",
-				"Problem formulation", "scy/rtf");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/177.177#0",
-				"Research questions", "scy/rtf");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+        aLAS = new LASModel("conceptualisatsionConceptMap", "CONCEPTUALISATION");
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/176.176#0", "Concept map", "scy/mapping");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-		aLAS = new LASModel("orientation_C1", "ORIENTATION");
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/156.156#0",
-				"Hypotheses", "scy/rtf");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/154.154#0",
-				"Problem formulation", "scy/rtf");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/155.155#0",
-				"Research questions", "scy/rtf");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+        aLAS = new LASModel("reportingVideo", "REPORTING");
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/188.188#0", "Video report", "scy/youtuber");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-		aLAS = new LASModel("experiment_B1", "EXPERIMENT");
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/180.180#0",
-				"Inferences", "scy/rtf");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/181.181#0",
-				"Experimental procedure", "scy/xproc");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/173.173#0",
-				"Influence of nutrients on biomass", "scy/model");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/179.179#0",
-				"Data from experiments", "scy/pds");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+        aLAS = new LASModel("orientation_B1", "ORIENTATION");
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/159.159#0", "Hypotheses", "scy/rtf");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/157.157#0", "Problem formulation", "scy/rtf");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/158.158#0", "Research questions", "scy/rtf");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-		aLAS = new LASModel("experiment_B2", "EXPERIMENT");
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/164.164#0",
-				"Inferences", "scy/rtf");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/165.165#0",
-				"Experimental procedure", "scy/xproc");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/166.166#0",
-				"Data from experiments", "scy/pds");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+        aLAS = new LASModel("orientation_B2", "ORIENTATION");
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/153.153#0", "Hypotheses", "scy/rtf");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/151.151#0", "Problem formulation", "scy/rtf");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/152.152#0", "Research questions", "scy/rtf");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-		aLAS = new LASModel("experiment_B3", "EXPERIMENT");
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/167.167#0",
-				"Inferences", "scy/rtf");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/168.168#0",
-				"Experimental procedure", "scy/xproc");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/174.174#0",
-				"Prey-predator relationships", "scy/model");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/169.169#0",
-				"Data from experiments", "scy/pds");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+        aLAS = new LASModel("orientation_B3", "ORIENTATION");
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/178.178#0", "Hypotheses", "scy/rtf");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/150.150#0", "Problem formulation", "scy/rtf");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/177.177#0", "Research questions", "scy/rtf");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-		aLAS = new LASModel("experiment_C1", "EXPERIMENT");
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/170.170#0",
-				"Inferences", "scy/rtf");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/171.171#0",
-				"Experimental procedure", "scy/xproc");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/172.172#0",
-				"Data from experiments", "scy/pds");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+        aLAS = new LASModel("orientation_C1", "ORIENTATION");
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/156.156#0", "Hypotheses", "scy/rtf");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/154.154#0", "Problem formulation", "scy/rtf");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/155.155#0", "Research questions", "scy/rtf");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-		aLAS = new LASModel("design_B1", "DESIGN");
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/160.160#0",
-				"Problem solution", "scy/rtf");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+        aLAS = new LASModel("experiment_B1", "EXPERIMENT");
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/180.180#0", "Inferences", "scy/rtf");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/181.181#0", "Experimental procedure", "scy/xproc");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/173.173#0", "Influence of nutrients on biomass", "scy/model");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/179.179#0", "Data from experiments", "scy/pds");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-		aLAS = new LASModel("design_B2", "DESIGN");
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/161.161#0",
-				"Problem solution", "scy/rtf");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+        aLAS = new LASModel("experiment_B2", "EXPERIMENT");
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/164.164#0", "Inferences", "scy/rtf");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/165.165#0", "Experimental procedure", "scy/xproc");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/166.166#0", "Data from experiments", "scy/pds");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-		aLAS = new LASModel("design_B3", "DESIGN");
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/162.162#0",
-				"Problem solution", "scy/rtf");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+        aLAS = new LASModel("experiment_B3", "EXPERIMENT");
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/167.167#0", "Inferences", "scy/rtf");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/168.168#0", "Experimental procedure", "scy/xproc");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/174.174#0", "Prey-predator relationships", "scy/model");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/169.169#0", "Data from experiments", "scy/pds");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-		aLAS = new LASModel("design_C1", "DESIGN");
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/163.163#0",
-				"Problem solution", "scy/rtf");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
-	}
+        aLAS = new LASModel("experiment_C1", "EXPERIMENT");
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/170.170#0", "Inferences", "scy/rtf");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/171.171#0", "Experimental procedure", "scy/xproc");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/172.172#0", "Data from experiments", "scy/pds");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-	public void buildHouseMission() {
-		LASModel aLAS = new LASModel("startPage", "ORIENTATION");
-		ELOModel aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/3.3#0",
-				"Mission notes", "scy/rtf");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+        aLAS = new LASModel("design_B1", "DESIGN");
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/160.160#0", "Problem solution", "scy/rtf");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-		aLAS = new LASModel("conceptualizationDesign", "CONCEPTUALISATION");
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/8.8#0",
-				"First ideas of my design group", "scy/mapping");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+        aLAS = new LASModel("design_B2", "DESIGN");
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/161.161#0", "Problem solution", "scy/rtf");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-		aLAS = new LASModel("conceptualizationExperts", "CONCEPTUALISATION");
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/12.12#0",
-				"Hypotheses of my expert group", "scy/rtf");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/10.10#0",
-				"Research questions of my expert group", "scy/rtf");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+        aLAS = new LASModel("design_B3", "DESIGN");
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/162.162#0", "Problem solution", "scy/rtf");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-		aLAS = new LASModel("experimentExperts", "EXPERIMENT");
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/20.20#0",
-				"Conclusion of expert experiments", "scy/rtf");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/44.44#0",
-				"Experimental procedure", "scy/xproc");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/17.17#0",
-				"Data from the Thermal simulation", "scy/simconfig");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/48.48#0",
-				"Data from the Converter", "scy/simconfig");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/18.18#0",
-				"Data from real experiments", "scy/pds");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+        aLAS = new LASModel("design_C1", "DESIGN");
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/163.163#0", "Problem solution", "scy/rtf");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
+    }
 
-		aLAS = new LASModel("conceptualizationIndividual", "CONCEPTUALISATION");
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/5.5#0",
-				"Concept map on CO2 emission", "scy/mapping");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+    public void buildHouseMission() {
+        LASModel aLAS = new LASModel("startPage", "ORIENTATION");
+        ELOModel aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/3.3#0", "Mission notes", "scy/rtf");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-		aLAS = new LASModel("construction", "DESIGN");
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/31.31#0",
-				"House drawings", "scy/skp");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+        aLAS = new LASModel("conceptualizationDesign", "CONCEPTUALISATION");
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/8.8#0", "First ideas of my design group", "scy/mapping");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-		aLAS = new LASModel("design", "DESIGN");
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/28.28#0",
-				"House choices", "scy/mapping");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/26.26#0",
-				"Inventory of expert solutions", "scy/mapping");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+        aLAS = new LASModel("conceptualizationExperts", "CONCEPTUALISATION");
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/12.12#0", "Hypotheses of my expert group", "scy/rtf");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/10.10#0", "Research questions of my expert group", "scy/rtf");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-		aLAS = new LASModel("reportingExperts", "REPORTING");
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/24.24#0",
-				"Expert presentation", "scy/ppt");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/22.22#0",
-				"Expert concept map", "scy/mapping");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+        aLAS = new LASModel("experimentExperts", "EXPERIMENT");
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/20.20#0", "Conclusion of expert experiments", "scy/rtf");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/44.44#0", "Experimental procedure", "scy/xproc");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/17.17#0", "Data from the Thermal simulation", "scy/simconfig");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/48.48#0", "Data from the Converter", "scy/simconfig");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/18.18#0", "Data from real experiments", "scy/pds");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-		aLAS = new LASModel("experimentDesign", "DESIGN");
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/49.49#0",
-				"House data from the Converter", "scy/simconfig");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/30.30#0",
-				"House data from the Thermal simulation", "scy/simconfig");
-		aLAS.addIntermediateELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+        aLAS = new LASModel("conceptualizationIndividual", "CONCEPTUALISATION");
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/5.5#0", "Concept map on CO2 emission", "scy/mapping");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-		aLAS = new LASModel("reportingDesign", "REPORTING");
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/33.33#0",
-				"Presentation of house design", "scy/ppt");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
+        aLAS = new LASModel("construction", "DESIGN");
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/31.31#0", "House drawings", "scy/skp");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-		aLAS = new LASModel("reportingIndividual", "REPORTING");
-		aELO = new ELOModel(
-				"roolo://scy.collide.info/scy-collide-server/35.35#0",
-				"Individual report", "scy/doc");
-		aLAS.setMainAnchorELOModel(aELO);
-		aELO.setLASModel(aLAS);
-		addELOModel(aELO);
-		addLASModel(aLAS);
-	}
+        aLAS = new LASModel("design", "DESIGN");
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/28.28#0", "House choices", "scy/mapping");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/26.26#0", "Inventory of expert solutions", "scy/mapping");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-	private void buildRelation(String fromCode, String toCode, String type) {
-		String fromID = new String("roolo://scy.collide.info/scy-collide-server/"+fromCode+"."+fromCode+"#0");
-		String toID = new String("roolo://scy.collide.info/scy-collide-server/"+toCode+"."+toCode+"#0");
-		ELOModel fromELO = findELOModelByID(fromID);
-		ELOModel toELO = findELOModelByID(toID);
-		if (type.equalsIgnoreCase(ELOModel.DEPENDING)) {
-			fromELO.addDependingELO(toELO);
-			toELO.addDependedELO(fromELO);
-		} else if (type.equalsIgnoreCase(ELOModel.PRECEDING)) {
-			fromELO.addSuccedingELO(toELO);
-			toELO.addPrecedingELO(fromELO);
-		}
-	}
+        aLAS = new LASModel("reportingExperts", "REPORTING");
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/24.24#0", "Expert presentation", "scy/ppt");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/22.22#0", "Expert concept map", "scy/mapping");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-	private void buildPizzaMissionPath() {
-		String pathNodes[] = {"237", "212", "213", "204", "214", "255", "216", "217", "218", "205", 
-				"232", "219", "233", "208", "248", "221", "222", "234", "235", "249", 
-				"238", "223", "224", "225", "226", "227", "239", "228", "229", "230", "231"};
+        aLAS = new LASModel("experimentDesign", "DESIGN");
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/49.49#0", "House data from the Converter", "scy/simconfig");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/30.30#0", "House data from the Thermal simulation", "scy/simconfig");
+        aLAS.addIntermediateELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-	    for (int i=0; i<pathNodes.length-1; i++){
-	    	buildRelation(pathNodes[i], pathNodes[i+1], ELOModel.PRECEDING);	      
-	    }
-	}
+        aLAS = new LASModel("reportingDesign", "REPORTING");
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/33.33#0", "Presentation of house design", "scy/ppt");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
 
-	private void buildPizzaMissionDependances() {
-		//Data flow of ELOs related to the Health Passport
-		buildRelation("204", "205", ELOModel.DEPENDING);	      
-		buildRelation("204", "232", ELOModel.DEPENDING);	      
-		buildRelation("205", "249", ELOModel.DEPENDING);	      
-		buildRelation("232", "249", ELOModel.DEPENDING);	      
-		buildRelation("219", "249", ELOModel.DEPENDING);	      
-		buildRelation("233", "249", ELOModel.DEPENDING);	      
-		buildRelation("234", "249", ELOModel.DEPENDING);	      
-		buildRelation("235", "249", ELOModel.DEPENDING);
-		
-		//Data flow of ELOs related to pizza creation and optimization
-		buildRelation("237", "225", ELOModel.DEPENDING);	      
-		buildRelation("238", "225", ELOModel.DEPENDING);	      
-		buildRelation("225", "227", ELOModel.DEPENDING);	      
-		buildRelation("226", "227", ELOModel.DEPENDING);	      
-		buildRelation("227", "239", ELOModel.DEPENDING);	      
-	}
-/*
-	private void buildECOMissionPath() {
-		String pathNodes[] = {"", "", "", "", "", "", "", "", "", ""};
-	    for (int i=0; i<pathNodes.length-1; i++){
-	    	buildRelation(pathNodes[i], pathNodes[i+1], ELOModel.PRECEDING);	      
-	    }
-	}
+        aLAS = new LASModel("reportingIndividual", "REPORTING");
+        aELO = new ELOModel("roolo://scy.collide.info/scy-collide-server/35.35#0", "Individual report", "scy/doc");
+        aLAS.setMainAnchorELOModel(aELO);
+        aELO.setLASModel(aLAS);
+        addELOModel(aELO);
+        addLASModel(aLAS);
+    }
 
-	private void buildECOMissionDependances() {
-		buildRelation("", "", ELOModel.DEPENDING);	      
-		buildRelation("", "", ELOModel.DEPENDING);	      
-		buildRelation("", "", ELOModel.DEPENDING);	      
-	}
-*/
+    private void buildRelation(String fromCode, String toCode, String type) {
+        String fromID = new String("roolo://scy.collide.info/scy-collide-server/" + fromCode + "." + fromCode + "#0");
+        String toID = new String("roolo://scy.collide.info/scy-collide-server/" + toCode + "." + toCode + "#0");
+        ELOModel fromELO = findELOModelByID(fromID);
+        ELOModel toELO = findELOModelByID(toID);
+        if (type.equalsIgnoreCase(ELOModel.DEPENDING)) {
+            fromELO.addDependingELO(toELO);
+            toELO.addDependedELO(fromELO);
+        } else if (type.equalsIgnoreCase(ELOModel.PRECEDING)) {
+            fromELO.addSuccedingELO(toELO);
+            toELO.addPrecedingELO(fromELO);
+        }
+    }
+
+    private void buildPizzaMissionPath() {
+        String pathNodes[] = { "237", "212", "213", "204", "214", "255", "216", "217", "218", "205", "232", "219", "233", "208", "248", "221", "222", "234", "235", "249", "238", "223", "224", "225", "226", "227", "239", "228", "229", "230", "231" };
+
+        for (int i = 0; i < pathNodes.length - 1; i++) {
+            buildRelation(pathNodes[i], pathNodes[i + 1], ELOModel.PRECEDING);
+        }
+    }
+
+    private void buildPizzaMissionDependances() {
+        // Data flow of ELOs related to the Health Passport
+        buildRelation("204", "205", ELOModel.DEPENDING);
+        buildRelation("204", "232", ELOModel.DEPENDING);
+        buildRelation("205", "249", ELOModel.DEPENDING);
+        buildRelation("232", "249", ELOModel.DEPENDING);
+        buildRelation("219", "249", ELOModel.DEPENDING);
+        buildRelation("233", "249", ELOModel.DEPENDING);
+        buildRelation("234", "249", ELOModel.DEPENDING);
+        buildRelation("235", "249", ELOModel.DEPENDING);
+
+        // Data flow of ELOs related to pizza creation and optimization
+        buildRelation("237", "225", ELOModel.DEPENDING);
+        buildRelation("238", "225", ELOModel.DEPENDING);
+        buildRelation("225", "227", ELOModel.DEPENDING);
+        buildRelation("226", "227", ELOModel.DEPENDING);
+        buildRelation("227", "239", ELOModel.DEPENDING);
+    }
+    /*
+     * private void buildECOMissionPath() { String pathNodes[] = {"", "", "", "", "", "", "", "",
+     * "", ""}; for (int i=0; i<pathNodes.length-1; i++){ buildRelation(pathNodes[i],
+     * pathNodes[i+1], ELOModel.PRECEDING); } }
+     * 
+     * private void buildECOMissionDependances() { buildRelation("", "", ELOModel.DEPENDING);
+     * buildRelation("", "", ELOModel.DEPENDING); buildRelation("", "", ELOModel.DEPENDING); }
+     */
 }
