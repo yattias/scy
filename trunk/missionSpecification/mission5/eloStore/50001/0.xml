@@ -7,9 +7,9 @@
           <source>LOMv1.0</source>
           <value>author</value>
         </role>
-        <entity>yuri</entity>
+        <entity>Caspar</entity>
         <date>
-          <dateTime>2011-04-29T11:04:37.788+0200</dateTime>
+          <dateTime>2011-08-29T15:27:41.515+0200</dateTime>
         </date>
       </contribute>
       <contribute>
@@ -17,30 +17,35 @@
           <source>LOMv1.0</source>
           <value>initiator</value>
         </role>
-        <entity>yuri</entity>
+        <entity>Caspar</entity>
         <date>
-          <dateTime>2011-04-29T11:04:37.788+0200</dateTime>
+          <dateTime>2011-08-29T15:27:41.515+0200</dateTime>
         </date>
       </contribute>
-      <version>3</version>
+      <version>4</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1304067877788</dateCreated>
-        <dateFirstUserSaveKey>1304067877788</dateFirstUserSaveKey>
-        <dateLastModified>1304067877788</dateLastModified>
+        <dateFirstUserSaveKey>1314624461515</dateFirstUserSaveKey>
+        <dateLastModified>1314624461515</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
     <educational>
-      <learningResourceType>informationAssignment</learningResourceType>
+      <learningResourceType>reportFinal</learningResourceType>
     </educational>
     <general>
       <identifier>
         <catalog>memory</catalog>
         <entry>roolo://memory/50001/0/List+of+information.rtf</entry>
       </identifier>
-      <las />
+      <las>information</las>
+      <missionId>mini1</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/50054/0/Run+for+your+life%21.scymissionspecification</entry>
+      </missionRunning>
       <title>
         <string language="en">List of information</string>
       </title>
@@ -81,29 +86,53 @@
         </identifier>
       </resource>
     </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
   </lom>
-  <template>true</template>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <template>TRUE</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACXklEQVR42u3av2saYRzH8RMslO5CoX9C1m5uIrR/RB2TzAWpkJY6SiYdQ8VB6JBYChkq/QF1auygTTA4iIjQYquJGvSil5y1fuvzBK+elCIplArvD3y45zn1xJfPoRxn2LYt3W7X1V6vJ+PxmC5RYzQayenpqav9fl/Ozs4cUDUeDAYyHA51C4WC3i9iOc1kMq4vIZlMuubqGPPHvLAGojL/HPW+lmWtVDWgZbbly9dLOWnaDqD6QOcX38U8t+Vbs6Xnlv1DHqWPfgEWn8qtmzek9fqJBnx/1JKDijndnmjAyRTId/uOns8A1fjT57Hce7ClAdV882FUb03T1Kt/laoBLwdt2Xo1Eq+/7gKM7dblbmzkAEajUdne3pZisXgF+HZD5N2GtHY3NeCzlx+dasDJRHZeHMhO5oMDOHv8fuixBlTj52/KeqsAF8+G/71/PIXnm06nnVYqFddpqbq3t+eaK8DFYyxWZX6uABuNxkrVqFarcnx87Gq5XJZ6vU6XqCHkr2LUajUJhULOjk6ns/yLDfwRABBAAAEk1wdMJBLi9XrF5/M5v6q5XE6CwaCo/4jr6+sosQIBBBBA8nvAfD4vfr9f1FWZw8NDRFiBAAIIIAHwnwGWSiXZ39+XcDgs2WxWl7ACAQQQQLI0oLoO2G63r26WmY5njcViEo/H9X0xHo9H1tbWJJVKSSQSkUAgIM1mE0DWEIAAAgggARBAAAEkAAIIIIAEQAABBJAACCCAABIAAQQQQAIggAACSAAEEEAACYAAAgggARBAAAEkAAIIIIAAEgABBBBAcq38BEp73k+e4B5KAAAAAElFTkSuQmCC</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAADx0lEQVR42u2cS0wTQRjHx4OSKFdOmGiCARONqHDx5kHjhQRiYjxxhpNpjUaNYDAaTUx8xGcgipEYpQclMb6isai8ReThAwMIFtcWW9pCC9hC6efO7HbYLVhB8VD9/5N/9pv5ZqbpLzPNZHa37HrlNaKgV3PAOxOP+WfiOIe9Q3P34f4emDNXUV7+0/FC6njJalapApyeCJJvgqTDRBQZ8dCk7xt5x8mUe9feKQBOqjbWc/P2Asi0Xqf3PXDqhgDI8/F9oqMeCrqdNKbbGMf7b7Yb+812TMzAUJBevvdT1rqN1D1M1NofkgDtb30it3b9ZmpzTFPn63YJkNfbO9yUvmqNiGMAFd+kKHNvz9tFhfsvSYC8rq57VOajgWHyu5SktQYwPE53aj/S0qXLKGfLVnrQOCABVj/9QPfq+0Weu6ttBiAv25500koVII8FQHXZ9ip+umPvpuUrUkX97j1nqFwHyMuVNY3EGBMxn4FuZZA8SWoVYKW69ibosq2OLlW/FNerd5slwHM3a0VdzF1vOiTAHQWFlLF2gzDPxWZgZ4/TNF5+0Uk5A2PjVD3sElc+A52OAXINfhY2xvH+m+0SOVE7MQOVvl6yP6tXXadd7fUSYK29Xs9pHlWnLQcYGXGb+6iOAXzxvMGUa2pokQCNY3FP+d3kGOhPWrOw10Wh4YWZg1hon0Tu6+ujT0lqRtAfCQAXC2BW1kVxffSo19QgEAhTauoJWQ6HIz8dzOUK/r8Ac3MrKC3tFNXUdGsJViobpaefFpad1FxBQbV63Uuh0BQ1N6v7IWYhRQmI/NmzTWp5H5YwBIAACIAACP0SYHHxfXMlsxpiiyn36tVXGe/caQPA2F7PvD2xiu1JR8eQ3J4wdkT1HmptnQGYl3eLliw5Sj09XiopsWMJJ1I0iuWK30AABEAAhAAQAAEQACEABEAABEBIB8jvujmdAVOCHx7gAGEBM7ClRRFHWPxOG78zl5JynHJyKig//7ZadwiksIQBEAABEAJAAARAAIQAEAABEAAhAFw0gIwdnpVISTlG2dlXQGg+AC2Wx/KpK49nXAeoHWdBWMIACIAACAEgAAIgAEIACIAACIAQAC42wLKy57Ji27aqWY18vu/zHtDhGJFxJDJNNts78weyIlO5qelL8gO0Wh/rX0572TAz84IoG4+zGDsojr2M7bQXE0spI+O8yA8OjuovJlrE8Rh/2os/6cWf+Fq9+pzeV3t50dhu06byf38Jx/5QAsJvIAACIABCAAiAAAiAEAACIAACIABCAAiAAPi/6gcbDjjW1gHaWwAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
-<content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;&#xD;&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Dolly;}&#xD;&#xD;&#xD;&#xD;&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;&#xD;&#xD;
-{\stylesheet{\s2\f1\fs24\i0\b0\cf1 default;}{\s1\li0\ri0\fi0\sa80\sb80\sbasedon2\snext1 DP Document;}}&#xD;&#xD;&#xD;&#xD;&#xD;
-\margl1417\margr1417\margt1417\margb1417\widowctrl&#xD;&#xD;&#xD;&#xD;&#xD;
-\s1\li0\ri0\fi0\sa80\sb80\f2\fs20\i0\b\ul0\cf0 List of information you collected\par&#xD;&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;&#xD;
-Carbohydrates\par&#xD;&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;&#xD;
-Glucose\par&#xD;&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;&#xD;
-Insulin\par&#xD;&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;&#xD;
-Role of glucose in the body\b0\par&#xD;&#xD;&#xD;&#xD;&#xD;
-\pard\li0\ri0\fi0\f1\fs24\ul0\cf1\par&#xD;&#xD;&#xD;&#xD;&#xD;
+<content languages="en" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Verdana;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;\red0\green0\blue128;}
+{\stylesheet{\s3\li0\ri0\fi0\sbasedon2 default;}{\s1\li0\ri0\fi0\sa80\sb80\sbasedon2\snext1 DP Document;}{\s2\f1\fs24\i0\b0\cf1 default;}}
+\paperw11906\paperh16838\margl1417\margr1417\margt1417\margb1417\widowctrl
+\s1\li0\ri0\fi0\sa80\sb80\f2\fs24\i0\b\ul0\cf2 List of information:\par
+\pard\s3\ql\par
+Carbohydrates\par
+\par
+\par
+\par
+\par
+Glucose\par
+\par
+\par
+\par
+\par
+Insulin\par
+\par
+\par
+\par
+\par
+Role of glucose in the body\par
+\pard\li0\ri0\fi0\par
+\par
+\par
+\f1\b0\ul0\cf1\par
 }</RichText>
 </content>
 <resources>
