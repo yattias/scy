@@ -144,28 +144,4 @@
 
 	<bean id="notificationReceiver" class="eu.scy.client.notification.NotificationReceiver"/>
 
-    <bean id="httpInvokerPedagogicalPlanServiceProxy"
-        class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
-        <property name="serviceUrl">
-            <value>
-                http://${serverName}:${httpPort}/${contextPath}/remoting/pedagogicalPlan-httpinvoker
-            </value>
-        </property>
-        <property name="serviceInterface">
-            <value>eu.scy.server.pedagogicalplan.PedagogicalPlanService</value>
-        </property>
-    </bean>
-    
-    <bean id="httpInvokerStudentPedagogicalPlanServiceProxy"
-        class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
-        <property name="serviceUrl">
-            <value>
-                http://${serverName}:${httpPort}/${contextPath}/remoting/studentPlan-httpinvoker
-            </value>
-        </property>
-        <property name="serviceInterface">
-            <value>eu.scy.server.pedagogicalplan.StudentPedagogicalPlanService</value>
-        </property>
-    </bean>
-
 </beans>
