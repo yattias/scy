@@ -15,6 +15,9 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 import edu.emory.mathcs.backport.java.util.concurrent.locks.ReentrantLock;
+import eu.scy.actionlogging.ActionTupleTransformer;
+import eu.scy.actionlogging.api.ContextConstants;
+import eu.scy.actionlogging.api.IAction;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
@@ -127,8 +130,9 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements 
 
     @Override
     public void call(Command cmd, int seqnum, Tuple afterTuple, Tuple beforeTuple) {
-        String user = afterTuple.getField(1).getValue().toString();
-        String eloUri = afterTuple.getField(5).getValue().toString();
+        IAction action = ActionTupleTransformer.getActionFromTuple(afterTuple);
+        String user = action.getUser();
+        String eloUri = action.getContext(ContextConstants.eloURI);
 
         BehavioralModel model = null;
         if (seqnum == votatSeq) {
