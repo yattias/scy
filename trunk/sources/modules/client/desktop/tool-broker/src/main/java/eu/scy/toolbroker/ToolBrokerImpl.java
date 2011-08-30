@@ -42,7 +42,6 @@ import eu.scy.client.notification.NotificationReceiver;
 import eu.scy.common.configuration.Configuration;
 import eu.scy.notification.api.INotifiable;
 import eu.scy.notification.api.INotification;
-import eu.scy.server.pedagogicalplan.StudentPedagogicalPlanService;
 import eu.scy.sessionmanager.SessionManager;
 import eu.scy.toolbrokerapi.ConnectionListener;
 import eu.scy.toolbrokerapi.LoginFailedException;
