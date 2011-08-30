@@ -158,6 +158,13 @@
             <map/>
         </constructor-arg>
     </bean>
+    <bean id="feedbackNotificator" class="eu.scy.agents.impl.AgentStartConfiguration">
+        <constructor-arg index="0"
+                         value="eu.scy.agents.feedback.FeedbackAgent"/>
+        <constructor-arg index="1">
+            <map/>
+        </constructor-arg>
+    </bean>
 
     <bean id="rooloAccessor" class="eu.scy.agents.impl.AgentStartConfiguration">
         <constructor-arg index="0"
