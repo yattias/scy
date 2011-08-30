@@ -320,6 +320,11 @@
 
     </bean>
 
+    <bean id="portfolioELOService" class="eu.scy.core.roolo.PortfolioELOServiceImpl">
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+    </bean>
+
+
     <bean name="rooloAccessor" class="eu.scy.core.roolo.RooloAccessorImpl">
         <property name="metaDataTypeManager" ref="metadataTypeManager"/>
         <property name="extensionManager" ref="extensionManager"/>
