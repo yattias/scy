@@ -136,16 +136,4 @@
 	<!-- bean id="dataSyncService" class="eu.scy.client.common.datasync.DataSyncService">
 	</bean-->
 
-    <bean id="httpInvokerPedagogicalPlanServiceProxy"
-        class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
-        <property name="serviceUrl">
-            <value>
-                http://${client.serverName}:${client.httpPort}/${client.contextPath}/remoting/pedagogicalPlan-httpinvoker
-            </value>
-        </property>
-        <property name="serviceInterface">
-            <value>eu.scy.server.pedagogicalplan.PedagogicalPlanService</value>
-        </property>
-    </bean>
-
 </beans>
