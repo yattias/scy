@@ -13,6 +13,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JComboBox;
 import javax.swing.JLayeredPane;
@@ -28,6 +30,7 @@ import eu.scy.scymapper.api.diagram.model.IDiagramListener;
 import eu.scy.scymapper.api.diagram.model.IDiagramModel;
 import eu.scy.scymapper.api.diagram.model.IDiagramSelectionModel;
 import eu.scy.scymapper.api.diagram.model.ILinkModel;
+import eu.scy.scymapper.api.diagram.model.IModeListener;
 import eu.scy.scymapper.api.diagram.model.INodeLinkModel;
 import eu.scy.scymapper.api.diagram.model.INodeModel;
 import eu.scy.scymapper.api.diagram.view.LinkViewComponent;
@@ -48,8 +51,8 @@ import org.dom4j.util.NodeComparator;
  */
 public class ConceptDiagramView extends JLayeredPane implements IDiagramListener {
 
-	private final static Logger logger = Logger.getLogger(ConceptDiagramView.class);
-	
+    private final static Logger logger = Logger.getLogger(ConceptDiagramView.class);
+
     private IDiagramMode mode = new DragMode(this);
 
     private IDiagramModel model;
@@ -63,11 +66,14 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
     private KeyListener deleteKeyListener = new DeleteKeyListener();
 
     private int nodeCount = 0;
-    
+
+    private List<IModeListener> modeListeners;
+
     public ConceptDiagramView(IDiagramController controller, IDiagramModel model, final IDiagramSelectionModel selectionModel) {
         this.controller = controller;
         this.model = model;
         this.selectionModel = selectionModel;
+        modeListeners = new ArrayList<IModeListener>();
 
         setLayout(null);
 
@@ -92,8 +98,18 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
 
     public void setMode(IDiagramMode mode) {
         if (mode instanceof ConnectMode) {
+            synchronized (modeListeners) {
+                for (IModeListener modeListener : modeListeners) {
+                    modeListener.edgeModeEnabled();
+                }
+            }
             setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
         } else {
+            synchronized (modeListeners) {
+                for (IModeListener modeListener : modeListeners) {
+                    modeListener.nodeModeEnabled();
+                }
+            }
             setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 
         }
@@ -106,11 +122,11 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
         for (int i = 0; i < getComponentCount(); i++) {
             Component c = getComponent(i);
             if (c instanceof NodeViewComponent) {
-                 NodeViewComponent nvc = (NodeViewComponent) c;
-                 nvc.setController(factory.createNodeController(nvc.getModel()));
+                NodeViewComponent nvc = (NodeViewComponent) c;
+                nvc.setController(factory.createNodeController(nvc.getModel()));
             } else if (c instanceof LinkViewComponent) {
-                 LinkViewComponent lvc = (LinkViewComponent) c;
-                 lvc.setController(factory.createLinkController(lvc.getModel()));
+                LinkViewComponent lvc = (LinkViewComponent) c;
+                lvc.setController(factory.createLinkController(lvc.getModel()));
             }
         }
     }
@@ -134,9 +150,9 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
         RichNodeView view;
 
         if (node instanceof ConnectorModel) {
-            view = new ConnectorView(elementControllerFactory.createNodeController(node), node);
+            view = new ConnectorView(elementControllerFactory.createNodeController(node), node, this);
         } else {
-            view = new RichNodeView(elementControllerFactory.createNodeController(node), node);
+            view = new RichNodeView(elementControllerFactory.createNodeController(node), node, this);
         }
 
         view.setLabelEditable(editable, true);
@@ -403,5 +419,16 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
             controller.removeAll();
         }
 
+    }
+
+    public void addModeListener(IModeListener modeListener){
+        synchronized (modeListeners) {
+            modeListeners.add(modeListener);
+        }
+    }
+    public void removeModeListener(IModeListener modeListener){
+        synchronized (modeListeners) {
+            modeListeners.remove(modeListener);
+        }
     }
 }

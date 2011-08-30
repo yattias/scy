@@ -72,6 +72,17 @@ public class ConnectMode implements IDiagramMode {
 
     private final MouseAdapter mouseListener = new MouseAdapter() {
 
+        private RichNodeView getSourceComponent(MouseEvent e){
+            if (e.getSource() instanceof RichNodeView){
+                return (RichNodeView) e.getSource();
+
+            }else{
+                JTextPane jtp =(JTextPane)e.getSource();
+                return (RichNodeView)jtp.getParent();
+
+            }
+        }
+
         @Override
         public void mouseEntered(MouseEvent e) {
             if (e.getComponent() instanceof NodeViewComponent) {
@@ -81,7 +92,7 @@ public class ConnectMode implements IDiagramMode {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            sourceComponent = (RichNodeView) e.getSource();
+           sourceComponent= getSourceComponent(e);
             sourceNode = sourceComponent.getModel();
             sourceComponent.setBorder(BorderFactory.createLineBorder(Color.green, 1));
             Point relPoint = e.getPoint();
@@ -95,7 +106,7 @@ public class ConnectMode implements IDiagramMode {
         @Override
         public void mouseReleased(MouseEvent e) {
             connector.setVisible(false);
-            sourceComponent = (RichNodeView) e.getSource();
+            sourceComponent= getSourceComponent(e);
             sourceComponent.setBorder(BorderFactory.createEmptyBorder());
 
             if (currentTarget != null) {
@@ -132,7 +143,7 @@ public class ConnectMode implements IDiagramMode {
             // The relative mouse position from the component x,y
             Point relPoint = e.getPoint();
 
-            JComponent component = (RichNodeView) e.getSource();
+            JComponent component = getSourceComponent(e);
 
             // Create the new location
             Point newLocation = component.getLocation();
