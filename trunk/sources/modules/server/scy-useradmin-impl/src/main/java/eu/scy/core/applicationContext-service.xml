@@ -92,9 +92,6 @@
         <property name="learningMaterialDAO" ref="learningMaterialDAO"/>
     </bean>
 
-    <bean id="portfolioELOService" class="eu.scy.core.roolo.PortfolioELOServiceImpl">
-        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
-    </bean>
 
 
 </beans>
