@@ -142,17 +142,6 @@ public class SimpleToolBrokerAPI implements ToolBrokerAPI,ToolBrokerAPIRuntimeSe
    }
 
    @Override
-   public PedagogicalPlanService getPedagogicalPlanService()
-   {
-      return pedagogicalPlanService;
-   }
-
-   @Override
-   public StudentPedagogicalPlanService getStudentPedagogicalPlanService() {
-       return studentPedagogicalPlanService;
-   }
-
-   @Override
    public String getLoginUserName(){
       return userName;
    }

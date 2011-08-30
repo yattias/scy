@@ -13,12 +13,9 @@ import javax.security.auth.login.LoginException;
 import org.apache.log4j.Logger;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.ConnectionConfiguration.SecurityMode;
-import org.jivesoftware.smack.filter.PacketFilter;
-import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.BOSHConfiguration;
 import org.jivesoftware.smack.BOSHConnection;
 import org.jivesoftware.smack.Connection;
-import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.SmackConfiguration;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
@@ -45,7 +42,6 @@ import eu.scy.client.notification.NotificationReceiver;
 import eu.scy.common.configuration.Configuration;
 import eu.scy.notification.api.INotifiable;
 import eu.scy.notification.api.INotification;
-import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 import eu.scy.server.pedagogicalplan.StudentPedagogicalPlanService;
 import eu.scy.sessionmanager.SessionManager;
 import eu.scy.toolbrokerapi.ConnectionListener;
@@ -91,10 +87,6 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 	private ConnectionConfiguration config;
 
 	private Connection connection;
-
-	private PedagogicalPlanService pedagogicalPlanService;
-
-	private StudentPedagogicalPlanService studentPedagogicalPlanService;
 
 	private NotificationReceiver notificationReceiver;
 
@@ -220,12 +212,11 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 		actionLogger = (IActionLogger) context.getBean("actionlogger");
 		IActionLogger internalLogger = ((CompletingActionLogger) actionLogger).getInternalLogger();
 		List<IActionLogger> loggers = ((MultiActionLogger) internalLogger).getLoggers();
-		for (IActionLogger logger : loggers) {
-                    if (logger instanceof ActionLogger) {
-                        ((ActionLogger) logger).init(connection);
+		for (IActionLogger actionLogger : loggers) {
+                    if (actionLogger instanceof ActionLogger) {
+                        ((ActionLogger) actionLogger).init(connection);
                     }
                 }
-		
 		
 		// ContextService
 		contextService = (IContextService) context.getBean("contextservice");
@@ -243,14 +234,6 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 		// DataSyncService
 		dataSyncService = (IDataSyncService) context.getBean("dataSyncService");
 		((DataSyncService) dataSyncService).init(connection);
-
-		// PedagogicalPlan
-		pedagogicalPlanService = (PedagogicalPlanService) context.getBean("pedagogicalPlanService");
-
-		// student planning service
-
-		// studentPedagogicalPlanService = this.getStudentPlanService();
-		setStudentPedagogicalPlanService((StudentPedagogicalPlanService) context.getBean("studentPedagogicalPlanService"));
 
 		// NotificationReceiver
 		notificationReceiver = (NotificationReceiver) context.getBean("notificationReceiver");
@@ -486,11 +469,6 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 		return connection;
 	}
 
-    @Override
-	public PedagogicalPlanService getPedagogicalPlanService() {
-		return pedagogicalPlanService;
-	}
-
 	@Override
 	public void registerForNotifications(INotifiable notifiable) {
 		notificationReceiver.addNotifiable(notifiable);
@@ -603,15 +581,6 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
     @Override
     public String getLoginUserName() {
             return userName;
-    }
-
-    public void setStudentPedagogicalPlanService(StudentPedagogicalPlanService studentPedagogicalPlanService) {
-            this.studentPedagogicalPlanService = studentPedagogicalPlanService;
-    }
-
-    @Override
-    public StudentPedagogicalPlanService getStudentPedagogicalPlanService() {
-            return studentPedagogicalPlanService;
     }
 
     @Override

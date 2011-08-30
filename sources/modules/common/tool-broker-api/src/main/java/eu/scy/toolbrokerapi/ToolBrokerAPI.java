@@ -6,8 +6,6 @@ import eu.scy.awareness.IAwarenessService;
 import eu.scy.client.common.datasync.IDataSyncService;
 import eu.scy.common.scyelo.RooloServices;
 import eu.scy.notification.api.INotifiable;
-import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
-import eu.scy.server.pedagogicalplan.StudentPedagogicalPlanService;
 import eu.scy.sessionmanager.SessionManager;
 import java.net.URI;
 
@@ -52,22 +50,6 @@ public interface ToolBrokerAPI extends RooloServices {
      * @return the data sync service
      */
     public IDataSyncService getDataSyncService();
-
-    /**
-     * 
-     * Returns the pedagogical plan service
-     * 
-     * @return the pedagogical plan service
-     */
-    public PedagogicalPlanService getPedagogicalPlanService();
-    
-    /**
-     * 
-     * Returns the student pedagogical plan service
-     * 
-     * @return the student pedagogical plan service
-     */
-    public StudentPedagogicalPlanService getStudentPedagogicalPlanService();
 
     /**
      * Sends a message via the collaboration agent to another user to invite him for a
