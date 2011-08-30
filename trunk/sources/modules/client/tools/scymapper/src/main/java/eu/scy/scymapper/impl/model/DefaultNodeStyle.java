@@ -18,7 +18,7 @@ public class DefaultNodeStyle implements INodeStyle {
 
 	private Color foregroundColor = new Color(0x000000);
 
-	private Color backgroundColor = new Color(198, 210, 255);
+	private Color backgroundColor = new Color(255, 255, 255);
 
 	private Stroke stroke = new BasicStroke(2f);
 
