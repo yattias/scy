@@ -30,6 +30,7 @@ public class PortfolioNotificator extends AbstractThreadedAgent {
     private static final String ELO_ADDED_TO_PORTFOLIO = "elo_added_to_portfolio";
     private static final String ELO_IS_ASSESSED = "elo_is_assessed";
     private static final String EPORTFOLIO_SUBMITTED_FOR_ASSESSMENT = "eportfolio_submitted_for_assessment";
+
     private static final String SCY_EPORTFOLIO_TOOL = "scy-eportfolio";
     private static final String PORTFOLIO_ASSESS_VIEW_FINISHED = "portfolio_assess_view_finished";
     private static final String SCY_ASSESSMENT_TOOL = "scy-assessment";
@@ -185,7 +186,6 @@ public class PortfolioNotificator extends AbstractThreadedAgent {
                 ELO_ADDED_TO_PORTFOLIO, action);
         try {
             getCommandSpace().write(eloAddedTuple);
-            getCommandSpace().write(createNotification(action, FEEDBACK_ASKED));
         } catch (TupleSpaceException e) {
             LOGGER.warn("could not write elo added to portfolio tuple");
             e.printStackTrace();
@@ -230,7 +230,6 @@ public class PortfolioNotificator extends AbstractThreadedAgent {
                         + " could not be deleted.");
             }
             this.getCommandSpace().write(createNotification(action, ELO_ASSESSMENT_FINISHED));
-            this.getCommandSpace().write(createNotification(action, FEEDBACK_GIVEN));
         } catch (TupleSpaceException e) {
             LOGGER.warn("could not write elo added to portfolio tuple");
             e.printStackTrace();
