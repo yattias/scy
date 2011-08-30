@@ -10,8 +10,8 @@ import javax.swing.*;
  * @created 16.feb.2010 09:43:17
  */
 public class ConnectorView extends RichNodeView {
-	public ConnectorView(INodeController controller, INodeModel model) {
-		super(controller, model);
+	public ConnectorView(INodeController controller, INodeModel model, ConceptDiagramView conceptDiagramView) {
+		super(controller, model, conceptDiagramView);
 	}
 
 
