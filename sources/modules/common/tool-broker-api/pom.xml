@@ -56,13 +56,6 @@
 		
 		<dependency>
 			<groupId>eu.scy.common</groupId>
-			<artifactId>pedagogical-plan-service-api</artifactId>
-			<version>${pom.version}</version>
-			<scope>compile</scope>
-		</dependency>
-		
-		<dependency>
-			<groupId>eu.scy.common</groupId>
 			<artifactId>scy-elo</artifactId>
 			<version>${pom.version}</version>
 		</dependency>

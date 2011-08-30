@@ -115,12 +115,6 @@
 		
 		<dependency>	
             <groupId>eu.scy.common</groupId>
-            <artifactId>pedagogical-plan-service-api</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
-		
-		<dependency>	
-            <groupId>eu.scy.common</groupId>
             <artifactId>scy-model-api</artifactId>
             <version>${pom.version}</version>
         </dependency>
