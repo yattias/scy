@@ -37,7 +37,7 @@ public class MissionQuerySelecter extends AbstractSimpleQuerySelecter
       ALL_VERSIONS_OF_THIS,
       SAME,
       NOT_SAME,
-      ALL_VERSIONS_OF_ELO;
+      ALL_VERSIONS_OF_MISSION;
    }
 
    MissionQuerySelecter(ToolBrokerAPI tbi, String id, QuerySelecterUsage querySelectorUsage)
@@ -74,7 +74,7 @@ public class MissionQuerySelecter extends AbstractSimpleQuerySelecter
             }
             if (getBasedOnElo().getMissionId() != null)
             {
-               displayOptions.add(MissionOptions.ALL_VERSIONS_OF_ELO.toString());
+               displayOptions.add(MissionOptions.ALL_VERSIONS_OF_MISSION.toString());
             }
             break;
       }
@@ -110,10 +110,10 @@ public class MissionQuerySelecter extends AbstractSimpleQuerySelecter
          case ALL_VERSIONS_OF_THIS:
             return new MetadataQueryComponent(missionRunningKey, SearchOperation.EQUALS, myMissionId);
          case SAME:
-            return new MetadataQueryComponent(missionIdKey, SearchOperation.EQUALS, getBasedOnElo().getMissionSpecificationEloUri());
+            return new MetadataQueryComponent(missionRunningKey, SearchOperation.EQUALS, getBasedOnElo().getMissionSpecificationEloUri());
          case NOT_SAME:
-            return new MetadataQueryComponent(missionIdKey, SearchOperation.NOT_EQUALS, getBasedOnElo().getMissionSpecificationEloUri());
-         case ALL_VERSIONS_OF_ELO:
+            return new MetadataQueryComponent(missionRunningKey, SearchOperation.NOT_EQUALS, getBasedOnElo().getMissionSpecificationEloUri());
+         case ALL_VERSIONS_OF_MISSION:
             return new MetadataQueryComponent(missionIdKey, SearchOperation.NOT_EQUALS, getBasedOnElo().getMissionId());
       }
       return null;
