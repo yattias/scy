@@ -57,7 +57,7 @@ public class AddFeedbackController extends BaseController {
         feedbackElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(feedbackEloTransfer));
         feedbackElo.updateElo();
 
-        getActionLoggerService().logAction("feedback_added", getCurrentUserName(request), "feedback");
+        getActionLoggerService().logAction("feedback_given", getCurrentUserName(request), "feedback");
     }
 
 
