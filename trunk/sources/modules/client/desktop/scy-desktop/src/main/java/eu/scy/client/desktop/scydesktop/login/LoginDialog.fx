@@ -293,6 +293,7 @@ public class LoginDialog extends CustomNode, TbiReady {
       action.addAttribute("language", Locale.getDefault().toString());
       action.addAttribute("missionSpecification", missionRunConfigs.tbi.getMissionSpecificationURI().toString());
       action.addAttribute("missionName", missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getTitle());
+      action.addAttribute("missionId", missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getMissionId());
       missionRunConfigs.tbi.getActionLogger().log(action);
       logger.info("logged logged_in-action: {action}");
    }
