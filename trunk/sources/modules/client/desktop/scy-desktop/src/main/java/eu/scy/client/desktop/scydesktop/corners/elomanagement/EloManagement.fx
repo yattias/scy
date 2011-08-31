@@ -47,6 +47,7 @@ import javafx.util.StringLocalizer;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import roolo.elo.api.IELO;
+import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 
 /**
  * @author sikken
@@ -68,6 +69,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
    public var buttonActionScheme = -1;
    def showCreateBlankElo = scyDesktop.initializer.authorMode;
    def authorKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR);
+   def creatorKey = metadataTypeManager.getMetadataKey(ScyRooloMetadataKeyIds.CREATOR);
    def templateKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TEMPLATE);
    def userId = scyDesktop.config.getToolBrokerAPI().getLoginUserName();
    def tbi = scyDesktop.config.getToolBrokerAPI();
@@ -262,6 +264,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
             var templateTitle = titleContainer.getValue() as String;
             setTitleAndLanguage(newElo,scyDesktop.newTitleGenerator.generateNewTitleFromName(templateTitle));
             newElo.getMetadata().getMetadataValueContainer(templateKey).setValue("true");
+            newElo.getMetadata().getMetadataValueContainer(creatorKey).setValue(tbi.getLoginUserName());
             var metadata = repository.addForkedELO(newElo);
             eloFactory.updateELOWithResult(newElo, metadata);
             scyWindowControl.addOtherScyWindow(newElo.getUri());
