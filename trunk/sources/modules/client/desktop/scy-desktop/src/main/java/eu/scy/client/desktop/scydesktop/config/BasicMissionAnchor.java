@@ -24,6 +24,7 @@ public class BasicMissionAnchor// implements MissionAnchor
    private List<URI> loEloUris = new ArrayList<URI>();
    private List<String> inputMissionAnchorIds = new ArrayList<String>();
    private List<String> relationNames = new ArrayList<String>();
+   private List<String> dependingOnMissionAnchorIds = new ArrayList<String>();
    private URI targetDescriptionUri;
    private URI assignmentUri;
    private URI resourcesUri;
@@ -73,6 +74,16 @@ public class BasicMissionAnchor// implements MissionAnchor
       {
          this.relationNames = relationNames;
       }
+   }
+
+   public List<String> getDependingOnMissionAnchorIds()
+   {
+      return dependingOnMissionAnchorIds;
+   }
+
+   public void setDependingOnMissionAnchorIds(List<String> dependingOnMissionAnchorIds)
+   {
+      this.dependingOnMissionAnchorIds = dependingOnMissionAnchorIds;
    }
 
    public List<URI> getLoEloUris()

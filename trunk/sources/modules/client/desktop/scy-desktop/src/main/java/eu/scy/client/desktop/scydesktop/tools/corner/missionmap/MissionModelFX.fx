@@ -19,7 +19,6 @@ import eu.scy.actionlogging.api.IAction;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.desktoputils.XFX;
-import java.lang.UnsupportedOperationException;
 import java.util.Collection;
 
 /**
@@ -256,18 +255,27 @@ public class MissionModelFX extends MissionModel {
       return missionModel.getMissionMapInstructionUri();
    }
 
-    override public function getWindowStatesXmlIds () : Collection {
-        missionModel.getWindowStatesXmlIds()
-    }
+   override public function getWindowStatesXmlIds(): Collection {
+      missionModel.getWindowStatesXmlIds()
+   }
 
-    override public function getWindowStatesXml (lasId : String) : String {
-        missionModel.getWindowStatesXml(lasId)
-    }
+   override public function getWindowStatesXml(lasId: String): String {
+      missionModel.getWindowStatesXml(lasId)
+   }
 
-    override public function setWindowStatesXml (lasId : String, xml : String) : Void {
+   override public function setWindowStatesXml(lasId: String, xml: String): Void {
       if (xml != missionModel.getWindowStatesXml(lasId)) {
          storedWindowStatesXmlsChanged = true
       }
       missionModel.setWindowStatesXml(lasId, xml);
-    }
+   }
+
+   override public function getMissionAnchor(id: String): MissionAnchor {
+      return missionModel.getMissionAnchor(id)
+   }
+
+   override public function getMissionAnchors(): List {
+      return missionModel.getMissionAnchors()
+   }
+
 }

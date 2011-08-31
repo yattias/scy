@@ -300,6 +300,7 @@ public class BasicMissionConfigInput implements MissionConfigInput
       {
          BasicMissionAnchor missionAnchor = new BasicMissionAnchor();
          missionAnchor.setEloUri(basicMissionAnchor.getUri());
+         missionAnchor.setId(basicMissionAnchor.getId());
          missionAnchor.setIconType(basicMissionAnchor.getIconType());
          missionAnchor.setScyElo(basicMissionAnchor.getScyElo());
          missionAnchor.setExisting(basicMissionAnchor.getScyElo() != null);
@@ -309,6 +310,7 @@ public class BasicMissionConfigInput implements MissionConfigInput
          missionAnchor.setResourcesUri(basicMissionAnchor.getResourcesUri());
          missionAnchor.setColorSchemeId(basicMissionAnchor.getColorScheme());
          missionAnchor.setRelationNames(basicMissionAnchor.getRelationNames());
+         missionAnchor.setDependingOnMissionAnchorIds(basicMissionAnchor.getDependingOnMissionAnchorIds());
          if (!missionAnchorMap.containsKey(basicMissionAnchor.getId()))
          {
             missionAnchorMap.put(basicMissionAnchor.getId(), missionAnchor);
@@ -366,6 +368,21 @@ public class BasicMissionConfigInput implements MissionConfigInput
             }
          }
          las.setIntermediateAnchors(intermediateAnchors);
+      }
+      // check the dependingOnMissionAnchorIds
+      for (BasicMissionAnchor missionAnchor: missionAnchorMap.values()){
+         List<String> dependingOnMissionAnchorIds = new ArrayList<String>();
+         if (missionAnchor.getDependingOnMissionAnchorIds()!=null){
+            for (String dependingOnMissionAnchorId : missionAnchor.getDependingOnMissionAnchorIds()){
+               if (missionAnchorMap.containsKey(dependingOnMissionAnchorId)){
+                  dependingOnMissionAnchorIds.add(dependingOnMissionAnchorId);
+               } else {
+               logger.error(addError("Cannot find depending on mission anchor with id '" + dependingOnMissionAnchorId + "' for mission anchor with id '" + missionAnchor.getId() + "'"));
+
+               }
+            }
+         }
+         missionAnchor.setDependingOnMissionAnchorIds(dependingOnMissionAnchorIds);
       }
 
       for (Las errorLas : errorLasses)

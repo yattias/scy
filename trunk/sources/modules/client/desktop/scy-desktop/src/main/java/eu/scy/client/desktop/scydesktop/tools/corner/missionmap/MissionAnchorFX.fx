@@ -21,8 +21,8 @@ public class MissionAnchorFX extends MissionAnchor {
 
    protected var missionUtils: MissionUtils;
    public var missionAnchor: MissionAnchor on replace { newMissionAnchor() };
-//   public var id: String;
    public var eloUri: URI on replace { eloUriChanged() };
+   public-read var id: String;
    public var scyElo: ScyElo;
    public var iconType: String;
    public var inputAnchors: MissionAnchorFX[];
@@ -35,7 +35,7 @@ public class MissionAnchorFX extends MissionAnchor {
    public var targetDescriptionUri: URI;
    public var assignmentUri: URI;
    public var resourcesUri: URI;
-   public var windowColorScheme: WindowColorScheme =WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
+   public var windowColorScheme: WindowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
    public var colorScheme: ColorSchemeId;
 
    public override function toString(): String {
@@ -44,6 +44,7 @@ public class MissionAnchorFX extends MissionAnchor {
 
    function newMissionAnchor() {
       eloUri = missionAnchor.getEloUri();
+      id = missionAnchor.getId();
       scyElo = missionAnchor.getScyElo();
       iconType = missionAnchor.getIconType();
       inputAnchors = missionUtils.getMissionAnchorFXSequence(missionAnchor.getInputMissionAnchors());
@@ -152,6 +153,14 @@ public class MissionAnchorFX extends MissionAnchor {
 
    override public function getObligatoryInPortfolio(): java.lang.Boolean {
       return missionAnchor.getObligatoryInPortfolio();
+   }
+
+   override public function getId(): String {
+      return missionAnchor.getId()
+   }
+
+   override public function getDependingOnMissionAnchorIds(): List {
+      return missionAnchor.getDependingOnMissionAnchorIds()
    }
 
 }
