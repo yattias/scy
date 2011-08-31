@@ -14,6 +14,7 @@ import java.util.Set;
  */
 public interface IDiagramModel extends Serializable {
 
+        IDiagramSelectionModel getSelectionModel();
 	/**
 	 * Set the name of the diagram
 	 *
@@ -61,7 +62,7 @@ public interface IDiagramModel extends Serializable {
 	 * @param n the link to add
 	 */
 	void addLink(ILinkModel n);
-	
+
 	/**
 	 * Adds a remote link to the diagram without focus.
 	 *
@@ -116,7 +117,7 @@ public interface IDiagramModel extends Serializable {
 	/**
 	 * Made to ensure the implementation of a method that notifies
 	 * listeners when a node is added to the diagram
-	 * 
+	 *
 	 * @param node the added node
 	 * @param focused whether node should be focused or not
 	 */

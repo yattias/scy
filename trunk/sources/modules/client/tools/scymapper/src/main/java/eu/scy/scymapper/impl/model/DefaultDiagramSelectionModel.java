@@ -18,6 +18,11 @@ public class DefaultDiagramSelectionModel implements IDiagramSelectionModel {
 	private Stack<INodeModel> selectedNodes = new Stack<INodeModel>();
 	private Stack<ILinkModel> selectedLinks = new Stack<ILinkModel>();
 	private transient ArrayList<IDiagramSelectionListener> listeners = new ArrayList<IDiagramSelectionListener>();
+	
+	
+        public DefaultDiagramSelectionModel() {
+            // TODO Auto-generated constructor stub
+        }
 
 	@Override
 	public void select(INodeModel node) {

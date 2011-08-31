@@ -24,7 +24,6 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
@@ -70,7 +69,7 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
 
     protected boolean isEdgeMode;
 
-    public RichNodeView(INodeController controller, INodeModel model, ConceptDiagramView conceptDiagramView) {
+    public RichNodeView(INodeController controller, INodeModel model, final ConceptDiagramView conceptDiagramView) {
 
         super(controller, model);
         this.conceptDiagramView = conceptDiagramView;
@@ -163,6 +162,7 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
                     MouseListener[] mouseListeners = RichNodeView.this.getMouseListeners();
                     for (MouseListener mouseListener : mouseListeners) {
                         mouseListener.mouseReleased(e);
+                        conceptDiagramView.setNodeMode();
                     }
                 }else{
                     super.mouseReleased(e);
@@ -190,7 +190,7 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (isEdgeMode()) {
+                if (isEdgeMode) {
                     setLabelEditable(false);
                 } else {
                     setLabelEditable(true);
@@ -198,10 +198,6 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
                 }
             }
 
-            private boolean isEdgeMode() {
-                // TODO Auto-generated method stub
-                return isEdgeMode;
-            }
         });
 
         labelTextPane.addFocusListener(new FocusAdapter() {

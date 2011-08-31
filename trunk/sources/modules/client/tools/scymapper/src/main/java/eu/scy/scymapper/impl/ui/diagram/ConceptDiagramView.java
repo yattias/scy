@@ -15,11 +15,11 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.JComboBox;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
@@ -36,6 +36,7 @@ import eu.scy.scymapper.api.diagram.model.INodeModel;
 import eu.scy.scymapper.api.diagram.view.LinkViewComponent;
 import eu.scy.scymapper.api.diagram.view.NodeViewComponent;
 import eu.scy.scymapper.impl.controller.DefaultElementControllerFactory;
+import eu.scy.scymapper.impl.controller.DiagramController;
 import eu.scy.scymapper.impl.controller.IElementControllerFactory;
 import eu.scy.scymapper.impl.model.ComboNodeLinkModel;
 import eu.scy.scymapper.impl.model.ConnectorModel;
@@ -44,7 +45,6 @@ import eu.scy.scymapper.impl.ui.Localization;
 import eu.scy.scymapper.impl.ui.diagram.modes.ConnectMode;
 import eu.scy.scymapper.impl.ui.diagram.modes.DragMode;
 import eu.scy.scymapper.impl.ui.diagram.modes.IDiagramMode;
-import org.dom4j.util.NodeComparator;
 
 /**
  * Created by IntelliJ IDEA. User: Henrik Date: 23.jan.2009 Time: 06:40:09
@@ -69,10 +69,11 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
 
     private List<IModeListener> modeListeners;
 
-    public ConceptDiagramView(IDiagramController controller, IDiagramModel model, final IDiagramSelectionModel selectionModel) {
+    public ConceptDiagramView(final IDiagramController controller, final IDiagramModel model, final IDiagramSelectionModel selectionModel) {
         this.controller = controller;
         this.model = model;
         this.selectionModel = selectionModel;
+
         modeListeners = new ArrayList<IModeListener>();
 
         setLayout(null);
@@ -105,17 +106,22 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
             }
             setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
         } else {
-            synchronized (modeListeners) {
-                for (IModeListener modeListener : modeListeners) {
-                    modeListener.nodeModeEnabled();
-                }
-            }
+            setNodeMode();
             setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 
         }
         this.mode = mode;
     }
 
+    public void setNodeMode(){
+        synchronized (modeListeners) {
+            for (IModeListener modeListener : modeListeners) {
+                modeListener.nodeModeEnabled();
+            }
+        }
+        setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+
+    }
     public void setElementControllerFactory(IElementControllerFactory factory) {
         elementControllerFactory = factory;
         // Adapt controller for previously created nodes and links

@@ -9,7 +9,10 @@ import eu.scy.common.datasync.SyncObject;
 import eu.scy.scymapper.api.diagram.model.*;
 import eu.scy.scymapper.api.styling.ILinkStyle;
 import eu.scy.scymapper.api.styling.INodeStyle;
+import eu.scy.scymapper.impl.DiagramModel;
 import eu.scy.scymapper.impl.controller.DiagramController;
+import eu.scy.scymapper.impl.demo.DiagramDemo;
+
 import org.apache.log4j.Logger;
 
 import javax.swing.*;
@@ -27,16 +30,16 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 	private ISyncSession syncSession;
 
 	public DataSyncDiagramController(IDiagramModel model, ISyncSession syncSession) {
-		super(model);
+		super(model, model.getSelectionModel());
 		this.syncSession = syncSession;
 		this.syncSession.addSyncListener(this);
 
 		// This is a hack - for some reason the first sync object is not sendt to all clients
 		this.syncSession.addSyncObject(new SyncObject());
 	}
-	
+
 	public DataSyncDiagramController(IDiagramModel model) {
-		super(model);
+		super(model, model.getSelectionModel());
 	}
 
 	/**
@@ -58,19 +61,19 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 			if (element instanceof INodeModel) {
 				final INodeModel node = (INodeModel) element;
 				sync(syncObject, node);
-				
+
 				if (syncSession != null && syncObject.getCreator().equals(syncSession.getUsername())) {
 					model.addNode(node);
 				} else {
 					model.addNodeRemotely(node);
 				}
-				
+
 			} else if (element instanceof INodeLinkModel) {
 				// Get the actual local objects for the from / to node of this link (it is deserialized)
 				final INodeLinkModel link = (INodeLinkModel) element;
 				link.setFromNode((INodeModel) model.getElementById(link.getFromNode().getId()));
 				link.setToNode((INodeModel) model.getElementById(link.getToNode().getId()));
-				
+
 				sync(syncObject, link);
 				if (syncSession != null && syncObject.getCreator().equals(syncSession.getUsername())) {
 					model.addLink(link);
@@ -217,7 +220,7 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 		logger.debug("User locally added node with ID " + n.getId());
 
 		ISyncObject syncObject = new SyncObject();
-		
+
 		syncObject.setID(n.getId());
 
 		syncObject.setToolname("scymapper");
