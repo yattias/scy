@@ -62,6 +62,7 @@ public class MathCylinder3D extends Math3DShape implements IMathCylinder3D {
 			getResultMap().put(this.shape.getName(), new CircularShapeResult(this.shape.getName(), null, null, this.shape.getVolume(), this.shape.getCanvasIcon(),cyl.getHeight() ));
 		} else {
 			CircularShapeResult shapeResult = (CircularShapeResult) getResultMap().get(this.shape.getName());
+			getVolumeValueLabel().setText(shapeResult.getVolume());
 			getRadiusTextField().setText(shapeResult.getRadius());
 			getSurfaceAreaTextField().setText(shapeResult.getSurfaceArea());
 			getRatioTextField().setText(shapeResult.getSurfaceAreaRatio());
