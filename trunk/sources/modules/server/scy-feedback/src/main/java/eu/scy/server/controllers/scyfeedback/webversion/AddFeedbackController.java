@@ -62,6 +62,10 @@ public class AddFeedbackController extends BaseController {
         feedbackElo.updateElo();
 
         getActionLoggerService().logAction("feedback_given", feedbackEloTransfer.getCreatedBy(), "feedback", parentEloURI.toString());
+
+        modelAndView.addObject("username", getCurrentUser(request));
+        modelAndView.addObject("feedbackItem", feedbackTransfer);
+
     }
 
 
