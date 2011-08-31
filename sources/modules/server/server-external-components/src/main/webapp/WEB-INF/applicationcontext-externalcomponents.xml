@@ -89,7 +89,7 @@
                 <ref bean="cmEnricher"/>
                 <ref bean="cmProposer"/>
                 <ref bean="cmModeller"/>
-                <ref bean="workflowRecorder"/>
+                <!--<ref bean="workflowRecorder"/>-->
                 <ref bean="pga"/>
                 <ref bean="scaffoldNotificator"/>
             </set>
