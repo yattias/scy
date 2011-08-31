@@ -1,6 +1,7 @@
 package eu.scy.scymapper.impl.ui.diagram;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -150,7 +151,8 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
                 if (isEdgeMode){
                     MouseListener[] mouseListeners = RichNodeView.this.getMouseListeners();
                     for (MouseListener mouseListener : mouseListeners) {
-                        mouseListener.mousePressed(e);
+                        MouseEvent e2 = new MouseEvent((Component) e.getSource(), e.getID(), e.getWhen(), e.getModifiers(), RichNodeView.this.getMousePosition(true).x, RichNodeView.this.getMousePosition(true).y, e.getLocationOnScreen().x, e.getLocationOnScreen().y, e.getClickCount(),false, e.getButton());
+                        mouseListener.mousePressed(e2);
                     }
                 }else{
                     super.mouseClicked(e);
