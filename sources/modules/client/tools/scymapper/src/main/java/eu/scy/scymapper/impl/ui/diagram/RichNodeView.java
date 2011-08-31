@@ -44,6 +44,7 @@ import eu.scy.scymapper.api.diagram.view.NodeViewComponent;
 import eu.scy.scymapper.api.styling.INodeStyle;
 import eu.scy.scymapper.api.styling.INodeStyleListener;
 import eu.scy.scymapper.impl.ui.Localization;
+import eu.scy.scymapper.impl.ui.diagram.modes.IDiagramMode;
 
 /**
  * Created by IntelliJ IDEA. User: Bjorge Naess Date: 22.jun.2009 Time: 19:27:37
@@ -151,8 +152,8 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
                 if (isEdgeMode){
                     MouseListener[] mouseListeners = RichNodeView.this.getMouseListeners();
                     for (MouseListener mouseListener : mouseListeners) {
-                        MouseEvent e2 = new MouseEvent((Component) e.getSource(), e.getID(), e.getWhen(), e.getModifiers(), RichNodeView.this.getMousePosition(true).x, RichNodeView.this.getMousePosition(true).y, e.getLocationOnScreen().x, e.getLocationOnScreen().y, e.getClickCount(),false, e.getButton());
-                        mouseListener.mousePressed(e2);
+                        //MouseEvent e2 = new MouseEvent((Component) e.getSource(), e.getID(), e.getWhen(), e.getModifiers(), RichNodeView.this.getMousePosition(true).x, RichNodeView.this.getMousePosition(true).y, e.getLocationOnScreen().x, e.getLocationOnScreen().y, e.getClickCount(),false, e.getButton());
+                        mouseListener.mousePressed(e);
                     }
                 }else{
                     super.mouseClicked(e);
