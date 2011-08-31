@@ -2,10 +2,7 @@ package eu.scy.core.roolo;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.logging.Logger;
 
 import eu.scy.core.model.transfer.*;
@@ -514,6 +511,11 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
         IQueryComponent authorComponent = new MetadataQueryComponent(auhtorKey, SearchOperation.EQUALS, username);
         AndQuery andQuery = new AndQuery(feedbackComponent, authorComponent);
         IQuery query = new Query(feedbackComponent);
+
+        Set userNames = new HashSet();
+        userNames.add(username);
+
+        query.setAllowedUsers(userNames);
 
         return getRepository().search(query);
 

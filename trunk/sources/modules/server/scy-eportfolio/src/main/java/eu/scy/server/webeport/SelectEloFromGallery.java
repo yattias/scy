@@ -38,6 +38,7 @@ public class SelectEloFromGallery extends BaseController {
 
         List<SearchResultTransfer> searchResults = getMissionELOService().getSearchResultTransfers(getMissionELOService().getElosWithTechnicalType(technicalFormat, getCurrentUserName(request)), request.getLocale());
         modelAndView.addObject("elos", searchResults);
+        modelAndView.addObject("anchorElo", anchorElo);
 
     }
 
