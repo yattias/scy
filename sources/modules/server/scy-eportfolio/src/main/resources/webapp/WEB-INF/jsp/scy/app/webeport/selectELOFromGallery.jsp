@@ -8,9 +8,11 @@
                     <c:forEach var="elo" items="${elos}">
 
                         <div dojoType="dojox.layout.ContentPane" class="feedbackEloContainer greenBackgrounds greenBorders" style="width:30%;height:246px;float:left;">
-                            <div class="thumbContainer lightGreenBackgrounds">
-                                <img src="${elo.thumbnail}"/>
-                            </div>
+                            <a href="/webapp/app/webeport/editEloReflections.html?eloURI=${elo.uri}&anchorEloURI=${anchorElo.uri}">
+                                <div class="thumbContainer lightGreenBackgrounds">
+                                    <img src="${elo.thumbnail}"/>
+                                </div>
+                            </a>
                     <div class="eloInfoContainer">
                         <table>
                             <tr>
@@ -27,6 +29,14 @@
                                 </td>
                                 <td>
                                     ${elo.date}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Author</strong>
+                                </td>
+                                <td>
+                                    ${elo.authors}
                                 </td>
                             </tr>
                         </table>

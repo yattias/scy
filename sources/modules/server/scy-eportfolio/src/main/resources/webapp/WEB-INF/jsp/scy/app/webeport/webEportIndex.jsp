@@ -250,7 +250,7 @@ dojo.require("dojo.parser")
                <a href="/webapp/app/webeport/selectELOFromGallery.html?eloURI=${anchorElo.uri}">
                     OPEN: ${anchorElo.myname}
                </a>
-                   <div dojoType="dojox.widget.FisheyeListItem"  onclick=""  label="${anchorElo.myname}" iconSrc="" isContainer="true" style="cursor:pointer; margin:3px;" class="assessed${anchorElo.assessed}">
+                   <div dojoType="dojox.widget.FisheyeListItem"  onclick=""  label="${anchorElo.myname}" iconSrc="${anchorElo.thumbnail}" isContainer="true" style="cursor:pointer; margin:3px;" class="assessed${anchorElo.assessed}">
                          ${anchorElo.myname}
 	                </div>
 

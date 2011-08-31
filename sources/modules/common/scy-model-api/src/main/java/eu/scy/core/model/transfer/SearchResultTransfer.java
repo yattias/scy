@@ -7,6 +7,7 @@ import java.net.URI;
 import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -84,5 +85,16 @@ public class SearchResultTransfer {
         long lastModified = getSearchResult().getDateLastModified();
         Date d = new Date(lastModified);
         return d.toString();
+    }
+
+
+    public String getAuthors() {
+        String returnValue = "";
+        List<String> authors = searchResult.getAuthors();
+        for (int i = 0; i < authors.size(); i++) {
+            String s = authors.get(i);
+            returnValue+=" " + s;
+        }
+        return returnValue;
     }
 }
