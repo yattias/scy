@@ -1,13 +1,11 @@
 package eu.scy.agents.groupformation.strategies.features;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 import org.junit.After;
 import org.junit.Before;
 
 import roolo.elo.api.IELO;
-import roolo.elo.content.BasicContent;
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.api.AgentLifecycleException;
 
