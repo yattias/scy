@@ -32,6 +32,7 @@ public class NewestElosList extends BaseController {
         NewestElos elos = getMissionELOService().getNewestElosForFeedback(missionRuntimeElo, getCurrentUserName(request));
 
         modelAndView.addObject("elos", elos.getElos());
+        modelAndView.addObject("anchorElos", getMissionELOService().getAnchorELOs(getMissionELOService().getMissionSpecificationELOForRuntume(missionRuntimeElo)));
 
         String listUri = request.getParameter("eloURI");
         modelAndView.addObject("listUri", listUri);

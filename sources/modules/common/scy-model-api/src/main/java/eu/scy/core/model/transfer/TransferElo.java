@@ -138,10 +138,9 @@ public class TransferElo extends BaseXMLTransfer {
         try {
             return URLEncoder.encode(uri, "UTF-8");
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } finally {
-            return uri;
-        }
+            e.printStackTrace();
+        }   return uri;
+        
     }
 
     public void setUri(String uri) {

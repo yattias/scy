@@ -31,6 +31,7 @@ public class MyElosList extends BaseController {
         MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(runtimeURI, getMissionELOService());
 
         NewestElos elos = getMissionELOService().getMyElosWithFeedback(missionRuntimeElo, getCurrentUserName(request));
+        modelAndView.addObject("anchorElos", getMissionELOService().getAnchorELOs(getMissionELOService().getMissionSpecificationELOForRuntume(missionRuntimeElo)));
         
         modelAndView.addObject("elos", elos.getElos());
 

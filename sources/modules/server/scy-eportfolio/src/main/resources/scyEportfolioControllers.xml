@@ -55,6 +55,7 @@
 
                 /app/feedback/feedbackindex.html=feedbackIndexController
                 /app/webeport/webEportIndex.html=webeportindex
+                /app/webeport/selectELOFromGallery.html=selectELOFromGalleryController
             </value>
         </property>
     </bean>
@@ -166,6 +167,12 @@
         <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
         <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
         <property name="portfolioELOService" ref="portfolioELOService"/>
+	</bean>
+
+    <bean id="selectELOFromGalleryController" class="eu.scy.server.webeport.SelectEloFromGallery">
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
 	</bean>
 
     <bean id="currentMissionRuntimeInfo" class="eu.scy.server.eportfolio.xml.CurrentMissionRuntimeInfoController">
