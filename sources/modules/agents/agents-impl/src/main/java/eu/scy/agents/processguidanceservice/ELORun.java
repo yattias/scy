@@ -1,5 +1,6 @@
 package eu.scy.agents.processguidanceservice;
 
+import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleID;
@@ -21,20 +22,18 @@ import org.xml.sax.SAXException;
 
 public class ELORun extends AbstractRun {
 
-    // value domain of state
-    public static final String ENABLED = "ENABLED";
-
-    public static final String ACTIVATED = "ACTIVATED";
-
-    public static final String COMPLETED = "COMPLETED";
-
-    public static final String NEED2CHECK = "NEED2CHECK";
+    public enum ActivityStatus {
+        ENABLED,
+        ACTIVATED,
+        COMPLETED,
+        NEED2CHECK;
+    }
 
     private String title = null;
 
     private ELOModel associatedELOModel = null;
 
-    private String activityStatus = ENABLED;
+    private ActivityStatus activityStatus = ActivityStatus.ENABLED;
 
     // private String eloStatus = ENABLED;
     private long amountOfWork = 0;
@@ -51,13 +50,13 @@ public class ELORun extends AbstractRun {
 
     private long finishedTime;
 
-    public ELORun(String eloRunID) {
+    public ELORun(TupleSpace commandSpace, TupleSpace guidanceSpace, String eloRunID) {
+        super(commandSpace, guidanceSpace);
         this.id = eloRunID;
     }
 
-    public ELORun(String id, String aTitle, ELOModel aELOModel, TupleID aTupleID, String actvityStatus, // String
-                                                                                                        // eloStatus,
-    long amountOfWork, long amountOfChange, long executionTime, long modificationTime) {
+    public ELORun(TupleSpace commandSpace, TupleSpace guidanceSpace, String id, String aTitle, ELOModel aELOModel, TupleID aTupleID, ActivityStatus actvityStatus, long amountOfWork, long amountOfChange, long executionTime, long modificationTime) {
+        super(commandSpace, guidanceSpace);
         this.id = id;
         this.title = aTitle;
         this.associatedELOModel = aELOModel;
@@ -86,11 +85,11 @@ public class ELORun extends AbstractRun {
         this.title = aTitle;
     }
 
-    public String getActivityStatus() {
+    public ActivityStatus getActivityStatus() {
         return activityStatus;
     }
 
-    public void setActivityStatus(String aStatus) {
+    public void setActivityStatus(ActivityStatus aStatus) {
         this.activityStatus = aStatus;
     }
 
@@ -171,6 +170,7 @@ public class ELORun extends AbstractRun {
         this.lastAccessTime = aTime;
     }
 
+    @Override
     public String toString() {
         return new String("ELORun id=" + id + ", title=" + getTitle() + ", modelID=" + associatedELOModel.getId() + ", activityStatus=" + activityStatus + // ", eloStatus="+eloStatus+
         ", amountOfWork=" + amountOfWork + ", amountOfChangeWork=" + amountOfChangeWork + ", executionTime=" + executionTime + ", changeTime=" + changeTime);
@@ -178,7 +178,7 @@ public class ELORun extends AbstractRun {
 
     public void updateELOTuple(RunUser user) {
         try {
-            ProcessGuidanceAgent.getGuidanceSpace().update(myTupleID, new Tuple("elo", user.getId(), user.getMissionRun().getMissionModel().getId(), getELOModel().getId(), getId(), getTitle(), activityStatus, // eloStatus,
+            guidanceSpace.update(myTupleID, new Tuple("elo", user.getId(), user.getMissionRun().getMissionModel().getId(), getELOModel().getId(), getId(), getTitle(), activityStatus.name(), // eloStatus,
             String.valueOf(amountOfWork), String.valueOf(amountOfChangeWork), String.valueOf(executionTime), String.valueOf(changeTime)));
         } catch (TupleSpaceException e) {
             ProcessGuidanceAgent.logger.info("Error in guidance TupleSpace while updating an eloRun");
@@ -187,17 +187,18 @@ public class ELORun extends AbstractRun {
 
     public void handleELORunTuple(RunUser user) {
         try {
-            Tuple t = ProcessGuidanceAgent.getGuidanceSpace().read(new Tuple("elo", user.getId(), user.getMissionRun().getMissionModel().getId(), getELOModel().getId(), getId(), getTitle(), Field.createWildCardField()));
+            Tuple t = guidanceSpace.read(new Tuple("elo", user.getId(), user.getMissionRun().getMissionModel().getId(), getELOModel().getId(), getId(), getTitle(), Field.createWildCardField()));
             if (t != null) {
                 this.myTupleID = t.getTupleID();
-                this.activityStatus = (String) t.getField(6).getValue();
+                String activityStatusStr = (String) t.getField(6).getValue();
+                this.activityStatus = ActivityStatus.valueOf(activityStatusStr);
                 // this.eloStatus = (String)t.getField(7).getValue();
                 this.amountOfWork = Long.parseLong((String) t.getField(7).getValue());
                 this.amountOfChangeWork = Long.parseLong((String) t.getField(8).getValue());
                 this.executionTime = Long.parseLong((String) t.getField(9).getValue());
                 this.changeTime = Long.parseLong((String) t.getField(10).getValue());
             } else {
-                myTupleID = ProcessGuidanceAgent.getGuidanceSpace().write(new Tuple("elo", user.getId(), user.getMissionRun().getMissionModel().getId(), getELOModel().getId(), getId(), getTitle(), activityStatus,
+                myTupleID = guidanceSpace.write(new Tuple("elo", user.getId(), user.getMissionRun().getMissionModel().getId(), getELOModel().getId(), getId(), getTitle(), activityStatus.name(),
                 // eloStatus,
                 String.valueOf(amountOfWork), String.valueOf(amountOfChangeWork), String.valueOf(executionTime), String.valueOf(changeTime)));
             }
@@ -234,7 +235,7 @@ public class ELORun extends AbstractRun {
         if ((aModelList.length > 0) || (aRunList.length > 0)) {
             boolean answer = aUser.sendConfirmation("Are you sure that you start to working on the \"" + this.getTitle() + "\"");
             if (answer) {
-                setActivityStatus(ELORun.ACTIVATED);
+                setActivityStatus(ELORun.ActivityStatus.ACTIVATED);
 
                 if (aModelList.length > 0) {
                     String message = new String("This ELO depends on the ELO");
@@ -262,7 +263,7 @@ public class ELORun extends AbstractRun {
                         answer = aUser.sendConfirmation("Are you sure that you have finished \"" + aRunList[i].getTitle() + "\" in the las: \"" + aRunList[i].getELOModel().getLASModel().getId() + "\"");
                         if (answer) {
                             // aRunList[i].setELOStatus(ELORun.COMPLETED);
-                            aRunList[i].setActivityStatus(ELORun.COMPLETED);
+                            aRunList[i].setActivityStatus(ELORun.ActivityStatus.COMPLETED);
                             aRunList[i].setChangeTime(0);
                             aRunList[i].setAmountOfChangeWork(0);
                             aRunList[i].updateELOTuple(aUser);
@@ -294,19 +295,19 @@ public class ELORun extends AbstractRun {
             boolean answer = aUser.sendConfirmation(prompt);
             if (answer) {
                 for (int i = 0; i < aRunList.length; i++) {
-                    aRunList[i].setActivityStatus(ELORun.NEED2CHECK);
+                    aRunList[i].setActivityStatus(ActivityStatus.NEED2CHECK);
                     aRunList[i].setChangeTime(0);
                     aRunList[i].setAmountOfChangeWork(0);
                     aRunList[i].updateELOTuple(aUser);
                 }
-                setActivityStatus(ELORun.ACTIVATED);
+                setActivityStatus(ActivityStatus.ACTIVATED);
                 updateELOTuple(aUser);
             }
         }
     }
 
     public void handleCompleteEvent(RunUser aUser, long time) {
-        setActivityStatus(ELORun.COMPLETED);
+        setActivityStatus(ActivityStatus.COMPLETED);
         setFinishedTime(time);
         updateELOTuple(aUser);
         aUser.setFocusedELORun(this);
@@ -314,12 +315,12 @@ public class ELORun extends AbstractRun {
     }
 
     public void handleResumeEvent(RunUser aUser) {
-        setActivityStatus(ELORun.ACTIVATED);
+        setActivityStatus(ActivityStatus.ACTIVATED);
         updateELOTuple(aUser);
     }
 
     public void handleApproveEvent(RunUser aUser, long time) {
-        setActivityStatus(ELORun.COMPLETED);
+        setActivityStatus(ActivityStatus.COMPLETED);
         setFinishedTime(time);
         updateELOTuple(aUser);
     }
@@ -334,9 +335,9 @@ public class ELORun extends AbstractRun {
 
         if ((getAmountOfChangeWork() > getELOModel().getChangeWorkThreshold()) && (getChangeTime() > getELOModel().getChangeTimeThreshold())) {
 
-            if (getActivityStatus() == ELORun.ENABLED) {
+            if (getActivityStatus() == ActivityStatus.ENABLED) {
                 handleStartEvent(aUser);
-            } else if (getActivityStatus() == ELORun.COMPLETED) {
+            } else if (getActivityStatus() == ActivityStatus.COMPLETED) {
                 handleModifyEvent(aUser);
             }
         }

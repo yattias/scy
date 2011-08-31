@@ -1,5 +1,6 @@
 package eu.scy.agents.processguidanceservice;
 
+import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.util.XMLUtils;
 
@@ -15,6 +16,8 @@ import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
+
+import eu.scy.agents.processguidanceservice.ELORun.ActivityStatus;
 
 public class ELOModel extends AbstractGuidanceObject {
 
@@ -58,11 +61,13 @@ public class ELOModel extends AbstractGuidanceObject {
 
     private ELOModel[] succedingELOs = new ELOModel[0];
 
-    public ELOModel(LASModel aLasModel) {
+    public ELOModel(TupleSpace commandSpace, TupleSpace guidanceSpace, LASModel aLasModel) {
+        super(commandSpace, guidanceSpace);
         lasModel = aLasModel;
     }
 
-    public ELOModel(String id, String aTitle, String aType) {
+    public ELOModel(TupleSpace commandSpace, TupleSpace guidanceSpace, String id, String aTitle, String aType) {
+        super(commandSpace, guidanceSpace);
         this.id = id;
         this.title = aTitle;
         this.type = aType;
@@ -276,7 +281,7 @@ public class ELOModel extends AbstractGuidanceObject {
         ELOModel[] aELOModelList = getUpsteamDependedELOs();
         for (int i = 0; i < aELOModelList.length; i++) {
             ELORun aELORun = aMissionRun.findELORunByELOModel(aELOModelList[i]);
-            if ((aELORun != null) && (!aELORun.getActivityStatus().equalsIgnoreCase(ELORun.COMPLETED))) {
+            if ((aELORun != null) && (aELORun.getActivityStatus() != ELORun.ActivityStatus.COMPLETED)) {
                 openList.add(aELORun);
             }
         }
@@ -288,7 +293,7 @@ public class ELOModel extends AbstractGuidanceObject {
         ELOModel[] aELOModelList = getDownsteamDependingELOs();
         for (int i = 0; i < aELOModelList.length; i++) {
             ELORun aELORun = aMissionRun.findELORunByELOModel(aELOModelList[i]);
-            if (aELORun != null && aELORun.getActivityStatus().equalsIgnoreCase(ELORun.COMPLETED)) {
+            if (aELORun != null && aELORun.getActivityStatus() == ELORun.ActivityStatus.COMPLETED) {
                 openList.add(aELORun);
             }
         }
@@ -369,7 +374,7 @@ public class ELOModel extends AbstractGuidanceObject {
             // the ELO has not started
             return new String("you would better work on the ELO: \"" + this.getTitle() + "\" in the LAS: \"" + this.getLASModel().getId() + "\"");
         } else {
-            if (aELORun.getActivityStatus() != ELORun.COMPLETED) {
+            if (aELORun.getActivityStatus() != ActivityStatus.COMPLETED) {
                 return new String("you would better work on the ELO: \"" + aELORun.getTitle() + "\" in the LAS: \"" + this.getLASModel().getId() + "\"");
             } else {
                 return null;

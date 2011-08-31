@@ -1,5 +1,6 @@
 package eu.scy.agents.processguidanceservice;
 
+import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
@@ -7,6 +8,14 @@ import java.rmi.dgc.VMID;
 
 public abstract class AbstractGuidanceObject {
 
+    protected TupleSpace commandSpace;
+    protected TupleSpace guidanceSpace;
+
+    public AbstractGuidanceObject(TupleSpace commandSpace, TupleSpace guidanceSpace) {
+        this.commandSpace = commandSpace;
+        this.guidanceSpace = guidanceSpace;
+    }
+    
     protected String id; // usually it is defined as the elo_uri
 
     protected String getId() {
@@ -25,8 +34,8 @@ public abstract class AbstractGuidanceObject {
         String eloAsXML = null;
         try {
             String id = new VMID().toString();
-            ProcessGuidanceAgent.getCommandSpace().write(new Tuple(id, "roolo-agent", "elo", eloUri));
-            Tuple responseTuple = ProcessGuidanceAgent.getCommandSpace().waitToTakeFirst(new Tuple(id, "roolo-response", String.class));
+            commandSpace.write(new Tuple(id, "roolo-agent", "elo", eloUri));
+            Tuple responseTuple = commandSpace.waitToTakeFirst(new Tuple(id, "roolo-response", String.class));
             eloAsXML = responseTuple.getField(2).getValue().toString();
 
         } catch (TupleSpaceException e) {
