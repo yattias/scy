@@ -1,23 +1,27 @@
 package eu.scy.scymapper.impl.controller.datasync;
 
+import java.util.HashSet;
+import java.util.Map;
+
+import javax.swing.SwingUtilities;
+
+import org.apache.log4j.Logger;
+
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+
 import eu.scy.client.common.datasync.ISyncListener;
 import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.common.datasync.ISyncObject;
 import eu.scy.common.datasync.SyncObject;
-import eu.scy.scymapper.api.diagram.model.*;
+import eu.scy.scymapper.api.diagram.model.IDiagramElement;
+import eu.scy.scymapper.api.diagram.model.IDiagramModel;
+import eu.scy.scymapper.api.diagram.model.ILinkModel;
+import eu.scy.scymapper.api.diagram.model.INodeLinkModel;
+import eu.scy.scymapper.api.diagram.model.INodeModel;
 import eu.scy.scymapper.api.styling.ILinkStyle;
 import eu.scy.scymapper.api.styling.INodeStyle;
-import eu.scy.scymapper.impl.DiagramModel;
 import eu.scy.scymapper.impl.controller.DiagramController;
-import eu.scy.scymapper.impl.demo.DiagramDemo;
-
-import org.apache.log4j.Logger;
-
-import javax.swing.*;
-import java.util.HashSet;
-import java.util.Map;
 
 /**
  * @author bjoerge
