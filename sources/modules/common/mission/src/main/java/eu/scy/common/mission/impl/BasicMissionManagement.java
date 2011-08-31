@@ -324,7 +324,7 @@ public class BasicMissionManagement implements MissionManagement
             missionAnchor.getScyElo().setMissionRuntimeEloUri(missionRuntimeEloUri);
             missionAnchor.getScyElo().setMissionSpecificationEloUri(missionSpecificationEloUri);
             missionAnchor.getScyElo().setDateFirstUserSave(null);
-            missionAnchor.getScyElo().setCreator(null);
+            missionAnchor.getScyElo().setCreator(userName);
             missionAnchor.getScyElo().setTemplate(true);
             missionAnchor.getScyElo().setMissionId(missionSpecificationElo.getTypedContent().getMissionId());
             List<Locale> missionLanguages = missionSpecificationElo.getElo().getLanguages();
