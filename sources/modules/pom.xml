@@ -15,6 +15,7 @@
             <id>collide-releases</id>
             <url>http://mvn.collide.info/content/repositories/releases</url>
             <releases>
+                <updatePolicy>always</updatePolicy>
                 <enabled>true</enabled>
             </releases>
             <snapshots>
@@ -28,6 +29,7 @@
                 <enabled>false</enabled>
             </releases>
             <snapshots>
+                <updatePolicy>always</updatePolicy>
                 <enabled>true</enabled>
             </snapshots>
         </repository>
@@ -53,12 +55,12 @@
             <id>fhg-maven</id>
             <url>http://theseuskd.iais.fraunhofer.de:8080/nexus/content/groups/public</url>
             <releases>
-                <updatePolicy>always</updatePolicy>
-                <checksumPolicy>fail</checksumPolicy>
+                <updatePolicy>never</updatePolicy>
+                <checksumPolicy>warn</checksumPolicy>
             </releases>
             <snapshots>
-                <updatePolicy>always</updatePolicy>
-                <checksumPolicy>fail</checksumPolicy>
+                <updatePolicy>never</updatePolicy>
+                <checksumPolicy>warn</checksumPolicy>
             </snapshots>
         </repository>
         <repository>
@@ -219,22 +221,22 @@
                 <artifactId>log4j</artifactId>
                 <version>1.2.15</version>
                 <exclusions>
-                   <exclusion>
-                      <groupId>javax.mail</groupId>
-                      <artifactId>mail</artifactId>
-                   </exclusion>
-                   <exclusion>
-                      <groupId>javax.jms</groupId>
-                      <artifactId>jms</artifactId>
-                   </exclusion>
-                   <exclusion>
-                      <groupId>com.sun.jdmk</groupId>
-                      <artifactId>jmxtools</artifactId>
-                   </exclusion>
-                   <exclusion>
-                      <groupId>com.sun.jmx</groupId>
-                      <artifactId>jmxri</artifactId>
-                   </exclusion>
+                    <exclusion>
+                        <groupId>javax.mail</groupId>
+                        <artifactId>mail</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>javax.jms</groupId>
+                        <artifactId>jms</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.sun.jdmk</groupId>
+                        <artifactId>jmxtools</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.sun.jmx</groupId>
+                        <artifactId>jmxri</artifactId>
+                    </exclusion>
                 </exclusions> 
             </dependency>
             <dependency>
@@ -464,8 +466,8 @@
     </modules>
 
 	  	-->
+	  	
 	
-
     <properties>
         <slf4j.version>1.5.8</slf4j.version>
         <spring-sec01-version>2.5.6.SEC01</spring-sec01-version>
