@@ -170,7 +170,7 @@ public class UserToolExperienceModel {
                 try {
                     Tuple readTupleById = sensorSpace.readTupleById(tupleID);
                     if (readTupleById != null) {
-                        readTupleById.getField(5).setValue(System.currentTimeMillis());
+                        readTupleById.getField(6).setValue(System.currentTimeMillis());
                         sensorSpace.update(tupleID, readTupleById);
                     } else {
                         logger.log(Level.SEVERE, "Tuple is null...");
