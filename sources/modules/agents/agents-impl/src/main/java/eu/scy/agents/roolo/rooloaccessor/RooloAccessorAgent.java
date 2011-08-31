@@ -3,9 +3,9 @@ package eu.scy.agents.roolo.rooloaccessor;
 import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
+
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -18,8 +18,6 @@ import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataValueContainer;
-import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-import roolo.elo.metadata.BasicMetadata;
 import roolo.search.ISearchResult;
 import roolo.search.MetadataQueryComponent;
 import roolo.search.Query;
