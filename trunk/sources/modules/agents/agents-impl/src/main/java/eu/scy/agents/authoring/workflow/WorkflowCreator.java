@@ -6,6 +6,7 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
 import com.thoughtworks.xstream.io.xml.XppDriver;
 import eu.scy.agents.authoring.workflow.WorkflowItem.Type;
+import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.RooloServices;
 import eu.scy.common.scyelo.ScyElo;
@@ -24,19 +25,17 @@ public class WorkflowCreator {
     }
 
     public Workflow createWorkflow(URI missionSpecificationUri) {
-        MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo
-                .loadElo(missionSpecificationUri, rooloServices);
+        URI pedPlanUri = null;
+        if (missionSpecificationUri.toString().endsWith("specification")) {
+            MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo
+                    .loadElo(missionSpecificationUri, rooloServices);
+            pedPlanUri = missionSpecificationElo.getTypedContent().getPedagogicalPlanSettingsEloUri();
+        } else if (missionSpecificationUri.toString().endsWith("runtime")) {
+            MissionRuntimeElo missionSpecificationElo = MissionRuntimeElo.loadElo(missionSpecificationUri, rooloServices);
+            pedPlanUri = missionSpecificationElo.getTypedContent().getPedagogicalPlanSettingsEloUri();
+        }
 
-//        MissionSpecificationEloContent missionEloContent = missionSpecificationElo
-//                .getTypedContent();
-//        URI missionMapModelEloUri = missionEloContent
-//                .getMissionMapModelEloUri();
-//        MissionModelElo missionModelElo = MissionModelElo.loadElo(
-//                missionMapModelEloUri, rooloServices);
-//        MissionModel missionModel = missionModelElo.getMissionModel();
-//        List<Las> lasses = missionModel.getLasses();
-
-        PedagogicalPlanTransfer pedPlan = getPedPlan(missionSpecificationElo);
+        PedagogicalPlanTransfer pedPlan = getPedPlan(pedPlanUri);
 
         Workflow workflow = new Workflow(pedPlan.getId());
 
@@ -50,10 +49,9 @@ public class WorkflowCreator {
         return workflow;
     }
 
-    private PedagogicalPlanTransfer getPedPlan(MissionSpecificationElo missionSpecificationElo) {
+    private PedagogicalPlanTransfer getPedPlan(URI pedPlanUri) {
         PedagogicalPlanTransfer transfer = null;
-        URI uri = missionSpecificationElo.getTypedContent().getPedagogicalPlanSettingsEloUri();
-        ScyElo scyElo = ScyElo.loadLastVersionElo(uri, rooloServices);
+        ScyElo scyElo = ScyElo.loadLastVersionElo(pedPlanUri, rooloServices);
         if (scyElo != null) {
             String content = scyElo.getContent().getXmlString();
             if (content != null && content.length() > 0) {

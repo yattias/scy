@@ -54,6 +54,9 @@ public class AddKeywordsToMetadataAgent extends AbstractELOSavedAgent implements
 	public void processELOSavedAction(String actionId, String user,
 			long timeInMillis, String tool, String mission, String session,
 			String eloUri, String eloType) {
+        if (eloUri == null) {
+            return;
+        }
 
 		IELO elo = getELO(eloUri);
 		if (elo == null) {
