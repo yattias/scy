@@ -264,7 +264,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
             var templateTitle = titleContainer.getValue() as String;
             setTitleAndLanguage(newElo,scyDesktop.newTitleGenerator.generateNewTitleFromName(templateTitle));
             newElo.getMetadata().getMetadataValueContainer(templateKey).setValue("true");
-            newElo.getMetadata().getMetadataValueContainer(creatorKey).setValue(tbi.getLoginUserName());
+            newElo.getMetadata().getMetadataValueContainer(creatorKey).setValue(new Contribute(tbi.getLoginUserName(), System.currentTimeMillis()));
             var metadata = repository.addForkedELO(newElo);
             eloFactory.updateELOWithResult(newElo, metadata);
             scyWindowControl.addOtherScyWindow(newElo.getUri());
