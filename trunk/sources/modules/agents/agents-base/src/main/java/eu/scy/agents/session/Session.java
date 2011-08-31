@@ -43,7 +43,7 @@ public class Session {
     public Mission getMission(String user) {
         try {
             Tuple missionTuple = sessionSpace.read(new Tuple(Session.MISSION,
-                    Field.createSemiformalField(user+"*"), String.class, String.class, String.class));
+                    Field.createSemiformalField(user+"*"), String.class, String.class));
             if (missionTuple != null) {
                 String missionString = (String) missionTuple.getField(3)
                         .getValue();
@@ -58,24 +58,9 @@ public class Session {
     public String getMissionURI(String user) {
         try {
             Tuple missionTuple = sessionSpace.read(new Tuple(Session.MISSION,
-                    Field.createSemiformalField(user+"*"), String.class, String.class, String.class));
+                    Field.createSemiformalField(user+"*"), String.class, String.class));
             if (missionTuple != null) {
                 String missionString = (String) missionTuple.getField(2)
-                        .getValue();
-                return missionString;
-            }
-        } catch (TupleSpaceException e) {
-            LOGGER.warn(e.getMessage());
-        }
-        return IAction.NOT_AVAILABLE;
-    }
-
-    public String getMissionName(String user) {
-        try {
-            Tuple missionTuple = sessionSpace.read(new Tuple(Session.MISSION,
-                    Field.createSemiformalField(user+"*"), String.class, String.class, String.class));
-            if (missionTuple != null) {
-                String missionString = (String) missionTuple.getField(3)
                         .getValue();
                 return missionString;
             }
