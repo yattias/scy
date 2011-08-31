@@ -211,4 +211,16 @@ public class BasicMissionModel implements MissionModel
       return missionModelEloContent.getWindowStatesXmlIds();
    }
 
+   @Override
+   public List<MissionAnchor> getMissionAnchors()
+   {
+      return missionModelEloContent.getMissionAnchors();
+   }
+
+   @Override
+   public MissionAnchor getMissionAnchor(String id)
+   {
+      return missionModelEloContent.getMissionAnchor(id);
+   }
+
 }

@@ -9,8 +9,10 @@ import eu.scy.common.scyelo.ScyElo;
 public interface MissionAnchor
 {
    public URI getEloUri();
+   public String getId();
    public List<MissionAnchor> getInputMissionAnchors();
    public List<String> getRelationNames();
+   public List<String> getDependingOnMissionAnchorIds();
    public boolean isExisting();
    public List<URI> getLoEloUris();
    public Las getLas();

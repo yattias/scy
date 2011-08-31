@@ -12,8 +12,10 @@ import eu.scy.common.scyelo.ScyElo;
 public class BasicMissionAnchor implements MissionAnchor
 {
    private URI eloUri;
+   private String id;
    private List<MissionAnchor> inputMissionAnchors = new ArrayList<MissionAnchor>();
    private List<String> relationNames = new ArrayList<String>();
+   private List<String> dependingOnMissionAnchorIds = new ArrayList<String>();
    private List<URI> loEloUris = new ArrayList<URI>();
    private boolean existing;
    private Las las;
@@ -24,6 +26,7 @@ public class BasicMissionAnchor implements MissionAnchor
    private String iconType;
    private ColorSchemeId colorSchemeId;
 
+   @Override
    public URI getEloUri()
    {
       if (scyElo != null)
@@ -33,6 +36,7 @@ public class BasicMissionAnchor implements MissionAnchor
       return eloUri;
    }
 
+   @Override
    public void setEloUri(URI eloUri)
    {
       this.eloUri = eloUri;
@@ -42,17 +46,31 @@ public class BasicMissionAnchor implements MissionAnchor
       }
    }
 
+   @Override
+   public String getId()
+   {
+      return id;
+   }
+
+   public void setId(String id)
+   {
+      this.id = id;
+   }
+
+   @Override
    public List<MissionAnchor> getInputMissionAnchors()
    {
       return inputMissionAnchors;
    }
 
+   @Override
    public void setInputMissionAnchors(List<MissionAnchor> inputMissionAnchors)
    {
       assert inputMissionAnchors != null;
       this.inputMissionAnchors = inputMissionAnchors;
    }
 
+   @Override
    public List<String> getRelationNames()
    {
       return relationNames;
@@ -64,47 +82,67 @@ public class BasicMissionAnchor implements MissionAnchor
       this.relationNames = relationNames;
    }
 
+   @Override
+   public List<String> getDependingOnMissionAnchorIds()
+   {
+      return dependingOnMissionAnchorIds;
+   }
+
+   public void setDependingOnMissionAnchorIds(List<String> dependingOnMissionAnchorIds)
+   {
+      this.dependingOnMissionAnchorIds = dependingOnMissionAnchorIds;
+   }
+
+   @Override
    public List<URI> getLoEloUris()
    {
       return loEloUris;
    }
 
+   @Override
    public void setLoEloUris(List<URI> loEloUris)
    {
       assert loEloUris != null;
       this.loEloUris = loEloUris;
    }
 
+   @Override
    public boolean isExisting()
    {
       return existing;
    }
 
+   @Override
    public void setExisting(boolean existing)
    {
       this.existing = existing;
    }
 
+   @Override
    public Las getLas()
    {
       return las;
    }
 
+   @Override
    public void setLas(Las las)
    {
       this.las = las;
    }
 
+   @Override
    public ScyElo getScyElo()
    {
       return scyElo;
    }
 
+   @Override
    public void setScyElo(ScyElo scyElo)
    {
       this.scyElo = scyElo;
    }
 
+   @Override
    public URI getTargetDescriptionUri()
    {
       return targetDescriptionUri;
@@ -115,16 +153,19 @@ public class BasicMissionAnchor implements MissionAnchor
       this.targetDescriptionUri = targetDescriptionUri;
    }
 
+   @Override
    public URI getAssignmentUri()
    {
       return assignmentUri;
    }
 
+   @Override
    public void setAssignmentUri(URI assignmentUri)
    {
       this.assignmentUri = assignmentUri;
    }
 
+   @Override
    public URI getResourcesUri()
    {
       return resourcesUri;
@@ -135,6 +176,7 @@ public class BasicMissionAnchor implements MissionAnchor
       this.resourcesUri = resourcesUri;
    }
 
+   @Override
    public ColorSchemeId getColorSchemeId()
    {
       return colorSchemeId;
@@ -145,6 +187,7 @@ public class BasicMissionAnchor implements MissionAnchor
       this.colorSchemeId = colorSchemeId;
    }
 
+   @Override
    public String getIconType()
    {
       return iconType;
