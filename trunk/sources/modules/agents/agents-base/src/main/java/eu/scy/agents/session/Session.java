@@ -7,6 +7,12 @@ import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import org.apache.log4j.Logger;
 
+/**
+ * Mission Tuple ("mission":String, User:String, MissionURI:String, MissionName:String)
+ * LAS Tuple ("las":String, User:String, MissionURI:String, LasName:String)
+ * Language Tuple ("language":String, User:String, Language:String)
+ * Tool Tuple: ("tool":String, User:String, ToolName:String, EloURI:String)
+ */
 public class Session {
 
     private final static Logger LOGGER = Logger.getLogger(Session.class);
@@ -27,10 +33,10 @@ public class Session {
 
     public String getLanguage(String user) {
         try {
-            Tuple missionTuple = sessionSpace.read(new Tuple(Session.LANGUAGE,
+            Tuple languageTuple = sessionSpace.read(new Tuple(Session.LANGUAGE,
                     user, String.class));
-            if (missionTuple != null) {
-                String language = (String) missionTuple.getField(2).getValue();
+            if (languageTuple != null) {
+                String language = (String) languageTuple.getField(2).getValue();
                 return language;
             }
         } catch (TupleSpaceException e) {
@@ -44,8 +50,7 @@ public class Session {
             Tuple missionTuple = sessionSpace.read(new Tuple(Session.MISSION,
                     user, String.class, String.class));
             if (missionTuple != null) {
-                String missionString = (String) missionTuple.getField(3)
-                        .getValue();
+                String missionString = (String) missionTuple.getField(3).getValue();
                 return Mission.getForName(missionString);
             }
         } catch (TupleSpaceException e) {
@@ -59,9 +64,8 @@ public class Session {
             Tuple missionTuple = sessionSpace.read(new Tuple(Session.MISSION,
                     user, String.class, String.class));
             if (missionTuple != null) {
-                String missionString = (String) missionTuple.getField(2)
-                        .getValue();
-                return missionString;
+                String missionUri = (String) missionTuple.getField(2).getValue();
+                return missionUri;
             }
         } catch (TupleSpaceException e) {
             LOGGER.warn(e.getMessage());
