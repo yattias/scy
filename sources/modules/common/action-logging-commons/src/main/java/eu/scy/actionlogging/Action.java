@@ -11,7 +11,7 @@ import eu.scy.actionlogging.api.IContext;
 public class Action implements IAction {
 
     public static final String PATH = "action";
-    
+
     private String id;
 
     /** Maybe we want to have a real user object!? */
@@ -77,7 +77,7 @@ public class Action implements IAction {
     public String getContext(ContextConstants constant) {
         String contextEntry = context.get(constant);
         if (contextEntry == null) {
-            return "n/a";
+            return NOT_AVAILABLE;
         } else {
             return contextEntry;
         }

@@ -4,7 +4,9 @@ import java.util.Map;
 
 
 public interface IAction {
-    
+
+    String NOT_AVAILABLE = "n/a";
+
     /**
      * This interface describes how Actions should be logged.
      */
