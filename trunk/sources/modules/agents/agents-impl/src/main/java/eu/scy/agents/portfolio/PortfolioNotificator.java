@@ -182,8 +182,7 @@ public class PortfolioNotificator extends AbstractThreadedAgent {
     }
 
     private void handleEloAddedToPortfolio(IAction action) {
-        Tuple eloAddedTuple = createAssessmentTuple(
-                ELO_ADDED_TO_PORTFOLIO, action);
+        Tuple eloAddedTuple = createAssessmentTuple(ELO_ADDED_TO_PORTFOLIO, action);
         try {
             getCommandSpace().write(eloAddedTuple);
         } catch (TupleSpaceException e) {
@@ -192,19 +191,6 @@ public class PortfolioNotificator extends AbstractThreadedAgent {
         }
     }
 
-    private Tuple createNotification(IAction action, String type) {
-        Tuple notificationTuple = new Tuple();
-        notificationTuple.add(AgentProtocol.NOTIFICATION);
-        notificationTuple.add(new VMID().toString());
-        notificationTuple.add(action.getUser());
-        notificationTuple.add(action.getContext(ContextConstants.eloURI));
-        notificationTuple.add(NAME);
-        notificationTuple.add(action.getContext(ContextConstants.mission));
-        notificationTuple.add(action.getContext(ContextConstants.session));
-
-        notificationTuple.add("type=" + type);
-        return notificationTuple;
-    }
 
     private void handleEloIsAssessed(IAction action) {
         Tuple eloAddedTuple = createAssessmentTuple(ELO_ADDED_TO_PORTFOLIO, action);
@@ -214,7 +200,6 @@ public class PortfolioNotificator extends AbstractThreadedAgent {
             }
             Tuple eloIsAssessedTuple = createAssessmentTuple(ELO_IS_ASSESSED, action);
             getCommandSpace().write(eloIsAssessedTuple);
-
         } catch (TupleSpaceException e) {
             LOGGER.warn("could not write elo added to portfolio tuple");
             e.printStackTrace();
@@ -242,4 +227,17 @@ public class PortfolioNotificator extends AbstractThreadedAgent {
                 action.getUser(), action.getContext(ContextConstants.eloURI));
     }
 
+    private Tuple createNotification(IAction action, String type) {
+        Tuple notificationTuple = new Tuple();
+        notificationTuple.add(AgentProtocol.NOTIFICATION);
+        notificationTuple.add(new VMID().toString());
+        notificationTuple.add(action.getUser());
+        notificationTuple.add(action.getContext(ContextConstants.eloURI));
+        notificationTuple.add(NAME);
+        notificationTuple.add(action.getContext(ContextConstants.mission));
+        notificationTuple.add(action.getContext(ContextConstants.session));
+
+        notificationTuple.add("type=" + type);
+        return notificationTuple;
+    }
 }

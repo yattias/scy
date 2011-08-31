@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class FeedbackAgent extends AbstractThreadedAgent {
 
-    private static final String NAME = FeedbackAgent.class.getName();
+    public static final String NAME = FeedbackAgent.class.getName();
     private static final Logger LOGGER = Logger.getLogger(NAME);
 
     private static final String FEEDBACK_GIVEN = "feedback_given";
@@ -74,7 +74,7 @@ public class FeedbackAgent extends AbstractThreadedAgent {
             this.getActionSpace().eventDeRegister(this.feedbackAskedSeq);
             this.feedbackAskedSeq = -1;
         } catch (TupleSpaceException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
     }
 
@@ -128,10 +128,15 @@ public class FeedbackAgent extends AbstractThreadedAgent {
         Tuple notificationTuple = new Tuple();
         notificationTuple.add(AgentProtocol.NOTIFICATION);
         notificationTuple.add(new VMID().toString());
-        notificationTuple.add(action.getUser());
+        String user = action.getUser();
+        notificationTuple.add(user);
         notificationTuple.add(action.getContext(ContextConstants.eloURI));
         notificationTuple.add(NAME);
-        notificationTuple.add(action.getContext(ContextConstants.mission));
+        String mission = action.getContext(ContextConstants.mission);
+        if (IAction.NOT_AVAILABLE.equals(mission)) {
+            mission = getSession().getMissionURI(user);
+        }
+        notificationTuple.add(mission);
         notificationTuple.add(action.getContext(ContextConstants.session));
 
         notificationTuple.add("type=" + type);
