@@ -1,6 +1,7 @@
 package eu.scy.scymapper.impl;
 
 import eu.scy.scymapper.api.diagram.model.*;
+import eu.scy.scymapper.impl.model.DefaultDiagramSelectionModel;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -12,18 +13,18 @@ import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Bjorge Naess
- * Date: 11.jun.2009
- * Time: 12:53:40
+ * Created by IntelliJ IDEA. User: Bjorge Naess Date: 11.jun.2009 Time: 12:53:40
  */
 public class DiagramModel implements IDiagramModel {
 
     private final static Logger logger = Logger.getLogger(DiagramModel.class);
 
     private String name;
+
     private Set<INodeModel> nodes = new HashSet<INodeModel>();
+
     private Set<ILinkModel> links = new HashSet<ILinkModel>();
+
     private transient java.util.List<IDiagramListener> listeners = new ArrayList<IDiagramListener>();
 
     private IDiagramSelectionModel selectionModel;
@@ -33,10 +34,15 @@ public class DiagramModel implements IDiagramModel {
         return this;
     }
 
+    public DiagramModel() {
+        this(new DefaultDiagramSelectionModel());
+    }
+
     public DiagramModel(IDiagramSelectionModel selectionModel) {
         this.selectionModel = selectionModel;
     }
-    public IDiagramSelectionModel getSelectionModel(){
+
+    public IDiagramSelectionModel getSelectionModel() {
         return selectionModel;
     }
 
@@ -58,8 +64,8 @@ public class DiagramModel implements IDiagramModel {
 
     @Override
     public void addNodeRemotely(INodeModel node) {
-    	nodes.add(node);
-    	notifyNodeAdded(node, false);
+        nodes.add(node);
+        notifyNodeAdded(node, false);
 
     }
 
@@ -105,8 +111,8 @@ public class DiagramModel implements IDiagramModel {
 
     @Override
     public synchronized void addLinkRemotely(ILinkModel l) {
-    	links.add(l);
-    	notifyLinkAdded(l, false);
+        links.add(l);
+        notifyLinkAdded(l, false);
     }
 
     @Override
