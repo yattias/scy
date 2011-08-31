@@ -1,3 +1,4 @@
+<%@ page import="java.net.URLEncoder" %>
 <%@ include file="common-taglibs.jsp" %>
 <tiles:insertDefinition name="default-page">
     <tiles:putAttribute name="main">
@@ -245,17 +246,13 @@ dojo.require("dojo.parser")
             <c:choose>
         <c:when test="${fn:length(obligatoryAnchorElos) > 0}">
             <c:forEach var="anchorElo" items="${obligatoryAnchorElos}">
-               <div dojoType="dojox.widget.FisheyeListItem"
-
-		onclick=""
-		
-        label="${anchorElo.myname}"
-		iconSrc=""
-        isContainer="true"
-        style="cursor:pointer; margin:3px;"
-                       class="assessed${anchorElo.assessed}">
+               
+               <a href="/webapp/app/webeport/selectELOFromGallery.html?eloURI=${anchorElo.uri}">
+                    OPEN: ${anchorElo.myname}
+               </a>
+                   <div dojoType="dojox.widget.FisheyeListItem"  onclick=""  label="${anchorElo.myname}" iconSrc="" isContainer="true" style="cursor:pointer; margin:3px;" class="assessed${anchorElo.assessed}">
                          ${anchorElo.myname}
-	</div>
+	                </div>
 
 
             </c:forEach>

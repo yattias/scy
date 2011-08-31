@@ -4,6 +4,7 @@ import eu.scy.common.mission.MissionEloType;
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 import eu.scy.core.BaseELOService;
+import eu.scy.core.model.transfer.SearchResultTransfer;
 import roolo.search.AndQuery;
 import roolo.search.IQueryComponent;
 import roolo.search.MetadataQueryComponent;
@@ -17,6 +18,7 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import java.net.URI;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by IntelliJ IDEA.
@@ -89,5 +91,17 @@ public class BaseELOServiceImpl extends RooloAccessorImpl implements BaseELOServ
         }
 
         return elos;
+    }
+
+    @Override
+    public List<SearchResultTransfer> getSearchResultTransfers(List<ISearchResult> searchResults, Locale locale) {
+        List <SearchResultTransfer> returnLIst = new LinkedList<SearchResultTransfer>();
+        for (int i = 0; i < searchResults.size(); i++) {
+            ISearchResult iSearchResult = searchResults.get(i);
+
+            returnLIst.add(new SearchResultTransfer(locale, iSearchResult));
+        }
+
+        return returnLIst;
     }
 }

@@ -12,10 +12,18 @@
     </select>
     <strong>Category:</strong>
     <select>
+        <option value="ALL">All</option>
+        <c:choose>
+            <c:when test="${fn:length(anchorElos) > 0}">
+                <c:forEach var="anchorElo" items="${anchorElos}">
+                    <option value="anchorElo.uri">${anchorElo.title}</option>
+                </c:forEach>
+            </c:when>
+        </c:choose>
         <!-- get all ELO types from the various missions in the list -->
-        <option>Concept map</option>
+        <!--option>Concept map</option>
         <option>House design</option>
-        <option>Simulation</option>
+        <option>Simulation</option-->
     </select>
     <strong>Person:</strong>
     <select>
@@ -33,7 +41,9 @@
             <c:forEach var="elo" items="${elos}">
                 <div dojoType="dojox.layout.ContentPane" class="feedbackEloContainer greenBackgrounds greenBorders" style="width:30%;height:246px;float:left;">
                     <div class="thumbContainer lightGreenBackgrounds">
-                        <img src="${elo.thumbnail}" />
+                        <a href="javascript:loadAccordionContent('newestElosContainer', '../webversion/ViewFeedbackForElo.html?eloURI=${elo.uri}&amp;listUri=${listUri}');" style="color:#ffffff;">
+                            <img src="${elo.thumbnail}" />
+                        </a>    
                     </div>
                     <div class="eloInfoContainer">
                     <p><strong><a href="javascript:loadAccordionContent('newestElosContainer', '../webversion/ViewFeedbackForElo.html?eloURI=${elo.uri}&amp;listUri=${listUri}');" style="color:#ffffff;">${elo.myname}</a></strong></p>

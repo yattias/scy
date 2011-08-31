@@ -5,8 +5,10 @@ import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Logger;
 
+import eu.scy.core.model.transfer.*;
 import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
@@ -32,14 +34,6 @@ import eu.scy.common.mission.RuntimeSettingsElo;
 import eu.scy.common.mission.RuntimeSettingsHelper;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.XMLTransferObjectService;
-import eu.scy.core.model.transfer.FeedbackEloTransfer;
-import eu.scy.core.model.transfer.FeedbackReplyTransfer;
-import eu.scy.core.model.transfer.FeedbackTransfer;
-import eu.scy.core.model.transfer.LasTransfer;
-import eu.scy.core.model.transfer.NewestElos;
-import eu.scy.core.model.transfer.PedagogicalPlanTransfer;
-import eu.scy.core.model.transfer.Portfolio;
-import eu.scy.core.model.transfer.TransferElo;
 import eu.scy.core.roolo.util.EloComparator;
 
 /**
@@ -237,7 +231,7 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
 
 
     @Override
-    public List getObligatoryAnchorELOs(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlan) {
+    public List<TransferElo> getObligatoryAnchorELOs(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlan) {
         List anchorElos = getAnchorELOs(missionSpecificationElo);
         List returnList = new LinkedList();
         for (int i = 0; i < anchorElos.size(); i++) {
@@ -510,6 +504,19 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
         }
         return null;
         */
+    }
+
+    @Override
+    public List<ISearchResult>getElosWithTechnicalType(String technicalFormat, String username) {
+        final IMetadataKey technicalFormatKey = getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
+        IQueryComponent feedbackComponent = new MetadataQueryComponent(technicalFormatKey, SearchOperation.EQUALS, technicalFormat);
+        final IMetadataKey auhtorKey = getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR);
+        IQueryComponent authorComponent = new MetadataQueryComponent(auhtorKey, SearchOperation.EQUALS, username);
+        AndQuery andQuery = new AndQuery(feedbackComponent, authorComponent);
+        IQuery query = new Query(feedbackComponent);
+
+        return getRepository().search(query);
+
     }
 
     private String fixXml(String xmlString, ScyElo scyElo) {

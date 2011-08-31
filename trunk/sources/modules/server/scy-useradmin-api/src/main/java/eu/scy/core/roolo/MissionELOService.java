@@ -5,14 +5,13 @@ import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.BaseELOService;
-import eu.scy.core.model.transfer.NewestElos;
-import eu.scy.core.model.transfer.PedagogicalPlanTransfer;
-import eu.scy.core.model.transfer.Portfolio;
-import eu.scy.core.model.transfer.TransferElo;
+import eu.scy.core.model.transfer.*;
 import eu.scy.core.roolo.RooloAccessor;
+import roolo.search.ISearchResult;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by IntelliJ IDEA.
@@ -40,7 +39,7 @@ public interface MissionELOService extends BaseELOService {
 
     List getAnchorELOs(MissionSpecificationElo missionSpecificationElo);
 
-    List getObligatoryAnchorELOs(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlan);
+    List<TransferElo> getObligatoryAnchorELOs(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlan);
 
     void setTitle(ScyElo scyElo, Object value);
 
@@ -72,4 +71,8 @@ public interface MissionELOService extends BaseELOService {
     MissionSpecificationElo getMissionSpecificationElo(String missionURI);
 
     TransferElo getTransferElo(ScyElo scyElo);
+
+    public List<ISearchResult> getElosWithTechnicalType(String technicalFormat, String username);
+
+
 }
