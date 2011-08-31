@@ -13,6 +13,7 @@
             Catname: ${transferElo.catname}<br/>
             Viewed: ${feedbackElo.shown}<br/>
             Quality Score Average: ${elo.grade}
+            Comment: ${elo.comment}
         </td>
         <td style="width:70%;">
             <form method="POST" accept-charset="UTF-8" action="/webapp/app/feedback/webversion/AddFeedback.html" onsubmit="postFeedback(this, 'feedbackReturnContainer');return false;">

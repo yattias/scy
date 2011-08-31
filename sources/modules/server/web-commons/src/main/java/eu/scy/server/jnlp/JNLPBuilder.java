@@ -7,6 +7,7 @@ import eu.scy.core.model.transfer.PedagogicalPlanTransfer;
 import eu.scy.core.model.transfer.PropertyTransfer;
 import eu.scy.core.roolo.PedagogicalPlanELOService;
 import eu.scy.core.roolo.RuntimeELOService;
+import roolo.search.ISearchResult;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -161,10 +162,11 @@ public class JNLPBuilder {
     }
 
     private String loadMissionHack(String userName) {
-        List runtimeElos = getRuntimeELOService().getRuntimeElosForUser(userName);
-        if(runtimeElos.size() == 1) {
-            MissionRuntimeElo missionRuntimeElo = (MissionRuntimeElo) runtimeElos.get(0);
-            String uri = String.valueOf(missionRuntimeElo.getUri());
+        List <ISearchResult> runtimeEloSearchResult = getRuntimeELOService().getRuntimeElosForUser(userName);
+        if(runtimeEloSearchResult.size() == 1) {
+            ISearchResult result = runtimeEloSearchResult.get(0);
+            //MissionRuntimeElo missionRuntimeElo = (MissionRuntimeElo) runtimeElos.get(0);
+            String uri = String.valueOf(result.getUri());
             try {
                 return URLEncoder.encode(uri, "UTF-8");
             } catch (UnsupportedEncodingException e) {

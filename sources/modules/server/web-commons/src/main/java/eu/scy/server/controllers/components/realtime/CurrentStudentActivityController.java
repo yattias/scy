@@ -17,6 +17,7 @@ import info.collide.sqlspaces.commons.Tuple;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 import org.springframework.web.servlet.support.RequestContext;
+import roolo.search.ISearchResult;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +27,7 @@ import java.rmi.dgc.VMID;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by IntelliJ IDEA.
@@ -60,14 +62,17 @@ public class CurrentStudentActivityController extends AbstractController {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
         logger.info("MISSION : " + missionURI);
+
+        Locale.getDefault();
+
         if (username != null) {
             User user = getUserService().getUser(username);
-            List missionRuntimeElos =  getRuntimeELOService().getRuntimeElosForUser(username);
-            for (int i = 0; i < missionRuntimeElos.size(); i++) {
-                MissionRuntimeElo mre = (MissionRuntimeElo) missionRuntimeElos.get(i);
-                if(mre.getTitle().equals(missionSpecificationElo.getTitle()));
-                status = mre.getTitle();
-                missionRuntimeElo  = mre;
+            List <ISearchResult> missionRuntimeEloSearchResult =  getRuntimeELOService().getRuntimeElosForUser(username);
+            for (int i = 0; i < missionRuntimeEloSearchResult.size(); i++) {
+                ISearchResult result = missionRuntimeEloSearchResult.get(i);
+                if(result.getTitle(Locale.getDefault()).equals(missionSpecificationElo.getTitle()));
+                status = result.getTitle(Locale.getDefault());
+                missionRuntimeElo  = MissionRuntimeElo.loadLastVersionElo(result.getUri(), getMissionELOService());
             }
         }
 

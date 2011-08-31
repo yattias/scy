@@ -50,9 +50,6 @@ public class CurrentActivityViewController extends BaseController {
         modelAndView.addObject("userActivityList", userActivityInfo);
     }
 
-    private MissionRuntimeElo getMissionRuntime(HttpServletRequest request) {
-        return (MissionRuntimeElo) getRuntimeELOService().getRuntimeElosForUser(getCurrentUserName(request)).get(0);
-    }
 
     public TupleSpace getTupleSpace() {
         return tupleSpace;

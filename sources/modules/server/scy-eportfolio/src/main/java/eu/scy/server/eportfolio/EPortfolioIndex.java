@@ -7,10 +7,12 @@ import eu.scy.core.roolo.MissionELOService;
 import eu.scy.core.roolo.RuntimeELOService;
 import eu.scy.server.controllers.BaseController;
 import org.springframework.web.servlet.ModelAndView;
+import roolo.search.ISearchResult;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.net.URLEncoder;
 import java.util.List;
 
@@ -44,12 +46,11 @@ public class EPortfolioIndex extends BaseController {
                 }
 
             } else {
-                List runtimeElos = getRuntimeELOService().getRuntimeElosForUser(getCurrentUserName(request));
-                if(runtimeElos != null && runtimeElos.size() > 0) {
+                List <ISearchResult> runtimeEloSearchResult = getRuntimeELOService().getRuntimeElosForUser(getCurrentUserName(request));
+                if(runtimeEloSearchResult != null && runtimeEloSearchResult.size() > 0) {
                     //select default
-                    ScyElo scyElo = (ScyElo) runtimeElos.get(0);
-                    modelAndView.addObject("missionURI", URLEncoder.encode(scyElo.getUri().toString(), "UTF-8"));
-
+                    URI scyEloURI = runtimeEloSearchResult.get(0).getUri();
+                    modelAndView.addObject("missionURI", URLEncoder.encode(scyEloURI.toString(), "UTF-8"));
                 }
 
             }

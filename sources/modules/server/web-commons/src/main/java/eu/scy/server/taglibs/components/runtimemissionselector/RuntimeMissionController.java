@@ -5,6 +5,7 @@ import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.UserService;
 import eu.scy.core.model.User;
 import eu.scy.core.roolo.RuntimeELOService;
+import roolo.search.ISearchResult;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
@@ -30,31 +31,33 @@ public class RuntimeMissionController extends TagSupport {
         try {
             pageContext.getOut().write("<div id=\"runtimeMissionController\">\n");
             String user = getCurrentUserName((HttpServletRequest) pageContext.getRequest());
-            List runtimeELOs = getRuntimeELOService().getRuntimeElosForUser(user);
+            List <ISearchResult> runtimeELOs = getRuntimeELOService().getRuntimeElosForUser(user);
+            Locale locale = new Locale("no");
             if (runtimeELOs.size() > 0) {
                 pageContext.getOut().write("<table width=\"100%\">");
                 for (int i = 0; i < runtimeELOs.size(); i++) {
-
-                    MissionRuntimeElo missionRuntimeElo = new MissionRuntimeElo(((ScyElo) runtimeELOs.get(i)).getElo(), runtimeELOService);
-                    if (missionRuntimeElo.getUserRunningMission().equals(user)) {
-                        String uri = missionRuntimeElo.getUri().toString();
-                        uri = URLEncoder.encode(uri, "UTF-8");
-                        List<Locale> languages = missionRuntimeElo.getContent().getLanguages();
-                        Locale locale = null;
-                        if (!languages.isEmpty()) {
-                            locale = languages.get(0);
-                        }
+                    ISearchResult runtimeSearchResult = runtimeELOs.get(i);
+                    //MissionRuntimeElo missionRuntimeElo = new MissionRuntimeElo(((ScyElo) runtimeELOs.get(i)).getElo(), runtimeELOService);
+                    //if (missionRuntimeElo.getUserRunningMission().equals(user)) {
+                        //String uri = missionRuntimeElo.getUri().toString();
+                        //uri = URLEncoder.encode(uri, "UTF-8");
+                        //List<Locale> languages = missionRuntimeElo.getContent().getLanguages();
+                        //Locale locale = null;
+                        //if (!languages.isEmpty()) {
+                        //    locale = languages.get(0);
+                        //}
                         pageContext.getOut().write("<tr><td>");
-                        pageContext.getOut().write("<a href=\"/webapp/app/student/StudentIndex.html?eloURI=" + uri + "\">");
-                        pageContext.getOut().write(missionRuntimeElo.getTitle());
+                        pageContext.getOut().write("<a href=\"/webapp/app/student/StudentIndex.html?eloURI=" + URLEncoder.encode(runtimeSearchResult.getUri().toString(), "UTF-8") + "\">");
+
+                        pageContext.getOut().write("BOOOO");//runtimeSearchResult.getTitle(locale));
                         pageContext.getOut().write("</a>");
                         pageContext.getOut().write("</td><td>");
-                        pageContext.getOut().write("<a href=\"scy-lab.jnlp?username=" + user + "&mission=" + uri);
+                        pageContext.getOut().write("<a href=\"scy-lab.jnlp?username=" + user + "&mission=" + runtimeSearchResult.getUri().toString());
                         if (locale != null) {
                             pageContext.getOut().write("&locale=" + locale.getLanguage());
                         }
                         pageContext.getOut().write("\">Start SCYLab</a></td></tr>");
-                    }
+                    //}
 
                 }
                 pageContext.getOut().write("</table>");

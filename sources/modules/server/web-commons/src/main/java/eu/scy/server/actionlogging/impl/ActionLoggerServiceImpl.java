@@ -19,6 +19,18 @@ public class ActionLoggerServiceImpl implements ActionLoggerService {
     private SQLSpacesActionLogger sqlSpacesActionLogger;
 
 
+    public void logAction(String type, String userName, String tool, String eloURI) {
+        IAction action = new Action();
+        action.setType(type);
+        action.setUser(userName);
+        action.addContext(ContextConstants.tool, tool);
+        action.addContext(ContextConstants.eloURI, eloURI);
+
+        dispatchAction(action);
+        
+    }
+
+
     @Override
     public void logAction(String type, String userName, String tool) {
         IAction action = new Action();
