@@ -150,7 +150,7 @@ public class DataSyncService implements IDataSyncService {
 				if (mucID == null) {
 					throw new DataSyncException("Session could not be created!");
 				}
-				joinSession(mucID, listener, toolid, false);
+				newSession = joinSession(mucID, listener, toolid, false);
 				logger.debug("Session successfully created with id: " + mucID);
 			} else if (message.getResponse().equals(Response.failure)) {
 				logger.error("Failure during session creation");
