@@ -7,6 +7,7 @@ import eu.scy.core.roolo.MissionELOService;
 import eu.scy.core.roolo.RuntimeELOService;
 import eu.scy.server.controllers.xml.XMLStreamerController;
 import eu.scy.server.eportfolio.xml.utilclasses.RuntimeEloInfo;
+import roolo.search.ISearchResult;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,9 +31,11 @@ public class RuntimeElosController extends XMLStreamerController {
     protected Object getObjectToStream(HttpServletRequest request, HttpServletResponse httpServletResponse) {
         String userName = request.getParameter("username");
         List missionRuntimeElos = new LinkedList();
-        List runtimeElos = getRuntimeELOService().getRuntimeElosForUser(userName);
-        for (int i = 0; i < runtimeElos.size(); i++) {
-            ScyElo scyElo = (ScyElo) runtimeElos.get(i);
+        List <ISearchResult> runtimeEloSearchResult = getRuntimeELOService().getRuntimeElosForUser(userName);
+        for (int i = 0; i < runtimeEloSearchResult.size(); i++) {
+            //ScyElo scyElo = (ScyElo) runtimeElos.get(i);
+            ISearchResult result = runtimeEloSearchResult.get(i);
+            ScyElo scyElo = ScyElo.loadLastVersionElo(result.getUri(), getMissionELOService());
             MissionRuntimeElo.loadElo(scyElo.getUri(), getMissionELOService());
             MissionRuntimeElo missionRuntimeElo = new MissionRuntimeElo(scyElo.getElo(), runtimeELOService);
 

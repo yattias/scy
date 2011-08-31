@@ -11,6 +11,7 @@ import eu.scy.core.roolo.MissionELOService;
 import eu.scy.core.roolo.PedagogicalPlanELOService;
 import eu.scy.core.roolo.RuntimeELOService;
 import org.springframework.web.servlet.ModelAndView;
+import roolo.search.ISearchResult;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,11 +45,11 @@ public class ManageAssignedStudentController extends BaseController{
             if(action.equals("clearPortfolios")) clearPortfolios(userName);
         }
 
-        List runtimeElos = getRuntimeELOService().getRuntimeElosForUser(userName);
+        List <ISearchResult> runtimeEloSearchResult = getRuntimeELOService().getRuntimeElosForUser(userName);
         List portfolios = new LinkedList();
-        if(runtimeElos.size() > 0 ) {
-            for (int i = 0; i < runtimeElos.size(); i++) {
-                MissionRuntimeElo runtimeElo = (MissionRuntimeElo) runtimeElos.get(i);
+        if(runtimeEloSearchResult.size() > 0 ) {
+            for (int i = 0; i < runtimeEloSearchResult.size(); i++) {
+                MissionRuntimeElo runtimeElo = MissionRuntimeElo.loadLastVersionElo(runtimeEloSearchResult.get(i).getUri(), getMissionELOService());
                 Portfolio portfolio = getMissionELOService().getPortfolio(runtimeElo);
                 portfolios.add(portfolio);
             }
@@ -64,11 +65,11 @@ public class ManageAssignedStudentController extends BaseController{
     }
 
     private void clearPortfolios(String userName) {
-        List runtimeElos = getRuntimeELOService().getRuntimeElosForUser(userName);
-        if(runtimeElos.size() > 0 ) {
-            for (int i = 0; i < runtimeElos.size(); i++) {
-                MissionRuntimeElo runtimeElo = (MissionRuntimeElo) runtimeElos.get(i);
-                ScyElo portfolioElo = ScyElo.loadLastVersionElo(runtimeElo.getTypedContent().getEPortfolioEloUri(), getMissionELOService());
+        List <ISearchResult> runtimeEloSearchResult = getRuntimeELOService().getRuntimeElosForUser(userName);
+        if(runtimeEloSearchResult.size() > 0 ) {
+            for (int i = 0; i < runtimeEloSearchResult.size(); i++) {
+                MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(runtimeEloSearchResult.get(i).getUri(), getMissionELOService());
+                ScyElo portfolioElo = ScyElo.loadLastVersionElo(missionRuntimeElo.getTypedContent().getEPortfolioEloUri(), getMissionELOService());
                 portfolioElo.getContent().setXmlString("");
                 portfolioElo.updateElo();
             }

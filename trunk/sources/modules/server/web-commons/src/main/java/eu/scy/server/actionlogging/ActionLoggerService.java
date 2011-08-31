@@ -9,6 +9,8 @@ package eu.scy.server.actionlogging;
  */
 public interface ActionLoggerService {
 
-    void logAction(String type, String userName, String tool);
+    public void logAction(String type, String userName, String tool);
+
+    public void logAction(String type, String userName, String tool, String eloURI);
     
 }

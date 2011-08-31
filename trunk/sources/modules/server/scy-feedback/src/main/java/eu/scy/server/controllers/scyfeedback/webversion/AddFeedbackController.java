@@ -42,6 +42,10 @@ public class AddFeedbackController extends BaseController {
         String feedbackRepresentation = feedbackElo.getContent().getXmlString();
         FeedbackEloTransfer feedbackEloTransfer = (FeedbackEloTransfer) getXmlTransferObjectService().getObject(feedbackRepresentation);
 
+
+        URI parentEloURI = feedbackElo.getFeedbackOnEloUri();
+
+
         Date now = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm");
@@ -57,7 +61,7 @@ public class AddFeedbackController extends BaseController {
         feedbackElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(feedbackEloTransfer));
         feedbackElo.updateElo();
 
-        getActionLoggerService().logAction("feedback_given", getCurrentUserName(request), "feedback");
+        getActionLoggerService().logAction("feedback_given", feedbackEloTransfer.getCreatedBy(), "feedback", parentEloURI.toString());
     }
 
 
