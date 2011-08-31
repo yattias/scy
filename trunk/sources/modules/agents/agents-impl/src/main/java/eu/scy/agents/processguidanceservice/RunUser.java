@@ -1,5 +1,6 @@
 package eu.scy.agents.processguidanceservice;
 
+import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
@@ -9,6 +10,7 @@ import java.rmi.dgc.VMID;
 import java.util.ArrayList;
 
 import eu.scy.agents.impl.AgentProtocol;
+import eu.scy.agents.processguidanceservice.ELORun.ActivityStatus;
 
 public class RunUser extends AbstractRun {
 
@@ -24,7 +26,8 @@ public class RunUser extends AbstractRun {
 
     private String generalGuidanceLevel;
 
-    public RunUser(String aUserID) {
+    public RunUser(TupleSpace commandSpace, TupleSpace guidanceSpace, String aUserID) {
+        super(commandSpace, guidanceSpace);
         id = aUserID;
     }
 
@@ -139,7 +142,7 @@ public class RunUser extends AbstractRun {
 
     public void updateUserTuple() {
         try {
-            ProcessGuidanceAgent.getGuidanceSpace().update(myTupleID, new Tuple("user", getId(), generalGuidanceLevel));
+          guidanceSpace.update(myTupleID, new Tuple("user", getId(), generalGuidanceLevel));
         } catch (TupleSpaceException e) {
             ProcessGuidanceAgent.logger.info("Error in guidance TupleSpace while read user info");
         }
@@ -148,11 +151,11 @@ public class RunUser extends AbstractRun {
     public void buildRunUser() {
         try {
             // check whether it is a new user
-            Tuple aUserTuple = ProcessGuidanceAgent.getGuidanceSpace().read(new Tuple("user", getId(), Field.createWildCardField()));
+            Tuple aUserTuple = guidanceSpace.read(new Tuple("user", getId(), Field.createWildCardField()));
             if (aUserTuple == null) {
                 // a new user
                 generalGuidanceLevel = MissionRun.HIGH; // "high" as default value
-                myTupleID = ProcessGuidanceAgent.getGuidanceSpace().write(new Tuple("user", getId(), generalGuidanceLevel));
+                myTupleID = guidanceSpace.write(new Tuple("user", getId(), generalGuidanceLevel));
             } else {
                 // an already registered user
                 myTupleID = aUserTuple.getTupleID();
@@ -163,7 +166,7 @@ public class RunUser extends AbstractRun {
         }
     }
 
-    private Tuple createAgendaNotification(String notificationId, String user, String message, String status, String time, String elo_uri) {
+    private Tuple createAgendaNotification(String notificationId, String user, String message, ActivityStatus status, String time, String elo_uri) {
         Tuple notificationTuple = new Tuple();
         notificationTuple.add(AgentProtocol.NOTIFICATION); // 1
         notificationTuple.add(notificationId); // 2
@@ -226,7 +229,7 @@ public class RunUser extends AbstractRun {
         try {
             String completeNotificationId = createId();
             Tuple completeNotificationTuple = createAgendaNotification(completeNotificationId, this.getId(), getFocusedELORun().getTitle(), getFocusedELORun().getActivityStatus(), String.valueOf(getFocusedELORun().getFinishedTime()), getFocusedELORun().getId());
-            ProcessGuidanceAgent.getCommandSpace().write(completeNotificationTuple);
+            commandSpace.write(completeNotificationTuple);
 
             String aTitle = focusedELORun.getELOModel().getAnUnfinishedDescendant(this);
             String messageNotificationId = createId();
@@ -236,7 +239,7 @@ public class RunUser extends AbstractRun {
             } else {
                 messageNotificationTuple = createMessageNotification(messageNotificationId, this.getId(), "You have completed all activities.", String.valueOf(getFocusedELORun().getFinishedTime()));
             }
-            ProcessGuidanceAgent.getCommandSpace().write(messageNotificationTuple);
+            commandSpace.write(messageNotificationTuple);
 
         } catch (TupleSpaceException e) {
             ProcessGuidanceAgent.logger.info("Error in TupleSpace while load an object in roolo");

@@ -1,5 +1,7 @@
 package eu.scy.agents.processguidanceservice;
 
+import info.collide.sqlspaces.client.TupleSpace;
+
 import java.util.Arrays;
 
 import org.w3c.dom.DOMException;
@@ -8,23 +10,23 @@ import org.w3c.dom.NodeList;
 
 public class LASModel extends AbstractGuidanceObject {
 
-    public static final String DESIGN = "DESIGN";
-
-    public static final String EXPERIMENT = "EXPERIMENT";
-
-    public static final String INFORMATION = "INFORMATION";
-
-    public static final String CONCEPTUALISATION = "CONCEPTUALISATION";
-
-    public static final String REFLECTION = "REFLECTION";
-
-    public static final String EVALUATION = "EVALUATION";
-
-    public static final String CONSTRUCTION = "CONSTRUCTION";
-
-    public static final String ORIENTATION = "ORIENTATION";
-
-    public static final String REPORTING = "REPORTING";
+//    public static final String DESIGN = "DESIGN";
+//
+//    public static final String EXPERIMENT = "EXPERIMENT";
+//
+//    public static final String INFORMATION = "INFORMATION";
+//
+//    public static final String CONCEPTUALISATION = "CONCEPTUALISATION";
+//
+//    public static final String REFLECTION = "REFLECTION";
+//
+//    public static final String EVALUATION = "EVALUATION";
+//
+//    public static final String CONSTRUCTION = "CONSTRUCTION";
+//
+//    public static final String ORIENTATION = "ORIENTATION";
+//
+//    public static final String REPORTING = "REPORTING";
 
     private String type;
 
@@ -37,18 +39,21 @@ public class LASModel extends AbstractGuidanceObject {
     // private ELOModel[] inputELOModels;
 
     // used in building a model with a xml doc
-    public LASModel(MissionModel aMissionModel) {
+    public LASModel(TupleSpace commandSpace, TupleSpace guidanceSpace, MissionModel aMissionModel) {
+        super(commandSpace, guidanceSpace);
         missionModel = aMissionModel;
     }
 
     // used in building a model with a xml doc (according to the "next_las")
-    public LASModel(String lasID, MissionModel aMissionModel) {
+    public LASModel(TupleSpace commandSpace, TupleSpace guidanceSpace, String lasID, MissionModel aMissionModel) {
+        super(commandSpace, guidanceSpace);
         id = lasID;
         missionModel = aMissionModel;
     }
 
     // used in manually creating a model
-    public LASModel(String lasID, String lasType) {
+    public LASModel(TupleSpace commandSpace, TupleSpace guidanceSpace, String lasID, String lasType) {
+        super(commandSpace, guidanceSpace);
         id = lasID;
         type = lasType;
     }
@@ -61,24 +66,14 @@ public class LASModel extends AbstractGuidanceObject {
                     setId(lasInfoNodes.item(i).getTextContent());
                 } else if (lasInfoNodes.item(i).getNodeName().equalsIgnoreCase("lasType")) {
                     setType(lasInfoNodes.item(i).getTextContent());
-
-                    System.out.println();
-                    System.out.println("aLAS = new LASModel(\"" + id + "\", \"" + type + "\");");
-
                 } else if (lasInfoNodes.item(i).getNodeName().equalsIgnoreCase("mainAnchor")) {
                     NodeList aNodeLists = (NodeList) lasInfoNodes.item(i).getChildNodes();
                     for (int j = 0; j < aNodeLists.getLength(); j++) {
                         if (aNodeLists.item(j).getNodeName().equalsIgnoreCase("eloUri")) {
-                            ELOModel aELOModel = new ELOModel(this);
+                            ELOModel aELOModel = new ELOModel(commandSpace, guidanceSpace, this);
                             aELOModel.buildELOModel(aNodeLists.item(j).getTextContent());
                             this.setMainAnchorELOModel(aELOModel);
                             this.getMissionModel().addELOModel(aELOModel);
-
-                            System.out.println("aELO = new ELOModel(\"" + aELOModel.getId() + "\", \"" + aELOModel.getTitle() + "\", \"" + aELOModel.getType() + "\");");
-                            System.out.println("aLAS.setMainAnchorELOModel(aELO);");
-                            System.out.println("aELO.setLASModel(aLAS);");
-                            System.out.println("aModel.addELOModel(aELO);");
-
                             break;
                         }
                     }
@@ -89,16 +84,10 @@ public class LASModel extends AbstractGuidanceObject {
                             NodeList aNodeLists = (NodeList) intermediateAnchorNodes.item(j).getChildNodes();
                             for (int k = 0; k < aNodeLists.getLength(); k++) {
                                 if (aNodeLists.item(k).getNodeName().equalsIgnoreCase("eloUri")) {
-                                    ELOModel aELOModel = new ELOModel(this);
+                                    ELOModel aELOModel = new ELOModel(commandSpace, guidanceSpace, this);
                                     aELOModel.buildELOModel(aNodeLists.item(k).getTextContent());
                                     this.addIntermediateELOModel(aELOModel);
                                     this.getMissionModel().addELOModel(aELOModel);
-
-                                    System.out.println("aELO = new ELOModel(\"" + aELOModel.getId() + "\", \"" + aELOModel.getTitle() + "\", \"" + aELOModel.getType() + "\");");
-                                    System.out.println("aLAS.addIntermediateELOModel(aELO);");
-                                    System.out.println("aELO.setLASModel(aLAS);");
-                                    System.out.println("aModel.addELOModel(aELO);");
-
                                     break;
                                 }
                             }
@@ -109,13 +98,12 @@ public class LASModel extends AbstractGuidanceObject {
                     for (int j = 0; j < nextLasNodes.getLength(); j++) {
                         LASModel aLASModel = this.getMissionModel().findLASModelByID(nextLasNodes.item(j).getTextContent());
                         if (aLASModel == null) {
-                            aLASModel = new LASModel(nextLasNodes.item(j).getTextContent(), getMissionModel());
+                            aLASModel = new LASModel(commandSpace, guidanceSpace, nextLasNodes.item(j).getTextContent(), getMissionModel());
                             getMissionModel().addLASModel(aLASModel);
                         }
                     }
                 }
             }
-            System.out.println("aModel.addLASModel(aLAS);");
         } catch (DOMException e) {
             e.printStackTrace();
         }

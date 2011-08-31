@@ -1,10 +1,13 @@
 package eu.scy.agents.processguidanceservice;
 
+import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
 import java.util.ArrayList;
+
+import eu.scy.agents.processguidanceservice.ELORun.ActivityStatus;
 
 public class MissionRun extends AbstractRun {
 
@@ -25,7 +28,8 @@ public class MissionRun extends AbstractRun {
 
     private String missionGuidanceLevel;
 
-    public MissionRun(String id, RunUser aUser, MissionModel aMissionModel) {
+    public MissionRun(TupleSpace commandSpace, TupleSpace guidanceSpace, String id, RunUser aUser, MissionModel aMissionModel) {
+        super(commandSpace, guidanceSpace);
         this.id = id;
         user = aUser;
         associatedMissionModel = aMissionModel;
@@ -128,10 +132,10 @@ public class MissionRun extends AbstractRun {
 
     public void updateMissionRunTuple() {
         try {
-            ProcessGuidanceAgent.getGuidanceSpace().update(myTupleID, new Tuple("mission", user.getId(), associatedMissionModel.getId(), id, user.getGeneralGuidanceLevel() /*
-                                                                                                                                                                             * ,
-                                                                                                                                                                             * start_time
-                                                                                                                                                                             */));
+            guidanceSpace.update(myTupleID, new Tuple("mission", user.getId(), associatedMissionModel.getId(), id, user.getGeneralGuidanceLevel() /*
+                                                                                                                                                   * ,
+                                                                                                                                                   * start_time
+                                                                                                                                                   */));
         } catch (TupleSpaceException e) {
             ProcessGuidanceAgent.logger.info("Error in guidance TupleSpace while read user info");
         }
@@ -140,22 +144,22 @@ public class MissionRun extends AbstractRun {
     public void buildMissionRun() {
         try {
             // check whether this user has run the mission before
-            Tuple aMissionRunTuple = ProcessGuidanceAgent.getGuidanceSpace().read(new Tuple("mission", user.getId(), associatedMissionModel.getId(), Field.createWildCardField()));
+            Tuple aMissionRunTuple = guidanceSpace.read(new Tuple("mission", user.getId(), associatedMissionModel.getId(), Field.createWildCardField()));
             if (aMissionRunTuple == null) {
                 // the user hasn't run this mission
                 // set the general guidance level as the guidance level of this mission
                 setGuidanceLevel(user.getGeneralGuidanceLevel());
-                myTupleID = ProcessGuidanceAgent.getGuidanceSpace().write(new Tuple("mission", user.getId(), associatedMissionModel.getId(), id, user.getGeneralGuidanceLevel() /*
-                                                                                                                                                                                 * ,
-                                                                                                                                                                                 * start_time
-                                                                                                                                                                                 */));
+                myTupleID = guidanceSpace.write(new Tuple("mission", user.getId(), associatedMissionModel.getId(), id, user.getGeneralGuidanceLevel() /*
+                                                                                                                                                       * ,
+                                                                                                                                                       * start_time
+                                                                                                                                                       */));
 
             } else {
                 // the user has already run this mission
                 myTupleID = aMissionRunTuple.getTupleID();
                 setGuidanceLevel((String) aMissionRunTuple.getField(4).getValue());
 
-                Tuple[] allELOsInMission = ProcessGuidanceAgent.getGuidanceSpace().readAll(new Tuple("elo", user.getId(), associatedMissionModel.getId(), Field.createWildCardField()));
+                Tuple[] allELOsInMission = guidanceSpace.readAll(new Tuple("elo", user.getId(), associatedMissionModel.getId(), Field.createWildCardField()));
 
                 for (Tuple t : allELOsInMission) {
                     // build eloRuns
@@ -163,7 +167,8 @@ public class MissionRun extends AbstractRun {
                     ELOModel aELOModel = associatedMissionModel.findELOModelByID(eloModelID);
                     String eloRunID = (String) t.getField(4).getValue();
                     String eloRunTitle = (String) t.getField(5).getValue();
-                    ELORun anELORun = new ELORun(eloRunID, eloRunTitle, aELOModel, t.getTupleID(), (String) t.getField(6).getValue(),
+                    String activityStatusStr = (String) t.getField(6).getValue();
+                    ELORun anELORun = new ELORun(commandSpace, guidanceSpace, eloRunID, eloRunTitle, aELOModel, t.getTupleID(), ActivityStatus.valueOf(activityStatusStr),
                     // (String)t.getField(7).getValue(),
                     Long.parseLong((String) t.getField(7).getValue()), Long.parseLong((String) t.getField(8).getValue()), Long.parseLong((String) t.getField(9).getValue()), Long.parseLong((String) t.getField(10).getValue()));
                     addELORun(anELORun);

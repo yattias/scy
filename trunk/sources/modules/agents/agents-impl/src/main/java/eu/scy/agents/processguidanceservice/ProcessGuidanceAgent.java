@@ -10,16 +10,19 @@ import info.collide.sqlspaces.commons.User;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
 import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.ActionTupleTransformer;
 import eu.scy.actionlogging.api.ContextConstants;
+import eu.scy.agents.api.AgentLifecycleException;
+import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
 
-public class ProcessGuidanceAgent implements Callback {
+public class ProcessGuidanceAgent extends AbstractThreadedAgent {
 
     public static final String GUIDANCE_AGENT_ID = "process_guidance_agent";
 
@@ -27,65 +30,32 @@ public class ProcessGuidanceAgent implements Callback {
 
     public static final Logger logger = Logger.getLogger(NAME);
 
-    private static TupleSpace guidanceSpace;
+    private TupleSpace guidanceSpace;
 
-    private static TupleSpace actionSpace;
-
-    private static TupleSpace commandSpace;
+    private boolean isStopped;
 
     private MissionModel[] missionModels;
 
     private HashMap<String, RunUser> users;
 
-    public ProcessGuidanceAgent() {
+    public ProcessGuidanceAgent(Map<String, Object> map) {
+        super(NAME, (String) map.get(AgentProtocol.PARAM_AGENT_ID), (String) map.get(AgentProtocol.TS_HOST), (Integer) map.get(AgentProtocol.TS_PORT));
         try {
-            System.out.println("ProcessGuidanceAgent starts to work");
             init();
-            getActionSpace().eventRegister(Command.WRITE, new Tuple("action", Field.createWildCardField()), this, false);
-            System.out.println("starts to listening");
-
-            // the following line is used only in the development phase
-            getGuidanceSpace().takeAll(new Tuple(Field.createWildCardField()));
-
+            getActionSpace().eventRegister(Command.WRITE, new Tuple("action", Field.createWildCardField()), new PGCallback(), false);
+            guidanceSpace = new TupleSpace(new User(name), host, port, false, false, "guidance");
         } catch (TupleSpaceException e) {
             e.printStackTrace();
         }
     }
 
-    public static TupleSpace getGuidanceSpace() {
-        if (guidanceSpace == null) {
-            try {
-                guidanceSpace = new TupleSpace(User.getDefaultUser(), "scy.collide.info", 2525, false, false, "guidance");
-                ;
-            } catch (TupleSpaceException e) {
-                e.printStackTrace();
-            }
-        }
-        return guidanceSpace;
-    }
-
-    public static TupleSpace getActionSpace() {
-        if (actionSpace == null) {
-            try {
-                actionSpace = new TupleSpace(User.getDefaultUser(), "scy.collide.info", 2525, false, false, AgentProtocol.ACTION_SPACE_NAME);
-                ;
-            } catch (TupleSpaceException e) {
-                e.printStackTrace();
-            }
-        }
-        return actionSpace;
-    }
-
-    public static TupleSpace getCommandSpace() {
-        if (commandSpace == null) {
-            try {
-                commandSpace = new TupleSpace(User.getDefaultUser(), "scy.collide.info", 2525, false, false, AgentProtocol.COMMAND_SPACE_NAME);
-                ;
-            } catch (TupleSpaceException e) {
-                e.printStackTrace();
-            }
-        }
-        return commandSpace;
+    public static void main(String[] args) throws AgentLifecycleException {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put(AgentProtocol.PARAM_AGENT_ID, "bla");
+        map.put(AgentProtocol.TS_HOST, "scy.collide.info");
+        map.put(AgentProtocol.TS_PORT, 2525);
+        ProcessGuidanceAgent pga = new ProcessGuidanceAgent(map);
+        pga.start();
     }
 
     private void init() {
@@ -100,7 +70,7 @@ public class ProcessGuidanceAgent implements Callback {
 
     private void addPizzaMission() {
         MissionModel[] newMissionModels = (MissionModel[]) Arrays.copyOf(missionModels, missionModels.length + 1);
-        MissionModel aModel = new MissionModel("roolo://scy.collide.info/scy-collide-server/261.261#0", "pizzaMission");
+        MissionModel aModel = new MissionModel(getCommandSpace(), guidanceSpace, "roolo://scy.collide.info/scy-collide-server/261.261#0", "pizzaMission");
         aModel.buildPizzaMission();
         newMissionModels[newMissionModels.length - 1] = aModel;
         missionModels = newMissionModels;
@@ -108,7 +78,7 @@ public class ProcessGuidanceAgent implements Callback {
 
     private void addECOMission() {
         MissionModel[] newMissionModels = (MissionModel[]) Arrays.copyOf(missionModels, missionModels.length + 1);
-        MissionModel aModel = new MissionModel("roolo://scy.collide.info/scy-collide-server/199.199#0", "ecoMission");
+        MissionModel aModel = new MissionModel(getCommandSpace(), guidanceSpace, "roolo://scy.collide.info/scy-collide-server/199.199#0", "ecoMission");
         aModel.buildECOMission();
         newMissionModels[newMissionModels.length - 1] = aModel;
         missionModels = newMissionModels;
@@ -116,56 +86,10 @@ public class ProcessGuidanceAgent implements Callback {
 
     private void addHouseMission() {
         MissionModel[] newMissionModels = (MissionModel[]) Arrays.copyOf(missionModels, missionModels.length + 1);
-        MissionModel aModel = new MissionModel("roolo://scy.collide.info/scy-collide-server/135.135#0", "co2MissionRedesign");
+        MissionModel aModel = new MissionModel(getCommandSpace(), guidanceSpace, "roolo://scy.collide.info/scy-collide-server/135.135#0", "co2MissionRedesign");
         aModel.buildHouseMission();
         newMissionModels[newMissionModels.length - 1] = aModel;
         missionModels = newMissionModels;
-    }
-
-    @Override
-    public void call(Command cmd, int seqnum, Tuple afterTuple, Tuple beforeTuple) {
-        if (afterTuple == null)
-            return;
-
-        Action action = (Action) ActionTupleTransformer.getActionFromTuple(afterTuple);
-        String userID = action.getUser();
-
-        if (!userID.equalsIgnoreCase("studentm@scy.collide.info/Smack"))
-            return;
-        System.out.println(action);
-
-        String actionType = action.getType();
-        if (actionType.equals("text_inserted")) {
-            handleTextInserted(action);
-        } else if (actionType.equals("text_deleted")) {
-            handleTextDeleted(action);
-        } else if (actionType.equals("tool_got_focus")) {
-            handleToolGotFocus(action);
-        } else if (actionType.equals("tool_lost_focus")) {
-            handleToolLostFocus(action);
-        } else if (actionType.equals(ActionConstants.ACTION_ELO_LOADED)) {
-            handleELOLoaded(action);
-        } else if (actionType.equals(ActionConstants.ACTION_ELO_SAVED)) {
-            handleELOSaved(action);
-        } else if (actionType.equals(ActionConstants.ACTION_TOOL_STARTED)) {
-            handleToolStarted(action);
-        } else if (actionType.equals("tool_quit")) {
-            handleToolQuit(action);
-        } else if (actionType.equals("elo_finished")) {
-            handleToolComplete(action);
-        } else if (actionType.equals(ActionConstants.ACTION_LOG_IN)) {
-            handleLogin(action);
-        } else if (actionType.equals(ActionConstants.ACTION_LOG_OUT)) {
-            handleLogout(action);
-        } else if (actionType.equals(ActionConstants.ACTION_LAS_CHANGED)) {
-            handleLasChanged(action);
-        } else if (actionType.equals(ActionConstants.ACTION_TOOL_OPENED)) {
-            handleToolOpened(action);
-        } else if (actionType.equals(ActionConstants.ACTION_TOOL_CLOSED)) {
-            handleToolClosed(action);
-        } else {
-            System.out.println("unhandling the action=" + actionType);
-        }
     }
 
     private void handleTextInserted(Action action) {
@@ -198,7 +122,7 @@ public class ProcessGuidanceAgent implements Callback {
         }
         if (aMissionModel == null) {
             // new mission model
-            aMissionModel = new MissionModel(missionSpecificationURI, action.getAttribute("missionName"));
+            aMissionModel = new MissionModel(getCommandSpace(), guidanceSpace, missionSpecificationURI, action.getAttribute("missionName"));
             aMissionModel.buildMissionModel();
             MissionModel[] newMissionModels = (MissionModel[]) Arrays.copyOf(missionModels, missionModels.length + 1);
             newMissionModels[newMissionModels.length - 1] = aMissionModel;
@@ -206,12 +130,12 @@ public class ProcessGuidanceAgent implements Callback {
         }
 
         String userID = action.getUser();
-        RunUser aRunUser = new RunUser(userID);
+        RunUser aRunUser = new RunUser(getCommandSpace(), guidanceSpace, userID);
         aRunUser.buildRunUser();
         users.put(userID, aRunUser);
 
         String missionRunID = action.getContext().get(ContextConstants.mission);
-        MissionRun aMissionRun = new MissionRun(missionRunID, aRunUser, aMissionModel);
+        MissionRun aMissionRun = new MissionRun(getCommandSpace(), guidanceSpace, missionRunID, aRunUser, aMissionModel);
         aMissionRun.buildMissionRun();
         aRunUser.setMissionRun(aMissionRun);
     }
@@ -226,7 +150,7 @@ public class ProcessGuidanceAgent implements Callback {
         String elo_uri = action.getContext(ContextConstants.eloURI);
         ELORun aELORun = aRunUser.getMissionRun().findELORunByURI(elo_uri);
         if (aELORun == null) {
-            aELORun = new ELORun(elo_uri);
+            aELORun = new ELORun(getCommandSpace(), guidanceSpace, elo_uri);
             aELORun.buildELORun(aRunUser, elo_uri);
 
             if (aELORun.getELOModel() != null) {
@@ -335,7 +259,68 @@ public class ProcessGuidanceAgent implements Callback {
         users.remove(userID);
     }
 
-    public static void main(String[] args) {
-        new ProcessGuidanceAgent();
+    @Override
+    protected void doRun() throws TupleSpaceException, AgentLifecycleException, InterruptedException {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    protected void doStop() throws AgentLifecycleException {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    protected Tuple getIdentifyTuple(String queryId) {
+        return null;
+    }
+
+    @Override
+    public boolean isStopped() {
+        return isStopped;
+    }
+
+    class PGCallback implements Callback {
+
+        @Override
+        public void call(Command cmd, int seqnum, Tuple afterTuple, Tuple beforeTuple) {
+
+            Action action = (Action) ActionTupleTransformer.getActionFromTuple(afterTuple);
+
+            String actionType = action.getType();
+            if (actionType.equals("text_inserted")) {
+                handleTextInserted(action);
+            } else if (actionType.equals("text_deleted")) {
+                handleTextDeleted(action);
+            } else if (actionType.equals("tool_got_focus")) {
+                handleToolGotFocus(action);
+            } else if (actionType.equals("tool_lost_focus")) {
+                handleToolLostFocus(action);
+            } else if (actionType.equals(ActionConstants.ACTION_ELO_LOADED)) {
+                handleELOLoaded(action);
+            } else if (actionType.equals(ActionConstants.ACTION_ELO_SAVED)) {
+                handleELOSaved(action);
+            } else if (actionType.equals(ActionConstants.ACTION_TOOL_STARTED)) {
+                handleToolStarted(action);
+            } else if (actionType.equals("tool_quit")) {
+                handleToolQuit(action);
+            } else if (actionType.equals("elo_finished")) {
+                handleToolComplete(action);
+            } else if (actionType.equals(ActionConstants.ACTION_LOG_IN)) {
+                handleLogin(action);
+            } else if (actionType.equals(ActionConstants.ACTION_LOG_OUT)) {
+                handleLogout(action);
+            } else if (actionType.equals(ActionConstants.ACTION_LAS_CHANGED)) {
+                handleLasChanged(action);
+            } else if (actionType.equals(ActionConstants.ACTION_TOOL_OPENED)) {
+                handleToolOpened(action);
+            } else if (actionType.equals(ActionConstants.ACTION_TOOL_CLOSED)) {
+                handleToolClosed(action);
+            } else {
+                System.out.println("unhandling the action=" + actionType);
+            }
+        }
+
     }
 }
