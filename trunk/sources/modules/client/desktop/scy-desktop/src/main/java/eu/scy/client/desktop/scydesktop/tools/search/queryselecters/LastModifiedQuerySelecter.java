@@ -9,10 +9,13 @@ import eu.scy.client.desktop.scydesktop.tools.search.QuerySelecterUsage;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.search.AndQuery;
+import roolo.search.IQuery;
 import roolo.search.IQueryComponent;
 import roolo.search.MetadataQueryComponent;
 import roolo.search.SearchOperation;
@@ -23,6 +26,8 @@ import roolo.search.SearchOperation;
  */
 public class LastModifiedQuerySelecter extends AbstractSimpleQuerySelecter
 {
+   private final static long millisInDay = 24*60*60*1000;
+   private final static long millisInWeek = 7*millisInDay;
 
    private final IMetadataKey lastModifiedKey;
 
@@ -76,7 +81,7 @@ public class LastModifiedQuerySelecter extends AbstractSimpleQuerySelecter
    @Override
    public String getEloIconTooltip()
    {
-      return "last modified";
+      return "date modified";
    }
 
    @Override
@@ -113,5 +118,57 @@ public class LastModifiedQuerySelecter extends AbstractSimpleQuerySelecter
          case NEWER:
       }
       return null;
+   }
+
+   @Override
+   public void setFilterOptions(IQuery query)
+   {
+      if (StringUtils.isEmpty(getSelectedOption()))
+      {
+         query.enableDateLastModifiedFilter(false);
+      }
+      else
+      {
+         Calendar calendar = Calendar.getInstance();
+         calendar.set(Calendar.HOUR_OF_DAY, 0);
+         calendar.set(Calendar.MINUTE, 0);
+         calendar.set(Calendar.SECOND, 0);
+         calendar.set(Calendar.MILLISECOND, 0);
+         long today0_00Milis = calendar.getTimeInMillis();
+         calendar.set(Calendar.DAY_OF_WEEK, 0);
+         long beginOfWeekMillis = calendar.getTimeInMillis();
+         query.enableDateLastModifiedFilter(false);
+         Long startTime = null;
+         Long endTime = null;
+         Set<String> allowedUsers = new HashSet<String>();
+         Set<String> notAllowedUsers = new HashSet<String>();
+         LastModifiedOptions lastModifiedOptions = LastModifiedOptions.valueOf(getSelectedOption());
+         switch (lastModifiedOptions)
+         {
+            case TODAY:
+               startTime = today0_00Milis;
+               break;
+            case YESTERDAY:
+               startTime = today0_00Milis-millisInDay;
+               endTime = today0_00Milis;
+               break;
+            case THIS_WEEK:
+               startTime = beginOfWeekMillis;
+               break;
+            case LAST_WEEK:
+               startTime = beginOfWeekMillis-millisInWeek;
+               endTime = beginOfWeekMillis;
+               break;
+            case SAME_DAY:
+               break;
+            case SAME_WEEK:
+               break;
+            case OLDER:
+               break;
+            case NEWER:
+               break;
+         }
+         query.setDateLastModifiedFilter(startTime,endTime);
+      }
    }
 }

@@ -33,6 +33,7 @@ public class TemplateQuerySelecterCreator implements QuerySelecterCreator
    @Override
    public QuerySelecter createQuerySelecter(QuerySelecterUsage querySelectorUsage)
    {
-      return new TemplateQuerySelecter(tbi, id, querySelectorUsage);
+//      return new TemplateQuerySelecter(tbi, id, querySelectorUsage);
+      return null;
    }
 }

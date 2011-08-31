@@ -19,7 +19,7 @@ import roolo.search.SearchOperation;
  *
  * @author SikkenJ
  */
-public class TemplateQuerySelecter extends AbstractSimpleQuerySelecter
+public abstract class TemplateQuerySelecter extends AbstractSimpleQuerySelecter
 {
 
    private final IMetadataKey templateKey;
