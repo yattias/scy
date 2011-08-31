@@ -61,6 +61,7 @@ import eu.scy.scymapper.impl.DiagramModel;
 import eu.scy.scymapper.impl.SCYMapperPanel;
 import eu.scy.scymapper.impl.configuration.SCYMapperToolConfiguration;
 import eu.scy.scymapper.impl.model.DefaultConceptMap;
+import eu.scy.scymapper.impl.model.DefaultDiagramSelectionModel;
 import eu.scy.scymapper.impl.ui.Localization;
 import eu.scy.toolbroker.ToolBrokerImpl;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
@@ -77,9 +78,9 @@ import roolo.search.Query;
  */
 public class SCYMapperStandalone extends JFrame {
 
-    private final String CONTEXT_CONFIG_CLASS_PATH_LOCATION = "eu/scy/scymapper/scymapperToolConfig.xml"; 
+    private final String CONTEXT_CONFIG_CLASS_PATH_LOCATION = "eu/scy/scymapper/scymapperToolConfig.xml";
 
-	private static final String SCYMAPPER_ELOTYPE = "scy/mapping"; 
+	private static final String SCYMAPPER_ELOTYPE = "scy/mapping";
 
 	private final static Logger logger = Logger.getLogger(SCYMapperStandalone.class);
 
@@ -118,7 +119,7 @@ public class SCYMapperStandalone extends JFrame {
 		public void syncObjectRemoved(ISyncObject syncObject) {
 		}
 	};
-	private String username = ""; 
+	private String username = "";
 
 	public static void main(String[] args) {
 
@@ -126,9 +127,9 @@ public class SCYMapperStandalone extends JFrame {
 			public void run() {
 				initLAF();
 				SCYMapperStandalone app = new SCYMapperStandalone();
-				app.setTitle(Localization.getString("Mainframe.Title")); 
+				app.setTitle(Localization.getString("Mainframe.Title"));
 				try {
-					app.setIconImage(ImageIO.read(getClass().getResource("scy-mapper.png"))); 
+					app.setIconImage(ImageIO.read(getClass().getResource("scy-mapper.png")));
 				} catch (IOException e) {
 				}
 				app.setVisible(true);
@@ -159,16 +160,16 @@ public class SCYMapperStandalone extends JFrame {
 	void init(String pathToSpringXML) {
 
 		appContext = new ClassPathXmlApplicationContext(pathToSpringXML);
-		configuration = (ISCYMapperToolConfiguration) appContext.getBean("configuration"); 
+		configuration = (ISCYMapperToolConfiguration) appContext.getBean("configuration");
 
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(800, 600);
 		setLocationByPlatform(true);
 
-		onlineIcon = new ImageIcon(getClass().getResource("online.png")); 
-		offlineIcon = new ImageIcon(getClass().getResource("offline.png")); 
+		onlineIcon = new ImageIcon(getClass().getResource("online.png"));
+		offlineIcon = new ImageIcon(getClass().getResource("offline.png"));
 		loginStatus = new JLabel(offlineIcon, JLabel.LEFT);
-		((JLabel) loginStatus).setText("Offline"); 
+		((JLabel) loginStatus).setText("Offline");
 		getContentPane().setLayout(new BorderLayout());
 		initMenuBar();
 	}
@@ -185,7 +186,7 @@ public class SCYMapperStandalone extends JFrame {
 		try {
 			UIManager.setLookAndFeel(new WindowsLookAndFeel());
 		} catch (Exception e) {
-			System.err.println("Can't set look & feel:" + e); 
+			System.err.println("Can't set look & feel:" + e);
 		}
 	}
 
@@ -196,8 +197,10 @@ public class SCYMapperStandalone extends JFrame {
 	}
 
 	private SCYMapperPanel createScyMapperPanel() {
-		IDiagramModel diagram = new DiagramModel();
+
+		IDiagramModel diagram = new DiagramModel(new DefaultDiagramSelectionModel());
 		currentConceptMap = new DefaultConceptMap(null, diagram);
+		currentConceptMap.getDiagramSelectionModel();
 		if (configuration.getPredefinedNodes() != null) diagram.addNodes(configuration.getPredefinedNodes());
 		return createScyMapperPanel(currentConceptMap);
 	}
@@ -210,9 +213,9 @@ public class SCYMapperStandalone extends JFrame {
 	protected void initMenuBar() {
 
 		JMenuBar menuBar = new JMenuBar();
-		JMenu fileMenu = new JMenu(Localization.getString("Mainframe.Menubar.File")); 
-		JMenu viewMenu = new JMenu(Localization.getString("Mainframe.Menubar.View")); 
-		JMenu sessionMenu = new JMenu(Localization.getString("Mainframe.Menubar.Session")); 
+		JMenu fileMenu = new JMenu(Localization.getString("Mainframe.Menubar.File"));
+		JMenu viewMenu = new JMenu(Localization.getString("Mainframe.Menubar.View"));
+		JMenu sessionMenu = new JMenu(Localization.getString("Mainframe.Menubar.Session"));
 
 		menuBar.add(fileMenu);
 		//some menu items are disables, as they are not useful in the standalone version
@@ -220,11 +223,11 @@ public class SCYMapperStandalone extends JFrame {
 		//menuBar.add(sessionMenu);
 
 		loginStatus = new JLabel(offlineIcon, JLabel.LEFT);
-		((JLabel) loginStatus).setText("Offline"); 
+		((JLabel) loginStatus).setText("Offline");
 
 		//menuBar.add(loginStatus);
 
-		JMenuItem exitItem = new JMenuItem(Localization.getString("Mainframe.Menubar.File.Exit")); 
+		JMenuItem exitItem = new JMenuItem(Localization.getString("Mainframe.Menubar.File.Exit"));
 		exitItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -250,12 +253,12 @@ public class SCYMapperStandalone extends JFrame {
 		viewShadowModeItem.setSelected(SCYMapperToolConfiguration.getInstance().getViewShadow());
 		viewMenu.add(viewShadowModeItem);
 
-		JMenu debugMenu = new JMenu("Debug"); 
+		JMenu debugMenu = new JMenu("Debug");
 
 		sessionMenu.add(new LoginAction());
 
 		String ofHost = Configuration.getInstance().getOpenFireHost();
-		if (ofHost.equals("scy.collide.info")) { 
+		if (ofHost.equals("scy.collide.info")) {
 			debugMenu.add(new ShortcutAction("Pa1", "maupa"));
 			debugMenu.add(new ShortcutAction("Pa2", "maupa"));
 			debugMenu.add(new ShortcutAction("bjoerge", "bjoerge"));
@@ -270,14 +273,14 @@ public class SCYMapperStandalone extends JFrame {
 			debugMenu.add(new ShortcutAction("marjolaine", "marjolaine"));
 			debugMenu.add(new ShortcutAction("jan", "jan"));
 			debugMenu.add(new ShortcutAction("philipp", "philipp"));
-		} else if (ofHost.equals("scy.intermedia.uio.no")) { 
+		} else if (ofHost.equals("scy.intermedia.uio.no")) {
 			debugMenu.add(new ShortcutAction("obamao11", "obamao11"));
 			debugMenu.add(new ShortcutAction("senders11", "senders11"));
 			debugMenu.add(new ShortcutAction("djed11", "djed11"));
 			debugMenu.add(new ShortcutAction("henrikh11", "henrikh11"));
 			debugMenu.add(new ShortcutAction("henriks11", "henriks11"));
 			debugMenu.add(new ShortcutAction("bobb11", "bobb11"));
-		} else if (ofHost.equals("129.177.24.191")) { 
+		} else if (ofHost.equals("129.177.24.191")) {
 			debugMenu.add(new ShortcutAction("obama", "obama"));
 			debugMenu.add(new ShortcutAction("bjoerge", "bjoerge"));
 			debugMenu.add(new ShortcutAction("henrik", "henrik"));
@@ -300,8 +303,8 @@ public class SCYMapperStandalone extends JFrame {
 
 			String name;
 
-			do name = JOptionPane.showInputDialog(Localization.getString("Mainframe.Toolbar.Label.Name"), currentConceptMap.getName()); 
-			while (name != null && name.trim().equals("")); 
+			do name = JOptionPane.showInputDialog(Localization.getString("Mainframe.Toolbar.Label.Name"), currentConceptMap.getName());
+			while (name != null && name.trim().equals(""));
 
 			if (name == null) return;
 			currentConceptMap.setName(name);
@@ -324,7 +327,7 @@ public class SCYMapperStandalone extends JFrame {
 		elo.getMetadata().getMetadataValueContainer(typeKey).setValue(SCYMAPPER_ELOTYPE);
 		elo.getMetadata().getMetadataValueContainer(dateCreatedKey).setValue(new Long(System.currentTimeMillis()));
 
-		elo.getMetadata().getMetadataValueContainer(authorKey).setValue(new Contribute("my vcard", System.currentTimeMillis())); 
+		elo.getMetadata().getMetadataValueContainer(authorKey).setValue(new Contribute("my vcard", System.currentTimeMillis()));
 		IContent content = toolBroker.getELOFactory().createContent();
 		XStream xstream = new XStream(new DomDriver());
 		String xml = xstream.toXML(currentConceptMap);
@@ -342,14 +345,14 @@ public class SCYMapperStandalone extends JFrame {
 	}
 
 	public void loadElo(URI eloUri) throws ResourceException {
-		logger.info("Trying to load elo " + eloUri); 
+		logger.info("Trying to load elo " + eloUri);
 
 		IELO elo = toolBroker.getRepository().retrieveELO(eloUri);
 
 		currentELO = elo;
 
 		if (elo == null) {
-			throw new ResourceException("Could not find ELO " + eloUri); 
+			throw new ResourceException("Could not find ELO " + eloUri);
 		}
 
 		IMetadataKey typeKey = toolBroker.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
@@ -366,8 +369,8 @@ public class SCYMapperStandalone extends JFrame {
 
 	private class OpenConceptMapAction extends AbstractAction {
 		private OpenConceptMapAction() {
-			super(Localization.getString("Mainframe.Menubar.File.Open")); 
-			putValue(SMALL_ICON, new ImageIcon(getClass().getResource("icons/open.png"))); 
+			super(Localization.getString("Mainframe.Menubar.File.Open"));
+			putValue(SMALL_ICON, new ImageIcon(getClass().getResource("icons/open.png")));
 		}
 
 		@Override
@@ -396,8 +399,8 @@ public class SCYMapperStandalone extends JFrame {
 
 	private class CreateConceptMapAction extends AbstractAction {
 		private CreateConceptMapAction() {
-			super(Localization.getString("Mainframe.Menubar.File.NewConceptMap")); 
-			putValue(SMALL_ICON, new ImageIcon(getClass().getResource("icons/new.png"))); 
+			super(Localization.getString("Mainframe.Menubar.File.NewConceptMap"));
+			putValue(SMALL_ICON, new ImageIcon(getClass().getResource("icons/new.png")));
 		}
 
 		@Override
@@ -409,8 +412,8 @@ public class SCYMapperStandalone extends JFrame {
 
 	private class SaveAction extends AbstractAction {
 		private SaveAction() {
-			super(Localization.getString("Mainframe.Menubar.File.Save")); 
-			putValue(SMALL_ICON, new ImageIcon(getClass().getResource("icons/save.png"))); 
+			super(Localization.getString("Mainframe.Menubar.File.Save"));
+			putValue(SMALL_ICON, new ImageIcon(getClass().getResource("icons/save.png")));
 		}
 
 		@Override
@@ -426,8 +429,8 @@ public class SCYMapperStandalone extends JFrame {
 
 	private class SaveAsAction extends AbstractAction {
 		private SaveAsAction() {
-			super(Localization.getString("Mainframe.Menubar.File.SaveAs")); 
-			putValue(SMALL_ICON, new ImageIcon(getClass().getResource("icons/save.png"))); 
+			super(Localization.getString("Mainframe.Menubar.File.SaveAs"));
+			putValue(SMALL_ICON, new ImageIcon(getClass().getResource("icons/save.png")));
 		}
 
 		@Override
@@ -444,7 +447,7 @@ public class SCYMapperStandalone extends JFrame {
 	private class ImportConceptMapAction extends AbstractAction {
 		private ImportConceptMapAction() {
 			//super("Import...");
-			super(Localization.getString("Mainframe.Menubar.File.Open")); 
+			super(Localization.getString("Mainframe.Menubar.File.Open"));
 		}
 
 		@Override
@@ -453,12 +456,12 @@ public class SCYMapperStandalone extends JFrame {
 			fileChooser.setFileFilter(new FileFilter() {
 				@Override
 				public boolean accept(File f) {
-					return f.getName().endsWith(".xml"); 
+					return f.getName().endsWith(".xml");
 				}
 
 				@Override
 				public String getDescription() {
-					return Localization.getString("Dialog.FileFilter.XML"); 
+					return Localization.getString("Dialog.FileFilter.XML");
 				}
 			});
 			int dialogResult = fileChooser.showOpenDialog(SCYMapperStandalone.this);
@@ -488,7 +491,7 @@ public class SCYMapperStandalone extends JFrame {
 	private class ExportConceptMapAction extends AbstractAction {
 		private ExportConceptMapAction() {
 			//super("Export...");
-			super(Localization.getString("Mainframe.Menubar.File.SaveAs")); 
+			super(Localization.getString("Mainframe.Menubar.File.SaveAs"));
 		}
 
 		@Override
@@ -499,18 +502,18 @@ public class SCYMapperStandalone extends JFrame {
 
 				@Override
 				public boolean accept(File f) {
-					return f.getName().endsWith(".xml"); 
+					return f.getName().endsWith(".xml");
 				}
 
 				@Override
 				public String getDescription() {
-					return Localization.getString("Dialog.FileFilter.XML"); 
+					return Localization.getString("Dialog.FileFilter.XML");
 				}
 			});
-			fileChooser.setSelectedFile(new File(currentConceptMap.getName() + ".xml")); 
+			fileChooser.setSelectedFile(new File(currentConceptMap.getName() + ".xml"));
 			int dialogResult = fileChooser.showSaveDialog(SCYMapperStandalone.this);
 			if(dialogResult == JFileChooser.APPROVE_OPTION) {
-				
+
 				File f = fileChooser.getSelectedFile();
 				if (f.exists()) {
 					int confirm = JOptionPane.showConfirmDialog(SCYMapperStandalone.this, f.getName() + Localization.getString("Dialog.Confirm.FileExists.Text"), Localization.getString("Dialog.Confirm.FileExists.Title"), JOptionPane.YES_NO_CANCEL_OPTION);
@@ -533,14 +536,14 @@ public class SCYMapperStandalone extends JFrame {
 
 	private class LoginAction extends AbstractAction {
 		private LoginAction() {
-			super(Localization.getString("Mainframe.Menubar.File.Login")); 
+			super(Localization.getString("Mainframe.Menubar.File.Login"));
 		}
 
 		@Override
 		public void actionPerformed(ActionEvent ev) {
-			username = JOptionPane.showInputDialog(Localization.getString("Dialog.Input.Username")); 
+			username = JOptionPane.showInputDialog(Localization.getString("Dialog.Input.Username"));
 			if (username != null) {
-				String password = JOptionPane.showInputDialog(Localization.getString("Dialog.Input.Password")); 
+				String password = JOptionPane.showInputDialog(Localization.getString("Dialog.Input.Password"));
 				if (password != null)
 					doLogin(username, password);
 			}
@@ -549,7 +552,7 @@ public class SCYMapperStandalone extends JFrame {
 
 	private class CreateSessionAction extends AbstractAction {
 		private CreateSessionAction() {
-			super(Localization.getString("Mainframe.Menubar.Session.CreateJoinSession")); 
+			super(Localization.getString("Mainframe.Menubar.Session.CreateJoinSession"));
 		}
 
 		@Override
@@ -565,7 +568,7 @@ public class SCYMapperStandalone extends JFrame {
 
 	private class ShowSessionIDAction extends AbstractAction {
 		private ShowSessionIDAction() {
-			super(Localization.getString("Mainframe.Menubar.Session.ShowID")); 
+			super(Localization.getString("Mainframe.Menubar.Session.ShowID"));
 		}
 
 		@Override
@@ -576,7 +579,7 @@ public class SCYMapperStandalone extends JFrame {
 
 	private class JoinSessionAction extends AbstractAction {
 		private JoinSessionAction() {
-			super(Localization.getString("Mainframe.Menubar.Session.Join")); 
+			super(Localization.getString("Mainframe.Menubar.Session.Join"));
 		}
 
 		@Override
@@ -595,7 +598,7 @@ public class SCYMapperStandalone extends JFrame {
 
 		public ShortcutAction(String username, String password) {
 			super();
-			putValue(Action.NAME, Localization.getString("Shortcut.LoginAs") +" "+ username); 
+			putValue(Action.NAME, Localization.getString("Shortcut.LoginAs") +" "+ username);
 
 			this.username = username;
 			this.password = password;
@@ -611,7 +614,7 @@ public class SCYMapperStandalone extends JFrame {
 
 		ViewShadowAction() {
 			super();
-			putValue(Action.NAME, Localization.getString("Shortcut.ViewShadow")); 
+			putValue(Action.NAME, Localization.getString("Shortcut.ViewShadow"));
 		}
 
 		@Override
@@ -627,7 +630,7 @@ public class SCYMapperStandalone extends JFrame {
 
 		public SetDebugModeAction() {
 			super();
-			putValue(Action.NAME, Localization.getString("Mainframe.Menubar.Debug.Mode")); 
+			putValue(Action.NAME, Localization.getString("Mainframe.Menubar.Debug.Mode"));
 		}
 
 		@Override
@@ -642,18 +645,18 @@ public class SCYMapperStandalone extends JFrame {
 	void doLogin(String username, String password) {
 		try {
 			String ofHost = Configuration.getInstance().getOpenFireHost();
-			logger.debug("Logging into OpenFire @ " + ofHost); 
+			logger.debug("Logging into OpenFire @ " + ofHost);
 
 			if (toolBroker != null) {
-				throw new IllegalAccessException("Already logged in"); 
+				throw new IllegalAccessException("Already logged in");
 			}
 
 			toolBroker = new ToolBrokerImpl(username, password);
 			dataSyncService = toolBroker.getDataSyncService();
 			this.username = username;
-			setTitle(username + " / " + getTitle()); 
+			setTitle(username + " / " + getTitle());
 			((JLabel) loginStatus).setIcon(onlineIcon);
-			((JLabel) loginStatus).setText(Localization.getString("Shortcut.ViewShadow") +" "+ username); 
+			((JLabel) loginStatus).setText(Localization.getString("Shortcut.ViewShadow") +" "+ username);
 			scyMapperPanel.setToolBroker(toolBroker, this.username);
 		}
 		catch (Exception e) {
@@ -669,12 +672,12 @@ public class SCYMapperStandalone extends JFrame {
 		}
 		JTextField sessionTextField = new JTextField(currentSession.getId());
 		sessionTextField.setEditable(false);
-		Component[] comps = {new JLabel(Localization.getString("Mainframe.Toolbar.Session.Label")), sessionTextField}; 
-		JOptionPane.showMessageDialog(SCYMapperStandalone.this, comps, Localization.getString("Dialog.Message.Success.Title"), JOptionPane.INFORMATION_MESSAGE); 
+		Component[] comps = {new JLabel(Localization.getString("Mainframe.Toolbar.Session.Label")), sessionTextField};
+		JOptionPane.showMessageDialog(SCYMapperStandalone.this, comps, Localization.getString("Dialog.Message.Success.Title"), JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	private void joinSession() {
-		String sessId = JOptionPane.showInputDialog(Localization.getString("Dialog.Input.SessionID")); 
+		String sessId = JOptionPane.showInputDialog(Localization.getString("Dialog.Input.SessionID"));
 		if (sessId != null) {
 				scyMapperPanel.joinSession(sessId);
 		}

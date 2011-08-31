@@ -31,172 +31,174 @@ import eu.scy.scymapper.impl.shapes.nodes.Star;
 import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
 
 /**
- * User: Bjoerge Naess
- * Date: 27.aug.2009
- * Time: 15:09:32
+ * User: Bjoerge Naess Date: 27.aug.2009 Time: 15:09:32
  */
 public class DiagramDemo extends JFrame implements IDiagramListener {
 
-	private final static Logger logger = Logger.getLogger(DiagramDemo.class);
+    private final static Logger logger = Logger.getLogger(DiagramDemo.class);
 
-	private IDiagramModel diagramModel;
+    private IDiagramModel diagramModel;
 
-	private INodeModel selectedNode;
-	private JLabel selectedLabel;
+    private INodeModel selectedNode;
 
-	public DiagramDemo() {
-		super("DiagramModel Test");
-	}
+    private JLabel selectedLabel;
 
-	public static void main(String[] args) {
-		new DiagramDemo().start();
-	}
+    private DefaultDiagramSelectionModel selectionModel;
 
-	public void start() {
+    public DiagramDemo() {
+        super("DiagramModel Test");
+    }
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(800, 900);
+    public static void main(String[] args) {
+        new DiagramDemo().start();
+    }
 
-		diagramModel = new DiagramModel();
+    public void start() {
 
-		// Observe the diagramModel
-		diagramModel.addDiagramListener(this);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(800, 900);
 
-		// Ok, so I'm adding a few nodes to the impl before instantiating the impl component
-		testAddNodes1();
+        selectionModel = new DefaultDiagramSelectionModel();
+        diagramModel = new DiagramModel(selectionModel);
 
-		ConceptDiagramView view = new ConceptDiagramView(new DiagramController(diagramModel), diagramModel, new DefaultDiagramSelectionModel());
+        // Observe the diagramModel
+        diagramModel.addDiagramListener(this);
 
-		JButton testButton = new JButton("Click me to change the shape, style and size of the last selected concept");
-		testButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (selectedNode != null) {
-					selectedNode.setShape(new Star());
-					selectedNode.getStyle().setOpaque(true);
-					selectedNode.getStyle().setBackground(new Color(0xff9900));
-				}
-			}
-		});
-		getContentPane().setLayout(new BorderLayout());
-		getContentPane().add(view, BorderLayout.CENTER);
-		getContentPane().add(testButton, BorderLayout.PAGE_START);
-		setVisible(true);
+        // Ok, so I'm adding a few nodes to the impl before instantiating the impl component
+        testAddNodes1();
 
-		selectedLabel = new JLabel("No node selected yet");
-		getContentPane().add(selectedLabel, BorderLayout.PAGE_END);
+        ConceptDiagramView view = new ConceptDiagramView(new DiagramController(diagramModel, selectionModel), diagramModel, selectionModel);
 
-		// So, lets add a few additional nodes AFTER the component is initialized, and see what happens
-		// If things are done rigth, the component should now contain a circle and a star
-	}
+        JButton testButton = new JButton("Click me to change the shape, style and size of the last selected concept");
+        testButton.addActionListener(new ActionListener() {
 
-	public void testAddNodes1() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (selectedNode != null) {
+                    selectedNode.setShape(new Star());
+                    selectedNode.getStyle().setOpaque(true);
+                    selectedNode.getStyle().setBackground(new Color(0xff9900));
+                }
+            }
+        });
+        getContentPane().setLayout(new BorderLayout());
+        getContentPane().add(view, BorderLayout.CENTER);
+        getContentPane().add(testButton, BorderLayout.PAGE_START);
+        setVisible(true);
 
-		NodeModel n1 = new NodeModel(new RoundRectangle());
-		n1.setLocation(new Point(500, 50));
-		n1.setLabel("I am soo boring and gray");
-		n1.setSize(new Dimension(180, 100));
-		addNode(n1);
+        selectedLabel = new JLabel("No node selected yet");
+        getContentPane().add(selectedLabel, BorderLayout.PAGE_END);
 
-		INodeModel svgNode = new NodeModel();
-		svgNode.setLabel("I'm a fried SVG egg");
+        // So, lets add a few additional nodes AFTER the component is initialized, and see what happens
+        // If things are done rigth, the component should now contain a circle and a star
+    }
 
-		URL url = getClass().getResource("shapes/egg.svg");
-//		try {
-//			logger.debug("DiagramImplTest.testAddNodes1");
-//			INodeShape s = new SVGShape(url);
-//			svgNode.setShape(s);
-//		} catch (IOException e) {
-//			logger.debug("File not found: " + url);
-//		}
+    public void testAddNodes1() {
 
-		svgNode.setLocation(new Point(100, 50));
-		svgNode.setSize(new Dimension(101, 101));
-		addNode(svgNode);
+        NodeModel n1 = new NodeModel(new RoundRectangle());
+        n1.setLocation(new Point(500, 50));
+        n1.setLabel("I am soo boring and gray");
+        n1.setSize(new Dimension(180, 100));
+        addNode(n1);
 
-		INodeLinkModel link = new NodeLinkModel(n1, svgNode);
-		link.getStyle().setBackground(new Color(0x339900));
-		link.setShape(new Arrow());
-		link.setLabel("Hello");
-		diagramModel.addLink(link);
+        INodeModel svgNode = new NodeModel();
+        svgNode.setLabel("I'm a fried SVG egg");
 
-	}
+        URL url = getClass().getResource("shapes/egg.svg");
+        // try {
+        // logger.debug("DiagramImplTest.testAddNodes1");
+        // INodeShape s = new SVGShape(url);
+        // svgNode.setShape(s);
+        // } catch (IOException e) {
+        // logger.debug("File not found: " + url);
+        // }
 
-	private void addNode(INodeModel node) {
-		// subscribe to changes in this node
-		diagramModel.addNode(node);
-	}
+        svgNode.setLocation(new Point(100, 50));
+        svgNode.setSize(new Dimension(101, 101));
+        addNode(svgNode);
 
-	@Override
-	public void linkRemoved(ILinkModel link) {
-		//To change body of implemented methods use File | Settings | File Templates.
-	}
+        INodeLinkModel link = new NodeLinkModel(n1, svgNode);
+        link.getStyle().setBackground(new Color(0x339900));
+        link.setShape(new Arrow());
+        link.setLabel("Hello");
+        diagramModel.addLink(link);
 
-	@Override
-	public void nodeRemoved(INodeModel n) {
-		//To change body of implemented methods use File | Settings | File Templates.
-	}
+    }
 
-	@Override
-	public void updated(IDiagramModel diagramModel) {
-		//To change body of implemented methods use File | Settings | File Templates.
-	}
+    private void addNode(INodeModel node) {
+        // subscribe to changes in this node
+        diagramModel.addNode(node);
+    }
 
-	@Override
-	public void nodeSelected(INodeModel n) {
-		logger.debug("DiagramDemo.nodeSelected");
-	}
+    @Override
+    public void linkRemoved(ILinkModel link) {
+        // To change body of implemented methods use File | Settings | File Templates.
+    }
 
-	void simpleExample() {
+    @Override
+    public void nodeRemoved(INodeModel n) {
+        // To change body of implemented methods use File | Settings | File Templates.
+    }
 
-		// Create a new diagramModel
-		IDiagramModel diagramModel = new DiagramModel();
+    @Override
+    public void updated(IDiagramModel diagramModel) {
+        // To change body of implemented methods use File | Settings | File Templates.
+    }
 
-		// Create a new star-shaped concept star:
-		INodeModel star = new NodeModel();
-		star.getStyle().setOpaque(true);
-		star.getStyle().setBackground(new Color(0xcc0000));
-		star.setShape(new Star());
-		star.setLabel("I'm a star");
-		star.setLocation(new Point(300, 150));
-		star.setSize(new Dimension(200, 200));
-		diagramModel.addNode(star);
+    @Override
+    public void nodeSelected(INodeModel n) {
+        logger.debug("DiagramDemo.nodeSelected");
+    }
 
-		// Create a concept star from SVG:
-		INodeModel egg = new NodeModel();
-		egg.setLabel("I'm a fried SVG egg");
-		URL url = getClass().getResource("egg.svg");
-//		try {
-//			INodeShape s = new SVGShape(url);
-//			egg.setShape(s);
-//		} catch (IOException e) {
-//			System.err.println("File not found: " + url);
-//		}
-		egg.setLocation(new Point(100, 50));
-		egg.setSize(new Dimension(101, 101));
-		addNode(egg);
-		diagramModel.addNode(egg);
+    void simpleExample() {
 
-		// Add a link between the star and the egg
-		INodeLinkModel link = new NodeLinkModel(star, egg);
-		link.getStyle().setBackground(new Color(0xffff00));
-		link.getStyle().setStroke(new BasicStroke(4.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 6.0f, new float[]{6.0f}, 0.0f));
-		link.setShape(new Arrow());
-		link.setLabel("I'm fat'n dashed!");
-		diagramModel.addLink(link);
+        // Create a new diagramModel
+        IDiagramModel diagramModel = new DiagramModel(new DefaultDiagramSelectionModel());
 
-	}
+        // Create a new star-shaped concept star:
+        INodeModel star = new NodeModel();
+        star.getStyle().setOpaque(true);
+        star.getStyle().setBackground(new Color(0xcc0000));
+        star.setShape(new Star());
+        star.setLabel("I'm a star");
+        star.setLocation(new Point(300, 150));
+        star.setSize(new Dimension(200, 200));
+        diagramModel.addNode(star);
 
-	@Override
-	public void linkAdded(ILinkModel link, boolean focused) {
-		// TODO Auto-generated method stub
+        // Create a concept star from SVG:
+        INodeModel egg = new NodeModel();
+        egg.setLabel("I'm a fried SVG egg");
+        URL url = getClass().getResource("egg.svg");
+        // try {
+        // INodeShape s = new SVGShape(url);
+        // egg.setShape(s);
+        // } catch (IOException e) {
+        // System.err.println("File not found: " + url);
+        // }
+        egg.setLocation(new Point(100, 50));
+        egg.setSize(new Dimension(101, 101));
+        addNode(egg);
+        diagramModel.addNode(egg);
 
-	}
+        // Add a link between the star and the egg
+        INodeLinkModel link = new NodeLinkModel(star, egg);
+        link.getStyle().setBackground(new Color(0xffff00));
+        link.getStyle().setStroke(new BasicStroke(4.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 6.0f, new float[] { 6.0f }, 0.0f));
+        link.setShape(new Arrow());
+        link.setLabel("I'm fat'n dashed!");
+        diagramModel.addLink(link);
 
-	@Override
-	public void nodeAdded(INodeModel n, boolean focused) {
-		// TODO Auto-generated method stub
+    }
 
-	}
+    @Override
+    public void linkAdded(ILinkModel link, boolean focused) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void nodeAdded(INodeModel n, boolean focused) {
+        // TODO Auto-generated method stub
+
+    }
 }
-

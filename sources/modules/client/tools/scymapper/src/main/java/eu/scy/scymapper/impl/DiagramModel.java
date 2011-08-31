@@ -26,12 +26,18 @@ public class DiagramModel implements IDiagramModel {
     private Set<ILinkModel> links = new HashSet<ILinkModel>();
     private transient java.util.List<IDiagramListener> listeners = new ArrayList<IDiagramListener>();
 
+    private IDiagramSelectionModel selectionModel;
+
     private Object readResolve() {
         listeners = new ArrayList<IDiagramListener>();
         return this;
     }
 
-    public DiagramModel() {
+    public DiagramModel(IDiagramSelectionModel selectionModel) {
+        this.selectionModel = selectionModel;
+    }
+    public IDiagramSelectionModel getSelectionModel(){
+        return selectionModel;
     }
 
     @Override
@@ -49,12 +55,12 @@ public class DiagramModel implements IDiagramModel {
         nodes.add(node);
         notifyNodeAdded(node, true);
     }
-    
+
     @Override
     public void addNodeRemotely(INodeModel node) {
     	nodes.add(node);
     	notifyNodeAdded(node, false);
-    	
+
     }
 
     @Override

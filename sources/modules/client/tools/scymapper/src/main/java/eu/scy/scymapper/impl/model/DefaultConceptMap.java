@@ -17,11 +17,17 @@ import java.util.List;
  */
 public class DefaultConceptMap implements IConceptMap {
 	private String name = "No name";
-	private IDiagramModel diagram = new DiagramModel();
+	private IDiagramModel diagram;
 
 	private transient List<IConceptMapListener> listeners = new ArrayList<IConceptMapListener>();
 
-	private transient IDiagramSelectionModel selectionModel = new DefaultDiagramSelectionModel();
+	private transient IDiagramSelectionModel selectionModel;
+
+
+        public DefaultConceptMap() {
+            selectionModel = new DefaultDiagramSelectionModel();
+            diagram = new DiagramModel(selectionModel);
+        }
 
 	private Object readResolve() {
 		listeners = new ArrayList<IConceptMapListener>();
@@ -31,6 +37,7 @@ public class DefaultConceptMap implements IConceptMap {
 	}
 
 	public DefaultConceptMap(String name, IDiagramModel diagram) {
+	    this();
 		this.name = name;
 		this.diagram = diagram;
 	}
