@@ -181,7 +181,6 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
       scyElo.setFunctionalRole(eloSaveAsPanel.getFunctionalRole());
       addThumbnail(scyElo);
       scyElo.setDateFirstUserSave(System.currentTimeMillis());
-      scyElo.setCreator(loginName);
 
       if (eloSaveAsPanel.authorUpdate) {
          // the call is  caused by an update action, so that the author can modify the titles
@@ -190,6 +189,7 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
       } else if (elo.getUri() != null) {
          scyElo.saveAsForkedElo();
       } else {
+         scyElo.setCreator(loginName);
          scyElo.saveAsNewElo();
       }
       if (eloSaveAsPanel.myElo or eloSaveAsPanel.authorUpdate) {
