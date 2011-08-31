@@ -12,7 +12,7 @@ public class LaunchUtils {
 	public static void launchInFrame(final MathTool mathTool) {
 
 
-				JFrame frame = new JFrame("mathTool v1.6"); //$NON-NLS-1$
+				JFrame frame = new JFrame("mathTool v1.7"); //$NON-NLS-1$
 				frame.setLayout(new MigLayout("fill,insets 0 0 0 0")); //$NON-NLS-1$
 				// JScrollPane scrollPane = new JScrollPane(doInit());
 				//				

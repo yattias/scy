@@ -430,10 +430,35 @@ public class MathToolController {
 		List<ComputationDataObj> tableObjects = getTableObjects(
 				model.getDataVector(), type);
 		for (ComputationDataObj computationDataObj : tableObjects) {
-			if (computationDataObj.getShapeId().equals(mathShape.getId())) {
-				table.getSelectionModel().setSelectionInterval(
-						computationDataObj.getColumnNumber().intValue() - 1,
-						computationDataObj.getColumnNumber().intValue() - 1);
+			
+			if( type.equals(UIUtils._3D)) {
+				String[] split = StringUtils.split(computationDataObj.getShapeId(), " ");
+				
+				String newId = split[0];
+				
+				String concatId = mathShape.getId() + " " + mathShape.getSelectedItemName();
+				
+				if( computationDataObj.getShapeId().equals(concatId) ) {
+					int objRow = computationDataObj.getColumnNumber() - 1;
+					
+					objRow = table.convertRowIndexToModel(objRow);
+					
+					table.setRowSelectionInterval(objRow, objRow);
+				}
+			} else {
+				if (computationDataObj.getShapeId().equals(mathShape.getId())) {
+					
+					
+					int objRow = computationDataObj.getColumnNumber() - 1;
+					
+					objRow = table.convertRowIndexToModel(objRow);
+					
+					table.setRowSelectionInterval(objRow, objRow);
+					
+	//				table.getSelectionModel().setSelectionInterval(
+	//						computationDataObj.getColumnNumber().intValue() - 1,
+	//						computationDataObj.getColumnNumber().intValue() - 1);
+				}
 			}
 		}
 
@@ -821,19 +846,22 @@ public class MathToolController {
 		public void valueChanged(ListSelectionEvent e) {
 
 			if (e.getValueIsAdjusting()) {
-				int firstIndex = getComputationTables()
+				int selectedRowIndex = getComputationTables()
 						.get(UIUtils._2D).getSelectedRow();
 				
-				if( firstIndex == -1)
+				if( selectedRowIndex == -1)
 					return;
 				
 
+				selectedRowIndex = getComputationTables()
+						.get(UIUtils._2D).convertRowIndexToModel(selectedRowIndex);
+				
 				DefaultTableModel model = (DefaultTableModel) getComputationTables()
 						.get(UIUtils._2D).getModel();
 
-				String shapeId = (String) model.getValueAt(firstIndex, 5);
+				String shapeId = (String) model.getValueAt(selectedRowIndex, 5);
 
-				log.info("shapeId " + shapeId);
+//				log.info("shapeId " + shapeId);
 				ShapeCanvas sc = shapeCanvases.get(UIUtils._2D);
 
 				for (IMathShape ms : sc.getMathShapes()) {
@@ -862,17 +890,20 @@ public class MathToolController {
 		public void valueChanged(ListSelectionEvent e) {
 
 			if (e.getValueIsAdjusting()) {
-				int firstIndex = getComputationTables()
+				int selectedRowIndex = getComputationTables()
 						.get(UIUtils._3D).getSelectedRow();
 				
 				
-				if( firstIndex == -1)
+				if( selectedRowIndex == -1)
 					return;
+				
+				selectedRowIndex = getComputationTables()
+						.get(UIUtils._3D).convertRowIndexToModel(selectedRowIndex);
 
 				DefaultTableModel model = (DefaultTableModel) getComputationTables()
 						.get(UIUtils._3D).getModel();
 
-				String shapeId = (String) model.getValueAt(firstIndex, 5);
+				String shapeId = (String) model.getValueAt(selectedRowIndex, 5);
 
 //				log.info("shapeId " + shapeId);
 				
