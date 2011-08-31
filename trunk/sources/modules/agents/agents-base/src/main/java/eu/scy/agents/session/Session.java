@@ -3,16 +3,11 @@ package eu.scy.agents.session;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.agents.Mission;
 import info.collide.sqlspaces.client.TupleSpace;
+import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import org.apache.log4j.Logger;
 
-/**
- * Mission Tuple ("mission":String, User:String, MissionURI:String, MissionName:String)
- * LAS Tuple ("las":String, User:String, MissionURI:String, LasName:String)
- * Language Tuple ("language":String, User:String, Language:String)
- * Tool Tuple: ("tool":String, User:String, ToolName:String, EloURI:String)
- */
 public class Session {
 
     private final static Logger LOGGER = Logger.getLogger(Session.class);
@@ -33,10 +28,10 @@ public class Session {
 
     public String getLanguage(String user) {
         try {
-            Tuple languageTuple = sessionSpace.read(new Tuple(Session.LANGUAGE,
-                    user, String.class));
-            if (languageTuple != null) {
-                String language = (String) languageTuple.getField(2).getValue();
+            Tuple missionTuple = sessionSpace.read(new Tuple(Session.LANGUAGE,
+                    Field.createSemiformalField(user+"*"), String.class));
+            if (missionTuple != null) {
+                String language = (String) missionTuple.getField(2).getValue();
                 return language;
             }
         } catch (TupleSpaceException e) {
@@ -48,9 +43,10 @@ public class Session {
     public Mission getMission(String user) {
         try {
             Tuple missionTuple = sessionSpace.read(new Tuple(Session.MISSION,
-                    user, String.class, String.class));
+                    Field.createSemiformalField(user+"*"), String.class, String.class));
             if (missionTuple != null) {
-                String missionString = (String) missionTuple.getField(3).getValue();
+                String missionString = (String) missionTuple.getField(3)
+                        .getValue();
                 return Mission.getForName(missionString);
             }
         } catch (TupleSpaceException e) {
@@ -62,10 +58,11 @@ public class Session {
     public String getMissionURI(String user) {
         try {
             Tuple missionTuple = sessionSpace.read(new Tuple(Session.MISSION,
-                    user, String.class, String.class));
+                    Field.createSemiformalField(user+"*"), String.class, String.class));
             if (missionTuple != null) {
-                String missionUri = (String) missionTuple.getField(2).getValue();
-                return missionUri;
+                String missionString = (String) missionTuple.getField(2)
+                        .getValue();
+                return missionString;
             }
         } catch (TupleSpaceException e) {
             LOGGER.warn(e.getMessage());
