@@ -3,102 +3,103 @@
         "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
 
-	<bean id="scyHub" class="eu.scy.scyhub.SCYHubComponent" lazy-init="true"></bean>
+    <bean id="scyHub" class="eu.scy.scyhub.SCYHubComponent" lazy-init="true"></bean>
 
-	<bean id="scyAuthorRuntimeModule" class="eu.scy.core.openfire.ScyAuthorRuntimeModule"
-		lazy-init="true">
-		<constructor-arg>
-			<ref bean="scyHub" />
-		</constructor-arg>
-		<property name="runtimeService" ref="runtimeService" />
-	</bean>
+    <bean id="scyAuthorRuntimeModule" class="eu.scy.core.openfire.ScyAuthorRuntimeModule"
+          lazy-init="true">
+        <constructor-arg>
+            <ref bean="scyHub"/>
+        </constructor-arg>
+        <property name="runtimeService" ref="runtimeService"/>
+    </bean>
 
-	<bean id="notificator" class="eu.scy.server.notification.Notificator"
-		lazy-init="true">
-		<constructor-arg>
-			<ref bean="scyHub" />
-		</constructor-arg>
-	</bean>
+    <bean id="notificator" class="eu.scy.server.notification.Notificator"
+          lazy-init="true">
+        <constructor-arg>
+            <ref bean="scyHub"/>
+        </constructor-arg>
+    </bean>
 
-	<bean id="actionProcessModule" class="eu.scy.actionlogging.server.ActionProcessModule"
-		lazy-init="true">
-		<constructor-arg>
-			<ref bean="scyHub" />
-		</constructor-arg>
-	</bean>
+    <bean id="actionProcessModule" class="eu.scy.actionlogging.server.ActionProcessModule"
+          lazy-init="true">
+        <constructor-arg>
+            <ref bean="scyHub"/>
+        </constructor-arg>
+    </bean>
 
-	<bean id="dataSyncModule" class="eu.scy.server.datasync.DataSyncModule"
-		lazy-init="true">
-		<constructor-arg>
-			<ref bean="scyHub" />
-		</constructor-arg>
-	</bean>
+    <bean id="dataSyncModule" class="eu.scy.server.datasync.DataSyncModule"
+          lazy-init="true">
+        <constructor-arg>
+            <ref bean="scyHub"/>
+        </constructor-arg>
+    </bean>
 
-	<bean id="externalComponentManager"
-		class="eu.scy.server.externalcomponents.ExternalComponentManager"
-		singleton="true">
-		<property name="externalComponents">
-			<list>
-				<ref local="sqlSpacesComponent" />
-				<!-- ref local="swatComponent"/ -->
-				<ref local="scyHubExternalComponent" />
-				<ref local="agentFrameworkComponent" />
-			</list>
-		</property>
-	</bean>
+    <bean id="externalComponentManager"
+          class="eu.scy.server.externalcomponents.ExternalComponentManager"
+          singleton="true">
+        <property name="externalComponents">
+            <list>
+                <ref local="sqlSpacesComponent"/>
+                <!-- ref local="swatComponent"/ -->
+                <ref local="scyHubExternalComponent"/>
+                <ref local="agentFrameworkComponent"/>
+            </list>
+        </property>
+    </bean>
 
-	<bean id="sqlSpacesComponent"
-		class="eu.scy.server.externalcomponents.sqlspaces.SQLSpacesComponent"
-		singleton="true" />
-	<bean id="swatComponent" class="eu.scy.server.externalcomponents.swat.SWATComponent"
-		singleton="true" />
-	<bean id="scyHubExternalComponent"
-		class="eu.scy.server.externalcomponents.scyhub.SCYHubExternalComponent"
-		singleton="true">
-		<property name="scyhub" ref="scyHub" />
-	</bean>
-	<bean id="agentFrameworkComponent"
-		class="eu.scy.server.externalcomponents.agentframework.AgentFrameworkComponent"
-		singleton="true">
-		<property name="initialAgents">
-			<set>
-				<!-- ref bean="supervisor" / -->
-				<ref bean="canonical" />
-				<ref bean="ontologylookup" />
-				<ref bean="generalELOSavedAgent" />
-				<ref bean="scysim" />
-				<ref bean="votat" />
-				<ref bean="toolexperience" />
-				<ref bean="collaboration" />
-				<ref bean="keywordsTfIdf" />
-				<ref bean="keywordsTopic" />
-				<ref bean="keywordsOntology" />
-                <ref bean="keyphrasesAgent" />
-				<ref bean="keywords" />
-				<ref bean="keywordsDecisionMaker" />
-				<ref bean="addKeywordsToMetadataAgent" />
-				<ref bean="notifyUserAgent" />
-				<ref bean="hypothesisDecisionAgent" />
-				<ref bean="hypothesisEvalAgent" />
-				<!--<ref bean="userLocationAgent" /> -->
-				<ref bean="portfolioNotificator" />
-                <ref bean="feedbackNotificator" />
-				<ref bean="groupFormation" />
-				<ref bean="rooloAccessor" />
-				<ref bean="sessionAgent" />
-				<ref bean="cmEnricher" />
-				<ref bean="cmProposer" />
-				<ref bean="cmModeller" />
-				<ref bean="workflowRecorder" />
-				<ref bean="pga" />
-			</set>
-		</property>
-		<property name="repository">
-			<ref bean="repository" />
-		</property>
-		<property name="metadataTypeManager">
-			<ref bean="metadataTypeManager" />
-		</property>
-	</bean>
+    <bean id="sqlSpacesComponent"
+          class="eu.scy.server.externalcomponents.sqlspaces.SQLSpacesComponent"
+          singleton="true"/>
+    <bean id="swatComponent" class="eu.scy.server.externalcomponents.swat.SWATComponent"
+          singleton="true"/>
+    <bean id="scyHubExternalComponent"
+          class="eu.scy.server.externalcomponents.scyhub.SCYHubExternalComponent"
+          singleton="true">
+        <property name="scyhub" ref="scyHub"/>
+    </bean>
+    <bean id="agentFrameworkComponent"
+          class="eu.scy.server.externalcomponents.agentframework.AgentFrameworkComponent"
+          singleton="true">
+        <property name="initialAgents">
+            <set>
+                <!-- ref bean="supervisor" / -->
+                <ref bean="canonical"/>
+                <ref bean="ontologylookup"/>
+                <ref bean="generalELOSavedAgent"/>
+                <ref bean="scysim"/>
+                <ref bean="votat"/>
+                <ref bean="toolexperience"/>
+                <ref bean="collaboration"/>
+                <ref bean="keywordsTfIdf"/>
+                <ref bean="keywordsTopic"/>
+                <ref bean="keywordsOntology"/>
+                <ref bean="keyphrasesAgent"/>
+                <ref bean="keywords"/>
+                <ref bean="keywordsDecisionMaker"/>
+                <ref bean="addKeywordsToMetadataAgent"/>
+                <ref bean="notifyUserAgent"/>
+                <ref bean="hypothesisDecisionAgent"/>
+                <ref bean="hypothesisEvalAgent"/>
+                <!--<ref bean="userLocationAgent" /> -->
+                <ref bean="portfolioNotificator"/>
+                <ref bean="feedbackNotificator"/>
+                <ref bean="groupFormation"/>
+                <ref bean="rooloAccessor"/>
+                <ref bean="sessionAgent"/>
+                <ref bean="cmEnricher"/>
+                <ref bean="cmProposer"/>
+                <ref bean="cmModeller"/>
+                <ref bean="workflowRecorder"/>
+                <ref bean="pga"/>
+                <ref bean="scaffoldNotificator"/>
+            </set>
+        </property>
+        <property name="repository">
+            <ref bean="repository"/>
+        </property>
+        <property name="metadataTypeManager">
+            <ref bean="metadataTypeManager"/>
+        </property>
+    </bean>
 
 </beans>
