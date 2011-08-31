@@ -236,7 +236,7 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
    }
 
    public function initializeDatasync(simulator: ISynchronizable): Void {
-        var datasyncsession = toolBrokerAPI.getDataSyncService().createSession(new DummySyncListener());
+        var datasyncsession = toolBrokerAPI.getDataSyncService().createSession(new DummySyncListener(), "fitex");
         datasyncEdge = scyWindow.windowManager.scyDesktop.edgesManager.addDatasyncLink(scyWindow, simulator.getScyWindow() as ScyWindow);
         this.join(datasyncsession.getId());
         simulator.join(datasyncsession.getId(), datasyncEdge as Object);
