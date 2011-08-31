@@ -28,13 +28,18 @@ public class ConceptShapedIcon implements Icon {
 
 		INodeStyle nodeStyle = this.concept.getStyle();
 		INodeShape shape = this.concept.getShape();
-
 		g2d.setColor(nodeStyle.getBackground());
+		
+
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		Rectangle rect = new Rectangle(x, y, iconWidth, iconHeight);
 		if (shape != null) {
 			shape.setMode(nodeStyle.isOpaque() ? INodeShape.FILL : INodeShape.DRAW);
 			shape.paint(g2d, rect);
+			g2d.setColor(Color.black);
+			shape.setMode(INodeShape.DRAW);
+			shape.paint(g2d, rect);
+
 		}
 		g2d.dispose();
 	}
