@@ -1,8 +1,5 @@
 <%@ include file="common-taglibs.jsp" %>
 
-FEEDBACK ADDED ${feedbacktext}
-
-
 <div style="clear:both;" dojoType="dojox.layout.ContentPane" parseOnLoad="true" executeScripts="true">
     <fieldset style="clear:both;border:1px solid #000000;margin:5px;">
         <legend style="font-weight:bold;border:1px solid #000000;padding:2px;">${feedbackItem.calendarDate}</legend>
