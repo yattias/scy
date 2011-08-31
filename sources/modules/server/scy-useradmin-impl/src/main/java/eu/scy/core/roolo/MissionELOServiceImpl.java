@@ -1,32 +1,46 @@
 package eu.scy.core.roolo;
 
-import eu.scy.actionlogging.Action;
-import eu.scy.actionlogging.SQLSpacesActionLogger;
-import eu.scy.actionlogging.api.ContextConstants;
-import eu.scy.actionlogging.api.IAction;
-import eu.scy.common.mission.*;
-import eu.scy.common.scyelo.ScyElo;
-import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
-import eu.scy.core.XMLTransferObjectService;
-import eu.scy.core.model.transfer.*;
-import eu.scy.core.roolo.util.EloComparator;
-import roolo.search.AndQuery;
-import roolo.search.IQueryComponent;
-import roolo.search.MetadataQueryComponent;
-import roolo.search.IQuery;
-import roolo.search.Query;
-import roolo.search.ISearchResult;
-import roolo.search.SearchOperation;
-import roolo.elo.api.IMetadata;
-import roolo.elo.api.IMetadataKey;
-import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
+
+import roolo.elo.api.IMetadata;
+import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import roolo.search.AndQuery;
+import roolo.search.IQuery;
+import roolo.search.IQueryComponent;
+import roolo.search.ISearchResult;
+import roolo.search.MetadataQueryComponent;
+import roolo.search.Query;
+import roolo.search.SearchOperation;
+import eu.scy.actionlogging.Action;
+import eu.scy.actionlogging.SQLSpacesActionLogger;
+import eu.scy.actionlogging.api.ContextConstants;
+import eu.scy.actionlogging.api.IAction;
+import eu.scy.common.mission.Las;
+import eu.scy.common.mission.MissionAnchor;
+import eu.scy.common.mission.MissionEloType;
+import eu.scy.common.mission.MissionModelElo;
+import eu.scy.common.mission.MissionRuntimeElo;
+import eu.scy.common.mission.MissionSpecificationElo;
+import eu.scy.common.mission.RuntimeSettingKey;
+import eu.scy.common.mission.RuntimeSettingsElo;
+import eu.scy.common.mission.RuntimeSettingsHelper;
+import eu.scy.common.scyelo.ScyElo;
+import eu.scy.core.XMLTransferObjectService;
+import eu.scy.core.model.transfer.FeedbackEloTransfer;
+import eu.scy.core.model.transfer.FeedbackReplyTransfer;
+import eu.scy.core.model.transfer.FeedbackTransfer;
+import eu.scy.core.model.transfer.LasTransfer;
+import eu.scy.core.model.transfer.NewestElos;
+import eu.scy.core.model.transfer.PedagogicalPlanTransfer;
+import eu.scy.core.model.transfer.Portfolio;
+import eu.scy.core.model.transfer.TransferElo;
+import eu.scy.core.roolo.util.EloComparator;
 
 /**
  * Created by IntelliJ IDEA.
@@ -361,16 +375,26 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
     public NewestElos getMyElosWithFeedback(MissionRuntimeElo missionRuntimeElo, String currentUserName) {
         NewestElos newestElos = new NewestElos();
 
-        List feedbackList = getFeedback();
-        for (int i = 0; i < feedbackList.size(); i++) {
-            ScyElo feedbackElo = (ScyElo) feedbackList.get(i);
+        final IMetadataKey technicalFormatKey = getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
+        IQueryComponent feedbackComponent = new MetadataQueryComponent(technicalFormatKey, SearchOperation.EQUALS, "scy/feedback");
+        final IMetadataKey auhtorKey = getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR);
+        IQueryComponent authorComponent = new MetadataQueryComponent(auhtorKey, SearchOperation.EQUALS, currentUserName);
+        AndQuery andQuery = new AndQuery(feedbackComponent, authorComponent);
+        IQuery feedbackQuery = new Query(feedbackComponent);
 
-            FeedbackEloTransfer feedbackTransfer = (FeedbackEloTransfer) getXmlTransferObjectService().getObject(feedbackElo.getContent().getXmlString());
-            if (feedbackTransfer.getCreatedBy().equals(currentUserName)) {
-                URI parent = feedbackElo.getFeedbackOnEloUri();
-                ScyElo parentElo = ScyElo.loadLastVersionElo(parent, this);
-                newestElos.addElo(new TransferElo(parentElo));
+        List<ISearchResult> results = getRepository().search(feedbackQuery);
+
+        for (int i = 0; i < results.size(); i++) {
+            ISearchResult searchResult = (ISearchResult) results.get(i);
+            ScyElo scyELO = getElo(searchResult.getUri());
+            String xmlString = scyELO.getElo().getContent().getXmlString();
+            if (xmlString.startsWith("<feedback>")) {
+                xmlString = fixXml(xmlString, scyELO);
             }
+            FeedbackEloTransfer feedbackTransfer = (FeedbackEloTransfer) getXmlTransferObjectService().getObject(xmlString);
+            URI parent = scyELO.getFeedbackOnEloUri();
+            ScyElo parentElo = ScyElo.loadLastVersionElo(parent, this);
+            newestElos.addElo(new TransferElo(parentElo));
         }
 
         return newestElos;
