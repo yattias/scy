@@ -25,4 +25,8 @@ public interface MissionModelEloContent
    public void setWindowStatesXml(String lasId, String xml);
 
    public Collection<String> getWindowStatesXmlIds();
+
+   public List<MissionAnchor> getMissionAnchors();
+   
+   public MissionAnchor getMissionAnchor(String id);
 }

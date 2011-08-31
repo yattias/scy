@@ -52,6 +52,8 @@ public class MissionModelEloContentXmlUtils
    private final static String intermediateAnchorName = "intermediateAnchor";
    private final static String relationsName = "relations";
    private final static String relationName = "relation";
+   private final static String dependingOnMissionAnchorIdsName = "dependingOnMissionAnchorIds";
+   private final static String dependingOnMissionAnchorIdName = "dependingOnMissionAnchorId";
    private final static String targetDescriptionUriName = "targetDescriptionUri";
    private final static String assignmentUriName = "assignmentUri";
    private final static String resourcesUriName = "resourcesUri";
@@ -124,6 +126,7 @@ public class MissionModelEloContentXmlUtils
    {
       Element root = new Element(tagName);
       root.addContent(createElement(eloUriName, missionAnchor.getEloUri()));
+      root.addContent(createElement(idName, missionAnchor.getId()));
       root.addContent(createElement(iconTypeName, missionAnchor.getIconType()));
       // root.addContent(createElement(mainAnchorName, missionAnchor.mainAnchor));
       root.addContent(createElement(loElosName, eloUriName, missionAnchor.getLoEloUris()));
@@ -133,6 +136,7 @@ public class MissionModelEloContentXmlUtils
       root.addContent(createElement(assignmentUriName, missionAnchor.getAssignmentUri()));
       root.addContent(createElement(resourcesUriName, missionAnchor.getResourcesUri()));
       root.addContent(createElement(colorSchemeName, missionAnchor.getColorSchemeId()));
+      root.addContent(createElement(dependingOnMissionAnchorIdsName, dependingOnMissionAnchorIdName, missionAnchor.getDependingOnMissionAnchorIds()));
       return root;
    }
 
@@ -247,6 +251,7 @@ public class MissionModelEloContentXmlUtils
    {
       BasicMissionAnchor missionAnchor = new BasicMissionAnchor();
       missionAnchor.setEloUri(getUriValue(root, eloUriName));
+      missionAnchor.setId(root.getChildText(idName));
       missionAnchor.setIconType(root.getChildText(iconTypeName));
       missionAnchor.setLoEloUris(getUriListValue(root.getChild(loElosName), eloUriName));
       missionAnchor.setRelationNames(getStringListValue(root, relationsName, relationName));
@@ -254,6 +259,7 @@ public class MissionModelEloContentXmlUtils
       missionAnchor.setAssignmentUri(getUriValue(root, assignmentUriName));
       missionAnchor.setResourcesUri(getUriValue(root, resourcesUriName));
       missionAnchor.setColorSchemeId(getEnumValue(ColorSchemeId.class, root, colorSchemeName));
+      missionAnchor.setDependingOnMissionAnchorIds(getStringListValue(root, dependingOnMissionAnchorIdsName, dependingOnMissionAnchorIdName));
       return missionAnchor;
    }
 

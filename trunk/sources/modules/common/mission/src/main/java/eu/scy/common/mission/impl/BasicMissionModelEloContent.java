@@ -1,5 +1,6 @@
 package eu.scy.common.mission.impl;
 
+import eu.scy.common.mission.MissionAnchor;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,20 +13,21 @@ import java.util.Map;
 
 public class BasicMissionModelEloContent implements MissionModelEloContent
 {
+
    private List<URI> loEloUris = new ArrayList<URI>();
    private List<Las> lasses = new ArrayList<Las>();
    private Las selectedLas;
    private URI missionMapBackgroundImageUri;
    private URI missionMapInstructionUri;
    private String missionMapButtonIconType;
-   private Map<String,String> desktopStatesXml = new HashMap<String, String>();
+   private Map<String, String> desktopStatesXml = new HashMap<String, String>();
 
    @Override
    public List<URI> getLoEloUris()
    {
       return loEloUris;
    }
-   
+
    @Override
    public List<Las> getLasses()
    {
@@ -46,26 +48,26 @@ public class BasicMissionModelEloContent implements MissionModelEloContent
 
    public void setLoEloUris(List<URI> loEloUris)
    {
-      assert loEloUris!=null;
+      assert loEloUris != null;
       this.loEloUris = loEloUris;
    }
 
    public void setLasses(List<Las> lasses)
    {
-      assert lasses!=null;
+      assert lasses != null;
       this.lasses = lasses;
    }
 
    @Override
-	public URI getMissionMapBackgroundImageUri()
-	{
-		return missionMapBackgroundImageUri;
-	}
+   public URI getMissionMapBackgroundImageUri()
+   {
+      return missionMapBackgroundImageUri;
+   }
 
-	public void setMissionMapBackgroundImageUri(URI missionMapBackgroundImageUri)
-	{
-		this.missionMapBackgroundImageUri = missionMapBackgroundImageUri;
-	}
+   public void setMissionMapBackgroundImageUri(URI missionMapBackgroundImageUri)
+   {
+      this.missionMapBackgroundImageUri = missionMapBackgroundImageUri;
+   }
 
    @Override
    public String getMissionMapButtonIconType()
@@ -102,8 +104,34 @@ public class BasicMissionModelEloContent implements MissionModelEloContent
    }
 
    @Override
-   public Collection<String> getWindowStatesXmlIds(){
+   public Collection<String> getWindowStatesXmlIds()
+   {
       return desktopStatesXml.keySet();
    }
 
+   @Override
+   public List<MissionAnchor> getMissionAnchors()
+   {
+      List<MissionAnchor> missionAnchors = new ArrayList<MissionAnchor>();
+      for (Las las : getLasses())
+      {
+         missionAnchors.add(las.getMissionAnchor());
+         missionAnchors.addAll(las.getIntermediateAnchors());
+      }
+      return missionAnchors;
+   }
+
+   @Override
+   public MissionAnchor getMissionAnchor(String id)
+   {
+      List<MissionAnchor> missionAnchors = getMissionAnchors();
+      for (MissionAnchor missionAnchor : missionAnchors)
+      {
+         if (missionAnchor.getId() != null && missionAnchor.getId().equals(id))
+         {
+            return missionAnchor;
+         }
+      }
+      return null;
+   }
 }
