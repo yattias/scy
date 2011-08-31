@@ -89,7 +89,8 @@
 				<ref bean="cmEnricher" />
 				<ref bean="cmProposer" />
 				<ref bean="cmModeller" />
-                <ref bean="workflowRecorder" />
+				<ref bean="workflowRecorder" />
+				<ref bean="pga" />
 			</set>
 		</property>
 		<property name="repository">
