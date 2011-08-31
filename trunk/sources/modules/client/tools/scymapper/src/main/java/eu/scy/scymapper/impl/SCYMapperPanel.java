@@ -105,7 +105,6 @@ public class SCYMapperPanel extends JPanel implements INotifiable {
 
         initComponents();
         validate();
-        setBorder(BorderFactory.createLineBorder(Color.RED, 30));
 
     }
 

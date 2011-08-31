@@ -23,224 +23,241 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 /**
- * User: Bjoerge Naess
- * Date: 03.sep.2009
- * Time: 13:24:59
+ * User: Bjoerge Naess Date: 03.sep.2009 Time: 13:24:59
  */
 public class PalettePane extends JPanel {
-	private final static Logger logger = Logger.getLogger(PalettePane.class);
 
-	private ConceptMapPanel conceptMapPanel;
-	private List<ILinkFactory> linkFactories;
-	private List<INodeFactory> nodeFactories;
-	private JToggleButton selectedButton;
-	private MouseListener clickListener;
-	private List<INodeFactory> connectorFactories;
-	//private FillStyleCheckbox opaqueCheckbox;
-	//private volatile NodeColorChooserPanel nodeColorChooser;
+    private final static Logger logger = Logger.getLogger(PalettePane.class);
 
-	public PalettePane(IConceptMap conceptMap, ISCYMapperToolConfiguration conf, ConceptMapPanel conceptMapPanel) {
-		this.conceptMapPanel = conceptMapPanel;
-		this.linkFactories = conf.getLinkFactories();
-		this.nodeFactories = conf.getNodeFactories();
-		this.connectorFactories = conf.getConnectorFactories();
-		initComponents();
-	}
+    private ConceptMapPanel conceptMapPanel;
 
-	private void initComponents() {
-		//setLayout(new MigLayout("wrap, center", "[grow,fill]"));
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+    private List<ILinkFactory> linkFactories;
 
-		createNodeButtons();
-		createConnectorButtons();
-		createLinkButtons();
+    private List<INodeFactory> nodeFactories;
 
-		//add(nodeStylePanel);
-		JScrollPane nodeScrollPane = new JScrollPane(this);
-	}
+    private JToggleButton selectedButton;
 
-	private void createConnectorButtons() {
+    private MouseListener clickListener;
 
-		for (final INodeFactory connectorFactory : connectorFactories) {
-			final JToggleButton button = new JToggleButton(connectorFactory.getIcon());
-			button.setHorizontalAlignment(JButton.CENTER);
+    private List<INodeFactory> connectorFactories;
 
-			button.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
+    // private FillStyleCheckbox opaqueCheckbox;
+    // private volatile NodeColorChooserPanel nodeColorChooser;
 
-					if (selectedButton != null) selectedButton.setSelected(false);
-					selectedButton = button;
-					if (clickListener != null) conceptMapPanel.getDiagramView().removeMouseListener(clickListener);
+    public PalettePane(IConceptMap conceptMap, ISCYMapperToolConfiguration conf, ConceptMapPanel conceptMapPanel) {
+        this.conceptMapPanel = conceptMapPanel;
+        this.linkFactories = conf.getLinkFactories();
+        this.nodeFactories = conf.getNodeFactories();
+        this.connectorFactories = conf.getConnectorFactories();
+        initComponents();
+    }
 
-					clickListener = new MouseAdapter() {
-						@Override
-						public void mouseClicked(MouseEvent e) {
-							INodeModel node = connectorFactory.create();
-							int w = node.getWidth();
-							int h = node.getHeight();
-							node.setSize(new Dimension(w, h));
-							Point loc = new Point(e.getPoint());
-							loc.translate(w / -2, h / -2);
-							node.setLocation(loc);
+    private void initComponents() {
+        // setLayout(new MigLayout("wrap, center", "[grow,fill]"));
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-							conceptMapPanel.getDiagramView().getController().add(node);
-							conceptMapPanel.getDiagramView().removeMouseListener(this);
-							conceptMapPanel.getDiagramView().setCursor(null);
-							button.setSelected(false);
-						}
-					};
-					conceptMapPanel.getDiagramView().addMouseListener(clickListener);
-					conceptMapPanel.getDiagramView().setCursor(createNodeShapedCursor(connectorFactory));
-				}
-			});
-			add(button);
-		}
-	}
+        createNodeButtons();
+        createConnectorButtons();
+        createLinkButtons();
 
-	private void createLinkButtons() {
-		for (final ILinkFactory linkFactory : linkFactories) {
-			ILinkModel btnLink = linkFactory.create();
+        // add(nodeStylePanel);
+        JScrollPane nodeScrollPane = new JScrollPane(this);
+    }
 
-			final AddLinkButton button = new AddLinkButton(btnLink.getLabel(), btnLink.getShape());
-			button.setHorizontalAlignment(JButton.CENTER);
-			button.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
+    private void createConnectorButtons() {
 
-					if (selectedButton != null && selectedButton.equals(e.getSource())) {
-						selectedButton.setSelected(false);
-						conceptMapPanel.getDiagramView().setMode(new DragMode(conceptMapPanel.getDiagramView()));
-						selectedButton = null;
-						return;
-					}
+        for (final INodeFactory connectorFactory : connectorFactories) {
+            final JToggleButton button = new JToggleButton(connectorFactory.getIcon());
+            button.setHorizontalAlignment(JButton.CENTER);
 
-					if (selectedButton != null) selectedButton.setSelected(false);
+            button.addActionListener(new ActionListener() {
 
-					selectedButton = button;
+                @Override
+                public void actionPerformed(ActionEvent e) {
 
-					ILinkModel link = new SimpleLink();
-					link.setTo(new Point(0, 0));
-					ILinkModel model = linkFactory.create();
-					link.setLabel(model.getLabel());
-					link.setShape(model.getShape());
+                    if (selectedButton != null)
+                        selectedButton.setSelected(false);
+                    selectedButton = button;
+                    if (clickListener != null)
+                        conceptMapPanel.getDiagramView().removeMouseListener(clickListener);
 
-					final ConnectMode connectMode = new ConnectMode(conceptMapPanel.getDiagramView(), new LinkView(new LinkConnectorController(link), link),linkFactory);
+                    clickListener = new MouseAdapter() {
 
-					conceptMapPanel.getDiagramView().setMode(connectMode);
+                        @Override
+                        public void mouseClicked(MouseEvent e) {
+                            INodeModel node = connectorFactory.create();
+                            int w = node.getWidth();
+                            int h = node.getHeight();
+                            node.setSize(new Dimension(w, h));
+                            Point loc = new Point(e.getPoint());
+                            loc.translate(w / -2, h / -2);
+                            node.setLocation(loc);
 
-					connectMode.addActionListener(new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							if (e.getID() == ConnectMode.CONNECTION_MADE) {
-								selectedButton.setSelected(false);
-								selectedButton = null;
-								conceptMapPanel.getDiagramView().setMode(new DragMode(conceptMapPanel.getDiagramView()));
-								connectMode.getTargetComponent().setCursor(new Cursor(Cursor.MOVE_CURSOR));
-							}
-						}
-					});
-				}
-			});
-			add(button);
-		}
-	}
+                            conceptMapPanel.getDiagramView().getController().add(node);
+                            conceptMapPanel.getDiagramView().removeMouseListener(this);
+                            conceptMapPanel.getDiagramView().setCursor(null);
+                            button.setSelected(false);
+                        }
+                    };
+                    conceptMapPanel.getDiagramView().addMouseListener(clickListener);
+                    conceptMapPanel.getDiagramView().setCursor(createNodeShapedCursor(connectorFactory));
+                }
+            });
+            add(button);
+        }
+    }
 
-	private void createNodeButtons() {
+    private void createLinkButtons() {
+        for (final ILinkFactory linkFactory : linkFactories) {
+            ILinkModel btnLink = linkFactory.create();
 
-		for (final INodeFactory nodeFactory : nodeFactories) {
+            final AddLinkButton button = new AddLinkButton(btnLink.getLabel(), btnLink.getShape());
+            button.setHorizontalAlignment(JButton.CENTER);
+            button.addActionListener(new ActionListener() {
 
-			final JToggleButton button = new JToggleButton(nodeFactory.getIcon());
-			button.setHorizontalAlignment(JButton.CENTER);
+                @Override
+                public void actionPerformed(ActionEvent e) {
 
-			button.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
+                    if (selectedButton != null && selectedButton.equals(e.getSource())) {
+                        selectedButton.setSelected(false);
+                        conceptMapPanel.getDiagramView().setMode(new DragMode(conceptMapPanel.getDiagramView()));
+                        selectedButton = null;
+                        return;
+                    }
 
-					if (selectedButton != null) selectedButton.setSelected(false);
-					selectedButton = button;
-					if (clickListener != null) conceptMapPanel.getDiagramView().removeMouseListener(clickListener);
+                    if (selectedButton != null)
+                        selectedButton.setSelected(false);
 
-					clickListener = new MouseAdapter() {
-						@Override
-						public void mouseClicked(MouseEvent e) {
-							INodeModel node = nodeFactory.create();
-							int w = node.getWidth();
-							int h = node.getHeight();
-							node.setSize(new Dimension(w, h));
-							Point loc = new Point(e.getPoint());
-							loc.translate(w / -2, h / -2);
-							node.setLocation(loc);
+                    selectedButton = button;
 
-							conceptMapPanel.getDiagramView().getController().add(node);
-							conceptMapPanel.getDiagramView().removeMouseListener(this);
-							conceptMapPanel.getDiagramView().setCursor(null);
-							button.setSelected(false);
-						}
-					};
-					conceptMapPanel.getDiagramView().addMouseListener(clickListener);
-					conceptMapPanel.getDiagramView().setCursor(createNodeShapedCursor(nodeFactory));
-				}
-			});
-			add(button);
-		}
-	}
+                    ILinkModel link = new SimpleLink();
+                    link.setTo(new Point(0, 0));
+                    ILinkModel model = linkFactory.create();
+                    link.setLabel(model.getLabel());
+                    link.setShape(model.getShape());
 
-	private AlphaComposite makeComposite(float alpha) {
-		int type = AlphaComposite.SRC_OVER;
-		return (AlphaComposite.getInstance(type, alpha));
-	}
+                    final ConnectMode connectMode = new ConnectMode(conceptMapPanel.getDiagramView(), new LinkView(new LinkConnectorController(link), link), linkFactory);
 
-	Cursor createNodeShapedCursor(INodeFactory nodeFactory) {
+                    conceptMapPanel.getDiagramView().setMode(connectMode);
 
-		Toolkit tk = Toolkit.getDefaultToolkit();
+                    connectMode.addActionListener(new ActionListener() {
 
-		Icon icon = nodeFactory.getIcon();
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            if (e.getID() == ConnectMode.CONNECTION_MADE) {
+                                selectedButton.setSelected(false);
+                                selectedButton = null;
+                                conceptMapPanel.getDiagramView().setMode(new DragMode(conceptMapPanel.getDiagramView()));
+                                connectMode.getTargetComponent().setCursor(new Cursor(Cursor.MOVE_CURSOR));
+                            }
+                        }
+                    });
+                }
+            });
+            add(button);
+        }
+    }
 
-		Dimension size = tk.getBestCursorSize(icon.getIconWidth(), icon.getIconWidth());
+    private void createNodeButtons() {
 
-		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		GraphicsDevice gs = ge.getDefaultScreenDevice();
-		GraphicsConfiguration gc = gs.getDefaultConfiguration();
+        for (final INodeFactory nodeFactory : nodeFactories) {
 
-		// Create an image that supports arbitrary levels of transparency
-		BufferedImage i = gc.createCompatibleImage(size.width, size.height, Transparency.BITMASK);
+            final JToggleButton button = new JToggleButton(nodeFactory.getIcon());
+            button.setHorizontalAlignment(JButton.CENTER);
 
-		Graphics2D g2d = (Graphics2D) i.getGraphics();
-		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            button.addActionListener(new ActionListener() {
 
-		Rectangle rect = new Rectangle(0, 0, size.width, size.height);
-		icon.paintIcon(null, g2d, 0, 0);
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    conceptMapPanel.getDiagramView().setNodeMode();
 
-		return tk.createCustomCursor(i, new Point(rect.width / 2, rect.height / 2), "Place shape here");
-	}
+                    if (selectedButton != null)
+                        selectedButton.setSelected(false);
+                    selectedButton = button;
+                    if (clickListener != null)
+                        conceptMapPanel.getDiagramView().removeMouseListener(clickListener);
 
-	Cursor createLinkShapedCursor(ILinkFactory linkFactory) {
+                    clickListener = new MouseAdapter() {
 
-		Toolkit tk = Toolkit.getDefaultToolkit();
+                        @Override
+                        public void mouseClicked(MouseEvent e) {
+                            INodeModel node = nodeFactory.create();
+                            int w = node.getWidth();
+                            int h = node.getHeight();
+                            node.setSize(new Dimension(w, h));
+                            Point loc = new Point(e.getPoint());
+                            loc.translate(w / -2, h / -2);
+                            node.setLocation(loc);
 
-		ILinkModel linkModel = linkFactory.create();
+                            conceptMapPanel.getDiagramView().getController().add(node);
+                            conceptMapPanel.getDiagramView().removeMouseListener(this);
+                            conceptMapPanel.getDiagramView().setCursor(null);
+                            button.setSelected(false);
+                        }
+                    };
+                    conceptMapPanel.getDiagramView().addMouseListener(clickListener);
+                    conceptMapPanel.getDiagramView().setCursor(createNodeShapedCursor(nodeFactory));
+                }
+            });
+            add(button);
+        }
+    }
 
-		Dimension size = tk.getBestCursorSize(25, 25);
+    private AlphaComposite makeComposite(float alpha) {
+        int type = AlphaComposite.SRC_OVER;
+        return (AlphaComposite.getInstance(type, alpha));
+    }
 
-		ILinkStyle style = linkModel.getStyle();
-		ILinkShape shape = linkModel.getShape();
+    Cursor createNodeShapedCursor(INodeFactory nodeFactory) {
 
-		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		GraphicsDevice gs = ge.getDefaultScreenDevice();
-		GraphicsConfiguration gc = gs.getDefaultConfiguration();
+        Toolkit tk = Toolkit.getDefaultToolkit();
 
-		// Create an image that supports arbitrary levels of transparency
-		BufferedImage i = gc.createCompatibleImage(size.width, size.height, Transparency.BITMASK);
+        Icon icon = nodeFactory.getIcon();
 
-		Graphics2D g2d = (Graphics2D) i.getGraphics();
-		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        Dimension size = tk.getBestCursorSize(icon.getIconWidth(), icon.getIconWidth());
 
-		g2d.setColor(style.getForeground());
-		//g2d.translate(x, y);
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice gs = ge.getDefaultScreenDevice();
+        GraphicsConfiguration gc = gs.getDefaultConfiguration();
 
-		shape.paint(g2d, new Point(0, (25 / 2) - 5), new Point(25, (25 / 2) + 5));
+        // Create an image that supports arbitrary levels of transparency
+        BufferedImage i = gc.createCompatibleImage(size.width, size.height, Transparency.BITMASK);
 
-		return tk.createCustomCursor(i, new Point(size.width / 2, size.height / 2), "Place shape here");
-	}
+        Graphics2D g2d = (Graphics2D) i.getGraphics();
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        Rectangle rect = new Rectangle(0, 0, size.width, size.height);
+        icon.paintIcon(null, g2d, 0, 0);
+
+        return tk.createCustomCursor(i, new Point(rect.width / 2, rect.height / 2), "Place shape here");
+    }
+
+    Cursor createLinkShapedCursor(ILinkFactory linkFactory) {
+
+        Toolkit tk = Toolkit.getDefaultToolkit();
+
+        ILinkModel linkModel = linkFactory.create();
+
+        Dimension size = tk.getBestCursorSize(25, 25);
+
+        ILinkStyle style = linkModel.getStyle();
+        ILinkShape shape = linkModel.getShape();
+
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice gs = ge.getDefaultScreenDevice();
+        GraphicsConfiguration gc = gs.getDefaultConfiguration();
+
+        // Create an image that supports arbitrary levels of transparency
+        BufferedImage i = gc.createCompatibleImage(size.width, size.height, Transparency.BITMASK);
+
+        Graphics2D g2d = (Graphics2D) i.getGraphics();
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        g2d.setColor(style.getForeground());
+        // g2d.translate(x, y);
+
+        shape.paint(g2d, new Point(0, (25 / 2) - 5), new Point(25, (25 / 2) + 5));
+
+        return tk.createCustomCursor(i, new Point(size.width / 2, size.height / 2), "Place shape here");
+    }
 }
