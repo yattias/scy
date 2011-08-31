@@ -151,12 +151,13 @@ public class ControlPanel extends JXPanel {
 	    int width = 8;
 	    col.setPreferredWidth(width);
 	    
-	    if( type.equals(UIUtils._2D) ) {
-//	    TableColumn column = table.getColumnModel().getColumn(1);
+	    TableColumn column;
+	  
+//	   if( type.equals(UIUtils._2D) ) {
+//	    column = table.getColumnModel().getColumn(1);
 //    	table.getColumnModel().removeColumn(column);
-//	    	 column = table.getColumnModel().getColumn(table.getColumnModel().getColumnCount()-1);
-//	    	table.getColumnModel().removeColumn(column);
-	    }
+	    	 column = table.getColumnModel().getColumn(table.getColumnModel().getColumnCount()-1);
+	    	table.getColumnModel().removeColumn(column);
 	    
 	    
 	    return temp;
