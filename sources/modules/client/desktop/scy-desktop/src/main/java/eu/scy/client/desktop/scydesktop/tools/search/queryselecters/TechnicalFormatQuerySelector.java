@@ -8,9 +8,12 @@ import eu.scy.client.desktop.desktoputils.StringUtils;
 import eu.scy.client.desktop.scydesktop.tools.search.QuerySelecterUsage;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import roolo.search.IQuery;
 import roolo.search.IQueryComponent;
 import roolo.search.MetadataQueryComponent;
 import roolo.search.SearchOperation;
@@ -76,5 +79,32 @@ public class TechnicalFormatQuerySelector extends AbstractSimpleQuerySelecter
             return new MetadataQueryComponent(technicalFormatKey, SearchOperation.NOT_EQUALS, getBasedOnElo().getTechnicalFormat());
       }
       return null;
+   }
+
+   @Override
+   public void setFilterOptions(IQuery query)
+   {
+      if (StringUtils.isEmpty(getSelectedOption()))
+      {
+         query.enableEloTypeRestriction(false);
+      }
+      else
+      {
+         query.enableEloTypeRestriction(false);
+         Set<String> allowedTypes = new HashSet<String>();
+         Set<String> notAllowedTypes = new HashSet<String>();
+         TechnicalFormatOptions technicalFormatOption = TechnicalFormatOptions.valueOf(getSelectedOption());
+         switch (technicalFormatOption)
+         {
+            case SAME:
+               allowedTypes.add(getBasedOnElo().getTechnicalFormat());
+               break;
+            case NOT_SAME:
+               notAllowedTypes.add(getBasedOnElo().getTechnicalFormat());
+               break;
+         }
+         query.setAllowedEloTypes(allowedTypes);
+//         query.setNotAllowedUsers(notAllowedUsers);
+      }
    }
 }

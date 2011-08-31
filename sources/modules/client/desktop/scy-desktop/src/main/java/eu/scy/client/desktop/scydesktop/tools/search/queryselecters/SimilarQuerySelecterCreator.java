@@ -36,7 +36,7 @@ public class SimilarQuerySelecterCreator implements QuerySelecterCreator
    {
       if (QuerySelecterUsage.ELO_BASED == querySelectorUsage)
       {
-         return new SimilarQuerySelector(tbi, id, querySelectorUsage);
+//         return new SimilarQuerySelector(tbi, id, querySelectorUsage);
       }
       return null;
    }

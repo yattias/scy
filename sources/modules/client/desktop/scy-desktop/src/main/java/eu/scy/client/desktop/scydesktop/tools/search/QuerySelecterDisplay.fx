@@ -16,6 +16,7 @@ import eu.scy.client.desktop.scydesktop.tooltips.TooltipCreator;
 import roolo.search.IQueryComponent;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.client.desktop.desktoputils.art.EloIcon;
+import roolo.search.IQuery;
 
 /**
  * @author SikkenJ
@@ -35,8 +36,8 @@ public class QuerySelecterDisplay extends CustomNode, TooltipCreator {
    def iconSize = 20.0;
    def spacing = 5.0;
    def selectedItem = bind querySelecterChoiceBox.selectedItem as String on replace { newItemSelected() }
-   def textNoneOption = "All";
-   def eloBasedNoneOption = "Ignore";
+   def textNoneOption = "Any";
+   def eloBasedNoneOption = "Any";
    def noneOption = getNoneOption();
    def textTooltipHeader = "filter on";
    def eloBasedTooltipHeader = "compare on";
@@ -45,9 +46,9 @@ public class QuerySelecterDisplay extends CustomNode, TooltipCreator {
 
    function getNoneOption():String{
       if (QuerySelecterUsage.TEXT==querySelecterUsage){
-         textNoneOption
+         "{textNoneOption} {querySelecter.getEloIconTooltip()}"
       } else if (QuerySelecterUsage.ELO_BASED==querySelecterUsage){
-         eloBasedNoneOption
+         "{eloBasedNoneOption} {querySelecter.getEloIconTooltip()}"
       } else {
          ""
       }
@@ -118,6 +119,10 @@ public class QuerySelecterDisplay extends CustomNode, TooltipCreator {
       } else {
          return querySelecter.getQueryComponent()
       }
+   }
+
+   public function setFilterOptions(query: IQuery){
+      querySelecter.setFilterOptions(query);
    }
 
 }

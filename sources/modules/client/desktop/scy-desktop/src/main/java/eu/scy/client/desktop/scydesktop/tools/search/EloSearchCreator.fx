@@ -34,8 +34,8 @@ public class EloSearchCreator extends ScyToolCreatorFX {
       querySelecterFactory.registerQuerySelecterCreator(new LastModifiedQuerySelecterCreator(toolBrokerAPI));
       querySelecterFactory.registerQuerySelecterCreator(new AuthorQuerySelecterCreator(toolBrokerAPI));
       querySelecterFactory.registerQuerySelecterCreator(new MissionQuerySelecterCreator(toolBrokerAPI));
-      querySelecterFactory.registerQuerySelecterCreator(new SimilarQuerySelecterCreator(toolBrokerAPI));
-      querySelecterFactory.registerQuerySelecterCreator(new TemplateQuerySelecterCreator(toolBrokerAPI));
+//      querySelecterFactory.registerQuerySelecterCreator(new SimilarQuerySelecterCreator(toolBrokerAPI));
+//      querySelecterFactory.registerQuerySelecterCreator(new TemplateQuerySelecterCreator(toolBrokerAPI));
    }
 
    override public function createScyToolNode(eloType: String, creatorId: String, scyWindow: ScyWindow, windowContent: Boolean): Node {

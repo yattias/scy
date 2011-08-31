@@ -16,7 +16,7 @@ import roolo.search.MetadataQueryComponent;
  *
  * @author SikkenJ
  */
-public class SimilarQuerySelector extends AbstractSimpleQuerySelecter
+public abstract class SimilarQuerySelector extends AbstractSimpleQuerySelecter
 {
 
    private enum SimilarOptions
