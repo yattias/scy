@@ -384,6 +384,17 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
         }
     }
 
+    public override function stopCollaboration() : Void {
+        if (collaborative) {
+            collaborative = false;
+            FX.deferAction(function(): Void {
+                scyCopexPanel.leaveSession(null);
+            });
+        }
+
+    }
+
+
     /**
     * Set the read only mode.
     */
