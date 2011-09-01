@@ -14,7 +14,7 @@
             Entered: ${transferElo.createdDate} <br/>
             Catname: ${transferElo.catname}<br/>
             Viewed: ${feedbackElo.shown}<br/>
-            Quality Score Average: ${elo.grade}
+            Quality Score Average: ${elo.grade}<br/>
             Comment: ${elo.comment}
 
     </div>
@@ -51,15 +51,15 @@
     </tr>
 </table-->
 
-<div style="width:100%;" class="lightGreenBackgrounds">
+<div style="width:100%;" >
   <div dojoType="dojox.layout.ContentPane" id="feedbackReturnContainer"></div>
 <!--table-->
     <c:choose>
         <c:when test="${fn:length(feedbackElo.feedbacks) > 0}">
                 <c:forEach var="feedbackItem" items="${feedbackElo.feedbacks}">
-                    <div style="clear:both;" >
-                        <fieldset style="clear:both;border:1px solid #000000;margin:5px;" >
-                            <legend style="font-weight:bold;border:1px solid #000000;padding:2px;">${feedbackItem.calendarDate}</legend>
+                    <div style="clear:both;border-top:1px dashed #666666;" >
+                        <fieldset style="clear:both;margin:5px;" >
+                            <legend style="font-weight:bold;padding:2px;">${feedbackItem.calendarDate}</legend>
                             <div style="float:left;width:10%;" class="greenBackgrounds greenBorders"  >
 
                                 <div style="height:70px;width:70px;background-color:#ffffff;padding:2px;margin:3px;text-align:center;vertical-align:middle;"  >
@@ -86,20 +86,24 @@
                                 <c:choose>
                                     <c:when test="${fn:length(feedbackItem.replies) > 0}">
                                         <div id="feedback_on_feedback_${feedbackItem.id}" ></div>
-                                        <table style="border:0 !important;">
+                                        <table style="border:0 !important;margin:5px;" >
                                             <c:forEach var="reply" items="${feedbackItem.replies}">
-                                                <tr>
-                                                    <td>
+                                                <tr class="extraLightGreenBackgrounds">
+                                                    <td style="width:30%;">
                                                         <strong>${reply.calendarDate}</strong><br/>
                                                         ${reply.calendarTime} ${reply.createdBy} wrote:
                                                     </td>
-                                                    <td>
+                                                    <td style="width:70%;">
                                                         ${reply.comment}
                                                     </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2" style="height:7px;background-color:#ffffff;"></td>
                                                 </tr>
 
                                             </c:forEach>
                                         </table>
+
                                     </c:when>
                                 </c:choose>
 

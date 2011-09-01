@@ -30,7 +30,7 @@
         <option>Authoring</option>
         <option>Tool</option>
     </select>
-
+    <br/><h2>Click on an ELO to give feedback</h2>
 </div>
 <c:choose>
     <c:when test="${fn:length(elos) > 0}">
@@ -42,7 +42,7 @@
                         </a>
                     </div>
                     <div class="eloInfoContainer">
-                    <p><strong><a href="javascript:loadAccordionContent('newestElosContainer', '../webversion/ViewFeedbackForElo.html?eloURI=${elo.uri}&amp;listUri=${listUri}');" style="color:#ffffff;">${elo.myname}</a></strong></p>
+                    <p><strong><a href="javascript:loadAccordionContent('commentedElosContainer', '../webversion/ViewFeedbackForElo.html?eloURI=${elo.uri}&amp;listUri=${listUri}');" style="color:#ffffff;">${elo.myname}</a></strong></p>
                     <p>Category: ${elo.catname}</p>
                     <p>By: ${elo.createdBy}</p>
                     <p>Date: ${elo.createdDate}</p>
