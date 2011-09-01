@@ -1,8 +1,8 @@
 <%@ include file="common-taglibs.jsp" %>
 
-<div style="clear:both;" dojoType="dojox.layout.ContentPane" parseOnLoad="true" executeScripts="true">
-    <fieldset style="clear:both;border:1px solid #000000;margin:5px;">
-        <legend style="font-weight:bold;border:1px solid #000000;padding:2px;">${feedbackItem.calendarDate}</legend>
+<div style="clear:both;border-top:1px dashed #666666;" dojoType="dojox.layout.ContentPane" parseOnLoad="true" executeScripts="true">
+    <fieldset style="clear:both;margin:5px;">
+        <legend style="font-weight:bold;padding:2px;">${feedbackItem.calendarDate}</legend>
         <div style="float:left;width:10%;" class="greenBackgrounds greenBorders" dojoType="dojox.layout.ContentPane"
              parseOnLoad="true" executeScripts="true">
 
