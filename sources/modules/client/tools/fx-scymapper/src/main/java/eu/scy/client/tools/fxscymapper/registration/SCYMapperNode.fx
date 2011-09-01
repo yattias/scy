@@ -199,6 +199,16 @@ public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX
         }
     }
 
+    public override function stopCollaboration() : Void {
+        if (collaborative) {
+            collaborative = false;
+            FX.deferAction(function(): Void {
+                scyMapperPanel.leaveSession();
+            });
+        }
+    }
+
+
     override public function processNotification (notification: INotification) : Boolean {
         return scyMapperPanel.processNotification(notification);
     }
