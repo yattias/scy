@@ -43,6 +43,7 @@ public class SessionAgent extends AbstractRequestAgent {
 
     private static final int SESSION_TUPLE_EXPIRATION = AgentProtocol.HOUR * 4;
     private static final String MISSION_NAME = "missionName";
+    private static final String MISSION_ID = "missionId";
     private static final String MISSION_SPECIFICATION = "missionSpecification";
 
     public static final String NAME = SessionAgent.class.getName();
@@ -196,7 +197,7 @@ public class SessionAgent extends AbstractRequestAgent {
         try {
             Tuple[] tuples = getSessionSpace().readAll(
                     new Tuple(Session.MISSION, String.class, mission,
-                            String.class));
+                            String.class, String.class, String.class));
             Tuple response = new Tuple(USER_INFO_REQUEST,
                     AgentProtocol.RESPONSE, queryId);
             for (Tuple t : tuples) {
@@ -279,15 +280,23 @@ public class SessionAgent extends AbstractRequestAgent {
             } else {
                 LOGGER.warn("language is null");
             }
-            String missionSpecification = action.getContext(ContextConstants.mission);
+            String missionSpecification = action.getAttribute(MISSION_SPECIFICATION);
             if (missionSpecification == null) {
+                LOGGER.warn("missionspecification is null");
+            }
+            String missionRuntime = action.getContext(ContextConstants.mission);
+            if (missionRuntime == null) {
                 LOGGER.warn("missionspecification is null");
             }
             String missionName = action.getAttribute(MISSION_NAME);
             if (missionName == null) {
                 LOGGER.warn("missionName is null");
             }
-            Tuple missionTuple = new Tuple(Session.MISSION, user, missionSpecification, missionName);
+            String missionId = action.getAttribute(MISSION_ID);
+            if (missionId == null) {
+                LOGGER.warn("missionName is null");
+            }
+            Tuple missionTuple = new Tuple(Session.MISSION, user, missionSpecification, missionName, missionRuntime, missionId);
             missionTuple.setExpiration(SESSION_TUPLE_EXPIRATION);
             getSessionSpace().write(missionTuple);
         } catch (TupleSpaceException e) {
@@ -300,7 +309,7 @@ public class SessionAgent extends AbstractRequestAgent {
 
             Tuple missionTuple = getSessionSpace().read(
                     new Tuple(Session.MISSION, action.getUser(), String.class,
-                            String.class));
+                            String.class, String.class, String.class));
             String missionName = missionTuple.getField(3).getValue().toString();
             getSessionSpace().deleteAll(
                     new Tuple(Session.LAS, action.getUser(), missionName,

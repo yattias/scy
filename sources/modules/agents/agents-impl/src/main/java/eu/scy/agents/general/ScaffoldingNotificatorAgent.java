@@ -78,7 +78,7 @@ public class ScaffoldingNotificatorAgent extends AbstractThreadedAgent {
     protected void parametersChanged(AgentParameter agentParameter) {
         if (AgentProtocol.GLOBAL_SCAFFOLDING_LEVEL.equals(agentParameter.getParameterName())) {
             String mission = agentParameter.getMission();
-            Set<String> usersInMission = getSession().getUsersInMission(mission);
+            Set<String> usersInMission = getSession().getUsersInMissionFromRuntime(mission);
 
             for (String user : usersInMission) {
                 sendScaffoldLevelNotification(agentParameter.getParameterValue(), mission, user);
