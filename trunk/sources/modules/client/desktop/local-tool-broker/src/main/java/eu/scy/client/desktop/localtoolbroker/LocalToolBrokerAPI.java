@@ -253,4 +253,8 @@ public class LocalToolBrokerAPI implements ToolBrokerAPI,ToolBrokerAPIRuntimeSet
    {
    }
 
+    @Override
+    public void setUserPresence(boolean available) {
+    }
+
 }
