@@ -4,6 +4,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URI;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 public class AddNewStudentController extends BaseController {
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
+        URI uri = getURI(request.getParameter(ELO_URI));
 
+        modelAndView.addObject(ELO_URI, getEncodedUri(uri.toString()));
     }
 }

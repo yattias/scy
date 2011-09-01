@@ -5,6 +5,6 @@
         add new student
 
 
-        <a href="javascript:openPage('studentsForPedagogicalPlan', 'viewStudentsForPedagogicalPlan.html?eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));">Add student</a>        <br/>
+        <a href="javascript:openPage('studentsForPedagogicalPlan', 'viewStudentsForPedagogicalPlan.html?eloURI=' + encodeURIComponent('${eloURI}'));">Add student</a>        <br/>
     </tiles:putAttribute>
 </tiles:insertDefinition>

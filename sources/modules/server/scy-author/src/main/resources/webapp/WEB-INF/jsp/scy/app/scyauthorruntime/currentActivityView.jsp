@@ -13,7 +13,10 @@
                     <spring:message code="LAS"/>
                 </th>
                 <th>
-                    <spring:message code="NUMBER_OF_ELOS_IN_PORTFOLIO"/>
+                    Number of elos produced
+                </th>
+                <th>
+                    Portfolio status
                 </th>
             </tr>
 
@@ -27,12 +30,18 @@
                     ${userActivityInfo.lasName}
                 </td>
                 <td>
-                    ${userActivityInfo.numberOfElosInPorfolio}
+                    ${userActivityInfo.numberOfElosProduced}
+                </td>
+                <td>
+                    ${userActivityInfo.numberOfElosInPorfolio}/${fn:length(obligatoryElos)}
                 </td>
 
             </tr>
         </c:forEach>
         </table>
+    </c:when>
+    <c:when test="${fn:length(userActivityList) == 0}">
+        No students currently active        
     </c:when>
 </c:choose>
 
