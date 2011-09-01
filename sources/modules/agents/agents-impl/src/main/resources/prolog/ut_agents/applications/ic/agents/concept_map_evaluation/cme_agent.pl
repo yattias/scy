@@ -111,7 +111,8 @@ command_callback(evaluate_elo, Tuple) :- !,
 	tspl_tuple_field(Tuple, 6, URI),
 	cme_tuple_space(command, TS, _),
 	ts_elo_fetch(TS, URI, XML),
-	evaluate_command(Id, TermSet, RefMod, Method, XML).
+	evaluate_command(Id, TermSet, RefMod, Method, XML, Value),
+	evaluate_elo_markup(URI, Value, Method, TermSet, RefMod, none).
 command_callback(evaluate_xml, Tuple) :- !,
 	tspl_tuple_field(Tuple, 2, Id),
 	tspl_tuple_field(Tuple, 3, TermSet),
@@ -119,7 +120,7 @@ command_callback(evaluate_xml, Tuple) :- !,
 	tspl_tuple_field(Tuple, 5, Method),
 	tspl_tuple_field(Tuple, 6, MapAtom),
 	atom_to_xml(MapAtom, XML, []),
-	evaluate_command(Id, TermSet, RefMod, Method, XML).
+	evaluate_command(Id, TermSet, RefMod, Method, XML, _Value).
 command_callback(_, _).		% Ignoring other commands
 
 association_command(term_set, Name, Value) :-
@@ -137,10 +138,32 @@ association_command(rule_set, Name, Value) :-
 
 
 /*------------------------------------------------------------
+ *  Mark-up ELO
+ *------------------------------------------------------------*/
+
+evaluate_elo_markup(URI, Value, Method, TermSet, RefMod, RuleSet) :-
+	tspl:uid(Id),
+	tspl_actual_field(string, Id, F0),
+	tspl_actual_field(string, 'roolo-agent', F1),
+	tspl_actual_field(string, 'cmmetadata', F2),
+	tspl_actual_field(string, URI, F3),
+	term_to_atom(Value, AtomValue),
+	tspl_actual_field(string, AtomValue, F4),
+	tspl_actual_field(string, Method, F5),
+	tspl_actual_field(string, TermSet, F6),
+	tspl_actual_field(string, RefMod, F7),
+	tspl_actual_field(string, RuleSet, F8),
+	tspl_tuple([F0,F1,F2,F3,F4,F5,F6,F7,F8], Tuple),
+	cme_tuple_space(command, TS, _),
+	tspl_write(TS, Tuple).
+
+
+
+/*------------------------------------------------------------
  *  Reply after an evaluate
  *------------------------------------------------------------*/
 
-evaluate_command(Id, TermSet, RefMod, Method, XML) :-
+evaluate_command(Id, TermSet, RefMod, Method, XML, Value) :-
 	cmap_parse(XML, Nodes, Edges, []),
   format('  PARSED~n', []),
 	cmap_create(Map, Nodes, Edges, [cmap_xml(XML)]),
