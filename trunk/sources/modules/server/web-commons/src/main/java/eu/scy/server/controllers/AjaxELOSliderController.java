@@ -45,6 +45,7 @@ public class AjaxELOSliderController extends AbstractAjaxELOController {
         action.setTimeInMillis(System.currentTimeMillis());
         action.setUser(getCurrentUserName(request));
         action.addContext(ContextConstants.tool, "portal");
+        uri = URLDecoder.decode(uri, "UTF-8");
         action.addContext(ContextConstants.eloURI, uri);
         action.addAttribute("property", property);
         action.addAttribute("value", value);
