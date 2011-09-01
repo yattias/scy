@@ -16,4 +16,9 @@ public interface CollaborationStartable {
      * @param mucid The mucId for the ISyncSession
      */
     public void startCollaboration(String mucid);
+
+    /**
+     * This method is called to stop the tool collaboration.
+     */
+    public void stopCollaboration();
 }
