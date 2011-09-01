@@ -163,7 +163,7 @@ public class OwnershipManager extends CollaboratorStatusListener {
     public override function wentOffline(name: String): Void {
         for (contact in owners) {
             def c = contact as Contact;
-            if (c.name.equalsIgnoreCase(name)) {
+            if (c.name.equalsIgnoreCase(name) and c.onlineState != OnlineState.IS_ME) {
                 c.onlineState = OnlineState.OFFLINE;
                 scyWindow.buddiesChanged();
                 return;
