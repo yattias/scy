@@ -6,7 +6,8 @@
 
             
 
-        <s:dialog url="selectStudentsForPedagogicalPlan.html" title="Click to assign another student" dialogHeader="Select students" extraParameters="eloURI=${eloURI}"/>
+        <s:dialog url="selectStudentsForPedagogicalPlan.html" title="Click to assign existing student" dialogHeader="Select students" extraParameters="eloURI=${eloURI}"/>
+        <s:dialog url="addNewStudent.html" title="Click to create new student" dialogHeader="Add student" extraParameters="eloURI=${eloURI}"/>
         <a href="/webapp/teacher/studentList.html">User admin</a>
 
         <c:choose>
