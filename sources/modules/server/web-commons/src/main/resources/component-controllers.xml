@@ -367,7 +367,6 @@
 
     <bean id="jnlpFilter" class="eu.scy.server.filters.JNLPFilter">
         <property name="jnlpBuilder" ref="jnlpBuilder"/>
-
     </bean>
 
     <bean id="sessionService" class="eu.scy.core.runtime.SessionServiceImpl">
