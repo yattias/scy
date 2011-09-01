@@ -49,6 +49,7 @@ import eu.scy.toolbrokerapi.ServerNotRespondingException;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.toolbrokerapi.ToolBrokerAPIRuntimeSetting;
 import java.net.URI;
+import org.jivesoftware.smack.packet.Presence;
 
 /**
  * This class implements the ToolBrokerAPI interface and provides all the
@@ -465,6 +466,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 				}
 			});
 		}
+                setUserPresence(false);
 		return connection;
 	}
 
@@ -586,5 +588,12 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
     public IContextService getContextService() {
         return contextService;
     }
-    
+
+    @Override
+    public void setUserPresence(boolean available) {
+        if (connection != null && connection.isConnected()) {
+            Presence presence = new Presence(available ? Presence.Type.available : Presence.Type.unavailable);
+            connection.sendPacket(presence);
+        }
+    }
 }

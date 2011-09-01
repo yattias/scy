@@ -121,4 +121,11 @@ public interface ToolBrokerAPI extends RooloServices {
 	 */
 	public void addConnectionListener(ConnectionListener connectionListener);
 
+        /**
+         * Sets the presence of the logged in user to available or unavailable.
+         *
+         * @param available if true the user will be available
+         */
+        public void setUserPresence(boolean available);
+
 }
