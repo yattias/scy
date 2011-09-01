@@ -35,40 +35,75 @@ public class BubbleStore
                return bubbleList;
             }
          }
-         List<JavaBubble> bubbleList = new ArrayList<JavaBubble>();
-         return bubbleList;
+         return null;
       }
 
       public void addBubble(JavaBubble bubble)
       {
          List<JavaBubble> bubbleList = getBubblelist(bubble.getPriority());
-         bubbleList.add(bubble);
+         if (bubbleList != null)
+         {
+            bubbleList.add(bubble);
+         }
+         else
+         {
+            bubbleList = new ArrayList<JavaBubble>();
+            bubbleList.add(bubble);
+            bubbleListSet.add(bubbleList);
+         }
       }
 
       public void removeBubble(JavaBubble bubble)
       {
          List<JavaBubble> bubbleList = getBubblelist(bubble.getPriority());
-         if (!bubbleList.remove(bubble))
+         boolean bubbleRemoved = false;
+         if (bubbleList != null)
+         {
+            bubbleRemoved = bubbleList.remove(bubble);
+            if (bubbleList.isEmpty())
+            {
+               bubbleListSet.remove(bubbleList);
+            }
+         }
+         if (!bubbleRemoved)
          {
             logger.warn("trying to delete not stored bubble: " + bubble);
          }
-         if (bubbleList.isEmpty())
+      }
+
+      public void removeBubbles(String id)
+      {
+         for (List<JavaBubble> bubbleList : bubbleListSet)
          {
-            bubbleListSet.remove(bubbleList);
+            List<JavaBubble> bubblesToDelete = new ArrayList<JavaBubble>();
+            for (JavaBubble bubble : bubbleList)
+            {
+               if (bubble.getId().equals(id))
+               {
+                  bubblesToDelete.add(bubble);
+               }
+            }
+            for (JavaBubble bubble : bubblesToDelete)
+            {
+               bubbleList.remove(bubble);
+            }
          }
       }
 
       public JavaBubble getNextBubble()
       {
-         List<JavaBubble> bubbleList = bubbleListSet.first();
-         if (bubbleList != null && !bubbleList.isEmpty())
+         if (!bubbleListSet.isEmpty())
          {
-            return bubbleList.get(0);
+            List<JavaBubble> bubbleList = bubbleListSet.first();
+            if (bubbleList != null && !bubbleList.isEmpty())
+            {
+               return bubbleList.get(0);
+            }
          }
          return null;
       }
    }
-   
+
    private Map<Object, BubbleLayer> bubbleLayerMap = new HashMap<Object, BubbleLayer>();
 
    private BubbleLayer getBubbleLayer(Object layerId)
@@ -96,6 +131,9 @@ public class BubbleStore
 
    public void removeBubbles(String id)
    {
+      for (BubbleLayer bubbleLayer: bubbleLayerMap.values()){
+         bubbleLayer.removeBubbles(id);
+      }
    }
 
    public JavaBubble getNextBubble(Object layerId)

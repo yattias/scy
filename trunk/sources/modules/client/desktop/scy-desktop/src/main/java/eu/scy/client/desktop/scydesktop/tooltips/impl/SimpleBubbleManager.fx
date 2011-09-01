@@ -19,11 +19,13 @@ public class SimpleBubbleManager extends BubbleManager {
    def timeStep = 1s;
    def bubbleDelayMillis = 10000;
    def bubbleStore = new BubbleStore();
-
    var lastShownBubbleTime: Long = System.currentTimeMillis();
    var activeLayerId: Object;
 
    init {
+   }
+
+   public override function start(): Void {
       Timeline {
          repeatCount: Timeline.INDEFINITE
          keyFrames: [
@@ -32,20 +34,24 @@ public class SimpleBubbleManager extends BubbleManager {
                action: bubbleStep
             }
          ];
-      }.play()
+      }.play();
+      lastShownBubbleTime = System.currentTimeMillis();
    }
 
    function bubbleStep(): Void {
-      if (System.currentTimeMillis()>lastShownBubbleTime+bubbleDelayMillis){
+      if (System.currentTimeMillis() > lastShownBubbleTime + bubbleDelayMillis) {
          def bubbleToDisplay = bubbleStore.getNextBubble(activeLayerId) as AbstractBubble;
-         if (bubbleToDisplay!=null){
+         if (bubbleToDisplay != null) {
             println("display bubble: {bubbleToDisplay}");
             bubbleStore.removeBubbles(bubbleToDisplay.id);
+            lastShownBubbleTime = System.currentTimeMillis();
+         } else {
+            println("no bubble found to display");
          }
       }
    }
 
-   public function bubbleRemoved(bubble: AbstractBubble):Void{
+   public function bubbleRemoved(bubble: AbstractBubble): Void {
       lastShownBubbleTime = System.currentTimeMillis();
       bubbleStore.removeBubble(bubble);
    }
@@ -60,12 +66,12 @@ public class SimpleBubbleManager extends BubbleManager {
 
    public override function createBubble(targetNode: Node, priority: Integer, id: String, layerId: Object, displayKey: String): Bubble {
       def bubble = TextBubble {
-         priority: priority
-         id: id
-         layerId: layerId
-         targetNode: targetNode
-         bubbleText: displayKey
-      }
+                 priority: priority
+                 id: id
+                 layerId: layerId
+                 targetNode: targetNode
+                 bubbleText: displayKey
+              }
       bubbleStore.addBubble(bubble);
       return bubble;
    }

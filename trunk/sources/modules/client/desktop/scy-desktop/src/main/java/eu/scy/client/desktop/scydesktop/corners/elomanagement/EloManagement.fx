@@ -160,6 +160,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
               }
       scyDesktop.dragAndDropManager.addDropTaget(archiver);
       scyDesktop.dragAndDropManager.addDropTaget(searcher);
+      createBubbles();
       VBox {
          spacing: 5;
          content: [
@@ -174,6 +175,13 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
             fpdDisplay
          ]
       }
+   }
+
+   function createBubbles(){
+      scyDesktop.bubbleManager.createBubble(archiver, 5, "archiver", "desktop", "archiver");
+      scyDesktop.bubbleManager.createBubble(archiver, 5, "newFromEloTemplateButton", "desktop", "newFromEloTemplateButton");
+      scyDesktop.bubbleManager.createBubble(archiver, 5, "search", "desktop", "search");
+      scyDesktop.bubbleManager.showingLayer("desktop");
    }
 
    var eloTemplateUris: URI[];

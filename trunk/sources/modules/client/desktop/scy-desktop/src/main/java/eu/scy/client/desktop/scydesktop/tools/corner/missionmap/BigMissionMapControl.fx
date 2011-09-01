@@ -170,6 +170,7 @@ public class BigMissionMapControl extends CustomNode {
 
    function deferLoadTimer(): Void {
       if (deferLoadTimerCount <= 0) {
+         scyDesktop.bubbleManager.start();
          initializer.loadTimer.endActivity();
       } else {
          initializer.loadTimer.startActivity("deferLoadTimer {deferLoadTimerCount}");
