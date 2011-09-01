@@ -263,7 +263,7 @@ public class SessionAgent extends AbstractRequestAgent {
                 new Tuple(String.class, action.getUser(), String.class));
         getSessionSpace().deleteAll(
                 new Tuple(String.class, action.getUser(), String.class,
-                        String.class));
+                        Field.createWildCardField()));
     }
 
     private void handleLogin(IAction action) {

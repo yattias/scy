@@ -91,13 +91,12 @@ public class FeedbackAgent extends AbstractThreadedAgent {
     @Override
     public void call(Command command, int seq, Tuple afterTuple,
                      Tuple beforeTuple) {
-        IAction action = ActionTupleTransformer
-                .getActionFromTuple(afterTuple);
-
         if (seq == feedbackAskedSeq) {
+            IAction action = ActionTupleTransformer.getActionFromTuple(afterTuple);
             handleFeedbackAsked(action);
         }
         if (seq == feedbackGivenSeq) {
+            IAction action = ActionTupleTransformer.getActionFromTuple(afterTuple);
             handleFeedbackGiven(action);
         } else {
             LOGGER.debug("Callback passed to Superclass.");
@@ -108,6 +107,8 @@ public class FeedbackAgent extends AbstractThreadedAgent {
 
     private void handleFeedbackAsked(IAction action) {
         try {
+            // TODO do this for all users
+//            getSession().getUsersInMission(action.getContext())
             getCommandSpace().write(createNotification(action, FEEDBACK_ASKED));
         } catch (TupleSpaceException e) {
             LOGGER.warn("could not write elo added to portfolio tuple");

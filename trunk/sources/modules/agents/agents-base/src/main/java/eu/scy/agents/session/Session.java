@@ -80,7 +80,26 @@ public class Session {
             if (missionRTTuple == null) {
                 LOGGER.warn("no mission found for runtime uri " + missionRuntime);
             }
-            Tuple[] allUsersInLas = sessionSpace.readAll(new Tuple(Session.MISSION, String.class, missionRTTuple.getField(2).getValue(), String.class, String.class, String.class));
+            String missionSpec = (String) missionRTTuple.getField(2).getValue();
+            Tuple[] allUsersInLas = sessionSpace.readAll(new Tuple(Session.MISSION, String.class, missionSpec, String.class, String.class, String.class));
+            for (Tuple t : allUsersInLas) {
+                availableUsers.add((String) t.getField(1).getValue());
+            }
+        } catch (TupleSpaceException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        return availableUsers;
+    }
+
+    public Set<String> getUsersInMissionFromName(String missionName) {
+        Set<String> availableUsers = new HashSet<String>();
+        try {
+            Tuple missionNameTuple = sessionSpace.read(new Tuple(Session.MISSION, String.class, String.class, missionName, String.class, String.class));
+            if (missionNameTuple == null) {
+                LOGGER.warn("no mission found for mission with name " + missionName);
+            }
+            String missionSpec = (String) missionNameTuple.getField(2).getValue();
+            Tuple[] allUsersInLas = sessionSpace.readAll(new Tuple(Session.MISSION, String.class, missionSpec, String.class, String.class, String.class));
             for (Tuple t : allUsersInLas) {
                 availableUsers.add((String) t.getField(1).getValue());
             }
