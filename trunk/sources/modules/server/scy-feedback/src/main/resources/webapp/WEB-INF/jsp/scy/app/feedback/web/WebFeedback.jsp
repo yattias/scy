@@ -11,9 +11,7 @@
                dijit.byId(container).attr('href', escape(url)); 
             }
 
-            function postFeedback(form, returnContainer){
-                postForm(form, returnContainer);
-            }
+            
 
             function openDialog(title){
                 var dialog = new dijit.Dialog({
@@ -85,9 +83,9 @@
             <div class="feedbackHeader" >ELO Gallery</div>
             <p>Click on an ELO to give feedback</p>
         <div dojoType="dijit.layout.TabContainer" style="width:100%;height:90%;">
-            <div dojoType="dojox.layout.ContentPane" refreshOnShow="true" title="Newest ELOs" href="/webapp/app/feedback/webversion/NewestElosList.html?eloURI=${eloURI}" executeScripts="true" id="newestElosContainer"></div>
-            <div dojoType="dojox.layout.ContentPane" refreshOnShow="true"  title="My ELOs" href="/webapp/app/feedback/webversion/MyElosList.html?eloURI=${eloURI}" executeScripts="true"></div>
-            <div dojoType="dojox.layout.ContentPane" refreshOnShow="true"  title="ELOs I have commented on" href="/webapp/app/feedback/webversion/ContributedElosList.html?eloURI=${eloURI}" executeScripts="true"></div>
+            <div dojoType="dojox.layout.ContentPane" refreshOnShow="true" title="Newest ELOs" href="/webapp/app/feedback/webversion/NewestElosList.html?eloURI=${eloURI}" executeScripts="true" parseOnLoad="true" id="newestElosContainer"></div>
+            <div dojoType="dojox.layout.ContentPane" refreshOnShow="true"  title="My ELOs" href="/webapp/app/feedback/webversion/MyElosList.html?eloURI=${eloURI}" executeScripts="true"parseOnLoad="true" id="myElosContainer"></div>
+            <div dojoType="dojox.layout.ContentPane" refreshOnShow="true"  title="ELOs I have commented on" href="/webapp/app/feedback/webversion/ContributedElosList.html?eloURI=${eloURI}" executeScripts="true"parseOnLoad="true" id="commentedElosContainer"></div>
 
         </div>
         </div>
