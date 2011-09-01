@@ -167,15 +167,14 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements IReposi
             } else if (type.equals(CONCEPT_MAP_METADATA)) {
                 String elouri = new String(tuple.getField(3).getValue().toString());
                 String key = new String(tuple.getField(4).getValue().toString());
-                String value = new String(tuple.getField(5).getValue().toString());
+                String evaluation = new String(tuple.getField(5).getValue().toString());
                 String method = new String(tuple.getField(6).getValue().toString());
                 String termSet = new String(tuple.getField(7).getValue().toString());
                 String referenceModel = new String(tuple.getField(8).getValue().toString());
                 String ruleSet = new String(tuple.getField(9).getValue().toString());
-                String evaluation = new String(tuple.getField(10).getValue().toString());
                 if (rooloServices != null) {
-                    logger.debug("Request to add metadata to elo: " + elouri + " RequestID was: " + requestUID + "Key: " + key + " Value: " + value);
-                    IMetadata metadata = addCMMetadata(new URI(elouri), key, value, method, termSet, referenceModel, ruleSet, evaluation);
+                    logger.debug("Request to add metadata to elo: " + elouri + " RequestID was: " + requestUID + "Key: " + key + " Value: " + evaluation);
+                    IMetadata metadata = addCMMetadata(new URI(elouri), key, method, termSet, referenceModel, ruleSet, evaluation);
                     sendResponse(metadata, requestUID);
                 } else {
                     logger.debug("Request to addcmmetadata to ELO " + elouri + ", but Repository is null: " + key + " RequestID was: " + requestUID);
@@ -191,11 +190,12 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements IReposi
         }
     }
 
-    private IMetadata addCMMetadata(URI uri, String key, String value, String method, String termSet, String referenceModel, String ruleSet, String evaluation) {
+    private IMetadata addCMMetadata(URI uri, String key, String value, String method, String termSet, String referenceModel, String ruleSet) {
         IMetadata newMetadata = jDomBasicELOFactory.createMetadata();
         IMetadataKey metadataKey = metadataTypeManager.getMetadataKey(key);
         IMetadataValueContainer valueContainer = newMetadata.getMetadataValueContainer(metadataKey);
-        ConceptMapEvaluation cme = new ConceptMapEvaluation(value, method, termSet, referenceModel, ruleSet, evaluation);
+        //TODO remove empty String
+        ConceptMapEvaluation cme = new ConceptMapEvaluation(" ", method, termSet, referenceModel, ruleSet, value);
         valueContainer.setValue(cme);
         newMetadata.addMetadataPair(metadataKey, valueContainer);
         rooloServices.addMetadata(uri, newMetadata);
