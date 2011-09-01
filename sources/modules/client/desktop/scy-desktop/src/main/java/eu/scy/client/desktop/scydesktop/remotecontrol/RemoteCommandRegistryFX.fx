@@ -20,6 +20,7 @@ import eu.scy.client.desktop.scydesktop.remotecontrol.impl.FeedbackGivenCommand;
 import eu.scy.client.desktop.scydesktop.remotecontrol.impl.AddBuddyCommand;
 import eu.scy.client.desktop.scydesktop.remotecontrol.impl.RemoveAllBuddiesCommand;
 import eu.scy.client.desktop.scydesktop.remotecontrol.impl.AgendaNotificationCommand;
+import eu.scy.client.desktop.scydesktop.remotecontrol.impl.ScaffoldLevelCommand;
 
 
 /** This JavaFX class wraps the Registry for RemoteCommands and makes JavaFX-RemoteCommands possible
@@ -32,7 +33,8 @@ public class RemoteCommandRegistryFX extends INotifiable {
     public def remoteCommandRegistry: RemoteCommandRegistry = RemoteCommandRegistry.getInstance();
 
     function createBasicRegistry() {
-        def collaborationRequestCommand = CollaborationRequestCommand { scyDesktop: scyDesktop };
+		def scaffoldLevelCommand = ScaffoldLevelCommand { scyDesktop: scyDesktop };
+        def collaborationRequestCommand = CollaborationRequestCommand { scyDesktop: scyDesktop  };
         def collaborationResponseCommand = CollaborationResponseCommand { scyDesktop: scyDesktop };
         def eloShowCommand = EloShowCommand { scyDesktop: scyDesktop };
         def messageDialogShowCommand = MessageDialogShowCommand { scyDesktop: scyDesktop };
@@ -43,7 +45,7 @@ public class RemoteCommandRegistryFX extends INotifiable {
         def addBuddyCommand = AddBuddyCommand { scyDesktop: scyDesktop };
         def removeAllBuddiesCommand = RemoveAllBuddiesCommand { scyDesktop: scyDesktop };
         def agendaNotificationCommand = AgendaNotificationCommand { scyDesktop: scyDesktop };
-        remoteCommandRegistry.registerRemoteCommands(collaborationRequestCommand, collaborationResponseCommand, eloShowCommand, messageDialogShowCommand, optionDialogShowCommand, eloAssessmentFinishedCommand,feedbackAskedCommand,feedbackGivenCommand,addBuddyCommand,removeAllBuddiesCommand, agendaNotificationCommand);
+        remoteCommandRegistry.registerRemoteCommands(scaffoldLevelCommand, collaborationRequestCommand, collaborationResponseCommand, eloShowCommand, messageDialogShowCommand, optionDialogShowCommand, eloAssessmentFinishedCommand,feedbackAskedCommand,feedbackGivenCommand,addBuddyCommand,removeAllBuddiesCommand, agendaNotificationCommand);
         }
 
    postinit{
