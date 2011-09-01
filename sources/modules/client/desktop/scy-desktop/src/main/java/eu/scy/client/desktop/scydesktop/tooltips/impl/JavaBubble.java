@@ -10,6 +10,7 @@ package eu.scy.client.desktop.scydesktop.tooltips.impl;
  */
 public interface JavaBubble
 {
+   public String getId();
 
    public Object getLayerId();
 

@@ -18,7 +18,7 @@ public class SimpleBubbleManager extends BubbleManager {
 
    def timeStep = 1s;
    def bubbleDelayMillis = 10000;
-   def bubbleStore = BubbleStore{};
+   def bubbleStore = new BubbleStore();
 
    var lastShownBubbleTime: Long = System.currentTimeMillis();
    var activeLayerId: Object;
@@ -37,9 +37,10 @@ public class SimpleBubbleManager extends BubbleManager {
 
    function bubbleStep(): Void {
       if (System.currentTimeMillis()>lastShownBubbleTime+bubbleDelayMillis){
-         def bubbleToDisplay = bubbleStore.getNextBubble(activeLayerId);
+         def bubbleToDisplay = bubbleStore.getNextBubble(activeLayerId) as AbstractBubble;
          if (bubbleToDisplay!=null){
-            println("display bubble: {bubbleToDisplay}")
+            println("display bubble: {bubbleToDisplay}");
+            bubbleStore.removeBubbles(bubbleToDisplay.id);
          }
       }
    }
@@ -50,7 +51,7 @@ public class SimpleBubbleManager extends BubbleManager {
    }
 
    public override function showingLayer(layerId: Object): Void {
-
+      activeLayerId = layerId;
    }
 
    public override function hidingLayer(layerId: Object): Void {
@@ -58,14 +59,15 @@ public class SimpleBubbleManager extends BubbleManager {
    }
 
    public override function createBubble(targetNode: Node, priority: Integer, id: String, layerId: Object, displayKey: String): Bubble {
-      TextBubble {
+      def bubble = TextBubble {
          priority: priority
          id: id
          layerId: layerId
          targetNode: targetNode
          bubbleText: displayKey
       }
-
+      bubbleStore.addBubble(bubble);
+      return bubble;
    }
 
 }

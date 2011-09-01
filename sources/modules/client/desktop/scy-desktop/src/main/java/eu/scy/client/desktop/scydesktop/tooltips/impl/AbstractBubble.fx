@@ -11,12 +11,24 @@ import javafx.scene.Node;
  * @author sikken
  */
 
-public class AbstractBubble extends Bubble {
+public class AbstractBubble extends Bubble, JavaBubble {
 
    public-init var id: String;
    public-init var layerId: Object;
    public-init var priority: Integer;
    public-init var targetNode: Node;
+
+   public override function getId(): String{
+      return id
+   }
+
+   public override function getLayerId(): Object{
+      return layerId
+   }
+
+   public override function getPriority(): java.lang.Integer{
+      return priority
+   }
 
    public override function startBubbleling(): Void{
 
