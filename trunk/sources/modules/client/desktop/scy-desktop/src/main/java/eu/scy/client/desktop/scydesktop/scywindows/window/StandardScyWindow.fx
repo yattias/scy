@@ -933,6 +933,9 @@ public class StandardScyWindow extends ScyWindow {
                     iconType: "Elo_finished"
                     tooltip: ##"I am finished"
                     action: function() {
+                        //add finished metadata to the elo
+                        scyElo.setFinished(true);
+                        tbi.getRepository().addMetadata(eloUri, scyElo.getMetadata());
                         var action = new Action();
                         var context = new Context();
                         context.setEloURI(eloUri.toString());
