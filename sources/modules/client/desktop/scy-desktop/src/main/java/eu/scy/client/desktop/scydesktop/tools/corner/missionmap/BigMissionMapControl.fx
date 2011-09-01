@@ -61,7 +61,7 @@ public class BigMissionMapControl extends CustomNode {
    def sceneWidth = bind scene.width on replace { sceneSizeChanged() };
    def sceneHeight = bind scene.height on replace { sceneSizeChanged() };
    def relativeWindowScreenBoder = 0.0;
-   var bigMissionMapVisible = false;
+   var bigMissionMapVisible = false on replace { scyDesktop.config.getToolBrokerAPI().setUserPresence(not bigMissionMapVisible) };
    var initPhase = true;
    var deferLoadTimerCount = 5;
    def instructionWindow: MoreInfoWindow = MoreInfoWindow {
