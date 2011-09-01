@@ -34,8 +34,8 @@ import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.DialogBox;
 import javafx.util.StringLocalizer;
 import javax.swing.JOptionPane;
 import java.lang.Exception;
-import eu.scy.client.desktop.scydesktop.login.MissionLanguageTitleComparator;
 import eu.scy.client.desktop.scydesktop.login.MissionListCellDisplay;
+import eu.scy.common.scyelo.MissionLanguageTitleComparator;
 
 /**
  * @author SikkenJ
