@@ -18,6 +18,7 @@ import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataValueContainer;
+import roolo.elo.metadata.keys.ConceptMapEvaluation;
 import roolo.search.ISearchResult;
 import roolo.search.MetadataQueryComponent;
 import roolo.search.Query;
@@ -42,6 +43,8 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements IReposi
     private static final String HIT_COUNT = "hit-count";
 
     private static final String ADD_METADATA = "addmetadata";
+
+    private static final String CONCEPT_MAP_METADATA = "cmmetadata";
 
     static final String AGENT_NAME = "roolo-agent";
 
@@ -161,16 +164,21 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements IReposi
                 } else {
                     logger.debug("Request to search for ELOs, but Repository is null: " + keywords + " RequestID was: " + requestUID);
                 }
-            } else if (type.equals(ADD_METADATA)) {
+            } else if (type.equals(CONCEPT_MAP_METADATA)) {
                 String elouri = new String(tuple.getField(3).getValue().toString());
                 String key = new String(tuple.getField(4).getValue().toString());
-                String value = new String(tuple.getField(4).getValue().toString());
+                String value = new String(tuple.getField(5).getValue().toString());
+                String method = new String(tuple.getField(6).getValue().toString());
+                String termSet = new String(tuple.getField(7).getValue().toString());
+                String referenceModel = new String(tuple.getField(8).getValue().toString());
+                String ruleSet = new String(tuple.getField(9).getValue().toString());
+                String evaluation = new String(tuple.getField(10).getValue().toString());
                 if (rooloServices != null) {
                     logger.debug("Request to add metadata to elo: " + elouri + " RequestID was: " + requestUID + "Key: " + key + " Value: " + value);
-                    IMetadata metadata = addStringMetadata(new URI(elouri), key, value);
+                    IMetadata metadata = addCMMetadata(new URI(elouri), key, value, method, termSet, referenceModel, ruleSet, evaluation);
                     sendResponse(metadata, requestUID);
                 } else {
-                    logger.debug("Request to addmetadata to ELO " + elouri + ", but Repository is null: " + key + " RequestID was: " + requestUID);
+                    logger.debug("Request to addcmmetadata to ELO " + elouri + ", but Repository is null: " + key + " RequestID was: " + requestUID);
                 }
             }
 
@@ -183,11 +191,12 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements IReposi
         }
     }
 
-    private IMetadata addStringMetadata(URI uri, String key, String value) {
+    private IMetadata addCMMetadata(URI uri, String key, String value, String method, String termSet, String referenceModel, String ruleSet, String evaluation) {
         IMetadata newMetadata = jDomBasicELOFactory.createMetadata();
         IMetadataKey metadataKey = metadataTypeManager.getMetadataKey(key);
         IMetadataValueContainer valueContainer = newMetadata.getMetadataValueContainer(metadataKey);
-        valueContainer.addValue(value);
+        ConceptMapEvaluation cme = new ConceptMapEvaluation(value, method, termSet, referenceModel, ruleSet, evaluation);
+        valueContainer.setValue(cme);
         newMetadata.addMetadataPair(metadataKey, valueContainer);
         rooloServices.addMetadata(uri, newMetadata);
         return rooloServices.retrieveMetadata(uri);
