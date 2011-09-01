@@ -280,7 +280,7 @@ public class SessionAgent extends AbstractRequestAgent {
                 LOGGER.warn("language is null");
             }
             String missionSpecification = action
-                    .getAttribute(MISSION_SPECIFICATION);
+                    .getContext(ContextConstants.eloURI);
             if (missionSpecification == null) {
                 LOGGER.warn("missionspecification is null");
             }
