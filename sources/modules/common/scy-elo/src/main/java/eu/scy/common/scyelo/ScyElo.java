@@ -79,6 +79,7 @@ public class ScyElo {
     private final IMetadataKey mucIdKey;
     private final IMetadataKey templateKey;
     private final IMetadataKey missionIdKey;
+    private final IMetadataKey finishedKey;
 
     private ScyElo(IELO elo, IMetadata metadata, RooloServices rooloServices) {
         assert metadata != null;
@@ -120,6 +121,7 @@ public class ScyElo {
         mucIdKey = findMetadataKey(ScyRooloMetadataKeyIds.MUC_ID);
         templateKey = findMetadataKey(CoreRooloMetadataKeyIds.TEMPLATE);
         missionIdKey = findMetadataKey(CoreRooloMetadataKeyIds.MISSION_ID);
+        finishedKey = findMetadataKey(CoreRooloMetadataKeyIds.FINISHED);
     }
 
     public ScyElo(IELO elo, RooloServices rooloServices) {
@@ -378,6 +380,14 @@ public class ScyElo {
 
    public void setMissionId(String missionId) {
       getMetadataValueContainer(missionIdKey).setValue(missionId);
+   }
+
+   public void setFinished(boolean finished){
+      getMetadataValueContainer(finishedKey).setValue(finished);
+   }
+
+   public boolean isFinished() {
+      return Boolean.parseBoolean((String) getMetadataValueContainer(finishedKey).getValue());
    }
 
     public void setLearningActivity(LearningActivity activity) {
