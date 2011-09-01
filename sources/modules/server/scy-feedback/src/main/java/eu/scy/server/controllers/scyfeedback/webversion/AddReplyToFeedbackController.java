@@ -70,12 +70,15 @@ public class AddReplyToFeedbackController extends BaseController {
                 feedbackElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(feedbackEloTransfer));
                 feedbackElo.updateElo();
                 feedbackAdded = true;
+                modelAndView.addObject("feedbackReply", frt);
 
             }
         }
 
         if(feedbackAdded ) logger.info("Feedback reply was given: " + reply);
         else logger.info("Did not add feedback reply.");
+
+
 
     }
 

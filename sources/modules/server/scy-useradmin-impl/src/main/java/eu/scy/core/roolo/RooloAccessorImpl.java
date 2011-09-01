@@ -73,14 +73,34 @@ public class RooloAccessorImpl implements RooloAccessor {
         return result;
     }
 
+
+
+
     @Override
-     public List <ELOWebSafeTransporter> getWebSafeTransporters(List <ScyElo> missionSpecificationElos) {
-        List transporters = new LinkedList();
-        for (int i = 0; i < missionSpecificationElos.size(); i++) {
-            transporters.add(new ELOWebSafeTransporter(missionSpecificationElos.get(i)));
+    public List<ELOWebSafeTransporter> getWebSafeTransporters(List elo) {
+        List <ELOWebSafeTransporter> returnList = new LinkedList<ELOWebSafeTransporter>();
+        if(elo.size() > 0 ) {
+            if(elo.get(0) instanceof ScyElo) {
+                List<ScyElo> elos = new LinkedList<ScyElo>();
+                for (int i = 0; i < elo.size(); i++) {
+                    ScyElo scyElo = elos.get(i);
+                    elos.add(scyElo);
+                    ELOWebSafeTransporter transporter = new ELOWebSafeTransporter(scyElo);
+                    returnList.add(transporter);
+                }
+            } else if(elo.get(0) instanceof ISearchResult) {
+                for (int i = 0; i < elo.size(); i++) {
+                    ISearchResult searchResult = (ISearchResult) elo.get(i);
+                    ScyElo eloo = ScyElo.loadLastVersionElo(searchResult.getUri(), this);
+                    ELOWebSafeTransporter transporter = new ELOWebSafeTransporter(eloo);
+                    returnList.add(transporter);
+                }
+            }
         }
-        return transporters;
+
+        return returnList;
     }
+
 
     @Override
     public ELOWebSafeTransporter getWebSafeTransporter(ScyElo missionSpecificationElo) {

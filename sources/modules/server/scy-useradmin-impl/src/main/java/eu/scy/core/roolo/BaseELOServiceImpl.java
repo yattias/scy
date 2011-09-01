@@ -98,4 +98,5 @@ public class BaseELOServiceImpl extends RooloAccessorImpl implements BaseELOServ
 
         return returnLIst;
     }
+
 }
