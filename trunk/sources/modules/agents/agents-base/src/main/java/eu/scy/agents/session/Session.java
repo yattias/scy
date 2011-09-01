@@ -8,6 +8,9 @@ import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import org.apache.log4j.Logger;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Session {
 
     private final static Logger LOGGER = Logger.getLogger(Session.class);
@@ -29,7 +32,7 @@ public class Session {
     public String getLanguage(String user) {
         try {
             Tuple missionTuple = sessionSpace.read(new Tuple(Session.LANGUAGE,
-                    Field.createSemiformalField(user+"*"), String.class));
+                    Field.createSemiformalField(user + "*"), String.class));
             if (missionTuple != null) {
                 String language = (String) missionTuple.getField(2).getValue();
                 return language;
@@ -43,7 +46,7 @@ public class Session {
     public Mission getMission(String user) {
         try {
             Tuple missionTuple = sessionSpace.read(new Tuple(Session.MISSION,
-                    Field.createSemiformalField(user+"*"), String.class, String.class));
+                    Field.createSemiformalField(user + "*"), String.class, String.class));
             if (missionTuple != null) {
                 String missionString = (String) missionTuple.getField(3)
                         .getValue();
@@ -58,7 +61,7 @@ public class Session {
     public String getMissionURI(String user) {
         try {
             Tuple missionTuple = sessionSpace.read(new Tuple(Session.MISSION,
-                    Field.createSemiformalField(user+"*"), String.class, String.class));
+                    Field.createSemiformalField(user + "*"), String.class, String.class));
             if (missionTuple != null) {
                 String missionString = (String) missionTuple.getField(2)
                         .getValue();
@@ -68,5 +71,19 @@ public class Session {
             LOGGER.warn(e.getMessage());
         }
         return IAction.NOT_AVAILABLE;
+    }
+
+    public Set<String> getUsersInMission(String mission) {
+        Set<String> availableUsers = new HashSet<String>();
+        try {
+            Tuple[] allUsersInLas = sessionSpace.readAll(new Tuple(Session.MISSION, String.class, String.class,
+                    mission));
+            for (Tuple t : allUsersInLas) {
+                availableUsers.add((String) t.getField(1).getValue());
+            }
+        } catch (TupleSpaceException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        return availableUsers;
     }
 }
