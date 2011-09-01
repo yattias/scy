@@ -518,7 +518,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
       searchQuery.setQueryContext(queryContext);
       //        searchQuery.setAllowedEloTypes(getAllowedEloTypes());
       logger.info("Adding Query Context: {queryContext}");
-      searchQuery.setAllowedEloTypes(scyDesktop.newEloCreationRegistry.getEloTypes());
+      searchQuery.setIncludedEloTypes(scyDesktop.newEloCreationRegistry.getEloTypes());
       backgroundQuerySearch = new BackgroundQuerySearch(tbi, scyDesktop.newEloCreationRegistry, searchQuery, this);
 
       backgroundQuerySearch.start();

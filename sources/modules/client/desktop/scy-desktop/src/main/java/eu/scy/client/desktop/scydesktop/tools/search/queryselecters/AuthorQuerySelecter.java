@@ -113,13 +113,8 @@ public class AuthorQuerySelecter extends AbstractSimpleQuerySelecter
    @Override
    public void setFilterOptions(IQuery query)
    {
-      if (StringUtils.isEmpty(getSelectedOption()))
+      if (!StringUtils.isEmpty(getSelectedOption()))
       {
-         query.enableUserRestriction(false);
-      }
-      else
-      {
-         query.enableUserRestriction(false);
          Set<String> allowedUsers = new HashSet<String>();
          Set<String> notAllowedUsers = new HashSet<String>();
          AuthorOptions authorOption = AuthorOptions.valueOf(getSelectedOption());
@@ -138,8 +133,8 @@ public class AuthorQuerySelecter extends AbstractSimpleQuerySelecter
                notAllowedUsers.addAll(getBasedOnElo().getAuthors());
                break;
          }
-         query.setAllowedUsers(allowedUsers);
-//         query.setNotAllowedUsers(notAllowedUsers);
+         query.setIncludedUsers(allowedUsers);
+         query.setExcludedUsers(notAllowedUsers);
       }
    }
 }
