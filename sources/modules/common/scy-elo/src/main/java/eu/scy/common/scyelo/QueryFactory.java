@@ -49,6 +49,7 @@ public class QueryFactory {
             queryComponent = new MetadataQueryComponent(SearchConstants.AGGREGATED_VALUES_FIELD, SearchOperation.HAS, queryPhrase);
             queryComponent.setLeadingWildcard(true);
             queryComponent.setTrailingWildcard(true);
+            queryComponent.setSearchOperation(SearchOperation.HAS);
         }
         IQuery query = new Query(queryComponent);
         query.setFindDeleted(false);
