@@ -7,6 +7,9 @@ import eu.scy.actionlogging.api.IAction;
 import eu.scy.core.model.transfer.ActionLogEntryAttribute;
 import eu.scy.server.actionlogging.ActionLoggerService;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -24,10 +27,19 @@ public class ActionLoggerServiceImpl implements ActionLoggerService {
         action.setType(type);
         action.setUser(userName);
         action.addContext(ContextConstants.tool, tool);
-        action.addContext(ContextConstants.eloURI, eloURI);
+        action.addContext(ContextConstants.eloURI, getDecodedURI(eloURI));
 
         dispatchAction(action);
         
+    }
+
+    private String getDecodedURI(String uri) {
+        try {
+            return URLDecoder.decode(uri, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return uri;
     }
 
 
