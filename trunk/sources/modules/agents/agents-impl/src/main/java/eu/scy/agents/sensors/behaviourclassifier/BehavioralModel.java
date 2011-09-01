@@ -40,7 +40,7 @@ public class BehavioralModel {
 
     private volatile int votat = 1;
 
-    private volatile int canonical =1;
+    private volatile int canonical = 1;
 
     private String eloUri;
 
@@ -52,7 +52,9 @@ public class BehavioralModel {
 
     private Timer timer;
 
-    private  boolean expPhaseStartet =false;
+    private boolean expPhaseStartet = false;
+
+    private int level;
 
     /**
      * This Model provides information over the aggregated output of three agents:<br/>
@@ -65,7 +67,7 @@ public class BehavioralModel {
      * After every callback from the {@link TupleSpace} this agent will check, if the users<br/>
      * behaviour is systematic or not. If not, it will provide feedback (see the SCAFFOLD enum) <br/>
      * which is sent to the user using the notification mechanism.
-     * 
+     *
      * @param name
      *            The name of the user as <b>XMPP JID</b> (e.g. name@hub/smack)
      * @param eloUri
@@ -89,9 +91,17 @@ public class BehavioralModel {
         sentScaffolds = new Vector<Scaffold>();
     }
 
+    public void setScaffoldingLevel(int level) {
+        this.level = level;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
     /**
      * This method returns the current user experience. It returns a value between 0 - 100.
-     * 
+     *
      * @return A value between 0-100 describing the current user experience
      */
     public int getUserExp() {
@@ -100,7 +110,7 @@ public class BehavioralModel {
 
     /**
      * This method returns the current VOTAT value. It returns a value between 0 - 100.
-     * 
+     *
      * @return A value between 0-100 describing the current VOTAT measurement.
      */
     public int getVotat() {
@@ -109,7 +119,7 @@ public class BehavioralModel {
 
     /**
      * This method returns the current canonical value. It returns a value between 0 - 100.
-     * 
+     *
      * @return A value between 0-100 describing the current canonical/equal increment measurement.
      */
     public int getCanonical() {
@@ -118,7 +128,7 @@ public class BehavioralModel {
 
     /**
      * Retuns the elouri of this model.
-     * 
+     *
      * @return The elouri of this model.
      */
     public String getEloUri() {
@@ -127,7 +137,7 @@ public class BehavioralModel {
 
     /**
      * Retuns the username (should be a XMPP JID) of this model.
-     * 
+     *
      * @return The (XMPP JID) name of the user of this model.
      */
     public String getName() {
@@ -136,7 +146,7 @@ public class BehavioralModel {
 
     /**
      * This method updated the value of "equal increment" in this model with the given new value. Be sure that this value should not be above 100.
-     * 
+     *
      * @param newCanonical
      *            The new value for equal increment / canonical for this model.
      */
@@ -151,25 +161,25 @@ public class BehavioralModel {
 
     /**
      * This method updated the value of the user experience in this model with the given new value. Be sure that this value should not be above 100.
-     * 
+     *
      * @param newUserExp
      *            The new value for the user experience for this model.
      */
     public void updateUserExp(int newUserExp) {
-        if (newUserExp==0){
-            
-            //System.out.println("Problem! USerExp=0");
-        }else{
-           //System.out.println(tool+"/"+name+" set to "+newUserExp);
+        if (newUserExp == 0) {
+
+            // System.out.println("Problem! USerExp=0");
+        } else {
+            // System.out.println(tool+"/"+name+" set to "+newUserExp);
         }
         this.userExp = newUserExp;
         // Fix to prevent too many notifications
-        //checkForSystematicBehaviour();
+        // checkForSystematicBehaviour();
     }
 
     /**
      * This method updated the value of VOTAT in this model with the given new value. Be sure that this value should not be above 100.
-     * 
+     *
      * @param newVotat
      *            The new value for VOTAT for this model.
      */
@@ -177,8 +187,9 @@ public class BehavioralModel {
         this.votat = newVotat;
         checkForSystematicBehaviour();
     }
-    public void setExpPhaseStarted(){
-        this.expPhaseStartet  = true;
+
+    public void setExpPhaseStarted() {
+        this.expPhaseStartet = true;
     }
 
     /*
@@ -186,15 +197,18 @@ public class BehavioralModel {
      */
     private void checkForSystematicBehaviour() {
         // Simple ruleset :externalize
-        if (!expPhaseStartet || userExp < 2) {
-            return;
-        } else {
-            if (votat < 1) {
-                sendNotification(Scaffold.VOTAT);
-            } else if (canonical < 1) {
-                sendNotification(Scaffold.INC_CHANGE);
+        if (getLevel() > 1) {
+
+            if (!expPhaseStartet || userExp < 2) {
+                return;
             } else {
-                sendNotification(Scaffold.SHOWBUTTON);
+                if (votat < 1) {
+                    sendNotification(Scaffold.VOTAT);
+                } else if (canonical < 1) {
+                    sendNotification(Scaffold.INC_CHANGE);
+                } else {
+                    sendNotification(Scaffold.SHOWBUTTON);
+                }
             }
         }
     }
