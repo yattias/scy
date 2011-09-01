@@ -1,5 +1,6 @@
 package eu.scy.core.runtime;
 
+import eu.scy.common.mission.MissionEloType;
 import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyElo;
@@ -15,10 +16,15 @@ import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import org.apache.log4j.Logger;
+import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import roolo.search.*;
 
 import java.net.URI;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -113,12 +119,25 @@ public class SessionServiceImpl extends BaseELOServiceImpl implements SessionSer
 
 
     private MissionRuntimeElo getMissionRuntime(String userNname) {
-        return (MissionRuntimeElo) getRuntimeElosForUser(userNname).get(0);
+        ISearchResult result = getRuntimeElosForUser(userNname).get(0);
+        return MissionRuntimeElo.loadLastVersionElo(result.getUri(), this);
     }
 
-    private List getRuntimeElosForUser(String userName) {
+    private List <ISearchResult> getRuntimeElosForUser(String userName) {
+
+        final IMetadataKey technicalFormatKey = getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
+        IQueryComponent missionRuntimeQueryComponent = new MetadataQueryComponent(technicalFormatKey, SearchOperation.EQUALS, MissionEloType.MISSION_RUNTIME.getType());
+        IQuery missionRuntimeQuery = new Query(missionRuntimeQueryComponent);
+        missionRuntimeQuery.setMaxResults(500);
+        Set users = new HashSet();
+        users.add(userName);
+        missionRuntimeQuery.setAllowedUsers(users);
+        return getRepository().search(missionRuntimeQuery);
+
+        /*
+
         List runtimeElos = new LinkedList();
-        List<ScyElo> runtimeModels = getRuntimeElos(null);
+        List<ISearchResult> runtimeModels = getRuntimeElos(null);
         for (int i = 0; i < runtimeModels.size(); i++) {
             MissionRuntimeElo missionRuntimeElo = new MissionRuntimeElo(runtimeModels.get(i).getElo(), this);
             if (missionRuntimeElo != null) {
@@ -129,6 +148,7 @@ public class SessionServiceImpl extends BaseELOServiceImpl implements SessionSer
             }
         }
         return runtimeElos;
+        */
     }
 
 

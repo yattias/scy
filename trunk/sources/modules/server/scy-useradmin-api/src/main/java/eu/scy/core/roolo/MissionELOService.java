@@ -25,9 +25,9 @@ public interface MissionELOService extends BaseELOService {
 
     MissionSpecificationElo createMissionSpecification(String title, String description, String author);
 
-    List getMissionSpecifications();
+    List <ISearchResult> getMissionSpecifications();
 
-    List getMissionSpecifications(String author);
+    List <ISearchResult> getMissionSpecifications(String author);
 
     void createMissionSpecification(MissionSpecificationElo missionSpecificationElo, String authorUserName);
 

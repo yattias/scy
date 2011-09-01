@@ -15,7 +15,6 @@ import roolo.search.SearchOperation;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 
-import java.net.URI;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -33,12 +32,12 @@ public class BaseELOServiceImpl extends RooloAccessorImpl implements BaseELOServ
     private IMetadataKey authorKey;
 
     @Override
-    public List getRuntimeElos(MissionSpecificationElo missionSpecificationElo) {
+    public List<ISearchResult> getRuntimeElos(MissionSpecificationElo missionSpecificationElo) {
         final IMetadataKey technicalFormatKey = getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
         IQueryComponent missionRuntimeQueryComponent = new MetadataQueryComponent(technicalFormatKey, SearchOperation.EQUALS, MissionEloType.MISSION_RUNTIME.getType());
         IQuery missionRuntimeQuery = new Query(missionRuntimeQueryComponent);
         missionRuntimeQuery.setMaxResults(500);
-        return getELOs(missionRuntimeQuery);
+        return getRepository().search(missionRuntimeQuery);
     }
     
     
