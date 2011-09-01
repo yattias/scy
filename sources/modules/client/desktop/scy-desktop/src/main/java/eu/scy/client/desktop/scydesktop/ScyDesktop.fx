@@ -639,6 +639,19 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       window.scyToolsList.onOpened();
    }
 
+   public function uninstallCollaborationTools(window: ScyWindow): Void {
+       window.mucId = null;
+       window.isCollaborative = false;
+      window.scyElo.setMucId(null);
+      var metadata: IMetadata = window.tbi.getELOFactory().createMetadata();
+      var mucIdKey = window.tbi.getMetaDataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MUC_ID);
+      var mvc: IMetadataValueContainer = metadata.getMetadataValueContainer(mucIdKey);
+      mvc.setValue(null);
+      window.rightDrawerTool = null;
+   }
+
+
+
    public function installCollaborationTools(window: ScyWindow, mucId: String): Void {
       window.mucId = mucId;
       realFillNewScyWindow2(window, true);
