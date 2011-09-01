@@ -38,7 +38,7 @@ public class CMapFeatureExtractor implements FeatureExtractor {
         Query q = new Query(mcq);
         HashSet <String> allowedUsers = new HashSet <String>();
         allowedUsers.add(user);
-        q.setAllowedUsers(allowedUsers);
+        q.setIncludedUsers(allowedUsers);
         List<ISearchResult> res = repository.search(q);
         IELO elo = repository.retrieveELO(res.get(0).getUri());
         return elo;
