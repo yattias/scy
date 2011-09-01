@@ -104,7 +104,7 @@ public class TitleBarBuddies extends TitleBarItemList, TooltipCreator {
       def eloIconName = if (contact.onlineState == OnlineState.IS_ME) "buddy_me" else "buddy_other";
       def eloIcon = getEloIcon(eloIconName);
       if (contact.onlineState != OnlineState.IS_ME and contact.onlineState != OnlineState.ONLINE) {
-         eloIcon.opacity = 0.5;
+         eloIcon.opacity = 0.2;
       }
       return eloIcon
    }
