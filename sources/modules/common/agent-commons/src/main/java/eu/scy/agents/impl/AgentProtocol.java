@@ -43,6 +43,8 @@ public final class AgentProtocol {
 	public static final String TS_PORT = "tsPort";
 	public static final String TS_HOST = "tsHost";
 
+    public static final String GLOBAL_SCAFFOLDING_LEVEL = "globalScaffoldingLevel";
+
 	/**
 	 * The interval in which alive tuples should expire.
 	 */
