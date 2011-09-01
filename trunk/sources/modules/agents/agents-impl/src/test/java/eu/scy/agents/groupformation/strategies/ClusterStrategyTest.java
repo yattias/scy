@@ -42,7 +42,7 @@ public class ClusterStrategyTest extends AbstractTestFixture {
         Query q = new Query(mcq);
         HashSet <String> allowedUsers = new HashSet <String>();
         allowedUsers.add(user);
-        q.setAllowedUsers(allowedUsers);
+        q.setIncludedUsers(allowedUsers);
         List<ISearchResult> res = repository.search(q);
         assertEquals(1, res.size());
         return res.get(0);
