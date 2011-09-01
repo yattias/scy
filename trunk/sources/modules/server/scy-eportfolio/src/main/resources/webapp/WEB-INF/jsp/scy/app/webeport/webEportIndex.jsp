@@ -178,60 +178,12 @@ dojo.require("dojo.parser")
             <!--img src="/webapp/themes/scy/default/images/feedback_header.png" alt="" class="greenBackgrounds" /-->
             <div class="feedbackHeader" >My ePortfolio</div>
             <p>My ELOs (Grey = missing, Green = added)</p>
-        <div dojoType="dojox.layout.ContentPane" style="width:100%;height:90%;">
-            <!--div dojoType="dojox.layout.ContentPane"  title="Newest ELOs" href="/webapp/app/feedback/webversion/NewestElosList.html?eloURI=${eloURI}" executeScripts="true" id="newestElosContainer"></div>
-            <div dojoType="dojox.layout.ContentPane"  title="My ELOs" href="/webapp/app/feedback/webversion/MyElosList.html?eloURI=${eloURI}" executeScripts="true"></div>
-            <div dojoType="dojox.layout.ContentPane"  title="ELOs I have commented on" href="/webapp/app/feedback/webversion/ContributedElosList.html?eloURI=${eloURI}" executeScripts="true"></div-->
-          <!--table>
-            <tr>
-                <td>owner</td>
-                <td>${portfolio.owner}</td>
-            </tr>
-            <tr>
-                <td>portfolioStatus</td>
-                <td>${portfolio.portfolioStatus}</td>
-            </tr>
-            <tr>
-                <td>missionRuntimeURI</td>
-                <td>${portfolio.missionRuntimeURI}</td>
-            </tr>
-            <tr>
-                <td>missionName</td>
-                <td>${portfolio.missionName}</td>
-            </tr>
-            <tr>
-                <td>reflectionMission</td>
-                <td>${portfolio.reflectionMission}</td>
-            </tr>
-            <tr>
-                <td>reflectionCollaboration</td>
-                <td>${portfolio.reflectionCollaboration}</td>
-            </tr>
-            <tr>
-                <td>reflectionInquiry</td>
-                <td>${portfolio.reflectionInquiry}</td>
-            </tr>
-            <tr>
-                <td>reflectionEffort</td>
-                <td>${portfolio.reflectionEffort}</td>
-            </tr>
-            <tr>
-                <td>assessmentPortfolioComment</td>
-                <td>${portfolio.assessmentPortfolioComment}</td>
-            </tr>
-            <tr>
-                <td>assessmentPortfolioRating</td>
-                <td>${portfolio.assessmentPortfolioRating}</td>
-            </tr>
-            <tr>
-                <td>assessed</td>
-                <td>${portfolio.assessed}</td>
-            </tr>
-        </table-->
+        <div dojoType="dojox.layout.ContentPane" style="width:100%;height:90%;" id="eportfolioPane" parseOnLoad="true" executeScripts="true">
+
 
             <div dojoType="dojox.widget.FisheyeList"
-		itemWidth="40" itemHeight="40"
-		itemMaxWidth="100" itemMaxHeight="100"
+		itemWidth="60" itemHeight="60"
+		itemMaxWidth="150" itemMaxHeight="150"
 		orientation="horizontal"
 		effectUnits="2"
 		itemPadding="10"
@@ -247,10 +199,10 @@ dojo.require("dojo.parser")
         <c:when test="${fn:length(obligatoryAnchorElos) > 0}">
             <c:forEach var="anchorElo" items="${obligatoryAnchorElos}">
                
-               <a href="/webapp/app/webeport/selectELOFromGallery.html?eloURI=${anchorElo.uri}">
+               <!--a href="/webapp/app/webeport/selectELOFromGallery.html?eloURI=${anchorElo.uri}">
                     OPEN: ${anchorElo.myname}
-               </a>
-                   <div dojoType="dojox.widget.FisheyeListItem"  onclick=""  label="${anchorElo.myname}" iconSrc="${anchorElo.thumbnail}" isContainer="true" style="cursor:pointer; margin:3px;" class="assessed${anchorElo.assessed}">
+               </a-->
+                   <div dojoType="dojox.widget.FisheyeListItem"  onclick="location.href='/webapp/app/webeport/selectELOFromGallery.html?eloURI=${anchorElo.uri}'"  label="${anchorElo.myname}" iconSrc="${anchorElo.thumbnail}" isContainer="true" style="cursor:pointer; margin:3px;border:3px solid #ffffff;" class="assessed${anchorElo.assessed}">
                          ${anchorElo.myname}
 	                </div>
 
