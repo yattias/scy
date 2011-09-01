@@ -106,6 +106,8 @@ import eu.scy.client.desktop.scydesktop.corners.elomanagement.EloManagement;
 import java.lang.Thread;
 import eu.scy.client.desktop.desktoputils.art.javafx.LogoEloIcon;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.DialogType;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleManager;
+import eu.scy.client.desktop.scydesktop.tooltips.impl.SimpleBubbleManager;
 
 /**
  * @author sikkenj
@@ -212,6 +214,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
    public def dragAndDropManager: DragAndDropManager = SimpleDragAndDropManager {
               windowManager: windows;
            };
+   public def bubbleManager: BubbleManager = SimpleBubbleManager {};
    var scyToolFactory: ScyToolFactory;
    var windowPositioner: WindowPositioner;
    public-read var scyWindowControl: ScyWindowControl;
