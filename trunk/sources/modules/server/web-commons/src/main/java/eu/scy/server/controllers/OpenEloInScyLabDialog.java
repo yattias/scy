@@ -1,28 +1,30 @@
-package eu.scy.server.controllers.scyfeedback;
+package eu.scy.server.controllers;
 
+import eu.scy.common.scyelo.ScyElo;
+import eu.scy.core.model.transfer.TransferElo;
 import eu.scy.core.roolo.MissionELOService;
-import eu.scy.server.controllers.BaseController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
- * Date: 21.jan.2011
- * Time: 13:41:27
+ * Date: 01.sep.2011
+ * Time: 11:59:35
  * To change this template use File | Settings | File Templates.
  */
-public class FeedbackToolIndex extends BaseController {
+public class OpenEloInScyLabDialog extends BaseController {
 
     private MissionELOService missionELOService;
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
-        modelAndView.setViewName("forward:/app/feedback/webversion/ViewFeedbackForElo.html");
+        ScyElo elo = ScyElo.loadLastVersionElo(getURI(request.getParameter(ELO_URI)), getMissionELOService());
 
+        TransferElo transferElo = new TransferElo(elo);
+        modelAndView.addObject("elo", transferElo);
     }
 
     public MissionELOService getMissionELOService() {

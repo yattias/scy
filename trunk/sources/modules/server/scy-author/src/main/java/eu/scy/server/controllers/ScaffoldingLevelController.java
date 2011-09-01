@@ -57,7 +57,7 @@ public class ScaffoldingLevelController extends BaseController{
         logger.info("INCREASING SCAFFOLDING LEVEL for " + elo.getTitle());
         MissionSpecificationElo missionSpecificationElo = (MissionSpecificationElo) elo;
         logger.info("LEVEL: " + getMissionELOService().getGlobalMissionScaffoldingLevel(missionSpecificationElo));
-        getMissionELOService().setGlobalMissionScaffoldingLevel((MissionSpecificationElo) elo, (4 + getMissionELOService().getGlobalMissionScaffoldingLevel(missionSpecificationElo)));
+        //getMissionELOService().setGlobalMissionScaffoldingLevel((MissionSpecificationElo) elo, (4 + getMissionELOService().getGlobalMissionScaffoldingLevel(missionSpecificationElo)));
     }
 
     public MissionELOService getMissionELOService() {

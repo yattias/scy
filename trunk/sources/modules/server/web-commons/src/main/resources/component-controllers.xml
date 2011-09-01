@@ -52,6 +52,8 @@
                    /components/ajaxTransferObjectNumberFieldController.html=ajaxTransferObjectNumberFieldController
                    /components/profilePictureUploadController.html=profilePictureUploadController
 
+                   /components/openEloInScyLabDialog.html=openEloInScyLabDialogController
+
 
 
                    /editors/userProfileEditor.html=userProfileEditor
@@ -205,6 +207,12 @@
     </bean>
 
 
+
+    <bean id="openEloInScyLabDialogController" class="eu.scy.server.controllers.OpenEloInScyLabDialog">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="missionELOService" ref="missionELOService"/>
+	</bean>
 
     <bean id="userProfileEditor" class="eu.scy.server.controllers.UserProfileController">
         <property name="userService" ref="userService"/>
