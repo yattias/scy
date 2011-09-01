@@ -279,8 +279,7 @@ public class SessionAgent extends AbstractRequestAgent {
             } else {
                 LOGGER.warn("language is null");
             }
-            String missionSpecification = action
-                    .getContext(ContextConstants.eloURI);
+            String missionSpecification = action.getContext(ContextConstants.mission);
             if (missionSpecification == null) {
                 LOGGER.warn("missionspecification is null");
             }
