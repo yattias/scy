@@ -642,6 +642,12 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
    public function uninstallCollaborationTools(window: ScyWindow): Void {
        window.mucId = null;
        window.isCollaborative = false;
+       if (window.scyContent instanceof CollaborationStartable) {
+            (window.scyContent as CollaborationStartable).stopCollaboration();
+       }
+       if (window.rightDrawerTool instanceof CollaborationStartable) {
+            (window.rightDrawerTool as CollaborationStartable).stopCollaboration();
+       }
       window.scyElo.setMucId(null);
       var metadata: IMetadata = window.tbi.getELOFactory().createMetadata();
       var mucIdKey = window.tbi.getMetaDataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MUC_ID);
