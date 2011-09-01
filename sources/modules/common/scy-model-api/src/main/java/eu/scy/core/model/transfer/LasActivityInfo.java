@@ -1,5 +1,7 @@
 package eu.scy.core.model.transfer;
 
+import eu.scy.core.model.User;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,7 +15,7 @@ import java.util.List;
 public class LasActivityInfo {
 
     private String lasName;
-    private List <String> activeUsers;
+    private List <User> activeUsers;
     private String humanReadableName;
 
     public String getLasName() {
@@ -32,19 +34,18 @@ public class LasActivityInfo {
     }
 
 
-    public void addActiveUser(String user) {
-        user = getParsedUserName(user);
-        if(getActiveUsers() == null) activeUsers = new LinkedList<String>();
+    public void addActiveUser(User user) {
+        if(getActiveUsers() == null) activeUsers = new LinkedList<User>();
         if(!getActiveUsers().contains(user)) {
             getActiveUsers().add(user);    
         }
     }
 
-    public List<String> getActiveUsers() {
+    public List<User> getActiveUsers() {
         return activeUsers;
     }
 
-    public void setActiveUsers(List<String> activeUsers) {
+    public void setActiveUsers(List<User> activeUsers) {
         this.activeUsers = activeUsers;
     }
 

@@ -3,6 +3,7 @@ package eu.scy.core.runtime;
 import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyElo;
+import eu.scy.core.UserService;
 import eu.scy.core.XMLTransferObjectService;
 import eu.scy.core.model.transfer.LasActivityInfo;
 import eu.scy.core.model.transfer.PedagogicalPlanTransfer;
@@ -27,6 +28,8 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class SessionServiceImpl extends BaseELOServiceImpl implements SessionService {
+
+    private UserService userService;
 
     private TupleSpace tupleSpace;
     private final static String LANGUAGE = "language";
@@ -291,7 +294,11 @@ public class SessionServiceImpl extends BaseELOServiceImpl implements SessionSer
                 Field[] lasFields = lasTuple.getFields();
                 for (int k = 0; k < lasFields.length; k++) {
                     Field lasField = lasFields[k];
-                    if (k == 1) lasActivityInfo.addActiveUser((String) lasField.getValue());
+                    if (k == 1) {
+                        String userName = (String) lasField.getValue();
+                        lasActivityInfo.addActiveUser(getUserService().getUser(getParsedUserName(userName)));
+                    }
+
                 }
             }
         } catch (Exception e) {
@@ -299,6 +306,13 @@ public class SessionServiceImpl extends BaseELOServiceImpl implements SessionSer
         }
 
     }
+
+    public String getParsedUserName(String smackUserName) {
+        String userName = smackUserName;
+        String returnValue = userName.substring(0, userName.indexOf("@"));
+        return returnValue;
+    }
+
 
 
     public TupleSpace getTupleSpace() {
@@ -315,5 +329,13 @@ public class SessionServiceImpl extends BaseELOServiceImpl implements SessionSer
 
     public void setXmlTransferObjectService(XMLTransferObjectService xmlTransferObjectService) {
         this.xmlTransferObjectService = xmlTransferObjectService;
+    }
+
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 }
