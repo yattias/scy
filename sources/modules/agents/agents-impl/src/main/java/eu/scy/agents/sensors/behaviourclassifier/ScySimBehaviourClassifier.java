@@ -14,8 +14,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+import javax.swing.AbstractAction;
+
 import edu.emory.mathcs.backport.java.util.concurrent.locks.ReentrantLock;
 import eu.scy.agents.api.AgentLifecycleException;
+import eu.scy.agents.api.parameter.AgentConfiguration;
+import eu.scy.agents.api.parameter.AgentParameter;
 import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
 
@@ -49,11 +53,11 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements 
 
     private static final double MAX_EXP_TIME = 1 * 60 * 60 * 1000;
 
-//    private int lastVotat;
-//
-//    private int lastCanonical;
-//
-//    private int lastUserExp;
+    // private int lastVotat;
+    //
+    // private int lastCanonical;
+    //
+    // private int lastUserExp;
 
     private int expPhaseSeq;
 
@@ -112,17 +116,27 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements 
         logger.addHandler(cH);
     }
 
-    public  BehavioralModel getModel(String user, String eloUri) {
-       l.lock();
+    public BehavioralModel getModel(String user, String eloUri) {
+        l.lock();
         BehavioralModel model = userModels.get(user + "/" + eloUri);
         if (model == null) {
             model = new BehavioralModel(user, eloUri, 1, 1, 0, commandSpace);
             userModels.put(user + "/" + eloUri, model);
-            //logger.log(Level.FINE, "New Model for " + user + " with tool " + eloUri  + " created...");
+            // logger.log(Level.FINE, "New Model for " + user + " with tool " + eloUri + " created...");
         }
         l.unlock();
         return model;
 
+    }
+
+    @Override
+    protected void parametersChanged(AgentParameter agentParameter) {
+        super.parametersChanged(agentParameter);
+        if (agentParameter.getParameterName().equals("globalScaffoldingLevel")) {
+            for (BehavioralModel model : userModels.values()) {
+                model.setScaffoldingLevel((Integer) agentParameter.getParameterValue());
+            }
+        }
     }
 
     @Override
@@ -137,7 +151,7 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements 
             model = getModel(user, eloUri);
             model.updateVotat(newVotat);
             // }
-           // lastVotat = newVotat;
+            // lastVotat = newVotat;
 
         } else if (seqnum == userExpSeq) {
             int newUserExp = ((Long) afterTuple.getField(6).getValue()).intValue();
@@ -147,7 +161,7 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements 
             model = getModel(user, eloUri);
             model.updateUserExp(l);
             // }
-          //  lastUserExp = newUserExp;
+            // lastUserExp = newUserExp;
 
         } else if (seqnum == canoSeq) {
             int newCanonical = ((Double) afterTuple.getField(7).getValue()).intValue();
@@ -155,7 +169,7 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements 
             model = getModel(user, eloUri);
             model.updateCanonical(newCanonical);
             // }
-            //lastCanonical = newCanonical;
+            // lastCanonical = newCanonical;
 
         } else if (seqnum == expPhaseSeq) {
             model = getModel(user, eloUri);
