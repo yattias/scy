@@ -187,6 +187,11 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
          // so do not create a new elo, but do just an update
          scyElo.updateElo();
       } else if (elo.getUri() != null) {
+         if (scyElo.getAuthors().size() > 1) {
+            scyElo.setAuthor(loginName);
+            window.windowManager.scyDesktop.uninstallCollaborationTools(window);
+            window.ownershipManager.update();
+         }
          scyElo.saveAsForkedElo();
       } else {
          scyElo.setCreator(loginName);
