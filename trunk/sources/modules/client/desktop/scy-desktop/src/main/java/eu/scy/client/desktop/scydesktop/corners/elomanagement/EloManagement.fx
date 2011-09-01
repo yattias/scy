@@ -411,7 +411,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
       }
 
       searchElos.openButton.disable = true;
-      def query = QueryFactory.createSimpleQuery(searchElos.simpleSearchField.text);
+      def query = QueryFactory.createSimpleQueryForExperts(searchElos.simpleSearchField.text);
       if (scyDesktop.initializer.authorMode) {
          query.setFindDeleted(true);
          query.setFindHidden(true);
