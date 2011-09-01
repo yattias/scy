@@ -22,7 +22,6 @@ import java.util.Set;
  */
 public class ScaffoldingNotificatorAgent extends AbstractThreadedAgent {
 
-    public static final String GLOBAL_SCAFFOLDING_LEVEL = "globalScaffoldingLevel";
     public static final String NAME = ScaffoldingNotificatorAgent.class.getName();
 
     private static final Logger LOGGER = Logger.getLogger(NAME);
@@ -77,7 +76,7 @@ public class ScaffoldingNotificatorAgent extends AbstractThreadedAgent {
 
     @Override
     protected void parametersChanged(AgentParameter agentParameter) {
-        if (GLOBAL_SCAFFOLDING_LEVEL.equals(agentParameter.getParameterName())) {
+        if (AgentProtocol.GLOBAL_SCAFFOLDING_LEVEL.equals(agentParameter.getParameterName())) {
             String mission = agentParameter.getMission();
             Set<String> usersInMission = getSession().getUsersInMission(mission);
 
@@ -118,7 +117,7 @@ public class ScaffoldingNotificatorAgent extends AbstractThreadedAgent {
 
         IAction action = ActionTupleTransformer.getActionFromTuple(afterTuple);
 
-        sendScaffoldLevelNotification(configuration.getParameter(GLOBAL_SCAFFOLDING_LEVEL),
+        sendScaffoldLevelNotification(configuration.getParameter(AgentProtocol.GLOBAL_SCAFFOLDING_LEVEL),
                 action.getContext(ContextConstants.mission), action.getUser());
     }
 }
