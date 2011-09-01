@@ -60,7 +60,7 @@ public class TechnicalFormatQuerySelector extends AbstractSimpleQuerySelecter
    @Override
    public String getEloIconTooltip()
    {
-      return "technical format";
+      return "format";
    }
 
    @Override
