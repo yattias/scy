@@ -56,13 +56,13 @@ public class SessionAgentTest extends AbstractTestFixture {
 				System.currentTimeMillis(), ActionConstants.ACTION_LOG_IN,
 				"harald", "tool", "mission1", "session", "eloUri",
 				"language=de", "missionSpecification=" + MISSION1,
-				"missionName=co2");
+				"missionName=co2", "missionId=co_2");
 		getActionSpace().write(tuple);
 		Tuple tuple2 = new Tuple(ActionConstants.ACTION, new VMID().toString(),
 				System.currentTimeMillis(), ActionConstants.ACTION_LOG_IN,
-				"sophie", "tool", "mission1", "session", "eloUri",
+				"sophie", "tool", "mission1", "session", "eloUri2",
 				"language=de", "missionSpecification=" + MISSION1,
-				"missionName=co2");
+				"missionName=co2", "missionId=co_2");
 		getActionSpace().write(tuple2);
 	}
 }
