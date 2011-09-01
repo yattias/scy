@@ -97,6 +97,7 @@ public class PrologAgent extends AbstractForeignAgent {
                 for (String fileName : prologSources.keySet()) {
                     File tmp = new File(prologTmpDir.getAbsolutePath() + File.separator + fileName);
                     tmp.deleteOnExit();
+                    tmp.getParentFile().mkdirs();
                     FileWriter fw = new FileWriter(tmp);
                     fw.write(prologSources.get(fileName));
                     fw.close();
