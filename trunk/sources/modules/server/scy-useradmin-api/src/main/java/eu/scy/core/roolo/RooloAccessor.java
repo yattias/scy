@@ -4,6 +4,7 @@ import eu.scy.common.scyelo.RooloServices;
 import eu.scy.common.scyelo.ScyElo;
 import roolo.api.IRepository;
 import roolo.elo.api.IMetadataTypeManager;
+import roolo.search.ISearchResult;
 
 import java.net.URI;
 import java.util.List;
@@ -26,7 +27,7 @@ public interface RooloAccessor extends RooloServices {
 
     public ScyElo getElo(URI uri);
 
-    List <ELOWebSafeTransporter> getWebSafeTransporters(List <ScyElo> elo);
+    List <ELOWebSafeTransporter> getWebSafeTransporters(List elo);
 
     ELOWebSafeTransporter getWebSafeTransporter(ScyElo elo);
 
