@@ -34,7 +34,7 @@
         <option>Authoring</option>
         <option>Tool</option>
     </select>
-
+    <br/><h2>Click on an ELO to give feedback</h2>
 </div>
 <c:choose>
     <c:when test="${fn:length(elos) > 0}">

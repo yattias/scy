@@ -60,6 +60,9 @@
             .lightGreenBackgrounds{
                 background-color:#6bcfdf !important;
             }
+            .extraLightGreenBackgrounds{
+                background-color:#e3f5f8 !important;
+            }
 
             .greenBorders{
                 border-color:#03a5be !important;
@@ -78,10 +81,10 @@
             }
 
         </style>
-        <div style="border:4px solid #cc6600;width:786px;height:95%;padding:4px;" class="greenBorders">
+        <div dojoType="dojox.layout.ContentPane" executeScripts="true" parseOnLoad="true" style="border:4px solid #cc6600;width:786px;height:95%;padding:4px;" class="greenBorders">
             <!--img src="/webapp/themes/scy/default/images/feedback_header.png" alt="" class="greenBackgrounds" /-->
             <div class="feedbackHeader" >ELO Gallery</div>
-            <p>Click on an ELO to give feedback</p>
+            <!--p>Click on an ELO to give feedback</p-->
         <div dojoType="dijit.layout.TabContainer" style="width:100%;height:90%;">
             <div dojoType="dojox.layout.ContentPane" refreshOnShow="true" title="Newest ELOs" href="/webapp/app/feedback/webversion/NewestElosList.html?eloURI=${eloURI}" executeScripts="true" parseOnLoad="true" id="newestElosContainer"></div>
             <div dojoType="dojox.layout.ContentPane" refreshOnShow="true"  title="My ELOs" href="/webapp/app/feedback/webversion/MyElosList.html?eloURI=${eloURI}" executeScripts="true"parseOnLoad="true" id="myElosContainer"></div>
