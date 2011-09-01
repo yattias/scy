@@ -10,6 +10,7 @@ import roolo.search.MetadataQueryComponent;
 import roolo.search.Query;
 import roolo.search.SearchConstants;
 import roolo.search.SearchOperation;
+import roolo.search.StringQuery;
 
 /**
  *
@@ -32,6 +33,30 @@ public class QueryFactory {
         return query;
     }
 
+    public static IQuery createSimpleQueryForExperts(String queryPhrase) {
+        String[] specialCharacters = new String[]{"*", "+", "-", "+", "\"", "(", "\\", "AND", "OR", "NOT", ":", "^", "]", "{", "!"};
+        boolean expertQuery = false;
+        AbstractQueryComponent queryComponent = null;
+        for (String specialChar : specialCharacters) {
+            if (queryPhrase.contains(specialChar)) {
+                expertQuery = true;
+                break;
+            }
+        }
+        if (expertQuery) {
+            queryComponent = new StringQuery(queryPhrase);
+        } else {
+            queryComponent = new MetadataQueryComponent(SearchConstants.AGGREGATED_VALUES_FIELD, SearchOperation.HAS, queryPhrase);
+            queryComponent.setLeadingWildcard(true);
+            queryComponent.setTrailingWildcard(true);
+        }
+        IQuery query = new Query(queryComponent);
+        query.setFindDeleted(false);
+        query.setFindHidden(false);
+        query.setFindTemplateElos(false);
+        return query;
+    }
+
     /**
      * This method creates a query for all ELOs from an author for a specific mission
      * @param author the author of the ELOs (which is actually just the plain username from the Contribute Object), e.g. "sven"
@@ -47,7 +72,7 @@ public class QueryFactory {
         return q;
     }
 
-     /**
+    /**
      * This method creates a query to retrieve a mission runtime for a specific user
      * @param username the user running the mission
      * @param missionRuntimeType the type of the missionruntime (e.g. "scy/missionruntime")
@@ -63,7 +88,7 @@ public class QueryFactory {
         return q;
     }
 
-     /**
+    /**
      * This method creates a query to retrieve all mission runtime for a specific URI
      * @param missionRuntimeType the type of the missionruntime (e.g. "scy/missionruntime")
      * @param missionRuntimeURI the URI of the mission runtime
@@ -76,29 +101,29 @@ public class QueryFactory {
                 SearchOperation.EQUALS, missionRuntimeURI.toString());
         IQueryComponent allMissionRuntimesQuery = new AndQuery(missionRuntimeQueryComp, missionSpecifiactionQuery);
         IQuery q = new Query(allMissionRuntimesQuery);
-         q.setMaxResults(300);
+        q.setMaxResults(300);
         return q;
     }
-    
-     public static IQuery createMissionLocatorQuery(String missionRuntimeType, URI missionRuntimeURI) {
+
+    public static IQuery createMissionLocatorQuery(String missionRuntimeType, URI missionRuntimeURI) {
         IQueryComponent missionRuntimeQueryComp = new MetadataQueryComponent(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId(),
                 SearchOperation.EQUALS, missionRuntimeType);
         IQueryComponent missionSpecifiactionQuery = new MetadataQueryComponent(ScyRooloMetadataKeyIds.MISSION_SPECIFICATION_ELO.getId(),
                 SearchOperation.EQUALS, missionRuntimeURI.toString());
         IQueryComponent allMissionRuntimesQuery = new AndQuery(missionRuntimeQueryComp, missionSpecifiactionQuery);
         IQuery q = new Query(allMissionRuntimesQuery);
-         q.setMaxResults(300);
+        q.setMaxResults(300);
         return q;
     }
 
-     public static IQuery createFeedbackEloQuery(URI feedbackParentURI, String technicalFormat){
-         IQueryComponent feedbackQC = new MetadataQueryComponent(ScyRooloMetadataKeyIds.FEEDBACK_ON.getId(),SearchOperation.EQUALS,feedbackParentURI);
-         IQueryComponent typeQC = new MetadataQueryComponent(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId(),SearchOperation.EQUALS,technicalFormat);
-         IQueryComponent andQuery = new AndQuery(typeQC, feedbackQC);
-         Query q = new Query(andQuery);
-         q.setFindDeleted(false);
-         q.setFindHidden(true);
-         q.setLatestOnly(true);
-         return q;
-     }
+    public static IQuery createFeedbackEloQuery(URI feedbackParentURI, String technicalFormat) {
+        IQueryComponent feedbackQC = new MetadataQueryComponent(ScyRooloMetadataKeyIds.FEEDBACK_ON.getId(), SearchOperation.EQUALS, feedbackParentURI);
+        IQueryComponent typeQC = new MetadataQueryComponent(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId(), SearchOperation.EQUALS, technicalFormat);
+        IQueryComponent andQuery = new AndQuery(typeQC, feedbackQC);
+        Query q = new Query(andQuery);
+        q.setFindDeleted(false);
+        q.setFindHidden(true);
+        q.setLatestOnly(true);
+        return q;
+    }
 }
