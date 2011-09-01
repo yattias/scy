@@ -16,9 +16,8 @@ import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 
 import java.net.URI;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -28,6 +27,8 @@ import java.util.Locale;
  * To change this template use File | Settings | File Templates.
  */
 public class BaseELOServiceImpl extends RooloAccessorImpl implements BaseELOService {
+
+    private static Logger log = Logger.getLogger("BaseELOServiceImpl.class");
 
     private IMetadataKey authorKey;
 
@@ -79,18 +80,13 @@ public class BaseELOServiceImpl extends RooloAccessorImpl implements BaseELOServ
         this.authorKey = authorKey;
     }
 
-    public List findElosFor(String username) {
+    public List<ISearchResult> findElosFor(String username) {
+        log.info("Searching for elos for: " + username);
         IQueryComponent bmq2 = new MetadataQueryComponent(getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR), SearchOperation.EQUALS, username);
-
         IQuery q = new Query(bmq2);
-        List<ISearchResult> results = getRepository().search(q);
-        List elos = new LinkedList();
-        for (int i = 0; i < results.size(); i++) {
-            ISearchResult searchResult = results.get(i);
-            elos.add(getRepository().retrieveELO(searchResult.getUri()));
-        }
-
-        return elos;
+        List <ISearchResult> result = getRepository().search(q);
+        log.info("Found: " + result.size() + " elos...");
+        return result;
     }
 
     @Override
@@ -98,7 +94,6 @@ public class BaseELOServiceImpl extends RooloAccessorImpl implements BaseELOServ
         List <SearchResultTransfer> returnLIst = new LinkedList<SearchResultTransfer>();
         for (int i = 0; i < searchResults.size(); i++) {
             ISearchResult iSearchResult = searchResults.get(i);
-
             returnLIst.add(new SearchResultTransfer(locale, iSearchResult));
         }
 

@@ -74,7 +74,7 @@ public class SessionServiceImpl extends BaseELOServiceImpl implements SessionSer
                 String size = String.valueOf(elos.size());
 
                 addPortfolio(userActivityInfo, missionSpecificationElo);
-                //userActivityInfo.setNumberOfElosProduced(size);
+                userActivityInfo.setNumberOfElosProduced(size);
 
                 userActivityInfoList.add(userActivityInfo);
 

@@ -14,6 +14,7 @@ import eu.scy.core.roolo.PedagogicalPlanELOService;
 import eu.scy.server.controllers.xml.MissionRuntimeEnabledXMLService;
 import eu.scy.server.url.UrlInspector;
 import roolo.elo.BasicELO;
+import roolo.search.ISearchResult;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -68,7 +69,7 @@ public class EloSearchService extends MissionRuntimeEnabledXMLService {
             List elos = getMissionELOService().findElosFor(getCurrentUserName(request));
             ELOSearchResult eloSearchResult = new ELOSearchResult();
             for (int i = 0; i < elos.size(); i++) {
-                BasicELO basicELO = (BasicELO) elos.get(i);
+                ISearchResult basicELO = (ISearchResult) elos.get(i);
                 ScyElo scyElo = ScyElo.loadLastVersionElo(basicELO.getUri(), getMissionELOService());
                 if(technicalFormatFilter != null && pedagogicalPlan.getTrimSearchResultsInEportfolioToContainElosWithEqualTechnicalFormat() ) {
                     if(scyElo.getTechnicalFormat().equals(technicalFormatFilter)) {

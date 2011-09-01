@@ -2,10 +2,7 @@ package eu.scy.server.controllers.scyauthorruntime;
 
 import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.mission.MissionSpecificationElo;
-import eu.scy.core.model.transfer.LasActivityInfo;
-import eu.scy.core.model.transfer.PedagogicalPlanTransfer;
-import eu.scy.core.model.transfer.Portfolio;
-import eu.scy.core.model.transfer.UserActivityInfo;
+import eu.scy.core.model.transfer.*;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.core.roolo.PedagogicalPlanELOService;
 import eu.scy.core.roolo.RuntimeELOService;
@@ -46,8 +43,12 @@ public class CurrentActivityViewController extends BaseController {
         URI uri = getURI(request.getParameter(ELO_URI));
         MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(uri, getMissionELOService());
 
+        PedagogicalPlanTransfer pedagogicalPlanTransfer = getPedagogicalPlanELOService().getPedagogicalPlanForMission(missionSpecificationElo);
+        List <TransferElo> obligatoryElos = missionELOService.getObligatoryAnchorELOs(missionSpecificationElo, pedagogicalPlanTransfer);
+
         List<UserActivityInfo> userActivityInfo = getSessionService().getCurrentStudentActivity(missionSpecificationElo);
         modelAndView.addObject("userActivityList", userActivityInfo);
+        modelAndView.addObject("obligatoryElos", obligatoryElos);
     }
 
 
