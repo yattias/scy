@@ -1,5 +1,7 @@
 <%@ include file="common-taglibs.jsp" %>
 
+<div id="addReflectionQuestionOnMission">
+
         <h2><spring:message code="REFLECTION_QUESTIONS_ON_ELOS"/></h2>
 
         <div id="reflectionQuestionHelp" dojoType="dijit.Dialog" title="Reflection questions">
@@ -63,6 +65,7 @@
             </c:when>
         </c:choose>
         <br/>
+        <a href="javascript:openPage('addReflectionQuestionOnMission', 'ConfigureAssessment.html?action=addReflectionQuestionOnMission&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));">Add reflection question</a>        <br/>
         <br/>
 
 <h2><spring:message code="TECHNICAL_SETUP_EPORTFOLIO"/></h2>
@@ -79,4 +82,4 @@
 </table>
 
 
-
+</div>

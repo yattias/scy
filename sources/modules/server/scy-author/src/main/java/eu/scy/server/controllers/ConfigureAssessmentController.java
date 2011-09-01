@@ -48,8 +48,12 @@ public class ConfigureAssessmentController extends BaseController {
             if (action != null) {
                 if (action.equals("addReflectionQuestion"))
                     addReflectionQuestion(missionSpecificationElo, pedagogicalPlanTransfer, anchorEloURI, "");
-                else if (action.equals("clearReflectionQuestions"))
+                else if (action.equals("clearReflectionQuestions")) {
                     clearReflectionQuestions(missionSpecificationElo, pedagogicalPlanTransfer);
+                } else if (action.equals("addReflectionQuestionOnMission")) {
+                    addReflectionQuestionToMission(missionSpecificationElo, pedagogicalPlanTransfer);
+                }
+
             }
 
             logger.info("Ich habe die parameteren gesatt: " + uriParam);
@@ -63,6 +67,13 @@ public class ConfigureAssessmentController extends BaseController {
             e.printStackTrace();
         }
 
+    }
+
+    private void addReflectionQuestionToMission(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer) {
+        pedagogicalPlanTransfer.getAssessmentSetup().addReflectionTab(createTab("Edit tab name", "Edit Question", "text"));
+        ScyElo pedagogicalPlanElo = getPedagogicalPlanEloForMission(missionSpecificationElo);
+        pedagogicalPlanElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(pedagogicalPlanTransfer));
+        pedagogicalPlanElo.updateElo();
     }
 
     private void clearReflectionQuestions(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer) {
@@ -81,18 +92,18 @@ public class ConfigureAssessmentController extends BaseController {
         List syncedList = new LinkedList();
 
 
-        if(pedagogicalPlanTransfer.getAssessmentSetup().getReflectionTabs() == null){
+        if (pedagogicalPlanTransfer.getAssessmentSetup().getReflectionTabs() == null) {
             pedagogicalPlanTransfer.getAssessmentSetup().setReflectionTabs(new LinkedList());
         }
 
-        if(pedagogicalPlanTransfer.getAssessmentSetup().getReflectionTabs().size() == 0) {
+        /*if(pedagogicalPlanTransfer.getAssessmentSetup().getReflectionTabs().size() == 0) {
             pedagogicalPlanTransfer.getAssessmentSetup().addReflectionTab(createTab("Reflection on Mission", "The most important things I learned about CO2 neural houses are...", "text"));
             pedagogicalPlanTransfer.getAssessmentSetup().addReflectionTab(createTab("Reflection on Collaboration", "Did your group agreed about how to work before you started and were there any problems during the work?", "text"));
             pedagogicalPlanTransfer.getAssessmentSetup().addReflectionTab(createTab("Reflection on Inquiry", "Did you keep the hypotheses that you created early in the inquiry or did you change it?", "text"));
             pedagogicalPlanTransfer.getAssessmentSetup().addReflectionTab(createTab("Reflection on Effort", "Are you satisfied with your own work on this Mission?", "slider"));
 
 
-        }
+        } */
 
         List reflectionQuestions = pedagogicalPlanTransfer.getAssessmentSetup().getReflectionQuestions();
         for (int j = 0; j < reflectionQuestions.size(); j++) {
@@ -118,7 +129,6 @@ public class ConfigureAssessmentController extends BaseController {
 
         return returnTab;
     }
-
 
 
     private void addReflectionQuestion(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer, String anchorEloURI, String title) {
