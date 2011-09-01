@@ -123,11 +123,7 @@ public class LastModifiedQuerySelecter extends AbstractSimpleQuerySelecter
    @Override
    public void setFilterOptions(IQuery query)
    {
-      if (StringUtils.isEmpty(getSelectedOption()))
-      {
-         query.enableDateLastModifiedFilter(false);
-      }
-      else
+      if (!StringUtils.isEmpty(getSelectedOption()))
       {
          Calendar calendar = Calendar.getInstance();
          calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -137,7 +133,6 @@ public class LastModifiedQuerySelecter extends AbstractSimpleQuerySelecter
          long today0_00Milis = calendar.getTimeInMillis();
          calendar.set(Calendar.DAY_OF_WEEK, 0);
          long beginOfWeekMillis = calendar.getTimeInMillis();
-         query.enableDateLastModifiedFilter(false);
          Long startTime = null;
          Long endTime = null;
          Set<String> allowedUsers = new HashSet<String>();

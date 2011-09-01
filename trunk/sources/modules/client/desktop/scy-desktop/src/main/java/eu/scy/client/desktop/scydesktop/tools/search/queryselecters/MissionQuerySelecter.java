@@ -126,27 +126,27 @@ public class MissionQuerySelecter extends AbstractSimpleQuerySelecter
    public void setFilterOptions(IQuery query)
    {
 //      if (StringUtils.isEmpty(getSelectedOption()))
-//      {
-//         query.enableUserRestriction(false);
-//      }
-//      else
-//      {
-//         query.enableUserRestriction(false);
 //         Set<String> allowedUsers = new HashSet<String>();
 //         Set<String> notAllowedUsers = new HashSet<String>();
-//         AuthorOptions authorOption = AuthorOptions.valueOf(getSelectedOption());
-//         switch (authorOption)
+//         MissionOptions missionOption = MissionOptions.valueOf(getSelectedOption());
+//         switch (missionOption)
 //         {
-//            case ME:
+//            case THIS:
 //               allowedUsers.add(myLoginName);
 //               break;
-//            case NOT_ME:
+//            case NOT_THIS:
 //               notAllowedUsers.add(myLoginName);
 //               break;
-//            case SAME:
+//            case ALL_VERSIONS_OF_THIS:
 //               allowedUsers.addAll(getBasedOnElo().getAuthors());
 //               break;
+//            case SAME:
+//               notAllowedUsers.addAll(getBasedOnElo().getAuthors());
+//               break;
 //            case NOT_SAME:
+//               notAllowedUsers.addAll(getBasedOnElo().getAuthors());
+//               break;
+//            case ALL_VERSIONS_OF_MISSION:
 //               notAllowedUsers.addAll(getBasedOnElo().getAuthors());
 //               break;
 //         }

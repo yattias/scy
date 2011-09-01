@@ -86,11 +86,6 @@ public class TechnicalFormatQuerySelector extends AbstractSimpleQuerySelecter
    {
       if (StringUtils.isEmpty(getSelectedOption()))
       {
-         query.enableEloTypeRestriction(false);
-      }
-      else
-      {
-         query.enableEloTypeRestriction(false);
          Set<String> allowedTypes = new HashSet<String>();
          Set<String> notAllowedTypes = new HashSet<String>();
          TechnicalFormatOptions technicalFormatOption = TechnicalFormatOptions.valueOf(getSelectedOption());
@@ -103,8 +98,8 @@ public class TechnicalFormatQuerySelector extends AbstractSimpleQuerySelecter
                notAllowedTypes.add(getBasedOnElo().getTechnicalFormat());
                break;
          }
-         query.setAllowedEloTypes(allowedTypes);
-//         query.setNotAllowedUsers(notAllowedUsers);
+         query.setIncludedEloTypes(allowedTypes);
+         query.setExcludedEloTypes(notAllowedTypes);
       }
    }
 }
