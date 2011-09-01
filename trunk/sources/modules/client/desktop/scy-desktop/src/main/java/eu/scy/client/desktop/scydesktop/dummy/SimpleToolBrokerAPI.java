@@ -210,4 +210,9 @@ public class SimpleToolBrokerAPI implements ToolBrokerAPI,ToolBrokerAPIRuntimeSe
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
+    public void setUserPresence(boolean available) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }
