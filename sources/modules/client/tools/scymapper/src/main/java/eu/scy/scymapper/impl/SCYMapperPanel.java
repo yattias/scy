@@ -42,6 +42,8 @@ import eu.scy.scymapper.api.configuration.ISCYMapperToolConfiguration;
 import eu.scy.scymapper.api.diagram.model.ILinkModel;
 import eu.scy.scymapper.api.diagram.model.INodeModel;
 import eu.scy.scymapper.impl.configuration.SCYMapperToolConfiguration;
+import eu.scy.scymapper.impl.controller.DefaultElementControllerFactory;
+import eu.scy.scymapper.impl.controller.DiagramController;
 import eu.scy.scymapper.impl.controller.datasync.DataSyncDiagramController;
 import eu.scy.scymapper.impl.controller.datasync.DataSyncElementControllerFactory;
 import eu.scy.scymapper.impl.logging.ConceptMapActionLogger;
@@ -384,6 +386,14 @@ public class SCYMapperPanel extends JPanel implements INotifiable {
         return currentSession;
     }
 
+    public void leaveSession() {
+        DiagramController dc = new DiagramController(conceptMap.getDiagram(), conceptMap.getDiagram().getSelectionModel());
+        currentSession.leaveSession();
+        currentSession = null;
+        conceptDiagramView.setController(dc);
+        conceptDiagramView.setElementControllerFactory(new DefaultElementControllerFactory());
+    }
+
     public ISyncSession createSession() {
         if (toolBroker == null) {
             JOptionPane.showMessageDialog(this, Localization.getString("Dialog.Message.ToolBrokerNull.Text"), Localization.getString("Dialog.Message.ToolBrokerNull.Title"), JOptionPane.ERROR_MESSAGE);
@@ -394,7 +404,8 @@ public class SCYMapperPanel extends JPanel implements INotifiable {
             actionLogger.setSession(currentSession);
             return currentSession;
         } catch (Exception e) {
-            e.printStackTrace(); // To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace(); // To change body of catch statement use File | Settings | File
+                                 // Templates.
         }
         return null;
     }
