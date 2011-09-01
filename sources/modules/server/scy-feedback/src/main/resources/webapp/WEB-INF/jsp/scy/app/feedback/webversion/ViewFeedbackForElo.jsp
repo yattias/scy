@@ -8,6 +8,7 @@
             <a href="javascript:openDialog('${transferElo.myname}');">
                 <img src="${transferElo.thumbnail}" alt="" style="border:0;"/>
             </a>
+        <a href="/webapp/components/openEloInScyLabDialog.html?eloURI=${transferElo.uri}">OPEN</a>
             <br/>
             <strong>${transferElo.myname}</strong><br/>
             By: ${transferElo.createdBy}<br/>

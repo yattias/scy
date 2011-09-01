@@ -92,7 +92,7 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
 
         missionSpecificationElo.getTypedContent().setRuntimeSettingsEloUri(runtimeSettingsElo.getUri());
         missionSpecificationElo.updateElo();
-        setGlobalMissionScaffoldingLevel(missionSpecificationElo, 2);
+        //setGlobalMissionScaffoldingLevel(missionSpecificationElo, 2);
 
     }
 
