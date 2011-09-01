@@ -437,6 +437,16 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
         }
     }
 
+    public override function stopCollaboration() : Void {
+        if (collaborative) {
+            collaborative = false;
+            FX.deferAction(function(): Void {
+                fitexPanel.leaveSession(null);
+            });
+        }
+    }
+
+
     /**
     * Set the read only mode.
     */
