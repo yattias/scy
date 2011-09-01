@@ -33,7 +33,7 @@ public class RuntimeELOServiceImpl extends BaseELOServiceImpl implements Runtime
         missionRuntimeQuery.setMaxResults(500);
         Set userNames = new HashSet();
         userNames.add(userName);
-        missionRuntimeQuery.setAllowedUsers(userNames);
+        missionRuntimeQuery.setIncludedUsers(userNames);
         //ISearchResult searchResult = (ISearchResult) eloSearchResult.get(i);
         //return getELOs(missionRuntimeQuery);
         return getRepository().search(missionRuntimeQuery);
