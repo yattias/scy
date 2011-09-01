@@ -261,6 +261,16 @@ public class RichTextEditorScyNode extends INotifiable, RichTextEditorNode, ScyT
         }
     }
 
+    public override function stopCollaboration() : Void {
+        if (collaborative) {
+            collaborative = false;
+            FX.deferAction(function(): Void {
+                richTextEditor.setSyncSession(null);
+            });
+        }
+    }
+
+
     public override function canAcceptDrop(object: Object): Boolean {
         logger.debug("canAcceptDrop of {object.getClass()}");
         if (object instanceof ContactFrame) {
