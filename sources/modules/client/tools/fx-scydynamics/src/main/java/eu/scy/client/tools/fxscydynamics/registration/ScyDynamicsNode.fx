@@ -40,8 +40,10 @@ import java.util.Set;
 import javafx.util.StringLocalizer;
 import org.jdom.input.SAXBuilder;
 import java.io.StringReader;
+import eu.scy.client.desktop.scydesktop.scywindows.scaffold.IScaffoldChangeListener;
+import eu.scy.client.desktop.scydesktop.scywindows.scaffold.ScaffoldManager;
 
-public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack {
+public class ScyDynamicsNode extends IScaffoldChangeListener, CustomNode, Resizable, ScyToolFX, EloSaverCallBack {
 
 	var infoDialog: SCYDynamicsInfoDialog;
 	def logger = Logger.getLogger(this.getClass());
@@ -83,6 +85,7 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
 			}
 
 	public override function initialize(windowContent: Boolean): Void {
+		ScaffoldManager.getInstance().addScaffoldListener(this);
 		repository = toolBrokerAPI.getRepository();
 		metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
 		eloFactory = toolBrokerAPI.getELOFactory();
@@ -90,6 +93,7 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
 		technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
 		keywordsKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.KEYWORDS);
 		modelEditor.setActionLogger(toolBrokerAPI.getActionLogger(), toolBrokerAPI.getLoginUserName());
+		this.scaffoldLevelChanged(ScaffoldManager.getInstance().getScaffoldLevel());
 	}
 
 	public override function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
@@ -260,6 +264,18 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
 
 	public override function getMinWidth(): Number {
 		return 300;
+	}
+
+	public override function scaffoldLevelChanged(newLevel: java.lang.Integer): Void {
+		logger.info("setting scaffold to {newLevel}");
+		if (newLevel == ScaffoldManager.SCAFFOLD_OFF) {
+			modelEditor.setMode(ModelEditor.Mode.QUANTITATIVE_MODELLING);
+		} else if (newLevel == ScaffoldManager.SCAFFOLD_MEDIUM) {
+			modelEditor.setMode(ModelEditor.Mode.CLEAR_BOX);
+		} else if (newLevel == ScaffoldManager.SCAFFOLD_HIGH) {
+			modelEditor.setMode(ModelEditor.Mode.BLACK_BOX);
+		}
+
 	}
 
 }
