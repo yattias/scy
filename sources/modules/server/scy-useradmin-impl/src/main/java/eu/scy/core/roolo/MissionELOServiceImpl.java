@@ -263,23 +263,24 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
     }
 
     @Override
-    public List getMissionSpecifications() {
+    public List <ISearchResult> getMissionSpecifications() {
         final IMetadataKey technicalFormatKey = getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
         IQueryComponent missionSpecificationQueryComponent = new MetadataQueryComponent(technicalFormatKey, SearchOperation.EQUALS, MissionEloType.MISSION_SPECIFICATIOM.getType());
         IQuery missionSpecificationQuery = new Query(missionSpecificationQueryComponent);
-        return getELOs(missionSpecificationQuery);
+
+        return getRepository().search(missionSpecificationQuery);
     }
 
-    public List getMissionSpecificationsByAuthor(String author) {
+    public List <ISearchResult> getMissionSpecificationsByAuthor(String author) {
         return getMissionSpecifications();
     }
 
     @Override
     public List getPortfoliosThatAreReadyForAssessment(MissionSpecificationElo missionSpecificationElo) {
-        List runtimeElos = getRuntimeElos(missionSpecificationElo);
+        List <ISearchResult> runtimeElos = getRuntimeElos(missionSpecificationElo);
         List returnList = new LinkedList();
         for (int i = 0; i < runtimeElos.size(); i++) {
-            ScyElo shittyElo = (ScyElo) runtimeElos.get(i);
+            ISearchResult shittyElo = runtimeElos.get(i);
             MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(shittyElo.getUri(), this);
             URI portfolioURI = missionRuntimeElo.getTypedContent().getEPortfolioEloUri();
             if (portfolioURI != null) {
@@ -432,9 +433,9 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
 
     @Override
     public void clearAllPortfolios() {
-        List runtimeElos = getRuntimeElos(null);
+        List <ISearchResult> runtimeElos = getRuntimeElos(null);
         for (int i = 0; i < runtimeElos.size(); i++) {
-            ScyElo shittyElo = (ScyElo) runtimeElos.get(i);
+            ISearchResult shittyElo = runtimeElos.get(i);
             MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(shittyElo.getUri(), this);
             URI portfolioURI = missionRuntimeElo.getTypedContent().getEPortfolioEloUri();
             if (portfolioURI != null) {

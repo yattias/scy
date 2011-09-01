@@ -61,7 +61,17 @@ public class AddFeedbackController extends BaseController {
         feedbackElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(feedbackEloTransfer));
         feedbackElo.updateElo();
 
-        getActionLoggerService().logAction("feedback_given", feedbackEloTransfer.getCreatedBy(), "feedback", parentEloURI.toString());
+        String host = request.getServerName();
+        logger.info("THE HOST IS: " + host);
+
+        if(host.equals("localhost") || host.equals("127.0.0.1")) {
+            host = "scy.collide.info";
+        }
+
+        String username = feedbackEloTransfer.getCreatedBy() + "@" + host + "/Smack";
+        logger.info("USERNAME: " + username);
+
+        getActionLoggerService().logAction("feedback_given", username, "feedback", parentEloURI.toString());
 
         modelAndView.addObject("username", getCurrentUser(request));
         modelAndView.addObject("feedbackItem", feedbackTransfer);
