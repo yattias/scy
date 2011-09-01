@@ -131,7 +131,7 @@ public class SessionServiceImpl extends BaseELOServiceImpl implements SessionSer
         missionRuntimeQuery.setMaxResults(500);
         Set users = new HashSet();
         users.add(userName);
-        missionRuntimeQuery.setAllowedUsers(users);
+        missionRuntimeQuery.setIncludedUsers(users);
         return getRepository().search(missionRuntimeQuery);
 
         /*

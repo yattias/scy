@@ -516,7 +516,7 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
         Set userNames = new HashSet();
         userNames.add(username);
 
-        query.setAllowedUsers(userNames);
+        query.setIncludedUsers(userNames);
 
         return getRepository().search(query);
 
