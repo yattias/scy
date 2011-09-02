@@ -383,7 +383,7 @@ public class ScyElo {
    }
 
    public void setFinished(boolean finished){
-      getMetadataValueContainer(finishedKey).setValue(finished);
+      getMetadataValueContainer(finishedKey).setValue(Boolean.toString(finished));
    }
 
    public boolean isFinished() {
