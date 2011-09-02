@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
 import java.lang.System;
+import eu.scy.client.desktop.scydesktop.tooltips.impl.bubblestore.BubbleStoreImpl;
 
 /**
  * @author sikken
@@ -18,7 +19,7 @@ public class SimpleBubbleManager extends BubbleManager {
 
    def timeStep = 1s;
    def bubbleDelayMillis = 10000;
-   def bubbleStore = new BubbleStore();
+   def bubbleStore = new BubbleStoreImpl();
    var lastShownBubbleTime: Long = System.currentTimeMillis();
    var activeLayerId: Object;
 
