@@ -67,9 +67,11 @@ dojo.require("dojo.parser")
 
                 font-family: Arial, Helvetica, sans-serif;
 
-                background-color: #d4e2ca;
+                background-color: #666666;
 
-                border: 2px solid #2085b1;
+                border: 2px solid #333333;
+
+                color:#ffffff;
 
                 padding: 2px;
 
