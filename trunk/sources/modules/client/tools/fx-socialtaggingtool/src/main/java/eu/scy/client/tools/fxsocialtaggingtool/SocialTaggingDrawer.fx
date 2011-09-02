@@ -259,6 +259,11 @@ public class SocialTaggingDrawer
         eloInterface.joinSession(mucId);
     }
 
+    public override function stopCollaboration() : Void {
+        eloInterface.leaveSession();
+    }
+
+
     public override var width on replace { sizeChanged() };
    
     public override var height on replace { sizeChanged() };
