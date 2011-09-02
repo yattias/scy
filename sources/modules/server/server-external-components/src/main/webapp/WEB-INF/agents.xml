@@ -222,6 +222,14 @@
         </constructor-arg>
     </bean>
 
+    <bean id="conceptMapEvaluation" class="eu.scy.agents.impl.AgentStartConfiguration">
+        <constructor-arg index="0"
+                         value="eu.scy.agents.conceptmapevaluation.ConceptMapEvaluationAgent"/>
+        <constructor-arg index="1">
+            <map/>
+        </constructor-arg>
+    </bean>
+
     <bean id="scaffoldNotificator" class="eu.scy.agents.impl.AgentStartConfiguration">
         <constructor-arg index="0"
                          value="eu.scy.agents.general.ScaffoldingNotificatorAgent"/>
