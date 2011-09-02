@@ -22,6 +22,7 @@ public class SimpleBubbleManager extends BubbleManager {
    def bubbleStore = new BubbleStoreImpl();
    var lastShownBubbleTime: Long = System.currentTimeMillis();
    var activeLayerId: Object;
+   var noBubbleFoundCounter = 0;
 
    init {
    }
@@ -46,8 +47,12 @@ public class SimpleBubbleManager extends BubbleManager {
             println("display bubble: {bubbleToDisplay}");
             bubbleStore.removeBubbles(bubbleToDisplay.id);
             lastShownBubbleTime = System.currentTimeMillis();
+            noBubbleFoundCounter = 0;
          } else {
-            println("no bubble found to display");
+            ++noBubbleFoundCounter;
+            if (noBubbleFoundCounter<5){
+               println("no bubble found to display");
+            }
          }
       }
    }
