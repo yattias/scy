@@ -1,20 +1,43 @@
 <%@ include file="common-taglibs.jsp" %>
+
 <tiles:insertDefinition name="default-page">
+
     <tiles:putAttribute name="main">
+        <style type="text/css">
+        .feedbackHeader{
+                background-image:url(/webapp/themes/scy/default/images/feedback_header.png);
+                background-repeat:no-repeat;
+                color:#ffffff;
+                height:50px;
+                background-color:#333333 !important;
+                font-weight:bold;
+                font-size:25px;
+                text-align:center;
+                padding-top:20px;
+            }
+    </style>
+        <div style="border:4px solid #cc6600;width:786px;height:95%;padding:4px;" class="greenBorders">
+                    <!--img src="/webapp/themes/scy/default/images/feedback_header.png" alt="" class="greenBackgrounds" /-->
+                    <div class="feedbackHeader" >My ePortfolio</div>
+                   
+                <div dojoType="dojox.layout.ContentPane" style="width:100%;height:90%;" id="eportfolioPane" parseOnLoad="true" executeScripts="true">
 
 
             <c:choose>
                 <c:when test="${fn:length(elos) > 0}">
                     <c:forEach var="elo" items="${elos}">
+                       <a href="/webapp/app/webeport/editEloReflections.html?eloURI=${elo.uri}&anchorEloURI=${anchorElo.uri}">
+                        <div dojoType="dojox.layout.ContentPane" class="feedbackEloContainer" style="width:30%;height:246px;float:left;background-color:#333333;margin:2px;border:3px solid #333333;color:#ffffff;">
 
-                        <div dojoType="dojox.layout.ContentPane" class="feedbackEloContainer greenBackgrounds greenBorders" style="width:30%;height:246px;float:left;">
-                            <a href="/webapp/app/webeport/editEloReflections.html?eloURI=${elo.uri}&anchorEloURI=${anchorElo.uri}">
-                                <div class="thumbContainer lightGreenBackgrounds">
-                                    <img src="${elo.thumbnail}"/>
+
+                                <div style="background-color:#cccccc;text-align:center;">
+
+                                        <img src="${elo.thumbnail}"/>
+
                                 </div>
-                            </a>
-                    <div class="eloInfoContainer">
-                        <table>
+
+
+                        <table style="border:0 !important;">
                             <tr>
                                 <td>
                                     <strong>Title</strong>
@@ -41,8 +64,9 @@
                             </tr>
                         </table>
                           
-                    </div>
+                   
                 </div>
+                           </a>
 
 
 
@@ -50,7 +74,9 @@
                     </c:forEach>
                 </c:when>
             </c:choose>
-        
+                   </div>
+        </div>
+       
 
         </tiles:putAttribute>
 </tiles:insertDefinition>
