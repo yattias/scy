@@ -38,6 +38,12 @@ public class EditEloReflections extends BaseController {
         ScyElo elo = ScyElo.loadLastVersionElo(eloURI, getMissionELOService());
         TransferElo transferElo = new TransferElo(elo);
 
+        logger.info("QUERY: " + request.getQueryString());
+        logger.info("MISSIONURI: " + request.getParameter("missionRuntimeURI"));
+
+        URI missionRuntimeURI = getURI(request.getParameter("missionRuntimeURI"));
+
+
         URI anchorEloURI = getURI(request.getParameter("anchorEloURI"));
         ScyElo anchorElo = ScyElo.loadLastVersionElo(anchorEloURI, getMissionELOService());
         TransferElo anchorEloTransfer = new TransferElo(anchorElo);
@@ -57,6 +63,8 @@ public class EditEloReflections extends BaseController {
 
         modelAndView.addObject("generalLearningGoals", generalLearningGooals);
         modelAndView.addObject("specificLearningGoals", specificLearningGooals);
+        modelAndView.addObject("missionRuntimeURI", getEncodedUri(missionRuntimeURI.toString()));
+        modelAndView.addObject(ELO_URI, getEncodedUri(eloURI.toString()));
     }
 
     public MissionELOService getMissionELOService() {

@@ -60,7 +60,7 @@ public interface MissionELOService extends BaseELOService {
 
     NewestElos getNewestElosForFeedback(MissionRuntimeElo missionRuntimeElo, String username);
 
-    List getFeedback();
+    List <ISearchResult> getFeedback();
 
     NewestElos getMyElosWithFeedback(MissionRuntimeElo missionRuntimeElo, String currentUserName);
 

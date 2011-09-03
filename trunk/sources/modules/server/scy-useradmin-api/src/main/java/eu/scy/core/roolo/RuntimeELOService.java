@@ -1,5 +1,6 @@
 package eu.scy.core.roolo;
 
+import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.core.BaseELOService;
 import roolo.search.ISearchResult;
 
@@ -17,5 +18,4 @@ public interface RuntimeELOService extends BaseELOService {
         List <ISearchResult> getRuntimeElosForUser(String userName);
 
         public void deleteRuntimeElosForUser(String userName);
-
 }

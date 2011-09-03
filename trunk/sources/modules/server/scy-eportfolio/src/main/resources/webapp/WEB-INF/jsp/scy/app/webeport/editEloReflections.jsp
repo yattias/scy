@@ -119,8 +119,10 @@
                         <strong>Reflection on inquiry</strong>
                     </td>
                     <td>
-                        Slider here
+                        <input type="text" name="reflectionOnInquiry"/>  <strong>REPLACE THIS ONE WITH A SLIDER</strong>
                     </td>
+                    <input type="text" name="missionRuntimeURI" value="${missionRuntimeURI}"/>
+                    <input type="text" name="eloURI" value="${eloURI}"/>
                 </tr>
             </table>
             <input type="submit" value="save">

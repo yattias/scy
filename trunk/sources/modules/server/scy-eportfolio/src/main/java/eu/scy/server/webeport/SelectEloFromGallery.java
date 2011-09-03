@@ -30,15 +30,19 @@ public class SelectEloFromGallery extends BaseController {
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
 
         URI uri = getURI(request.getParameter(ELO_URI));
+        URI missionRuntimeURI = getURI(request.getParameter("missionRuntimeURI"));
         ScyElo anchorElo = ScyElo.loadLastVersionElo(uri, getMissionELOService());
 
         String technicalFormat = anchorElo.getTechnicalFormat();
+        String encodedAnchorEloURI = getEncodedUri(anchorElo.getUri().toString());
 
         logger.info("TRYING TO LOAD ELOS WITH TECHNICAL FORMAT: " + technicalFormat);
+        logger.info("LOADED MISSION URI: " + missionRuntimeURI.toString());
 
         List<SearchResultTransfer> searchResults = getMissionELOService().getSearchResultTransfers(getMissionELOService().getElosWithTechnicalType(technicalFormat, getCurrentUserName(request)), request.getLocale());
         modelAndView.addObject("elos", searchResults);
-        modelAndView.addObject("anchorElo", anchorElo);
+        modelAndView.addObject("encodedAnchorEloURI", encodedAnchorEloURI);
+        modelAndView.addObject("missionRuntimeURI", getEncodedUri(missionRuntimeURI.toString()));
 
     }
 

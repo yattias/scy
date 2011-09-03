@@ -22,11 +22,12 @@
                    
                 <div dojoType="dojox.layout.ContentPane" style="width:100%;height:90%;" id="eportfolioPane" parseOnLoad="true" executeScripts="true">
 
+                    MISSION URI: ${missionRuntimeURI}
 
             <c:choose>
                 <c:when test="${fn:length(elos) > 0}">
                     <c:forEach var="elo" items="${elos}">
-                       <a href="/webapp/app/webeport/editEloReflections.html?eloURI=${elo.uri}&anchorEloURI=${anchorElo.uri}">
+                       <a href="/webapp/app/webeport/editEloReflections.html?eloURI=${elo.uri}&anchorEloURI=${encodedAnchorEloURI}&missionRuntimeURI=${missionRuntimeURI}">
                         <div dojoType="dojox.layout.ContentPane" class="feedbackEloContainer" style="width:30%;height:246px;float:left;background-color:#333333;margin:2px;border:3px solid #333333;color:#ffffff;">
 
 

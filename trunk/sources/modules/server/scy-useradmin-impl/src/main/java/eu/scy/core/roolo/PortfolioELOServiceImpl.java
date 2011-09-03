@@ -21,6 +21,7 @@ public class PortfolioELOServiceImpl extends BaseELOServiceImpl implements Portf
     @Override
     public Portfolio getPortfolio(MissionRuntimeElo missionRuntimeElo, String username) {
         URI portfolioURI = missionRuntimeElo.getTypedContent().getEPortfolioEloUri();
+        System.out.println("Loading portfolio: " + portfolioURI);
         Portfolio portfolio = null;
         if (portfolioURI != null) {
             ScyElo ePortfolioElo = ScyElo.loadLastVersionElo(portfolioURI, this);
