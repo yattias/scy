@@ -187,9 +187,11 @@
 
     <bean id="storeEloReflectionsController" class="eu.scy.server.webeport.StoreEloReflections">
         <property name="urlInspector" ref="urlInspector"/>
-        <!--property name="missionELOService" ref="missionELOService"/>
+        <property name="portfolioELOService" ref="portfolioELOService"/>
+        <property name="runtimeELOService" ref="runtimeELOService"/>
+        <property name="missionELOService" ref="missionELOService"/>
         <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
-        <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
+        <!--property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
         <property name="runtimeELOService" ref="runtimeELOService"/-->
 	</bean>
 

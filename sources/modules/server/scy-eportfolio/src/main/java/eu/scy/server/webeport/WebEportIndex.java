@@ -44,6 +44,7 @@ public class WebEportIndex extends BaseController {
 
         modelAndView.addObject("obligatoryAnchorElos", obligatoryAnchorElos);
         modelAndView.addObject("portfolio", portfolio);
+        modelAndView.addObject("missionRuntimeURI", getEncodedUri(missionRuntimeElo.getUri().toString()));
 
         
 

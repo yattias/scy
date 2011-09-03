@@ -321,10 +321,11 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
 
         NewestElos newestElos = new NewestElos();
 
-        List feedbackList = getFeedback();
-        Collections.sort(feedbackList, new EloComparator());
+        List <ISearchResult> feedbackList = getFeedback();
+        //Collections.sort(feedbackList, new EloComparator());
         for (int i = 0; i < feedbackList.size(); i++) {
-            ScyElo feedbackElo = (ScyElo) feedbackList.get(i);
+            ISearchResult searchResult = (ISearchResult) feedbackList.get(i);
+            ScyElo feedbackElo = ScyElo.loadLastVersionElo(searchResult.getUri(), this);
             URI uri = feedbackElo.getFeedbackOnEloUri();
             ScyElo commentedOn = ScyElo.loadLastVersionElo(uri, this);
 
@@ -334,18 +335,11 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
                 newestElos.addElo(transferElo);
             }
         }
-
-        for (int i = 0; i < newestElos.getElos().size(); i++) {
-            TransferElo transferElo = (TransferElo) newestElos.getElos().get(i);
-            System.out.println(transferElo.getLastModified() + "  " + transferElo.getCatname());
-        }
-
-
         return newestElos;
     }
 
     @Override
-    public List getFeedback() {
+    public List <ISearchResult> getFeedback() {
 
         final IMetadataKey technicalFormatKey = getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
         IQueryComponent feedbackComponent = new MetadataQueryComponent(technicalFormatKey, SearchOperation.EQUALS, "scy/feedback");
@@ -353,14 +347,18 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
 
         List<ISearchResult> results = getRepository().search(feedbackQuery);
 
-        for (int i = 0; i < results.size(); i++) {
+        /*for (int i = 0; i < results.size(); i++) {
             ISearchResult searchResult = (ISearchResult) results.get(i);
             ScyElo scyELO = getElo(searchResult.getUri());
             String xmlString = scyELO.getElo().getContent().getXmlString();
             if (xmlString.startsWith("<feedback>")) xmlString = fixXml(xmlString, scyELO);
-        }
+        } */
 
-        return getELOs(feedbackQuery);
+        return results;
+
+
+
+        //return getELOs(feedbackQuery);
     }
 
     @Override
@@ -399,7 +397,8 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
         NewestElos newestElos = new NewestElos();
 
         for (int i = 0; i < feedbackElos.size(); i++) {
-            ScyElo feedbackElo = (ScyElo) feedbackElos.get(i);
+            ISearchResult searchResult = (ISearchResult) feedbackElos.get(i);
+            ScyElo feedbackElo = ScyElo.loadLastVersionElo(searchResult.getUri(), this);
             FeedbackEloTransfer feedbackTransfer = (FeedbackEloTransfer) getXmlTransferObjectService().getObject(feedbackElo.getContent().getXmlString());
 
             if (getHasUserContributedWithFeedbackOnElo(feedbackTransfer, currentUserName)) {
@@ -462,7 +461,8 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
 
         List feedback = getFeedback();
         for (int i = 0; i < feedback.size(); i++) {
-            ScyElo feedbackElo = (ScyElo) feedback.get(i);
+            ISearchResult searchResult = (ISearchResult) feedback.get(i);
+            ScyElo feedbackElo = ScyElo.loadLastVersionElo(searchResult.getUri(), this);
             URI parentEloURI = feedbackElo.getFeedbackOnEloUri();
 
             ScyElo parentCandidate = ScyElo.loadLastVersionElo(parentEloURI, this);

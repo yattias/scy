@@ -24,6 +24,9 @@ import java.util.List;
  */
 public class ViewFeedbackForElo extends BaseController {
     private ScyElo elo;
+    private String originatingPage;
+
+    private static final String ORIGINATING_PAGE = "originatingPage";
 
     public ScyElo getElo() {
         return elo;
@@ -63,10 +66,12 @@ public class ViewFeedbackForElo extends BaseController {
         URI uri = getURI(request.getParameter(ELO_URI));
         ScyElo scyElo = ScyElo.loadLastVersionElo(uri, getMissionELOService());
         setScyElo(scyElo);
-
+        logger.info("REQUEST: " + request.getQueryString());
+        setOriginatingPage(request.getParameter(ORIGINATING_PAGE));
+        logger.info("ORIGINATING PAGE: " + getOriginatingPage());
         modelAndView.addObject("eloURI", getEncodedUri(request.getParameter(ELO_URI)));
-        URI listUri = scyElo.getUri();
-        modelAndView.addObject("listUri", listUri);
+        /*URI listUri = scyElo.getUri();
+        modelAndView.addObject("listUri", listUri);*/
         TransferElo transferElo = getMissionELOService().getTransferElo(scyElo);
         try {
             String fbURI = transferElo.getFeedbackEloURI();
@@ -118,9 +123,13 @@ public class ViewFeedbackForElo extends BaseController {
        return feedback;
     }
 
-    
+    public String getOriginatingPage() {
+        return originatingPage;
+    }
 
-
+    public void setOriginatingPage(String originatingPage) {
+        this.originatingPage = originatingPage;
+    }
 
     /*public User getCreatedByUser(){
         User createdBy = getUserService().getUser(getMissionELOService().getTransferElo(getElo()).getCreatedBy());

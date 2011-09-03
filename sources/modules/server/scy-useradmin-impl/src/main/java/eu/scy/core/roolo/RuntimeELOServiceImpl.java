@@ -25,8 +25,6 @@ public class RuntimeELOServiceImpl extends BaseELOServiceImpl implements Runtime
 
     @Override
     public List<ISearchResult> getRuntimeElosForUser(String userName) {
-        List runtimeElos = new LinkedList();
-
         final IMetadataKey technicalFormatKey = getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
         IQueryComponent missionRuntimeQueryComponent = new MetadataQueryComponent(technicalFormatKey, SearchOperation.EQUALS, MissionEloType.MISSION_RUNTIME.getType());
         IQuery missionRuntimeQuery = new Query(missionRuntimeQueryComponent);
@@ -34,24 +32,7 @@ public class RuntimeELOServiceImpl extends BaseELOServiceImpl implements Runtime
         Set userNames = new HashSet();
         userNames.add(userName);
         missionRuntimeQuery.setIncludedUsers(userNames);
-        //ISearchResult searchResult = (ISearchResult) eloSearchResult.get(i);
-        //return getELOs(missionRuntimeQuery);
         return getRepository().search(missionRuntimeQuery);
-
-        
-
-
-        /*List<ScyElo> runtimeModels = getRuntimeElos(null);
-        for (int i = 0; i < runtimeModels.size(); i++) {
-            MissionRuntimeElo missionRuntimeElo = new MissionRuntimeElo(runtimeModels.get(i).getElo(), this);
-            if (missionRuntimeElo != null) {
-                String missionRunningHAHAHA = missionRuntimeElo.getUserRunningMission();
-                if (missionRunningHAHAHA != null && missionRunningHAHAHA.equals(userName)) {
-                    runtimeElos.add(missionRuntimeElo);
-                }
-            }
-        } */
-        //return runtimeElos;
     }
 
     @Override
@@ -66,8 +47,5 @@ public class RuntimeELOServiceImpl extends BaseELOServiceImpl implements Runtime
 
         }
     }
-
-    
-
 
 }

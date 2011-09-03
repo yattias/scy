@@ -41,12 +41,12 @@
             <c:forEach var="elo" items="${elos}">
                 <div dojoType="dojox.layout.ContentPane" class="feedbackEloContainer greenBackgrounds greenBorders" style="width:30%;height:246px;float:left;">
                     <div class="thumbContainer lightGreenBackgrounds">
-                        <a href="javascript:loadAccordionContent('newestElosContainer', '../webversion/ViewFeedbackForElo.html?eloURI=${elo.uri}&amp;listUri=${listUri}');" style="color:#ffffff;">
+                        <a href="javascript:loadAccordionContent('newestElosContainer', '../webversion/ViewFeedbackForElo.html?eloURI=${elo.uri}&amp;originatingPage=NewestELOs');" style="color:#ffffff;">
                             <img src="${elo.thumbnail}" />
                         </a>    
                     </div>
                     <div class="eloInfoContainer">
-                    <p><strong><a href="javascript:loadAccordionContent('newestElosContainer', '../webversion/ViewFeedbackForElo.html?eloURI=${elo.uri}&amp;listUri=${listUri}');" style="color:#ffffff;">${elo.myname}</a></strong></p>
+                    <p><strong><a href="javascript:loadAccordionContent('newestElosContainer', '../webversion/ViewFeedbackForElo.html?eloURI=${elo.uri}&amp;originatingPage=NewestELOs');" style="color:#ffffff;">${elo.myname}</a></strong></p>
                     <p>Category: ${elo.catname}</p>
                     <p>By: ${elo.createdBy}</p>
                     <p>Date: ${elo.createdDate}</p>
