@@ -61,6 +61,15 @@ public class AssessmentSetupTransfer extends BaseXMLTransfer{
         }
     }
 
+    public List<ReflectionQuestion> getReflectionQuestionsForAnchorElo(String anchorEloUri) {
+        List <ReflectionQuestion> returnList = new LinkedList<ReflectionQuestion>();
+        for (int i = 0; i < reflectionQuestions.size(); i++) {
+            ReflectionQuestion reflectionQuestion = (ReflectionQuestion) reflectionQuestions.get(i);
+            if(reflectionQuestion.getAnchorEloURI() != null && reflectionQuestion.getAnchorEloURI().equals(anchorEloUri)) returnList.add(reflectionQuestion);
+        }
+        return returnList;
+    }
+
     public List getReflectionTabs() {
         return reflectionTabs;
     }
