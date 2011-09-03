@@ -199,7 +199,7 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
         log.info("LOADING ANCHOR ELOS FOR MISSION SPEC: " + missionSpecificationElo.getUri());
 
         MissionModelElo missionModel = MissionModelElo.loadLastVersionElo(missionSpecificationElo.getTypedContent().getMissionMapModelEloUri(), this);
-        missionModel.getMissionModel().loadMetadata(this);
+        //missionModel.getMissionModel().loadMetadata(this);
         List lasses = missionModel.getTypedContent().getLasses();//what is  this? A getter??
 
         log.info("*** *** MISSION URI: " + missionModel.getUri());
