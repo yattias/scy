@@ -1,14 +1,14 @@
 <%@ include file="common-taglibs.jsp" %>
 <div dojoType="dojox.layout.ContentPane" parseOnLoad="true" executeScripts="true">
-    <p>Give feedback</p>
+    <h2>Give feedback</h2>
 <!--table>
     <tr>
         <td style="width:50%;"-->
     <div dojoType="dojox.layout.ContentPane" style="width:50%;float:left;" executeScripts="true" parseOnLoad="true">
-            <a href="javascript:openDialog('${transferElo.myname}');">
+            <a href="javascript:loadDialog('/webapp/components/openEloInScyLabDialog.html?eloURI=${transferElo.uri}', '${transferElo.myname}');">
                 <img src="${transferElo.thumbnail}" alt="" style="border:0;"/>
             </a>
-        <a href="/webapp/components/openEloInScyLabDialog.html?eloURI=${transferElo.uri}">OPEN</a>
+       
             <br/>
             <strong>${transferElo.myname}</strong><br/>
             By: ${transferElo.createdBy}<br/>
