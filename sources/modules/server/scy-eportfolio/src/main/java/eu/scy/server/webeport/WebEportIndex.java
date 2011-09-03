@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -34,7 +35,13 @@ public class WebEportIndex extends BaseController {
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
-        URI missionURI = getURI(request.getParameter(ELO_URI));
+        URI missionURI = null;
+        if(request.getParameter("missionRuntimeURI") != null) {
+            missionURI = getURI(request.getParameter("missionRuntimeURI"));
+        } else {
+            missionURI = getURI(request.getParameter(ELO_URI));
+        }
+
         MissionRuntimeElo missionRuntimeElo = (MissionRuntimeElo) getScyElo();
         MissionSpecificationElo missionSpecificationElo = getMissionELOService().getMissionSpecificationELOForRuntume(missionRuntimeElo);
         PedagogicalPlanTransfer pedagogicalPlanTransfer = getPedagogicalPlanELOService().getPedagogicalPlanForMission(missionSpecificationElo);
@@ -42,9 +49,23 @@ public class WebEportIndex extends BaseController {
 
         List obligatoryAnchorElos = getObligatoryAnchorElos(missionSpecificationElo, pedagogicalPlanTransfer);
 
+        List <AnchoELOWithStatus> anchoELOWithStatuses = new LinkedList<AnchoELOWithStatus>();
+
+        for (int i = 0; i < obligatoryAnchorElos.size(); i++) {
+            TransferElo anchorElo = (TransferElo) obligatoryAnchorElos.get(i);
+            AnchoELOWithStatus anchoELOWithStatus = new AnchoELOWithStatus();
+            anchoELOWithStatus.setAnchorElo(anchorElo);
+            if(portfolio.getHasEloBeenAddedForAnchorElo(anchorElo)) anchoELOWithStatus.setEloHasBeenAdded(true);
+            anchoELOWithStatuses.add(anchoELOWithStatus);
+        }
+
+
         modelAndView.addObject("obligatoryAnchorElos", obligatoryAnchorElos);
         modelAndView.addObject("portfolio", portfolio);
         modelAndView.addObject("missionRuntimeURI", getEncodedUri(missionRuntimeElo.getUri().toString()));
+        modelAndView.addObject("anchorElosWithStatuses", anchoELOWithStatuses);
+
+
 
         
 

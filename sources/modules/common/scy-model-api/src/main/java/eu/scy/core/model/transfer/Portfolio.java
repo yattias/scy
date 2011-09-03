@@ -27,6 +27,8 @@ public class Portfolio {
     private static final String CDATA_END = "]]>";
 
     private List<TransferElo> elos = new LinkedList();
+    private List <EloAnchorEloPair> eloAnchorEloPairs = new LinkedList<EloAnchorEloPair>();
+
 
 
     public void unCdatify() {
@@ -132,20 +134,48 @@ public class Portfolio {
         this.elos = elos;
     }
 
-    public void addElo(TransferElo transferElo) {
-        if (getElos() == null) setElos(new LinkedList());
+    public void addElo(TransferElo transferElo, TransferElo anchorElo) {
+        if(getEloAnchorEloPairs() == null) setEloAnchorEloPairs(new LinkedList<EloAnchorEloPair>());
+        EloAnchorEloPair eloAnchorEloPair = new EloAnchorEloPair();
+        eloAnchorEloPair.setElo(transferElo);
+        eloAnchorEloPair.setAnchorElo(anchorElo);
+        getEloAnchorEloPairs().add(eloAnchorEloPair);
+    }
 
-        List existingElos = getElos();
-        for (int i = 0; i < existingElos.size(); i++) {
-            TransferElo elo = (TransferElo) existingElos.get(i);
-            if(elo.getUri().equals(transferElo.getUri())) {
-                //the elo has already been added - returning without adding again...
-                return;
-            }
+    public List<EloAnchorEloPair> getEloAnchorEloPairs() {
+        return eloAnchorEloPairs;
+    }
+
+    public void setEloAnchorEloPairs(List<EloAnchorEloPair> eloAnchorEloPairs) {
+        this.eloAnchorEloPairs = eloAnchorEloPairs;
+    }
+
+    public TransferElo getAnchorEloFor(TransferElo elo) {
+        for (int i = 0; i < eloAnchorEloPairs.size(); i++) {
+            EloAnchorEloPair eloAnchorEloPair = eloAnchorEloPairs.get(i);
+            if(eloAnchorEloPair.getElo().getUri().equals(elo.getUri())) return eloAnchorEloPair.getElo();
         }
 
-        getElos().add(transferElo);
+        return null;
     }
+
+    public boolean getHasEloBeenAdded(TransferElo elo) {
+        for (int i = 0; i < eloAnchorEloPairs.size(); i++) {
+            EloAnchorEloPair eloAnchorEloPair = eloAnchorEloPairs.get(i);
+            if(eloAnchorEloPair.getElo().getUri().equals(elo.getUri())) return true;
+        }
+
+        return false;
+    }
+
+    public boolean getHasEloBeenAddedForAnchorElo(TransferElo anchorElo) {
+        for (int i = 0; i < eloAnchorEloPairs.size(); i++) {
+            EloAnchorEloPair eloAnchorEloPair = eloAnchorEloPairs.get(i);
+            if(eloAnchorEloPair.getAnchorElo().getUri().equals(anchorElo.getUri())) return true;
+        }
+        return false;
+    }
+
 
     public String getAssessmentPortfolioComment() {
         return assessmentPortfolioComment;

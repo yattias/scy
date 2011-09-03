@@ -197,32 +197,20 @@ dojo.require("dojo.parser")
 
 
 
-            <c:choose>
-        <c:when test="${fn:length(obligatoryAnchorElos) > 0}">
-            <c:forEach var="anchorElo" items="${obligatoryAnchorElos}">
-               
-               <!--a href="/webapp/app/webeport/selectELOFromGallery.html?eloURI=${anchorElo.uri}">
-                    OPEN: ${anchorElo.myname}
-               </a-->
-                   <div dojoType="dojox.widget.FisheyeListItem"  onclick="location.href='/webapp/app/webeport/selectELOFromGallery.html?eloURI=${anchorElo.uri}&amp;missionRuntimeURI=${missionRuntimeURI}'"  label="${anchorElo.myname}" iconSrc="${anchorElo.thumbnail}" isContainer="true" style="cursor:pointer; margin:3px;border:3px solid #ffffff;" class="assessed${anchorElo.assessed}">
-                         ${anchorElo.myname}
-	                </div>
+                <c:choose>
+                    <c:when test="${fn:length(anchorElosWithStatuses) > 0}">
+                        <c:forEach var="status" items="${anchorElosWithStatuses}">
+
+                            <div dojoType="dojox.widget.FisheyeListItem"  onclick="location.href='/webapp/app/webeport/selectELOFromGallery.html?eloURI=${status.anchorElo.uri}&amp;missionRuntimeURI=${missionRuntimeURI}'"  label="${status.anchorElo.myname} ${status.eloHasBeenAdded}" iconSrc="${status.anchorElo.thumbnail}" isContainer="true" style="cursor:pointer; margin:3px;border:3px solid #ffffff;" class="assessed${anchorElo.assessed}">
+                                 ${status.anchorElo.myname}  ${status.eloHasBeenAdded}
+                            </div>
+                        </c:forEach>
+                    </c:when>
+                </c:choose>
 
 
-            </c:forEach>
-        </c:when>
-    </c:choose>
                 </div>
         </div>
         </div>
-
-   
-
-
-
-
-
-
-
     </tiles:putAttribute>
 </tiles:insertDefinition>

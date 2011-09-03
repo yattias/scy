@@ -47,23 +47,33 @@ public class StoreEloReflections extends BaseController {
         URI missionRuntimeUri = getURI(request.getParameter("missionRuntimeURI"));
         URI eloURI = getURI(request.getParameter(ELO_URI));
 
+        URI anchorEloURI = getURI(request.getParameter("anchorEloURI"));
+
         logger.info("specificLearningGoals: "+ specificLearningGoals);
         logger.info("generalLearningGoals: " + generalLearningGoals);
         logger.info("missionRuntimeURI: " + missionRuntimeUri.toString());
+        logger.info("anchorEloURI: " + anchorEloURI.toString());
 
         MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(missionRuntimeUri, getRuntimeELOService());
         Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo);
 
         ScyElo eloToBeAdded = ScyElo.loadLastVersionElo(eloURI, getMissionELOService());
+        ScyElo ae = ScyElo.loadLastVersionElo(anchorEloURI, getMissionELOService());
+        TransferElo anchorElo = new TransferElo(ae);
+        TransferElo elotoBeAddedTransfer = new TransferElo(eloToBeAdded);
 
         TransferElo toBeAddedToPortfolio = new TransferElo(eloToBeAdded);
         toBeAddedToPortfolio.setReflectionComment(eloReflectionDescription);
-        portfolio.addElo(toBeAddedToPortfolio);
+        portfolio.addElo(elotoBeAddedTransfer, anchorElo);
 
         ScyElo portfolioElo = ScyElo.loadLastVersionElo(missionRuntimeElo.getTypedContent().getEPortfolioEloUri(), getMissionELOService());
         portfolioElo.getContent().setXmlString(getXmlTransferObjectService().getToObjectXStream().toXML(portfolio));
         portfolioElo.updateElo();
         logger.info("PORTFOLIO LOADED: " + portfolio.getPortfolioStatus() + " :: " + portfolio.getAssessed());
+
+        logger.info("NUMBER OF ELOS IN PORTFOLIO = " + portfolio.getEloAnchorEloPairs().size());
+
+        modelAndView.setViewName("forward:webEportIndex.html");
 
     }
 
