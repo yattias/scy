@@ -164,7 +164,7 @@ dojo.require("dojo.parser")
             }
 
             .assessedtrue{
-                background-color:#00ff00;
+                background-color:#007b06;
             }
 
             .assessedfalse{
@@ -184,7 +184,7 @@ dojo.require("dojo.parser")
 
 
             <div dojoType="dojox.widget.FisheyeList"
-		itemWidth="60" itemHeight="60"
+		itemWidth="80" itemHeight="80"
 		itemMaxWidth="150" itemMaxHeight="150"
 		orientation="horizontal"
 		effectUnits="2"
@@ -201,8 +201,8 @@ dojo.require("dojo.parser")
                     <c:when test="${fn:length(anchorElosWithStatuses) > 0}">
                         <c:forEach var="status" items="${anchorElosWithStatuses}">
 
-                            <div dojoType="dojox.widget.FisheyeListItem"  onclick="location.href='/webapp/app/webeport/selectELOFromGallery.html?eloURI=${status.anchorElo.uri}&amp;missionRuntimeURI=${missionRuntimeURI}'"  label="${status.anchorElo.myname} ${status.eloHasBeenAdded}" iconSrc="${status.anchorElo.thumbnail}" isContainer="true" style="cursor:pointer; margin:3px;border:3px solid #ffffff;" class="assessed${anchorElo.assessed}">
-                                 ${status.anchorElo.myname}  ${status.eloHasBeenAdded}
+                            <div dojoType="dojox.widget.FisheyeListItem"  onclick="location.href='/webapp/app/webeport/selectELOFromGallery.html?eloURI=${status.anchorElo.uri}&amp;missionRuntimeURI=${missionRuntimeURI}'"  label="${status.anchorElo.myname}" iconSrc="${status.anchorElo.thumbnail}" isContainer="true" style="cursor:pointer; margin:3px;border:3px solid #ffffff;" class="assessed${status.eloHasBeenAdded}">
+
                             </div>
                         </c:forEach>
                     </c:when>

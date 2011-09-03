@@ -24,6 +24,9 @@
             }
         </script>
         <style type="text/css">
+
+             html, body { height: 100%; width: 100%; margin: 0; padding: 0; }
+
             .feedbackEloContainer{
                 border:2px solid #ff9933;
                 margin:2px;
@@ -86,9 +89,9 @@
             <div class="feedbackHeader" >ELO Gallery</div>
             <!--p>Click on an ELO to give feedback</p-->
         <div dojoType="dijit.layout.TabContainer" style="width:100%;height:90%;">
-            <div dojoType="dojox.layout.ContentPane" refreshOnShow="true" title="Newest ELOs" href="/webapp/app/feedback/webversion/NewestElosList.html?eloURI=${eloURI}" executeScripts="true" parseOnLoad="true" id="newestElosContainer"></div>
-            <div dojoType="dojox.layout.ContentPane" refreshOnShow="true"  title="My ELOs" href="/webapp/app/feedback/webversion/MyElosList.html?eloURI=${eloURI}" executeScripts="true"parseOnLoad="true" id="myElosContainer"></div>
-            <div dojoType="dojox.layout.ContentPane" refreshOnShow="true"  title="ELOs I have commented on" href="/webapp/app/feedback/webversion/ContributedElosList.html?eloURI=${eloURI}" executeScripts="true"parseOnLoad="true" id="commentedElosContainer"></div>
+            <div dojoType="dojox.layout.ContentPane" refreshOnShow="true" title="Newest ELOs" href="/webapp/app/feedback/webversion/NewestElosList.html?eloURI=${eloURI}" executeScripts="true" parseOnLoad="true" id="newestElosContainer" style="height:100%;"></div>
+            <div dojoType="dojox.layout.ContentPane" refreshOnShow="true"  title="My ELOs" href="/webapp/app/feedback/webversion/MyElosList.html?eloURI=${eloURI}" executeScripts="true"parseOnLoad="true" id="myElosContainer" style="height:100%;"></div>
+            <div dojoType="dojox.layout.ContentPane" refreshOnShow="true"  title="ELOs I have commented on" href="/webapp/app/feedback/webversion/ContributedElosList.html?eloURI=${eloURI}" executeScripts="true"parseOnLoad="true" id="commentedElosContainer" style="height:100%;"></div>
 
         </div>
         </div>

@@ -35,11 +35,13 @@
 <c:choose>
     <c:when test="${fn:length(elos) > 0}">
             <c:forEach var="elo" items="${elos}">
-                <div dojoType="dojox.layout.ContentPane" class="feedbackEloContainer greenBackgrounds greenBorders" style="width:30%;height:246px;float:left;">
+
+                <a href="javascript:loadAccordionContent('newestElosContainer', '../webversion/ViewFeedbackForElo.html?eloURI=${elo.uri}&amp;listUri=${listUri}');" style="color:#ffffff;">
+                    <div dojoType="dojox.layout.ContentPane" class="feedbackEloContainer greenBackgrounds greenBorders" style="width:30%;height:246px;float:left;">
                     <div class="thumbContainer lightGreenBackgrounds">
-                        <a href="javascript:loadAccordionContent('newestElosContainer', '../webversion/ViewFeedbackForElo.html?eloURI=${elo.uri}&amp;listUri=${listUri}');" style="color:#ffffff;">
+
                             <img src="${elo.thumbnail}" />
-                        </a>
+
                     </div>
                     <div class="eloInfoContainer">
                     <p><strong><a href="javascript:loadAccordionContent('commentedElosContainer', '../webversion/ViewFeedbackForElo.html?eloURI=${elo.uri}&amp;listUri=${listUri}');" style="color:#ffffff;">${elo.myname}</a></strong></p>
@@ -53,6 +55,7 @@
                    -->
                     </div>
                 </div>
+                </a>
             </c:forEach>
 
     </c:when>
