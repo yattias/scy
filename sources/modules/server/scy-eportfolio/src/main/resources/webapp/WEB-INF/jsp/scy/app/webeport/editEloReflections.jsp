@@ -63,14 +63,6 @@
             <table>
                 <tr>
                     <td>
-                        <strong>Description</strong>
-                    </td>
-                    <td>
-                        <textarea rows="3" cols="30" name="eloReflectionDescription"></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
                         <strong>General learning goals</strong>
                     </td>
                     <td>
@@ -125,14 +117,32 @@
 
                     </td>
                 </tr>
-                <tr>
-                    <td>
-                        <strong>Reflection on ELO</strong>
-                    </td>
-                    <td>
-                        <textarea rows="3" cols="30" name="reflectionOnElo"></textarea>
-                    </td>
-                </tr>
+
+                <c:choose>
+                    <c:when test="${fn:length(reflectionQuestions) > 0}">
+                        <c:forEach var="reflectionQuestion" items="${reflectionQuestions}">
+                            <tr>
+                                <td>
+                                    <strong>${reflectionQuestion.reflectionQuestionTitle}</strong>
+                                </td>
+                                <td>
+                                    <strong>${reflectionQuestion.reflectionQuestion}</strong>
+                                    <br/>
+
+                                    <c:if test="${fn:contains(reflectionQuestion.type, 'text')}">
+                                        <textarea rows="4" cols="30" name="${reflectionQuestion.id}"></textarea>
+                                    </c:if>
+                                    <c:if test="${fn:contains(reflectionQuestion.type, 'slider')}">
+                                        <input name="${reflectionQuestion.id}" type="text"/>
+                                    </c:if>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </c:when>
+                </c:choose>
+
+
+
                 <tr>
                     <td>
                         <strong>Reflection on inquiry</strong>
