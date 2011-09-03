@@ -210,6 +210,8 @@ dojo.require("dojo.parser")
 
 
                 </div>
+
+            <a href="reflectionOnMission.html?missionRuntimeURI=${missionRuntimeURI}"><spring:message code="FINISH_MISSION_PORTFOLIO"></spring:message></a>
         </div>
         </div>
     </tiles:putAttribute>

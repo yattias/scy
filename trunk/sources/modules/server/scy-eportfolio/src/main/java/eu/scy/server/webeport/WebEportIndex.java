@@ -55,14 +55,16 @@ public class WebEportIndex extends BaseController {
             TransferElo anchorElo = (TransferElo) obligatoryAnchorElos.get(i);
             AnchoELOWithStatus anchoELOWithStatus = new AnchoELOWithStatus();
             anchoELOWithStatus.setAnchorElo(anchorElo);
-            if(portfolio.getHasEloBeenAddedForAnchorElo(anchorElo)) anchoELOWithStatus.setEloHasBeenAdded(true);
+            if(portfolio != null) {
+                if(portfolio.getHasEloBeenAddedForAnchorElo(anchorElo)) anchoELOWithStatus.setEloHasBeenAdded(true);
+            }
             anchoELOWithStatuses.add(anchoELOWithStatus);
         }
 
 
         modelAndView.addObject("obligatoryAnchorElos", obligatoryAnchorElos);
         modelAndView.addObject("portfolio", portfolio);
-        modelAndView.addObject("missionRuntimeURI", getEncodedUri(missionRuntimeElo.getUri().toString()));
+        modelAndView.addObject("missionRuntimeURI", getEncodedUri(missionURI.toString()));
         modelAndView.addObject("anchorElosWithStatuses", anchoELOWithStatuses);
 
 

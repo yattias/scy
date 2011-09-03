@@ -10,7 +10,7 @@ import java.util.List;
  * Time: 19:46:35
  * To change this template use File | Settings | File Templates.
  */
-public class Portfolio {
+public class Portfolio extends BaseXMLTransfer {
 
     private String owner;
     private String portfolioStatus;
@@ -28,6 +28,7 @@ public class Portfolio {
 
     private List<TransferElo> elos = new LinkedList();
     private List <EloAnchorEloPair> eloAnchorEloPairs = new LinkedList<EloAnchorEloPair>();
+    private List <MissionReflectionQuestionAnswer> missionReflectionQuestionAnswers = new LinkedList<MissionReflectionQuestionAnswer>();
 
 
 
@@ -176,6 +177,19 @@ public class Portfolio {
         return false;
     }
 
+
+    public List<MissionReflectionQuestionAnswer> getMissionReflectionQuestionAnswers() {
+        return missionReflectionQuestionAnswers;
+    }
+
+    public void setMissionReflectionQuestionAnswers(List<MissionReflectionQuestionAnswer> missionReflectionQuestionAnswers) {
+        this.missionReflectionQuestionAnswers = missionReflectionQuestionAnswers;
+    }
+
+    public void addMissionReflectionQuestionAnswer(MissionReflectionQuestionAnswer missionReflectionQuestionAnswer) {
+        if (getMissionReflectionQuestionAnswers() == null) setMissionReflectionQuestionAnswers(new LinkedList<MissionReflectionQuestionAnswer>());
+        getMissionReflectionQuestionAnswers().add(missionReflectionQuestionAnswer);
+    }
 
     public String getAssessmentPortfolioComment() {
         return assessmentPortfolioComment;

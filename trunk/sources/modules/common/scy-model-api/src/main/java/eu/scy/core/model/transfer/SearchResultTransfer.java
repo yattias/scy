@@ -21,9 +21,11 @@ public class SearchResultTransfer {
 
     private ISearchResult searchResult;
     private Locale locale;
+    private Boolean finished;
 
     private String title;
     private String uri;
+
 
     public SearchResultTransfer(Locale locale, ISearchResult iSearchResult) {
         this.locale = locale;
@@ -96,5 +98,9 @@ public class SearchResultTransfer {
             returnValue+=" " + s;
         }
         return returnValue;
+    }
+
+    public Boolean getEloFinished() {
+        return getSearchResult().isEloFinished();
     }
 }

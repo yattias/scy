@@ -58,6 +58,8 @@
                 /app/webeport/selectELOFromGallery.html=selectELOFromGalleryController
                 /app/webeport/editEloReflections.html=editEloReflectionsController
                 /app/webeport/StoreEloReflections.html=storeEloReflectionsController
+                /app/webeport/reflectionOnMission.html=reflectionOnMissionController
+                /app/webeport/storeReflectionsOnMission.html=storeReflectionsOnMissionController
             </value>
         </property>
     </bean>
@@ -193,6 +195,27 @@
         <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
         <!--property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
         <property name="runtimeELOService" ref="runtimeELOService"/-->
+	</bean>
+
+    <bean id="reflectionOnMissionController" class="eu.scy.server.webeport.ReflectionOnMission">
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="portfolioELOService" ref="portfolioELOService"/>
+        <property name="runtimeELOService" ref="runtimeELOService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
+        <!--property name="runtimeELOService" ref="runtimeELOService"/-->
+	</bean>
+
+    <bean id="storeReflectionsOnMissionController" class="eu.scy.server.webeport.StoreReflectionsOnMission">
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="portfolioELOService" ref="portfolioELOService"/>
+        <property name="runtimeELOService" ref="runtimeELOService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
+        <property name="transferObjectMapService" ref="transferObjectMapService"/>
+        <!--property name="runtimeELOService" ref="runtimeELOService"/-->
 	</bean>
 
     <bean id="currentMissionRuntimeInfo" class="eu.scy.server.eportfolio.xml.CurrentMissionRuntimeInfoController">

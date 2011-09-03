@@ -121,9 +121,9 @@
                     <td>
                         <input type="text" name="reflectionOnInquiry"/>  <strong>REPLACE THIS ONE WITH A SLIDER</strong>
                     </td>
-                    <input type="text" name="missionRuntimeURI" value="${missionRuntimeURI}"/>
-                    <input type="text" name="eloURI" value="${eloURI}"/>
-                    <input type="text" name="anchorEloURI" value="${anchorEloURI}"/>
+                    <input type="hidden" name="missionRuntimeURI" value="${missionRuntimeURI}"/>
+                    <input type="hidden" name="eloURI" value="${eloURI}"/>
+                    <input type="hidden" name="anchorEloURI" value="${anchorEloURI}"/>
                 </tr>
             </table>
             <input type="submit" value="save">
