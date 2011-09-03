@@ -42,7 +42,7 @@ public class ConfigureAssessmentController extends BaseController {
             MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(uri, getMissionELOService());
 
             PedagogicalPlanTransfer pedagogicalPlanTransfer = getPedagogicalPlanTransfer(missionSpecificationElo);
-            syncAssessmentWithAnchorElos(pedagogicalPlanTransfer, getMissionELOService().getAnchorELOs(missionSpecificationElo), missionSpecificationElo);
+            //syncAssessmentWithAnchorElos(pedagogicalPlanTransfer, getMissionELOService().getAnchorELOs(missionSpecificationElo), missionSpecificationElo);
 
 
             if (action != null) {
@@ -52,21 +52,54 @@ public class ConfigureAssessmentController extends BaseController {
                     clearReflectionQuestions(missionSpecificationElo, pedagogicalPlanTransfer);
                 } else if (action.equals("addReflectionQuestionOnMission")) {
                     addReflectionQuestionToMission(missionSpecificationElo, pedagogicalPlanTransfer);
+                } else if(action.equals("removeReflectionQuestion")) {
+                    String reflectionQuestionId = request.getParameter("reflectionQuestionId");
+                    removeReflectionQuestion(missionSpecificationElo, pedagogicalPlanTransfer, reflectionQuestionId);
                 }
 
             }
+
+            List <TransferElo> anchorElos = getMissionELOService().getObligatoryAnchorELOs(missionSpecificationElo, pedagogicalPlanTransfer);
+            List <AnchorEloReflectionQuestionTransporter> anchorEloReflectionQuestionTransporters = new LinkedList<AnchorEloReflectionQuestionTransporter>();
+            for (int i = 0; i < anchorElos.size(); i++) {
+                TransferElo transferElo = anchorElos.get(i);
+                List <ReflectionQuestion> reflectionQuestions = pedagogicalPlanTransfer.getAssessmentSetup().getReflectionQuestionsForAnchorElo(transferElo.getUri());
+                AnchorEloReflectionQuestionTransporter anchorEloReflectionQuestionTransporter = new AnchorEloReflectionQuestionTransporter();
+                anchorEloReflectionQuestionTransporter.setAnchorElo(transferElo);
+                anchorEloReflectionQuestionTransporter.setReflectionQuestions(reflectionQuestions);
+                anchorEloReflectionQuestionTransporters.add(anchorEloReflectionQuestionTransporter);
+            }
+
 
             logger.info("Ich habe die parameteren gesatt: " + uriParam);
 
             modelAndView.addObject("pedagogicalPlan", pedagogicalPlanTransfer);
             modelAndView.addObject("transferObjectServiceCollection", getTransferObjectServiceCollection());
             modelAndView.addObject("missionSpecificationEloURI", URLEncoder.encode(uriParam, "UTF-8"));
-
+            modelAndView.addObject("anchorElos", anchorEloReflectionQuestionTransporters);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+    }
+
+    private void removeReflectionQuestion(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer, String reflectionQuestionId) {
+        List <ReflectionQuestion> reflectionQuestions = pedagogicalPlanTransfer.getAssessmentSetup().getReflectionQuestions();
+        ReflectionQuestion reflectionQuestionToBeDeleted = null;
+        for (int i = 0; i < reflectionQuestions.size(); i++) {
+            ReflectionQuestion reflectionQuestion = reflectionQuestions.get(i);
+            if(reflectionQuestion.getId().equals(reflectionQuestionId)) reflectionQuestionToBeDeleted = reflectionQuestion;
+        }
+
+        if(reflectionQuestionToBeDeleted != null) {
+            reflectionQuestions.remove(reflectionQuestionToBeDeleted);
+            pedagogicalPlanTransfer.getAssessmentSetup().setReflectionQuestions(reflectionQuestions);
+        }
+
+        ScyElo pedagogicalPlanElo = getPedagogicalPlanEloForMission(missionSpecificationElo);
+        pedagogicalPlanElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(pedagogicalPlanTransfer));
+        pedagogicalPlanElo.updateElo();
     }
 
     private void addReflectionQuestionToMission(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer) {
@@ -111,13 +144,13 @@ public class ConfigureAssessmentController extends BaseController {
             reflectionMap.put(reflectionQuestion, reflectionQuestion.getAnchorEloURI());
         }
 
-        List obligatoryAnchorElos = getMissionELOService().getObligatoryAnchorELOs(missionSpecificationElo, pedagogicalPlanTransfer);
+        /*List obligatoryAnchorElos = getMissionELOService().getObligatoryAnchorELOs(missionSpecificationElo, pedagogicalPlanTransfer);
         for (int i = 0; i < obligatoryAnchorElos.size(); i++) {
             TransferElo transferElo = (TransferElo) obligatoryAnchorElos.get(i);
             ReflectionQuestion question = (ReflectionQuestion) reflectionMap.get(String.valueOf(transferElo.getUri()));
             addReflectionQuestion(missionSpecificationElo, pedagogicalPlanTransfer, String.valueOf(transferElo.getUri()), transferElo.getMyname());
 
-        }
+        } */
 
     }
 
@@ -132,15 +165,10 @@ public class ConfigureAssessmentController extends BaseController {
 
 
     private void addReflectionQuestion(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer, String anchorEloURI, String title) {
-        logger.info("ADDING REFLECTION QUESTION " + anchorEloURI + " " + title);
-
-        if (getSetupContainsQuestion(pedagogicalPlanTransfer.getAssessmentSetup(), title)) {
-            logger.info("SETUP ALREADY CONTAINS QUESTION FOR " + title);
-            return;
-        }
+        logger.info("ADDING REFLECTION QUESTION " + getEncodedUri(anchorEloURI) + " " + title);
 
         ReflectionQuestion reflectionQuestion = new ReflectionQuestion();
-        reflectionQuestion.setAnchorEloURI(anchorEloURI);
+        reflectionQuestion.setAnchorEloURI(getEncodedUri(anchorEloURI));
         reflectionQuestion.setAnchorEloName(title);
         if (pedagogicalPlanTransfer != null) {
             pedagogicalPlanTransfer.getAssessmentSetup().addReflectionQuestion(reflectionQuestion);

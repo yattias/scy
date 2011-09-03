@@ -9,6 +9,7 @@ package eu.scy.core.model.transfer;
  */
 public class ReflectionQuestion extends BaseXMLTransfer {
 
+    private String reflectionQuestionTitle;
     private String reflectionQuestion;
     private String anchorEloURI;
     private String anchorEloName;
@@ -35,5 +36,13 @@ public class ReflectionQuestion extends BaseXMLTransfer {
 
     public void setAnchorEloName(String anchorEloName) {
         this.anchorEloName = anchorEloName;
+    }
+
+    public String getReflectionQuestionTitle() {
+        return reflectionQuestionTitle;
+    }
+
+    public void setReflectionQuestionTitle(String reflectionQuestionTitle) {
+        this.reflectionQuestionTitle = reflectionQuestionTitle;
     }
 }
