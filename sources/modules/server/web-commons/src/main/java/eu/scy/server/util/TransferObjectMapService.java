@@ -21,6 +21,7 @@ public class TransferObjectMapService {
     private static Logger log = Logger.getLogger("TransferObjectMapService.class");
 
     public Object getObjectWithId(BaseXMLTransfer transfer, String id) {
+        if(transfer == null) log.info("TRANSFER IS NULLL!");
         Map map = createMap(transfer);
 
         log.info("Getting " + id + " from base transfer: " + transfer.getClass().getName());
@@ -45,9 +46,10 @@ public class TransferObjectMapService {
     public Map createMap(BaseXMLTransfer transfer) {
         if(transfer instanceof PedagogicalPlanTransfer) {
             return getPedagogicalPlanMap((PedagogicalPlanTransfer)transfer);
-        }
+        } 
         return null;
     }
+
 
     private Map getPedagogicalPlanMap(PedagogicalPlanTransfer pedagogicalPlanTransfer) {
         Map returnMap = new HashMap();

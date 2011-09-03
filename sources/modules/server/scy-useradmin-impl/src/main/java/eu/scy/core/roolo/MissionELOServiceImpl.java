@@ -313,7 +313,7 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
             }
         }
 
-        return null;
+        return new Portfolio();
     }
 
     @Override

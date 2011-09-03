@@ -61,6 +61,18 @@
                                     ${elo.authors}
                                 </td>
                             </tr>
+                            <tr>
+                                <td colspan="2">
+                                <c:choose>
+                                    <c:when test="${elo.eloFinished}">
+                                        FINISHED
+                                    </c:when>
+                                    <c:when test="${!elo.eloFinished}">
+                                        NOT FINISHED                                        
+                                    </c:when>
+                                </c:choose>
+                                </td>
+                            </tr>
                         </table>
                           
                    
