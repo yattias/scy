@@ -123,6 +123,7 @@
                     </td>
                     <input type="text" name="missionRuntimeURI" value="${missionRuntimeURI}"/>
                     <input type="text" name="eloURI" value="${eloURI}"/>
+                    <input type="text" name="anchorEloURI" value="${anchorEloURI}"/>
                 </tr>
             </table>
             <input type="submit" value="save">

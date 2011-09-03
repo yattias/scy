@@ -22,8 +22,6 @@
                    
                 <div dojoType="dojox.layout.ContentPane" style="width:100%;height:90%;" id="eportfolioPane" parseOnLoad="true" executeScripts="true">
 
-                    MISSION URI: ${missionRuntimeURI}
-
             <c:choose>
                 <c:when test="${fn:length(elos) > 0}">
                     <c:forEach var="elo" items="${elos}">

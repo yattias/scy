@@ -65,6 +65,7 @@ public class EditEloReflections extends BaseController {
         modelAndView.addObject("specificLearningGoals", specificLearningGooals);
         modelAndView.addObject("missionRuntimeURI", getEncodedUri(missionRuntimeURI.toString()));
         modelAndView.addObject(ELO_URI, getEncodedUri(eloURI.toString()));
+        modelAndView.addObject("anchorEloURI", getEncodedUri(anchorEloURI.toString()));
     }
 
     public MissionELOService getMissionELOService() {
