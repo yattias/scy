@@ -13,6 +13,7 @@ public class ReflectionQuestion extends BaseXMLTransfer {
     private String reflectionQuestion;
     private String anchorEloURI;
     private String anchorEloName;
+    private String type;
 
     public String getReflectionQuestion() {
         return reflectionQuestion;
@@ -44,5 +45,14 @@ public class ReflectionQuestion extends BaseXMLTransfer {
 
     public void setReflectionQuestionTitle(String reflectionQuestionTitle) {
         this.reflectionQuestionTitle = reflectionQuestionTitle;
+    }
+
+    public String getType() {
+        if(type == null || type.equals("")) return "text";
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

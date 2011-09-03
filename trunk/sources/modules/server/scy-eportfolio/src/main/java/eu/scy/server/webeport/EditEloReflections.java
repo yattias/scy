@@ -5,6 +5,7 @@ import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.XMLTransferObjectService;
 import eu.scy.core.model.transfer.LearningGoal;
 import eu.scy.core.model.transfer.PedagogicalPlanTransfer;
+import eu.scy.core.model.transfer.ReflectionQuestion;
 import eu.scy.core.model.transfer.TransferElo;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.core.roolo.PedagogicalPlanELOService;
@@ -58,6 +59,9 @@ public class EditEloReflections extends BaseController {
             pedagogicalPlanTransfer = getPedagogicalPlanELOService().getPedagogicalPlanForMissionRuntimeElo(searchResult.getUri().toString());
         }
 
+        List <ReflectionQuestion> reflectionQuestions = pedagogicalPlanTransfer.getAssessmentSetup().getReflectionQuestionsForAnchorElo(anchorEloTransfer.getUri());
+
+
         List <LearningGoal> generalLearningGooals = pedagogicalPlanTransfer.getAssessmentSetup().getGeneralLearningGoals();
         List <LearningGoal> specificLearningGooals = pedagogicalPlanTransfer.getAssessmentSetup().getSpecificLearningGoals();
 
@@ -66,6 +70,7 @@ public class EditEloReflections extends BaseController {
         modelAndView.addObject("missionRuntimeURI", getEncodedUri(missionRuntimeURI.toString()));
         modelAndView.addObject(ELO_URI, getEncodedUri(eloURI.toString()));
         modelAndView.addObject("anchorEloURI", getEncodedUri(anchorEloURI.toString()));
+        modelAndView.addObject("reflectionQuestions", reflectionQuestions);
     }
 
     public MissionELOService getMissionELOService() {
