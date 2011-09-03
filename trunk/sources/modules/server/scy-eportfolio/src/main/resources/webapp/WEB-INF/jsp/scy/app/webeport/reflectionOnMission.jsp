@@ -29,10 +29,13 @@
 
         <c:choose>
             <c:when test="${fn:length(pedagogicalPlan.assessmentSetup.reflectionTabs) > 0}">
-                <form action="storeReflectionsOnMission.html">
-                <table>
+                <form action="storeReflectionsOnMission.html" style="display:block;height:50%;">
+                <div dojoType="dijit.layout.TabContainer" style="height:100%;">
+
                         <c:forEach var="tab" items="${pedagogicalPlan.assessmentSetup.reflectionTabs}">
-                            <tr>
+                            <div dojoType="dojox.layout.ContentPane" title="${tab.title}">
+                                <table>
+                                    <tr>
                                 <td width="20%">
                                     <strong>${tab.question}</strong>
                                 </td>
@@ -45,7 +48,11 @@
                                     </c:if>
                                 </td>
                             </tr>
+                                    </table>
+                                </div>
                         </c:forEach>
+                   <div dojoType="dojox.layout.ContentPane" title="SUBMIT">
+                       <table>
                     <tr>
                         <td>
                             <input type="hidden" value="${missionRuntimeURI}" name="missionRuntimeURI"/>
@@ -53,10 +60,12 @@
                         </td>
                     </tr>
                     </table>
+                       </div>
+
                     </div>
 
+                   </form>
 
-                </form>
             </c:when>
         </c:choose>
 
