@@ -82,7 +82,9 @@
                                 </c:choose>
                                 <tr>
                                     <td>
-                                        <a href="selectLearningGoalsForElo.html?eloURI=${elo.uri}&lgType=general&missionRuntimeURI=${missionRuntimeURI}&anchorEloURI=${anchorEloURI}"><spring:message code="SELECT_LEARNING_GOAL"></spring:message> </a>
+
+                                        <a href="javascript:loadDialog('selectLearningGoalsForElo.html?eloURI=' + encodeURIComponent('${elo.uri}') + '&lgType=general&missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${anchorEloURI}'), '<spring:message code="SELECT_LEARNING_GOAL"></spring:message>');"><spring:message code="SELECT_LEARNING_GOAL"></spring:message> </a>
+
                                     </td>
                                 </tr>
 
@@ -111,7 +113,10 @@
                                     </c:when>
                                 </c:choose>
                                 <tr>
-                                    <td><a href="selectLearningGoalsForElo.html?eloURI=${elo.uri}&lgType=specific&missionRuntimeURI=${missionRuntimeURI}&anchorEloURI=${anchorEloURI}"><spring:message code="SELECT_LEARNING_GOAL"></spring:message> </a></td>
+                                    <td>
+                                        <!--a href="javascript:loadDialog('selectLearningGoalsForElo.html?eloURI=${elo.uri}&lgType=specific&missionRuntimeURI=${missionRuntimeURI}&anchorEloURI=${anchorEloURI}', '<spring:message code="SELECT_LEARNING_GOAL"></spring:message>');"><spring:message code="SELECT_LEARNING_GOAL"></spring:message> </a-->
+                                        <a href="javascript:loadDialog('selectLearningGoalsForElo.html?eloURI=' + encodeURIComponent('${elo.uri}') + '&lgType=general&missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${anchorEloURI}'), '<spring:message code="SELECT_LEARNING_GOAL"></spring:message>');"><spring:message code="SELECT_LEARNING_GOAL"></spring:message> </a>
+                                    </td>
                                 </tr>
 
 
