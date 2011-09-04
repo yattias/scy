@@ -4,7 +4,7 @@
         <script type="text/javascript">
             function loadAccordionContent(container, url){
                 
-                dijit.byId(container).attr('href', url);
+                dijit.byId(container).set('href', url);
             }
 
             function loadAccordionContentWithEscapedURL(container, url){
@@ -84,7 +84,7 @@
             }
 
         </style>
-        <div dojoType="dojox.layout.ContentPane" executeScripts="true" parseOnLoad="true" style="border:4px solid #cc6600;width:786px;height:95%;padding:4px;" class="greenBorders">
+        <div dojoType="dojox.layout.ContentPane" executeScripts="true" parseOnLoad="true" style="border:4px solid #cc6600;width:786px;height:95%;padding:4px;" class="greenBorders" parseWidgets="true">
             <!--img src="/webapp/themes/scy/default/images/feedback_header.png" alt="" class="greenBackgrounds" /-->
             <div class="feedbackHeader" >ELO Gallery</div>
             <!--p>Click on an ELO to give feedback</p-->
@@ -92,6 +92,7 @@
             <div dojoType="dojox.layout.ContentPane" refreshOnShow="true" title="Newest ELOs" href="/webapp/app/feedback/webversion/NewestElosList.html?eloURI=${eloURI}" executeScripts="true" parseOnLoad="true" id="newestElosContainer" style="height:100%;"></div>
             <div dojoType="dojox.layout.ContentPane" refreshOnShow="true"  title="My ELOs" href="/webapp/app/feedback/webversion/MyElosList.html?eloURI=${eloURI}" executeScripts="true"parseOnLoad="true" id="myElosContainer" style="height:100%;"></div>
             <div dojoType="dojox.layout.ContentPane" refreshOnShow="true"  title="ELOs I have commented on" href="/webapp/app/feedback/webversion/ContributedElosList.html?eloURI=${eloURI}" executeScripts="true"parseOnLoad="true" id="commentedElosContainer" style="height:100%;"></div>
+
 
         </div>
         </div>

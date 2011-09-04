@@ -19,9 +19,9 @@
         </div>
         <div style="float:left;width:40%;" dojoType="dojox.layout.ContentPane" parseOnLoad="true" executeScripts="true">
             Quality score: <img src="/webapp/themes/scy/default/images/smiley_${feedbackItem.evalu}.png" alt=""/><br/>
-
+            <div id="feedback_on_feedback_${feedbackItem.id}" ></div>
             <form action="/webapp/app/feedback/webversion/AddReplyToFeedback.html" method="POST" accept-charset="UTF-8"
-                  onsubmit="postFeedback(this, 'feedback_on_feedback_${feedbackItem.id}');return false;">
+                  onsubmit="postFeedback(this, 'feedback_on_feedback_${feedbackItem.id}', true, 'after');return false;">
 
                 <input type="hidden" name="feedbackId" value="${feedbackItem.id}"/>
                 <input type="hidden" name="feedbackEloURI" value="${feedbackElo.uri}"/>
