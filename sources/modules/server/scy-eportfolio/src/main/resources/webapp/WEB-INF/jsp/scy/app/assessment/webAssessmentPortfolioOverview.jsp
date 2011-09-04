@@ -1,19 +1,19 @@
 <%@ include file="common-taglibs.jsp" %>
 
 
-Number of portfolios ready to be assessed: ${fn:length(portfolios)}
-
-
 <c:choose>
-    <c:when test="${fn:length(portfolios) > 0}">
+    <c:when test="${fn:length(transporters) > 0}">
         <table>
-        <c:forEach var="portfolio" items="${portfolios}">
+        <c:forEach var="transporter" items="${transporters}">
             <tr>
                 <td>
-                    ${portfolio.owner}
+                    ${transporter.user.userDetails.firstName}
                 </td>
                 <td>
-                    <spring:message code="${portfolio.portfolioStatus}"/>
+                    ${transporter.user.userDetails.lastName}
+                </td>
+                <td>
+                    <spring:message code="${transporter.portfolio.portfolioStatus}"/>
                 </td>
             </tr>
         </c:forEach>

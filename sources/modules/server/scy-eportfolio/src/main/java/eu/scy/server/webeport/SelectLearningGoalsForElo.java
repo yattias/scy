@@ -1,9 +1,10 @@
-package eu.scy.server.assessment;
+package eu.scy.server.webeport;
 
-import eu.scy.common.mission.MissionSpecificationElo;
+import eu.scy.common.mission.MissionRuntimeElo;
+import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.XMLTransferObjectService;
-import eu.scy.core.model.User;
-import eu.scy.core.model.transfer.Portfolio;
+import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
+import eu.scy.core.model.transfer.PedagogicalPlanTransfer;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.core.roolo.PedagogicalPlanELOService;
 import eu.scy.core.roolo.PortfolioELOService;
@@ -15,17 +16,15 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
  * Date: 04.sep.2011
- * Time: 08:12:08
+ * Time: 11:48:50
  * To change this template use File | Settings | File Templates.
  */
-public class WebAssessmentPortfolioOverview extends BaseController {
+public class SelectLearningGoalsForElo extends BaseController {
 
     private PortfolioELOService portfolioELOService;
     private RuntimeELOService runtimeELOService;
@@ -37,25 +36,25 @@ public class WebAssessmentPortfolioOverview extends BaseController {
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
-        URI missionSpecificationURI = getURI(request.getParameter(ELO_URI));
-        MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(missionSpecificationURI, getMissionELOService());
+        URI eloURI = getURI(request.getParameter(ELO_URI));
+        ScyElo elo = ScyElo.loadLastVersionElo(eloURI, getMissionELOService());
 
-        List<Portfolio> portfolios = getMissionELOService().getPortfoliosThatAreReadyForAssessment(missionSpecificationElo);
+        URI missionRuntimeURI = getURI(request.getParameter("missionRuntimeURI"));
+        PedagogicalPlanTransfer pedagogicalPlan = getPedagogicalPlanELOService().getPedagogicalPlanForMissionRuntimeElo(missionRuntimeURI.toString());
 
-        List<AssessmentStatusTransporter>assessmentStatusTransporters = new LinkedList<AssessmentStatusTransporter>();
+        URI anchorEloURI = getURI(request.getParameter("anchorEloURI"));
 
-        for (int i = 0; i < portfolios.size(); i++) {
-            Portfolio portfolio = portfolios.get(i);
-            User user = getUserService().getUser(portfolio.getOwner());
-            AssessmentStatusTransporter assessmentStatusTransporter = new AssessmentStatusTransporter();
-            assessmentStatusTransporter.setUser(user);
-            assessmentStatusTransporter.setPortfolio(portfolio);
-            assessmentStatusTransporters.add(assessmentStatusTransporter);
+        String learningGoalType = request.getParameter("lgType");
+        if(learningGoalType.equals("general")) {
+            modelAndView.addObject("learningGoals", pedagogicalPlan.getAssessmentSetup().getGeneralLearningGoals());
+        } else if(learningGoalType.equals("specific")) {
+            modelAndView.addObject("learningGoals", pedagogicalPlan.getAssessmentSetup().getSpecificLearningGoals());
         }
 
-        modelAndView.addObject("transporters", assessmentStatusTransporters);
-
-        
+        modelAndView.addObject("learningGoalType" , learningGoalType);
+        modelAndView.addObject("eloURI" , getEncodedUri(eloURI.toString()));
+        modelAndView.addObject("missionRuntimeURI", getEncodedUri(missionRuntimeURI.toString()));
+        modelAndView.addObject("anchorEloURI", getEncodedUri(anchorEloURI.toString()));
     }
 
     public PortfolioELOService getPortfolioELOService() {

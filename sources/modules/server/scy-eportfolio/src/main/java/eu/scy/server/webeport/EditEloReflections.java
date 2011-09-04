@@ -35,12 +35,15 @@ public class EditEloReflections extends BaseController {
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
+        logger.info("ELO URI: : " + request.getParameter(ELO_URI));
+
         URI eloURI = getURI(request.getParameter(ELO_URI));
         ScyElo elo = ScyElo.loadLastVersionElo(eloURI, getMissionELOService());
         TransferElo transferElo = new TransferElo(elo);
 
         logger.info("QUERY: " + request.getQueryString());
         logger.info("MISSIONURI: " + request.getParameter("missionRuntimeURI"));
+
 
         URI missionRuntimeURI = getURI(request.getParameter("missionRuntimeURI"));
 

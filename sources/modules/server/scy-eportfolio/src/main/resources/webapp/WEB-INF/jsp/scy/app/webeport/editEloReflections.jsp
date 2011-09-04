@@ -83,6 +83,12 @@
                                         </c:forEach>
                                     </c:when>
                                 </c:choose>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <a href="selectLearningGoalsForElo.html?eloURI=${elo.uri}&lgType=general&missionRuntimeURI=${missionRuntimeURI}&anchorEloURI=${anchorEloURI}"><spring:message code="SELECT_LEARNING_GOAL"></spring:message> </a>
+                                    </td>
+                                </tr>
 
                             </table>
                         </div>
@@ -111,6 +117,11 @@
                                         </c:forEach>
                                     </c:when>
                                 </c:choose>
+                                <tr>
+                                    <td></td>
+                                    <td><a href="selectLearningGoalsForElo.html?eloURI=${elo.uri}&lgType=specific&missionRuntimeURI=${missionRuntimeURI}&anchorEloURI=${anchorEloURI}"><spring:message code="SELECT_LEARNING_GOAL"></spring:message> </a></td>
+                                </tr>
+
 
                             </table>
                         </div>
@@ -151,35 +162,11 @@
                         </c:forEach>
                     </c:when>
                 </c:choose>
-
-
-
-                <tr>
-                    <td>
-                        <strong>Reflection on inquiry</strong>
-                    </td>
-                    <td>
-                        <input type="text" name="reflectionOnInquiry" id="reflectionOnInquiry" value="1" style="display:none;"/>  
-
-                        <div id="horizontalSlider" dojoType="dijit.form.HorizontalSlider" value="1" minimum="1" maximum="4" discreteValues="1" intermediateChanges="false" showButtons="false" style="width:90%;margin-top:5px;" onChange="document.getElementById('reflectionOnInquiry').value = Math.round(this.value);">
-                            <ol dojoType="dijit.form.HorizontalRuleLabels" container="topDecoration" style="height:1.5em;font-size:75%;color:gray;">
-                                <li style="margin-bottom:5px;"><img src="/webapp/themes/scy/default/images/smiley_1.png" alt=""  /></li>
-                                <li style="margin-bottom:5px;"><img src="/webapp/themes/scy/default/images/smiley_2.png" alt=""  /></li>
-                                <li style="margin-bottom:5px;"><img src="/webapp/themes/scy/default/images/smiley_3.png" alt=""  /></li>
-                                <li style="margin-bottom:5px;"><img src="/webapp/themes/scy/default/images/smiley_4.png" alt=""  /></li>
-                            </ol>
-                            <div dojoType="dijit.form.HorizontalRule" container="bottomDecoration" count="4" style="height:5px;">
-                                <ol dojoType="dijit.form.HorizontalRuleLabels" container="bottomDecoration" style="height:1em;font-size:75%;color:gray;"></ol>
-                            </div>
-                        </div>
-
-                    </td>
-                    <input type="hidden" name="missionRuntimeURI" value="${missionRuntimeURI}"/>
-                    <input type="hidden" name="eloURI" value="${eloURI}"/>
-                    <input type="hidden" name="anchorEloURI" value="${anchorEloURI}"/>
-                </tr>
+                <input type="hidden" name="missionRuntimeURI" value="${missionRuntimeURI}"/>
+                <input type="hidden" name="eloURI" value="${eloURI}"/>
+                <input type="hidden" name="anchorEloURI" value="${anchorEloURI}"/>
             </table>
-            <input type="submit" value="save">
+            <input type="submit" value="<spring:message code="ADD_TO_PORTFOLIO"/>">
         </form>
 
        </div>
