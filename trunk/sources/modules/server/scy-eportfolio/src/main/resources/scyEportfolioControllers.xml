@@ -51,6 +51,9 @@
                 /app/assessment/assessmentindex.html=assessmentIndexController
                 /app/assessment/teacherAssessmentOverview.html=teacherAssessmentOverviewController
 
+                <!-- WEB ASSESSMENT -->
+                /app/assessment/webAssessmentIndex.html=webAssessmentIndexController
+
                 /app/feedback/newElosForFeedbackService.html=newElosForFeedbackService
 
                 /app/feedback/feedbackindex.html=feedbackIndexController
@@ -208,6 +211,17 @@
 	</bean>
 
     <bean id="storeReflectionsOnMissionController" class="eu.scy.server.webeport.StoreReflectionsOnMission">
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="portfolioELOService" ref="portfolioELOService"/>
+        <property name="runtimeELOService" ref="runtimeELOService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
+        <property name="transferObjectMapService" ref="transferObjectMapService"/>
+        <!--property name="runtimeELOService" ref="runtimeELOService"/-->
+	</bean>
+
+    <bean id="webAssessmentIndexController" class="eu.scy.server.assessment.WebAssessmentIndex">
         <property name="urlInspector" ref="urlInspector"/>
         <property name="portfolioELOService" ref="portfolioELOService"/>
         <property name="runtimeELOService" ref="runtimeELOService"/>
