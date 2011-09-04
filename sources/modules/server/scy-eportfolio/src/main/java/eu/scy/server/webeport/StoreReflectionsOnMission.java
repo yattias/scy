@@ -62,9 +62,13 @@ public class StoreReflectionsOnMission extends BaseController {
 
         logger.info("NUMBER OF ANSWERS: " + portfolio.getMissionReflectionQuestionAnswers().size());
 
+        portfolio.setPortfolioStatus(Portfolio.PORTFOLIO_STATUS_SUBMITTED_WAITING_FOR_ASSESSMENT);
+
         ScyElo portfolioElo = ScyElo.loadLastVersionElo(missionRuntimeElo.getTypedContent().getEPortfolioEloUri(), getMissionELOService());
         portfolioElo.getContent().setXmlString(getXmlTransferObjectService().getToObjectXStream().toXML(portfolio));
         portfolioElo.updateElo();
+
+        modelAndView.setViewName("forward:webEportIndex.html");
 
     }
 

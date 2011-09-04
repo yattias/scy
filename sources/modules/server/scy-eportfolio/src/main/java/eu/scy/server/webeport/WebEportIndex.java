@@ -42,7 +42,7 @@ public class WebEportIndex extends BaseController {
             missionURI = getURI(request.getParameter(ELO_URI));
         }
 
-        MissionRuntimeElo missionRuntimeElo = (MissionRuntimeElo) getScyElo();
+        MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(missionURI, getMissionELOService());
         MissionSpecificationElo missionSpecificationElo = getMissionELOService().getMissionSpecificationELOForRuntume(missionRuntimeElo);
         PedagogicalPlanTransfer pedagogicalPlanTransfer = getPedagogicalPlanELOService().getPedagogicalPlanForMission(missionSpecificationElo);
         Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo);
