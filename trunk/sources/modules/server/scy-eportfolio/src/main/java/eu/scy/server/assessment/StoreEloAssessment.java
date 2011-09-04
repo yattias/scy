@@ -4,6 +4,7 @@ import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.XMLTransferObjectService;
 import eu.scy.core.model.transfer.Portfolio;
+import eu.scy.core.model.transfer.TransferElo;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.core.roolo.PedagogicalPlanELOService;
 import eu.scy.core.roolo.PortfolioELOService;
@@ -39,11 +40,19 @@ public class StoreEloAssessment extends BaseController {
         String assessmentOfReflection = request.getParameter("assessmentOfReflection");
         URI missionRuntimeURI = getURI(request.getParameter("missionRuntimeURI"));
         URI eloURI = getURI(request.getParameter(ELO_URI));
+        ScyElo scyElo = ScyElo.loadLastVersionElo(eloURI, getMissionELOService());
+        TransferElo elo = new TransferElo(scyElo);
 
 
         MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(missionRuntimeURI, getMissionELOService());
         Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo, getCurrentUserName(request));
 
+        portfolio.setTeacherAssessmentOnElo(elo.getUri(), assessmentOfElo);
+        portfolio.setTeacherAssessmentOnReflection(elo.getUri(), assessmentOfReflection);
+
+        ScyElo portfolioElo = ScyElo.loadLastVersionElo(missionRuntimeElo.getTypedContent().getEPortfolioEloUri(), getMissionELOService());
+        portfolioElo.getContent().setXmlString(getXmlTransferObjectService().getToObjectXStream().toXML(portfolio));
+        portfolioElo.updateElo();
 
         modelAndView.setViewName("forward:webAssessmentIndex.html");
     }

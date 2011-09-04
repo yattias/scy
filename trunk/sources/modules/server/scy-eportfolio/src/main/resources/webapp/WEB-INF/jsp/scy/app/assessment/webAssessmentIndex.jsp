@@ -32,6 +32,9 @@
                                 <c:forEach var="elo" items="${elos}">
                                     <tr>
                                         <td>
+                                            <img src="${elo.thumbnail}"/>
+                                        </td>
+                                        <td>
                                             <a href="assessElo.html?eloURI=${elo.uri}&missionRuntimeURI=${missionRuntimeURI}">${elo.myname}</a>
                                         </td>
                                     </tr>
