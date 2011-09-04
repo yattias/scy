@@ -7,7 +7,7 @@
         <c:forEach var="transporter" items="${transporters}">
             <tr>
                 <td>
-                    ${transporter.user.userDetails.firstName}
+                    <a href="/webapp/app/assessment/webAssessmentIndex.html?missionRuntimeURI=${transporter.encodedMissionURI}">${transporter.user.userDetails.firstName}</a>
                 </td>
                 <td>
                     ${transporter.user.userDetails.lastName}

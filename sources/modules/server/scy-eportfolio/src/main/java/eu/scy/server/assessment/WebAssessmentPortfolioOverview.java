@@ -50,6 +50,7 @@ public class WebAssessmentPortfolioOverview extends BaseController {
             AssessmentStatusTransporter assessmentStatusTransporter = new AssessmentStatusTransporter();
             assessmentStatusTransporter.setUser(user);
             assessmentStatusTransporter.setPortfolio(portfolio);
+            assessmentStatusTransporter.setEncodedMissionURI(getEncodedUri(portfolio.getMissionRuntimeURI()));
             assessmentStatusTransporters.add(assessmentStatusTransporter);
         }
 
