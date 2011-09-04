@@ -14,6 +14,7 @@ public class AssessmentStatusTransporter {
 
     private Portfolio portfolio;
     private User user;
+    private String encodedMissionURI;
 
     public Portfolio getPortfolio() {
         return portfolio;
@@ -29,5 +30,13 @@ public class AssessmentStatusTransporter {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getEncodedMissionURI() {
+        return encodedMissionURI;
+    }
+
+    public void setEncodedMissionURI(String encodedMissionURI) {
+        this.encodedMissionURI = encodedMissionURI;
     }
 }
