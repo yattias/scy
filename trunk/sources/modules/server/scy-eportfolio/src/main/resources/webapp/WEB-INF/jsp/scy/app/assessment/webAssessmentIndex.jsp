@@ -26,7 +26,19 @@
                     
                 <div dojoType="dojox.layout.ContentPane" style="width:100%;height:90%;" id="eportfolioPane" parseOnLoad="true" executeScripts="true">
 
-        ASSESSMENT TOOL!
+                    <c:choose>
+                        <c:when test="${fn:length(elos) > 0}">
+                            <table>
+                                <c:forEach var="elo" items="${elos}">
+                                    <tr>
+                                        <td>
+                                            <a href="assessElo.html?eloURI=${elo.uri}&missionRuntimeURI=${missionRuntimeURI}">${elo.myname}</a>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                                </table>
+                        </c:when>
+                    </c:choose>
 
         </div>
         </div>

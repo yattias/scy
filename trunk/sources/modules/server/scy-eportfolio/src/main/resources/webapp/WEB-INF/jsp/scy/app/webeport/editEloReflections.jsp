@@ -15,7 +15,6 @@
             }
     </style>
         <div style="border:4px solid #cc6600;width:786px;height:95%;padding:4px;" class="greenBorders">
-                    <!--img src="/webapp/themes/scy/default/images/feedback_header.png" alt="" class="greenBackgrounds" /-->
                     <div class="feedbackHeader" >My ePortfolio</div>
 
                 <div dojoType="dojox.layout.ContentPane" style="width:100%;height:90%;" id="eportfolioPane" parseOnLoad="true" executeScripts="true">

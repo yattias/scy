@@ -64,11 +64,11 @@ public class EditEloReflections extends BaseController {
 
         String action = request.getParameter("action");
         if (action != null) {
-            dispatchAction(request, missionRuntimeElo);
+            dispatchAction(request, missionRuntimeElo, transferElo);
         }
 
         Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo, getCurrentUserName(request));
-        List<SelectedLearningGoalWithScore> selectedGeneralLearningGoalWithScores = portfolio.getSelectedGeneralLearningGoalWithScores();
+        List<SelectedLearningGoalWithScore> selectedGeneralLearningGoalWithScores = portfolio.getGeneralLearningGoalsForElo(transferElo.getUri());
         if(selectedGeneralLearningGoalWithScores != null) {
             for (int i = 0; i < selectedGeneralLearningGoalWithScores.size(); i++) {
                 SelectedLearningGoalWithScore selectedLearningGoalWithScore = selectedGeneralLearningGoalWithScores.get(i);
@@ -77,7 +77,7 @@ public class EditEloReflections extends BaseController {
             
         }
 
-        List<SelectedLearningGoalWithScore> selectedSpecificLearningGoalWithScores = portfolio.getSelectedSpecificLearningGoalWithScores();
+        List<SelectedLearningGoalWithScore> selectedSpecificLearningGoalWithScores = portfolio.getSpecificLearningGoalsForElo(transferElo.getUri());
         if (selectedSpecificLearningGoalWithScores != null) {
             for (int i = 0; i < selectedSpecificLearningGoalWithScores.size(); i++) {
                 SelectedLearningGoalWithScore selectedLearningGoalWithScore = selectedSpecificLearningGoalWithScores.get(i);
@@ -117,22 +117,23 @@ public class EditEloReflections extends BaseController {
         }
     }
 
-    private void dispatchAction(HttpServletRequest request, MissionRuntimeElo missionRuntimeElo) {
+    private void dispatchAction(HttpServletRequest request, MissionRuntimeElo missionRuntimeElo, TransferElo transferElo) {
         String action = request.getParameter("action");
         String type = request.getParameter("lgType");
         if (action.equals("addLearningGoal")) {
             if (type.equals("specific")) {
-                addSpecificLearningGoal(request, missionRuntimeElo);
+                addSpecificLearningGoal(request, missionRuntimeElo, transferElo);
             } else {
-                addGeneralLearningGoal(request, missionRuntimeElo);
+                addGeneralLearningGoal(request, missionRuntimeElo, transferElo);
             }
         }
     }
 
-    private void addGeneralLearningGoal(HttpServletRequest request, MissionRuntimeElo missionRuntimeElo) {
+    private void addGeneralLearningGoal(HttpServletRequest request, MissionRuntimeElo missionRuntimeElo, TransferElo transferElo) {
         SelectedLearningGoalWithScore selectedLearningGoalWithScore = new SelectedLearningGoalWithScore();
         String learningGoalId = request.getParameter("learningGoalId");
         selectedLearningGoalWithScore.setLearningGoalId(learningGoalId);
+        selectedLearningGoalWithScore.setEloURI(transferElo.getUri());
 
         Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo, getCurrentUserName(request));
         portfolio.addSelectedGeneralLearningGoalWithScore(selectedLearningGoalWithScore);
@@ -142,10 +143,11 @@ public class EditEloReflections extends BaseController {
         portfolioElo.updateElo();
     }
 
-    private void addSpecificLearningGoal(HttpServletRequest request, MissionRuntimeElo missionRuntimeElo) {
+    private void addSpecificLearningGoal(HttpServletRequest request, MissionRuntimeElo missionRuntimeElo, TransferElo transferElo) {
         SelectedLearningGoalWithScore selectedLearningGoalWithScore = new SelectedLearningGoalWithScore();
         String learningGoalId = request.getParameter("learningGoalId");
         selectedLearningGoalWithScore.setLearningGoalId(learningGoalId);
+        selectedLearningGoalWithScore.setEloURI(transferElo.getUri());
 
         Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo, getCurrentUserName(request));
         portfolio.addSelectedSpecificLearningGoalWithScore(selectedLearningGoalWithScore);

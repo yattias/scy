@@ -12,6 +12,7 @@ public class SelectedLearningGoalWithScore extends BaseXMLTransfer {
     private String learningGoalId;
     private String score;
     private String learningGoalText;
+    private String eloURI;
 
     public String getLearningGoalId() {
         return learningGoalId;
@@ -35,5 +36,13 @@ public class SelectedLearningGoalWithScore extends BaseXMLTransfer {
 
     public void setLearningGoalText(String learningGoalText) {
         this.learningGoalText = learningGoalText;
+    }
+
+    public String getEloURI() {
+        return eloURI;
+    }
+
+    public void setEloURI(String eloURI) {
+        this.eloURI = eloURI;
     }
 }
