@@ -52,7 +52,7 @@
                 /app/assessment/teacherAssessmentOverview.html=teacherAssessmentOverviewController
 
                 <!-- WEB ASSESSMENT -->
-                /app/assessment/webAssessmentIndex.html=webAssessmentIndexController
+                /app/assessment/webAssessmentPortfolioOverview.html=webAssessmentIndexController
 
                 /app/feedback/newElosForFeedbackService.html=newElosForFeedbackService
 
@@ -221,7 +221,7 @@
         <!--property name="runtimeELOService" ref="runtimeELOService"/-->
 	</bean>
 
-    <bean id="webAssessmentIndexController" class="eu.scy.server.assessment.WebAssessmentIndex">
+    <bean id="webAssessmentIndexController" class="eu.scy.server.assessment.WebAssessmentPortfolioOverview">
         <property name="urlInspector" ref="urlInspector"/>
         <property name="portfolioELOService" ref="portfolioELOService"/>
         <property name="runtimeELOService" ref="runtimeELOService"/>

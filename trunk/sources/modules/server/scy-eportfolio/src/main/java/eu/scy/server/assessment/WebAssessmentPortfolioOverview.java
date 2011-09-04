@@ -1,6 +1,8 @@
 package eu.scy.server.assessment;
 
+import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.core.XMLTransferObjectService;
+import eu.scy.core.model.transfer.Portfolio;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.core.roolo.PedagogicalPlanELOService;
 import eu.scy.core.roolo.PortfolioELOService;
@@ -12,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,7 +23,7 @@ import java.net.URI;
  * Time: 08:12:08
  * To change this template use File | Settings | File Templates.
  */
-public class WebAssessmentIndex extends BaseController {
+public class WebAssessmentPortfolioOverview extends BaseController {
 
     private PortfolioELOService portfolioELOService;
     private RuntimeELOService runtimeELOService;
@@ -33,7 +36,11 @@ public class WebAssessmentIndex extends BaseController {
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
         URI missionSpecificationURI = getURI(request.getParameter(ELO_URI));
+        MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(missionSpecificationURI, getMissionELOService());
 
+        List<Portfolio> portfolios = getMissionELOService().getPortfoliosThatAreReadyForAssessment(missionSpecificationElo);
+
+        modelAndView.addObject("portfolios", portfolios);
 
         
     }
