@@ -39,7 +39,7 @@ public class StoreReflectionsOnMission extends BaseController {
         Enumeration parameters = request.getParameterNames();
         Portfolio portfolio = null;
         MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(getURI(request.getParameter("missionRuntimeURI")), getMissionELOService());
-        portfolio = getMissionELOService().getPortfolio(missionRuntimeElo);
+        portfolio = getMissionELOService().getPortfolio(missionRuntimeElo, getCurrentUserName(request));
         while (parameters.hasMoreElements()) {
             String parameter = (String) parameters.nextElement();
             logger.info("PARAMETER: " + parameter + " VALUE: " + request.getParameter(parameter));

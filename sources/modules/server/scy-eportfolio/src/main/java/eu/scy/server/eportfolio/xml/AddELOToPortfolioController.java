@@ -54,7 +54,7 @@ public class AddELOToPortfolioController extends MissionRuntimeEnabledXMLService
 
             Portfolio portfolio = (Portfolio) getXmlTransferObjectService().getObject(portfolioElo.getContent().getXmlString());
             portfolio.setAssessed(false);
-            portfolio.setPortfolioStatus("PORTFOLIO_NOT_SUBMITTED");
+            portfolio.setPortfolioStatus(Portfolio.PORTFOLIO_STATUS_NOT_SUBMITTED);
             portfolio.setMissionName(missionRuntimeElo.getTitle());
             portfolio.setMissionRuntimeURI(String.valueOf(missionRuntimeURI));
             portfolio.setOwner(getCurrentUserName(request));

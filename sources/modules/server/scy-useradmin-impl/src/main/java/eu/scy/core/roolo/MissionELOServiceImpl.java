@@ -262,7 +262,7 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
     }
 
     @Override
-    public List <ISearchResult> getMissionSpecifications() {
+    public List<ISearchResult> getMissionSpecifications() {
         final IMetadataKey technicalFormatKey = getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
         IQueryComponent missionSpecificationQueryComponent = new MetadataQueryComponent(technicalFormatKey, SearchOperation.EQUALS, MissionEloType.MISSION_SPECIFICATIOM.getType());
         IQuery missionSpecificationQuery = new Query(missionSpecificationQueryComponent);
@@ -270,14 +270,14 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
         return getRepository().search(missionSpecificationQuery);
     }
 
-    public List <ISearchResult> getMissionSpecificationsByAuthor(String author) {
+    public List<ISearchResult> getMissionSpecificationsByAuthor(String author) {
         return getMissionSpecifications();
     }
 
     @Override
     public List<Portfolio> getPortfoliosThatAreReadyForAssessment(MissionSpecificationElo missionSpecificationElo) {
-        List <ISearchResult> runtimeElos = getRuntimeElos(missionSpecificationElo);
-        List <Portfolio> returnList = new LinkedList<Portfolio>();
+        List<ISearchResult> runtimeElos = getRuntimeElos(missionSpecificationElo);
+        List<Portfolio> returnList = new LinkedList<Portfolio>();
         for (int i = 0; i < runtimeElos.size(); i++) {
             ISearchResult shittyElo = runtimeElos.get(i);
             MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(shittyElo.getUri(), this);
@@ -302,7 +302,7 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
         return returnList;
     }
 
-    public Portfolio getPortfolio(MissionRuntimeElo missionRuntimeElo) {
+    public Portfolio getPortfolio(MissionRuntimeElo missionRuntimeElo, String username) {
         URI portfolioURI = missionRuntimeElo.getTypedContent().getEPortfolioEloUri();
         ScyElo scyElo = ScyElo.loadLastVersionElo(portfolioURI, this);
         if (scyElo != null) {
@@ -312,7 +312,12 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
             }
         }
 
-        return new Portfolio();
+        Portfolio portfolio = new Portfolio();
+        portfolio.setMissionName(missionRuntimeElo.getTitle());
+        portfolio.setOwner(username);
+        portfolio.setPortfolioStatus(Portfolio.PORTFOLIO_STATUS_NOT_SUBMITTED);
+        portfolio.setMissionRuntimeURI(missionRuntimeElo.getUri().toString());
+        return portfolio;
     }
 
     @Override
@@ -320,7 +325,7 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
 
         NewestElos newestElos = new NewestElos();
 
-        List <ISearchResult> feedbackList = getFeedback();
+        List<ISearchResult> feedbackList = getFeedback();
         //Collections.sort(feedbackList, new EloComparator());
         for (int i = 0; i < feedbackList.size(); i++) {
             ISearchResult searchResult = (ISearchResult) feedbackList.get(i);
@@ -338,7 +343,7 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
     }
 
     @Override
-    public List <ISearchResult> getFeedback() {
+    public List<ISearchResult> getFeedback() {
 
         final IMetadataKey technicalFormatKey = getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
         IQueryComponent feedbackComponent = new MetadataQueryComponent(technicalFormatKey, SearchOperation.EQUALS, "scy/feedback");
@@ -354,7 +359,6 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
         } */
 
         return results;
-
 
 
         //return getELOs(feedbackQuery);
@@ -416,12 +420,12 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
         for (int i = 0; i < feedbackTransfers.size(); i++) {
             FeedbackTransfer feedbackTransfer = feedbackTransfers.get(i);
             List<FeedbackReplyTransfer> replies = feedbackTransfer.getReplies();
-            if(replies != null) {
+            if (replies != null) {
                 for (int j = 0; j < replies.size(); j++) {
                     FeedbackReplyTransfer transfer = replies.get(j);
                     if (transfer.getCreatedBy().equals(currentUserName)) return true;
                 }
-                
+
             }
             if (feedbackTransfer.getCreatedBy().equals(currentUserName)) return true;
         }
@@ -431,7 +435,7 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
 
     @Override
     public void clearAllPortfolios() {
-        List <ISearchResult> runtimeElos = getRuntimeElos(null);
+        List<ISearchResult> runtimeElos = getRuntimeElos(null);
         for (int i = 0; i < runtimeElos.size(); i++) {
             ISearchResult shittyElo = runtimeElos.get(i);
             MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(shittyElo.getUri(), this);
@@ -466,7 +470,7 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
 
             ScyElo parentCandidate = ScyElo.loadLastVersionElo(parentEloURI, this);
 
-            if(parentCandidate.getUri().equals(scyElo.getUri())) {
+            if (parentCandidate.getUri().equals(scyElo.getUri())) {
                 TransferElo transferElo = new TransferElo(scyElo);
                 transferElo.setFeedbackELO(feedbackElo);
                 return transferElo;
@@ -504,7 +508,7 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
     }
 
     @Override
-    public List<ISearchResult>getElosWithTechnicalType(String technicalFormat, String username) {
+    public List<ISearchResult> getElosWithTechnicalType(String technicalFormat, String username) {
         final IMetadataKey technicalFormatKey = getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
         IQueryComponent feedbackComponent = new MetadataQueryComponent(technicalFormatKey, SearchOperation.EQUALS, technicalFormat);
         final IMetadataKey auhtorKey = getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR);

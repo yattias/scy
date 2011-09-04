@@ -65,7 +65,7 @@ public class LoadPortfolioController extends MissionRuntimeEnabledXMLService {
             portfolio = new Portfolio();
             portfolio.setMissionName(missionRuntimeElo.getTitle());
             portfolio.setOwner(getCurrentUser(request).getUserDetails().getUsername());
-            portfolio.setPortfolioStatus("NOT_SUBMITTED");
+            portfolio.setPortfolioStatus(Portfolio.PORTFOLIO_STATUS_NOT_SUBMITTED);
             portfolio.setMissionRuntimeURI(missionRuntimeElo.getUri().toString());
             logger.info("Portfolio: " + portfolio.getMissionName() + " " + portfolio.getMissionRuntimeURI());
         }

@@ -2,7 +2,6 @@ package eu.scy.server.controllers.student;
 
 import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.mission.MissionSpecificationElo;
-import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.XMLTransferObjectService;
 import eu.scy.core.model.transfer.NewestElos;
 import eu.scy.core.roolo.MissionELOService;
@@ -33,7 +32,7 @@ public class StudentIndexController extends BaseController {
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
         MissionRuntimeElo missionRuntimeElo = (MissionRuntimeElo) getScyElo();
-        Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo);
+        Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo, getCurrentUserName(request));
         if (portfolio != null) {
             portfolio.unCdatify();
             modelAndView.addObject("portfolio", portfolio);
