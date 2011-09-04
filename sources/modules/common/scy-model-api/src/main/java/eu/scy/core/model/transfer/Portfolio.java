@@ -204,6 +204,19 @@ public class Portfolio extends BaseXMLTransfer {
         return selectedGeneralLearningGoalWithScores;
     }
 
+
+    public List<SelectedLearningGoalWithScore> getGeneralLearningGoalsForElo(String eloURI) {
+        List <SelectedLearningGoalWithScore> returnList = new LinkedList<SelectedLearningGoalWithScore>();
+        for (int i = 0; i < getSelectedGeneralLearningGoalWithScores().size(); i++) {
+            SelectedLearningGoalWithScore selectedLearningGoalWithScore = getSelectedGeneralLearningGoalWithScores().get(i);
+            if(selectedLearningGoalWithScore.getEloURI() != null && selectedLearningGoalWithScore.getEloURI().equals(eloURI)) {
+                returnList.add(selectedLearningGoalWithScore);
+            }
+        }
+        return returnList;
+    }
+
+
     public void setSelectedGeneralLearningGoalWithScores(List<SelectedLearningGoalWithScore> selectedGeneralLearningGoalWithScores) {
         this.selectedGeneralLearningGoalWithScores = selectedGeneralLearningGoalWithScores;
     }
@@ -215,6 +228,17 @@ public class Portfolio extends BaseXMLTransfer {
 
     public List<SelectedLearningGoalWithScore> getSelectedSpecificLearningGoalWithScores() {
         return selectedSpecificLearningGoalWithScores;
+    }
+
+    public List<SelectedLearningGoalWithScore> getSpecificLearningGoalsForElo(String eloURI) {
+        List <SelectedLearningGoalWithScore> returnList = new LinkedList<SelectedLearningGoalWithScore>();
+        for (int i = 0; i < getSelectedSpecificLearningGoalWithScores().size(); i++) {
+            SelectedLearningGoalWithScore selectedLearningGoalWithScore = getSelectedSpecificLearningGoalWithScores().get(i);
+            if(selectedLearningGoalWithScore.getEloURI() != null && selectedLearningGoalWithScore.getEloURI().equals(eloURI)) {
+                returnList.add(selectedLearningGoalWithScore);
+            }
+        }
+        return returnList;
     }
 
     public void setSelectedSpecificLearningGoalWithScores(List<SelectedLearningGoalWithScore> selectedSpecificLearningGoalWithScores) {
@@ -249,4 +273,5 @@ public class Portfolio extends BaseXMLTransfer {
     public void setMissionRuntimeURI(String missionRuntimeURI) {
         this.missionRuntimeURI = missionRuntimeURI;
     }
+
 }

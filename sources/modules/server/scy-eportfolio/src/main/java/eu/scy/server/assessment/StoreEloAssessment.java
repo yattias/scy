@@ -1,10 +1,9 @@
 package eu.scy.server.assessment;
 
 import eu.scy.common.mission.MissionRuntimeElo;
+import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.XMLTransferObjectService;
-import eu.scy.core.model.transfer.EloAnchorEloPair;
 import eu.scy.core.model.transfer.Portfolio;
-import eu.scy.core.model.transfer.TransferElo;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.core.roolo.PedagogicalPlanELOService;
 import eu.scy.core.roolo.PortfolioELOService;
@@ -16,17 +15,15 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
- * Date: 04.sep.2011
- * Time: 08:45:32
+ * Date: 05.sep.2011
+ * Time: 01:11:47
  * To change this template use File | Settings | File Templates.
  */
-public class WebAssessmentIndex extends BaseController {
+public class StoreEloAssessment extends BaseController {
 
     private PortfolioELOService portfolioELOService;
     private RuntimeELOService runtimeELOService;
@@ -36,23 +33,19 @@ public class WebAssessmentIndex extends BaseController {
     private TransferObjectMapService transferObjectMapService;
 
 
-
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
+        String assessmentOfElo = request.getParameter("assessmentOfElo");
+        String assessmentOfReflection = request.getParameter("assessmentOfReflection");
         URI missionRuntimeURI = getURI(request.getParameter("missionRuntimeURI"));
-        MissionRuntimeElo missionRuntimeElo  = MissionRuntimeElo.loadLastVersionElo(missionRuntimeURI, getMissionELOService());
+        URI eloURI = getURI(request.getParameter(ELO_URI));
+
+
+        MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(missionRuntimeURI, getMissionELOService());
         Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo, getCurrentUserName(request));
-        List<EloAnchorEloPair> eloAnchorEloPairs = portfolio.getEloAnchorEloPairs();
-        List<TransferElo> elos = new LinkedList<TransferElo>();
-        for (int i = 0; i < eloAnchorEloPairs.size(); i++) {
-            EloAnchorEloPair eloAnchorEloPair = eloAnchorEloPairs.get(i);
-            elos.add(eloAnchorEloPair.getElo());
 
-        }
 
-        modelAndView.addObject("elos", elos);
-        modelAndView.addObject("missionRuntimeURI", getEncodedUri(missionRuntimeElo.getUri().toString()));
-
+        modelAndView.setViewName("forward:webAssessmentIndex.html");
     }
 
     public PortfolioELOService getPortfolioELOService() {
