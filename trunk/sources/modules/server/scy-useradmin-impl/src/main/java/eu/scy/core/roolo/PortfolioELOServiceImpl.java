@@ -35,7 +35,7 @@ public class PortfolioELOServiceImpl extends BaseELOServiceImpl implements Portf
             portfolio = new Portfolio();
             portfolio.setMissionName(missionRuntimeElo.getTitle());
             portfolio.setOwner(username);
-            portfolio.setPortfolioStatus("NOT_SUBMITTED");
+            portfolio.setPortfolioStatus(Portfolio.PORTFOLIO_STATUS_NOT_SUBMITTED);
             portfolio.setMissionRuntimeURI(missionRuntimeElo.getUri().toString());
         }
 

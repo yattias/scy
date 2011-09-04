@@ -1,55 +1,38 @@
-package eu.scy.server.webeport;
+package eu.scy.server.assessment;
 
-import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.core.XMLTransferObjectService;
-import eu.scy.core.model.transfer.PedagogicalPlanTransfer;
-import eu.scy.core.model.transfer.Portfolio;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.core.roolo.PedagogicalPlanELOService;
 import eu.scy.core.roolo.PortfolioELOService;
 import eu.scy.core.roolo.RuntimeELOService;
 import eu.scy.server.controllers.BaseController;
+import eu.scy.server.util.TransferObjectMapService;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.net.URI;
 
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
- * Date: 03.sep.2011
- * Time: 13:31:24
+ * Date: 04.sep.2011
+ * Time: 08:45:32
  * To change this template use File | Settings | File Templates.
  */
-public class ReflectionOnMission extends BaseController {
+public class WebAssessmentIndex extends BaseController {
 
     private PortfolioELOService portfolioELOService;
     private RuntimeELOService runtimeELOService;
     private MissionELOService missionELOService;
     private XMLTransferObjectService xmlTransferObjectService;
     private PedagogicalPlanELOService pedagogicalPlanELOService;
+    private TransferObjectMapService transferObjectMapService;
+
 
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
-        URI missionRuntimeURI = getURI(request.getParameter("missionRuntimeURI"));
-
-        Portfolio portfolio = getMissionELOService().getPortfolio(MissionRuntimeElo.loadLastVersionElo(missionRuntimeURI, getMissionELOService()), getCurrentUserName(request));
-        PedagogicalPlanTransfer pedagogicalPlanTransfer =  getPedagogicalPlanELOService().getPedagogicalPlanForMissionRuntimeElo(missionRuntimeURI.toString());
-
-        modelAndView.addObject("portfolio", portfolio);
-        modelAndView.addObject("pedagogicalPlan", pedagogicalPlanTransfer);
-        modelAndView.addObject("missionRuntimeURI", getEncodedUri(missionRuntimeURI.toString()));
-
-    }
-
-    public MissionELOService getMissionELOService() {
-        return missionELOService;
-    }
-
-    public void setMissionELOService(MissionELOService missionELOService) {
-        this.missionELOService = missionELOService;
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     public PortfolioELOService getPortfolioELOService() {
@@ -68,6 +51,14 @@ public class ReflectionOnMission extends BaseController {
         this.runtimeELOService = runtimeELOService;
     }
 
+    public MissionELOService getMissionELOService() {
+        return missionELOService;
+    }
+
+    public void setMissionELOService(MissionELOService missionELOService) {
+        this.missionELOService = missionELOService;
+    }
+
     public XMLTransferObjectService getXmlTransferObjectService() {
         return xmlTransferObjectService;
     }
@@ -82,5 +73,13 @@ public class ReflectionOnMission extends BaseController {
 
     public void setPedagogicalPlanELOService(PedagogicalPlanELOService pedagogicalPlanELOService) {
         this.pedagogicalPlanELOService = pedagogicalPlanELOService;
+    }
+
+    public TransferObjectMapService getTransferObjectMapService() {
+        return transferObjectMapService;
+    }
+
+    public void setTransferObjectMapService(TransferObjectMapService transferObjectMapService) {
+        this.transferObjectMapService = transferObjectMapService;
     }
 }

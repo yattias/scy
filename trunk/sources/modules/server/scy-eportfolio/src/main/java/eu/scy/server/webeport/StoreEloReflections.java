@@ -14,9 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -55,7 +52,7 @@ public class StoreEloReflections extends BaseController {
         logger.info("anchorEloURI: " + anchorEloURI.toString());
 
         MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(missionRuntimeUri, getRuntimeELOService());
-        Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo);
+        Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo, getCurrentUserName(request));
 
         ScyElo eloToBeAdded = ScyElo.loadLastVersionElo(eloURI, getMissionELOService());
         ScyElo ae = ScyElo.loadLastVersionElo(anchorEloURI, getMissionELOService());

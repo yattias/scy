@@ -1,7 +1,6 @@
 package eu.scy.server.controllers;
 
 import eu.scy.common.mission.MissionRuntimeElo;
-import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.UserService;
 import eu.scy.core.model.User;
@@ -50,7 +49,7 @@ public class ManageAssignedStudentController extends BaseController{
         if(runtimeEloSearchResult.size() > 0 ) {
             for (int i = 0; i < runtimeEloSearchResult.size(); i++) {
                 MissionRuntimeElo runtimeElo = MissionRuntimeElo.loadLastVersionElo(runtimeEloSearchResult.get(i).getUri(), getMissionELOService());
-                Portfolio portfolio = getMissionELOService().getPortfolio(runtimeElo);
+                Portfolio portfolio = getMissionELOService().getPortfolio(runtimeElo, userName);
                 portfolios.add(portfolio);
             }
 
