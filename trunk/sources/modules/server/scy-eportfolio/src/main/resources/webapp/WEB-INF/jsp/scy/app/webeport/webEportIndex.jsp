@@ -210,8 +210,19 @@ dojo.require("dojo.parser")
 
 
                 </div>
+            <br/><br/>
+            <div>
+                <c:if test="${fn:contains(portfolio.portfolioStatus, 'PORTFOLIO_STATUS_NOT_SUBMITTED')}">
+                    <spring:message code="PORTFOLIO_NOT_SUBMITTED"/>,  <a href="reflectionOnMission.html?missionRuntimeURI=${missionRuntimeURI}"><spring:message code="FINISH_MISSION_PORTFOLIO"></spring:message></a>
+                </c:if>
+                <c:if test="${fn:contains(portfolio.portfolioStatus, 'PORTFOLIO_STATUS_SUBMITTED_WAITING_FOR_ASSESSMENT')}">
+                    <strong><spring:message code="PORTFOLIO_SUBMITTED"/> </strong>
+                </c:if>
+                <c:if test="${fn:contains(portfolio.portfolioStatus, 'PORTFOLIO_ASSESSED')}">
+                    <strong><spring:message code="PORTFOLIO_ASSESSED"/> </strong>
+                </c:if>
+            </div>
 
-            <a href="reflectionOnMission.html?missionRuntimeURI=${missionRuntimeURI}"><spring:message code="FINISH_MISSION_PORTFOLIO"></spring:message></a>
         </div>
         </div>
     </tiles:putAttribute>

@@ -2,7 +2,7 @@
 <tiles:insertDefinition name="default-page">
     <tiles:putAttribute name="main">
 
-        REFLECTION ON PORTFOLIO ${portfolio.portfolioStatus}
+        <!--REFLECTION ON PORTFOLIO ${portfolio.portfolioStatus}
 
         NUMBER OF ANSWERS: ${fn:length(portfolio.missionReflectionQuestionAnswers)}
 
@@ -22,7 +22,7 @@
                 </c:forEach>
                 </table>
             </c:when>
-        </c:choose>
+        </c:choose>-->
 
 
 

@@ -30,7 +30,14 @@ public class Portfolio extends BaseXMLTransfer {
     private List <EloAnchorEloPair> eloAnchorEloPairs = new LinkedList<EloAnchorEloPair>();
     private List <MissionReflectionQuestionAnswer> missionReflectionQuestionAnswers = new LinkedList<MissionReflectionQuestionAnswer>();
 
+    public final static String PORTFOLIO_STATUS_NOT_SUBMITTED = "PORTFOLIO_STATUS_NOT_SUBMITTED";
+    public final static String PORTFOLIO_STATUS_SUBMITTED_WAITING_FOR_ASSESSMENT = "PORTFOLIO_STATUS_SUBMITTED_WAITING_FOR_ASSESSMENT";
+    public final static String PORTFOLIO_STATUS_ASSESSED = "PORTFOLIO_ASSESSED";
 
+    public Portfolio() {
+        super();
+        setPortfolioStatus(PORTFOLIO_STATUS_NOT_SUBMITTED);
+    }
 
     public void unCdatify() {
         //setPortfolioStatus(replaceCdata(getPortfolioStatus()));
@@ -58,12 +65,12 @@ public class Portfolio extends BaseXMLTransfer {
     }
 
     public Boolean getIsPortfolioSubmitted() {
-        if(getPortfolioStatus() != null && getPortfolioStatus().equals("PORTFOLIO_SUBMITTED")) return true;
+        if(getPortfolioStatus() != null && getPortfolioStatus().equals(PORTFOLIO_STATUS_SUBMITTED_WAITING_FOR_ASSESSMENT)) return true;
         return false;
     }
 
     public Boolean getIsPortfolioAssessed() {
-        if(getPortfolioStatus() != null && getPortfolioStatus().equals("PORTFOLIO_ASSESSSED")) return true;
+        if(getPortfolioStatus() != null && getPortfolioStatus().equals(PORTFOLIO_STATUS_ASSESSED)) return true;
         return false;
     }
 
