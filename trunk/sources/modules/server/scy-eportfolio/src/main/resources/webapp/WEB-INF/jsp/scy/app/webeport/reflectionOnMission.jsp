@@ -1,6 +1,25 @@
 <%@ include file="common-taglibs.jsp" %>
 <tiles:insertDefinition name="default-page">
     <tiles:putAttribute name="main">
+
+        <script type="text/javascript">
+            function checkTextAreasAndEnableSubmit(formid){
+                var textareas = document.getElementById(formid).getElementsByTagName("textarea");
+                var isReadyToSubmit = false;
+                for(var i = 0;i<textareas.length;i++){
+                    if(textareas[i].value.length >= 4){
+                        isReadyToSubmit = true;
+                    } else {
+                        isReadyToSubmit = false;
+                        break;
+                    }
+                }
+                if(isReadyToSubmit){
+                    document.getElementById("submitEport").disabled = false;
+                }
+            }
+        </script>
+
         <style type="text/css">
                 .feedbackHeader{
                         background-image:url(/webapp/themes/scy/default/images/feedback_header.png);
@@ -25,7 +44,7 @@
 
         <c:choose>
             <c:when test="${fn:length(pedagogicalPlan.assessmentSetup.reflectionTabs) > 0}">
-                <form action="storeReflectionsOnMission.html" style="display:block;height:50%;">
+                <form action="storeReflectionsOnMission.html" id="storeReflectionsOnMission" style="display:block;height:50%;">
                 <div dojoType="dijit.layout.TabContainer" style="height:100%;">
 
                         <c:forEach var="tab" items="${pedagogicalPlan.assessmentSetup.reflectionTabs}">
@@ -37,10 +56,10 @@
                                 </td>
                                 <td>
                                     <c:if test="${fn:contains(tab.type, 'text')}">
-                                        <textarea rows="4" cols="30" name="${tab.id}"></textarea>
+                                        <textarea rows="4" cols="30" name="${tab.id}" onkeyup="checkTextAreasAndEnableSubmit('storeReflectionsOnMission')"></textarea>
                                     </c:if>
                                     <c:if test="${fn:contains(tab.type, 'slider')}">
-                                        <input name="${tab.id}" type="text" id="${tab.id}"/>
+                                        <input name="${tab.id}" type="text" id="${tab.id}" value="1" style="display:none;"/>
                                         <div id="horizontalSlider" dojoType="dijit.form.HorizontalSlider" value="1" minimum="1" maximum="4" discreteValues="1" intermediateChanges="false" showButtons="false" style="width:90%;margin-top:5px;" onChange="document.getElementById('${tab.id}').value = Math.round(this.value);">
                                             <ol dojoType="dijit.form.HorizontalRuleLabels" container="topDecoration" style="height:1.5em;font-size:75%;color:gray;">
                                                 <li style="margin-bottom:5px;"><img src="/webapp/themes/scy/default/images/smiley_1.png" alt=""  /></li>
@@ -58,19 +77,19 @@
                                     </table>
                                 </div>
                         </c:forEach>
-                   <div dojoType="dojox.layout.ContentPane" title="SUBMIT">
-                       <table>
+
+
+
+
+                    </div>
+                    <table>
                     <tr>
                         <td>
                             <input type="hidden" value="${missionRuntimeURI}" name="missionRuntimeURI"/>
-                            <input type="submit" value="SUBMIT_PORTFOLIO">SUBMIT</input>        
+                            <input type="submit" value="SUBMIT_PORTFOLIO" id="submitEport" disabled="true">SUBMIT</input>
                         </td>
                     </tr>
                     </table>
-                       </div>
-
-                    </div>
-
                    </form>
 
             </c:when>
