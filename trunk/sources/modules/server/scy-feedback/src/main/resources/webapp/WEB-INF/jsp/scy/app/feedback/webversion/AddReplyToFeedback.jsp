@@ -1,24 +1,12 @@
 <%@ include file="common-taglibs.jsp" %>
-<table>
-    <tr>
-        <td>
-            ${feedbackReply.comment}
+<table style="border:none;">
+    <tr class="extraLightGreenBackgrounds">
+        <td style="width:30%;">
+            <strong>${feedbackReply.calendarDate}</strong><br/>
+            ${feedbackReply.calendarTime} ${feedbackReply.createdBy} wrote:
         </td>
+        <td style="width:70%;">${feedbackReply.comment}</td>
     </tr>
-    <tr>
-        <td>
-            ${feedbackReply.createdBy}
-        </td>
-    </tr>
-    <tr>
-        <td>
-            ${feedbackReply.calendarTime}
-        </td>
-    </tr>
-    <tr>
-        <td>
-            ${feedbackReply.calendarDate}
-        </td>
-    </tr>
+
 
 </table>

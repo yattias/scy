@@ -6,6 +6,25 @@
     <script type="text/javascript">
 dojo.require("dojox.widget.FisheyeList");
 dojo.require("dojo.parser")
+
+function renderHtmlLabel(item){
+    var item = item.id;
+	var labelString = document.getElementById(item).getElementsByTagName("div")[0].innerHTML;
+
+	var regex1 = /&lt;/g;
+
+	labelString = labelString.replace(regex1, "<");
+
+	var regex2 = /&gt;/g;
+
+	labelString = labelString.replace(regex2, ">");
+
+	document.getElementById(item).getElementsByTagName("div")[0].innerHTML = labelString;
+
+	//alert(labelString);
+
+}
+
 </script>
     <style type="text/css">
             .feedbackEloContainer{
@@ -200,10 +219,13 @@ dojo.require("dojo.parser")
                 <c:choose>
                     <c:when test="${fn:length(anchorElosWithStatuses) > 0}">
                         <c:forEach var="status" items="${anchorElosWithStatuses}">
+                            <c:if test="${status.eloHasBeenAdded}">
+                                <div dojoType="dojox.widget.FisheyeListItem" onMouseEnter="renderHtmlLabel(this)" onclick="location.href='/webapp/app/webeport/selectELOFromGallery.html?eloURI=${status.anchorElo.uri}&amp;missionRuntimeURI=${missionRuntimeURI}'"  label="<strong>${status.anchorElo.myname}</strong><br/>Created by: ${status.anchorElo.createdBy}<br/>Last modified:${status.anchorElo.modified}" iconSrc="${status.anchorElo.thumbnail}" isContainer="true" style="cursor:pointer; margin:3px;border:3px solid #ffffff;" class="assessed${status.eloHasBeenAdded}"><div>Yata</div></div>
+                            </c:if>
+                            <c:if test="${!status.eloHasBeenAdded}">
+                                <div dojoType="dojox.widget.FisheyeListItem" onMouseEnter="renderHtmlLabel(this)" onclick="location.href='/webapp/app/webeport/selectELOFromGallery.html?eloURI=${status.anchorElo.uri}&amp;missionRuntimeURI=${missionRuntimeURI}'"  label="<strong>${status.anchorElo.myname}</strong><br/>Created by: ${status.anchorElo.createdBy}<br/>Last modified:${status.anchorElo.modified}" iconSrc="${status.anchorElo.thumbnail}" isContainer="true" style="cursor:pointer; margin:3px;border:3px solid #ffffff;" class="assessed${status.eloHasBeenAdded}"></div>
+                            </c:if>
 
-                            <div dojoType="dojox.widget.FisheyeListItem"  onclick="location.href='/webapp/app/webeport/selectELOFromGallery.html?eloURI=${status.anchorElo.uri}&amp;missionRuntimeURI=${missionRuntimeURI}'"  label="${status.anchorElo.myname}" iconSrc="${status.anchorElo.thumbnail}" isContainer="true" style="cursor:pointer; margin:3px;border:3px solid #ffffff;" class="assessed${status.eloHasBeenAdded}">
-
-                            </div>
                         </c:forEach>
                     </c:when>
                 </c:choose>
