@@ -31,7 +31,6 @@ import eu.scy.common.mission.RuntimeSettingsElo;
 import eu.scy.common.mission.RuntimeSettingsHelper;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.XMLTransferObjectService;
-import eu.scy.core.roolo.util.EloComparator;
 
 /**
  * Created by IntelliJ IDEA.
@@ -276,9 +275,9 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
     }
 
     @Override
-    public List getPortfoliosThatAreReadyForAssessment(MissionSpecificationElo missionSpecificationElo) {
+    public List<Portfolio> getPortfoliosThatAreReadyForAssessment(MissionSpecificationElo missionSpecificationElo) {
         List <ISearchResult> runtimeElos = getRuntimeElos(missionSpecificationElo);
-        List returnList = new LinkedList();
+        List <Portfolio> returnList = new LinkedList<Portfolio>();
         for (int i = 0; i < runtimeElos.size(); i++) {
             ISearchResult shittyElo = runtimeElos.get(i);
             MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(shittyElo.getUri(), this);
