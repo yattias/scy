@@ -6,7 +6,7 @@
             <c:forEach var="learningGoal" items="${learningGoals}">
                 <tr>
                     <td>
-                        <a href="editEloReflections.html?eloURI=${eloURI}&missionRuntimeURI=${missionRuntimeURI}&anchorEloURI=${anchorEloURI}&lgType=learningGoalType&action=addLearningGoal&learningGoalId=${learningGoal.id}">${learningGoal.goal}</a>
+                        <a href="editEloReflections.html?eloURI=${eloURI}&missionRuntimeURI=${missionRuntimeURI}&anchorEloURI=${anchorEloURI}&lgType=${learningGoalType}&action=addLearningGoal&learningGoalId=${learningGoal.id}">${learningGoal.goal}</a>
                     </td>
                 </tr>
             </c:forEach>

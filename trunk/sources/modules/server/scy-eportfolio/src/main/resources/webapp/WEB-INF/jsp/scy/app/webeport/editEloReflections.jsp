@@ -69,14 +69,11 @@
                         <div id="generalLearningGoals">
                             <table>
                                 <c:choose>
-                                    <c:when test="${fn:length(generalLearningGoals) > 0}">
-                                        <c:forEach var="learningGoal" items="${generalLearningGoals}">
+                                    <c:when test="${fn:length(selectedGeneralLearningGoalWithScores) > 0}">
+                                        <c:forEach var="generalLearningGoalWithScore" items="${selectedGeneralLearningGoalWithScores}">
                                             <tr>
                                                 <td width="5%">
-                                                    <input type="checkbox" name="generalLearningGoals" value="${learningGoal.id}"/>
-                                                </td>
-                                                <td>
-                                                    ${learningGoal.goal}
+                                                    ${generalLearningGoalWithScore.learningGoalText}
                                                 </td>
                                             </tr>
 
@@ -84,7 +81,6 @@
                                     </c:when>
                                 </c:choose>
                                 <tr>
-                                    <td></td>
                                     <td>
                                         <a href="selectLearningGoalsForElo.html?eloURI=${elo.uri}&lgType=general&missionRuntimeURI=${missionRuntimeURI}&anchorEloURI=${anchorEloURI}"><spring:message code="SELECT_LEARNING_GOAL"></spring:message> </a>
                                     </td>
@@ -103,14 +99,11 @@
                         <div id="generalLearningGoals">
                             <table>
                                 <c:choose>
-                                    <c:when test="${fn:length(specificLearningGoals) > 0}">
-                                        <c:forEach var="learningGoal" items="${specificLearningGoals}">
+                                    <c:when test="${fn:length(selectedSpecificLearningGoalWithScores) > 0}">
+                                        <c:forEach var="specificLearningGoalWithScore" items="${selectedSpecificLearningGoalWithScores}">
                                             <tr>
                                                 <td width="5%">
-                                                    <input type="checkbox" name="specificLearningGoals" value="${learningGoal.id}"/>
-                                                </td>
-                                                <td>
-                                                    ${learningGoal.goal}
+                                                    ${specificLearningGoalWithScore.learningGoalText}
                                                 </td>
                                             </tr>
 
@@ -118,7 +111,6 @@
                                     </c:when>
                                 </c:choose>
                                 <tr>
-                                    <td></td>
                                     <td><a href="selectLearningGoalsForElo.html?eloURI=${elo.uri}&lgType=specific&missionRuntimeURI=${missionRuntimeURI}&anchorEloURI=${anchorEloURI}"><spring:message code="SELECT_LEARNING_GOAL"></spring:message> </a></td>
                                 </tr>
 

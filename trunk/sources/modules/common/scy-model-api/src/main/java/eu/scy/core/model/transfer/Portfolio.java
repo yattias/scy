@@ -29,6 +29,8 @@ public class Portfolio extends BaseXMLTransfer {
     private List<TransferElo> elos = new LinkedList();
     private List <EloAnchorEloPair> eloAnchorEloPairs = new LinkedList<EloAnchorEloPair>();
     private List <MissionReflectionQuestionAnswer> missionReflectionQuestionAnswers = new LinkedList<MissionReflectionQuestionAnswer>();
+    private List <SelectedLearningGoalWithScore> selectedGeneralLearningGoalWithScores = new LinkedList<SelectedLearningGoalWithScore>();
+    private List <SelectedLearningGoalWithScore> selectedSpecificLearningGoalWithScores = new LinkedList<SelectedLearningGoalWithScore>();
 
     public final static String PORTFOLIO_STATUS_NOT_SUBMITTED = "PORTFOLIO_STATUS_NOT_SUBMITTED";
     public final static String PORTFOLIO_STATUS_SUBMITTED_WAITING_FOR_ASSESSMENT = "PORTFOLIO_STATUS_SUBMITTED_WAITING_FOR_ASSESSMENT";
@@ -196,6 +198,32 @@ public class Portfolio extends BaseXMLTransfer {
     public void addMissionReflectionQuestionAnswer(MissionReflectionQuestionAnswer missionReflectionQuestionAnswer) {
         if (getMissionReflectionQuestionAnswers() == null) setMissionReflectionQuestionAnswers(new LinkedList<MissionReflectionQuestionAnswer>());
         getMissionReflectionQuestionAnswers().add(missionReflectionQuestionAnswer);
+    }
+
+    public List<SelectedLearningGoalWithScore> getSelectedGeneralLearningGoalWithScores() {
+        return selectedGeneralLearningGoalWithScores;
+    }
+
+    public void setSelectedGeneralLearningGoalWithScores(List<SelectedLearningGoalWithScore> selectedGeneralLearningGoalWithScores) {
+        this.selectedGeneralLearningGoalWithScores = selectedGeneralLearningGoalWithScores;
+    }
+
+    public void addSelectedGeneralLearningGoalWithScore(SelectedLearningGoalWithScore selectedLearningGoalWithScore) {
+        if(getSelectedGeneralLearningGoalWithScores() == null) setSelectedGeneralLearningGoalWithScores(new LinkedList<SelectedLearningGoalWithScore>());
+        getSelectedGeneralLearningGoalWithScores().add(selectedLearningGoalWithScore);
+    }
+
+    public List<SelectedLearningGoalWithScore> getSelectedSpecificLearningGoalWithScores() {
+        return selectedSpecificLearningGoalWithScores;
+    }
+
+    public void setSelectedSpecificLearningGoalWithScores(List<SelectedLearningGoalWithScore> selectedSpecificLearningGoalWithScores) {
+        this.selectedSpecificLearningGoalWithScores = selectedSpecificLearningGoalWithScores;
+    }
+
+    public void addSelectedSpecificLearningGoalWithScore(SelectedLearningGoalWithScore selectedLearningGoalWithScore) {
+        if(getSelectedSpecificLearningGoalWithScores() == null) setSelectedSpecificLearningGoalWithScores(new LinkedList<SelectedLearningGoalWithScore>());
+        getSelectedSpecificLearningGoalWithScores().add(selectedLearningGoalWithScore);
     }
 
     public String getAssessmentPortfolioComment() {
