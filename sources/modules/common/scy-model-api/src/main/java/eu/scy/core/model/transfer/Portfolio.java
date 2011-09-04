@@ -31,6 +31,7 @@ public class Portfolio extends BaseXMLTransfer {
     private List <MissionReflectionQuestionAnswer> missionReflectionQuestionAnswers = new LinkedList<MissionReflectionQuestionAnswer>();
     private List <SelectedLearningGoalWithScore> selectedGeneralLearningGoalWithScores = new LinkedList<SelectedLearningGoalWithScore>();
     private List <SelectedLearningGoalWithScore> selectedSpecificLearningGoalWithScores = new LinkedList<SelectedLearningGoalWithScore>();
+    private List <EloAssessment> eloAssessments = new LinkedList<EloAssessment>();
 
     public final static String PORTFOLIO_STATUS_NOT_SUBMITTED = "PORTFOLIO_STATUS_NOT_SUBMITTED";
     public final static String PORTFOLIO_STATUS_SUBMITTED_WAITING_FOR_ASSESSMENT = "PORTFOLIO_STATUS_SUBMITTED_WAITING_FOR_ASSESSMENT";
@@ -273,5 +274,60 @@ public class Portfolio extends BaseXMLTransfer {
     public void setMissionRuntimeURI(String missionRuntimeURI) {
         this.missionRuntimeURI = missionRuntimeURI;
     }
+
+    public List<EloAssessment> getEloAssessments() {
+        if(eloAssessments == null) setEloAssessments(new LinkedList<EloAssessment>());
+        return eloAssessments;
+    }
+
+    public void setEloAssessments(List<EloAssessment> eloAssessments) {
+        this.eloAssessments = eloAssessments;
+    }
+
+    public void setTeacherAssessmentOnElo(String eloUri, String comment) {
+        EloAssessment eloAssessment = getEloAssessmentOfType(eloUri, "description");
+        if(eloAssessment == null) {
+            eloAssessment = new EloAssessment();
+            eloAssessment.setCommentHeading("description");
+        }
+        eloAssessment.setComment(comment);
+    }
+
+
+    public String getTeacherAssessmentOnElo(String eloURI) {
+        EloAssessment eloAssessment = getEloAssessmentOfType(eloURI, "description");
+        if(eloAssessment == null) return "";
+        return eloAssessment.getComment();
+    }
+
+
+    public void setTeacherAssessmentOnReflection(String eloUri, String comment) {
+        EloAssessment eloAssessment = getEloAssessmentOfType(eloUri, "reflection");
+        if(eloAssessment == null) {
+            eloAssessment = new EloAssessment();
+            eloAssessment.setCommentHeading("reflection");
+        }
+        eloAssessment.setComment(comment);
+    }
+
+
+    public String getTeacherAssessmentOnReflection(String eloURI) {
+        EloAssessment eloAssessment = getEloAssessmentOfType(eloURI, "reflection");
+        if(eloAssessment == null) return "";
+        return eloAssessment.getComment();
+    }
+
+
+    private EloAssessment getEloAssessmentOfType(String eloUri, String type) {
+        EloAssessment eloAssessment = null;
+        for (int i = 0; i < getEloAssessments().size(); i++) {
+            EloAssessment ea = getEloAssessments().get(i);
+            if(ea.getEloURI().equals(eloUri) && ea.getCommentHeading().equals(type)) {
+                eloAssessment = ea;
+            }
+        }
+        return eloAssessment;
+    }
+
 
 }

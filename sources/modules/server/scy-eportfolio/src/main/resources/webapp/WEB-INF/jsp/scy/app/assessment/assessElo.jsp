@@ -147,7 +147,7 @@
                                         </tr>
                                         <tr>
                                             <td>
-                                                <textarea rows="3" cols="30" name="assessmentOfElo"></textarea>
+                                                <textarea rows="3" cols="30" name="assessmentOfElo">${assessmentOfElo}</textarea>
                                             </td>
                                         </tr>
                                         <tr>
@@ -157,9 +157,9 @@
                                         </tr>
                                         <tr>
                                             <td>
-                                                <textarea rows="3" cols="30" name="assessmentOfReflection"></textarea>
-                                                <input type="hidden" value="${elo.uri}"/>
-                                                <input type="hidden" value="${missionRuntimeURI}"/> 
+                                                <textarea rows="3" cols="30" name="assessmentOfReflection">${assessmentOfReflection}</textarea>
+                                                <input type="hidden" value="${elo.uri}" name="eloURI"/>
+                                                <input type="hidden" value="${missionRuntimeURI}" name="missionRuntimeURI"/>
                                             </td>
                                         </tr>
                                         <tr>

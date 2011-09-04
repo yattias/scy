@@ -69,6 +69,8 @@ public class AssessElo extends BaseController {
         modelAndView.addObject("missionRuntimeURI", getEncodedUri(missionRuntimeURI.toString()));
         modelAndView.addObject("generalLearningGoals", generalLearningGoals);
         modelAndView.addObject("specificLearningGoals", specificLearningGoals);
+        modelAndView.addObject("assessmentOfElo", portfolio.getTeacherAssessmentOnElo(elo.getUri()));
+        modelAndView.addObject("assessmentOfReflection", portfolio.getTeacherAssessmentOnReflection(elo.getUri()));
     }
 
     private void populateWithCorrectLearningGoalText(SelectedLearningGoalWithScore selectedLearningGoalWithScore, PedagogicalPlanTransfer pedagogicalPlanTransfer) {
