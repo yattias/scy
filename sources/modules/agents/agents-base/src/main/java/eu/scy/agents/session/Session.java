@@ -58,12 +58,12 @@ public class Session {
         return Mission.UNKNOWN_MISSION;
     }
 
-    public String getMissionURI(String user) {
+    public String getMissionRuntimeURI(String user) {
         try {
             Tuple missionTuple = sessionSpace.read(new Tuple(Session.MISSION,
                     Field.createSemiformalField(user + "*"), String.class, String.class, String.class, String.class));
             if ( missionTuple != null ) {
-                String missionString = (String) missionTuple.getField(2)
+                String missionString = (String) missionTuple.getField(4)
                         .getValue();
                 return missionString;
             }
