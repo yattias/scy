@@ -289,6 +289,8 @@ public class Portfolio extends BaseXMLTransfer {
         if(eloAssessment == null) {
             eloAssessment = new EloAssessment();
             eloAssessment.setCommentHeading("description");
+            eloAssessment.setEloURI(eloUri);
+            getEloAssessments().add(eloAssessment);
         }
         eloAssessment.setComment(comment);
     }
@@ -306,6 +308,8 @@ public class Portfolio extends BaseXMLTransfer {
         if(eloAssessment == null) {
             eloAssessment = new EloAssessment();
             eloAssessment.setCommentHeading("reflection");
+            eloAssessment.setEloURI(eloUri);
+            getEloAssessments().add(eloAssessment);
         }
         eloAssessment.setComment(comment);
     }
@@ -319,14 +323,14 @@ public class Portfolio extends BaseXMLTransfer {
 
 
     private EloAssessment getEloAssessmentOfType(String eloUri, String type) {
-        EloAssessment eloAssessment = null;
         for (int i = 0; i < getEloAssessments().size(); i++) {
             EloAssessment ea = getEloAssessments().get(i);
-            if(ea.getEloURI().equals(eloUri) && ea.getCommentHeading().equals(type)) {
-                eloAssessment = ea;
+            if(ea.getEloURI() != null && ea.getCommentHeading() != null && ea.getEloURI().equals(eloUri) && ea.getCommentHeading().equals(type)) {
+                return ea;
             }
         }
-        return eloAssessment;
+        System.out.println(" DID NOT FIND : " + type + " IN ELO : " + eloUri);
+        return null;
     }
 
 
