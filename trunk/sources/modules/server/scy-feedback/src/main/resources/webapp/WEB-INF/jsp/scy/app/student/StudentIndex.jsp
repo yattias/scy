@@ -15,7 +15,7 @@
                     <a href="/webapp/app/webeport/webEportIndex.html?eloURI=${missionSpecificationTransporter.uri}"><spring:message code="OPEN_MY_PORTFOLIO"/></a>
                 </td>
                 <td>
-                    <!--${portfolioStatus}-->
+                    <spring:message code="${portfolioStatus}"/>
                 </td>
             </tr>
             <tr class="${oddEven.oddEven}">

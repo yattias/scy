@@ -79,7 +79,7 @@
                                         </c:forEach>
                                     </c:when>
                                 </c:choose>
-                                <c:if test="portfolioLocked == false">
+                                <c:if test="${portfolioLocked == false}">
                                     <tr>
                                         <td>
 
@@ -113,7 +113,7 @@
                                         </c:forEach>
                                     </c:when>
                                 </c:choose>
-                                <c:if test="portfolioLocked == false">
+                                <c:if test="${portfolioLocked == false}">
                                     <tr>
                                         <td>
                                             <a href="javascript:loadDialog('selectLearningGoalsForElo.html?eloURI=' + encodeURIComponent('${elo.uri}') + '&lgType=specific&missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${anchorEloURI}'), '<spring:message code="SELECT_LEARNING_GOAL"></spring:message>');"><spring:message code="SELECT_LEARNING_GOAL"></spring:message> </a>
@@ -139,7 +139,7 @@
                                 <td>
                                     <strong>${reflectionQuestion.reflectionQuestion}</strong>
                                     <br/>
-                                    <c:if test="portfolioLocked == false">
+                                    <c:if test="${portfolioLocked == false}">
                                         <c:if test="${fn:contains(reflectionQuestion.type, 'text')}">
                                             <textarea rows="4" cols="30" name="${reflectionQuestion.id}"></textarea>
                                         </c:if>
@@ -167,7 +167,7 @@
                 <input type="hidden" name="eloURI" value="${eloURI}"/>
                 <input type="hidden" name="anchorEloURI" value="${anchorEloURI}"/>
             </table>
-            <c:if test="portfolioLocked == false">
+            <c:if test="${portfolioLocked == false}">
                 <input type="submit" value="<spring:message code="ADD_TO_PORTFOLIO"/>">
             </c:if>
         </form>
