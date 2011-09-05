@@ -1,9 +1,2 @@
 <%@ include file="common-taglibs.jsp" %>
-<tiles:insertDefinition name="default-page">
-	<tiles:putAttribute name="main">
-
-        I WILL OPEN ELO ${elo.myname} [MUUUZALEM]
-
-
-    </tiles:putAttribute>
-</tiles:insertDefinition>
+        <a href="${elo.snippeturl}"><img src="${elo.thumbnail}"/> ${elo.myname}</a>
