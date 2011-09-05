@@ -18,6 +18,8 @@ import roolo.search.StringQuery;
  */
 public class QueryFactory {
 
+    public static final String[] LUCENE_SPECIAL_CHARACTERS = new String[]{"*", "+", "-", "+", "\"", "(", "\\", "AND", "OR", "NOT", ":", "^", "]", "{", "!"};;
+
     /**
      * This method creates a google-like query. This means that all metadata are queried to match the terms from the query phrase somehow
      * @param queryPhrase the terms to look for
@@ -33,11 +35,17 @@ public class QueryFactory {
         return query;
     }
 
+    /**
+     * This method creates a more google-like query than in the createSimpleQuery() method
+     * offering some expert features. These are special characters as the "+", "-" that are described in the lucene
+     * query parser syntax. See http://lucene.apache.org/java/3_3_0/queryparsersyntax.html for further information
+     * @param queryPhrase the terms to look for
+     * @return a query object to use for RoOLO search (repository.search(IQuery query))
+     */
     public static IQuery createSimpleQueryForExperts(String queryPhrase) {
-        String[] specialCharacters = new String[]{"*", "+", "-", "+", "\"", "(", "\\", "AND", "OR", "NOT", ":", "^", "]", "{", "!"};
         boolean expertQuery = false;
         AbstractQueryComponent queryComponent = null;
-        for (String specialChar : specialCharacters) {
+        for (String specialChar : LUCENE_SPECIAL_CHARACTERS) {
             if (queryPhrase.contains(specialChar)) {
                 expertQuery = true;
                 break;
