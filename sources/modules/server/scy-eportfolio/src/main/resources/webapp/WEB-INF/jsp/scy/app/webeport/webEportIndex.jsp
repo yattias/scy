@@ -197,8 +197,18 @@ function renderHtmlLabel(item){
 
         <div style="border:4px solid #cc6600;width:786px;height:95%;padding:4px;" class="greenBorders">
             <!--img src="/webapp/themes/scy/default/images/feedback_header.png" alt="" class="greenBackgrounds" /-->
-            <div class="feedbackHeader" >My ePortfolio</div>
-            <p>My ELOs (Grey = missing, Green = added)</p>
+            <div class="feedbackHeader">
+                <c:if test="${fn:contains(portfolio.portfolioStatus, 'PORTFOLIO_ASSESSED')}">
+                    <spring:message code="YOUR_PORTFOLIO_HAS_BEEN_ASSESSED"/>
+                </c:if>
+                <c:if test="${fn:contains(portfolio.portfolioStatus, 'PORTFOLIO_STATUS_SUBMITTED_WAITING_FOR_ASSESSMENT')}">
+                    <spring:message code="PORTFOLIO_SUBMITTED_ASSESSMENT_PENDING"/>
+                </c:if>
+                <c:if test="${fn:contains(portfolio.portfolioStatus, 'PORTFOLIO_STATUS_NOT_SUBMITTED')}">
+                    <spring:message code="MY_EPORTFOLIO"/>
+                </c:if>
+
+                </div>
         <div dojoType="dojox.layout.ContentPane" style="width:100%;height:90%;" id="eportfolioPane" parseOnLoad="true" executeScripts="true">
 
 
@@ -220,10 +230,10 @@ function renderHtmlLabel(item){
                     <c:when test="${fn:length(anchorElosWithStatuses) > 0}">
                         <c:forEach var="status" items="${anchorElosWithStatuses}">
                             <c:if test="${status.eloHasBeenAdded}">
-                                <div dojoType="dojox.widget.FisheyeListItem" onMouseEnter="renderHtmlLabel(this)" onclick="location.href='/webapp/app/webeport/selectELOFromGallery.html?anchorEloURI=${status.anchorElo.uri}&amp;eloURI=${status.addedElo.uri}&amp;missionRuntimeURI=${missionRuntimeURI}'"  label="<strong>${status.anchorElo.myname}</strong><br/>Created by: ${status.anchorElo.createdBy}<br/>Last modified:${status.anchorElo.modified}" iconSrc="${status.anchorElo.thumbnail}" isContainer="true" style="cursor:pointer; margin:3px;border:3px solid #ffffff;" class="assessed${status.eloHasBeenAdded}"><div>Yata</div></div>
+                                <div dojoType="dojox.widget.FisheyeListItem" onMouseEnter="renderHtmlLabel(this)" onclick="location.href='/webapp/app/webeport/selectELOFromGallery.html?anchorEloURI=${status.anchorElo.uri}&amp;eloURI=${status.addedElo.uri}&amp;missionRuntimeURI=${missionRuntimeURI}'"  label="<strong>${status.addedElo.myname}</strong><br/>Created by: ${status.addedElo.createdBy}<br/>Last modified:${status.addedElo.modified}<br/>Status: Delivered" iconSrc="${status.anchorElo.thumbnail}" isContainer="true" style="cursor:pointer; margin:3px;border:3px solid #ffffff;" class="assessed${status.eloHasBeenAdded}"><div>Yata</div></div>
                             </c:if>
                             <c:if test="${!status.eloHasBeenAdded}">
-                                <div dojoType="dojox.widget.FisheyeListItem" onMouseEnter="renderHtmlLabel(this)" onclick="location.href='/webapp/app/webeport/selectELOFromGallery.html?anchorEloURI=${status.anchorElo.uri}&amp;eloURI=${status.addedElo.uri}&amp;missionRuntimeURI=${missionRuntimeURI}'"  label="<strong>${status.anchorElo.myname}</strong><br/>Created by: ${status.anchorElo.createdBy}<br/>Last modified:${status.anchorElo.modified}" iconSrc="${status.anchorElo.thumbnail}" isContainer="true" style="cursor:pointer; margin:3px;border:3px solid #ffffff;" class="assessed${status.eloHasBeenAdded}"></div>
+                                <div dojoType="dojox.widget.FisheyeListItem" onMouseEnter="renderHtmlLabel(this)" onclick="location.href='/webapp/app/webeport/selectELOFromGallery.html?anchorEloURI=${status.anchorElo.uri}&amp;eloURI=${status.addedElo.uri}&amp;missionRuntimeURI=${missionRuntimeURI}'"  label="<strong>${status.anchorElo.myname}</strong><br/>Created by: ${status.anchorElo.createdBy}<br/>Last modified:${status.anchorElo.modified}<br/Status: Not Delivered" iconSrc="${status.anchorElo.thumbnail}" isContainer="true" style="cursor:pointer; margin:3px;border:3px solid #ffffff;" class="assessed${status.eloHasBeenAdded}"></div>
                             </c:if>
 
                         </c:forEach>
@@ -240,9 +250,54 @@ function renderHtmlLabel(item){
                 <c:if test="${fn:contains(portfolio.portfolioStatus, 'PORTFOLIO_STATUS_SUBMITTED_WAITING_FOR_ASSESSMENT')}">
                     <strong><spring:message code="PORTFOLIO_SUBMITTED"/> </strong>
                 </c:if>
+            </div>
+            <div>
                 <c:if test="${fn:contains(portfolio.portfolioStatus, 'PORTFOLIO_ASSESSED')}">
-                    <strong><spring:message code="PORTFOLIO_ASSESSED"/> </strong>
+
+                        <c:choose>
+                            <c:when test="${fn:length(missionReflectionQuestionAnswers) > 0}">
+                                <table>
+                                    <tr>
+                                        <th colspan="2"><spring:message code="YOUR_REFLECTIONS_ON_THE_PORTFOLIO"/></th>
+                                    </tr>
+                                    <c:forEach var="missionReflectionQuestionAnswer" items="${missionReflectionQuestionAnswers}">
+                                        <tr  class="${oddEven.oddEven}">
+                                            <td>
+                                                ${missionReflectionQuestionAnswer.tab.question}    
+                                            </td>
+                                            <td>
+                                                ${missionReflectionQuestionAnswer.answer}
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                </table>
+                            </c:when>
+                        </c:choose>
+                    <br/>
+
+                    <table>
+                        <tr>
+                            <th colspan="2">
+                                <spring:message code="TEACHERS_COMMENTS"/>
+                            </th>
+                        </tr>
+                        <tr  class="${oddEven.oddEven}">
+                            <td><spring:message code="TEACHERS_COMMENT_TO_PORTFOLIO"/> </td>
+                            <td>
+                                ${portfolio.assessmentPortfolioComment}
+                            </td>
+                        </tr>
+                        <tr  class="${oddEven.oddEven}">
+                            <td>
+                                <spring:message code="TEACHERS_RATING_OF_PORTFOLIO"/>
+                            </td>
+                            <td>
+                                ${portfolio.assessmentPortfolioRating}
+                            </td>
+                        </tr>
+                    </table>
                 </c:if>
+
             </div>
 
         </div>
