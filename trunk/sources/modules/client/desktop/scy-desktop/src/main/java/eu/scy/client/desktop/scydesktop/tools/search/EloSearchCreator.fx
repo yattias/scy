@@ -14,8 +14,6 @@ import eu.scy.client.desktop.scydesktop.tools.search.queryselecters.LastModified
 import eu.scy.client.desktop.scydesktop.tools.search.queryselecters.TechnicalFormatQuerySelecterCreator;
 import eu.scy.client.desktop.scydesktop.tools.search.queryselecters.AuthorQuerySelecterCreator;
 import eu.scy.client.desktop.scydesktop.tools.search.queryselecters.MissionQuerySelecterCreator;
-import eu.scy.client.desktop.scydesktop.tools.search.queryselecters.SimilarQuerySelecterCreator;
-import eu.scy.client.desktop.scydesktop.tools.search.queryselecters.TemplateQuerySelecterCreator;
 
 /**
  * @author SikkenJ
@@ -34,8 +32,6 @@ public class EloSearchCreator extends ScyToolCreatorFX {
       querySelecterFactory.registerQuerySelecterCreator(new LastModifiedQuerySelecterCreator(toolBrokerAPI));
       querySelecterFactory.registerQuerySelecterCreator(new AuthorQuerySelecterCreator(toolBrokerAPI));
       querySelecterFactory.registerQuerySelecterCreator(new MissionQuerySelecterCreator(toolBrokerAPI));
-//      querySelecterFactory.registerQuerySelecterCreator(new SimilarQuerySelecterCreator(toolBrokerAPI));
-//      querySelecterFactory.registerQuerySelecterCreator(new TemplateQuerySelecterCreator(toolBrokerAPI));
    }
 
    override public function createScyToolNode(eloType: String, creatorId: String, scyWindow: ScyWindow, windowContent: Boolean): Node {
@@ -43,6 +39,7 @@ public class EloSearchCreator extends ScyToolCreatorFX {
          scyDesktop: scyDesktop
          window: scyWindow
          querySelecterFactory: querySelecterFactory
+         newEloCreationRegistry: scyDesktop.newEloCreationRegistry
       }
    }
 

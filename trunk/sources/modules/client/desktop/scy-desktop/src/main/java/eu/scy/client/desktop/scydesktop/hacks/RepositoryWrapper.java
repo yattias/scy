@@ -348,7 +348,7 @@ public class RepositoryWrapper implements IRepository
    @Override
    public List<ISearchResult> search(IQuery arg0)
    {
-      return repository.search(arg0);
+         return repository.search(arg0);
    }
 
    @Override

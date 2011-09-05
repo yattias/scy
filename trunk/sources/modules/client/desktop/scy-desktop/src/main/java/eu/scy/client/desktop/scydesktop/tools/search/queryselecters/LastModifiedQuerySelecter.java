@@ -9,9 +9,8 @@ import eu.scy.client.desktop.scydesktop.tools.search.QuerySelecterUsage;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import org.apache.log4j.Logger;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.search.AndQuery;
@@ -26,10 +25,32 @@ import roolo.search.SearchOperation;
  */
 public class LastModifiedQuerySelecter extends AbstractSimpleQuerySelecter
 {
-   private final static long millisInDay = 24*60*60*1000;
-   private final static long millisInWeek = 7*millisInDay;
 
+   private static final Logger logger = Logger.getLogger(LastModifiedQuerySelecter.class);
+   private final static long millisInDay = 24 * 60 * 60 * 1000;
+   private final static long millisInWeek = 7 * millisInDay;
    private final IMetadataKey lastModifiedKey;
+
+   private class DateMillis
+   {
+      final long nowMillis;
+      final long startOfDayMillis;
+      final long startOfWeekMillis;
+
+      DateMillis(long millis)
+      {
+         nowMillis = millis;
+         Calendar calendar = Calendar.getInstance();
+         calendar.setTimeInMillis(millis);
+         calendar.set(Calendar.HOUR_OF_DAY, 0);
+         calendar.set(Calendar.MINUTE, 0);
+         calendar.set(Calendar.SECOND, 0);
+         calendar.set(Calendar.MILLISECOND, 0);
+         startOfDayMillis = calendar.getTimeInMillis();
+         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+         startOfWeekMillis = startOfDayMillis-(dayOfWeek-Calendar.SUNDAY)*millisInDay;
+      }
+   }
 
    private enum LastModifiedOptions
    {
@@ -40,8 +61,8 @@ public class LastModifiedQuerySelecter extends AbstractSimpleQuerySelecter
       LAST_WEEK,
       SAME_DAY,
       SAME_WEEK,
-      OLDER,
-      NEWER;
+      OLDER_THEN,
+      NEWER_THEN;
    }
 
    public LastModifiedQuerySelecter(ToolBrokerAPI tbi, String id, QuerySelecterUsage querySelectorUsage)
@@ -61,12 +82,13 @@ public class LastModifiedQuerySelecter extends AbstractSimpleQuerySelecter
             displayOptions.add(LastModifiedOptions.YESTERDAY.toString());
             displayOptions.add(LastModifiedOptions.THIS_WEEK.toString());
             displayOptions.add(LastModifiedOptions.LAST_WEEK.toString());
+//            displayOptions.add(LastModifiedOptions.OLDER.toString());
             break;
          case ELO_BASED:
             displayOptions.add(LastModifiedOptions.SAME_DAY.toString());
             displayOptions.add(LastModifiedOptions.SAME_WEEK.toString());
-            displayOptions.add(LastModifiedOptions.OLDER.toString());
-            displayOptions.add(LastModifiedOptions.NEWER.toString());
+            displayOptions.add(LastModifiedOptions.OLDER_THEN.toString());
+            displayOptions.add(LastModifiedOptions.NEWER_THEN.toString());
             break;
       }
       return displayOptions;
@@ -85,85 +107,54 @@ public class LastModifiedQuerySelecter extends AbstractSimpleQuerySelecter
    }
 
    @Override
-   public IQueryComponent getQueryComponent()
-   {
-      if (StringUtils.isEmpty(getSelectedOption()))
-      {
-         return null;
-      }
-      Calendar calendar = Calendar.getInstance();
-      calendar.set(Calendar.HOUR_OF_DAY, 0);
-      calendar.set(Calendar.MINUTE, 0);
-      calendar.set(Calendar.SECOND, 0);
-      calendar.set(Calendar.MILLISECOND, 0);
-      long today0_00Milis = calendar.getTimeInMillis();
-      calendar.set(Calendar.DAY_OF_WEEK, 0);
-      long beginOfWeekMillis = calendar.getTimeInMillis();
-      LastModifiedOptions lastModifiedOptions = LastModifiedOptions.valueOf(getSelectedOption());
-      switch (lastModifiedOptions)
-      {
-         case TODAY:
-            return new MetadataQueryComponent(lastModifiedKey, SearchOperation.GREATER_OR_EQUAL, today0_00Milis);
-         case YESTERDAY:
-            break;
-         case THIS_WEEK:
-            IQueryComponent olderThenTodayQuery = new MetadataQueryComponent(lastModifiedKey, SearchOperation.LESS, today0_00Milis);
-            IQueryComponent fromThisWeekQuery = new MetadataQueryComponent(lastModifiedKey, SearchOperation.GREATER_OR_EQUAL, beginOfWeekMillis);
-            return new AndQuery(olderThenTodayQuery, fromThisWeekQuery);
-         case LAST_WEEK:
-            break;
-         case SAME_DAY:
-         case SAME_WEEK:
-         case OLDER:
-         case NEWER:
-      }
-      return null;
-   }
-
-   @Override
    public void setFilterOptions(IQuery query)
    {
-      if (!StringUtils.isEmpty(getSelectedOption()))
+      LastModifiedOptions lastModifiedOptions = getSelectedEnum(LastModifiedOptions.class);
+      if (lastModifiedOptions!=null)
       {
-         Calendar calendar = Calendar.getInstance();
-         calendar.set(Calendar.HOUR_OF_DAY, 0);
-         calendar.set(Calendar.MINUTE, 0);
-         calendar.set(Calendar.SECOND, 0);
-         calendar.set(Calendar.MILLISECOND, 0);
-         long today0_00Milis = calendar.getTimeInMillis();
-         calendar.set(Calendar.DAY_OF_WEEK, 0);
-         long beginOfWeekMillis = calendar.getTimeInMillis();
+         DateMillis dateMillis;
+         switch (getQuerySelectorUsage())
+         {
+            case TEXT:
+               dateMillis = new DateMillis(System.currentTimeMillis());
+               break;
+            case ELO_BASED:
+               dateMillis = new DateMillis(getBasedOnElo().getDateLastModified());
+               break;
+            default:
+               logger.warn("unexpected query selector: " + getQuerySelectorUsage());
+               return;
+         }
          Long startTime = null;
          Long endTime = null;
-         Set<String> allowedUsers = new HashSet<String>();
-         Set<String> notAllowedUsers = new HashSet<String>();
-         LastModifiedOptions lastModifiedOptions = LastModifiedOptions.valueOf(getSelectedOption());
          switch (lastModifiedOptions)
          {
             case TODAY:
-               startTime = today0_00Milis;
+            case SAME_DAY:
+               startTime = dateMillis.startOfDayMillis;
+               endTime = dateMillis.startOfDayMillis+millisInDay;
                break;
             case YESTERDAY:
-               startTime = today0_00Milis-millisInDay;
-               endTime = today0_00Milis;
+               startTime = dateMillis.startOfDayMillis - millisInDay;
+               endTime = dateMillis.startOfDayMillis;
                break;
             case THIS_WEEK:
-               startTime = beginOfWeekMillis;
+            case SAME_WEEK:
+               startTime = dateMillis.startOfWeekMillis;
+               endTime = dateMillis.startOfWeekMillis+millisInWeek;
                break;
             case LAST_WEEK:
-               startTime = beginOfWeekMillis-millisInWeek;
-               endTime = beginOfWeekMillis;
+               startTime = dateMillis.startOfWeekMillis - millisInWeek;
+               endTime = dateMillis.startOfDayMillis;
                break;
-            case SAME_DAY:
+            case OLDER_THEN:
+               endTime = dateMillis.nowMillis;
                break;
-            case SAME_WEEK:
-               break;
-            case OLDER:
-               break;
-            case NEWER:
+            case NEWER_THEN:
+               startTime = dateMillis.nowMillis;
                break;
          }
-         query.setDateLastModifiedFilter(startTime,endTime);
+         query.setDateLastModifiedFilter(startTime, endTime);
       }
    }
 }
