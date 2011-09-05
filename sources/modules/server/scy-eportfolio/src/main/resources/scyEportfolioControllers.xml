@@ -56,6 +56,8 @@
                 /app/assessment/webAssessmentIndex.html=webAssessmentIndexController
                 /app/assessment/assessElo.html=assessEloController
                 /app/assessment/storeEloAssessment.html=storeEloAssessmentController
+                /app/assessment/assessMission.html=assessMissionController
+                /app/assessment/storeMissionReflection.html=storeMissionReflectionController
 
                 /app/feedback/newElosForFeedbackService.html=newElosForFeedbackService
 
@@ -270,6 +272,26 @@
 	</bean>
 
     <bean id="storeEloAssessmentController" class="eu.scy.server.assessment.StoreEloAssessment">
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="portfolioELOService" ref="portfolioELOService"/>
+        <property name="runtimeELOService" ref="runtimeELOService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
+        <property name="transferObjectMapService" ref="transferObjectMapService"/>
+	</bean>
+
+    <bean id="assessMissionController" class="eu.scy.server.assessment.AssessMission">
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="portfolioELOService" ref="portfolioELOService"/>
+        <property name="runtimeELOService" ref="runtimeELOService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
+        <property name="transferObjectMapService" ref="transferObjectMapService"/>
+	</bean>
+
+    <bean id="storeMissionReflectionController" class="eu.scy.server.assessment.StoreMissionReflection">
         <property name="urlInspector" ref="urlInspector"/>
         <property name="portfolioELOService" ref="portfolioELOService"/>
         <property name="runtimeELOService" ref="runtimeELOService"/>
