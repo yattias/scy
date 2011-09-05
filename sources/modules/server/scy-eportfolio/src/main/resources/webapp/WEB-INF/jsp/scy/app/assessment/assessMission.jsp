@@ -43,44 +43,48 @@
 
 
             </div>
+
+            <div>
+                <form action="storeMissionReflection.html">
+                    <table>
+                        <tr>
+                            <td>
+                                <spring:message code="COMMENTS_ON_PORTFOLIO"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <textarea rows="3" cols="30" name="commentsOnPortfolio"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <spring:message code="RATING_ON_PORTFOLIO"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                               <input type="radio" name="rating"><spring:message code="POOR"></spring:message><br/>
+                               <input type="radio" name="rating"><spring:message code="FAIR"></spring:message><br/>
+                               <input type="radio" name="rating"><spring:message code="GOOD"></spring:message><br/>
+                               <input type="radio" name="rating"><spring:message code="EXCELLENT"></spring:message><br/>
+                                <input type="hidden" value="${missionRuntimeURI}" name="missionRuntimeURI"/>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="submit" value="SAVE"/>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            
+
+
         </div>
 
-        <div>
-            <form action="storeMissionReflection.html">
-                <table>
-                    <tr>
-                        <td>
-                            <spring:message code="COMMENTS_ON_PORTFOLIO"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <textarea rows="3" cols="30" name="commentsOnPortfolio"></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <spring:message code="RATING_ON_PORTFOLIO"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                           <input type="radio" name="rating"><spring:message code="POOR"></spring:message><br/>
-                           <input type="radio" name="rating"><spring:message code="FAIR"></spring:message><br/>
-                           <input type="radio" name="rating"><spring:message code="GOOD"></spring:message><br/>
-                           <input type="radio" name="rating"><spring:message code="EXCELLENT"></spring:message><br/>
-                            <input type="hidden" value="${missionRuntimeURI}" name="missionRuntimeURI"/>
-                        </td>
-
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="submit" value="SAVE"/>
-                        </td>
-                    </tr>
-                </table>
-            </form>
-        </div>
 
     </tiles:putAttribute>
 </tiles:insertDefinition>
