@@ -521,7 +521,8 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
       }
 
       searchElos.openButton.disable = true;
-      def searchQuery = new Query(new MetadataQueryComponent(gridEloSearch.queryBox.rawText.trim()));
+      def searchQuery = QueryFactory.createSimpleQueryForExperts(gridEloSearch.queryBox.rawText.trim());
+//      def searchQuery = new Query(new MetadataQueryComponent(gridEloSearch.queryBox.rawText.trim()));
       def queryContext: QueryContext = createQueryContext(null);
       searchQuery.setQueryContext(queryContext);
       //        searchQuery.setAllowedEloTypes(getAllowedEloTypes());
