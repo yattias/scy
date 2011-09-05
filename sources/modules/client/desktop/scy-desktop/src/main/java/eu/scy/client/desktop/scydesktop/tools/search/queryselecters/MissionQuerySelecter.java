@@ -10,9 +10,7 @@ import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.search.IQuery;
@@ -38,9 +36,11 @@ public class MissionQuerySelecter extends AbstractSimpleQuerySelecter
       THIS,
       NOT_THIS,
       ALL_VERSIONS_OF_THIS,
+      NOT_VERSIONS_OF_THIS,
       SAME,
       NOT_SAME,
-      ALL_VERSIONS_OF_MISSION;
+      ALL_VERSIONS_OF_MISSION,
+      NOT_VERSIONS_OF_MISSION;
    }
 
    MissionQuerySelecter(ToolBrokerAPI tbi, String id, QuerySelecterUsage querySelectorUsage)
@@ -59,7 +59,7 @@ public class MissionQuerySelecter extends AbstractSimpleQuerySelecter
       switch (getQuerySelectorUsage())
       {
          case TEXT:
-            if (myMissionSpecificationUri != null)
+            if (isDebugMode() &&  myMissionSpecificationUri != null)
             {
                displayOptions.add(MissionOptions.THIS.toString());
                displayOptions.add(MissionOptions.NOT_THIS.toString());
@@ -67,10 +67,11 @@ public class MissionQuerySelecter extends AbstractSimpleQuerySelecter
             if (!StringUtils.isEmpty(myMissionId))
             {
                displayOptions.add(MissionOptions.ALL_VERSIONS_OF_THIS.toString());
+               displayOptions.add(MissionOptions.NOT_VERSIONS_OF_THIS.toString());
             }
             break;
          case ELO_BASED:
-            if (getBasedOnElo().getMissionSpecificationEloUri() != null)
+            if (isDebugMode() && getBasedOnElo().getMissionSpecificationEloUri() != null)
             {
                displayOptions.add(MissionOptions.SAME.toString());
                displayOptions.add(MissionOptions.NOT_SAME.toString());
@@ -78,6 +79,7 @@ public class MissionQuerySelecter extends AbstractSimpleQuerySelecter
             if (getBasedOnElo().getMissionId() != null)
             {
                displayOptions.add(MissionOptions.ALL_VERSIONS_OF_MISSION.toString());
+               displayOptions.add(MissionOptions.NOT_VERSIONS_OF_MISSION.toString());
             }
             break;
       }
@@ -97,61 +99,46 @@ public class MissionQuerySelecter extends AbstractSimpleQuerySelecter
    }
 
    @Override
-   public IQueryComponent getQueryComponent()
-   {
-      if (StringUtils.isEmpty(getSelectedOption()))
-      {
-         return null;
-      }
-      MissionOptions missionOption = MissionOptions.valueOf(getSelectedOption());
-      switch (missionOption)
-      {
-         case THIS:
-            return new MetadataQueryComponent(missionRunningKey, SearchOperation.EQUALS, myMissionSpecificationUri);
-         case NOT_THIS:
-            return new MetadataQueryComponent(missionRunningKey, SearchOperation.NOT_EQUALS, myMissionSpecificationUri);
-         case ALL_VERSIONS_OF_THIS:
-            return new MetadataQueryComponent(missionRunningKey, SearchOperation.EQUALS, myMissionId);
-         case SAME:
-            return new MetadataQueryComponent(missionRunningKey, SearchOperation.EQUALS, getBasedOnElo().getMissionSpecificationEloUri());
-         case NOT_SAME:
-            return new MetadataQueryComponent(missionRunningKey, SearchOperation.NOT_EQUALS, getBasedOnElo().getMissionSpecificationEloUri());
-         case ALL_VERSIONS_OF_MISSION:
-            return new MetadataQueryComponent(missionIdKey, SearchOperation.NOT_EQUALS, getBasedOnElo().getMissionId());
-      }
-      return null;
-   }
-
-   @Override
    public void setFilterOptions(IQuery query)
    {
-//      if (StringUtils.isEmpty(getSelectedOption()))
-//         Set<String> allowedUsers = new HashSet<String>();
-//         Set<String> notAllowedUsers = new HashSet<String>();
-//         MissionOptions missionOption = MissionOptions.valueOf(getSelectedOption());
-//         switch (missionOption)
-//         {
-//            case THIS:
-//               allowedUsers.add(myLoginName);
-//               break;
-//            case NOT_THIS:
-//               notAllowedUsers.add(myLoginName);
-//               break;
-//            case ALL_VERSIONS_OF_THIS:
-//               allowedUsers.addAll(getBasedOnElo().getAuthors());
-//               break;
-//            case SAME:
-//               notAllowedUsers.addAll(getBasedOnElo().getAuthors());
-//               break;
-//            case NOT_SAME:
-//               notAllowedUsers.addAll(getBasedOnElo().getAuthors());
-//               break;
-//            case ALL_VERSIONS_OF_MISSION:
-//               notAllowedUsers.addAll(getBasedOnElo().getAuthors());
-//               break;
-//         }
-//         query.setAllowedUsers(allowedUsers);
-////         query.setNotAllowedUsers(notAllowedUsers);
-//      }
+      MissionOptions missionOption = getSelectedEnum(MissionOptions.class);
+      if (missionOption != null)
+      {
+         URI allowedMissionSpecificationUri = null;
+         URI notAllowedMissionSpecificationUri = null;
+         String allowedMissionId = null;
+         String notAllowedMissionId = null;
+         switch (missionOption)
+         {
+            case THIS:
+               allowedMissionSpecificationUri = myMissionSpecificationUri;
+               break;
+            case NOT_THIS:
+               notAllowedMissionSpecificationUri = myMissionSpecificationUri;
+               break;
+            case ALL_VERSIONS_OF_THIS:
+               allowedMissionId = myMissionId;
+               break;
+            case NOT_VERSIONS_OF_THIS:
+               notAllowedMissionId = myMissionId;
+               break;
+            case SAME:
+               allowedMissionSpecificationUri = getBasedOnElo().getMissionRuntimeEloUri();
+               break;
+            case NOT_SAME:
+               notAllowedMissionSpecificationUri = getBasedOnElo().getMissionRuntimeEloUri();
+               break;
+            case ALL_VERSIONS_OF_MISSION:
+               allowedMissionId = getBasedOnElo().getMissionId();
+               break;
+            case NOT_VERSIONS_OF_MISSION:
+               notAllowedMissionId = getBasedOnElo().getMissionId();
+               break;
+         }
+         query.setIncludedMissionSpecification(allowedMissionSpecificationUri);
+         query.setExcludedMissionSpecification(notAllowedMissionSpecificationUri);
+         query.setIncludedMissionId(allowedMissionId);
+         query.setExcludedMissionId(notAllowedMissionId);
+      }
    }
 }

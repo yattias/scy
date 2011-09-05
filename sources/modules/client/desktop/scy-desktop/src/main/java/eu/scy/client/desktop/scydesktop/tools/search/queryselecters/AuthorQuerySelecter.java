@@ -4,6 +4,8 @@
  */
 package eu.scy.client.desktop.scydesktop.tools.search.queryselecters;
 
+import eu.scy.awareness.AwarenessServiceException;
+import eu.scy.awareness.IAwarenessUser;
 import eu.scy.client.desktop.desktoputils.StringUtils;
 import eu.scy.client.desktop.scydesktop.tools.search.QuerySelecterUsage;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
@@ -11,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.apache.log4j.Logger;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.search.IQuery;
@@ -25,6 +28,7 @@ import roolo.search.SearchOperation;
 public class AuthorQuerySelecter extends AbstractSimpleQuerySelecter
 {
 
+   private static final Logger logger = Logger.getLogger(AuthorQuerySelecter.class);
    private final IMetadataKey authorKey;
    private final String myLoginName;
 
@@ -35,7 +39,7 @@ public class AuthorQuerySelecter extends AbstractSimpleQuerySelecter
       MY_BUDDIES,
       NOT_ME,
       SAME,
-      SAME_BUDDIES,
+      //      SAME_BUDDIES,
       NOT_SAME;
    }
 
@@ -59,7 +63,7 @@ public class AuthorQuerySelecter extends AbstractSimpleQuerySelecter
             break;
          case ELO_BASED:
             displayOptions.add(AuthorOptions.SAME.toString());
-            displayOptions.add(AuthorOptions.SAME_BUDDIES.toString());
+//            displayOptions.add(AuthorOptions.SAME_BUDDIES.toString());
             displayOptions.add(AuthorOptions.NOT_SAME.toString());
             break;
       }
@@ -88,40 +92,42 @@ public class AuthorQuerySelecter extends AbstractSimpleQuerySelecter
       return "";
    }
 
-   @Override
-   public IQueryComponent getQueryComponent()
+   private List<String> getBuddyNames()
    {
-      if (StringUtils.isEmpty(getSelectedOption()))
+      List<String> buddyNames = new ArrayList<String>();
+      try
       {
-         return null;
+         List<IAwarenessUser> buddies = getTbi().getAwarenessService().getBuddies();
+         for (IAwarenessUser awarenessUser : buddies)
+         {
+            if (getTbi().getLoginUserName().equalsIgnoreCase(awarenessUser.getNickName()))
+            {
+               buddyNames.add(awarenessUser.getNickName());
+            }
+         }
       }
-      AuthorOptions authorOption = AuthorOptions.valueOf(getSelectedOption());
-      switch (authorOption)
+      catch (AwarenessServiceException ex)
       {
-         case ME:
-            return new MetadataQueryComponent(authorKey, SearchOperation.EQUALS, myLoginName);
-         case NOT_ME:
-            return new MetadataQueryComponent(authorKey, SearchOperation.NOT_EQUALS, myLoginName);
-         case SAME:
-            return new MetadataQueryComponent(authorKey, SearchOperation.EQUALS, getBasedOnAuthor());
-         case NOT_SAME:
-            return new MetadataQueryComponent(authorKey, SearchOperation.NOT_EQUALS, getBasedOnAuthor());
+         logger.warn("problems with getting the buddies from the awaerenessService", ex);
       }
-      return null;
+      return buddyNames;
    }
 
    @Override
    public void setFilterOptions(IQuery query)
    {
-      if (!StringUtils.isEmpty(getSelectedOption()))
+      AuthorOptions authorOption = getSelectedEnum(AuthorOptions.class);
+      if (authorOption != null)
       {
          Set<String> allowedUsers = new HashSet<String>();
          Set<String> notAllowedUsers = new HashSet<String>();
-         AuthorOptions authorOption = AuthorOptions.valueOf(getSelectedOption());
          switch (authorOption)
          {
             case ME:
                allowedUsers.add(myLoginName);
+               break;
+            case MY_BUDDIES:
+               allowedUsers.addAll(getBuddyNames());
                break;
             case NOT_ME:
                notAllowedUsers.add(myLoginName);
@@ -133,8 +139,14 @@ public class AuthorQuerySelecter extends AbstractSimpleQuerySelecter
                notAllowedUsers.addAll(getBasedOnElo().getAuthors());
                break;
          }
-         query.setIncludedUsers(allowedUsers);
-         query.setExcludedUsers(notAllowedUsers);
+         if (!allowedUsers.isEmpty())
+         {
+            query.setIncludedUsers(allowedUsers);
+         }
+         if (!notAllowedUsers.isEmpty())
+         {
+            query.setExcludedUsers(notAllowedUsers);
+         }
       }
    }
 }

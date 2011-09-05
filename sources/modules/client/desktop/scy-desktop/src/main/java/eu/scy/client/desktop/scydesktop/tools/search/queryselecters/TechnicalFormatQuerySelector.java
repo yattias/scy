@@ -64,31 +64,13 @@ public class TechnicalFormatQuerySelector extends AbstractSimpleQuerySelecter
    }
 
    @Override
-   public IQueryComponent getQueryComponent()
-   {
-      if (StringUtils.isEmpty(getSelectedOption()))
-      {
-         return null;
-      }
-      TechnicalFormatOptions technicalFormatOption = TechnicalFormatOptions.valueOf(getSelectedOption());
-      switch (technicalFormatOption)
-      {
-         case SAME:
-            return new MetadataQueryComponent(technicalFormatKey, SearchOperation.EQUALS, getBasedOnElo().getTechnicalFormat());
-         case NOT_SAME:
-            return new MetadataQueryComponent(technicalFormatKey, SearchOperation.NOT_EQUALS, getBasedOnElo().getTechnicalFormat());
-      }
-      return null;
-   }
-
-   @Override
    public void setFilterOptions(IQuery query)
    {
-      if (StringUtils.isEmpty(getSelectedOption()))
+      TechnicalFormatOptions technicalFormatOption = getSelectedEnum(TechnicalFormatOptions.class);
+      if (technicalFormatOption != null)
       {
          Set<String> allowedTypes = new HashSet<String>();
          Set<String> notAllowedTypes = new HashSet<String>();
-         TechnicalFormatOptions technicalFormatOption = TechnicalFormatOptions.valueOf(getSelectedOption());
          switch (technicalFormatOption)
          {
             case SAME:

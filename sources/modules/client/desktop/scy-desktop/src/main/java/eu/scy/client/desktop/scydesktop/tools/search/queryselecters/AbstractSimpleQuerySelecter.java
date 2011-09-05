@@ -21,6 +21,7 @@ import roolo.elo.api.metadata.IMetadataKeyIdDefinition;
  */
 public abstract class AbstractSimpleQuerySelecter implements QuerySelecter
 {
+
    private final static Logger logger = Logger.getLogger(AbstractSimpleQuerySelecter.class);
    private final static String selectedOptionTagName = "selectedOption";
    private final String id;
@@ -29,6 +30,8 @@ public abstract class AbstractSimpleQuerySelecter implements QuerySelecter
    private ScyElo basedOnElo = null;
    private final QuerySelecterUsage querySelectorUsage;
    private final ToolBrokerAPI tbi;
+   private boolean authorMode = false;
+   private boolean debugMode = false;
 
    public AbstractSimpleQuerySelecter(ToolBrokerAPI tbi, String id, QuerySelecterUsage querySelectorUsage)
    {
@@ -114,4 +117,44 @@ public abstract class AbstractSimpleQuerySelecter implements QuerySelecter
    {
       selectedOption = root.getChildTextTrim(selectedOptionTagName);
    }
+
+   public <T extends Enum<T>> T getOptionEnum(Class<T> enumType, String option)
+   {
+      try
+      {
+         return Enum.valueOf(enumType, option.toUpperCase());
+      }
+      catch (IllegalArgumentException e)
+      {
+         return null;
+      }
+   }
+
+   public <T extends Enum<T>> T getSelectedEnum(Class<T> enumType)
+   {
+      return getOptionEnum(enumType,getSelectedOption());
+   }
+
+   public boolean isAuthorMode()
+   {
+      return authorMode;
+   }
+
+   @Override
+   public void setAuthorMode(boolean authorMode)
+   {
+      this.authorMode = authorMode;
+   }
+
+   public boolean isDebugMode()
+   {
+      return debugMode;
+   }
+
+   @Override
+   public void setDebugMode(boolean debugMode)
+   {
+      this.debugMode = debugMode;
+   }
+
 }

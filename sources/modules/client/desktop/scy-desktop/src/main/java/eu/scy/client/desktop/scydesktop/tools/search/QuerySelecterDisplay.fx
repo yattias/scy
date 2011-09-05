@@ -113,14 +113,6 @@ public class QuerySelecterDisplay extends CustomNode, TooltipCreator {
       }
    }
 
-   public function getQueryComponent(): IQueryComponent {
-      if (selectedItem == noneOption) {
-         return null;
-      } else {
-         return querySelecter.getQueryComponent()
-      }
-   }
-
    public function setFilterOptions(query: IQuery){
       querySelecter.setFilterOptions(query);
    }

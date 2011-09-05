@@ -51,6 +51,7 @@ import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.BigMissionMapCon
 import roolo.search.IQueryComponent;
 import roolo.search.IQuery;
 import javafx.scene.layout.VBox;
+import java.lang.StringBuilder;
 
 /**
  * @author SikkenJ
@@ -267,6 +268,8 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
       querySelecterDisplays =
               for (querySelecterObject in querySelecters) {
                  def querySelecter = querySelecterObject as QuerySelecter;
+                 querySelecter.setAuthorMode(scyDesktop.initializer.authorMode);
+                 querySelecter.setDebugMode(scyDesktop.initializer.debugMode);
                  QuerySelecterDisplay {
                     querySelecter: querySelecter
                     querySelecterUsage: querySelecterUsage
@@ -294,9 +297,13 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
    }
 
    function querySelecterChanged(): Void {
-      if (not searchButton.disabled) {
-         doSearch();
+      if (QuerySelecterUsage.TEXT == querySelecterUsage) {
+         if (searchButton.disabled) {
+            return
+         }
+      } else if (QuerySelecterUsage.ELO_BASED == querySelecterUsage) {
       }
+      doSearch();
    }
 
    function setSelecterFilters(query: IQuery) {
@@ -316,18 +323,27 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
                     }
          }
       } else if (QuerySelecterUsage.ELO_BASED == querySelecterUsage) {
-         query = new MetadataQueryComponent("contents", baseElo);
+         def sb = new StringBuilder();
+         for (keyword in baseElo.getKeywords()) {
+            sb.append(keyword);
+            sb.append(" ");
+         }
+         for (tag in baseElo.getTagNames()) {
+            sb.append(tag);
+            sb.append(" ");
+         }
+         sb.append(baseElo.getTitle());
+         query = new MetadataQueryComponent("contents", sb);
       }
       if (query != null) {
          if (backgroundQuerySearch != null) {
             backgroundQuerySearch.abort();
          }
          def searchQuery = new Query(query);
+         searchQuery.setIncludedEloTypes(scyDesktop.newEloCreationRegistry.getEloTypes());
          setSelecterFilters(searchQuery);
          def queryContext: QueryContext = createQueryContext(null);
          searchQuery.setQueryContext(queryContext);
-         logger.info("Adding Query Context: {queryContext}");
-         searchQuery.setIncludedEloTypes(scyDesktop.newEloCreationRegistry.getEloTypes());
          backgroundQuerySearch = new BackgroundQuerySearch(toolBrokerAPI, scyDesktop.newEloCreationRegistry, searchQuery, this);
 
          backgroundQuerySearch.start();
