@@ -155,7 +155,7 @@
                     </c:choose>
 
         </div>
-        </div>      <a href="assessMission.html?missionRuntimeURI=${missionRuntimeURI}"><spring:message code="ASSESS_MISSION"/> </a>
+        </div>      <a href="assessMission.html?missionRuntimeURI=${missionRuntimeURI}"><spring:message code="ASSESS_PORTFOLIO"/> </a>
 
     </tiles:putAttribute>
 </tiles:insertDefinition>
