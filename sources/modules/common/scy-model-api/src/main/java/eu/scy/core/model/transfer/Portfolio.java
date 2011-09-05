@@ -161,10 +161,20 @@ public class Portfolio extends BaseXMLTransfer {
         this.eloAnchorEloPairs = eloAnchorEloPairs;
     }
 
+    public TransferElo getEloForAnchroElo(TransferElo anchorElo) {
+        for (int i = 0; i < eloAnchorEloPairs.size(); i++) {
+            EloAnchorEloPair eloAnchorEloPair = eloAnchorEloPairs.get(i);
+            if(eloAnchorEloPair.getAnchorElo().getUri().equals(anchorElo.getUri())) return eloAnchorEloPair.getElo();
+        }
+
+        return null;
+
+    }
+
     public TransferElo getAnchorEloFor(TransferElo elo) {
         for (int i = 0; i < eloAnchorEloPairs.size(); i++) {
             EloAnchorEloPair eloAnchorEloPair = eloAnchorEloPairs.get(i);
-            if(eloAnchorEloPair.getElo().getUri().equals(elo.getUri())) return eloAnchorEloPair.getElo();
+            if(eloAnchorEloPair.getElo().getUri().equals(elo.getUri())) return eloAnchorEloPair.getAnchorElo();
         }
 
         return null;

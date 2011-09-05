@@ -8,6 +8,7 @@ import eu.scy.core.roolo.MissionELOService;
 import eu.scy.core.roolo.PedagogicalPlanELOService;
 import eu.scy.core.roolo.PortfolioELOService;
 import eu.scy.core.roolo.RuntimeELOService;
+import eu.scy.server.actionlogging.ActionLoggerService;
 import eu.scy.server.controllers.BaseController;
 import eu.scy.server.util.TransferObjectMapService;
 import org.springframework.web.servlet.ModelAndView;
@@ -31,6 +32,7 @@ public class StoreMissionReflection extends BaseController {
     private XMLTransferObjectService xmlTransferObjectService;
     private PedagogicalPlanELOService pedagogicalPlanELOService;
     private TransferObjectMapService transferObjectMapService;
+    private ActionLoggerService actionLoggerService;
 
 
     @Override
@@ -49,6 +51,8 @@ public class StoreMissionReflection extends BaseController {
         ScyElo portfolioElo = ScyElo.loadLastVersionElo(missionRuntimeElo.getTypedContent().getEPortfolioEloUri(), getMissionELOService());
         portfolioElo.getContent().setXmlString(getXmlTransferObjectService().getToObjectXStream().toXML(portfolio));
         portfolioElo.updateElo();
+
+        getActionLoggerService().logActionForRuntime("portfolio_assessed", portfolio.getOwner(), "scy_author", missionRuntimeURI.toString());
 
     }
 
@@ -98,5 +102,13 @@ public class StoreMissionReflection extends BaseController {
 
     public void setTransferObjectMapService(TransferObjectMapService transferObjectMapService) {
         this.transferObjectMapService = transferObjectMapService;
+    }
+
+    public ActionLoggerService getActionLoggerService() {
+        return actionLoggerService;
+    }
+
+    public void setActionLoggerService(ActionLoggerService actionLoggerService) {
+        this.actionLoggerService = actionLoggerService;
     }
 }

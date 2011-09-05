@@ -55,6 +55,7 @@ public class WebEportIndex extends BaseController {
             AnchoELOWithStatus anchoELOWithStatus = new AnchoELOWithStatus();
             anchoELOWithStatus.setAnchorElo(anchorElo);
             if(portfolio != null) {
+                anchoELOWithStatus.setAddedElo(portfolio.getEloForAnchroElo(anchorElo));
                 if(portfolio.getHasEloBeenAddedForAnchorElo(anchorElo)) anchoELOWithStatus.setEloHasBeenAdded(true);
             }
             anchoELOWithStatuses.add(anchoELOWithStatus);

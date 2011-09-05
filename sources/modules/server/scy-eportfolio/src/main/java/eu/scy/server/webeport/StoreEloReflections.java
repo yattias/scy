@@ -31,25 +31,15 @@ public class StoreEloReflections extends BaseController {
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
-
-
-
         String generalLearningGoals = request.getParameter("generalLearningGoals");
         String specificLearningGoals = request.getParameter("specificLearningGoals");
 
         String eloReflectionDescription = request.getParameter("eloReflectionDescription");
-        String reflectionOnElo = request.getParameter("reflectionOnElo");
-        String reflectionOnInquiry = request.getParameter("reflectionOnInquiry");
 
         URI missionRuntimeUri = getURI(request.getParameter("missionRuntimeURI"));
         URI eloURI = getURI(request.getParameter(ELO_URI));
 
         URI anchorEloURI = getURI(request.getParameter("anchorEloURI"));
-
-        logger.info("specificLearningGoals: "+ specificLearningGoals);
-        logger.info("generalLearningGoals: " + generalLearningGoals);
-        logger.info("missionRuntimeURI: " + missionRuntimeUri.toString());
-        logger.info("anchorEloURI: " + anchorEloURI.toString());
 
         MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(missionRuntimeUri, getRuntimeELOService());
         Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo, getCurrentUserName(request));
@@ -66,9 +56,6 @@ public class StoreEloReflections extends BaseController {
         ScyElo portfolioElo = ScyElo.loadLastVersionElo(missionRuntimeElo.getTypedContent().getEPortfolioEloUri(), getMissionELOService());
         portfolioElo.getContent().setXmlString(getXmlTransferObjectService().getToObjectXStream().toXML(portfolio));
         portfolioElo.updateElo();
-        logger.info("PORTFOLIO LOADED: " + portfolio.getPortfolioStatus() + " :: " + portfolio.getAssessed());
-
-        logger.info("NUMBER OF ELOS IN PORTFOLIO = " + portfolio.getEloAnchorEloPairs().size());
 
         modelAndView.setViewName("forward:webEportIndex.html");
 
