@@ -107,7 +107,6 @@ public class FeedbackAgent extends AbstractThreadedAgent {
 
     private void handleFeedbackAsked(IAction action) {
         try {
-            // TODO do this for all users
 //            getSession().getUsersInMission(action.getContext())
             getCommandSpace().write(createNotification(action, FEEDBACK_ASKED));
         } catch (TupleSpaceException e) {
@@ -135,7 +134,7 @@ public class FeedbackAgent extends AbstractThreadedAgent {
         notificationTuple.add(NAME);
         String mission = action.getContext(ContextConstants.mission);
         if (IAction.NOT_AVAILABLE.equals(mission)) {
-            mission = getSession().getMissionURI(user);
+            mission = getSession().getMissionRuntimeURI(user);
         }
         notificationTuple.add(mission);
         notificationTuple.add(action.getContext(ContextConstants.session));
