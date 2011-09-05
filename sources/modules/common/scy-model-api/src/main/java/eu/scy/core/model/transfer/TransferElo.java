@@ -94,24 +94,7 @@ public class TransferElo extends BaseXMLTransfer {
 
         getRawData().setThumbnail("/webapp/components/resourceservice.html?eloURI=" + getUri());//Why go for less when you can have the double?
         getRawData().setFullScreen("/webapp/components/resourceservice.html?eloURI=" + getUri());
-        /*if (getTechnicalFormat() != null) {
-            if (getTechnicalFormat().contains("text") ||
-                    getTechnicalFormat().contains("rtf")) {
-                String rtfString = scyElo.getContent().getXmlString();
-                if (rtfString != null && rtfString.length() > 0) {
-                    rtfString = rtfString.replaceAll("<RichText>", "");
-                    rtfString = rtfString.replaceAll("</RichText>", "");
-                    rtfString = convertRtfToHtml(rtfString);
-                }
-
-                getRawData().setText(rtfString);
-            }
-        } */
-
-
-        //setStudentDescription("stydentdesc");
         try {
-            //setSnippeturl("scy-lab.jnlp?singleEloUri=" + URLEncoder.encode(getUri(), "UTF-8"));
             setSnippeturl("/webapp/util/OpenScyLabInSingleEloMode.html?eloURI=" + URLEncoder.encode(getUri(), "UTF-8"));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
