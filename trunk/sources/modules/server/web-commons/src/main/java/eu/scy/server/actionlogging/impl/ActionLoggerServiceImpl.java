@@ -22,6 +22,18 @@ public class ActionLoggerServiceImpl implements ActionLoggerService {
     private SQLSpacesActionLogger sqlSpacesActionLogger;
 
 
+    @Override
+    public void logActionForRuntime(String type, String userName, String tool, String runtimeMissionUri) {
+        IAction action = new Action();
+        action.setType(type);
+        action.setUser(userName);
+        action.addContext(ContextConstants.tool, tool);
+        action.addContext(ContextConstants.mission, getDecodedURI(runtimeMissionUri));
+
+        dispatchAction(action);
+        
+    }
+
     public void logAction(String type, String userName, String tool, String eloURI) {
         IAction action = new Action();
         action.setType(type);
@@ -30,7 +42,7 @@ public class ActionLoggerServiceImpl implements ActionLoggerService {
         action.addContext(ContextConstants.eloURI, getDecodedURI(eloURI));
 
         dispatchAction(action);
-        
+
     }
 
     private String getDecodedURI(String uri) {

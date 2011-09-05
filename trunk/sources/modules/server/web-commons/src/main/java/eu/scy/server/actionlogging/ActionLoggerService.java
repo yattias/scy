@@ -12,5 +12,6 @@ public interface ActionLoggerService {
     public void logAction(String type, String userName, String tool);
 
     public void logAction(String type, String userName, String tool, String eloURI);
-    
+
+    void logActionForRuntime(String type, String userName, String tool, String runtimeMissionUri);
 }

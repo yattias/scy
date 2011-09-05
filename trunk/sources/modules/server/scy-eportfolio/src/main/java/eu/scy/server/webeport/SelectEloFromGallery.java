@@ -1,8 +1,11 @@
 package eu.scy.server.webeport;
 
+import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.XMLTransferObjectService;
+import eu.scy.core.model.transfer.Portfolio;
 import eu.scy.core.model.transfer.SearchResultTransfer;
+import eu.scy.core.model.transfer.TransferElo;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.server.controllers.BaseController;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,21 +32,25 @@ public class SelectEloFromGallery extends BaseController {
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
 
-        URI uri = getURI(request.getParameter(ELO_URI));
+        URI anchorEloURI = getURI(request.getParameter("anchorEloURI"));
         URI missionRuntimeURI = getURI(request.getParameter("missionRuntimeURI"));
-        ScyElo anchorElo = ScyElo.loadLastVersionElo(uri, getMissionELOService());
+        ScyElo anchorElo = ScyElo.loadLastVersionElo(anchorEloURI, getMissionELOService());
+        TransferElo anchorEloTransferElo = new TransferElo(anchorElo);
+        MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(missionRuntimeURI, getMissionELOService());
+        Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo, getCurrentUserName(request));
+        TransferElo elo = portfolio.getEloForAnchroElo(anchorEloTransferElo);
 
-        String technicalFormat = anchorElo.getTechnicalFormat();
-        String encodedAnchorEloURI = getEncodedUri(anchorElo.getUri().toString());
+        if(elo != null) {
+            modelAndView.setViewName("forward:editEloReflections.html");
+        } else {
+            String technicalFormat = anchorElo.getTechnicalFormat();
+            String encodedAnchorEloURI = getEncodedUri(anchorElo.getUri().toString());
 
-        logger.info("TRYING TO LOAD ELOS WITH TECHNICAL FORMAT: " + technicalFormat);
-        logger.info("LOADED MISSION URI: " + missionRuntimeURI.toString());
-
-        List<SearchResultTransfer> searchResults = getMissionELOService().getSearchResultTransfers(getMissionELOService().getElosWithTechnicalType(technicalFormat, getCurrentUserName(request)), request.getLocale());
-        modelAndView.addObject("elos", searchResults);
-        modelAndView.addObject("encodedAnchorEloURI", encodedAnchorEloURI);
-        modelAndView.addObject("missionRuntimeURI", getEncodedUri(missionRuntimeURI.toString()));
-
+            List<SearchResultTransfer> searchResults = getMissionELOService().getSearchResultTransfers(getMissionELOService().getElosWithTechnicalType(technicalFormat, getCurrentUserName(request)), request.getLocale());
+            modelAndView.addObject("elos", searchResults);
+            modelAndView.addObject("encodedAnchorEloURI", encodedAnchorEloURI);
+            modelAndView.addObject("missionRuntimeURI", getEncodedUri(missionRuntimeURI.toString()));
+        }
     }
 
     public MissionELOService getMissionELOService() {

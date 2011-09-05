@@ -32,15 +32,9 @@ public class EditEloReflections extends BaseController {
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
-        logger.info("ELO URI: : " + request.getParameter(ELO_URI));
-
         URI eloURI = getURI(request.getParameter(ELO_URI));
         ScyElo elo = ScyElo.loadLastVersionElo(eloURI, getMissionELOService());
         TransferElo transferElo = new TransferElo(elo);
-
-        logger.info("QUERY: " + request.getQueryString());
-        logger.info("MISSIONURI: " + request.getParameter("missionRuntimeURI"));
-
 
         URI missionRuntimeURI = getURI(request.getParameter("missionRuntimeURI"));
         MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(missionRuntimeURI, getMissionELOService());
@@ -85,13 +79,19 @@ public class EditEloReflections extends BaseController {
             }
         }
 
-
+        boolean portfolioLocked = false;
+        if(portfolio.getPortfolioStatus().equals(Portfolio.PORTFOLIO_STATUS_ASSESSED))
         modelAndView.addObject("missionRuntimeURI", getEncodedUri(missionRuntimeURI.toString()));
         modelAndView.addObject(ELO_URI, getEncodedUri(eloURI.toString()));
         modelAndView.addObject("anchorEloURI", getEncodedUri(anchorEloURI.toString()));
         modelAndView.addObject("reflectionQuestions", reflectionQuestions);
         modelAndView.addObject("selectedGeneralLearningGoalWithScores", selectedGeneralLearningGoalWithScores);
         modelAndView.addObject("selectedSpecificLearningGoalWithScores", selectedSpecificLearningGoalWithScores);
+        if(portfolio.getPortfolioStatus().equals(Portfolio.PORTFOLIO_STATUS_ASSESSED)) {
+            modelAndView.addObject("portfolioLocked", true);
+        } else {
+            modelAndView.addObject("portfolioLocked", false);
+        }
 
     }
 

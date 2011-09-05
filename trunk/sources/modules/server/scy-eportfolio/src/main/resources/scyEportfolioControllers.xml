@@ -299,6 +299,7 @@
         <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
         <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
         <property name="transferObjectMapService" ref="transferObjectMapService"/>
+        <property name="actionLoggerService" ref="actionLoggerService"/>
 	</bean>
 
     <bean id="currentMissionRuntimeInfo" class="eu.scy.server.eportfolio.xml.CurrentMissionRuntimeInfoController">
