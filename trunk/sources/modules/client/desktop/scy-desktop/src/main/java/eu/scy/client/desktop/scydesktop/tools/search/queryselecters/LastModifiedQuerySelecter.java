@@ -33,6 +33,7 @@ public class LastModifiedQuerySelecter extends AbstractSimpleQuerySelecter
 
    private class DateMillis
    {
+
       final long nowMillis;
       final long startOfDayMillis;
       final long startOfWeekMillis;
@@ -48,7 +49,7 @@ public class LastModifiedQuerySelecter extends AbstractSimpleQuerySelecter
          calendar.set(Calendar.MILLISECOND, 0);
          startOfDayMillis = calendar.getTimeInMillis();
          int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-         startOfWeekMillis = startOfDayMillis-(dayOfWeek-Calendar.SUNDAY)*millisInDay;
+         startOfWeekMillis = startOfDayMillis - (dayOfWeek - Calendar.SUNDAY) * millisInDay;
       }
    }
 
@@ -85,10 +86,13 @@ public class LastModifiedQuerySelecter extends AbstractSimpleQuerySelecter
 //            displayOptions.add(LastModifiedOptions.OLDER.toString());
             break;
          case ELO_BASED:
-            displayOptions.add(LastModifiedOptions.SAME_DAY.toString());
-            displayOptions.add(LastModifiedOptions.SAME_WEEK.toString());
-            displayOptions.add(LastModifiedOptions.OLDER_THEN.toString());
-            displayOptions.add(LastModifiedOptions.NEWER_THEN.toString());
+            if (getBasedOnElo().getDateLastModified() != null)
+            {
+               displayOptions.add(LastModifiedOptions.SAME_DAY.toString());
+               displayOptions.add(LastModifiedOptions.SAME_WEEK.toString());
+               displayOptions.add(LastModifiedOptions.OLDER_THEN.toString());
+               displayOptions.add(LastModifiedOptions.NEWER_THEN.toString());
+            }
             break;
       }
       return displayOptions;
@@ -110,7 +114,7 @@ public class LastModifiedQuerySelecter extends AbstractSimpleQuerySelecter
    public void setFilterOptions(IQuery query)
    {
       LastModifiedOptions lastModifiedOptions = getSelectedEnum(LastModifiedOptions.class);
-      if (lastModifiedOptions!=null)
+      if (lastModifiedOptions != null)
       {
          DateMillis dateMillis;
          switch (getQuerySelectorUsage())
@@ -132,7 +136,7 @@ public class LastModifiedQuerySelecter extends AbstractSimpleQuerySelecter
             case TODAY:
             case SAME_DAY:
                startTime = dateMillis.startOfDayMillis;
-               endTime = dateMillis.startOfDayMillis+millisInDay;
+               endTime = dateMillis.startOfDayMillis + millisInDay;
                break;
             case YESTERDAY:
                startTime = dateMillis.startOfDayMillis - millisInDay;
@@ -141,7 +145,7 @@ public class LastModifiedQuerySelecter extends AbstractSimpleQuerySelecter
             case THIS_WEEK:
             case SAME_WEEK:
                startTime = dateMillis.startOfWeekMillis;
-               endTime = dateMillis.startOfWeekMillis+millisInWeek;
+               endTime = dateMillis.startOfWeekMillis + millisInWeek;
                break;
             case LAST_WEEK:
                startTime = dateMillis.startOfWeekMillis - millisInWeek;

@@ -6,7 +6,6 @@ package eu.scy.client.desktop.scydesktop.tools.search.queryselecters;
 
 import eu.scy.awareness.AwarenessServiceException;
 import eu.scy.awareness.IAwarenessUser;
-import eu.scy.client.desktop.desktoputils.StringUtils;
 import eu.scy.client.desktop.scydesktop.tools.search.QuerySelecterUsage;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.util.ArrayList;
@@ -17,9 +16,6 @@ import org.apache.log4j.Logger;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.search.IQuery;
-import roolo.search.IQueryComponent;
-import roolo.search.MetadataQueryComponent;
-import roolo.search.SearchOperation;
 
 /**
  *
@@ -58,13 +54,19 @@ public class AuthorQuerySelecter extends AbstractSimpleQuerySelecter
       {
          case TEXT:
             displayOptions.add(AuthorOptions.ME.toString());
-            displayOptions.add(AuthorOptions.MY_BUDDIES.toString());
+            if (!getBuddies().isEmpty())
+            {
+               displayOptions.add(AuthorOptions.MY_BUDDIES.toString());
+            }
             displayOptions.add(AuthorOptions.NOT_ME.toString());
             break;
          case ELO_BASED:
-            displayOptions.add(AuthorOptions.SAME.toString());
+            if (!getBasedOnElo().getAuthors().isEmpty())
+            {
+               displayOptions.add(AuthorOptions.SAME.toString());
 //            displayOptions.add(AuthorOptions.SAME_BUDDIES.toString());
-            displayOptions.add(AuthorOptions.NOT_SAME.toString());
+               displayOptions.add(AuthorOptions.NOT_SAME.toString());
+            }
             break;
       }
       return displayOptions;
@@ -92,23 +94,26 @@ public class AuthorQuerySelecter extends AbstractSimpleQuerySelecter
       return "";
    }
 
-   private List<String> getBuddyNames()
+   private List<IAwarenessUser> getBuddies()
    {
-      List<String> buddyNames = new ArrayList<String>();
       try
       {
-         List<IAwarenessUser> buddies = getTbi().getAwarenessService().getBuddies();
-         for (IAwarenessUser awarenessUser : buddies)
-         {
-            if (getTbi().getLoginUserName().equalsIgnoreCase(awarenessUser.getNickName()))
-            {
-               buddyNames.add(awarenessUser.getNickName());
-            }
-         }
+         getTbi().getAwarenessService().getBuddies();
       }
       catch (AwarenessServiceException ex)
       {
          logger.warn("problems with getting the buddies from the awaerenessService", ex);
+      }
+      return new ArrayList<IAwarenessUser>();
+   }
+
+   private List<String> getBuddyNames()
+   {
+      List<String> buddyNames = new ArrayList<String>();
+      List<IAwarenessUser> buddies = getBuddies();
+      for (IAwarenessUser awarenessUser : buddies)
+      {
+         buddyNames.add(awarenessUser.getNickName());
       }
       return buddyNames;
    }
