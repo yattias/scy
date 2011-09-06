@@ -103,30 +103,30 @@
                                                     <td>
                                                         <center>
                                                             <c:if test="${generalLearningGoalWithScore.score == 'LOW'}">
-                                                                <input type="radio" name="score-${generalLearningGoalWithScore.id}" value="LOW" checked>
+                                                                <input type="radio" name="score-${generalLearningGoalWithScore.id}" value="LOW" checked onMouseUp="document.getElementById('setGeneralLGs').submit();">
                                                             </c:if>
                                                             <c:if test="${generalLearningGoalWithScore.score != 'LOW'}">
-                                                                <input type="radio" name="score-${generalLearningGoalWithScore.id}" value="LOW">
+                                                                <input type="radio" name="score-${generalLearningGoalWithScore.id}" value="LOW" onMouseUp="document.getElementById('setGeneralLGs').submit();">
                                                             </c:if>
                                                         </center>
                                                     </td>
                                                     <td>
                                                         <center>
                                                             <c:if test="${generalLearningGoalWithScore.score == 'MEDIUM'}">
-                                                                <input type="radio" name="score-${generalLearningGoalWithScore.id}" value="MEDIUM" checked>
+                                                                <input type="radio" name="score-${generalLearningGoalWithScore.id}" value="MEDIUM" checked onMouseUp="document.getElementById('setGeneralLGs').submit();">
                                                             </c:if>
                                                             <c:if test="${generalLearningGoalWithScore.score != 'MEDIUM'}">
-                                                                <input type="radio" name="score-${generalLearningGoalWithScore.id}" value="MEDIUM">
+                                                                <input type="radio" name="score-${generalLearningGoalWithScore.id}" value="MEDIUM" onMouseUp="document.getElementById('setGeneralLGs').submit();">
                                                             </c:if>
                                                         </center>
                                                     </td>
                                                     <td>
                                                         <center>
                                                             <c:if test="${generalLearningGoalWithScore.score == 'HIGH'}">
-                                                                <input type="radio" name="score-${generalLearningGoalWithScore.id}" value="HIGH" checked>
+                                                                <input type="radio" name="score-${generalLearningGoalWithScore.id}" value="HIGH" checked onMouseUp="document.getElementById('setGeneralLGs').submit();">
                                                             </c:if>
                                                             <c:if test="${generalLearningGoalWithScore.score != 'HIGH'}">
-                                                                <input type="radio" name="score-${generalLearningGoalWithScore.id}" value="HIGH">
+                                                                <input type="radio" name="score-${generalLearningGoalWithScore.id}" value="HIGH" onMouseUp="document.getElementById('setGeneralLGs').submit();">
                                                             </c:if>
                                                         </center>
 
@@ -205,30 +205,30 @@
                                                     <td>
                                                         <center>
                                                             <c:if test="${specificLearningGoalWithScore.score == 'LOW'}">
-                                                                <input type="radio" name="score-${specificLearningGoalWithScore.id}" value="LOW" checked>
+                                                                <input type="radio" name="score-${specificLearningGoalWithScore.id}" value="LOW" checked onMouseUp="document.getElementById('setSpecificLGs').submit();">
                                                             </c:if>
                                                             <c:if test="${specificLearningGoalWithScore.score != 'LOW'}">
-                                                                <input type="radio" name="score-${specificLearningGoalWithScore.id}" value="LOW">
+                                                                <input type="radio" name="score-${specificLearningGoalWithScore.id}" value="LOW" onMouseUp="document.getElementById('setSpecificLGs').submit();">
                                                             </c:if>
                                                         </center>
                                                     </td>
                                                     <td>
                                                         <center>
                                                             <c:if test="${specificLearningGoalWithScore.score == 'MEDIUM'}">
-                                                                <input type="radio" name="score-${specificLearningGoalWithScore.id}" value="MEDIUM" checked>
+                                                                <input type="radio" name="score-${specificLearningGoalWithScore.id}" value="MEDIUM" checked onMouseUp="document.getElementById('setSpecificLGs').submit();">
                                                             </c:if>
                                                             <c:if test="${specificLearningGoalWithScore.score != 'MEDIUM'}">
-                                                                <input type="radio" name="score-${specificLearningGoalWithScore.id}" value="MEDIUM">
+                                                                <input type="radio" name="score-${specificLearningGoalWithScore.id}" value="MEDIUM" onMouseUp="document.getElementById('setSpecificLGs').submit();">
                                                             </c:if>
                                                         </center>
                                                     </td>
                                                     <td>
                                                         <center>
                                                             <c:if test="${specificLearningGoalWithScore.score == 'HIGH'}">
-                                                                <input type="radio" name="score-${specificLearningGoalWithScore.id}" value="HIGH" checked>
+                                                                <input type="radio" name="score-${specificLearningGoalWithScore.id}" value="HIGH" checked onMouseUp="document.getElementById('setSpecificLGs').submit();">
                                                             </c:if>
                                                             <c:if test="${specificLearningGoalWithScore.score != 'HIGH'}">
-                                                                <input type="radio" name="score-${specificLearningGoalWithScore.id}" value="HIGH">
+                                                                <input type="radio" name="score-${specificLearningGoalWithScore.id}" value="HIGH" onMouseUp="document.getElementById('setSpecificLGs').submit();">
                                                             </c:if>
                                                         </center>
 
@@ -264,7 +264,7 @@
 
                     </td>
                 </tr>
-                <form action="/webapp/app/webeport/StoreEloReflections.html">
+                <form action="/webapp/app/webeport/StoreEloReflections.html" id= >
                 <c:choose>
                     <c:when test="${fn:length(reflectionQuestions) > 0}">
                         <c:forEach var="reflectionQuestion" items="${reflectionQuestions}">
