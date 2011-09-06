@@ -133,7 +133,7 @@
                                                     </td>
                                                 <td>
                                                     <center>
-                                                        <a href="editEloReflections.html?anchorEloURI=${anchorEloURI}&eloURI=${eloURI}&missionRuntimeURI=${missionRuntimeURI}&generalLearningGoalWithScoreId=${generalLearningGoalWithScore.id}&action=delete">x</a>
+                                                        <a href="javascript:if(confirm('Do you really want to delete this?')){ location.href='editEloReflections.html?anchorEloURI='  + encodeURIComponent('${anchorEloURI}') + '&amp;eloURI='  + encodeURIComponent('${eloURI}') + '&amp;missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;generalLearningGoalWithScoreId=${generalLearningGoalWithScore.id}&amp;action=delete';}">x</a>
                                                     </center>
                                                 </td>
 
@@ -235,7 +235,7 @@
                                                     </td>
                                                     <td>
                                                         <center>
-                                                            <a href="editEloReflections.html?anchorEloURI=${anchorEloURI}&eloURI=${eloURI}&missionRuntimeURI=${missionRuntimeURI}&generalLearningGoalWithScoreId=${specificLearningGoalWithScore.id}&action=delete">x</a>
+                                                            <a href="javascript:if(confirm('Do you really want to delete this?')){ location.href='editEloReflections.html?anchorEloURI=' + encodeURIComponent('${anchorEloURI}') + '&eloURI='+encodeURIComponent('${eloURI}') + '&missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&generalLearningGoalWithScoreId=${specificLearningGoalWithScore.id}&action=delete';}">x</a>
                                                         </center>
                                                     </td>
 
@@ -264,7 +264,7 @@
 
                     </td>
                 </tr>
-                <form action="/webapp/app/webeport/StoreEloReflections.html" id= >
+                <form action="/webapp/app/webeport/StoreEloReflections.html" >
                 <c:choose>
                     <c:when test="${fn:length(reflectionQuestions) > 0}">
                         <c:forEach var="reflectionQuestion" items="${reflectionQuestions}">
@@ -302,11 +302,12 @@
                 <input type="hidden" name="missionRuntimeURI" value="${missionRuntimeURI}"/>
                 <input type="hidden" name="eloURI" value="${eloURI}"/>
                 <input type="hidden" name="anchorEloURI" value="${anchorEloURI}"/>
+                    <c:if test="${portfolioLocked == false}">
+                <input type="submit" value="<spring:message code="ADD_TO_PORTFOLIO"/>" name="submitToPortfolio" />
+            </c:if>
                 </form>
             </table>
-            <c:if test="${portfolioLocked == false}">
-                <input type="submit" value="<spring:message code="ADD_TO_PORTFOLIO"/>">
-            </c:if>
+
 
        </div>
         </div>
