@@ -57,18 +57,19 @@ public class EditEloReflections extends BaseController {
         List<ReflectionQuestion> reflectionQuestions = pedagogicalPlanTransfer.getAssessmentSetup().getReflectionQuestionsForAnchorElo(anchorEloTransfer.getUri());
 
         String action = request.getParameter("action");
+        logger.info("ACTION IS : " + action);
         if (action != null) {
             dispatchAction(request, missionRuntimeElo, transferElo);
         }
 
         Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo, getCurrentUserName(request));
         List<SelectedLearningGoalWithScore> selectedGeneralLearningGoalWithScores = portfolio.getGeneralLearningGoalsForElo(transferElo.getUri());
-        if(selectedGeneralLearningGoalWithScores != null) {
+        if (selectedGeneralLearningGoalWithScores != null) {
             for (int i = 0; i < selectedGeneralLearningGoalWithScores.size(); i++) {
                 SelectedLearningGoalWithScore selectedLearningGoalWithScore = selectedGeneralLearningGoalWithScores.get(i);
                 populateWithCorrectLearningGoalText(selectedLearningGoalWithScore, pedagogicalPlanTransfer);
             }
-            
+
         }
 
         List<SelectedLearningGoalWithScore> selectedSpecificLearningGoalWithScores = portfolio.getSpecificLearningGoalsForElo(transferElo.getUri());
@@ -80,14 +81,15 @@ public class EditEloReflections extends BaseController {
         }
 
         boolean portfolioLocked = false;
-        if(portfolio.getPortfolioStatus().equals(Portfolio.PORTFOLIO_STATUS_ASSESSED))
+        if (portfolio.getPortfolioStatus().equals(Portfolio.PORTFOLIO_STATUS_ASSESSED))
+            logger.info("-------------------------------> THE MISION RUNTIME URI IS: !" + missionRuntimeURI.toString());
         modelAndView.addObject("missionRuntimeURI", getEncodedUri(missionRuntimeURI.toString()));
         modelAndView.addObject(ELO_URI, getEncodedUri(eloURI.toString()));
         modelAndView.addObject("anchorEloURI", getEncodedUri(anchorEloURI.toString()));
         modelAndView.addObject("reflectionQuestions", reflectionQuestions);
         modelAndView.addObject("selectedGeneralLearningGoalWithScores", selectedGeneralLearningGoalWithScores);
         modelAndView.addObject("selectedSpecificLearningGoalWithScores", selectedSpecificLearningGoalWithScores);
-        if(portfolio.getPortfolioStatus().equals(Portfolio.PORTFOLIO_STATUS_ASSESSED)) {
+        if (portfolio.getPortfolioStatus().equals(Portfolio.PORTFOLIO_STATUS_ASSESSED)) {
             modelAndView.addObject("portfolioLocked", true);
         } else {
             modelAndView.addObject("portfolioLocked", false);
@@ -126,7 +128,76 @@ public class EditEloReflections extends BaseController {
             } else {
                 addGeneralLearningGoal(request, missionRuntimeElo, transferElo);
             }
+        } else if (action.equals("setLearningGoalScore")) {
+            setLearningGoalScore(request, missionRuntimeElo, transferElo);
+        } else if (action.equals("delete")) {
+            deleteLearningGoal(request, missionRuntimeElo, transferElo);
         }
+    }
+
+    private void deleteLearningGoal(HttpServletRequest request, MissionRuntimeElo missionRuntimeElo, TransferElo transferElo) {
+        String generalLearningGoalWithScoreId = request.getParameter("generalLearningGoalWithScoreId");
+
+        logger.info("DELETING WITH ID: " + generalLearningGoalWithScoreId);
+
+        Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo, getCurrentUserName(request));
+        SelectedLearningGoalWithScore toBeDeleted = null;
+        List<SelectedLearningGoalWithScore> selectedLearningGoalWithScores = portfolio.getSelectedGeneralLearningGoalWithScores();
+        for (int i = 0; i < selectedLearningGoalWithScores.size(); i++) {
+            SelectedLearningGoalWithScore selectedLearningGoalWithScore = selectedLearningGoalWithScores.get(i);
+            if (selectedLearningGoalWithScore.getId().equals(generalLearningGoalWithScoreId)) toBeDeleted = selectedLearningGoalWithScore;
+        }
+        if (toBeDeleted != null) {
+            logger.info("DELETING: " + toBeDeleted.getLearningGoalText());
+            selectedLearningGoalWithScores.remove(toBeDeleted);
+        }
+        if (toBeDeleted == null) {
+            selectedLearningGoalWithScores = portfolio.getSelectedSpecificLearningGoalWithScores();
+            for (int i = 0; i < selectedLearningGoalWithScores.size(); i++) {
+                SelectedLearningGoalWithScore selectedLearningGoalWithScore = selectedLearningGoalWithScores.get(i);
+                if (selectedLearningGoalWithScore.getId().equals(generalLearningGoalWithScoreId)) toBeDeleted = selectedLearningGoalWithScore;
+            }
+            if(toBeDeleted != null) {
+                selectedLearningGoalWithScores.remove(toBeDeleted);
+            }
+            
+        }
+
+        ScyElo portfolioElo = ScyElo.loadLastVersionElo(missionRuntimeElo.getTypedContent().getEPortfolioEloUri(), getMissionELOService());
+        portfolioElo.getContent().setXmlString(getXmlTransferObjectService().getToObjectXStream().toXML(portfolio));
+        portfolioElo.updateElo();
+
+
+
+    }
+
+    private void setLearningGoalScore(HttpServletRequest request, MissionRuntimeElo missionRuntimeElo, TransferElo transferElo) {
+        String generalLearningGoalWithScoreId = request.getParameter("generalLearningGoalWithScoreId");
+        String score = request.getParameter("score-" + generalLearningGoalWithScoreId);
+
+
+        logger.info("SCORE IS: " + score);
+        logger.info("ID IS: " + generalLearningGoalWithScoreId);
+
+        Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo, getCurrentUserName(request));
+        List<SelectedLearningGoalWithScore> selectedLearningGoalWithScores = portfolio.getSelectedGeneralLearningGoalWithScores();
+        for (int i = 0; i < selectedLearningGoalWithScores.size(); i++) {
+            SelectedLearningGoalWithScore selectedLearningGoalWithScore = selectedLearningGoalWithScores.get(i);
+            if (selectedLearningGoalWithScore.getId().equals(generalLearningGoalWithScoreId))
+                selectedLearningGoalWithScore.setScore(score);
+        }
+        selectedLearningGoalWithScores = portfolio.getSelectedSpecificLearningGoalWithScores();
+        for (int i = 0; i < selectedLearningGoalWithScores.size(); i++) {
+            SelectedLearningGoalWithScore selectedLearningGoalWithScore = selectedLearningGoalWithScores.get(i);
+            if (selectedLearningGoalWithScore.getId().equals(generalLearningGoalWithScoreId))
+                selectedLearningGoalWithScore.setScore(score);
+        }
+
+        ScyElo portfolioElo = ScyElo.loadLastVersionElo(missionRuntimeElo.getTypedContent().getEPortfolioEloUri(), getMissionELOService());
+        portfolioElo.getContent().setXmlString(getXmlTransferObjectService().getToObjectXStream().toXML(portfolio));
+        portfolioElo.updateElo();
+
+
     }
 
     private void addGeneralLearningGoal(HttpServletRequest request, MissionRuntimeElo missionRuntimeElo, TransferElo transferElo) {

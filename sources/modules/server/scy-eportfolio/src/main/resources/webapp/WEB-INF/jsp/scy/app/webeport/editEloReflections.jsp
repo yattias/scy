@@ -58,7 +58,7 @@
             </tr>
         </table>
 
-        <form action="/webapp/app/webeport/StoreEloReflections.html">
+
             <table>
                 <tr>
                     <td>
@@ -67,21 +67,88 @@
                     <td>
                         <div id="generalLearningGoals">
                             <table>
+                                <tr>
+                                    <td>
+                                        <spring:message code="LEARNING_GOAL"/>
+                                    </td>
+                                    <td>
+                                        <spring:message code="LOW"/>
+                                    </td>
+                                    <td>
+                                        <spring:message code="MEDIUM"/>
+                                    </td>
+                                    <td>
+                                        <spring:message code="HIGH"/>
+                                    </td>
+                                    <td>
+                                        <spring:message code="DELETE"/>
+                                    </td>
+                                </tr>
+
                                 <c:choose>
                                     <c:when test="${fn:length(selectedGeneralLearningGoalWithScores) > 0}">
+                                        <form action="editEloReflections.html" id="setGeneralLGs">
                                         <c:forEach var="generalLearningGoalWithScore" items="${selectedGeneralLearningGoalWithScores}">
                                             <tr>
-                                                <td width="5%">
+                                                <td width="80%">
                                                     ${generalLearningGoalWithScore.learningGoalText}
                                                 </td>
+
+                                                    <input type="hidden" name="anchorEloURI" value="${anchorEloURI}">
+                                                    <input type="hidden" name="eloURI" value="${eloURI}">
+                                                    <input type="hidden" name="missionRuntimeURI" value="${missionRuntimeURI}">
+                                                    <input type="hidden" name="generalLearningGoalWithScoreId" value="${generalLearningGoalWithScore.id}"/>
+                                                    <input type="hidden" name="action" value="setLearningGoalScore"/>
+
+                                                    <td>
+                                                        <center>
+                                                            <c:if test="${generalLearningGoalWithScore.score == 'LOW'}">
+                                                                <input type="radio" name="score-${generalLearningGoalWithScore.id}" value="LOW" checked>
+                                                            </c:if>
+                                                            <c:if test="${generalLearningGoalWithScore.score != 'LOW'}">
+                                                                <input type="radio" name="score-${generalLearningGoalWithScore.id}" value="LOW">
+                                                            </c:if>
+                                                        </center>
+                                                    </td>
+                                                    <td>
+                                                        <center>
+                                                            <c:if test="${generalLearningGoalWithScore.score == 'MEDIUM'}">
+                                                                <input type="radio" name="score-${generalLearningGoalWithScore.id}" value="MEDIUM" checked>
+                                                            </c:if>
+                                                            <c:if test="${generalLearningGoalWithScore.score != 'MEDIUM'}">
+                                                                <input type="radio" name="score-${generalLearningGoalWithScore.id}" value="MEDIUM">
+                                                            </c:if>
+                                                        </center>
+                                                    </td>
+                                                    <td>
+                                                        <center>
+                                                            <c:if test="${generalLearningGoalWithScore.score == 'HIGH'}">
+                                                                <input type="radio" name="score-${generalLearningGoalWithScore.id}" value="HIGH" checked>
+                                                            </c:if>
+                                                            <c:if test="${generalLearningGoalWithScore.score != 'HIGH'}">
+                                                                <input type="radio" name="score-${generalLearningGoalWithScore.id}" value="HIGH">
+                                                            </c:if>
+                                                        </center>
+
+                                                    </td>
+                                                <td>
+                                                    <center>
+                                                        <a href="editEloReflections.html?anchorEloURI=${anchorEloURI}&eloURI=${eloURI}&missionRuntimeURI=${missionRuntimeURI}&generalLearningGoalWithScoreId=${generalLearningGoalWithScore.id}&action=delete">x</a>
+                                                    </center>
+                                                </td>
+
+
                                             </tr>
 
                                         </c:forEach>
+                                        <input type="submit" value="submit">
+                                        </form>
+
                                     </c:when>
                                 </c:choose>
                                 <c:if test="${portfolioLocked == false}">
                                     <tr>
-                                        <td>
+                                        <td colspan="4" align="right">
 
                                             <a href="javascript:loadDialog('selectLearningGoalsForElo.html?eloURI=' + encodeURIComponent('${elo.uri}') + '&lgType=general&missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${anchorEloURI}'), '<spring:message code="SELECT_LEARNING_GOAL"></spring:message>');"><spring:message code="SELECT_LEARNING_GOAL"></spring:message> </a>
 
@@ -101,21 +168,90 @@
                     <td>
                         <div id="generalLearningGoals">
                             <table>
+                                <tr>
+                                    <td>
+                                        <spring:message code="LEARNING_GOAL"/>
+                                    </td>
+                                    <td>
+                                        <spring:message code="LOW"/>
+                                    </td>
+                                    <td>
+                                        <spring:message code="MEDIUM"/>
+                                    </td>
+                                    <td>
+                                        <spring:message code="HIGH"/>
+                                    </td>
+                                    <td>
+                                        <spring:message code="DELETE"/>
+                                    </td>
+                                </tr>
+                                
                                 <c:choose>
                                     <c:when test="${fn:length(selectedSpecificLearningGoalWithScores) > 0}">
+                                        <form action="editEloReflections.html" id="setSpecificLGs">
                                         <c:forEach var="specificLearningGoalWithScore" items="${selectedSpecificLearningGoalWithScores}">
                                             <tr>
-                                                <td width="5%">
+                                                <td width="80%">
                                                     ${specificLearningGoalWithScore.learningGoalText}
                                                 </td>
+
+                                                    <input type="hidden" name="anchorEloURI" value="${anchorEloURI}">
+                                                    <input type="hidden" name="eloURI" value="${eloURI}">
+                                                    <input type="hidden" name="missionRuntimeURI" value="${missionRuntimeURI}">
+                                                    <!--input type="text" name="score" value="${specificLearningGoalWithScore.score}"/-->
+                                                    <input type="hidden" name="generalLearningGoalWithScoreId" value="${specificLearningGoalWithScore.id}"/>
+                                                    <input type="hidden" name="action" value="setLearningGoalScore"/>
+
+                                                    <td>
+                                                        <center>
+                                                            <c:if test="${specificLearningGoalWithScore.score == 'LOW'}">
+                                                                <input type="radio" name="score-${specificLearningGoalWithScore.id}" value="LOW" checked>
+                                                            </c:if>
+                                                            <c:if test="${specificLearningGoalWithScore.score != 'LOW'}">
+                                                                <input type="radio" name="score-${specificLearningGoalWithScore.id}" value="LOW">
+                                                            </c:if>
+                                                        </center>
+                                                    </td>
+                                                    <td>
+                                                        <center>
+                                                            <c:if test="${specificLearningGoalWithScore.score == 'MEDIUM'}">
+                                                                <input type="radio" name="score-${specificLearningGoalWithScore.id}" value="MEDIUM" checked>
+                                                            </c:if>
+                                                            <c:if test="${specificLearningGoalWithScore.score != 'MEDIUM'}">
+                                                                <input type="radio" name="score-${specificLearningGoalWithScore.id}" value="MEDIUM">
+                                                            </c:if>
+                                                        </center>
+                                                    </td>
+                                                    <td>
+                                                        <center>
+                                                            <c:if test="${specificLearningGoalWithScore.score == 'HIGH'}">
+                                                                <input type="radio" name="score-${specificLearningGoalWithScore.id}" value="HIGH" checked>
+                                                            </c:if>
+                                                            <c:if test="${specificLearningGoalWithScore.score != 'HIGH'}">
+                                                                <input type="radio" name="score-${specificLearningGoalWithScore.id}" value="HIGH">
+                                                            </c:if>
+                                                        </center>
+
+                                                    </td>
+                                                    <td>
+                                                        <center>
+                                                            <a href="editEloReflections.html?anchorEloURI=${anchorEloURI}&eloURI=${eloURI}&missionRuntimeURI=${missionRuntimeURI}&generalLearningGoalWithScoreId=${specificLearningGoalWithScore.id}&action=delete">x</a>
+                                                        </center>
+                                                    </td>
+
+
+
+                                                
                                             </tr>
 
                                         </c:forEach>
+                                        <input type="submit" value="submit">
+                                        </form>
                                     </c:when>
                                 </c:choose>
                                 <c:if test="${portfolioLocked == false}">
                                     <tr>
-                                        <td>
+                                        <td colspan="4" align="right">
                                             <a href="javascript:loadDialog('selectLearningGoalsForElo.html?eloURI=' + encodeURIComponent('${elo.uri}') + '&lgType=specific&missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${anchorEloURI}'), '<spring:message code="SELECT_LEARNING_GOAL"></spring:message>');"><spring:message code="SELECT_LEARNING_GOAL"></spring:message> </a>
                                         </td>
                                     </tr>
@@ -128,7 +264,7 @@
 
                     </td>
                 </tr>
-
+                <form action="/webapp/app/webeport/StoreEloReflections.html">
                 <c:choose>
                     <c:when test="${fn:length(reflectionQuestions) > 0}">
                         <c:forEach var="reflectionQuestion" items="${reflectionQuestions}">
@@ -166,11 +302,11 @@
                 <input type="hidden" name="missionRuntimeURI" value="${missionRuntimeURI}"/>
                 <input type="hidden" name="eloURI" value="${eloURI}"/>
                 <input type="hidden" name="anchorEloURI" value="${anchorEloURI}"/>
+                </form>
             </table>
             <c:if test="${portfolioLocked == false}">
                 <input type="submit" value="<spring:message code="ADD_TO_PORTFOLIO"/>">
             </c:if>
-        </form>
 
        </div>
         </div>
