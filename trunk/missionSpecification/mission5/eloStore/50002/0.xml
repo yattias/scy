@@ -22,7 +22,7 @@
           <dateTime>2011-08-29T16:36:24.000+0200</dateTime>
         </date>
       </contribute>
-      <version>6</version>
+      <version>7</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -50,62 +50,50 @@
         <string language="en">Hypothesis</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
-  <template>false</template>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>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</base64>
   </thumbnail>
 </metadata>
 <content languages="en" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Verdana;\f3\fnil Times New Roman;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;\red0\green0\blue128;}
-{\stylesheet{\s2\f1\fs24\i0\b0\cf1 default;}{\s1\li0\ri0\fi0\sa80\sb80\sbasedon2\snext1 DP Document;}{\s3\li0\ri0\fi0\sbasedon2 default;}}
-\paperw11906\paperh16838\margl1417\margr1417\margt1417\margb1417\widowctrl
-\s1\li0\ri0\fi0\sa80\sb80\f2\fs24\i0\b\ul0\cf2 Make your predictions (remove the words that do not apply)\'85\par
-\pard\s3\ql\b0\par
-\i Situation 1. \par
-At time 0 you drink an energy drink containing glucose. After that you sit down and relax for 60 minutes.\par
-\i0\par
-I expect that at first the blood glucose concentration will\~ rise / lower / remain the same. Later the blood glucose concentration will\~ rise / lower / remain the same.\par
-\par
-\i Situation 2. \par
-At time 0 you drink an energy drink containing glucose. After 30 minutes you start running on a treadmill for 20 minutes.\par
-\i0\par
-I expect that at first the blood glucose concentration will\~ rise / lower / remain the same. Later the blood glucose concentration will\~ rise / lower / remain the same.\par
-\par
-\i Situation 3. \par
-At time 0 you drink a glass of water. After 30 minutes you start running on a treadmill for 20 minutes.\par
-\i0\par
-I expect that at first the blood glucose concentration will\~ rise / lower / remain the same. Later the blood glucose concentration will\~ rise / lower / remain the same.\par
-\par
-\i Situation 4. \par
-At time 0 you drink a glass of water. After that you sit down and relax for 60 minutes.\par
-\i0\par
-I expect that at first the blood glucose concentration will\~ rise / lower / remain the same. Later the blood glucose concentration will\~ rise / lower / remain the same.\par
-\par
-\par
-\b\par
-Write a hypothesis for each of the two research questions\'85\par
-\b0\par
-1. What are the effects of glucose ingestion on blood glucose concentration?\par
-\par
-2. What are the effects of exercise on blood glucose concentration?\par
-\f3\cf0\par
-\pard\li0\ri0\fi0\f1\ul0\cf1\par
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Verdana;\f3\fnil Times New Roman;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;\red0\green0\blue128;}&#xD;
+{\stylesheet{\s2\f1\fs24\i0\b0\cf1 default;}{\s1\li0\ri0\fi0\sa80\sb80\sbasedon2\snext1 DP Document;}{\s3\li0\ri0\fi0\sbasedon2 default;}}&#xD;
+\paperw11906\paperh16838\margl1417\margr1417\margt1417\margb1417\widowctrl&#xD;
+\s1\li0\ri0\fi0\sa80\sb80\f2\fs24\i0\b\ul0\cf2 Make your predictions (remove the words that do not apply)\'85\par&#xD;
+\pard\s3\ql\b0\par&#xD;
+\i Situation 1. \par&#xD;
+At time 0 you drink an energy drink containing glucose. After that you sit down and relax for 60 minutes.\par&#xD;
+\i0\par&#xD;
+I expect that at first the blood glucose concentration will\~ rise / lower / remain the same. Later the blood glucose concentration will\~ rise / lower / remain the same.\par&#xD;
+\par&#xD;
+\i Situation 2. \par&#xD;
+At time 0 you drink an energy drink containing glucose. After 30 minutes you start running on a treadmill for 20 minutes.\par&#xD;
+\i0\par&#xD;
+I expect that at first the blood glucose concentration will\~ rise / lower / remain the same. Later the blood glucose concentration will\~ rise / lower / remain the same.\par&#xD;
+\par&#xD;
+\i Situation 3. \par&#xD;
+At time 0 you drink a glass of water. After 30 minutes you start running on a treadmill for 20 minutes.\par&#xD;
+\i0\par&#xD;
+I expect that at first the blood glucose concentration will\~ rise / lower / remain the same. Later the blood glucose concentration will\~ rise / lower / remain the same.\par&#xD;
+\par&#xD;
+\i Situation 4. \par&#xD;
+At time 0 you drink a glass of water. After that you sit down and relax for 60 minutes.\par&#xD;
+\i0\par&#xD;
+I expect that at first the blood glucose concentration will\~ rise / lower / remain the same. Later the blood glucose concentration will\~ rise / lower / remain the same.\par&#xD;
+\par&#xD;
+\par&#xD;
+\b\par&#xD;
+Write a hypothesis for each of the two research questions\'85\par&#xD;
+\b0\par&#xD;
+1. What are the effects of glucose ingestion on blood glucose concentration?\par&#xD;
+\par&#xD;
+2. What are the effects of exercise on blood glucose concentration?\par&#xD;
+\f3\cf0\par&#xD;
+\pard\li0\ri0\fi0\f1\ul0\cf1\par&#xD;
 }</RichText>
 </content>
 <resources>

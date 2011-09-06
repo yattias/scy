@@ -22,7 +22,7 @@
           <dateTime>2011-08-29T16:37:42.796+0200</dateTime>
         </date>
       </contribute>
-      <version>6</version>
+      <version>7</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -50,46 +50,34 @@
         <string language="en">Conclusion of experiment</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
-  <template>false</template>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAADFklEQVR42u3a3UtTcRgH8PMPCIJ47714q+iF4MvUbsRLKUL0wi4CHYjotItdSFgp5EXdOPFtbYsGpVFzavZCMwNjZrEyw0iztgUbudmMvTztedY5OEkFr3T7PvD4ez2/8+PDzhn+VAnEiPyRmJZbwXBaOxhPH/9fmkymtLbFZiNveC8rUmFA11qY3vlSJQM+94TI9TGZayEB9CVRLl3Wk/sb0W9KgfJcbr9a3xVAbqtpsd2l7cCvrEgBNDve0qPX36VkwJGpN3Tv6Sdpq4BWi5mscx80QB6zzL6nOzOrAshtrk8+XhHAr15/VqQA6i4YtGTAmos9WpsBA1Gi6vOpdugfINe571zzFQHkupoMuLG5lRWp+EJ75Avvy4Ntte+w/uPmZfh6SiKRIMTJQ+EfY2MrpCgGikbjaYOtrQ+pqOg25eRcPXIRv383eb1e6kNDS1J6vaFkXw8VFNzU5rndPw5cFyaP5+fZB0QAEIAABCACgAAEIAARAAQgAAGIACAAAZidgHxAzQernHxavf+QVe0/mHwwqo7H4wmtnyMWS/VxZiTgUUf6NTWT+2CPBxgddR86lql/OsAjDMBTAOjx+Kmx0U463QRVVo5TSckwLSx8oeXl7WTdROXlo1Rfb6VgMEJ5edfIYlklo/EZlZWNyCJVVRNSVldP0PT0GnV2zspanE1N96m394mMu1ybUjY02KTc2AhIyfcrLh6m3Nx+UhSjtrmWlintHhy8t9JSk6zLr4TBwUV51/Le+N4VFWM0MLAo19TWmmV+XZ357HwC8/NvHDkeiURPsOZ1PMJ4ByIACMDTDOh0fqbu7nkyGOapq2uO2tocWtnc/EDGOLnN/6qh189QR4dTSg4eU0v+1uN5fX0v5LeP9naHjPFc7udvzJ2dP2mb4PsWFt6i/v6X2j64XFrakpL3ou6B6w7HuszhtdW5Wf0JtNs9eITxDkQAEIAABCACgAAEIAARAAQgAAGIACAAAQhABAABCEAAIgAIQAACEAFAAAIQgAgAAhCAAEQAEIAABCAAQQBAAAIQgAgAAvBsxl+1s4flwNWlSgAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
 <content languages="en" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Verdana;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;\red0\green0\blue128;}
-\paperw11906\paperh16838\margl1273\margr1273\margt1417\margb1134\widowctrl
-\li0\ri0\fi0\ql\f2\fs24\i0\b\ul0\cf2 Write a short summary of your results\'85\par
-\b0\par
-\par
-\par
-\par
-\par
-\par
-\par
-\par
-\b Answer your research questions\'85\par
-\par
-\b0 What are the effects of glucose ingestion on blood glucose concentration?\par
-\par
-\par
-What are the effects of exercise on blood glucose concentration?\f1\cf1\par
-\li0\ri0\fi0\ul0\par
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Verdana;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;\red0\green0\blue128;}&#xD;
+\paperw11906\paperh16838\margl1273\margr1273\margt1417\margb1134\widowctrl&#xD;
+\li0\ri0\fi0\ql\f2\fs24\i0\b\ul0\cf2 Write a short summary of your results\'85\par&#xD;
+\b0\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+\b Answer your research questions\'85\par&#xD;
+\par&#xD;
+\b0 What are the effects of glucose ingestion on blood glucose concentration?\par&#xD;
+\par&#xD;
+\par&#xD;
+What are the effects of exercise on blood glucose concentration?\f1\cf1\par&#xD;
+\li0\ri0\fi0\ul0\par&#xD;
 }</RichText>
 </content>
 <resources>
