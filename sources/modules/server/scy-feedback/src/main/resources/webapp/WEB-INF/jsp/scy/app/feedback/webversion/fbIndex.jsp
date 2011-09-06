@@ -87,9 +87,9 @@
         <div dojoType="dojox.layout.ContentPane" executeScripts="true" parseOnLoad="true" style="border:4px solid #cc6600;width:786px;height:95%;padding:4px;" class="greenBorders" parseWidgets="true">
             <div class="feedbackHeader" >ELO Gallery</div>
             <div>
-                <form action="fbIndex.html">
+                <form action="fbIndex.html" id="filterForm">
                     <strong>Show:</strong>
-                    <select name="criteria">
+                    <select name="criteria" onChange="document.getElementById('filterForm').submit();">
                         <option>Newest</option>
                         <option>Commented</option>
                         <option>Most commented</option>
@@ -99,7 +99,7 @@
                         <option>Most Viewed</option>
                     </select>
                     <strong>Category:</strong>
-                    <select name="anchorElo">
+                    <select name="anchorElo" onChange="document.getElementById('filterForm').submit();">
                         <option value="ALL">All</option>
                         <c:choose>
                             <c:when test="${fn:length(anchorElos) > 0}">
@@ -110,7 +110,7 @@
                         </c:choose>
                     </select>
                     <strong>Person:</strong>
-                    <select name="user">
+                    <select name="user" onChange="document.getElementById('filterForm').submit();">
                         <option value="MINE"><spring:message code="MINE"/> </option>
                         <option value="ALL"><spring:message code="ALL"/> </option>
                         <option>Users</option>
