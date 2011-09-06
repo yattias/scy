@@ -58,7 +58,7 @@ public interface MissionELOService extends BaseELOService {
 
     public Portfolio getPortfolio(MissionRuntimeElo missionRuntimeElo, String username);
 
-    NewestElos getNewestElosForFeedback(MissionRuntimeElo missionRuntimeElo, String username);
+    List<TransferElo> getElosForFeedback(MissionRuntimeElo missionRuntimeElo, String username, FeedbackEloSearchFilter feedbackEloSearchFilter);
 
     List <ISearchResult> getFeedback();
 
@@ -75,4 +75,5 @@ public interface MissionELOService extends BaseELOService {
     public List<ISearchResult> getElosWithTechnicalType(String technicalFormat, String username);
 
 
+    FeedbackEloSearchFilter createFeedbackEloSearchFilter();
 }

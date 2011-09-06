@@ -20,18 +20,10 @@
             </tr>
             <tr class="${oddEven.oddEven}">
                 <td>
-                    <a href="/webapp/app/feedback/web/WebFeedback.html?eloURI=${missionSpecificationTransporter.uri}"><spring:message code="GIVE_FEEDBACK"/></a>
+                    <a href="/webapp/app/feedback/webversion/fbIndex.html?eloURI=${missionSpecificationTransporter.uri}"><spring:message code="FEEDBACK"/></a>
                 </td>
                 <td>
-                    <spring:message code="YOU_HAVE_CONTRIBUTED_WITH_FEEDBACK_TO"/> ${elosWhereIHaveProvidedFeedback} <spring:message code="ELOS"/>.
-                </td>
-            </tr>
-            <tr  class="${oddEven.oddEven}">
-                <td>
-                    <a href="/webapp/app/feedback/web/WebFeedback.html?eloURI=${missionSpecificationTransporter.uri}"><spring:message code="VIEW_FEEDBACK"/></a>
-                </td>
-                <td>
-                    <spring:message code="YOUR_WORK_HAS_GOTTEN_FEEDBACK_FROM"/> <strong>${numberOfFeedbacksToMyElos}</strong> <spring:message code="OTHERS"/>
+                    <spring:message code="YOU_HAVE_CONTRIBUTED_WITH_FEEDBACK_TO"/> ${elosWhereIHaveProvidedFeedback} <spring:message code="ELOS"/>. <spring:message code="YOUR_WORK_HAS_GOTTEN_FEEDBACK_FROM"/> <strong>${numberOfFeedbacksToMyElos}</strong> <spring:message code="OTHERS"/>
                 </td>
             </tr>
         </table>
