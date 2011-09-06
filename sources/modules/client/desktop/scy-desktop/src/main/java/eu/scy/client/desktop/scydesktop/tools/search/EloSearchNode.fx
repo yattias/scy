@@ -283,7 +283,11 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
               }
       usedQuerySelecters.clear();
       for (querySelecterDisplay in querySelecterDisplays) {
-         usedQuerySelecters.add(querySelecterDisplay.querySelecter)
+         if (querySelecterDisplay.noOptions){
+            querySelecterDisplay.disable = true
+         } else {
+            usedQuerySelecters.add(querySelecterDisplay.querySelecter)
+         }
       }
    }
 
