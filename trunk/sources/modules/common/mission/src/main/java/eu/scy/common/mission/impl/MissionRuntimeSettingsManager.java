@@ -35,30 +35,29 @@ import eu.scy.common.scyelo.ScyElo;
  */
 public class MissionRuntimeSettingsManager implements RuntimeSettingsManager
 {
-   private static final Logger logger = Logger.getLogger(MissionRuntimeSettingsManager.class);
 
+   private static final Logger logger = Logger.getLogger(MissionRuntimeSettingsManager.class);
    // private final RuntimeSettingsElo specificationRuntimeSettingsElo;
    private RuntimeSettingsElo runtimeRuntimeSettingsElo;
-   private final Set<URI> specifiactionContentEloUris;
+   private final Set<URI> specificationContentEloUris;
    private final RooloServices rooloServices;
    private final RuntimeSettingsManager specificationRuntimeSettings;
    private RuntimeSettingsManager runtimeRuntimeSettings;
    private final Object addSettingsLock = new Object();
    // a ConcurrentHashMap cannot store a null value, so use a special null value
    private final URI nullUri = new URI("");
-
    private final Map<URI, URI> specificationEloUriMap = new ConcurrentHashMap<URI, URI>();
 
    public MissionRuntimeSettingsManager(RuntimeSettingsElo specificationRuntimeSettingsElo,
-            RuntimeSettingsElo runtimeRuntimeSettingsElo, Set<URI> specificationContentEloUris,
-            RooloServices rooloServices) throws URISyntaxException
+      RuntimeSettingsElo runtimeRuntimeSettingsElo, Set<URI> specificationContentEloUris,
+      RooloServices rooloServices) throws URISyntaxException
    {
       super();
       // this.specificationRuntimeSettingsElo = specificationRuntimeSettingsElo;
       this.runtimeRuntimeSettingsElo = runtimeRuntimeSettingsElo;
       // the set with the specification content elo uris is only used for looking up,
       // it is not modified, thus a HashSet is thread save
-      this.specifiactionContentEloUris = new HashSet<URI>(specificationContentEloUris);
+      this.specificationContentEloUris = new HashSet<URI>(specificationContentEloUris);
       this.rooloServices = rooloServices;
       if (specificationRuntimeSettingsElo != null)
       {
@@ -102,8 +101,7 @@ public class MissionRuntimeSettingsManager implements RuntimeSettingsManager
          {
             specificationEloUri = getSpecificationEloUri(key.getEloUri());
          }
-         value = specificationRuntimeSettings.getSetting(new RuntimeSettingKey(key.getName(), key
-                  .getLasId(), specificationEloUri));
+         value = specificationRuntimeSettings.getSetting(new RuntimeSettingKey(key.getName(), key.getLasId(), specificationEloUri));
          if (value != null)
          {
             return value;
@@ -134,7 +132,7 @@ public class MissionRuntimeSettingsManager implements RuntimeSettingsManager
       }
       URI specificationEloUri = findSpecificationEloUri(eloUri);
       specificationEloUriMap.put(eloUri, specificationEloUri == null ? nullUri
-               : specificationEloUri);
+         : specificationEloUri);
       return specificationEloUri;
    }
 
@@ -145,14 +143,19 @@ public class MissionRuntimeSettingsManager implements RuntimeSettingsManager
       {
          return null;
       }
-      if (specifiactionContentEloUris.contains(scyElo.getUri()))
+      if (specificationContentEloUris.contains(scyElo.getUri()))
       {
          return scyElo.getUri();
       }
 
+      if (!eloUri.equals(scyElo.getUriFirstVersion()))
+      {
+         scyElo = ScyElo.loadMetadata(scyElo.getUriFirstVersion(), rooloServices);
+      }
       return findSpecificationEloUri(scyElo.getIsForkedOfEloUri());
    }
 
+   @Override
    public List<String> getSettings(List<RuntimeSettingKey> keys)
    {
       List<String> values = new ArrayList<String>(keys.size());
@@ -196,11 +199,10 @@ public class MissionRuntimeSettingsManager implements RuntimeSettingsManager
             // some one else has updated the runtime settings elo
             // get the latest version and try again
             runtimeRuntimeSettingsElo = RuntimeSettingsElo.loadLastVersionElo(
-                     runtimeRuntimeSettingsElo.getUri(), rooloServices);
+               runtimeRuntimeSettingsElo.getUri(), rooloServices);
             runtimeRuntimeSettings = runtimeRuntimeSettingsElo.getTypedContent();
             addSettings(runtimeSettings);
          }
       }
    }
-
 }

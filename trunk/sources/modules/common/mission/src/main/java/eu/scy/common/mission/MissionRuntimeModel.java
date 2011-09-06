@@ -1,5 +1,6 @@
 package eu.scy.common.mission;
 
+import java.net.URI;
 import java.net.URISyntaxException;
 
 public interface MissionRuntimeModel
@@ -19,4 +20,6 @@ public interface MissionRuntimeModel
    public RuntimeSettingsManager getRuntimeSettingsManager() throws URISyntaxException;
 
    public ColorSchemesElo getColorSchemesElo();
+
+   public URI getAnchorEloUriForElo(URI eloUri);
 }
