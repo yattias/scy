@@ -1,11 +1,16 @@
 package eu.scy.server.controllers.scyfeedback.webversion;
 
+import eu.scy.common.mission.MissionRuntimeElo;
+import eu.scy.core.model.transfer.TransferElo;
+import eu.scy.core.roolo.FeedbackEloSearchFilter;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.server.controllers.BaseController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URI;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,7 +25,26 @@ public class FBController extends BaseController {
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
-        modelAndView.addObject("eloURI", getEncodedUri(request.getParameter(ELO_URI)));    
+        String uri = request.getParameter(ELO_URI);
+        URI runtimeURI = getURI(uri);
+        MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(runtimeURI, getMissionELOService());
+
+        String criteria = request.getParameter("criteria");
+        String anchorElo = request.getParameter("anchorElo");
+        String user = request.getParameter("user");
+
+        FeedbackEloSearchFilter filter = getMissionELOService().createFeedbackEloSearchFilter();
+        if(user != null && user.equalsIgnoreCase("MINE")) user = getCurrentUserName(request);
+        filter.setCriteria(criteria);
+        filter.setCategory(anchorElo);
+        filter.setOwner(user);
+
+        List<TransferElo> elos = getMissionELOService().getElosForFeedback(missionRuntimeElo, getCurrentUserName(request), filter);
+        logger.info("ELOS: " + elos.size());
+
+        modelAndView.addObject("elos", elos);
+        modelAndView.addObject("anchorElos", getMissionELOService().getAnchorELOs(getMissionELOService().getMissionSpecificationELOForRuntume(missionRuntimeElo)));
+        modelAndView.addObject(ELO_URI, getEncodedUri(runtimeURI.toString()));
     }
 
     public MissionELOService getMissionELOService() {

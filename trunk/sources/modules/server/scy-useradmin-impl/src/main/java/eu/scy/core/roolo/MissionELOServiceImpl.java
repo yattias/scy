@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.logging.Logger;
 
 import eu.scy.core.model.transfer.*;
+import eu.scy.core.roolo.filter.FeedbackEloSearchFilterImpl;
 import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
@@ -321,14 +322,16 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
     }
 
     @Override
-    public NewestElos getNewestElosForFeedback(MissionRuntimeElo missionRuntimeElo, String username) {
+    public FeedbackEloSearchFilter createFeedbackEloSearchFilter() {
+        return new FeedbackEloSearchFilterImpl();
+    }
 
-        NewestElos newestElos = new NewestElos();
-
+    @Override
+    public List<TransferElo> getElosForFeedback(MissionRuntimeElo missionRuntimeElo, String username, FeedbackEloSearchFilter feedbackEloSearchFilter) {
+        List <TransferElo> returnList = new LinkedList<TransferElo>();
         List<ISearchResult> feedbackList = getFeedback();
-        //Collections.sort(feedbackList, new EloComparator());
         for (int i = 0; i < feedbackList.size(); i++) {
-            ISearchResult searchResult = (ISearchResult) feedbackList.get(i);
+            ISearchResult searchResult = feedbackList.get(i);
             ScyElo feedbackElo = ScyElo.loadLastVersionElo(searchResult.getUri(), this);
             URI uri = feedbackElo.getFeedbackOnEloUri();
             ScyElo commentedOn = ScyElo.loadLastVersionElo(uri, this);
@@ -336,10 +339,18 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
             TransferElo transferElo = new TransferElo(commentedOn);
             if (!transferElo.getCreatedBy().trim().equals(username)) {
                 transferElo.setFeedbackELO(feedbackElo);
-                newestElos.addElo(transferElo);
             }
+            returnList.add(transferElo);
         }
-        return newestElos;
+
+        FeedbackEloSearchResultFilter filter = new FeedbackEloSearchResultFilter();
+        filter.setFeedbackEloSearchFilter(feedbackEloSearchFilter);
+
+        returnList = filter.filter(returnList);
+        returnList = filter.sort(returnList);
+
+
+        return returnList;
     }
 
     @Override
@@ -350,18 +361,7 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
         IQuery feedbackQuery = new Query(feedbackComponent);
 
         List<ISearchResult> results = getRepository().search(feedbackQuery);
-
-        /*for (int i = 0; i < results.size(); i++) {
-            ISearchResult searchResult = (ISearchResult) results.get(i);
-            ScyElo scyELO = getElo(searchResult.getUri());
-            String xmlString = scyELO.getElo().getContent().getXmlString();
-            if (xmlString.startsWith("<feedback>")) xmlString = fixXml(xmlString, scyELO);
-        } */
-
         return results;
-
-
-        //return getELOs(feedbackQuery);
     }
 
     @Override
