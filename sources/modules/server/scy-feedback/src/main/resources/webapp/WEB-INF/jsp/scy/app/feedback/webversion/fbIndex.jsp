@@ -137,7 +137,7 @@
                                 <p>Category: ${elo.catname}</p>
                                 <p>By: <a href="fbIndex.html?eloURI=${eloURI}&user=${elo.createdBy}">${elo.createdBy}</a></p>
                                 <p>Date: ${elo.createdDate}</p>
-                                <p>Shown: ${feedbackEloTransfer.shown}<br/> / Score: ${feedbackEloTransfer.shown}</p>
+                                <p>Shown: ${elo.feedbackEloTransfer.shown}<br/> / Score: ${elo.feedbackEloTransfer.shown}</p>
 
                                 </div>
                             </div>

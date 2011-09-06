@@ -336,7 +336,10 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
             URI uri = feedbackElo.getFeedbackOnEloUri();
             ScyElo commentedOn = ScyElo.loadLastVersionElo(uri, this);
 
+            FeedbackEloTransfer feedbackEloTransfer = (FeedbackEloTransfer) getXmlTransferObjectService().getObject(feedbackElo.getContent().getXmlString());
+
             TransferElo transferElo = new TransferElo(commentedOn);
+            transferElo.setFeedbackEloTransfer(feedbackEloTransfer);
             if (!transferElo.getCreatedBy().trim().equals(username)) {
                 transferElo.setFeedbackELO(feedbackElo);
             }
