@@ -19,21 +19,21 @@
         </role>
         <entity>rachel</entity>
         <date>
-          <dateTime>2011-07-26T10:53:20.798+0200</dateTime>
+          <dateTime>2011-09-06T11:43:29.028+0200</dateTime>
         </date>
       </contribute>
-      <version>17</version>
+      <version>20</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1303474699613</dateCreated>
-        <dateFirstUserSaveKey>1311670400798</dateFirstUserSaveKey>
-        <dateLastModified>1311670400798</dateLastModified>
+        <dateFirstUserSaveKey>1315302209028</dateFirstUserSaveKey>
+        <dateLastModified>1315302209028</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
     <educational>
-      <learningResourceType>documentReflection</learningResourceType>
+      <learningResourceType>researchQuestion</learningResourceType>
     </educational>
     <general>
       <identifier>
@@ -64,7 +64,7 @@
   <socialTags>
     <tags />
   </socialTags>
-  <template>true</template>
+  <template>TRUE</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACHUlEQVR42u3ST4tSURjH8fsCInob1fto10to16J1QZuCmE2bFlH7WoQDtQhq0yJQ8Cb+D1TwzyIRyVGvSd2ZMc1Sf815wIuK0EADxfj9wcPxec65x8tHvbm+aKZBVNK3tX5zv1rPr/Wx2Iu1/uc80I9f/Z0pzwF9qB3q1u09Xb/58AQwlO/6O3t6HPO13H/9/qNSjSMDdL07U2hNDdD12U8T2z/+3tXh8UFU4VHHanW2rbadO+3sX95ngM/e5HXh4iVdu/HAAD3Ps9ndR68M8Pnbgi5fuWqrA3R77kzsXckAXf8y3rD94dfPCgbtnSkDlIYrFa71m/sOcLV3gKt9t9tSu93cmfLu7T/R/f2nUbl+c7attp077ew83efpDLJYLP54Zjab6X/LeDz+6zsiwNFopGKxqGQyqTAMVS6X1Wg0ooOud8lkMid/3bZ97vV6qtfryufzNp/P5zYfDAbK5XIKgsBWl1qtZmuhULC11WoplUrZ97q4ZzudjhKJRPSMe59lstmsrc1mU6VSyd6x3+8rnU7b3Pd9W6vVquLxuCqVivXL1b3LdDq1e4bDoSaTyZn8CJ4IgAACCCABEEAAASQAAggggARAAAEEkAAIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAASQAAggggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAATyH+Q0rdL/0GdOBcwAAAABJRU5ErkJggg==</base64>
@@ -79,6 +79,7 @@
 \par
 \f3\i0\par
 \f1\cf1\par
+\par
 \par
 \li0\ri0\fi0\ul0\par
 }</RichText>

@@ -22,7 +22,7 @@
           <dateTime>2011-07-26T10:52:18.664+0200</dateTime>
         </date>
       </contribute>
-      <version>16</version>
+      <version>18</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -51,19 +51,7 @@
         <string language="fr">Examen de la scène de crime</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
   <template>true</template>
   <thumbnail>
     <mime>png</mime>
@@ -71,13 +59,13 @@
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Write your checklist here.\par
-\par
-\li0\ri0\fi0\ul0\par
+<RichText>{\rtf1\ansi&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;
+&#xD;&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Write your checklist here.\par&#xD;&#xD;
+\par&#xD;&#xD;
+\li0\ri0\fi0\ul0\par&#xD;&#xD;
 }</RichText>
 </content>
 <resources>

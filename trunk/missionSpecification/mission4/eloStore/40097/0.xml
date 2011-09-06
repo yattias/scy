@@ -22,7 +22,7 @@
           <dateTime>2011-07-26T10:56:59.466+0200</dateTime>
         </date>
       </contribute>
-      <version>17</version>
+      <version>19</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -51,19 +51,7 @@
         <string language="fr">Protocole expérimental</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
   <template>true</template>
   <thumbnail>
     <mime>png</mime>

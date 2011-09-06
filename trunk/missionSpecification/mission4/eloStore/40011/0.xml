@@ -22,7 +22,7 @@
           <dateTime>2011-07-26T12:24:24.143+0200</dateTime>
         </date>
       </contribute>
-      <version>7</version>
+      <version>9</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -51,20 +51,8 @@
         <string language="fr">Probabilités</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
-  <template>TRUE</template>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>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</base64>

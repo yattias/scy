@@ -33,7 +33,7 @@
                <list>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="Chemistry Information"/>
-                     <property name="xPosition" value="40"/>
+                     <property name="xPosition" value="45"/>
                      <property name="yPosition" value="80"/>
                      <property name="tooltip" value="Information"/>
                      <property name="lasType" value="INFORMATION"/>
@@ -55,7 +55,7 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="Chemistry Orientation"/>
-                     <property name="xPosition" value="30"/>
+                     <property name="xPosition" value="35"/>
                      <property name="yPosition" value="30"/>
                      <property name="tooltip" value="Orientation"/>
                      <property name="lasType" value="ORIENTATION"/>
@@ -73,7 +73,7 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="Chemistry Design"/>
-                     <property name="xPosition" value="80"/>
+                     <property name="xPosition" value="85"/>
                      <property name="yPosition" value="0"/>
                      <property name="tooltip" value="Design"/>
                      <property name="lasType" value="DESIGN"/>
@@ -95,7 +95,7 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="Chemistry Experiment"/>
-                     <property name="xPosition" value="120"/>
+                     <property name="xPosition" value="125"/>
                      <property name="yPosition" value="40"/>
                      <property name="tooltip" value="Experiment"/>
                      <property name="lasType" value="EXPERIMENT"/>
@@ -118,7 +118,7 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="Chemistry Analysis"/>
-                     <property name="xPosition" value="90"/>
+                     <property name="xPosition" value="95"/>
                      <property name="yPosition" value="90"/>
                      <property name="tooltip" value="Analysis"/>
                      <property name="lasType" value="ANALYSIS"/>
@@ -137,7 +137,7 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="Chemistry Reporting"/>
-                     <property name="xPosition" value="90"/>
+                     <property name="xPosition" value="95"/>
                      <property name="yPosition" value="140"/>
                      <property name="tooltip" value="Reporting"/>
                      <property name="lasType" value="REPORTING"/>
@@ -154,7 +154,7 @@
                   </bean>
 				  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="Biology Information"/>
-                     <property name="xPosition" value="-90"/>
+                     <property name="xPosition" value="-95"/>
                      <property name="yPosition" value="80"/>
                      <property name="tooltip" value="Information"/>
                      <property name="lasType" value="INFORMATION"/>
@@ -177,7 +177,7 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="Biology Orientation"/>
-                     <property name="xPosition" value="-100"/>
+                     <property name="xPosition" value="-105"/>
                      <property name="yPosition" value="30"/>
                      <property name="tooltip" value="Orientation"/>
                      <property name="lasType" value="ORIENTATION"/>
@@ -197,7 +197,7 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="Biology Design"/>
-                     <property name="xPosition" value="-50"/>
+                     <property name="xPosition" value="-55"/>
                      <property name="yPosition" value="0"/>
                      <property name="tooltip" value="Design"/>
                      <property name="lasType" value="DESIGN"/>
@@ -220,7 +220,7 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="Biology Experiment"/>
-                     <property name="xPosition" value="-10"/>
+                     <property name="xPosition" value="-15"/>
                      <property name="yPosition" value="40"/>
                      <property name="tooltip" value="Experiment"/>
                      <property name="lasType" value="EXPERIMENT"/>
@@ -243,7 +243,7 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="Biology Analysis"/>
-                     <property name="xPosition" value="-40"/>
+                     <property name="xPosition" value="-45"/>
                      <property name="yPosition" value="90"/>
                      <property name="tooltip" value="Analysis"/>
                      <property name="lasType" value="ANALYSIS"/>
@@ -264,7 +264,7 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="Biology Reporting"/>
-                     <property name="xPosition" value="-40"/>
+                     <property name="xPosition" value="-45"/>
                      <property name="yPosition" value="140"/>
                      <property name="tooltip" value="Reporting"/>
                      <property name="lasType" value="REPORTING"/>
@@ -472,7 +472,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="bioExperimentConclusion"/>
                <property name="uri" value="roolo://memory/40100/0/Conclusion+of+the+experiment.rtf"/>
-			   <property name="iconType" value="choices"/>
+			   <property name="iconType" value="hypothese2"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/targetDescription.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/Assignments/A_bioExperimentConclusion.html"/>
                <!--<property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/Resources/R_bioExperimentConclusion.html"/>-->
@@ -505,7 +505,7 @@
 			<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="chimExperimentConclusion"/>
                <property name="uri" value="roolo://memory/40549/0/Chemistry%3A+Conclusion+of+the+experiment.rtf"/>
-               <property name="iconType" value="Conclusion"/>
+               <property name="iconType" value="hypothese2"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/targetDescription.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/Assignments/A_chimExperimentConclusion.html"/>
                <!--<property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/Resources/R_chimExperimentConclusion.html"/>-->

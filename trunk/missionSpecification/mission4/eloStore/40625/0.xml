@@ -19,28 +19,28 @@
         </role>
         <entity>rachel</entity>
         <date>
-          <dateTime>2011-07-26T12:01:07.909+0200</dateTime>
+          <dateTime>2011-09-06T11:23:16.111+0200</dateTime>
         </date>
       </contribute>
-      <version>2</version>
+      <version>4</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1310137240863</dateCreated>
-        <dateFirstUserSaveKey>1311674467909</dateFirstUserSaveKey>
-        <dateLastModified>1311674467909</dateLastModified>
+        <dateFirstUserSaveKey>1315300996111</dateFirstUserSaveKey>
+        <dateLastModified>1315300996112</dateLastModified>
       </customElements>
       <format>scy/missionmapmodel</format>
     </technical>
     <educational>
-      <learningResourceType />
+      <learningResourceType>sourceData</learningResourceType>
     </educational>
     <general>
       <identifier>
         <catalog>memory</catalog>
         <entry>roolo://memory/40625/0/Forensic+mission.scymissionmapmodel</entry>
       </identifier>
-      <las>Biology Analysis</las>
+      <las>Biology Information</las>
       <missionId>forensic</missionId>
       <missionRunning>
         <catalog>memory</catalog>
@@ -48,7 +48,7 @@
       </missionRunning>
       <title>
         <string language="en">Forensic mission</string>
-        <string language="fr">Laboratoire de police scientifique</string>
+        <string language="fr">Laboratoire de Police scientifique</string>
       </title>
     </general>
     <relation>
@@ -67,7 +67,7 @@
   <template>TRUE</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAAA6CAYAAAAnft6RAAAEh0lEQVR42u1aR0ssTRR9P0V4C3Wv7hRUXBgRExi2YsKFgmIGE4roQgVzBsGEWUQxK5izoqKYMGFWzOl+nAs93+h783T0U+bz3QNDdVdNz3SfrqpT99T9QS8wNzdHgrfjx8uKqqoqYeU9BPb19ZGXlxeVlJSQn58fhYSEUGFhIVlYWHB7dnY23dzcCGNqGBgY+JfAuLg4qqurUzVubW0JQ69gbW3t1yEsEAJ1m8CioiJ6enoS9jQRaGZmRqmpqSIY2hBYXFxMFxcXVFlZKazIHKjjBGL+u7+/F/beQ+Dp6amwJkP4kwiMjo6mvb09mp+fJ2dnZzI1NSU3Nzdu8/HxEbZeIxBzW0NDA1lZWVFnZyf9/PmTYmJiyMjIiDw9Pfk7KFdWVmhqakrYe0kgSIE4iEB8YA7c39/nMj09XVUXERHx5sjj7u5OY1tLSwuXx8fHqjrluKOjg05OTqimpkbVdnV1pTrOyMjg8vHxkV2hg4MDVdvR0ZHKGRERERX+iwk8OzujhYUF9gUF7yBwZ2eH2trayNjYmPLz8/kj0IJAWPejo6Pk5OTEVr61tbUw9F/MgQ8PDxrb0GvLyspU54eHh7S+vk62trZ8npyc/Ms1w8PDNDMzo7H924qImKiiwp9LIIbq+fm5ONEf6YF2dnZsKECJAUNDQ3JxcRGmtBnCS0tLXHZ1dZG7u7uqfnNzk0OogIAAqq6uJnt7e64fHx/nMiwsjBV8cXGRJicnec7EB6KhxNoKsERKTEzkHg/3B8fNzc00NDTE7U1NTRy2XV5e8ojIysrSSQJXV1efE4gHxgO9BmQuzM7Och4NNqDwQwB6L6BO/O8ESF3ZkRGhwMbG5n/VA3HvIiKiwjo0hNWHHIaoQIseiIm7v7+fs7MSEhJ4HjMwMKDGxsZnm0nw48bGxjj08/DwYD8OopCXl8d+IvaYR0ZGWBQUczY0NJTrkdVQW1tLPT097P1BkMLDwzkTDAgKClKpP67PzMyk+vp6jm4AvFR/f38qLy/n30QJrxDfwcN4e3tzXVRUFAvQlxLY2trKJiYIUSZ5PAgs/YqKCtrd3eU6ZG3B9scNKibp8vIyJSUl8cMppMEkBXA9AHUODAyklJQUPnd0dGSSoLC9vb0UHBysurGcnBzy9fV9drO5ublkbm5Orq6ubNwiXh8cHKTS0tJnLxh7Odvb22RiYvK1BGK5AAKx7Oju7v6SNygiIgQKgUKgrhDY3t7OsXBkZCRdX1/zbhwQGxvLqb8QAUVIBL8hEEsEKB1UFEsUKC822gVvJBDpHAKZA4XAb0EgvDiBlgRih03ZLYOZMDExQepRiuAVApX8QLjCiFORrOPg4MBtilMs+AOBOEF6h6WlJZ8jwNfX1+feuLGxwUE8TIO0tDSanp6mgoKCv55AjX6g4IMiop5/p57P91Z85SY8/ks9l1CWMd99HXh7e8ul+IUvCERqG8xUOMEQE8E71oHq+YGisloSiDUg9kKwNwE7S9kkF3yiiEAB/5SZr0tqLSr8XQiUREsNBEKB9fT0KD4+Xph5I5Bc9A9w5gul1nT1jAAAAABJRU5ErkJggg==</base64>
+    <base64>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</base64>
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
@@ -80,7 +80,7 @@
   <lasses>
     <las>
       <id>Chemistry Information</id>
-      <xPos>40.0</xPos>
+      <xPos>45.0</xPos>
       <yPos>80.0</yPos>
       <toolTip>Information</toolTip>
       <title />
@@ -106,7 +106,7 @@
     </las>
     <las>
       <id>Chemistry Orientation</id>
-      <xPos>30.0</xPos>
+      <xPos>35.0</xPos>
       <yPos>30.0</yPos>
       <toolTip>Orientation</toolTip>
       <title />
@@ -132,7 +132,7 @@
     </las>
     <las>
       <id>Chemistry Design</id>
-      <xPos>80.0</xPos>
+      <xPos>85.0</xPos>
       <yPos>0.0</yPos>
       <toolTip>Design</toolTip>
       <title />
@@ -160,7 +160,7 @@
     </las>
     <las>
       <id>Chemistry Experiment</id>
-      <xPos>120.0</xPos>
+      <xPos>125.0</xPos>
       <yPos>40.0</yPos>
       <toolTip>Experiment</toolTip>
       <title />
@@ -200,7 +200,7 @@
     </las>
     <las>
       <id>Chemistry Analysis</id>
-      <xPos>90.0</xPos>
+      <xPos>95.0</xPos>
       <yPos>90.0</yPos>
       <toolTip>Analysis</toolTip>
       <title />
@@ -210,7 +210,7 @@
       <otherElos />
       <mainAnchor>
         <eloUri>roolo://memory/40549/0/Chemistry%3A+Conclusion+of+the+experiment.rtf</eloUri>
-        <iconType>Conclusion</iconType>
+        <iconType>hypothese2</iconType>
         <loElos />
         <inputAnchors>
           <anchor>roolo://memory/40548/0/Chemistry%3A+Annotated+data.scydraw</anchor>
@@ -240,7 +240,7 @@
     </las>
     <las>
       <id>Chemistry Reporting</id>
-      <xPos>90.0</xPos>
+      <xPos>95.0</xPos>
       <yPos>140.0</yPos>
       <toolTip>Reporting</toolTip>
       <title />
@@ -267,7 +267,7 @@
     </las>
     <las>
       <id>Biology Information</id>
-      <xPos>-90.0</xPos>
+      <xPos>-95.0</xPos>
       <yPos>80.0</yPos>
       <toolTip>Information</toolTip>
       <title />
@@ -293,7 +293,7 @@
     </las>
     <las>
       <id>Biology Orientation</id>
-      <xPos>-100.0</xPos>
+      <xPos>-105.0</xPos>
       <yPos>30.0</yPos>
       <toolTip>Orientation</toolTip>
       <title />
@@ -331,7 +331,7 @@
     </las>
     <las>
       <id>Biology Design</id>
-      <xPos>-50.0</xPos>
+      <xPos>-55.0</xPos>
       <yPos>0.0</yPos>
       <toolTip>Design</toolTip>
       <title />
@@ -360,7 +360,7 @@
     </las>
     <las>
       <id>Biology Experiment</id>
-      <xPos>-10.0</xPos>
+      <xPos>-15.0</xPos>
       <yPos>40.0</yPos>
       <toolTip>Experiment</toolTip>
       <title />
@@ -400,7 +400,7 @@
     </las>
     <las>
       <id>Biology Analysis</id>
-      <xPos>-40.0</xPos>
+      <xPos>-45.0</xPos>
       <yPos>90.0</yPos>
       <toolTip>Analysis</toolTip>
       <title />
@@ -410,7 +410,7 @@
       <otherElos />
       <mainAnchor>
         <eloUri>roolo://memory/40100/0/Conclusion+of+the+experiment.rtf</eloUri>
-        <iconType>choices</iconType>
+        <iconType>hypothese2</iconType>
         <loElos />
         <inputAnchors>
           <anchor>roolo://memory/40577/0/Results+of+my+experiment.scydraw</anchor>
@@ -440,7 +440,7 @@
     </las>
     <las>
       <id>Biology Reporting</id>
-      <xPos>-40.0</xPos>
+      <xPos>-45.0</xPos>
       <yPos>140.0</yPos>
       <toolTip>Reporting</toolTip>
       <title />
