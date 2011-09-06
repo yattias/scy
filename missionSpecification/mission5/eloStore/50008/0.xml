@@ -22,7 +22,7 @@
           <dateTime>2011-08-29T16:38:19.796+0200</dateTime>
         </date>
       </contribute>
-      <version>5</version>
+      <version>6</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -50,49 +50,37 @@
         <string language="en">Report</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
-  <template>false</template>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACPElEQVR42u3Yv2sTYRzH8bMdHIvgH9GhU5d26KiCdOnQSWvBKQVRBB1UXMzi4NKCCMLpYr1GBa1QoigoQovt4E9E2wYCtQ1NCknQizUll3y854mJRi0Ff4B67w98uPve8yTDiycQzikE0trHoNnlYqllLlZb139U13VbZi+RULZUjkQdA6incSl1zl4N4KPXvmbmwy74FjAXosQOHdWzFWldddCZhZKdH6c+WEAzN+olrilTeBeJ1gEfHNaOndvt1QBeuv1ENx4uavzOiybghDeuiftvmoBmzbv3SlfvvrSAZjb3V5LPLeBSdi0StYDOtnizBnDPgVPavf+krQEsVKRd++qz/xnQ3Jtnew+etoDmvlEDmH67HIk6Ob+sXOmrfjs3nm32fKt9//n3ObVaTeTnYwEd51jYE98tDg5eR2grQAgABBBAAAmA/wpgLDa16drw8C2Njc1GD7Cj46w2NgKZ/4TlcqDJyXm1tZ1p2RgEVaVSeY2MTCmTea++vssaGEjYtfb2uLq6Lmho6KZGR2fV2Xle3d0X1dPjqrfXtXvNZzmBBEAAAQSQAPibAefmVpD41RNYrX55sZrNlrS66odXX5VKFSV+wgACCCABEMC/FXB6eskO5pVVOl1Uf7+HDCcQQAABJAACCGBEAM2rK5N8fl3J5GJ90TkS9jhKnEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAAEkAAIIIIAEQAABBJAACCCAABIAAQQQQAIggAACSAD8o/kELIXpWWsXA64AAAAASUVORK5CYII=</base64>
   </thumbnail>
 </metadata>
 <content languages="en" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Verdana;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;\red0\green0\blue128;}
-\paperw11906\paperh16838\margl1417\margr1417\margt1417\margb1417\widowctrl
-\li0\ri0\fi0\ql\f2\fs24\i0\b\ul0\cf2 Introduction\par
-\par
-\par
-\par
-Research questions and hypotheses\par
-\par
-\par
-\par
-Simulation\par
-\par
-\par
-\par
-Results\par
-\par
-\par
-\par
-Conclusion\par
-\f1\b0\cf1\par
-\li0\ri0\fi0\ul0\par
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Verdana;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;\red0\green0\blue128;}&#xD;
+\paperw11906\paperh16838\margl1417\margr1417\margt1417\margb1417\widowctrl&#xD;
+\li0\ri0\fi0\ql\f2\fs24\i0\b\ul0\cf2 Introduction\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+Research questions and hypotheses\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+Simulation\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+Results\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+Conclusion\par&#xD;
+\f1\b0\cf1\par&#xD;
+\li0\ri0\fi0\ul0\par&#xD;
 }</RichText>
 </content>
 <resources>

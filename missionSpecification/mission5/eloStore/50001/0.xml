@@ -22,7 +22,7 @@
           <dateTime>2011-08-29T16:37:15.203+0200</dateTime>
         </date>
       </contribute>
-      <version>5</version>
+      <version>6</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -86,54 +86,42 @@
         </identifier>
       </resource>
     </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
-  <template>false</template>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACKklEQVR42u3bwUvTYRzH8Sc8DI9BB0/+A/4VQgVdxHMjJC8Jy4pAxkokFp0KOnVywSDbbxERMlaZUQRKJ8tWVNMIzELnYRJbJaZ8ep7n1364KIIsEPf+wIfn+T77scOLB36XzVQ3pJWvG1EXV+tN8+pm8+e/aiaTaZpz+byW62stUeMA9TQtzV/0qwN8/Kqm6Te25ZoHrFiUY4lTevZB+qIQdLpc9/OT+c8e0M2N5vI39LH6qSUaAj4c1N59Mb86wKvjM7r5aE5jd59HgEFuTMHk6wjQfZa7/1LX75U8oJvd/tqdWQ+4sLzSEvWAZk86qgM8eOSMDsRTvg6w+k3afzicaz8A3d6dHTo67AHdvlEH+O79YkvUVGprqtS39Oe5cfa78z89t8u/z4hsKxGgMcN+7ekJ/JpKPVBvb179/eNaX99UMjmpvr7b6uq6os7Oy/b5E+htBSQAAggggOSvAZeWavbNOuLfrsactj1uO2h7VoVCGSluIIAAAkgABBBAAAmAAAIIIAEQwJ0CaMxJ25Ta2tL+cGCgoGx2Fh1uIIAAAkgABBBAAAmAAAIIIAEQwJ0I6H6FFYudV3v7BUS4gQACCCABEEAAASQAAggggATA/w44NbUQDuacX4vFOb8GwQuVShV/HnZE8fgt/1+6iYm30XlHxyW7JjU6OqNEomj3Q9zA7aS7OwsgARBAAAEkAAIIIIAEQAABBJAACCCAABIAAQQQQALgP8p3SkDFPhjGg5kAAAAASUVORK5CYII=</base64>
   </thumbnail>
 </metadata>
 <content languages="en" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Verdana;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;\red0\green0\blue128;}
-{\stylesheet{\s1\li0\ri0\fi0\sa80\sb80\sbasedon2\snext1 DP Document;}{\s3\li0\ri0\fi0\sbasedon2 default;}{\s2\f1\fs24\i0\b0\cf1 default;}}
-\paperw11906\paperh16838\margl1417\margr1417\margt1417\margb1417\widowctrl
-\s1\li0\ri0\fi0\sa80\sb80\f2\fs24\i\b\ul0\cf2 list of information\i0\par
-\pard\s3\ql\sa80\sb80\par
-Carbohydrates\par
-\par
-\par
-\par
-\par
-Glucose\par
-\par
-\par
-\par
-\par
-Insulin\par
-\par
-\par
-\par
-\par
-Role of glucose in the body\par
-\pard\ql\sa80\sb80\par
-\par
-\par
-\f1\b0\cf1\par
-\li0\ri0\fi0\ul0\par
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Verdana;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;\red0\green0\blue128;}&#xD;
+{\stylesheet{\s1\li0\ri0\fi0\sa80\sb80\sbasedon2\snext1 DP Document;}{\s3\li0\ri0\fi0\sbasedon2 default;}{\s2\f1\fs24\i0\b0\cf1 default;}}&#xD;
+\paperw11906\paperh16838\margl1417\margr1417\margt1417\margb1417\widowctrl&#xD;
+\s1\li0\ri0\fi0\sa80\sb80\f2\fs24\i\b\ul0\cf2 list of information\i0\par&#xD;
+\pard\s3\ql\sa80\sb80\par&#xD;
+Carbohydrates\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+Glucose\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+Insulin\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+Role of glucose in the body\par&#xD;
+\pard\ql\sa80\sb80\par&#xD;
+\par&#xD;
+\par&#xD;
+\f1\b0\cf1\par&#xD;
+\li0\ri0\fi0\ul0\par&#xD;
 }</RichText>
 </content>
 <resources>
