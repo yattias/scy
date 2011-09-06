@@ -55,6 +55,8 @@ public class TransferElo extends BaseXMLTransfer {
 
     private String snippeturl = "";
 
+    private FeedbackEloTransfer feedbackEloTransfer = null;
+
 
     public TransferElo() {
     }
@@ -104,14 +106,12 @@ public class TransferElo extends BaseXMLTransfer {
     }
 
     public void setFeedbackELO(ScyElo scyElo) {
-
         String uri = scyElo.getUri().toString();
         try {
             uri = URLEncoder.encode(uri, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-        System.out.println("SET FEEDBACK ELO: " + scyElo + " URI: " + uri);
         setFeedbackEloUrl("/webapp/app/feedback/xml/feedbackEloService.html?feedbackURI=" + uri);
         setFeedbackEloURI(uri);
     }
@@ -403,5 +403,13 @@ public class TransferElo extends BaseXMLTransfer {
 
     public void setSnippeturl(String snippeturl) {
         this.snippeturl = snippeturl;
+    }
+
+    public FeedbackEloTransfer getFeedbackEloTransfer() {
+        return feedbackEloTransfer;
+    }
+
+    public void setFeedbackEloTransfer(FeedbackEloTransfer feedbackEloTransfer) {
+        this.feedbackEloTransfer = feedbackEloTransfer;
     }
 }

@@ -70,8 +70,7 @@ public class ViewFeedbackForElo extends BaseController {
         setOriginatingPage(request.getParameter(ORIGINATING_PAGE));
         logger.info("ORIGINATING PAGE: " + getOriginatingPage());
         modelAndView.addObject("eloURI", getEncodedUri(request.getParameter(ELO_URI)));
-        /*URI listUri = scyElo.getUri();
-        modelAndView.addObject("listUri", listUri);*/
+
         TransferElo transferElo = getMissionELOService().getTransferElo(scyElo);
         try {
             String fbURI = transferElo.getFeedbackEloURI();
@@ -89,7 +88,7 @@ public class ViewFeedbackForElo extends BaseController {
                 shownInteger = new Integer(shown);
             }
 
-            //shownInteger++;
+            shownInteger++;
 
             feedbackEloTransfer.setShown(String.valueOf(shownInteger));
             feedbackElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(feedbackEloTransfer));

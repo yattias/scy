@@ -2,6 +2,10 @@ package eu.scy.core.model.transfer;
 
 import eu.scy.common.scyelo.ScyElo;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
