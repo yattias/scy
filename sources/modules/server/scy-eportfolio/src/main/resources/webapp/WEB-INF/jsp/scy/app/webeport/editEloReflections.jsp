@@ -303,7 +303,11 @@
                 <input type="hidden" name="eloURI" value="${eloURI}"/>
                 <input type="hidden" name="anchorEloURI" value="${anchorEloURI}"/>
                     <c:if test="${portfolioLocked == false}">
-                <input type="submit" value="<spring:message code="ADD_TO_PORTFOLIO"/>" name="submitToPortfolio" />
+
+                        <tr>
+                            <td colspan="2"><input type="submit" value="<spring:message code="ADD_TO_PORTFOLIO"/>" name="submitToPortfolio" /></td>
+                        </tr>
+
             </c:if>
                 </form>
             </table>
