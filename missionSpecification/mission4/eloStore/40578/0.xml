@@ -22,7 +22,7 @@
           <dateTime>2011-07-26T11:02:10.125+0200</dateTime>
         </date>
       </contribute>
-      <version>5</version>
+      <version>7</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -51,19 +51,7 @@
         <string language="fr">Photo de mes résultats</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
   <template>true</template>
   <thumbnail>
     <mime>png</mime>
@@ -71,7 +59,7 @@
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
-<form description="" title="" version="0"/>
+<form description="" title="" version="0" />
 </content>
 <resources>
 </resources>

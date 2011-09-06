@@ -22,7 +22,7 @@
           <dateTime>2011-07-08T16:59:21.019+0200</dateTime>
         </date>
       </contribute>
-      <version>18</version>
+      <version>20</version>
     </lifecycle>
     <annotation>
       <entity>colorId</entity>
@@ -67,39 +67,39 @@
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
-&#xD;
-\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Firstname, lastname:\b0  \par&#xD;
-\par&#xD;
-\b My job is:\b0  \b  \b0\par&#xD;
-\par&#xD;
-\b Case number:\b0  \b  \b0 CY0347\par&#xD;
-\par&#xD;
-\b Object:\b0  Expert analysis for the Attorney General\par&#xD;
-\par&#xD;
-\b Summary of facts (according to my understanding of the crime case): \b0  \b   \b0\par&#xD;
-\par&#xD;
-\b My mission: \b0       \b\par&#xD;
-\par&#xD;
-My biological material (my samples):\par&#xD;
-\b0 Did the crime scene sample contain biological material? \b\par&#xD;
-\b0 Did you manage to make DNA-profiles out of the sample(s)?\b\par&#xD;
-\b0\par&#xD;
-\b All the steps I have made (activities I have done, objects I have created):\b0\par&#xD;
-\par&#xD;
-\b Justification of my method, my technique:\par&#xD;
-\par&#xD;
-My problems during all the mission (optional):\b0\par&#xD;
-\par&#xD;
-\b My conclusion:\par&#xD;
-\b0 Did you find a match between the evidence sample and any of the reference samples?\par&#xD;
-What information does a match between evidence and reference profile give about a suspect being guilty or not?\par&#xD;
-What is the profile frequency of the matching profiles? (optional)\par&#xD;
-\par&#xD;
-\par&#xD;
-\li0\ri0\fi0\ul0\par&#xD;
+<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;
+&#xD;&#xD;&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Firstname, lastname:\b0  \par&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;
+\b My job is:\b0  \b  \b0\par&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;
+\b Case number:\b0  \b  \b0 CY0347\par&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;
+\b Object:\b0  Expert analysis for the Attorney General\par&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;
+\b Summary of facts (according to my understanding of the crime case): \b0  \b   \b0\par&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;
+\b My mission: \b0       \b\par&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;
+My biological material (my samples):\par&#xD;&#xD;&#xD;
+\b0 Did the crime scene sample contain biological material? \b\par&#xD;&#xD;&#xD;
+\b0 Did you manage to make DNA-profiles out of the sample(s)?\b\par&#xD;&#xD;&#xD;
+\b0\par&#xD;&#xD;&#xD;
+\b All the steps I have made (activities I have done, objects I have created):\b0\par&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;
+\b Justification of my method, my technique:\par&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;
+My problems during all the mission (optional):\b0\par&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;
+\b My conclusion:\par&#xD;&#xD;&#xD;
+\b0 Did you find a match between the evidence sample and any of the reference samples?\par&#xD;&#xD;&#xD;
+What information does a match between evidence and reference profile give about a suspect being guilty or not?\par&#xD;&#xD;&#xD;
+What is the profile frequency of the matching profiles? (optional)\par&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;
+\li0\ri0\fi0\ul0\par&#xD;&#xD;&#xD;
 }</RichText>
 </content>
 <resources>
