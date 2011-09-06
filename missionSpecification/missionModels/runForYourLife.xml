@@ -136,7 +136,7 @@
                <property name="iconType" value="information2"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission5/LAS_Information/tip_LAS_A.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission5/LAS_Information/instruction_01_listOfInformation.html"/>
-               <property name="resourcesUri" value=""/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission5/LAS_Information/resources_01_listOfInformation.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
