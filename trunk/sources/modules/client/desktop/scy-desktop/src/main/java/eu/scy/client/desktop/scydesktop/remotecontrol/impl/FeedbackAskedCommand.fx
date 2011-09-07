@@ -14,7 +14,8 @@ public class FeedbackAskedCommand extends ScyDesktopRemoteCommand {
     override public function executeRemoteCommand(notification: INotification): Void {
         logger.debug("*****************feedback_asked*Notification*********************");
         def mission = new URI(notification.getMission());
-        if (mission.equals(scyDesktop.missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri().toString())) {
+        def supposedMission = scyDesktop.missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri();
+        if (mission.equals(supposedMission)) {
             scyDesktop.scyFeedbackGiveButton.eloIcon = scyDesktop.windowStyler.getScyEloIcon("give_feedback_new");
         } else {
             logger.debug("feedback_asked in other mission: {mission.toString()}");
