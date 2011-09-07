@@ -57,77 +57,92 @@
                 </td>
             </tr>
         </table>
+        <br/>
+
+        <c:if test="${showWarningNoSpecificLearningGoalsAdded}">
+            <table>
+                <tr>
+                    <td width="100%">
+                        <font color="red">
+                            <center><strong><spring:message code="NO_LEARNING_GOALS_HAVE_BEEN_SELECTED_WARNING"/></strong></center>
+                        </font>
+                    </td>
+                </tr>
+            </table>
+            <br/>
+        </c:if>
+
 
 
             <table>
-                <tr>
+                <tr class="${oddEven.oddEven}">
                     <td>
                         <strong>General learning goals</strong>
                     </td>
                     <td>
                         <div id="generalLearningGoals">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <spring:message code="LEARNING_GOAL"/>
-                                    </td>
-                                    <td>
-                                        <spring:message code="LOW"/>
-                                    </td>
-                                    <td>
-                                        <spring:message code="MEDIUM"/>
-                                    </td>
-                                    <td>
-                                        <spring:message code="HIGH"/>
-                                    </td>
-                                    <td>
-                                        <spring:message code="DELETE"/>
-                                    </td>
-                                </tr>
+                            <c:choose>
+                                <c:when test="${fn:length(selectedGeneralLearningGoalWithScores) > 0}">
 
-                                <c:choose>
-                                    <c:when test="${fn:length(selectedGeneralLearningGoalWithScores) > 0}">
-                                        <form action="editEloReflections.html" id="setGeneralLGs">
+                                    <table>
+                                        <tr>
+                                            <td width="90%">
+                                                <spring:message code="LEARNING_GOAL"/>
+                                            </td>
+                                            <td>
+                                                <spring:message code="LOW"/>
+                                            </td>
+                                            <td>
+                                                <spring:message code="MEDIUM"/>
+                                            </td>
+                                            <td>
+                                                <spring:message code="HIGH"/>
+                                            </td>
+                                            <td>
+                                                <spring:message code="DELETE"/>
+                                            </td>
+                                        </tr>
+
                                         <c:forEach var="generalLearningGoalWithScore" items="${selectedGeneralLearningGoalWithScores}">
                                             <tr>
                                                 <td width="80%">
                                                     ${generalLearningGoalWithScore.learningGoalText}
                                                 </td>
-
-                                                    <input type="hidden" name="anchorEloURI" value="${anchorEloURI}">
-                                                    <input type="hidden" name="eloURI" value="${eloURI}">
-                                                    <input type="hidden" name="missionRuntimeURI" value="${missionRuntimeURI}">
-                                                    <input type="hidden" name="generalLearningGoalWithScoreId" value="${generalLearningGoalWithScore.id}"/>
-                                                    <input type="hidden" name="action" value="setLearningGoalScore"/>
-
                                                     <td>
                                                         <center>
-                                                            <c:if test="${generalLearningGoalWithScore.score == 'LOW'}">
-                                                                <input type="radio" name="score-${generalLearningGoalWithScore.id}" value="LOW" checked onMouseUp="document.getElementById('setGeneralLGs').submit();">
-                                                            </c:if>
-                                                            <c:if test="${generalLearningGoalWithScore.score != 'LOW'}">
-                                                                <input type="radio" name="score-${generalLearningGoalWithScore.id}" value="LOW" onMouseUp="document.getElementById('setGeneralLGs').submit();">
-                                                            </c:if>
+
+                                                            <a href="editEloReflections.html?anchorEloURI=${anchorEloURI}&eloURI=${eloURI}&missionRuntimeURI=${missionRuntimeURI}&generalLearningGoalWithScoreId=${generalLearningGoalWithScore.id}&action=setLearningGoalScore&value=LOW">
+                                                                <c:if test="${generalLearningGoalWithScore.score == 'LOW'}">
+                                                                    x
+                                                                </c:if>
+                                                                <c:if test="${generalLearningGoalWithScore.score != 'LOW'}">
+                                                                    o
+                                                                </c:if>
+                                                            </a>
+                                                        </center>                            
+                                                    </td>
+                                                    <td>
+                                                        <center>
+                                                            <a href="editEloReflections.html?anchorEloURI=${anchorEloURI}&eloURI=${eloURI}&missionRuntimeURI=${missionRuntimeURI}&generalLearningGoalWithScoreId=${generalLearningGoalWithScore.id}&action=setLearningGoalScore&value=MEDIUM">
+                                                                <c:if test="${generalLearningGoalWithScore.score == 'MEDIUM'}">
+                                                                    x
+                                                                </c:if>
+                                                                <c:if test="${generalLearningGoalWithScore.score != 'MEDIUM'}">
+                                                                    o
+                                                                </c:if>
+                                                            </a>
                                                         </center>
                                                     </td>
                                                     <td>
                                                         <center>
-                                                            <c:if test="${generalLearningGoalWithScore.score == 'MEDIUM'}">
-                                                                <input type="radio" name="score-${generalLearningGoalWithScore.id}" value="MEDIUM" checked onMouseUp="document.getElementById('setGeneralLGs').submit();">
-                                                            </c:if>
-                                                            <c:if test="${generalLearningGoalWithScore.score != 'MEDIUM'}">
-                                                                <input type="radio" name="score-${generalLearningGoalWithScore.id}" value="MEDIUM" onMouseUp="document.getElementById('setGeneralLGs').submit();">
-                                                            </c:if>
-                                                        </center>
-                                                    </td>
-                                                    <td>
-                                                        <center>
-                                                            <c:if test="${generalLearningGoalWithScore.score == 'HIGH'}">
-                                                                <input type="radio" name="score-${generalLearningGoalWithScore.id}" value="HIGH" checked onMouseUp="document.getElementById('setGeneralLGs').submit();">
-                                                            </c:if>
-                                                            <c:if test="${generalLearningGoalWithScore.score != 'HIGH'}">
-                                                                <input type="radio" name="score-${generalLearningGoalWithScore.id}" value="HIGH" onMouseUp="document.getElementById('setGeneralLGs').submit();">
-                                                            </c:if>
+                                                            <a href="editEloReflections.html?anchorEloURI=${anchorEloURI}&eloURI=${eloURI}&missionRuntimeURI=${missionRuntimeURI}&generalLearningGoalWithScoreId=${generalLearningGoalWithScore.id}&action=setLearningGoalScore&value=HIGH">
+                                                                <c:if test="${generalLearningGoalWithScore.score == 'HIGH'}">
+                                                                    x
+                                                                </c:if>
+                                                                <c:if test="${generalLearningGoalWithScore.score != 'HIGH'}">
+                                                                    o
+                                                                </c:if>
+                                                            </a>
                                                         </center>
 
                                                     </td>
@@ -141,95 +156,92 @@
                                             </tr>
 
                                         </c:forEach>
-                                        <input type="submit" value="submit">
-                                        </form>
-
-                                    </c:when>
-                                </c:choose>
-                                <c:if test="${portfolioLocked == false}">
+                                    </table>
+                                </c:when>
+                            </c:choose>
+                            <c:if test="${portfolioLocked == false}">
+                                <table>
                                     <tr>
-                                        <td colspan="4" align="right">
+                                        <td colspan="5" align="right">
 
-                                            <a href="javascript:loadDialog('selectLearningGoalsForElo.html?eloURI=' + encodeURIComponent('${elo.uri}') + '&lgType=general&missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${anchorEloURI}'), '<spring:message code="SELECT_LEARNING_GOAL"></spring:message>');"><spring:message code="SELECT_LEARNING_GOAL"></spring:message> </a>
+                                            <a href="javascript:loadDialog('/webapp/app/webeport/selectLearningGoalsForElo.html?eloURI=' + encodeURIComponent('${elo.uri}') + '&lgType=general&missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${anchorEloURI}'), '<spring:message code="SELECT_LEARNING_GOAL"></spring:message>');"><spring:message code="SELECT_LEARNING_GOAL"></spring:message> </a>
 
                                         </td>
                                     </tr>
                                 </c:if>
+                            </table>    
 
-                            </table>
                         </div>
 
                     </td>
                 </tr>
-                <tr>
+                <tr class="${oddEven.oddEven}">
                     <td>
                         <strong>Specific learning gooals</strong>
                     </td>
                     <td>
                         <div id="generalLearningGoals">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <spring:message code="LEARNING_GOAL"/>
-                                    </td>
-                                    <td>
-                                        <spring:message code="LOW"/>
-                                    </td>
-                                    <td>
-                                        <spring:message code="MEDIUM"/>
-                                    </td>
-                                    <td>
-                                        <spring:message code="HIGH"/>
-                                    </td>
-                                    <td>
-                                        <spring:message code="DELETE"/>
-                                    </td>
-                                </tr>
-                                
-                                <c:choose>
-                                    <c:when test="${fn:length(selectedSpecificLearningGoalWithScores) > 0}">
-                                        <form action="editEloReflections.html" id="setSpecificLGs">
+                            <c:choose>
+                                <c:when test="${fn:length(selectedSpecificLearningGoalWithScores) > 0}">
+
+                                    <table>
+                                        <tr>
+                                            <td width="90%">
+                                                <spring:message code="LEARNING_GOAL"/>
+                                            </td>
+                                            <td>
+                                                <spring:message code="LOW"/>
+                                            </td>
+                                            <td>
+                                                <spring:message code="MEDIUM"/>
+                                            </td>
+                                            <td>
+                                                <spring:message code="HIGH"/>
+                                            </td>
+                                            <td>
+                                                <spring:message code="DELETE"/>
+                                            </td>
+                                        </tr>
+
                                         <c:forEach var="specificLearningGoalWithScore" items="${selectedSpecificLearningGoalWithScores}">
                                             <tr>
-                                                <td width="80%">
+                                                <td>
                                                     ${specificLearningGoalWithScore.learningGoalText}
                                                 </td>
-
-                                                    <input type="hidden" name="anchorEloURI" value="${anchorEloURI}">
-                                                    <input type="hidden" name="eloURI" value="${eloURI}">
-                                                    <input type="hidden" name="missionRuntimeURI" value="${missionRuntimeURI}">
-                                                    <!--input type="text" name="score" value="${specificLearningGoalWithScore.score}"/-->
-                                                    <input type="hidden" name="generalLearningGoalWithScoreId" value="${specificLearningGoalWithScore.id}"/>
-                                                    <input type="hidden" name="action" value="setLearningGoalScore"/>
-
                                                     <td>
                                                         <center>
-                                                            <c:if test="${specificLearningGoalWithScore.score == 'LOW'}">
-                                                                <input type="radio" name="score-${specificLearningGoalWithScore.id}" value="LOW" checked onMouseUp="document.getElementById('setSpecificLGs').submit();">
-                                                            </c:if>
-                                                            <c:if test="${specificLearningGoalWithScore.score != 'LOW'}">
-                                                                <input type="radio" name="score-${specificLearningGoalWithScore.id}" value="LOW" onMouseUp="document.getElementById('setSpecificLGs').submit();">
-                                                            </c:if>
+                                                            <a href="editEloReflections.html?anchorEloURI=${anchorEloURI}&eloURI=${eloURI}&missionRuntimeURI=${missionRuntimeURI}&generalLearningGoalWithScoreId=${specificLearningGoalWithScore.id}&action=setLearningGoalScore&value=LOW">
+                                                                <c:if test="${specificLearningGoalWithScore.score == 'LOW'}">
+                                                                    x
+                                                                </c:if>
+                                                                <c:if test="${specificLearningGoalWithScore.score != 'LOW'}">
+                                                                    o
+                                                                </c:if>
+                                                            </a>
                                                         </center>
                                                     </td>
                                                     <td>
                                                         <center>
-                                                            <c:if test="${specificLearningGoalWithScore.score == 'MEDIUM'}">
-                                                                <input type="radio" name="score-${specificLearningGoalWithScore.id}" value="MEDIUM" checked onMouseUp="document.getElementById('setSpecificLGs').submit();">
-                                                            </c:if>
-                                                            <c:if test="${specificLearningGoalWithScore.score != 'MEDIUM'}">
-                                                                <input type="radio" name="score-${specificLearningGoalWithScore.id}" value="MEDIUM" onMouseUp="document.getElementById('setSpecificLGs').submit();">
-                                                            </c:if>
+                                                            <a href="editEloReflections.html?anchorEloURI=${anchorEloURI}&eloURI=${eloURI}&missionRuntimeURI=${missionRuntimeURI}&generalLearningGoalWithScoreId=${specificLearningGoalWithScore.id}&action=setLearningGoalScore&value=MEDIUM">
+                                                                <c:if test="${specificLearningGoalWithScore.score == 'MEDIUM'}">
+                                                                    x
+                                                                </c:if>
+                                                                <c:if test="${specificLearningGoalWithScore.score != 'MEDIUM'}">
+                                                                    o
+                                                                </c:if>
+                                                            </a>
                                                         </center>
                                                     </td>
                                                     <td>
                                                         <center>
-                                                            <c:if test="${specificLearningGoalWithScore.score == 'HIGH'}">
-                                                                <input type="radio" name="score-${specificLearningGoalWithScore.id}" value="HIGH" checked onMouseUp="document.getElementById('setSpecificLGs').submit();">
-                                                            </c:if>
-                                                            <c:if test="${specificLearningGoalWithScore.score != 'HIGH'}">
-                                                                <input type="radio" name="score-${specificLearningGoalWithScore.id}" value="HIGH" onMouseUp="document.getElementById('setSpecificLGs').submit();">
-                                                            </c:if>
+                                                            <a href="editEloReflections.html?anchorEloURI=${anchorEloURI}&eloURI=${eloURI}&missionRuntimeURI=${missionRuntimeURI}&generalLearningGoalWithScoreId=${specificLearningGoalWithScore.id}&action=setLearningGoalScore&value=HIGH">
+                                                                <c:if test="${specificLearningGoalWithScore.score == 'HIGH'}">
+                                                                    x
+                                                                </c:if>
+                                                                <c:if test="${specificLearningGoalWithScore.score != 'HIGH'}">
+                                                                    o
+                                                                </c:if>
+                                                            </a>
                                                         </center>
 
                                                     </td>
@@ -245,21 +257,19 @@
                                             </tr>
 
                                         </c:forEach>
-                                        <input type="submit" value="submit">
-                                        </form>
-                                    </c:when>
-                                </c:choose>
-                                <c:if test="${portfolioLocked == false}">
+                                </table>
+                                </c:when>
+                            </c:choose>
+                            <c:if test="${portfolioLocked == false}">
+                                <table>
                                     <tr>
-                                        <td colspan="4" align="right">
-                                            <a href="javascript:loadDialog('selectLearningGoalsForElo.html?eloURI=' + encodeURIComponent('${elo.uri}') + '&lgType=specific&missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${anchorEloURI}'), '<spring:message code="SELECT_LEARNING_GOAL"></spring:message>');"><spring:message code="SELECT_LEARNING_GOAL"></spring:message> </a>
+                                        <td align="right">
+                                            <a href="javascript:loadDialog('/webapp/app/webeport/selectLearningGoalsForElo.html?eloURI=' + encodeURIComponent('${elo.uri}') + '&lgType=specific&missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${anchorEloURI}'), '<spring:message code="SELECT_LEARNING_GOAL"></spring:message>');"><spring:message code="SELECT_LEARNING_GOAL"></spring:message> </a>
                                         </td>
                                     </tr>
+                                </table>
 
-                                </c:if>
-
-
-                            </table>
+                            </c:if>
                         </div>
 
                     </td>
@@ -268,7 +278,7 @@
                 <c:choose>
                     <c:when test="${fn:length(reflectionQuestions) > 0}">
                         <c:forEach var="reflectionQuestion" items="${reflectionQuestions}">
-                            <tr>
+                            <tr class="${oddEven.oddEven}">
                                 <td>
                                     <strong>${reflectionQuestion.reflectionQuestionTitle}</strong>
                                 </td>

@@ -69,6 +69,7 @@
                 /app/webeport/reflectionOnMission.html=reflectionOnMissionController
                 /app/webeport/storeReflectionsOnMission.html=storeReflectionsOnMissionController
                 /app/webeport/selectLearningGoalsForElo.html=selectLearningGoalsForEloController
+                /app/webeport/selectAnchorEloForEloThatHasBeenAddedFromScyLab.html=selectAnchorEloForEloThatHasBeenAddedFromScyLabController
             </value>
         </property>
     </bean>
@@ -238,6 +239,17 @@
         <!--property name="runtimeELOService" ref="runtimeELOService"/-->
 	</bean>
 
+    <bean id="selectAnchorEloForEloThatHasBeenAddedFromScyLabController" class="eu.scy.server.webeport.SelectAnchorEloForEloThatHasBeenAddedFromScyLab">
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="portfolioELOService" ref="portfolioELOService"/>
+        <property name="runtimeELOService" ref="runtimeELOService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
+        <property name="transferObjectMapService" ref="transferObjectMapService"/>
+	</bean>
+
+
     <bean id="webAssessmentPortfolioOverviewController" class="eu.scy.server.assessment.WebAssessmentPortfolioOverview">
         <property name="urlInspector" ref="urlInspector"/>
         <property name="portfolioELOService" ref="portfolioELOService"/>
@@ -301,6 +313,7 @@
         <property name="transferObjectMapService" ref="transferObjectMapService"/>
         <property name="actionLoggerService" ref="actionLoggerService"/>
 	</bean>
+
 
     <bean id="currentMissionRuntimeInfo" class="eu.scy.server.eportfolio.xml.CurrentMissionRuntimeInfoController">
         <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
