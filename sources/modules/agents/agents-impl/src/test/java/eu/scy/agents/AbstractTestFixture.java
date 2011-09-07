@@ -36,263 +36,260 @@ import java.util.Map;
 
 public class AbstractTestFixture {
 
-    public static final boolean STANDALONE = true;
+	public static final boolean STANDALONE = true;
 
-    protected static final String MISSION1 = "roolo://memory/0/0/Design+a+CO2-friendly+house.scymissionspecification";
+	protected static final String MISSION1 = "roolo://memory/0/0/Design+a+CO2-friendly+house.scymissionspecification";
 
-    protected static final String MISSION2 = "roolo://memory/1/0/Eco.scymissionspecification";
+	protected static final String MISSION2 = "roolo://memory/1/0/Eco.scymissionspecification";
 
-    protected static String TSHOST = "localhost";
+	protected static String TSHOST = "localhost";
 
-    // protected static String TSHOST = "scy.collide.info";
-    protected static int TSPORT = 2525;
+	// protected static String TSHOST = "scy.collide.info";
+	protected static int TSPORT = 2525;
 
-    protected static ClassPathXmlApplicationContext applicationContext;
+	protected static ClassPathXmlApplicationContext applicationContext;
 
-    protected IMetadataTypeManager typeManager;
+	protected IMetadataTypeManager typeManager;
 
-    protected IExtensionManager extensionManager;
+	protected IExtensionManager extensionManager;
 
-    protected IRepository repository;
+	protected IRepository repository;
 
-    protected Map<String, Map<String, Object>> agentMap = new HashMap<String, Map<String, Object>>();
+	protected Map<String, Map<String, Object>> agentMap = new HashMap<String, Map<String, Object>>();
 
-    private AgentManager agentFramework;
+	private AgentManager agentFramework;
 
-    private ArrayList<String> agentList;
+	private ArrayList<String> agentList;
 
-    private TupleSpace tupleSpace;
+	private TupleSpace tupleSpace;
 
-    private TupleSpace sessionSpace;
+	private TupleSpace sessionSpace;
 
-    private TupleSpace actionSpace;
+	private TupleSpace actionSpace;
 
-    public AbstractTestFixture() {
-    }
+	public AbstractTestFixture() {
+	}
 
-    public AbstractTestFixture(String host, int port) {
-        TSHOST = host;
-        TSPORT = port;
-    }
+	public AbstractTestFixture(String host, int port) {
+		TSHOST = host;
+		TSPORT = port;
+	}
 
-    @Before
-    public void setUp() throws Exception {
-        if (Server.isRunning()) {
-            tupleSpace = new TupleSpace(new User("test"), TSHOST, TSPORT, false, false,
-                                        AgentProtocol.COMMAND_SPACE_NAME);
-            actionSpace = new TupleSpace(new User("test"), TSHOST, TSPORT, false, false,
-                                         AgentProtocol.ACTION_SPACE_NAME);
-            sessionSpace = new TupleSpace(new User("test"), TSHOST, TSPORT, false, false,
-                                          AgentProtocol.SESSION_SPACE_NAME);
-        }
+	@Before
+	public void setUp() throws Exception {
+		if (Server.isRunning()) {
+			this.tupleSpace = new TupleSpace(new User("test"), TSHOST, TSPORT, false, false,
+					AgentProtocol.COMMAND_SPACE_NAME);
+			this.actionSpace = new TupleSpace(new User("test"), TSHOST, TSPORT, false, false,
+					AgentProtocol.ACTION_SPACE_NAME);
+			this.sessionSpace = new TupleSpace(new User("test"), TSHOST, TSPORT, false, false,
+					AgentProtocol.SESSION_SPACE_NAME);
+		}
 
-        agentMap.clear();
+		this.agentMap.clear();
 
-        agentList = new ArrayList<String>();
+		this.agentList = new ArrayList<String>();
 
-        if (applicationContext == null) {
-            readApplicationContext();
-        }
-        typeManager = (IMetadataTypeManager) applicationContext.getBean("metadataTypeManager");
-        extensionManager = (IExtensionManager) applicationContext.getBean("extensionManager");
-        repository = (IRepository) applicationContext.getBean("localRepository");
+		if (applicationContext == null) {
+			readApplicationContext();
+		}
+		this.typeManager = (IMetadataTypeManager) applicationContext.getBean("metadataTypeManager");
+		this.extensionManager = (IExtensionManager) applicationContext.getBean("extensionManager");
+		this.repository = (IRepository) applicationContext.getBean("localRepository");
 
-    }
+	}
 
-    private static void readApplicationContext() {
-        applicationContext = new ClassPathXmlApplicationContext("test-config.xml");
-    }
+	private static void readApplicationContext() {
+		applicationContext = new ClassPathXmlApplicationContext("test-config.xml");
+	}
 
-    @After
-    public void tearDown() throws AgentLifecycleException {
-        if (tupleSpace != null) {
-            try {
-                tupleSpace.takeAll(new Tuple());
-                actionSpace.takeAll(new Tuple());
-                tupleSpace.disconnect();
-                actionSpace.disconnect();
-                System.err.println("********** Disconnected from TS ******************");
-            } catch (TupleSpaceException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+	@After
+	public void tearDown() throws AgentLifecycleException {
+		if (this.tupleSpace != null) {
+			try {
+				this.tupleSpace.takeAll(new Tuple());
+				this.actionSpace.takeAll(new Tuple());
+				this.tupleSpace.disconnect();
+				this.actionSpace.disconnect();
+				System.err.println("********** Disconnected from TS ******************");
+			} catch (TupleSpaceException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
-    protected IELO createNewElo() {
-        BasicELO elo = new BasicELO();
-        return elo;
-    }
+	protected IELO createNewElo() {
+		BasicELO elo = new BasicELO();
+		return elo;
+	}
 
-    protected IELO createNewElo(String title, String type) {
-        BasicELO elo = new BasicELO();
-        IMetadataValueContainer titleContainer = elo.getMetadata().getMetadataValueContainer(typeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId()));
-        titleContainer.setValue(title);
-        IMetadataValueContainer typeContainer = elo.getMetadata().getMetadataValueContainer(typeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId()));
-        typeContainer.setValue(type);
-        return elo;
-    }
+	protected IELO createNewElo(String title, String type) {
+		BasicELO elo = new BasicELO();
+		IMetadataValueContainer titleContainer = elo.getMetadata().getMetadataValueContainer(
+				this.typeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId()));
+		titleContainer.setValue(title);
+		IMetadataValueContainer typeContainer = elo.getMetadata().getMetadataValueContainer(
+				this.typeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId()));
+		typeContainer.setValue(type);
+		return elo;
+	}
 
-    protected IELO loadElo(String eloContentFile, String eloType, String eloTitle)
-            throws IOException {
-        IELO elo;
-        InputStream inStream = this.getClass().getResourceAsStream(eloContentFile);
-        String eloContent = readFile(inStream);
-        inStream.close();
-        elo = createNewElo(eloTitle, eloType);
-        elo.setContent(new BasicContent(eloContent));
-        return elo;
-    }
+	protected IELO loadElo(String eloContentFile, String eloType, String eloTitle) throws IOException {
+		IELO elo;
+		InputStream inStream = this.getClass().getResourceAsStream(eloContentFile);
+		String eloContent = this.readFile(inStream);
+		inStream.close();
+		elo = this.createNewElo(eloTitle, eloType);
+		elo.setContent(new BasicContent(eloContent));
+		return elo;
+	}
 
-    protected static void startTupleSpaceServer() {
-        if (!Server.isRunning()) {
-            Configuration conf = Configuration.getConfiguration();
-            conf.setNonSSLPort(TSPORT);
-            conf.setSSLEnabled(false);
-            conf.setDbType(Database.HSQL);
-            conf.setWebEnabled(false);
-            // conf.setWebServicesEnabled(false);
-            conf.setShellEnabled(false);
-            Server.startServer();
-        }
-        readApplicationContext();
-    }
+	protected static void startTupleSpaceServer() {
+		if (!Server.isRunning()) {
+			Configuration conf = Configuration.getConfiguration();
+			conf.setNonSSLPort(TSPORT);
+			conf.setSSLEnabled(false);
+			conf.setDbType(Database.HSQL);
+			conf.setWebEnabled(false);
+			// conf.setWebServicesEnabled(false);
+			conf.setShellEnabled(false);
+			Server.startServer();
+		}
+		readApplicationContext();
+	}
 
-    protected static void stopTupleSpaceServer() {
-        Server.stopServer();
-    }
+	protected static void stopTupleSpaceServer() {
+		Server.stopServer();
+	}
 
-    public void startAgentFramework(Map<String, Map<String, Object>> agents) {
-        agentList.clear();
-        agentFramework = new AgentManager(TSHOST, TSPORT);
-        agentFramework.setRepository(repository);
-        agentFramework.setMetadataTypeManager(typeManager);
-        for (String agentName : agents.keySet()) {
-            Map<String, Object> params = agents.get(agentName);
-            try {
-                agentList.add(agentFramework.startAgent(agentName, params).getId());
-            } catch (AgentLifecycleException e) {
-                // TODO what to do with these exception.
-                e.printStackTrace();
-            }
-        }
-    }
+	public void startAgentFramework(Map<String, Map<String, Object>> agents) {
+		this.agentList.clear();
+		this.agentFramework = new AgentManager(TSHOST, TSPORT);
+		this.agentFramework.setRepository(this.repository);
+		this.agentFramework.setMetadataTypeManager(this.typeManager);
+		for (String agentName : agents.keySet()) {
+			Map<String, Object> params = agents.get(agentName);
+			try {
+				this.agentList.add(this.agentFramework.startAgent(agentName, params).getId());
+			} catch (AgentLifecycleException e) {
+				// TODO what to do with these exception.
+				e.printStackTrace();
+			}
+		}
+	}
 
-    public TupleSpace getCommandSpace() {
-        return tupleSpace;
-    }
+	public TupleSpace getCommandSpace() {
+		return this.tupleSpace;
+	}
 
-    public TupleSpace getSessionSpace() {
-        return sessionSpace;
-    }
+	public TupleSpace getSessionSpace() {
+		return this.sessionSpace;
+	}
 
-    public TupleSpace getActionSpace() {
-        return actionSpace;
-    }
+	public TupleSpace getActionSpace() {
+		return this.actionSpace;
+	}
 
-    protected void stopAgentFrameWork() throws AgentLifecycleException {
-        for (String agentId : agentList) {
-            agentFramework.killAgent(agentId);
-        }
-    }
+	protected void stopAgentFrameWork() throws AgentLifecycleException {
+		for (String agentId : this.agentList) {
+			this.agentFramework.killAgent(agentId);
+		}
+	}
 
-    // protected PersistentStorage getPersistentStorage() {
-    // return storage;
-    // }
+	// protected PersistentStorage getPersistentStorage() {
+	// return storage;
+	// }
 
-    // protected void initTopicModel() {
-    // ObjectInputStream in = null;
-    // try {
-    // InputStream inStream = this.getClass().getResourceAsStream(
-    // "/models/co2_en_tm");
-    // // InputStream inStream = this.getClass().getResourceAsStream(
-    // // "/models/eco_en_tm");
-    // in = new ObjectInputStream(inStream);
-    // ParallelTopicModel model = (ParallelTopicModel) in.readObject();
-    // in.close();
-    // storage.put(MISSION1, "en", TM_MODEL_NAME, model);
-    // } catch (IOException e) {
-    // e.printStackTrace();
-    // } catch (ClassNotFoundException e) {
-    // e.printStackTrace();
-    // }
-    // }
+	// protected void initTopicModel() {
+	// ObjectInputStream in = null;
+	// try {
+	// InputStream inStream = this.getClass().getResourceAsStream(
+	// "/models/co2_en_tm");
+	// // InputStream inStream = this.getClass().getResourceAsStream(
+	// // "/models/eco_en_tm");
+	// in = new ObjectInputStream(inStream);
+	// ParallelTopicModel model = (ParallelTopicModel) in.readObject();
+	// in.close();
+	// storage.put(MISSION1, "en", TM_MODEL_NAME, model);
+	// } catch (IOException e) {
+	// e.printStackTrace();
+	// } catch (ClassNotFoundException e) {
+	// e.printStackTrace();
+	// }
+	// }
 
-    protected Tuple getTestActionTuple(String eloUri, String type, long currentTimeInMillis,
-                                       String uuid) {
-        return new Tuple("action", uuid, currentTimeInMillis, ActionConstants.ACTION_ELO_SAVED,
-                         "testUser", "SomeTool", "SomeMission", "TestSession", eloUri, "type="
-                                                                                       + type);
-    }
+	protected Tuple getTestActionTuple(String eloUri, String type, long currentTimeInMillis, String uuid) {
+		return new Tuple("action", uuid, currentTimeInMillis, ActionConstants.ACTION_ELO_SAVED, "testUser", "SomeTool",
+				"SomeMission", "TestSession", eloUri, "type=" + type);
+	}
 
-    protected boolean hasItems(List<String> keywords, String... values) {
-        for (String value : values) {
-            if (!keywords.contains(value)) {
-                return false;
-            }
-        }
-        return true;
-    }
+	protected boolean hasItems(List<String> keywords, String... values) {
+		for (String value : values) {
+			if (!keywords.contains(value)) {
+				return false;
+			}
+		}
+		return true;
+	}
 
-    protected boolean hasKeywords(List<KeyValuePair> keywords, String... values) {
-        // get just the keywords from the list of KeyValuePairs containing Pairs
-        // (Keyword, Boost)
-        List<String> keywordStrings = new ArrayList<String>();
-        for (KeyValuePair keyValuePair : keywords) {
-            keywordStrings.add(keyValuePair.getKey());
-        }
-        for (String value : values) {
-            if (!keywordStrings.contains(value)) {
-                return false;
-            }
-        }
-        return true;
-    }
+	protected boolean hasKeywords(List<KeyValuePair> keywords, String... values) {
+		// get just the keywords from the list of KeyValuePairs containing Pairs
+		// (Keyword, Boost)
+		List<String> keywordStrings = new ArrayList<String>();
+		for (KeyValuePair keyValuePair : keywords) {
+			keywordStrings.add(keyValuePair.getKey());
+		}
+		for (String value : values) {
+			if (!keywordStrings.contains(value)) {
+				return false;
+			}
+		}
+		return true;
+	}
 
-    protected String readFile(InputStream inStream) throws IOException {
-        // reads text from file and creates one String
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inStream));
-        String text = "";
-        String line = "";
-        while ((line = reader.readLine()) != null) {
-            if (line.matches("\\s")) {
-                continue;
-            }
-            text = text + " " + line;
-        }
-        reader.close();
-        return text;
-    }
+	protected String readFile(InputStream inStream) throws IOException {
+		// reads text from file and creates one String
+		BufferedReader reader = new BufferedReader(new InputStreamReader(inStream));
+		String text = "";
+		String line = "";
+		while ((line = reader.readLine()) != null) {
+			if (line.matches("\\s")) {
+				continue;
+			}
+			text = text + " " + line;
+		}
+		reader.close();
+		return text;
+	}
 
-    // protected void initDfModel() throws ClassNotFoundException, IOException {
-    // InputStream inStream = this.getClass().getResourceAsStream(
-    // "/models/co2_en_DFmodel.dat");
-    // ObjectInputStream in = new ObjectInputStream(inStream);
-    // DocumentFrequencyModel dfModel = (DocumentFrequencyModel) in
-    // .readObject();
-    // this.getPersistentStorage().put(MISSION1, "en",
-    // KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL, dfModel);
-    // }
+	// protected void initDfModel() throws ClassNotFoundException, IOException {
+	// InputStream inStream = this.getClass().getResourceAsStream(
+	// "/models/co2_en_DFmodel.dat");
+	// ObjectInputStream in = new ObjectInputStream(inStream);
+	// DocumentFrequencyModel dfModel = (DocumentFrequencyModel) in
+	// .readObject();
+	// this.getPersistentStorage().put(MISSION1, "en",
+	// KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL, dfModel);
+	// }
 
-    protected Tuple logout(String user, String mission) {
-        return new Tuple(ActionConstants.ACTION, new VMID().toString(), System.currentTimeMillis(),
-                         ActionConstants.ACTION_LOG_OUT, user, "scy-desktop", mission, "n/a", "n/a");
-    }
+	protected Tuple logout(String user, String mission) {
+		return new Tuple(ActionConstants.ACTION, new VMID().toString(), System.currentTimeMillis(),
+				ActionConstants.ACTION_LOG_OUT, user, "scy-desktop", mission, "n/a", "n/a");
+	}
 
-    protected Tuple lasChangeTuple(String user, String mission, String las, String oldLas,
-                                   String eloUri) {
-        return new Tuple(ActionConstants.ACTION, new VMID().toString(), System.currentTimeMillis(),
-                         ActionConstants.ACTION_LAS_CHANGED, user, "scymapper", mission,
-                         "session1", eloUri, "newLasId=" + las, "oldLasId=" + oldLas);
-    }
+	protected Tuple lasChangeTuple(String user, String mission, String las, String oldLas, String eloUri) {
+		return new Tuple(ActionConstants.ACTION, new VMID().toString(), System.currentTimeMillis(),
+				ActionConstants.ACTION_LAS_CHANGED, user, "scymapper", mission, "session1", eloUri, "newLasId=" + las,
+				"oldLasId=" + oldLas);
+	}
 
-    protected Tuple login(String user, String mission, String missionName, String language) throws TupleSpaceException {
-        Tuple tuple = new Tuple(ActionConstants.ACTION, new VMID().toString(),
-                                System.currentTimeMillis(), ActionConstants.ACTION_LOG_IN, user,
-                                "scy-desktop", mission, "n/a",
-                                "roolo://memory/16/0/eco_reference_map.mapping",
-                                "missionSpecification=" + mission, "language=" + language,
-                                "missionName=" + missionName);
-        getActionSpace().write(tuple);
-        return tuple;
-    }
+	protected Tuple login(String user, String mission, String missionName, String language, String missionId)
+			throws TupleSpaceException {
+		Tuple tuple = new Tuple(ActionConstants.ACTION, new VMID().toString(), System.currentTimeMillis(),
+				ActionConstants.ACTION_LOG_IN, user, "scy-desktop", mission, "n/a",
+				"roolo://memory/16/0/eco_reference_map.mapping", "missionSpecification=" + mission, "language="
+						+ language, "missionName=" + missionName, "missionId=" + missionId);
+		this.getActionSpace().write(tuple);
+		return tuple;
+	}
 }

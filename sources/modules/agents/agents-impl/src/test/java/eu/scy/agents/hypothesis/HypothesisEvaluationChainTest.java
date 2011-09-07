@@ -71,7 +71,7 @@ public class HypothesisEvaluationChainTest extends AbstractTestFixture {
 		params.put(AgentProtocol.TS_HOST, TSHOST);
 		params.put(AgentProtocol.TS_PORT, TSPORT);
 		this.agentMap.put(ExtractKeywordsAgent.NAME, params);
-        this.agentMap.put(ExtractKeyphrasesAgent.NAME, params);
+		this.agentMap.put(ExtractKeyphrasesAgent.NAME, params);
 		this.agentMap.put(ExtractTopicModelKeywordsAgent.NAME, params);
 		this.agentMap.put(OntologyKeywordsAgent.NAME, params);
 		this.agentMap.put(HypothesisEvaluationAgent.NAME, params);
@@ -80,27 +80,22 @@ public class HypothesisEvaluationChainTest extends AbstractTestFixture {
 
 		this.startAgentFramework(this.agentMap);
 
-		InputStream inStream = this.getClass().getResourceAsStream(
-				"/copexExampleElo.xml");
-		String eloContent = readFile(inStream);
-		elo = createNewElo("TestCopex", ELO_TYPE);
-		elo.setContent(new BasicContent(eloContent));
-		IMetadata metadata = repository.addNewELO(elo);
+		InputStream inStream = this.getClass().getResourceAsStream("/copexExampleElo.xml");
+		String eloContent = this.readFile(inStream);
+		this.elo = this.createNewElo("TestCopex", ELO_TYPE);
+		this.elo.setContent(new BasicContent(eloContent));
+		IMetadata metadata = this.repository.addNewELO(this.elo);
 		URI eloUri = (URI) metadata.getMetadataValueContainer(
-				this.typeManager
-						.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER))
-				.getValue();
+				this.typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER)).getValue();
 		this.eloPath = eloUri.toString();
 
 		inStream = this.getClass().getResourceAsStream("/copexExampleElo2.xml");
-		eloContent = readFile(inStream);
-		smallElo = createNewElo("TestCopex2", ELO_TYPE);
-		smallElo.setContent(new BasicContent(eloContent));
-		metadata = repository.addNewELO(smallElo);
+		eloContent = this.readFile(inStream);
+		this.smallElo = this.createNewElo("TestCopex2", ELO_TYPE);
+		this.smallElo.setContent(new BasicContent(eloContent));
+		metadata = this.repository.addNewELO(this.smallElo);
 		eloUri = (URI) metadata.getMetadataValueContainer(
-				this.typeManager
-						.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER))
-				.getValue();
+				this.typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER)).getValue();
 		this.smallEloPath = eloUri.toString();
 
 		System.out.println(eloUri.toString());
@@ -118,39 +113,33 @@ public class HypothesisEvaluationChainTest extends AbstractTestFixture {
 	}
 
 	@Test
-	public void testRun() throws InterruptedException, TupleSpaceException,
-			IOException {
+	public void testRun() throws InterruptedException, TupleSpaceException, IOException {
 
-        ResourceBundle messages = ResourceBundle.getBundle("agent_messages", new Locale("en"));
-	    login("testUser", MISSION1, Mission.MISSION1.getName(), "en");
-	    
-		Tuple response = writeTupleGetResponse(this.eloPath);
+		ResourceBundle messages = ResourceBundle.getBundle("agent_messages", new Locale("en"));
+		this.login("testUser", MISSION1, Mission.MISSION1.getName(), "en", "co2");
+
+		Tuple response = this.writeTupleGetResponse(this.eloPath);
 		assertNotNull("no response received", response);
 		String message = (String) response.getField(7).getValue();
 		String expMsg = "message=" + messages.getString("HYPO_OK");
 		assertEquals(message, expMsg);
 		// assertEquals(message, "message=too few keywords or text too long");
-		response = writeTupleGetResponse(this.smallEloPath);
+		response = this.writeTupleGetResponse(this.smallEloPath);
 		assertNotNull("no response received", response);
 		message = (String) response.getField(7).getValue();
 		expMsg = "message=" + messages.getString("HYPO_TOO_FEW_KEYWORDS");
 		assertEquals(message, expMsg);
 	}
 
-	private Tuple writeTupleGetResponse(String eloPath)
-			throws TupleSpaceException {
-		Tuple tuple = new Tuple("action", UUID1234, TIME_IN_MILLIS,
-				ActionConstants.ACTION_ELO_SAVED, "testUser", "copex", MISSION,
-				"TestSession", eloPath, "elo_type=" + ELO_TYPE, "elo_uri="
-						+ eloPath);
-		getActionSpace().write(tuple);
+	private Tuple writeTupleGetResponse(String eloPath) throws TupleSpaceException {
+		Tuple tuple = new Tuple("action", UUID1234, TIME_IN_MILLIS, ActionConstants.ACTION_ELO_SAVED, "testUser",
+				"copex", MISSION, "TestSession", eloPath, "elo_type=" + ELO_TYPE, "elo_uri=" + eloPath);
+		this.getActionSpace().write(tuple);
 
-		Tuple responseTuple = new Tuple(AgentProtocol.NOTIFICATION,
-				String.class, String.class, String.class, String.class,
-				String.class, String.class, Field.createWildCardField());
+		Tuple responseTuple = new Tuple(AgentProtocol.NOTIFICATION, String.class, String.class, String.class,
+				String.class, String.class, String.class, Field.createWildCardField());
 
-		Tuple response = this.getCommandSpace().waitToTake(responseTuple,
-				AgentProtocol.MINUTE * 6);
+		Tuple response = this.getCommandSpace().waitToTake(responseTuple, AgentProtocol.MINUTE * 6);
 		return response;
 	}
 }
