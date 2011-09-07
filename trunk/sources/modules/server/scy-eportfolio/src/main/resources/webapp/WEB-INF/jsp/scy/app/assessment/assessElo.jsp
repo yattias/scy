@@ -66,49 +66,77 @@
 
                     <table>
                         <tr>
-                            <td width="50%" valign="top">
-                                <c:choose>
-                                    <c:when test="${fn:length(generalLearningGoals) > 0}">
-                                        <table>
-                                            <tr>
-                                                <th width="80%"><spring:message code="LEARNING_GOALS"/></th>
-                                                <th><spring:message code="SCORE"/>  </th>
-                                            </tr>
-                                            <c:forEach var="generalLearningGoalWithScore" items="${generalLearningGoals}">
-                                                <tr>
-                                                    <td width="5%">
-                                                        ${generalLearningGoalWithScore.learningGoalText}
-                                                    </td>
-                                                    <td>
-                                                     ${generalLearningGoalWithScore.score}
-                                                    </td>
-                                                </tr>
-                                            </c:forEach>
-                                        </table>
-                                    </c:when>
-                                </c:choose>
+                            <th width="50%" >
+                                <h2><spring:message code="FROM_STUDENT"/></h2>
+                            </th>
+                            <th width="50%" >
+                                <h2><spring:message code="FOR_TEACHER"/></h2>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td valign="top">
+                                <div style="width: 100%; height: 100%">
+                                    <div dojoType="dijit.layout.AccordionContainer" style="height: 300px;">
+                                        <div dojoType="dijit.layout.ContentPane" title="<spring:message code="GENERAL_LEARNING_GOALS"/>" selected="true">
+                                            <c:choose>
+                                                <c:when test="${fn:length(generalLearningGoals) > 0}">
+                                                    <table>
+                                                        <tr>
+                                                            <th width="80%"><spring:message code="LEARNING_GOALS"/></th>
+                                                            <th><spring:message code="SCORE"/>  </th>
+                                                        </tr>
+                                                        <c:forEach var="generalLearningGoalWithScore" items="${generalLearningGoals}">
+                                                            <tr>
+                                                                <td width="5%">
+                                                                    ${generalLearningGoalWithScore.learningGoalText}
+                                                                </td>
+                                                                <td>
+                                                                    <c:if test="${generalLearningGoalWithScore.score != null}">
+                                                                        <spring:message code="${generalLearningGoalWithScore.score}"/>
+                                                                    </c:if>
+                                                                </td>
+                                                            </tr>
+                                                        </c:forEach>
+                                                    </table>
+                                                </c:when>
+                                            </c:choose>
+                                        </div>
+                                        <div dojoType="dijit.layout.ContentPane" title="<spring:message code="SPECIFIC_LEARNING_GOALS"/> ">
+                                            <c:choose>
+                                                <c:when test="${fn:length(specificLearningGoals) > 0}">
+                                                    <table>
+                                                        <tr>
+                                                            <th width="80%"><spring:message code="LEARNING_GOALS"/></th>
+                                                            <th><spring:message code="SCORE"/>  </th>
+                                                        </tr>
 
-                                <c:choose>
-                                    <c:when test="${fn:length(specificLearningGoals) > 0}">
-                                        <table>
-                                            <tr>
-                                                <th width="80%"><spring:message code="LEARNING_GOALS"/></th>
-                                                <th><spring:message code="SCORE"/>  </th>
-                                            </tr>
+                                                        <c:forEach var="learningGoalWithScore" items="${specificLearningGoals}">
+                                                            <tr>
+                                                                <td width="5%">
+                                                                    ${learningGoalWithScore.learningGoalText}
+                                                                </td>
+                                                                <td>
+                                                                    <c:if test="${generalLearningGoalWithScore.score != null}">
+                                                                        <spring:message code="${generalLearningGoalWithScore.score}"/>
+                                                                    </c:if>
+                                                                </td>
+                                                            </tr>
+                                                        </c:forEach>
+                                                    </table>
+                                                </c:when>
+                                            </c:choose>
+                                        </div>
+                                        <div dojoType="dijit.layout.ContentPane" title="This too">
+                                            Hi how are you? .....Great, thx
+                                        </div>
+                                    </div>
+                                </div>
+                                
 
-                                            <c:forEach var="learningGoalWithScore" items="${specificLearningGoals}">
-                                                <tr>
-                                                    <td width="5%">
-                                                        ${learningGoalWithScore.learningGoalText}
-                                                    </td>
-                                                    <td>
-                                                        ${generalLearningGoalWithScore.score}
-                                                    </td>
-                                                </tr>
-                                            </c:forEach>
-                                        </table>
-                                    </c:when>
-                                </c:choose>
+
+
+
+
 
 
 
