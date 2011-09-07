@@ -71,12 +71,16 @@
                                     <c:when test="${fn:length(generalLearningGoals) > 0}">
                                         <table>
                                             <tr>
-                                                <th>General learning goals</th>
+                                                <th width="80%"><spring:message code="LEARNING_GOALS"/></th>
+                                                <th><spring:message code="SCORE"/>  </th>
                                             </tr>
                                             <c:forEach var="generalLearningGoalWithScore" items="${generalLearningGoals}">
                                                 <tr>
                                                     <td width="5%">
                                                         ${generalLearningGoalWithScore.learningGoalText}
+                                                    </td>
+                                                    <td>
+                                                     ${generalLearningGoalWithScore.score}
                                                     </td>
                                                 </tr>
                                             </c:forEach>
@@ -88,12 +92,17 @@
                                     <c:when test="${fn:length(specificLearningGoals) > 0}">
                                         <table>
                                             <tr>
-                                                <th>Specific learning goals</th>
+                                                <th width="80%"><spring:message code="LEARNING_GOALS"/></th>
+                                                <th><spring:message code="SCORE"/>  </th>
                                             </tr>
+
                                             <c:forEach var="learningGoalWithScore" items="${specificLearningGoals}">
                                                 <tr>
                                                     <td width="5%">
                                                         ${learningGoalWithScore.learningGoalText}
+                                                    </td>
+                                                    <td>
+                                                        ${generalLearningGoalWithScore.score}
                                                     </td>
                                                 </tr>
                                             </c:forEach>

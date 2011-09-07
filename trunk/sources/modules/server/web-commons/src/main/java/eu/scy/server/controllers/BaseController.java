@@ -68,10 +68,10 @@ public abstract class BaseController extends AbstractController {
     private void populateView(HttpServletRequest request, HttpServletResponse httpServletResponse, ModelAndView modelAndView) {
         modelAndView.addObject("model", getModel());
         modelAndView.addObject("oddEven", new OddEven());
-        modelAndView.addObject("baseUrl", request.getScheme() + "://" + request.getServerName()+ ":" + request.getServerPort() +  request.getContextPath());
+        modelAndView.addObject("baseUrl", request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath());
         Locale locale = request.getLocale();
         modelAndView.addObject("language", locale.getLanguage());
-        if(getServer() != null) modelAndView.addObject("css", getServer().getServerCSS());
+        if (getServer() != null) modelAndView.addObject("css", getServer().getServerCSS());
     }
 
     @Override
@@ -81,10 +81,10 @@ public abstract class BaseController extends AbstractController {
         RequestContextUtils.getLocaleResolver(request).setLocale(request, httpServletResponse, getCurrentLocale(request));
 
         Enumeration parameEnumeration = request.getParameterNames();
-        while(parameEnumeration.hasMoreElements()) {
+        while (parameEnumeration.hasMoreElements()) {
             String param = (String) parameEnumeration.nextElement();
             logger.info("** ** ** RECEIVED PARAM: " + param + " " + request.getParameter(param));
-            
+
         }
 
         ModelAndView modelAndView = new ModelAndView();
@@ -98,10 +98,10 @@ public abstract class BaseController extends AbstractController {
 
     protected void instpectRequest(HttpServletRequest request, HttpServletResponse httpServletResponse) {
         logger.info("----------------------------------------------------- " + getClass().getName());
-        if(getUrlInspector() != null) {
+        if (getUrlInspector() != null) {
             Object model = getUrlInspector().instpectRequest(request, httpServletResponse);
-            if(model instanceof ScyElo) {
-                logger.info("Setting ELO: " + ((ScyElo)model). getTechnicalFormat());
+            if (model instanceof ScyElo) {
+                logger.info("Setting ELO: " + ((ScyElo) model).getTechnicalFormat());
                 setScyElo((ScyElo) model);
             } else {
                 setModel((ScyBase) model);
@@ -130,12 +130,12 @@ public abstract class BaseController extends AbstractController {
     }
 
     public String getCurrentUserName(HttpServletRequest request) {
-       org.springframework.security.userdetails.User user = (org.springframework.security.userdetails.User) request.getSession().getAttribute("CURRENT_USER");
-       return user.getUsername();
-   }
+        org.springframework.security.userdetails.User user = (org.springframework.security.userdetails.User) request.getSession().getAttribute("CURRENT_USER");
+        return user.getUsername();
+    }
 
     public User getCurrentUser(HttpServletRequest request) {
-        if(getUserService() != null) {
+        if (getUserService() != null) {
             return getUserService().getUser(getCurrentUserName(request));
         }
         return null;
@@ -145,8 +145,8 @@ public abstract class BaseController extends AbstractController {
     public Locale getCurrentLocale(HttpServletRequest request) {
         User user = getCurrentUser(request);
         String localeString = "en";
-        if(user != null) {
-            if(user.getUserDetails().getLocale() != null)  localeString = user.getUserDetails().getLocale();
+        if (user != null) {
+            if (user.getUserDetails().getLocale() != null) localeString = user.getUserDetails().getLocale();
         }
         return new Locale(localeString);
     }
@@ -160,18 +160,22 @@ public abstract class BaseController extends AbstractController {
     }
 
     protected URI getURI(String uri) {
-        try {
-            uri = URLDecoder.decode(uri, "UTF-8");
-            URI _uri = new URI(uri);
-            return _uri;
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
+        if (uri != null) {
+            try {
+                uri = URLDecoder.decode(uri, "UTF-8");
+                URI _uri = new URI(uri);
+                return _uri;
+            } catch (Exception e) {
+                logger.error(e.getMessage(), e);
+            }
+
         }
         return null;
 
     }
 
     protected String getEncodedUri(String parameter) {
+        logger.info("ENCODING : " + parameter);
         try {
             return URLEncoder.encode(parameter, "UTF-8");
         } catch (UnsupportedEncodingException e) {

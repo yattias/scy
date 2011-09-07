@@ -197,8 +197,18 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
     public List getAnchorELOs(MissionSpecificationElo missionSpecificationElo) {
 
         log.info("LOADING ANCHOR ELOS FOR MISSION SPEC: " + missionSpecificationElo.getUri());
-
+        List returnList = new LinkedList();
         MissionModelElo missionModel = MissionModelElo.loadLastVersionElo(missionSpecificationElo.getTypedContent().getMissionMapModelEloUri(), this);
+/*
+                List <MissionAnchor> anchorElos = missionModel.getTypedContent().getMissionAnchors();
+        for (int i = 0; i < anchorElos.size(); i++) {
+            MissionAnchor missionAnchor = anchorElos.get(i);
+            if(missionAnchor.getObligatoryInPortfolio() != null && missionAnchor.getObligatoryInPortfolio()) {
+                returnList.add(missionAnchor);
+            }
+        }
+        return returnList;
+        */
         //missionModel.getMissionModel().loadMetadata(this);
         List lasses = missionModel.getTypedContent().getLasses();//what is  this? A getter??
 
