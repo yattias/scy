@@ -1,0 +1,56 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-04-08T17:10:14.417+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-04-08T17:10:14.417+0200</dateTime>
+        </date>
+      </contribute>
+      <version>16</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1302275414417</dateCreated>
+        <dateFirstUserSaveKey>1302275414416</dateFirstUserSaveKey>
+        <dateLastModified>1302275414417</dateLastModified>
+      </customElements>
+      <format>scy/url</format>
+    </technical>
+    <educational>
+      <learningResourceType>informationAssignment</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/50009/0/missionLinks.url</entry>
+      </identifier>
+      <las>conceptualization2</las>
+      <title>
+        <string language="en">Mission 5 links</string>
+      </title>
+    </general>
+   </lom>
+  <template>false</template>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<url>http://www.scy-lab.eu/content/en/mission5/missionLinks.html</url>
+</content>
+<resources>
+</resources>
+</elo>
