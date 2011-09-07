@@ -115,7 +115,7 @@ public class Session {
 
     public String getMissionSpecification(String missionRT) {
         try {
-            Tuple missionSpecTuple = sessionSpace.read(new Tuple(Session.MISSION, String.class, String.class, missionRT, String.class,
+            Tuple missionSpecTuple = sessionSpace.read(new Tuple(Session.MISSION, String.class, String.class, String.class, missionRT,
                     String.class));
             if ( missionSpecTuple != null ) {
                 return (String) missionSpecTuple.getField(2).getValue();
