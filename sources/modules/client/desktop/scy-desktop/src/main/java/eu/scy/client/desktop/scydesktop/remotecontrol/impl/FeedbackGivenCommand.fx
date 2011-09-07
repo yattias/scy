@@ -15,7 +15,6 @@ public class FeedbackGivenCommand extends ScyDesktopRemoteCommand {
         logger.debug("*****************feedback_given*Notification*********************");
         def mission = new URI(notification.getMission());
         def supposedMission = scyDesktop.missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri();
-//        missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri().toString()
         if (mission.equals(supposedMission)) {
             scyDesktop.scyFeedbackGetButton.eloIcon = scyDesktop.windowStyler.getScyEloIcon("get_feedback_new");
         } else {
