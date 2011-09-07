@@ -63,8 +63,7 @@ public class Session {
             Tuple missionTuple = sessionSpace.read(new Tuple(Session.MISSION,
                     Field.createSemiformalField(user + "*"), String.class, String.class, String.class, String.class));
             if ( missionTuple != null ) {
-                String missionString = (String) missionTuple.getField(4)
-                        .getValue();
+                String missionString = (String) missionTuple.getField(4).getValue();
                 return missionString;
             }
         } catch ( TupleSpaceException e ) {
@@ -76,10 +75,9 @@ public class Session {
     public Set<String> getUsersInMissionFromRuntime(String missionRuntime) {
         Set<String> availableUsers = new HashSet<String>();
         try {
-            Tuple missionRTTuple = sessionSpace.read(new Tuple(Session.MISSION, String.class, String.class, String.class, missionRuntime,
-                    String.class));
-            if ( missionRTTuple != null ) {
-                collectAvailableUsers(availableUsers, missionRTTuple);
+            String missionSpecification = getMissionSpecification(missionRuntime);
+            if ( !missionSpecification.equals(IAction.NOT_AVAILABLE) ) {
+                collectAvailableUsers(availableUsers, missionSpecification);
             } else {
                 LOGGER.warn("no mission found for runtime uri " + missionRuntime);
             }
@@ -95,7 +93,8 @@ public class Session {
             Tuple missionNameTuple = sessionSpace.read(new Tuple(Session.MISSION, String.class, String.class, missionName, String.class,
                     String.class));
             if ( missionNameTuple != null ) {
-                collectAvailableUsers(availableUsers, missionNameTuple);
+                String missionSpec = (String) missionNameTuple.getField(2).getValue();
+                collectAvailableUsers(availableUsers, missionSpec);
             } else {
                 LOGGER.warn("no mission found for mission with name " + missionName);
             }
@@ -106,12 +105,24 @@ public class Session {
         return availableUsers;
     }
 
-    private void collectAvailableUsers(Set<String> availableUsers, Tuple missionRTTuple) throws TupleSpaceException {
-        String missionSpec = (String) missionRTTuple.getField(2).getValue();
+    private void collectAvailableUsers(Set<String> availableUsers, String missionSpec) throws TupleSpaceException {
         Tuple[] allUsersInLas = sessionSpace.readAll(new Tuple(Session.MISSION, String.class, missionSpec, String.class,
                 String.class, String.class));
         for ( Tuple t : allUsersInLas ) {
             availableUsers.add((String) t.getField(1).getValue());
         }
+    }
+
+    public String getMissionSpecification(String missionRT) {
+        try {
+            Tuple missionSpecTuple = sessionSpace.read(new Tuple(Session.MISSION, String.class, String.class, missionRT, String.class,
+                    String.class));
+            if ( missionSpecTuple != null ) {
+                return (String) missionSpecTuple.getField(2).getValue();
+            }
+        } catch ( TupleSpaceException e ) {
+            e.printStackTrace();
+        }
+        return IAction.NOT_AVAILABLE;
     }
 }

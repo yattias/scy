@@ -110,9 +110,12 @@ public class FeedbackAgent extends AbstractThreadedAgent {
         try {
             String missionRT = action.getContext(ContextConstants.mission);
             Set<String> usersInMission = getSession().getUsersInMissionFromRuntime(missionRT);
+            String missionSpec = getSession().getMissionSpecification(missionRT);
             usersInMission.remove(action.getUser());
+
             for ( String user : usersInMission ) {
-                getCommandSpace().write(createNotification(user, action, FEEDBACK_ASKED));
+                Tuple notification = createNotification(user, missionSpec, action, FEEDBACK_ASKED);
+                getCommandSpace().write(notification);
             }
         } catch ( TupleSpaceException e ) {
             LOGGER.warn("could not write elo added to portfolio tuple");
@@ -122,25 +125,23 @@ public class FeedbackAgent extends AbstractThreadedAgent {
 
     private void handleFeedbackGiven(IAction action) {
         try {
-            this.getCommandSpace().write(createNotification(action.getUser(), action, FEEDBACK_GIVEN));
+            String user = action.getUser();
+            String mission = getSession().getMissionRuntimeURI(user);
+            this.getCommandSpace().write(createNotification(user, mission, action, FEEDBACK_GIVEN));
         } catch ( TupleSpaceException e ) {
             LOGGER.warn("could not write elo added to portfolio tuple");
             e.printStackTrace();
         }
     }
 
-    private Tuple createNotification(String user, IAction action, String type) {
+    private Tuple createNotification(String user, String missionSpec, IAction action, String type) {
         Tuple notificationTuple = new Tuple();
         notificationTuple.add(AgentProtocol.NOTIFICATION);
         notificationTuple.add(new VMID().toString());
         notificationTuple.add(user);
         notificationTuple.add(action.getContext(ContextConstants.eloURI));
         notificationTuple.add(NAME);
-        String mission = action.getContext(ContextConstants.mission);
-        if ( IAction.NOT_AVAILABLE.equals(mission) ) {
-            mission = getSession().getMissionRuntimeURI(user);
-        }
-        notificationTuple.add(mission);
+        notificationTuple.add(action.getContext(ContextConstants.mission));
         notificationTuple.add(action.getContext(ContextConstants.session));
 
         notificationTuple.add("type=" + type);
