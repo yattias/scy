@@ -43,37 +43,32 @@ public class ExtractTopicModelKeywordsAgentTest extends AbstractTestFixture {
 		params.put(AgentProtocol.PARAM_AGENT_ID, new VMID());
 		params.put(AgentProtocol.TS_HOST, TSHOST);
 		params.put(AgentProtocol.TS_PORT, TSPORT);
-		agentMap.put(ExtractTopicModelKeywordsAgent.NAME, params);
+		this.agentMap.put(ExtractTopicModelKeywordsAgent.NAME, params);
 
 		params.put(AgentProtocol.PARAM_AGENT_ID, new VMID());
-		agentMap.put(RooloAccessorAgent.class.getName(), params);
-		startAgentFramework(agentMap);
+		this.agentMap.put(RooloAccessorAgent.class.getName(), params);
+		this.startAgentFramework(this.agentMap);
 	}
 
 	@Override
 	@After
 	public void tearDown() throws AgentLifecycleException {
-		stopAgentFrameWork();
+		this.stopAgentFrameWork();
 		super.tearDown();
 	}
 
 	@Test
 	public void testRun() throws TupleSpaceException {
 		VMID queryId = new VMID();
-		getCommandSpace()
-				.write(new Tuple(
-						ExtractTopicModelKeywordsAgent.EXTRACT_TOPIC_MODEL_KEYWORDS,
-						AgentProtocol.QUERY, queryId.toString(), TEXT,
-						Mission.MISSION2.getName(), LANGUAGE));
-		Tuple response = getCommandSpace()
-				.waitToRead(
-						new Tuple(
-								ExtractTopicModelKeywordsAgent.EXTRACT_TOPIC_MODEL_KEYWORDS,
-								AgentProtocol.RESPONSE, queryId.toString(),
-								String.class));// , AgentProtocol.ALIVE_INTERVAL
-												// * 10);
+		this.getCommandSpace().write(
+				new Tuple(ExtractTopicModelKeywordsAgent.EXTRACT_TOPIC_MODEL_KEYWORDS, AgentProtocol.QUERY, queryId
+						.toString(), TEXT, Mission.MISSION2.getName(), LANGUAGE));
+		Tuple response = this.getCommandSpace().waitToRead(
+				new Tuple(ExtractTopicModelKeywordsAgent.EXTRACT_TOPIC_MODEL_KEYWORDS, AgentProtocol.RESPONSE, queryId
+						.toString(), String.class));// , AgentProtocol.ALIVE_INTERVAL
+													// * 10);
 		assertNotNull("no response received", response);
 		String keywords = (String) response.getField(3).getValue();
-		assertEquals("wrong keywords", "toxic;natural;", keywords);
+		assertEquals("wrong keywords", "content;chemical;natural;environmental;", keywords);
 	}
 }
