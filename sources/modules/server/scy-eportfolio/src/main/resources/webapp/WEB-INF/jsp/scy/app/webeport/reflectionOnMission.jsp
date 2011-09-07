@@ -86,7 +86,7 @@
                     <tr>
                         <td>
                             <input type="hidden" value="${missionRuntimeURI}" name="missionRuntimeURI"/>
-                            <input type="submit" value="SUBMIT_PORTFOLIO" id="submitEport" disabled="true">SUBMIT</input>
+                            <input type="submit" value="<spring:message code="SUBMIT_PORTFOLIO"/>" id="submitEport" disabled="true"/>
                         </td>
                     </tr>
                     </table>
