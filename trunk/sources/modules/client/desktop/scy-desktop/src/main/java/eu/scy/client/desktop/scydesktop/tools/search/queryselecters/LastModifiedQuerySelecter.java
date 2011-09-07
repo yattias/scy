@@ -4,7 +4,6 @@
  */
 package eu.scy.client.desktop.scydesktop.tools.search.queryselecters;
 
-import eu.scy.client.desktop.desktoputils.StringUtils;
 import eu.scy.client.desktop.scydesktop.tools.search.QuerySelecterUsage;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.util.ArrayList;
@@ -13,11 +12,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-import roolo.search.AndQuery;
 import roolo.search.IQuery;
-import roolo.search.IQueryComponent;
-import roolo.search.MetadataQueryComponent;
-import roolo.search.SearchOperation;
 
 /**
  *
@@ -102,12 +97,6 @@ public class LastModifiedQuerySelecter extends AbstractSimpleQuerySelecter
    public String getEloIconName()
    {
       return "orientation";
-   }
-
-   @Override
-   public String getEloIconTooltip()
-   {
-      return "date modified";
    }
 
    @Override

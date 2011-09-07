@@ -7,40 +7,48 @@ package eu.scy.client.desktop.scydesktop.tools.search;
 import javafx.scene.CustomNode;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
+import javafx.util.Sequences;
 
 /**
  * @author sikken
  */
 public class SuggestionsAndHistoryNode extends CustomNode {
 
-   public var entrySelected : function(:HistoryEntry): Void;
+   public var entrySelected: function(: HistoryEntry): Void;
    var suggestions: HistoryEntry[];
    var history: HistoryEntry[];
-   def titleOption = "Suggestions and history";
-   def suggestionsOption = "Suggestions";
-   def historyOption = "History";
+   def titleOption = ##"Suggestions and history";
+   def suggestionsOption = ##"Suggestions";
+   def historyOption = ##"History";
    def choiceBox = ChoiceBox {
               items: []
            }
-   def selectedItem = bind choiceBox.selectedItem on replace { selectionChanged() };
+   def selectedIndex = bind choiceBox.selectedIndex on replace { selectionChanged() };
 
-   public function addHistoryEntry(historyEntry: HistoryEntry): Void{
-      insert historyEntry after history[9999];
-      delete suggestions;
-      rebuildChoices()
+   public function addHistoryEntry(historyEntry: HistoryEntry): Void {
+      if (Sequences.indexOf(history, historyEntry) < 0) {
+         insert historyEntry after history[9999];
+         delete  suggestions;
+         rebuildChoices()
+      }
    }
 
-   public function setSuggestions(suggestions: HistoryEntry[]): Void{
+   public function setSuggestions(suggestions: HistoryEntry[]): Void {
       this.suggestions = suggestions;
       rebuildChoices();
-      if (sizeof suggestions>0){
+      if (sizeof suggestions > 0) {
          choiceBox.show();
       }
    }
 
    function selectionChanged() {
-      println("User selected: {selectedItem}");
-      choiceBox.select(0);
+      FX.deferAction(function():Void{
+            choiceBox.select(0);
+         });
+      def selectedHistoryEntry = findSelectedHistoryEntry();
+      if (selectedHistoryEntry != null) {
+         entrySelected(selectedHistoryEntry)
+      }
    }
 
    public override function create(): Node {
@@ -50,20 +58,34 @@ public class SuggestionsAndHistoryNode extends CustomNode {
 
    function rebuildChoices() {
       var anythingToSelect = false;
-      var choices = [titleOption,suggestionsOption] as Object[];
-      for (suggestion in suggestions){
+      var choices = [titleOption, suggestionsOption] as Object[];
+      for (suggestion in suggestions) {
          insert suggestion after choices[99999];
          anythingToSelect = true;
       }
       insert "" after choices[99999];
       insert historyOption after choices[99999];
-      for (hist in history){
+      for (hist in history) {
          insert hist after choices[99999];
          anythingToSelect = true;
       }
       choiceBox.items = choices;
       choiceBox.select(0);
       choiceBox.disable = not anythingToSelect;
+   }
+
+   function findSelectedHistoryEntry(): HistoryEntry {
+      var index = selectedIndex - 2;
+      if (index >= 0) {
+         if (index < sizeof suggestions) {
+            return suggestions[index]
+         }
+         index -= sizeof suggestions + 2;
+         if (index >= 0) {
+            return history[index]
+         }
+      }
+      return null
    }
 
 }

@@ -22,8 +22,6 @@ public interface QuerySelecter
 
    public String getEloIconName();
 
-   public String getEloIconTooltip();
-
    public List<String> getDisplayOptions();
 
    public String getSelectedOption();

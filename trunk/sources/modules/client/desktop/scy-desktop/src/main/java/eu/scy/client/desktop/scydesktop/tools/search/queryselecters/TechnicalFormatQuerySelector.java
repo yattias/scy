@@ -4,7 +4,6 @@
  */
 package eu.scy.client.desktop.scydesktop.tools.search.queryselecters;
 
-import eu.scy.client.desktop.desktoputils.StringUtils;
 import eu.scy.client.desktop.scydesktop.tools.search.QuerySelecterUsage;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.util.ArrayList;
@@ -14,9 +13,6 @@ import java.util.Set;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.search.IQuery;
-import roolo.search.IQueryComponent;
-import roolo.search.MetadataQueryComponent;
-import roolo.search.SearchOperation;
 
 /**
  *
@@ -55,12 +51,6 @@ public class TechnicalFormatQuerySelector extends AbstractSimpleQuerySelecter
    public String getEloIconName()
    {
       return "report";
-   }
-
-   @Override
-   public String getEloIconTooltip()
-   {
-      return "format";
    }
 
    @Override

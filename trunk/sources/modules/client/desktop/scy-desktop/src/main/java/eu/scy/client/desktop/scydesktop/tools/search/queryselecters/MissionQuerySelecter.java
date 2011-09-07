@@ -14,9 +14,6 @@ import java.util.List;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.search.IQuery;
-import roolo.search.IQueryComponent;
-import roolo.search.MetadataQueryComponent;
-import roolo.search.SearchOperation;
 
 /**
  *
@@ -90,12 +87,6 @@ public class MissionQuerySelecter extends AbstractSimpleQuerySelecter
    public String getEloIconName()
    {
       return "mission_map";
-   }
-
-   @Override
-   public String getEloIconTooltip()
-   {
-      return "mission";
    }
 
    @Override
