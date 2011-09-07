@@ -31,20 +31,38 @@ public class FeedbackEloSearchResultFilter implements Comparator {
     public int compare(Object o1, Object o2) {
         TransferElo first = (TransferElo) o1;
         TransferElo last = (TransferElo) o2;
+        if(feedbackEloSearchFilter.getCriteria() != null) {
+            if(feedbackEloSearchFilter.getCriteria().equals("NEWEST")){
+                return compareOnDate(first, last);
+            } else if(feedbackEloSearchFilter.getCriteria().equals("MOST_VIEWED")) {
+                return compareOnMostViewed(first,last);
+            }
+            
+        }
 
+        //default to newest
         return compareOnDate(first, last);
+
+    }
+
+    private int compareOnMostViewed(TransferElo first, TransferElo last) {
+        Integer firstShown = new Integer(first.getFeedbackEloTransfer().getShown());
+        Integer lastShown = new Integer(last.getFeedbackEloTransfer().getShown());
+        if(firstShown > lastShown) return -1;
+        else if(firstShown == lastShown) return 0;
+        return 1;
     }
 
     private int compareOnDate(TransferElo first, TransferElo last) {
         try {
             Date firstDate = formatter.parse(first.getCreatedDate());
             Date lastDate = formatter.parse(last.getCreatedDate());
-            if(firstDate.after(lastDate)) return 1;
+            if(firstDate.after(lastDate)) return -1;
             else if(firstDate.equals(lastDate)) return 0;
-            return -1;
+            return 1;
         } catch (ParseException e) {
             log.warning(e.getMessage());
-            return 1;
+            return -1;
         }
     }
 

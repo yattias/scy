@@ -90,13 +90,13 @@
                 <form action="fbIndex.html" id="filterForm">
                     <strong>Show:</strong>
                     <select name="criteria" onChange="document.getElementById('filterForm').submit();">
-                        <option>Newest</option>
-                        <option>Commented</option>
-                        <option>Most commented</option>
-                        <option>Not commented</option>
-                        <option>Commented by me</option>
-                        <option>Highest scored</option>
-                        <option>Most Viewed</option>
+                        <option value="NEWEST">Newest</option>
+                        <option value="COMMENTED">Commented</option>
+                        <option value="MOST_COMMENTED">Most commented</option>
+                        <option value="NOT_COMMENTED">Not commented</option>
+                        <option value="COMMENTED_BY_ME">Commented by me</option>
+                        <option value="HIGHEST_SCORED">Highest scored</option>
+                        <option value="MOST_VIEWED">Most Viewed</option>
                     </select>
                     <strong>Category:</strong>
                     <select name="anchorElo" onChange="document.getElementById('filterForm').submit();">
@@ -111,16 +111,17 @@
                     </select>
                     <strong>Person:</strong>
                     <select name="user" onChange="document.getElementById('filterForm').submit();">
-                        <option value="MINE"><spring:message code="MINE"/> </option>
                         <option value="ALL"><spring:message code="ALL"/> </option>
+                        <option value="MINE"><spring:message code="MINE"/> </option>
                         <option>Users</option>
                         <option>From</option>
                         <option>Authoring</option>
                         <option>Tool</option>
                     </select>
+                    <input type="submit" value="search"/>
                     <br/><h2>Click on an ELO to give feedback</h2>
                     <input type="hidden" name="eloURI" value="${eloURI}">
-                    <input type="submit" value="search"/>
+
                 </form>
             </div>
             <c:choose>
