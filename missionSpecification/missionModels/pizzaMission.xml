@@ -319,6 +319,11 @@
                <property name="loEloUris">
                   <list />
                </property>
+               <property name="dependingOnMissionAnchorIds">
+               	  <list>
+               	  	<value>criteriaFinalTable</value>
+              	  </list>
+               </property>
             </bean>
 
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
@@ -333,6 +338,9 @@
                <property name="loEloUris">
                   <list />
                </property>
+               <property name="dependingOnMissionAnchorIds">
+               	  <list />
+               </property>
             </bean>
 		
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
@@ -346,6 +354,9 @@
                </property>
                <property name="loEloUris">
                   <list />
+               </property>
+               <property name="dependingOnMissionAnchorIds">
+               	  <list />
                </property>
             </bean>
 		
@@ -362,6 +373,13 @@
                <property name="loEloUris">
                   <list />
                </property>
+               <property name="dependingOnMissionAnchorIds">
+               	  <list>
+               	  	<value>foodAndExerciseDiary</value>
+               	  	<value>dailyCalorieIntake</value>
+               	  	<value>energyFactSheet</value>
+               	  </list>
+               </property>
             </bean>
 		
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
@@ -375,6 +393,9 @@
                </property>
                <property name="loEloUris">
                   <list />
+               </property>
+               <property name="dependingOnMissionAnchorIds">
+               	  <list />
                </property>
             </bean>
 		
@@ -390,6 +411,14 @@
                <property name="loEloUris">
                   <list />
                </property>
+               <property name="dependingOnMissionAnchorIds">
+               	  <list>
+               	  	<value>foodAndExerciseDiary</value>
+               	  </list>
+               </property>
+               <property name="dependingOnMissionAnchorIds">
+               	  <list />
+               </property>
             </bean>
 		
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
@@ -403,6 +432,9 @@
                </property>
                <property name="loEloUris">
                   <list />
+               </property>
+               <property name="dependingOnMissionAnchorIds">
+               	  <list />
                </property>
             </bean>
 		
@@ -418,6 +450,9 @@
                </property>
                <property name="loEloUris">
                   <list />
+               </property>
+               <property name="dependingOnMissionAnchorIds">
+               	  <list />
                </property>
             </bean>
 		
@@ -435,6 +470,9 @@
                <property name="loEloUris">
                   <list />
                </property>
+               <property name="dependingOnMissionAnchorIds">
+               	  <list />
+               </property>
             </bean>
 		
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
@@ -450,6 +488,9 @@
                <property name="loEloUris">
                   <list />
                </property>
+               <property name="dependingOnMissionAnchorIds">
+               	  <list />
+               </property>
             </bean>
 		
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
@@ -464,6 +505,9 @@
                <property name="loEloUris">
                   <list />
                </property>
+               <property name="dependingOnMissionAnchorIds">
+               	  <list />
+               </property>
             </bean>
 		
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
@@ -477,6 +521,9 @@
                </property>
                <property name="loEloUris">
                   <list />
+               </property>
+               <property name="dependingOnMissionAnchorIds">
+               	  <list />
                </property>
             </bean>
 		
@@ -507,6 +554,9 @@
                <property name="loEloUris">
                   <list />
                </property>
+               <property name="dependingOnMissionAnchorIds">
+               	  <list />
+               </property>
             </bean>
 		
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
@@ -521,6 +571,9 @@
                </property>
                <property name="loEloUris">
                   <list />
+               </property>
+               <property name="dependingOnMissionAnchorIds">
+               	  <list />
                </property>
             </bean>
 		
@@ -537,6 +590,9 @@
                <property name="loEloUris">
                   <list />
                </property>
+               <property name="dependingOnMissionAnchorIds">
+               	  <list />
+               </property>
             </bean>
 		
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
@@ -550,6 +606,9 @@
                </property>
                <property name="loEloUris">
                   <list />
+               </property>
+               <property name="dependingOnMissionAnchorIds">
+               	  <list />
                </property>
             </bean>
 		
@@ -566,6 +625,9 @@
                <property name="loEloUris">
                   <list />
                </property>
+               <property name="dependingOnMissionAnchorIds">
+               	  <list />
+               </property>
             </bean>
 		
 	
@@ -581,6 +643,9 @@
                <property name="loEloUris">
                   <list />
                </property>
+               <property name="dependingOnMissionAnchorIds">
+               	  <list />
+               </property>
             </bean>
 		
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
@@ -594,6 +659,9 @@
                </property>
                <property name="loEloUris">
                   <list />
+               </property>
+               <property name="dependingOnMissionAnchorIds">
+               	  <list />
                </property>
             </bean>
 		
@@ -609,6 +677,12 @@
                <property name="loEloUris">
                   <list />
                </property>
+               <property name="dependingOnMissionAnchorIds">
+               	  <list>
+               	  	<value>myFavouritePizza</value>
+               	  	<value>myFirstHealthyPizza</value>
+               	  </list>
+               </property>
             </bean>
 				
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
@@ -622,6 +696,9 @@
                </property>
                <property name="loEloUris">
                   <list />
+               </property>
+               <property name="dependingOnMissionAnchorIds">
+               	  <list />
                </property>
             </bean>
 				
@@ -638,6 +715,12 @@
                <property name="loEloUris">
                   <list />
                </property>
+               <property name="dependingOnMissionAnchorIds">
+               	  <list>
+               	  	<value>criteriaTable</value>
+               	  	<value>criteriaWeightTable</value>
+               	  </list>
+               </property>
             </bean>
 				
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
@@ -652,6 +735,9 @@
                <property name="loEloUris">
                   <list />
                </property>
+               <property name="dependingOnMissionAnchorIds">
+               	  <list />
+               </property>
             </bean>
 				
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
@@ -665,6 +751,9 @@
                </property>
                <property name="loEloUris">
                   <list />
+               </property>
+               <property name="dependingOnMissionAnchorIds">
+               	  <list />
                </property>
             </bean>
 				
@@ -681,6 +770,9 @@
                <property name="loEloUris">
                   <list />
                </property>
+               <property name="dependingOnMissionAnchorIds">
+               	  <list />
+               </property>
             </bean>
 			
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
@@ -696,16 +788,13 @@
                <property name="loEloUris">
                   <list />
                </property>
+               <property name="dependingOnMissionAnchorIds">
+               	  <list />
+               </property>
             </bean>
-
-
-			
-
-			</list>
-			
+	  	 </list>
       </property>
-
-
+      
       <property name="templateEloUris">
          <list>
             <value>roolo://memory/30116/0/newText.rtf</value>
