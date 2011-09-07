@@ -78,12 +78,6 @@ public class AuthorQuerySelecter extends AbstractSimpleQuerySelecter
       return "Buddy_me";
    }
 
-   @Override
-   public String getEloIconTooltip()
-   {
-      return "author";
-   }
-
    private String getBasedOnAuthor()
    {
       List<String> authors = getBasedOnElo().getAuthors();

@@ -93,6 +93,9 @@ public class GridSearchResultsNode extends CustomNode, Resizable, ScyEloListCell
    var foundLabel: Label;
    def dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT);
    def foundOnDateLabelText = ##"on";
+   def foundByLabelText = ##"by";
+   def foundAndLabelText = ##"and";
+   def foundAndOthersLabelText = ##"and others";
    var nrFoundString = "";
    var dateFoundString = "";
    public-read def selectedSearchResult = bind resultsListView.selectedItem as ScySearchResult on replace {
@@ -169,7 +172,7 @@ public class GridSearchResultsNode extends CustomNode, Resizable, ScyEloListCell
                           layoutInfo: GridLayoutInfo {
                              hspan: 2
                              vgrow: Priority.NEVER
-                             vshrink:Priority.NEVER
+                             vshrink: Priority.NEVER
                           }
                        }
             ]
@@ -219,8 +222,24 @@ public class GridSearchResultsNode extends CustomNode, Resizable, ScyEloListCell
       setFoundLabelText()
    }
 
-   function setFoundLabelText(){
-      foundLabel.text = "{foundLabelText}:  {nrFoundString}  -  {foundOnDateLabelText}  {dateFoundString}";
+   protected function getByAuthors(): String[] {
+      []
+   }
+
+   function setFoundLabelText() {
+      var byAuthorsText = "";
+      def authorsList = getByAuthors();
+      if (sizeof authorsList > 0) {
+         byAuthorsText = " {foundByLabelText} {authorsList[0]}";
+         if (sizeof authorsList > 1) {
+            if (sizeof authorsList == 2) {
+               byAuthorsText += " {foundAndLabelText} {authorsList[1]}"
+            } else {
+               byAuthorsText += " {foundAndOthersLabelText}"
+            }
+         }
+      }
+      foundLabel.text = "{foundLabelText}:  {nrFoundString}  -  {foundOnDateLabelText}  {dateFoundString}{byAuthorsText}";
    }
 
    public override function getPrefWidth(w: Number): Number {
