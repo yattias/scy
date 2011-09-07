@@ -41,15 +41,12 @@
                     </c:when>
                 </c:choose>
 
-
-            </div>
-
             <div>
                 <form action="storeMissionReflection.html">
                     <table>
                         <tr>
                             <td>
-                                <spring:message code="COMMENTS_ON_PORTFOLIO"/>
+                                <h2><spring:message code="COMMENTS_ON_PORTFOLIO"/></h2>
                             </td>
                         </tr>
                         <tr>
@@ -59,7 +56,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <spring:message code="RATING_ON_PORTFOLIO"/>
+                                <h2><spring:message code="RATING_ON_PORTFOLIO"/></h2>
                             </td>
                         </tr>
                         <tr>
@@ -74,12 +71,15 @@
                         </tr>
                         <tr>
                             <td>
-                                <input type="submit" value="SAVE"/>
+                                <input type="submit" value="<spring:message code="SAVE"/>"/>
                             </td>
                         </tr>
                     </table>
                 </form>
             </div>
+            </div>
+
+
             
 
 
