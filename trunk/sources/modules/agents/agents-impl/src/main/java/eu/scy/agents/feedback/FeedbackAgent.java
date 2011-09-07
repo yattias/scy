@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 
 import java.rmi.dgc.VMID;
 import java.util.Map;
+import java.util.Set;
 
 public class FeedbackAgent extends AbstractThreadedAgent {
 
@@ -42,7 +43,7 @@ public class FeedbackAgent extends AbstractThreadedAgent {
                             new Tuple(ActionConstants.ACTION, String.class,
                                     Long.class, FEEDBACK_GIVEN,
                                     Field.createWildCardField()), this, true);
-        } catch (TupleSpaceException e) {
+        } catch ( TupleSpaceException e ) {
             e.printStackTrace();
         }
     }
@@ -50,16 +51,16 @@ public class FeedbackAgent extends AbstractThreadedAgent {
     @Override
     protected void doRun() throws TupleSpaceException, AgentLifecycleException, InterruptedException {
         try {
-            while (this.status == Status.Running) {
+            while ( this.status == Status.Running ) {
                 this.sendAliveUpdate();
                 Thread.sleep(AgentProtocol.ALIVE_INTERVAL / 2);
             }
-        } catch (Exception e) {
+        } catch ( Exception e ) {
             LOGGER.fatal("*************** " + e.getMessage(), e);
             e.printStackTrace();
             throw new AgentLifecycleException(e.getMessage(), e);
         }
-        if (this.status != Status.Stopping) {
+        if ( this.status != Status.Stopping ) {
             LOGGER.warn("************** Agent not stopped but run loop terminated *****************1");
         }
     }
@@ -73,7 +74,7 @@ public class FeedbackAgent extends AbstractThreadedAgent {
 
             this.getActionSpace().eventDeRegister(this.feedbackAskedSeq);
             this.feedbackAskedSeq = -1;
-        } catch (TupleSpaceException e) {
+        } catch ( TupleSpaceException e ) {
             e.printStackTrace();
         }
     }
@@ -91,11 +92,11 @@ public class FeedbackAgent extends AbstractThreadedAgent {
     @Override
     public void call(Command command, int seq, Tuple afterTuple,
                      Tuple beforeTuple) {
-        if (seq == feedbackAskedSeq) {
+        if ( seq == feedbackAskedSeq ) {
             IAction action = ActionTupleTransformer.getActionFromTuple(afterTuple);
             handleFeedbackAsked(action);
         }
-        if (seq == feedbackGivenSeq) {
+        if ( seq == feedbackGivenSeq ) {
             IAction action = ActionTupleTransformer.getActionFromTuple(afterTuple);
             handleFeedbackGiven(action);
         } else {
@@ -107,9 +108,13 @@ public class FeedbackAgent extends AbstractThreadedAgent {
 
     private void handleFeedbackAsked(IAction action) {
         try {
-//            getSession().getUsersInMission(action.getContext())
-            getCommandSpace().write(createNotification(action, FEEDBACK_ASKED));
-        } catch (TupleSpaceException e) {
+            String missionRT = action.getContext(ContextConstants.mission);
+            Set<String> usersInMission = getSession().getUsersInMissionFromRuntime(missionRT);
+            usersInMission.remove(action.getUser());
+            for ( String user : usersInMission ) {
+                getCommandSpace().write(createNotification(user, action, FEEDBACK_ASKED));
+            }
+        } catch ( TupleSpaceException e ) {
             LOGGER.warn("could not write elo added to portfolio tuple");
             e.printStackTrace();
         }
@@ -117,23 +122,22 @@ public class FeedbackAgent extends AbstractThreadedAgent {
 
     private void handleFeedbackGiven(IAction action) {
         try {
-            this.getCommandSpace().write(createNotification(action, FEEDBACK_GIVEN));
-        } catch (TupleSpaceException e) {
+            this.getCommandSpace().write(createNotification(action.getUser(), action, FEEDBACK_GIVEN));
+        } catch ( TupleSpaceException e ) {
             LOGGER.warn("could not write elo added to portfolio tuple");
             e.printStackTrace();
         }
     }
 
-    private Tuple createNotification(IAction action, String type) {
+    private Tuple createNotification(String user, IAction action, String type) {
         Tuple notificationTuple = new Tuple();
         notificationTuple.add(AgentProtocol.NOTIFICATION);
         notificationTuple.add(new VMID().toString());
-        String user = action.getUser();
         notificationTuple.add(user);
         notificationTuple.add(action.getContext(ContextConstants.eloURI));
         notificationTuple.add(NAME);
         String mission = action.getContext(ContextConstants.mission);
-        if (IAction.NOT_AVAILABLE.equals(mission)) {
+        if ( IAction.NOT_AVAILABLE.equals(mission) ) {
             mission = getSession().getMissionRuntimeURI(user);
         }
         notificationTuple.add(mission);
