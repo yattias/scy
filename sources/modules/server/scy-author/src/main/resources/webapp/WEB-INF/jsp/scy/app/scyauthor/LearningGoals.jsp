@@ -3,7 +3,7 @@
     <spring:message code="HELP_TEXT_LEARNING_GOALS"/>
     </div>
 </div>
-<h2><spring:message code="GENERAL_LEARNING_GOALS"/><button id="buttonOne" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconCut" showLabel="false" type="button">
+<h2><spring:message code="GENERAL_LEARNING_GOALS"/><button id="buttonOne" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconHelp" showLabel="false" type="button">
     <script type="dojo/method" event="onClick" args="evt">
         // Show the Dialog:
         dijit.byId("dialogOne").show();
@@ -48,10 +48,10 @@
                                                 <center>
                                                     <a href="javascript:openPage('learningGoalsConfiguration', 'LearningGoals.html?action=setLevelOnCriteria&criteriaId=${criteria.id}&learningGoalId=${learningGoal.id}&level=LOW&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));">
                                                         <c:if test="${criteria.level == 'LOW'}">
-                                                            x
+                                                            <img src="/webapp/themes/scy/default/images/checked_radio.png" alt=""  />
                                                         </c:if>
                                                         <c:if test="${criteria.level != 'LOW'}">
-                                                            o
+                                                            <img src="/webapp/themes/scy/default/images/unchecked_radio.png" alt=""  />
                                                         </c:if>
                                                     </a>
                                                 </center>
@@ -60,10 +60,10 @@
                                                 <center>
                                                     <a href="javascript:openPage('learningGoalsConfiguration', 'LearningGoals.html?action=setLevelOnCriteria&criteriaId=${criteria.id}&learningGoalId=${learningGoal.id}&level=MEDIUM&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));">
                                                         <c:if test="${criteria.level == 'MEDIUM'}">
-                                                            x
+                                                            <img src="/webapp/themes/scy/default/images/checked_radio.png" alt=""  />
                                                         </c:if>
                                                         <c:if test="${criteria.level != 'MEDIUM'}">
-                                                            o
+                                                            <img src="/webapp/themes/scy/default/images/unchecked_radio.png" alt=""  />
                                                         </c:if>
                                                     </a>
                                                 </center>
@@ -72,10 +72,10 @@
                                                 <center>
                                                     <a href="javascript:openPage('learningGoalsConfiguration', 'LearningGoals.html?action=setLevelOnCriteria&criteriaId=${criteria.id}&learningGoalId=${learningGoal.id}&level=HIGH&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));">
                                                         <c:if test="${criteria.level == 'HIGH'}">
-                                                            x
+                                                            <img src="/webapp/themes/scy/default/images/checked_radio.png" alt=""  />
                                                         </c:if>
                                                         <c:if test="${criteria.level != 'HIGH'}">
-                                                            o
+                                                            <img src="/webapp/themes/scy/default/images/unchecked_radio.png" alt=""  />
                                                         </c:if>
                                                     </a>
                                                 </center>
@@ -139,10 +139,10 @@
                                                 <center>
                                                     <a href="javascript:openPage('learningGoalsConfiguration', 'LearningGoals.html?action=setLevelOnCriteria&criteriaId=${criteria.id}&learningGoalId=${learningGoal.id}&level=LOW&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));">
                                                         <c:if test="${criteria.level == 'LOW'}">
-                                                            x
+                                                            <img src="/webapp/themes/scy/default/images/checked_radio.png" alt=""  />
                                                         </c:if>
                                                         <c:if test="${criteria.level != 'LOW'}">
-                                                            o
+                                                            <img src="/webapp/themes/scy/default/images/unchecked_radio.png" alt=""  />
                                                         </c:if>
                                                     </a>
                                                 </center>
@@ -151,10 +151,10 @@
                                                 <center>
                                                     <a href="javascript:openPage('learningGoalsConfiguration', 'LearningGoals.html?action=setLevelOnCriteria&criteriaId=${criteria.id}&learningGoalId=${learningGoal.id}&level=MEDIUM&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));">
                                                         <c:if test="${criteria.level == 'MEDIUM'}">
-                                                            x
+                                                            <img src="/webapp/themes/scy/default/images/checked_radio.png" alt=""  />
                                                         </c:if>
                                                         <c:if test="${criteria.level != 'MEDIUM'}">
-                                                            o
+                                                            <img src="/webapp/themes/scy/default/images/unchecked_radio.png" alt=""  />
                                                         </c:if>
                                                     </a>
                                                 </center>
@@ -163,10 +163,10 @@
                                                 <center>
                                                     <a href="javascript:openPage('learningGoalsConfiguration', 'LearningGoals.html?action=setLevelOnCriteria&criteriaId=${criteria.id}&learningGoalId=${learningGoal.id}&level=HIGH&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));">
                                                         <c:if test="${criteria.level == 'HIGH'}">
-                                                            x
+                                                            <img src="/webapp/themes/scy/default/images/checked_radio.png" alt=""  />
                                                         </c:if>
                                                         <c:if test="${criteria.level != 'HIGH'}">
-                                                            o
+                                                            <img src="/webapp/themes/scy/default/images/unchecked_radio.png" alt=""  />
                                                         </c:if>
                                                     </a>
                                                 </center>
