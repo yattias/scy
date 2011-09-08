@@ -23,9 +23,7 @@ import javafx.geometry.HPos;
 import javafx.scene.control.Label;
 import com.javafx.preview.layout.Grid;
 import com.javafx.preview.layout.GridRow;
-import eu.scy.client.desktop.scydesktop.corners.elomanagement.QuerySearchFinished;
 import java.util.List;
-import eu.scy.client.desktop.scydesktop.corners.elomanagement.BackgroundQuerySearch;
 import roolo.search.MetadataQueryComponent;
 import roolo.search.Query;
 import roolo.search.QueryContext;
@@ -70,7 +68,7 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
            };
    public var scyDesktop: ScyDesktop;
    public var querySelecterFactory: QuerySelecterFactory;
-   public var eloOpenedAction : function(:ScyWindow):Void;
+   public var eloOpenedAction: function(: ScyWindow): Void;
    def minimumWidth = 150;
    def minimumHeight = 100;
    def queryLabel = Label {
@@ -250,7 +248,7 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
                   content: [
                      useAsBaseButton,
                      openButton,
-                     if (cancelAction!=null){
+                     if (cancelAction != null) {
                         cancelButton
                      } else {
                         null
@@ -391,8 +389,7 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
       return byAuthors
    }
 
-   function createQueryContext(
-           eloUri: String): QueryContext {
+   function createQueryContext(eloUri: String): QueryContext {
       def queryContext: QueryContext = new QueryContext();
       queryContext.setEloUri(eloUri);
       queryContext.setUsername(queryContentUserName);
