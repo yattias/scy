@@ -82,17 +82,21 @@
                                                 <c:when test="${fn:length(generalLearningGoals) > 0}">
                                                     <table>
                                                         <tr>
-                                                            <th width="80%"><spring:message code="LEARNING_GOALS"/></th>
-                                                            <th><spring:message code="SCORE"/>  </th>
+                                                            <th width="45%"><spring:message code="LEARNING_GOALS"/></th>
+                                                            <th width="45%"><spring:message code="CRITERIA"/>  </th>
+                                                            <th><spring:message code="LEVEL"/>  </th>
                                                         </tr>
                                                         <c:forEach var="generalLearningGoalWithScore" items="${generalLearningGoals}">
-                                                            <tr>
+                                                            <tr  class="${oddEven.oddEven}">
                                                                 <td width="5%">
                                                                     ${generalLearningGoalWithScore.learningGoalText}
                                                                 </td>
                                                                 <td>
-                                                                    <c:if test="${generalLearningGoalWithScore.score != null}">
-                                                                        <spring:message code="${generalLearningGoalWithScore.score}"/>
+                                                                    ${generalLearningGoalWithScore.criteriaText}
+                                                                </td>
+                                                                <td>
+                                                                    <c:if test="${generalLearningGoalWithScore.criteriaLevel != null}">
+                                                                        <spring:message code="${generalLearningGoalWithScore.criteriaLevel}"/>
                                                                     </c:if>
                                                                 </td>
                                                             </tr>
@@ -106,18 +110,22 @@
                                                 <c:when test="${fn:length(specificLearningGoals) > 0}">
                                                     <table>
                                                         <tr>
-                                                            <th width="80%"><spring:message code="LEARNING_GOALS"/></th>
-                                                            <th><spring:message code="SCORE"/>  </th>
+                                                            <th width="45%"><spring:message code="LEARNING_GOALS"/></th>
+                                                            <th width="45%"><spring:message code="CRITERIA"/></th>
+                                                            <th><spring:message code="LEVEL"/>  </th>
                                                         </tr>
 
                                                         <c:forEach var="learningGoalWithScore" items="${specificLearningGoals}">
-                                                            <tr>
+                                                            <tr  class="${oddEven.oddEven}">
                                                                 <td width="5%">
                                                                     ${learningGoalWithScore.learningGoalText}
                                                                 </td>
                                                                 <td>
-                                                                    <c:if test="${generalLearningGoalWithScore.score != null}">
-                                                                        <spring:message code="${generalLearningGoalWithScore.score}"/>
+                                                                    ${generalLearningGoalWithScore.criteriaText}
+                                                                </td>
+                                                                <td>
+                                                                    <c:if test="${generalLearningGoalWithScore.criteriaLevel != null}">
+                                                                        <spring:message code="${generalLearningGoalWithScore.criteriaLevel}"/>
                                                                     </c:if>
                                                                 </td>
                                                             </tr>
