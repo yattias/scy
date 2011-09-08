@@ -24,7 +24,7 @@ trait KeyValueStore
     getKeys().sortWith((s1,s2) => s1.compareToIgnoreCase(s2)<0)
   }
 
-  def getValue(key: String, lang: String) : String
+  def getValue(key: String, lang: String) : Option[String]
 
   def addKeyValue(key: String, lang: String, value: String) : Unit
 
