@@ -70,6 +70,7 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
            };
    public var scyDesktop: ScyDesktop;
    public var querySelecterFactory: QuerySelecterFactory;
+   public var eloOpenedAction : function(:ScyWindow):Void;
    def minimumWidth = 150;
    def minimumHeight = 100;
    def queryLabel = Label {
@@ -248,7 +249,12 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
                   hpos: HPos.RIGHT
                   content: [
                      useAsBaseButton,
-                     openButton
+                     openButton,
+                     if (cancelAction!=null){
+                        cancelButton
+                     } else {
+                        null
+                     }
                   ]
                }
             ]
@@ -436,10 +442,11 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
    }
 
    function openElo(): Void {
-      scyDesktop.scyWindowControl.addOtherScyWindow(selectedSearchResult.getScyElo().getUri());
+      def newWindow = scyDesktop.scyWindowControl.addOtherScyWindow(selectedSearchResult.getScyElo().getUri());
+      eloOpenedAction(newWindow)
    }
 
-   function searchBasedOnElo(scyElo: ScyElo): Void {
+   public function searchBasedOnElo(scyElo: ScyElo): Void {
       querySelecterUsage = QuerySelecterUsage.ELO_BASED;
       setBasedOnElo(scyElo);
       createNodeContent();
