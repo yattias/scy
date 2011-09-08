@@ -48,6 +48,8 @@ import java.util.LinkedHashMap;
 import java.util.Locale;
 import roolo.elo.api.IELO;
 import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
+import eu.scy.client.desktop.scydesktop.tools.search.EloSearchNode;
+import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
 /**
  * @author sikken
@@ -145,8 +147,8 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
                  eloIcon: windowStyler.getScyEloIcon("search")
                  buttonSize: buttonSize
                  buttonActionScheme: buttonActionScheme
-                 clickAction: textQuerySearchAction
-                 dropAction: eloBasedSearchAction
+                 clickAction: textQuerySearchAction2
+                 dropAction: eloBasedSearchAction2
                  tooltipManager: tooltipManager
                  tooltip: ##"search for ELOs or\ndrag icon here, to start search"
               }
@@ -177,7 +179,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
       }
    }
 
-   function createBubbles(){
+   function createBubbles() {
       scyDesktop.bubbleManager.createBubble(archiver, 6, "archiver", "desktop", "archiver");
       scyDesktop.bubbleManager.createBubble(archiver, 4, "newFromEloTemplateButton", "desktop", "newFromEloTemplateButton");
       scyDesktop.bubbleManager.createBubble(archiver, 5, "search", "desktop", "search");
@@ -270,7 +272,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
          if (newElo != null) {
             var titleContainer = newElo.getMetadata().getMetadataValueContainer(titleKey);
             var templateTitle = titleContainer.getValue() as String;
-            setTitleAndLanguage(newElo,scyDesktop.newTitleGenerator.generateNewTitleFromName(templateTitle));
+            setTitleAndLanguage(newElo, scyDesktop.newTitleGenerator.generateNewTitleFromName(templateTitle));
             newElo.getMetadata().getMetadataValueContainer(templateKey).setValue("true");
             newElo.getMetadata().getMetadataValueContainer(creatorKey).setValue(new Contribute(tbi.getLoginUserName(), System.currentTimeMillis()));
             var metadata = repository.addForkedELO(newElo);
@@ -358,6 +360,66 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
          backgroundEloBasedSearch.abort();
          backgroundEloBasedSearch = null;
       }
+   }
+
+   function createModalDialogForContent(windowColorScheme: WindowColorScheme, eloIcon: EloIcon, title: String, content: Node): ModalDialogBox {
+      eloIcon.selected = true;
+      ModalDialogBox {
+         content: content
+         title: title
+         eloIcon: eloIcon
+         windowColorScheme: windowColorScheme
+         closeAction: function(): Void {
+            newFromEloTemplateButton.turnedOn = false;
+            createBlankEloButton.turnedOn = false;
+            searcher.turnedOn = false;
+         }
+      }
+   }
+
+   function textQuerySearchAction2(): Void {
+      FX.deferAction(function(): Void {
+         searcher.turnedOn = true;
+      });
+      def eloSearchNode = scyDesktop.scyToolFactory.createNewScyToolNode("search","scy/search", null, null, false) as EloSearchNode;
+      def eloIcon = windowStyler.getScyEloIcon(ImageWindowStyler.generalSearch);
+      def windowColorScheme = windowStyler.getWindowColorScheme(ImageWindowStyler.generalSearch);
+
+      def dialogWindow = createModalDialogForContent(windowColorScheme, eloIcon, ##"Search", eloSearchNode);
+      eloSearchNode.window = dialogWindow.dialogWindow;
+      eloSearchNode.cancelAction= function():Void{
+         dialogWindow.dialogWindow.close();
+         searcher.turnedOn = false;
+      }
+      eloSearchNode.eloOpenedAction = function(newWindow:ScyWindow){
+         dialogWindow.dialogWindow.close();
+         searcher.turnedOn = false;
+      }
+      eloSearchNode.initialize(true);
+      eloSearchNode.newElo();
+   }
+
+   function eloBasedSearchAction2(scyElo: ScyElo): Void {
+      FX.deferAction(function(): Void {
+         searcher.turnedOn = true;
+      });
+      def eloSearchNode = scyDesktop.scyToolFactory.createNewScyToolNode("search","scy/search", null, null, false) as EloSearchNode;
+      def eloIcon = windowStyler.getScyEloIcon(ImageWindowStyler.generalSearch);
+      def windowColorScheme = windowStyler.getWindowColorScheme(ImageWindowStyler.generalSearch);
+
+      def dialogWindow = createModalDialogForContent(windowColorScheme, eloIcon, ##"Search", eloSearchNode);
+      eloSearchNode.window = dialogWindow.dialogWindow;
+      eloSearchNode.cancelAction= function():Void{
+         dialogWindow.dialogWindow.close();
+         searcher.turnedOn = false;
+      }
+      eloSearchNode.eloOpenedAction = function(newWindow:ScyWindow){
+         dialogWindow.dialogWindow.close();
+         searcher.turnedOn = false;
+      }
+      eloSearchNode.searchBasedOnElo(scyElo);
+      eloSearchNode.initialize(true);
+      eloSearchNode.newElo();
    }
 
    function searchEloAction(): Void {
@@ -522,7 +584,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
 
       searchElos.openButton.disable = true;
       def searchQuery = QueryFactory.createSimpleQueryForExperts(gridEloSearch.queryBox.rawText.trim());
-//      def searchQuery = new Query(new MetadataQueryComponent(gridEloSearch.queryBox.rawText.trim()));
+      //      def searchQuery = new Query(new MetadataQueryComponent(gridEloSearch.queryBox.rawText.trim()));
       def queryContext: QueryContext = createQueryContext(null);
       searchQuery.setQueryContext(queryContext);
       //        searchQuery.setAllowedEloTypes(getAllowedEloTypes());

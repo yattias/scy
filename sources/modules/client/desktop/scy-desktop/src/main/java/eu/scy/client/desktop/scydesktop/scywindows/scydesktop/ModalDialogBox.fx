@@ -33,7 +33,7 @@ public class ModalDialogBox extends CustomNode {
    public var eloIcon: EloIcon;
    public var windowColorScheme: WindowColorScheme;
    public var closeAction: function(): Void;
-   var dialogWindow: ScyWindow;
+   public-read var dialogWindow: ScyWindow;
 
    postinit {
       FX.deferAction(place);
