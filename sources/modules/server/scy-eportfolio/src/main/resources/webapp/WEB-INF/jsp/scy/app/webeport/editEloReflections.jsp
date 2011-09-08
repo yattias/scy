@@ -86,66 +86,29 @@
 
                                     <table>
                                         <tr>
-                                            <td width="90%">
-                                                <spring:message code="LEARNING_GOAL"/>
+                                            <td width="45%">
+                                                <strong><spring:message code="LEARNING_GOAL"/></strong>
+                                            </td>
+                                            <td width="45%">
+                                                <strong><spring:message code="CRITERIA"/></strong>
                                             </td>
                                             <td>
-                                                <spring:message code="LOW"/>
+                                                <strong><spring:message code="LEVEL"/></strong>
                                             </td>
-                                            <td>
-                                                <spring:message code="MEDIUM"/>
-                                            </td>
-                                            <td>
-                                                <spring:message code="HIGH"/>
-                                            </td>
-                                            <td>
-                                                <spring:message code="DELETE"/>
-                                            </td>
+                                            <td></td>
                                         </tr>
 
                                         <c:forEach var="generalLearningGoalWithScore" items="${selectedGeneralLearningGoalWithScores}">
                                             <tr>
-                                                <td width="80%">
+                                                <td>
                                                     ${generalLearningGoalWithScore.learningGoalText}
                                                 </td>
-                                                    <td>
-                                                        <center>
-
-                                                            <a href="editEloReflections.html?anchorEloURI=${anchorEloURI}&eloURI=${eloURI}&missionRuntimeURI=${missionRuntimeURI}&generalLearningGoalWithScoreId=${generalLearningGoalWithScore.id}&action=setLearningGoalScore&value=LOW">
-                                                                <c:if test="${generalLearningGoalWithScore.score == 'LOW'}">
-                                                                    x
-                                                                </c:if>
-                                                                <c:if test="${generalLearningGoalWithScore.score != 'LOW'}">
-                                                                    o
-                                                                </c:if>
-                                                            </a>
-                                                        </center>                            
-                                                    </td>
-                                                    <td>
-                                                        <center>
-                                                            <a href="editEloReflections.html?anchorEloURI=${anchorEloURI}&eloURI=${eloURI}&missionRuntimeURI=${missionRuntimeURI}&generalLearningGoalWithScoreId=${generalLearningGoalWithScore.id}&action=setLearningGoalScore&value=MEDIUM">
-                                                                <c:if test="${generalLearningGoalWithScore.score == 'MEDIUM'}">
-                                                                    x
-                                                                </c:if>
-                                                                <c:if test="${generalLearningGoalWithScore.score != 'MEDIUM'}">
-                                                                    o
-                                                                </c:if>
-                                                            </a>
-                                                        </center>
-                                                    </td>
-                                                    <td>
-                                                        <center>
-                                                            <a href="editEloReflections.html?anchorEloURI=${anchorEloURI}&eloURI=${eloURI}&missionRuntimeURI=${missionRuntimeURI}&generalLearningGoalWithScoreId=${generalLearningGoalWithScore.id}&action=setLearningGoalScore&value=HIGH">
-                                                                <c:if test="${generalLearningGoalWithScore.score == 'HIGH'}">
-                                                                    x
-                                                                </c:if>
-                                                                <c:if test="${generalLearningGoalWithScore.score != 'HIGH'}">
-                                                                    o
-                                                                </c:if>
-                                                            </a>
-                                                        </center>
-
-                                                    </td>
+                                                <td>
+                                                    ${generalLearningGoalWithScore.criteriaText}
+                                                </td>
+                                                <td>
+                                                    <spring:message code="${generalLearningGoalWithScore.criteriaLevel}"/>
+                                                </td>
                                                 <td>
                                                     <center>
                                                         <a href="javascript:if(confirm('Do you really want to delete this?')){ location.href='editEloReflections.html?anchorEloURI='  + encodeURIComponent('${anchorEloURI}') + '&amp;eloURI='  + encodeURIComponent('${eloURI}') + '&amp;missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;generalLearningGoalWithScoreId=${generalLearningGoalWithScore.id}&amp;action=delete';}">x</a>
@@ -186,78 +149,40 @@
 
                                     <table>
                                         <tr>
-                                            <td width="90%">
-                                                <spring:message code="LEARNING_GOAL"/>
+                                            <td width="45%">
+                                                <strong><spring:message code="LEARNING_GOAL"/></strong>
+                                            </td>
+                                            <td width="44%">
+                                                <strong><spring:message code="CRITERIA"/></strong>
                                             </td>
                                             <td>
-                                                <spring:message code="LOW"/>
+                                                <strong><spring:message code="LEVEL"/></strong> 
                                             </td>
-                                            <td>
-                                                <spring:message code="MEDIUM"/>
-                                            </td>
-                                            <td>
-                                                <spring:message code="HIGH"/>
-                                            </td>
-                                            <td>
-                                                <spring:message code="DELETE"/>
-                                            </td>
+                                            <td></td>
                                         </tr>
 
-                                        <c:forEach var="specificLearningGoalWithScore" items="${selectedSpecificLearningGoalWithScores}">
+                                        <c:forEach var="generalLearningGoalWithScore" items="${selectedSpecificLearningGoalWithScores}">
                                             <tr>
                                                 <td>
-                                                    ${specificLearningGoalWithScore.learningGoalText}
+                                                    ${generalLearningGoalWithScore.learningGoalText}
                                                 </td>
-                                                    <td>
-                                                        <center>
-                                                            <a href="editEloReflections.html?anchorEloURI=${anchorEloURI}&eloURI=${eloURI}&missionRuntimeURI=${missionRuntimeURI}&generalLearningGoalWithScoreId=${specificLearningGoalWithScore.id}&action=setLearningGoalScore&value=LOW">
-                                                                <c:if test="${specificLearningGoalWithScore.score == 'LOW'}">
-                                                                    x
-                                                                </c:if>
-                                                                <c:if test="${specificLearningGoalWithScore.score != 'LOW'}">
-                                                                    o
-                                                                </c:if>
-                                                            </a>
-                                                        </center>
-                                                    </td>
-                                                    <td>
-                                                        <center>
-                                                            <a href="editEloReflections.html?anchorEloURI=${anchorEloURI}&eloURI=${eloURI}&missionRuntimeURI=${missionRuntimeURI}&generalLearningGoalWithScoreId=${specificLearningGoalWithScore.id}&action=setLearningGoalScore&value=MEDIUM">
-                                                                <c:if test="${specificLearningGoalWithScore.score == 'MEDIUM'}">
-                                                                    x
-                                                                </c:if>
-                                                                <c:if test="${specificLearningGoalWithScore.score != 'MEDIUM'}">
-                                                                    o
-                                                                </c:if>
-                                                            </a>
-                                                        </center>
-                                                    </td>
-                                                    <td>
-                                                        <center>
-                                                            <a href="editEloReflections.html?anchorEloURI=${anchorEloURI}&eloURI=${eloURI}&missionRuntimeURI=${missionRuntimeURI}&generalLearningGoalWithScoreId=${specificLearningGoalWithScore.id}&action=setLearningGoalScore&value=HIGH">
-                                                                <c:if test="${specificLearningGoalWithScore.score == 'HIGH'}">
-                                                                    x
-                                                                </c:if>
-                                                                <c:if test="${specificLearningGoalWithScore.score != 'HIGH'}">
-                                                                    o
-                                                                </c:if>
-                                                            </a>
-                                                        </center>
-
-                                                    </td>
-                                                    <td>
-                                                        <center>
-                                                            <a href="javascript:if(confirm('Do you really want to delete this?')){ location.href='editEloReflections.html?anchorEloURI=' + encodeURIComponent('${anchorEloURI}') + '&eloURI='+encodeURIComponent('${eloURI}') + '&missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&generalLearningGoalWithScoreId=${specificLearningGoalWithScore.id}&action=delete';}">x</a>
-                                                        </center>
-                                                    </td>
+                                                <td>
+                                                    ${generalLearningGoalWithScore.criteriaText}
+                                                </td>
+                                                <td>
+                                                    <spring:message code="${generalLearningGoalWithScore.criteriaLevel}"/>
+                                                </td>
+                                                <td>
+                                                    <center>
+                                                        <a href="javascript:if(confirm('Do you really want to delete this?')){ location.href='editEloReflections.html?anchorEloURI='  + encodeURIComponent('${anchorEloURI}') + '&amp;eloURI='  + encodeURIComponent('${eloURI}') + '&amp;missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;generalLearningGoalWithScoreId=${generalLearningGoalWithScore.id}&amp;action=delete';}">x</a>
+                                                    </center>
+                                                </td>
 
 
-
-                                                
                                             </tr>
 
                                         </c:forEach>
-                                </table>
+                                    </table>
                                 </c:when>
                             </c:choose>
                             <c:if test="${portfolioLocked == false}">

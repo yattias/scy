@@ -11,7 +11,10 @@
                                 <c:forEach var="criteria" items="${learningGoal.learningGoalCriterias}">
                                     <tr align="left"  class="${oddEven.oddEven}">
                                         <td align="left">
-                                            ${criteria.criterium}
+                                            <a href=/webapp/app/webeport/editEloReflections.html?eloURI=${eloURI}&missionRuntimeURI=${missionRuntimeURI}&anchorEloURI=${anchorEloURI}&action=addCriteria&learningGoalId=${learningGoal.id}&criteriaId=${criteria.id}&lgType=${learningGoalType}>
+                                                ${criteria.criterium}
+                                            </a>
+
                                         </td>
                                         <td align="left">
                                             <spring:message code="${criteria.level}"/>
@@ -22,19 +25,6 @@
                             <br/>
                         </c:when>
                     </c:choose>
-                
-
-                    <!--/td>
-                    <td align="center">
-                        <a href=/webapp/app/webeport/editEloReflections.html?eloURI=${eloURI}&missionRuntimeURI=${missionRuntimeURI}&anchorEloURI=${anchorEloURI}&lgType=${learningGoalType}&action=addLearningGoal&learningGoalId=${learningGoal.id}&value=LOW><spring:message code="LOW"/> </a>
-                    </td>
-                    <td align="center">
-                        <a href=/webapp/app/webeport/editEloReflections.html?eloURI=${eloURI}&missionRuntimeURI=${missionRuntimeURI}&anchorEloURI=${anchorEloURI}&lgType=${learningGoalType}&action=addLearningGoal&learningGoalId=${learningGoal.id}&value=MEDIUM><spring:message code="MEDIUM"/> </a>
-                    </td>
-                    <td align="center">
-                        <a href=/webapp/app/webeport/editEloReflections.html?eloURI=${eloURI}&missionRuntimeURI=${missionRuntimeURI}&anchorEloURI=${anchorEloURI}&lgType=${learningGoalType}&action=addLearningGoal&learningGoalId=${learningGoal.id}&value=HIGH><spring:message code="HIGH"/> </a>
-                    </td>
-                </tr-->
             </c:forEach>
         </ul>
     </c:when>

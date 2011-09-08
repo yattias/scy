@@ -14,6 +14,7 @@ import roolo.search.ISearchResult;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -52,7 +53,7 @@ public class EditEloReflections extends BaseController {
 
         URI anchorEloURI = getURI(request.getParameter("anchorEloURI"));
         ScyElo anchorElo = null;
-        if(anchorEloURI == null) {
+        if (anchorEloURI == null) {
             anchorEloURI = missionRuntimeElo.getMissionRuntimeModel().getAnchorEloUriForElo(elo.getUri());
             logger.info("ANCHOR ELO URI: " + anchorEloURI);
         }
@@ -163,7 +164,73 @@ public class EditEloReflections extends BaseController {
             setLearningGoalScore(request, missionRuntimeElo, transferElo);
         } else if (action.equals("delete")) {
             deleteLearningGoal(request, missionRuntimeElo, transferElo);
+        } else if (action.equals("addCriteria")) {
+            if (type != null) {
+                if (type.equals("specific")) {
+                    addSpecificLearningGoal(request, missionRuntimeElo, transferElo);
+                } else {
+                    addGeneralLearningGoal(request, missionRuntimeElo, transferElo);
+                }
+                //addCriteria(request, missionRuntimeElo, transferElo);
+            }
+
         }
+    }
+
+    private void addCriteria(HttpServletRequest request, MissionRuntimeElo missionRuntimeElo, TransferElo transferElo) {
+        String generalLearningGoalWithScoreId = request.getParameter("generalLearningGoalWithScoreId");
+        String level = request.getParameter("level");
+        String criteriaId = request.getParameter("criteriaId");
+        LearningGoalCriterium learningGoalCriterium = getLearninGoalCriterium(missionRuntimeElo, criteriaId);
+
+        Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo, getCurrentUserName(request));
+        List<SelectedLearningGoalWithScore> selectedLearningGoalWithScores = portfolio.getSelectedGeneralLearningGoalWithScores();
+        for (int i = 0; i < selectedLearningGoalWithScores.size(); i++) {
+            SelectedLearningGoalWithScore selectedLearningGoalWithScore = selectedLearningGoalWithScores.get(i);
+            if (selectedLearningGoalWithScore.getId().equals(generalLearningGoalWithScoreId)) {
+                selectedLearningGoalWithScore.setCriteriaId(criteriaId);
+                selectedLearningGoalWithScore.setCriteriaText(learningGoalCriterium.getCriterium());
+                selectedLearningGoalWithScore.setCriteriaLevel(learningGoalCriterium.getLevel());
+            }
+
+        }
+        selectedLearningGoalWithScores = portfolio.getSelectedSpecificLearningGoalWithScores();
+        for (int i = 0; i < selectedLearningGoalWithScores.size(); i++) {
+            SelectedLearningGoalWithScore selectedLearningGoalWithScore = selectedLearningGoalWithScores.get(i);
+            if (selectedLearningGoalWithScore.getId().equals(generalLearningGoalWithScoreId)) {
+                selectedLearningGoalWithScore.setCriteriaId(criteriaId);
+                selectedLearningGoalWithScore.setCriteriaText(learningGoalCriterium.getCriterium());
+                selectedLearningGoalWithScore.setCriteriaLevel(learningGoalCriterium.getLevel());
+            }
+
+        }
+
+
+        ScyElo portfolioElo = ScyElo.loadLastVersionElo(missionRuntimeElo.getTypedContent().getEPortfolioEloUri(), getMissionELOService());
+        portfolioElo.getContent().setXmlString(getXmlTransferObjectService().getToObjectXStream().toXML(portfolio));
+        portfolioElo.updateElo();
+
+    }
+
+    private LearningGoalCriterium getLearninGoalCriterium(MissionRuntimeElo missionRuntimeElo, String id) {
+        PedagogicalPlanTransfer pedagogicalPlanTransfer = getPedagogicalPlanELOService().getPedagogicalPlanForMissionRuntimeElo(missionRuntimeElo.getUri().toString());
+        List<LearningGoal> learningGoals = new LinkedList<LearningGoal>();
+        learningGoals.addAll(pedagogicalPlanTransfer.getAssessmentSetup().getGeneralLearningGoals());
+        learningGoals.addAll(pedagogicalPlanTransfer.getAssessmentSetup().getSpecificLearningGoals());
+
+        for (int i = 0; i < learningGoals.size(); i++) {
+            LearningGoal learningGoal = learningGoals.get(i);
+            for (int j = 0; j < learningGoals.size(); j++) {
+                LearningGoal goal = learningGoals.get(j);
+                for (int k = 0; k < goal.getLearningGoalCriterias().size(); k++) {
+                    LearningGoalCriterium learningGoalCriterium = goal.getLearningGoalCriterias().get(k);
+                    if (learningGoalCriterium.getId().equals(id)) return learningGoalCriterium;
+                }
+
+            }
+        }
+        return null;
+
     }
 
     private void deleteLearningGoal(HttpServletRequest request, MissionRuntimeElo missionRuntimeElo, TransferElo transferElo) {
@@ -206,7 +273,7 @@ public class EditEloReflections extends BaseController {
     private void setLearningGoalScore(HttpServletRequest request, MissionRuntimeElo missionRuntimeElo, TransferElo transferElo) {
         String generalLearningGoalWithScoreId = request.getParameter("generalLearningGoalWithScoreId");
         String score = request.getParameter("score-" + generalLearningGoalWithScoreId);
-        String value=request.getParameter("value");
+        String value = request.getParameter("value");
 
 
         logger.info("SCORE IS: " + score);
@@ -243,13 +310,20 @@ public class EditEloReflections extends BaseController {
     }
 
     private void addGeneralLearningGoal(HttpServletRequest request, MissionRuntimeElo missionRuntimeElo, TransferElo transferElo) {
+        String level = request.getParameter("level");
+        String criteriaId = request.getParameter("criteriaId");
+        LearningGoalCriterium learningGoalCriterium = getLearninGoalCriterium(missionRuntimeElo, criteriaId);
+
         SelectedLearningGoalWithScore selectedLearningGoalWithScore = new SelectedLearningGoalWithScore();
         String learningGoalId = request.getParameter("learningGoalId");
-        String level = request.getParameter("value");
 
         selectedLearningGoalWithScore.setLearningGoalId(learningGoalId);
         selectedLearningGoalWithScore.setEloURI(transferElo.getUri());
-        selectedLearningGoalWithScore.setScore(level);
+        if (learningGoalCriterium != null) {
+            selectedLearningGoalWithScore.setCriteriaText(learningGoalCriterium.getCriterium());
+            selectedLearningGoalWithScore.setCriteriaLevel(learningGoalCriterium.getLevel());
+        }
+
 
         Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo, getCurrentUserName(request));
         portfolio.addSelectedGeneralLearningGoalWithScore(selectedLearningGoalWithScore);
@@ -260,13 +334,20 @@ public class EditEloReflections extends BaseController {
     }
 
     private void addSpecificLearningGoal(HttpServletRequest request, MissionRuntimeElo missionRuntimeElo, TransferElo transferElo) {
+        String level = request.getParameter("level");
+        String criteriaId = request.getParameter("criteriaId");
+        LearningGoalCriterium learningGoalCriterium = getLearninGoalCriterium(missionRuntimeElo, criteriaId);
+
+
         SelectedLearningGoalWithScore selectedLearningGoalWithScore = new SelectedLearningGoalWithScore();
         String learningGoalId = request.getParameter("learningGoalId");
-        String level = request.getParameter("value");
+
 
         selectedLearningGoalWithScore.setLearningGoalId(learningGoalId);
         selectedLearningGoalWithScore.setEloURI(transferElo.getUri());
         selectedLearningGoalWithScore.setScore(level);
+        selectedLearningGoalWithScore.setCriteriaText(learningGoalCriterium.getCriterium());
+        selectedLearningGoalWithScore.setCriteriaLevel(learningGoalCriterium.getLevel());
 
         Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo, getCurrentUserName(request));
         portfolio.addSelectedSpecificLearningGoalWithScore(selectedLearningGoalWithScore);
