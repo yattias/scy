@@ -49,6 +49,12 @@ public class LearningGoalsController extends BaseController{
             } else if (action.equals("addCriteriaToGeneralLearningGoal")) {
                 LearningGoal learningGoal = getLearningGoal(pedagogicalPlanTransfer, request);
                 addCriteriaToLearningGoals(missionSpecificationElo, pedagogicalPlanTransfer, learningGoal);
+            } else if (action.equals("addCriteriaToSpecificLearningGoal")) {
+                LearningGoal learningGoal = getLearningGoal(pedagogicalPlanTransfer, request);
+                addCriteriaToLearningGoals(missionSpecificationElo, pedagogicalPlanTransfer, learningGoal);
+            } else if (action.equals("setLevelOnCriteria")) {
+                LearningGoal learningGoal = getLearningGoal(pedagogicalPlanTransfer, request);
+                setLevelOnCriteria(missionSpecificationElo, pedagogicalPlanTransfer, learningGoal, request);
             }
 
         }
@@ -58,8 +64,21 @@ public class LearningGoalsController extends BaseController{
         modelAndView.addObject("missionSpecificationEloURI", getEncodedUri(request.getParameter(ELO_URI)));
     }
 
+    private void setLevelOnCriteria(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer, LearningGoal learningGoal, HttpServletRequest request) {
+        String criteriaId = request.getParameter("criteriaId");
+        for (int i = 0; i < learningGoal.getLearningGoalCriterias().size(); i++) {
+            LearningGoalCriterium criterium = learningGoal.getLearningGoalCriterias().get(i);
+            if(criterium.getId().equals(criteriaId)) criterium.setLevel(request.getParameter("level"));
+        }
+        ScyElo pedagogicalPlanElo = getPedagogicalPlanEloForMission(missionSpecificationElo);
+        pedagogicalPlanElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(pedagogicalPlanTransfer));
+        pedagogicalPlanElo.updateElo();
+        
+    }
+
     private void addCriteriaToLearningGoals(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer, LearningGoal learningGoal) {
         LearningGoalCriterium criterium = new LearningGoalCriterium();
+        criterium.setLevel(LearningGoalCriterium.LOW);
         learningGoal.addLearningGoalCriterium(criterium);
         ScyElo pedagogicalPlanElo = getPedagogicalPlanEloForMission(missionSpecificationElo);
         pedagogicalPlanElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(pedagogicalPlanTransfer));

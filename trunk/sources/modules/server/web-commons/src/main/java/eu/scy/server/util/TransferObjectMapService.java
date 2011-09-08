@@ -112,6 +112,13 @@ public class TransferObjectMapService {
         for (int i = 0; i < assessmentSetupTransfer.getSpecificLearningGoals().size(); i++) {
             LearningGoal learningGoal = (LearningGoal) assessmentSetupTransfer.getSpecificLearningGoals().get(i);
             register(learningGoal, map);
+             if (learningGoal.getLearningGoalCriterias() != null) {
+                for (int j = 0; j < learningGoal.getLearningGoalCriterias().size(); j++) {
+                    LearningGoalCriterium criterium = learningGoal.getLearningGoalCriterias().get(j);
+                    register(criterium, map);
+
+                }
+            }
         }
 
         for (int i = 0; i < assessmentSetupTransfer.getReflectionQuestions().size(); i++) {
