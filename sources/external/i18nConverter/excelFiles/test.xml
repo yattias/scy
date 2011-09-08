@@ -20,102 +20,6 @@
             </Cell>
           </Row><Row>
             <Cell>
-              <Data ss:Type="String">AuthorQuerySelecter-any</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">by any author</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">by any author</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">by any author</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">by any author</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">van elke auteur</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">by any author</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
-              <Data ss:Type="String">AuthorQuerySelecter-me</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">by myself</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">by myself</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">by myself</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">by myself</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">van mij</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">by myself</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
-              <Data ss:Type="String">AuthorQuerySelecter-my_buddies</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">by my buddies</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">by my buddies</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">by my buddies</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">by my buddies</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">van mijn groep</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">by my buddies</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
-              <Data ss:Type="String">AuthorQuerySelecter-not_me</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">not by myself</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">not by myself</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">not by myself</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">not by myself</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">niet van mij</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">not by myself</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
-              <Data ss:Type="String">AuthorQuerySelecter-not_same</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">by other author</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">by other author</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">by other author</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">by other author</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">van een andere auteur</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">by other author</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
-              <Data ss:Type="String">AuthorQuerySelecter-same</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">by same author</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">by same author</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">by same author</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">by same author</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">van dezelfde auteur</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">by same author</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
               <Data ss:Type="String">drawer.assignment.label</Data>
             </Cell><Cell>
               <Data ss:Type="String">εργασία </Data>
@@ -340,150 +244,6 @@
             </Cell>
           </Row><Row>
             <Cell>
-              <Data ss:Type="String">LastModifiedQuerySelecter-any</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modified any time</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modified any time</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modified any time</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modified any time</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">elke tijd gewijzigd</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modified any time</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
-              <Data ss:Type="String">LastModifiedQuerySelecter-last_week</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modified last week</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modified last week</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modified last week</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modified last week</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">vorige week gewijzigd</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modified last week</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
-              <Data ss:Type="String">LastModifiedQuerySelecter-newer_then</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">newer</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">newer</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">newer</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">newer</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">nieuwer</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">newer</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
-              <Data ss:Type="String">LastModifiedQuerySelecter-older_then</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">older</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">older</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">older</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">older</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">ouder</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">older</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
-              <Data ss:Type="String">LastModifiedQuerySelecter-same_day</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modified same day</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modified same day</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modified same day</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modified same day</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">gewijzigd op dezelfde dag</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modified same day</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
-              <Data ss:Type="String">LastModifiedQuerySelecter-same_week</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modied same week</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modied same week</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modied same week</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modied same week</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">gewijzigd in dezelfde week</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modied same week</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
-              <Data ss:Type="String">LastModifiedQuerySelecter-this_week</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modified this week</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modified this week</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modified this week</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modified this week</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">deze week gewijzigd</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modified this week</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
-              <Data ss:Type="String">LastModifiedQuerySelecter-today</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modified today</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modified today</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modified today</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modified today</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">vandaag gewijzigd</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modified today</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
-              <Data ss:Type="String">LastModifiedQuerySelecter-yesterday</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modified yesterday</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modified yesterday</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modified yesterday</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modified yesterday</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">gisteren gewijzigd</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">modified yesterday</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
               <Data ss:Type="String">LoginDialog.login</Data>
             </Cell><Cell>
               <Data ss:Type="String">Σύνδεση </Data>
@@ -561,150 +321,6 @@
               <Data ss:Type="String">Gebruikersnaam</Data>
             </Cell><Cell>
               <Data ss:Type="String">User name</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
-              <Data ss:Type="String">MissionQuerySelecter-all_versions_of_mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">same mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">same mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">same mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">same mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">van dezelfde missie</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">same mission</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
-              <Data ss:Type="String">MissionQuerySelecter-all_versions_of_this</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">this mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">this mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">this mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">this mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">van mijn missie</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">this mission</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
-              <Data ss:Type="String">MissionQuerySelecter-any</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">any mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">any mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">any mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">any mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">van elke missie</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">any mission</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
-              <Data ss:Type="String">MissionQuerySelecter-not_same</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">not exact this mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">not exact this mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">not exact this mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">not exact this mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">niet van precies dezelfde missie</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">not exact this mission</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
-              <Data ss:Type="String">MissionQuerySelecter-not_this</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">not exact this mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">not exact this mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">not exact this mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">not exact this mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">niet van precies mijn missie</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">not exact this mission</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
-              <Data ss:Type="String">MissionQuerySelecter-not_versions_of_mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">other mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">other mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">other mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">other mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">van een andere missie</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">other mission</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
-              <Data ss:Type="String">MissionQuerySelecter-not_versions_of_this</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">other mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">other mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">other mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">other mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">niet van mijn missie</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">other mission</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
-              <Data ss:Type="String">MissionQuerySelecter-same</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">exact same mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">exact same mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">exact same mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">exact same mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">van precies dezelfde missie</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">exact same mission</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
-              <Data ss:Type="String">MissionQuerySelecter-this</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">exact this mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">exact this mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">exact this mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">exact this mission</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">van precies mijn missie</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">exact this mission</Data>
             </Cell>
           </Row><Row>
             <Cell>
@@ -1060,22 +676,6 @@
             </Cell>
           </Row><Row>
             <Cell>
-              <Data ss:Type="String">technicalFormat.scy/search</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">Search</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">Search</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">Search</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">Search</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">Zoek</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">Search</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
               <Data ss:Type="String">technicalFormat.scy/simconfig</Data>
             </Cell><Cell>
               <Data ss:Type="String">Προσομοιωτής</Data>
@@ -1282,54 +882,6 @@
             </Cell><Cell>
               <Data ss:Type="String">YouTube video</Data>
             </Cell>
-          </Row><Row>
-            <Cell>
-              <Data ss:Type="String">TechnicalFormatQuerySelector-any</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">any type</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">any type</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">any type</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">any type</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">van elk type</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">any type</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
-              <Data ss:Type="String">TechnicalFormatQuerySelector-not_same</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">other other</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">other other</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">other other</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">other other</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">van een ander type</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">other other</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
-              <Data ss:Type="String">TechnicalFormatQuerySelector-same</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">same type</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">same type</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">same type</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">same type</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">van hetzelfde type</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">same type</Data>
-            </Cell>
           </Row>
         </Table>
       </Worksheet><Worksheet ss:Name="scydesktopFX">
@@ -1416,38 +968,6 @@
             </Cell>
           </Row><Row>
             <Cell>
-              <Data ss:Type="String">and</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">and</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">and</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">and</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">and</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">en</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">and</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
-              <Data ss:Type="String">and others</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">and others</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">and others</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">and others</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">and others</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">en anderen</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">and others</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
               <Data ss:Type="String">Assignment</Data>
             </Cell><Cell>
               <Data ss:Type="String">Εργασία</Data>
@@ -1509,22 +1029,6 @@
               <Data ss:Type="String">Blanco</Data>
             </Cell><Cell>
               <Data ss:Type="String">Blank</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
-              <Data ss:Type="String">by</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">by</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">by</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">by</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">by</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">door</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">by</Data>
             </Cell>
           </Row><Row>
             <Cell>
@@ -2200,22 +1704,6 @@
             </Cell>
           </Row><Row>
             <Cell>
-              <Data ss:Type="String">History</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">History:</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">History:</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">History:</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">History:</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">Gebruikte zoektermen:</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">History:</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
               <Data ss:Type="String">hour</Data>
             </Cell><Cell>
               <Data ss:Type="String">hour</Data>
@@ -2520,22 +2008,6 @@
             </Cell>
           </Row><Row>
             <Cell>
-              <Data ss:Type="String">on</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">on</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">on</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">on</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">on</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">op</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">on</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
               <Data ss:Type="String">open</Data>
             </Cell><Cell>
               <Data ss:Type="String">άνοιγμα </Data>
@@ -2741,22 +2213,6 @@
               <Data ss:Type="String">Bronnen</Data>
             </Cell><Cell>
               <Data ss:Type="String">Resources</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
-              <Data ss:Type="String">results</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">results</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">results</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">results</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">results</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">resultaten</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">results</Data>
             </Cell>
           </Row><Row>
             <Cell>
@@ -3016,38 +2472,6 @@
             </Cell>
           </Row><Row>
             <Cell>
-              <Data ss:Type="String">Suggestions</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">Suggestions:</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">Suggestions:</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">Suggestions:</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">Suggestions:</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">Suggesties:</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">Suggestions:</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
-              <Data ss:Type="String">Suggestions and history</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">Suggestions and history</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">Suggestions and history</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">Suggestions and history</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">Suggestions and history</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">Suggesties en gebruikte zoektermen</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">Suggestions and history</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
               <Data ss:Type="String">Sync state</Data>
             </Cell><Cell>
               <Data ss:Type="String">Στάδιο συγχρονισμού</Data>
@@ -3290,7 +2714,7 @@
             </Cell><Cell>
               <Data ss:Type="String">προσθήκη τρέχοντος σημείου</Data>
             </Cell><Cell>
-              <Data ss:Type="String">Add datapoint</Data>
+              <Data ss:Type="String">add current datapoint</Data>
             </Cell><Cell>
               <Data ss:Type="String">Invoegen waarden</Data>
             </Cell>
@@ -3313,16 +2737,6 @@
               <Data ss:Type="String">Clear dataset</Data>
             </Cell><Cell>
               <Data ss:Type="String">Overnieuw beginnen</Data>
-            </Cell>
-          </Row><Row>
-            <Cell>
-              <Data ss:Type="String">DATACOLLECTOR_FEEDBACK</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">Feedback</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">Feedback</Data>
-            </Cell><Cell>
-              <Data ss:Type="String">Feedback</Data>
             </Cell>
           </Row><Row>
             <Cell>

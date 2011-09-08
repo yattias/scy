@@ -172,7 +172,7 @@ class ExcelXmlConnector(nameAppend: String = "") extends FormatConnector
               <Data ss:Type="String">{key}</Data>
             </Cell>{for (lang <- languages) yield
             <Cell>
-              <Data ss:Type="String">{store.getValue(key, lang)}</Data>
+              <Data ss:Type="String">{store.getValue(key, lang) match {case Some(value:String) => value; case _ =>}}</Data>
             </Cell>}
           </Row>}
         </Table>

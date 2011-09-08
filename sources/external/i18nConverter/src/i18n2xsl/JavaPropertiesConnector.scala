@@ -52,7 +52,10 @@ class JavaPropertiesConnector(encoding: String = "ISO-8859-1") extends FormatCon
       val out = new PrintWriter(outputFile,encoding)
       for (key <- store.getSortedKeys()) {
         val value = store.getValue(key, language)
-        writeKeyValue(key,UnicodeEscaper.escape(value) , out)
+        value match {
+          case Some(v: String) => writeKeyValue(key,UnicodeEscaper.escape(v) , out)
+          case _ =>
+        }
       }
       out.close()
     }
