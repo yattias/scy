@@ -44,8 +44,14 @@ public class ChattoolDrawerContentCreatorFX extends DrawerContentCreatorFX {
     public var metadataTypeManager: IMetadataTypeManager;
     public var toolBrokerAPI: ToolBrokerAPI;
 
-    function createChatToolNode(scyWindow:ScyWindow,eloUri:URI) : Node {
-        
+    function createChatToolNode(scyWindow:ScyWindow) : Node {
+        var eloUri:URI = scyWindow.eloUri;
+        if(eloUri == null){
+            def elo = toolBrokerAPI.getELOFactory().createELO();
+            elo.getMetadata().getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId())).setValue("scy/chat");
+            def newMetadata = toolBrokerAPI.getRepository().addNewELO(elo);
+            eloUri = newMetadata.getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId())).getValue() as URI;
+        }
         if(eloUri != null) {
             var metadataFirstVersion = repository.retrieveMetadataFirstVersion(eloUri);
 
