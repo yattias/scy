@@ -32,7 +32,7 @@ import java.util.Date;
 /**
  * @author SikkenJ
  */
-public class GridSearchResultsNode extends CustomNode, Resizable, ScyEloListCellDisplay, ShowSearching {
+public abstract class GridSearchResultsNode extends CustomNode, Resizable, ScyEloListCellDisplay, ShowSearching {
 
    public override var width on replace {
               sizeChanged();
@@ -51,7 +51,7 @@ public class GridSearchResultsNode extends CustomNode, Resizable, ScyEloListCell
               left: spacing
            }
    def leftCollumnSpace = 10.0;
-   def leftCollumnFillerHeight = 5.0;
+   def leftCollumnFillerHeight = 1.0;
    def leftCollumnFillerColor = Color.TRANSPARENT;
    def separatorlineWidth = 2.0;
    var separatorLineLength = 10.0;
@@ -237,22 +237,24 @@ public class GridSearchResultsNode extends CustomNode, Resizable, ScyEloListCell
       foundLabel.text = "{foundLabelText}:  {nrFoundString}  -  {foundOnDateLabelText}  {dateFoundString}{byAuthorsText}";
    }
 
-   public override function getPrefWidth(w: Number): Number {
-      Math.max(grid.getPrefWidth(w), 600.0);
-   }
-
-   public override function getPrefHeight(h: Number): Number {
-      grid.getPrefHeight(h);
-   }
-
-   public override function getMinWidth(): Number {
-      grid.getMinWidth()
-   }
-
-   public override function getMinHeight(): Number {
-      grid.getMinHeight();
-   }
-
+//   public override function getPrefWidth(w: Number): Number {
+//      Math.max(grid.getPrefWidth(w), minimumWidth);
+//   }
+//
+//   public override function getPrefHeight(h: Number): Number {
+//      Math.max(grid.getPrefHeight(h),minimumHeight);
+//   }
+//
+//   public override function getMinWidth(): Number {
+//      def minWidth = Math.max(grid.getMinWidth(), minimumWidth);
+//      println("minWidth: {minWidth}");
+//      minWidth
+//   }
+//
+//   public override function getMinHeight(): Number {
+//      Math.max(grid.getMinHeight(),minimumHeight);
+//   }
+//
    public function sizeChanged(): Void {
       separatorLineLength = width - 3 * spacing - leftCollumnSpace - 3 * separatorlineWidth;
       Container.resizeNode(grid, width, height);

@@ -48,6 +48,8 @@ import roolo.search.IQueryComponent;
 import roolo.search.IQuery;
 import javafx.scene.layout.VBox;
 import java.lang.StringBuilder;
+import javafx.scene.control.CheckBox;
+import javafx.scene.input.MouseEvent;
 
 /**
  * @author SikkenJ
@@ -67,8 +69,8 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
    public var scyDesktop: ScyDesktop;
    public var querySelecterFactory: QuerySelecterFactory;
    public var eloOpenedAction: function(: ScyWindow): Void;
-   def minimumWidth = 150;
-   def minimumHeight = 100;
+   def minimumWidth = 600;
+   def minimumHeight = 400;
    def queryLabel = Label {
            }
    def searchButton: Button = Button {
@@ -88,6 +90,29 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
                  }
               }
            };
+   def advancedSearchCheckbox: CheckBox = CheckBox {
+              var oldSelected: Boolean
+              text: ##"Advanced search"
+              allowTriState: false
+              selected: bind advancedSearch with inverse
+              layoutInfo: LayoutInfo {
+              }
+              onMousePressed: function(m: MouseEvent): Void {
+                 oldSelected = advancedSearchCheckbox.selected
+              }
+              onMouseReleased: function(m: MouseEvent): Void {
+                 if (oldSelected != advancedSearchCheckbox.selected) {
+                    createNodeContent();
+                    doSearch();
+                 }
+
+              }
+           //              action: function():Void{
+           //              createNodeContent();
+           //              doSearch();
+           //              }
+
+           }
    def suggestionsAndHistoryNode = SuggestionsAndHistoryNode {
               entrySelected: historySelected
            }
@@ -109,6 +134,7 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
    def contentTagName = "search";
    def queryTagName = "query";
    def querySelecterUsageTagName = "querySelecterUsage";
+   def advancedSearchTagName = "advancedSearch";
    def simpleTextQueryTagName = "simpleText";
    def eloUriTagName = "eloUri";
    def contextTagName = "context";
@@ -124,7 +150,13 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
               action: doSaveAsElo
            }
    var queryGridRow: GridRow;
-   var querySelecterUsage = QuerySelecterUsage.TEXT;
+   var querySelecterUsage = QuerySelecterUsage.TEXT on replace {
+              if (QuerySelecterUsage.ELO_BASED == querySelecterUsage) {
+                 advancedSearch = true
+              }
+           };
+   var advancedSearch = false on replace {
+           };
    var querySelecterDisplays: QuerySelecterDisplay[];
    def usedQuerySelecters: List = new ArrayList();
    def eloIconFactory = EloIconFactory {};
@@ -207,7 +239,13 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
                               searchButton
                            ]
                         }
-                        suggestionsAndHistoryNode
+                        HBox {
+                           spacing: spacing
+                           content: [
+                              suggestionsAndHistoryNode,
+                              advancedSearchCheckbox
+                           ]
+                        }
                      ]
                   }
                ]
@@ -228,7 +266,13 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
                   hgap: 2 * spacing
                   vgap: spacing
                   nodeHPos: HPos.LEFT
-                  content: querySelecterDisplays
+                  content: [
+                     if (advancedSearch) {
+                        querySelecterDisplays
+                     } else {
+                        null
+                     }
+                  ]
                }
             ]
          }
@@ -258,7 +302,7 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
       ]
    }
 
-   function createNodeContent() {
+   function createNodeContent(): Void {
       createQuerySelecterDisplays(querySelecterFactory.createQuerySelecters(querySelecterUsage));
       grid.rows = getGridRows();
       if (QuerySelecterUsage.TEXT == querySelecterUsage) {
@@ -360,7 +404,9 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
          }
          def searchQuery = new Query(query);
          searchQuery.setIncludedEloTypes(scyDesktop.newEloCreationRegistry.getEloTypes());
-         setSelecterFilters(searchQuery);
+         if (advancedSearch) {
+            setSelecterFilters(searchQuery);
+         }
          def queryContext: QueryContext = createQueryContext(null);
          searchQuery.setQueryContext(queryContext);
          backgroundQuerySearch = new BackgroundQuerySearch(toolBrokerAPI, scyDesktop.newEloCreationRegistry, searchQuery, this);
@@ -488,6 +534,7 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
    function getEloContent(): String {
       def root = new Element(contentTagName);
       root.addContent(JDomConversionUtils.createElement(querySelecterUsageTagName, querySelecterUsage));
+      root.addContent(JDomConversionUtils.createElement(advancedSearchTagName, advancedSearch));
       root.addContent(getContextXml());
       root.addContent(getQueryXml());
       root.addContent(scySearchResultXmlUtils.scySearchResultsToXml(searchResults));
@@ -516,6 +563,7 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
    function loadEloContent(xmlString: String) {
       def root = jdomStringConversion.stringToXml(xmlString);
       querySelecterUsage = JDomConversionUtils.getEnumValue(QuerySelecterUsage.class, root, querySelecterUsageTagName);
+      advancedSearch = JDomConversionUtils.getBooleanValue(root, advancedSearchTagName);
       loadContext(root);
       def queryXml = root.getChild(queryTagName);
       if (QuerySelecterUsage.TEXT == querySelecterUsage) {
