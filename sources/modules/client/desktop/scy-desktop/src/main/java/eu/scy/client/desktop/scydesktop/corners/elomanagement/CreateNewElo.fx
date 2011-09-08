@@ -7,6 +7,7 @@ package eu.scy.client.desktop.scydesktop.corners.elomanagement;
 
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
+import eu.scy.client.desktop.scydesktop.tools.search.ScyEloListCellDisplay;
 
 /**
  * @author sikken

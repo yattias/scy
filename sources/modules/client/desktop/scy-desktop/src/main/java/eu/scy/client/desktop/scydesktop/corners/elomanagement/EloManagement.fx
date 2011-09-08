@@ -37,6 +37,8 @@ import roolo.elo.api.IELO;
 import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 import eu.scy.client.desktop.scydesktop.tools.search.EloSearchNode;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
+import eu.scy.client.desktop.scydesktop.tools.search.ScySearchResult;
+import eu.scy.client.desktop.scydesktop.tools.search.ScySearchResultTitleComparator;
 
 /**
  * @author sikken

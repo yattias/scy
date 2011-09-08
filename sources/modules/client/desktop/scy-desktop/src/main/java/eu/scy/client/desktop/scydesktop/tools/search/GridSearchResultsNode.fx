@@ -25,11 +25,6 @@ import com.javafx.preview.layout.Grid;
 import com.javafx.preview.layout.GridLayoutInfo;
 import com.javafx.preview.layout.GridRow;
 import eu.scy.client.desktop.desktoputils.art.EloIcon;
-import eu.scy.client.desktop.scydesktop.corners.elomanagement.ExtendedScyEloDisplayNode;
-import eu.scy.client.desktop.scydesktop.corners.elomanagement.ModalDialogNode;
-import eu.scy.client.desktop.scydesktop.corners.elomanagement.ScyEloListCellDisplay;
-import eu.scy.client.desktop.scydesktop.corners.elomanagement.ScySearchResult;
-import eu.scy.client.desktop.scydesktop.corners.elomanagement.ShowSearching;
 import eu.scy.common.scyelo.ScyElo;
 import java.text.DateFormat;
 import java.util.Date;
@@ -37,7 +32,7 @@ import java.util.Date;
 /**
  * @author SikkenJ
  */
-public class GridSearchResultsNode extends CustomNode, Resizable, ScyEloListCellDisplay, ShowSearching, ModalDialogNode {
+public class GridSearchResultsNode extends CustomNode, Resizable, ScyEloListCellDisplay, ShowSearching {
 
    public override var width on replace {
               sizeChanged();
@@ -266,14 +261,6 @@ public class GridSearchResultsNode extends CustomNode, Resizable, ScyEloListCell
    function printGridSizes(label: String): Void {
    //      println("grid {label} change: size {grid.width}*{grid.height}, ""pref {grid.getPrefWidth(grid.width)}*{grid.getPrefHeight(grid.height)}, ""min {grid.getMinWidth()}*{grid.getMinHeight()}");
    //      var square = width * height;
-   }
-
-   public override function getContentNodes(): Node[] {
-      null
-   }
-
-   public override function getContentGroup(): Node {
-      this
    }
 
 }

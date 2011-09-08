@@ -5,7 +5,6 @@
 
 package eu.scy.client.desktop.scydesktop.tools.search;
 
-import eu.scy.client.desktop.scydesktop.corners.elomanagement.ScySearchResult;
 import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistry;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.util.List;
