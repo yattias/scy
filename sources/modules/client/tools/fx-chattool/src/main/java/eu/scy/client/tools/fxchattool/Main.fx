@@ -20,8 +20,9 @@ import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
  * @author jeremyt
  */
 var initializer = Initializer {
-        scyDesktopConfigFile: "config/scyDesktopChatTestConfig.xml";
-        loginType:"remote";
+        scyDesktopConfigFile: "config/chatTestConfig.xml";
+        loginType:"local";
+        authorMode:true;
 };
 def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.login.LoginDialog");
 
