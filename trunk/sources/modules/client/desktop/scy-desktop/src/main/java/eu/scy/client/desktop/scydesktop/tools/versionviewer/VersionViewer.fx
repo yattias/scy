@@ -28,9 +28,8 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import eu.scy.common.scyelo.ScyElo;
 import javafx.scene.control.ListCell;
-import javafx.scene.control.Tooltip;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
-import eu.scy.client.desktop.scydesktop.corners.elomanagement.ExtendedScyEloDisplayNode;
+import eu.scy.client.desktop.scydesktop.tools.search.ExtendedScyEloDisplayNode;
 
 /**
  * @author SikkenJ

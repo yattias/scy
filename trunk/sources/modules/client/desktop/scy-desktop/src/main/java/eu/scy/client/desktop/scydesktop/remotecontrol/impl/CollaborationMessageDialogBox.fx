@@ -18,9 +18,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import eu.scy.client.desktop.scydesktop.corners.elomanagement.ExtendedScyEloDisplayNode;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
 import java.net.URI;
+import eu.scy.client.desktop.scydesktop.tools.search.ExtendedScyEloDisplayNode;
 
 /**
  * @author SikkenJ

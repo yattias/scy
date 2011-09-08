@@ -4,7 +4,6 @@
  */
 package eu.scy.client.desktop.scydesktop.tools.search;
 
-import eu.scy.client.desktop.scydesktop.corners.elomanagement.ScySearchResult;
 import java.util.List;
 
 /**

@@ -10,15 +10,15 @@ import javafx.scene.Node;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import javafx.scene.control.Label;
-import eu.scy.client.desktop.scydesktop.corners.elomanagement.ScyEloDisplayProperties;
 import roolo.elo.api.IMetadataKey;
 import javafx.scene.input.MouseEvent;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipCreator;
 import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.tooltips.impl.NodeTooltip;
-import eu.scy.client.desktop.scydesktop.corners.elomanagement.ExtendedScyEloDisplayNode;
 import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistry;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
+import eu.scy.client.desktop.scydesktop.tools.search.ExtendedScyEloDisplayNode;
+import eu.scy.client.desktop.scydesktop.tools.search.ScyEloDisplayProperties;
 
 /**
  * @author SikkenJ
