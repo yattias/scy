@@ -322,7 +322,7 @@ FB.init({
        description: (
          'I have just published my showcase ePortfolio. Click on the link to have a look.'
        ),
-       href: 'http://scy.collide.info:8080/webapp'
+       href: '${serverPath}'
      },
      user_message_prompt: 'I have just published my showcase ePortfolio. Click on the link to have a look....................'
    },
