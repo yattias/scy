@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -369,13 +370,16 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 			config.setReconnectionAllowed(true);
 			config.setSecurityMode(SecurityMode.disabled);
 			this.connection = new XMPPConnection(config);
+                        // setting a peudo random resource for the xmpp connection for the scy-lab user
+                        // it is very unlikely that the same user connects in the same millisecond moment
+                        String resource = "scylab" + System.currentTimeMillis();
 			
 			try {
 				this.connection.connect();
 				logger.info("Successful connection to xmpp server " + config.getHost() + ":" + config.getPort());
 				try {
 	                                logger.debug("User logging in: " + userName + " " + password);
-	                                this.connection.login(userName, password);
+	                                this.connection.login(userName, password, resource);
 	                                logger.debug("Login successful with " + userName + " " + password);
 	                        } catch (XMPPException e) {
 	                                logger.error("Login failed  " + e);
@@ -399,7 +403,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
                                 
                                 try {
                                     logger.debug("User logging in: " + userName + " " + password);
-                                    this.connection.login(userName, password);
+                        this.connection.login(userName, password, resource);
                                     logger.debug("Login successful with " + userName + " " + password);
                                 } catch (XMPPException e) {
                                         logger.error("Login failed  " + e);
