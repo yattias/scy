@@ -2,19 +2,29 @@
 <h2><spring:message code="SELECT_LEARNING_GOAL"/></h2>
 <c:choose>
     <c:when test="${fn:length(learningGoals) > 0}">
-        <table>
-            <tr>
-                <th></th>
-                <th><spring:message code="LOW"/></th>
-                <th><spring:message code="MEDIUM"/></th>
-                <th><spring:message code="HIGH"/></th>
-
-            </tr>
+        <ul>
             <c:forEach var="learningGoal" items="${learningGoals}">
-                <tr>
-                    <td align="left">
-                        ${learningGoal.goal}
-                    </td>
+                <strong><li>${learningGoal.goal}</li></strong>
+                    <c:choose>
+                        <c:when test="${fn:length(learningGoal.learningGoalCriterias) > 0}">
+                            <table width="100%">
+                                <c:forEach var="criteria" items="${learningGoal.learningGoalCriterias}">
+                                    <tr align="left"  class="${oddEven.oddEven}">
+                                        <td align="left">
+                                            ${criteria.criterium}
+                                        </td>
+                                        <td align="left">
+                                            <spring:message code="${criteria.level}"/>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </table>
+                            <br/>
+                        </c:when>
+                    </c:choose>
+                
+
+                    <!--/td>
                     <td align="center">
                         <a href=/webapp/app/webeport/editEloReflections.html?eloURI=${eloURI}&missionRuntimeURI=${missionRuntimeURI}&anchorEloURI=${anchorEloURI}&lgType=${learningGoalType}&action=addLearningGoal&learningGoalId=${learningGoal.id}&value=LOW><spring:message code="LOW"/> </a>
                     </td>
@@ -24,8 +34,8 @@
                     <td align="center">
                         <a href=/webapp/app/webeport/editEloReflections.html?eloURI=${eloURI}&missionRuntimeURI=${missionRuntimeURI}&anchorEloURI=${anchorEloURI}&lgType=${learningGoalType}&action=addLearningGoal&learningGoalId=${learningGoal.id}&value=HIGH><spring:message code="HIGH"/> </a>
                     </td>
-                </tr>
+                </tr-->
             </c:forEach>
-        </table>
+        </ul>
     </c:when>
 </c:choose>
