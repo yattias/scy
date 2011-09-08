@@ -9,6 +9,10 @@ package eu.scy.core.model.transfer;
  */
 public class LearningGoalCriterium extends BaseXMLTransfer {
 
+    public static final String LOW = "LOW";
+    public static final String MEDIUM = "MEDIUM";
+    public static final String HIGH = "HIGH";
+
     private String level;
     private String criterium;
 
