@@ -4,6 +4,7 @@ import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.XMLTransferObjectService;
 import eu.scy.core.model.transfer.LearningGoal;
+import eu.scy.core.model.transfer.LearningGoalCriterium;
 import eu.scy.core.model.transfer.PedagogicalPlanTransfer;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.core.roolo.PedagogicalPlanELOService;
@@ -13,6 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
+import java.util.LinkedList;
+import java.util.List;
 
 
 /**
@@ -39,15 +42,46 @@ public class LearningGoalsController extends BaseController{
         PedagogicalPlanTransfer pedagogicalPlanTransfer = getPedagogicalPlanELOService().getPedagogicalPlanForMission(missionSpecificationElo);
 
         if (action != null) {
-            if (action.equals("addGeneralLearningGoal"))
+            if (action.equals("addGeneralLearningGoal")){
                 addGeneralLearningGoal(missionSpecificationElo, pedagogicalPlanTransfer);
-            if (action.equals("addSpecificLearningGoal"))
+            } else if (action.equals("addSpecificLearningGoal")){
                 addSpecificLearningGoal(missionSpecificationElo, pedagogicalPlanTransfer);
+            } else if (action.equals("addCriteriaToGeneralLearningGoal")) {
+                LearningGoal learningGoal = getLearningGoal(pedagogicalPlanTransfer, request);
+                addCriteriaToLearningGoals(missionSpecificationElo, pedagogicalPlanTransfer, learningGoal);
+            }
+
         }
 
         modelAndView.addObject("pedagogicalPlan", pedagogicalPlanTransfer);
         modelAndView.addObject("transferObjectServiceCollection", getTransferObjectServiceCollection());
         modelAndView.addObject("missionSpecificationEloURI", getEncodedUri(request.getParameter(ELO_URI)));
+    }
+
+    private void addCriteriaToLearningGoals(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer, LearningGoal learningGoal) {
+        LearningGoalCriterium criterium = new LearningGoalCriterium();
+        learningGoal.addLearningGoalCriterium(criterium);
+        ScyElo pedagogicalPlanElo = getPedagogicalPlanEloForMission(missionSpecificationElo);
+        pedagogicalPlanElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(pedagogicalPlanTransfer));
+        pedagogicalPlanElo.updateElo();
+        
+    }
+
+    private LearningGoal getLearningGoal(PedagogicalPlanTransfer pedagogicalPlanTransfer, HttpServletRequest request) {
+        String learningGoalId = request.getParameter("learningGoalId");
+        List generalLearningGoals = pedagogicalPlanTransfer.getAssessmentSetup().getGeneralLearningGoals();
+        List specificLearningGoals = pedagogicalPlanTransfer.getAssessmentSetup().getSpecificLearningGoals();
+
+        List<LearningGoal> allGoals = new LinkedList<LearningGoal>();
+        allGoals.addAll(generalLearningGoals);
+        allGoals.addAll(specificLearningGoals);
+        for (int i = 0; i < allGoals.size(); i++) {
+            LearningGoal learningGoal = allGoals.get(i);
+            if(learningGoal.getId().equals(learningGoalId)) return learningGoal;
+        }
+
+        logger.warn("DID NOT FIND LEARNING GOAL : " + learningGoalId);
+        return null;
     }
 
 

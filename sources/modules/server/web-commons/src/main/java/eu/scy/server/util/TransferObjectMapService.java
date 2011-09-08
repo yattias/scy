@@ -21,12 +21,12 @@ public class TransferObjectMapService {
     private static Logger log = Logger.getLogger("TransferObjectMapService.class");
 
     public Object getObjectWithId(BaseXMLTransfer transfer, String id) {
-        if(transfer == null) log.info("TRANSFER IS NULLL!");
+        if (transfer == null) log.info("TRANSFER IS NULLL!");
         Map map = createMap(transfer);
 
         log.info("Getting " + id + " from base transfer: " + transfer.getClass().getName());
         Object returnObject = map.get(id);
-        if(returnObject != null) {
+        if (returnObject != null) {
             log.info("Found " + returnObject);
             return returnObject;
         }
@@ -44,9 +44,9 @@ public class TransferObjectMapService {
     }
 
     public Map createMap(BaseXMLTransfer transfer) {
-        if(transfer instanceof PedagogicalPlanTransfer) {
-            return getPedagogicalPlanMap((PedagogicalPlanTransfer)transfer);
-        } 
+        if (transfer instanceof PedagogicalPlanTransfer) {
+            return getPedagogicalPlanMap((PedagogicalPlanTransfer) transfer);
+        }
         return null;
     }
 
@@ -59,10 +59,9 @@ public class TransferObjectMapService {
         MissionPlanTransfer missionPlanTransfer = pedagogicalPlanTransfer.getMissionPlan();
         TechnicalInfo technicalInfo = pedagogicalPlanTransfer.getTechnicalInfo();
 
-        if(assessmentSetupTransfer != null) register(assessmentSetupTransfer, returnMap);
-        if(missionPlanTransfer != null) register (missionPlanTransfer, returnMap);
-        if(technicalInfo != null) register(technicalInfo, returnMap);
-
+        if (assessmentSetupTransfer != null) register(assessmentSetupTransfer, returnMap);
+        if (missionPlanTransfer != null) register(missionPlanTransfer, returnMap);
+        if (technicalInfo != null) register(technicalInfo, returnMap);
 
 
         return returnMap;
@@ -70,7 +69,7 @@ public class TransferObjectMapService {
     }
 
     private void register(TechnicalInfo technicalInfo, Map map) {
-        map.put(technicalInfo.getId(),technicalInfo);
+        map.put(technicalInfo.getId(), technicalInfo);
         for (int i = 0; i < technicalInfo.getJnlpProperties().size(); i++) {
             PropertyTransfer propertyTransfer = (PropertyTransfer) technicalInfo.getJnlpProperties().get(i);
             register(propertyTransfer, map);
@@ -100,6 +99,14 @@ public class TransferObjectMapService {
         for (int i = 0; i < assessmentSetupTransfer.getGeneralLearningGoals().size(); i++) {
             LearningGoal learningObject = (LearningGoal) assessmentSetupTransfer.getGeneralLearningGoals().get(i);
             register(learningObject, map);
+            if (learningObject.getLearningGoalCriterias() != null) {
+                for (int j = 0; j < learningObject.getLearningGoalCriterias().size(); j++) {
+                    LearningGoalCriterium criterium = learningObject.getLearningGoalCriterias().get(j);
+                    register(criterium, map);
+
+                }
+            }
+
         }
 
         for (int i = 0; i < assessmentSetupTransfer.getSpecificLearningGoals().size(); i++) {
@@ -110,7 +117,7 @@ public class TransferObjectMapService {
         for (int i = 0; i < assessmentSetupTransfer.getReflectionQuestions().size(); i++) {
             ReflectionQuestion reflectionQuestion = (ReflectionQuestion) assessmentSetupTransfer.getReflectionQuestions().get(i);
             registerReflectionQuestion(reflectionQuestion, map);
-            }
+        }
 
         for (int i = 0; i < assessmentSetupTransfer.getReflectionTabs().size(); i++) {
             Tab tab = (Tab) assessmentSetupTransfer.getReflectionTabs().get(i);
@@ -130,6 +137,9 @@ public class TransferObjectMapService {
         map.put(reflectionQuestion.getId(), reflectionQuestion);
     }
 
+    private void register(LearningGoalCriterium learningGoalCriterium, Map map) {
+        map.put(learningGoalCriterium.getId(), learningGoalCriterium);
+    }
 
 
 }

@@ -2,7 +2,7 @@
 <tiles:insertDefinition name="default-page">
     <tiles:putAttribute name="main">
 
-                <h2>Mission: ${missionSpecificationTransporter.elo.title}</h2>
+                <h2><spring:message code="MISSION"/> ${missionSpecificationTransporter.elo.title}</h2>
 
                 <div style="width: 100%; height: 800px">
                     <div id="teacherTabContainer" dojoType="dijit.layout.TabContainer"

@@ -1,5 +1,8 @@
 package eu.scy.core.model.transfer;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -11,6 +14,7 @@ public class LearningGoal extends BaseXMLTransfer{
 
     private String goal;
     private Boolean use = Boolean.TRUE;
+    private List<LearningGoalCriterium> learningGoalCriterias = new LinkedList<LearningGoalCriterium>();
 
     public String getGoal() {
         return goal;
@@ -31,5 +35,18 @@ public class LearningGoal extends BaseXMLTransfer{
     @Override
     public String toString() {
         return this.getGoal();
+    }
+
+    public List<LearningGoalCriterium> getLearningGoalCriterias() {
+        return learningGoalCriterias;
+    }
+
+    public void setLearningGoalCriterias(List<LearningGoalCriterium> learningGoalCriterias) {
+        this.learningGoalCriterias = learningGoalCriterias;
+    }
+
+    public void addLearningGoalCriterium(LearningGoalCriterium learningGoalCriterium) {
+        if(getLearningGoalCriterias() == null) setLearningGoalCriterias(new LinkedList<LearningGoalCriterium>());
+        getLearningGoalCriterias().add(learningGoalCriterium);
     }
 }
