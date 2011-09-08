@@ -21,11 +21,6 @@ import javafx.util.Sequences;
 import java.net.URI;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-import roolo.search.Query;
-import roolo.search.IQueryComponent;
-import roolo.search.AndQuery;
-import roolo.search.MetadataQueryComponent;
-import roolo.search.SearchOperation;
 import java.lang.System;
 import roolo.elo.metadata.keys.Contribute;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
@@ -34,15 +29,7 @@ import eu.scy.client.desktop.desktoputils.i18n.Composer;
 import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 import eu.scy.client.desktop.desktoputils.FpsDisplay;
 import eu.scy.common.scyelo.ScyElo;
-import java.util.ArrayList;
-import eu.scy.client.desktop.scydesktop.corners.elomanagement.searchers.SameTechnicalFormatSearcher;
-import eu.scy.client.desktop.scydesktop.corners.elomanagement.searchers.SameAuthorSearcher;
-import java.util.List;
-import eu.scy.client.desktop.scydesktop.corners.elomanagement.searchers.SameMissionSearcher;
-import eu.scy.common.scyelo.QueryFactory;
 import eu.scy.client.desktop.scydesktop.uicontrols.EloIconButton;
-import eu.scy.client.desktop.scydesktop.corners.elomanagement.searchers.FindSimilarSearcher;
-import roolo.search.QueryContext;
 import javafx.util.StringLocalizer;
 import java.util.LinkedHashMap;
 import java.util.Locale;
@@ -54,7 +41,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 /**
  * @author sikken
  */
-public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySearchFinished {
+public class EloManagement extends CustomNode {
 
    def logger = Logger.getLogger(this.getClass());
    public var scyDesktop: ScyDesktop;
@@ -79,12 +66,6 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
    var searcher: Searcher;
    var createBlankEloButton: EloIconButton;
    var archiver: Archiver;
-   def eloBasedSearchers = new ArrayList();
-   var eloBasedSearchDesign: GridEloBasedSearch;
-   var backgroundEloBasedSearch: BackgroundEloBasedSearch;
-   var searchElos: SearchElos;
-   var gridEloSearch: GridEloSearch;
-   var backgroundQuerySearch: BackgroundQuerySearch;
 
    init {
       if (eloFactory == null) {
@@ -111,11 +92,6 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
       }
 
       findTemplateEloInformation();
-      eloBasedSearchers.add(new SameTechnicalFormatSearcher(tbi));
-      eloBasedSearchers.add(new SameAuthorSearcher(tbi));
-      eloBasedSearchers.add(new SameMissionSearcher(tbi, true));
-      eloBasedSearchers.add(new SameMissionSearcher(tbi, false));
-      eloBasedSearchers.add(new FindSimilarSearcher(tbi));
    }
 
    public override function create(): Node {
@@ -147,8 +123,8 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
                  eloIcon: windowStyler.getScyEloIcon("search")
                  buttonSize: buttonSize
                  buttonActionScheme: buttonActionScheme
-                 clickAction: textQuerySearchAction2
-                 dropAction: eloBasedSearchAction2
+                 clickAction: textQuerySearchAction
+                 dropAction: eloBasedSearchAction
                  tooltipManager: tooltipManager
                  tooltip: ##"search for ELOs or\ndrag icon here, to start search"
               }
@@ -197,13 +173,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
       }
       eloTemplateUriDisplays = for (uri in eloTemplateUris) {
                  createScySearchResult(uri)
-              //            var uriDisplay = createUriDisplay(uri, false);
-              //            if (uriDisplay == null) {
-              //               logger.error("Cannot find template elo with uri: {uri}");
-              //            }
-              //            uriDisplay;
               }
-      //      eloTemplateUriDisplays = Sequences.sort(eloTemplateUriDisplays, UriDisplayComparator {}) as UriDisplay[];
       eloTemplateUriDisplays = Sequences.sort(eloTemplateUriDisplays, new ScySearchResultTitleComparator()) as ScySearchResult[];
       newFromEloTemplateButton.disable = sizeof eloTemplateUris == 0;
    }
@@ -215,36 +185,6 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
       def scySearchResult = new ScySearchResult(scyElo, 1.0);
       scySearchResult.setEloIcon(eloIcon);
       return scySearchResult;
-   }
-
-   function createUriDisplay(uri: URI, showAuthor: Boolean): UriDisplay {
-      if (uri == null) {
-         return UriDisplay {
-                    uri: uri
-                    display: ##"Nothing found"
-                 };
-      }
-      def scyElo = ScyElo.loadMetadata(uri, tbi);
-      if (scyElo == null) {
-         return null;
-      }
-      def title = scyElo.getTitle();
-      def technicalFormat = scyElo.getTechnicalFormat();
-      //      var author = metadata.getMetadataValueContainer(authorKey).getValue() as Contribute;
-      def typeName = scyDesktop.newEloCreationRegistry.getEloTypeName(technicalFormat);
-      var authorDisplay = "";
-      if (showAuthor) {
-      //         var authorName = author.getVCard();
-      //         if (authorName == null) {
-      //            authorName = ##"unknown"
-      //         }
-      //         authorDisplay = "{authorName}: "
-      }
-
-      UriDisplay {
-         uri: uri
-         display: "{authorDisplay}{title} ({typeName})"
-      }
    }
 
    function createNewEloFromTemplateAction(): Void {
@@ -265,7 +205,6 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
 
    function createNewEloFromTemplate(createNewElo: CreateNewElo): Void {
       var scySearchResult = createNewElo.listView.selectedItem as ScySearchResult;
-      //      var uriDisplay = createNewElo.listView.selectedItem as UriDisplay;
       if (scySearchResult != null) {
          var eloTemplateUri = scySearchResult.getScyElo().getUri();
          var newElo = repository.retrieveELO(eloTemplateUri);
@@ -352,14 +291,6 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
       createBlankEloButton.turnedOn = false;
       searcher.turnedOn = false;
       archiver.turnedOn = false;
-      if (backgroundQuerySearch != null) {
-         backgroundQuerySearch.abort();
-         backgroundQuerySearch = null;
-      }
-      if (backgroundEloBasedSearch != null) {
-         backgroundEloBasedSearch.abort();
-         backgroundEloBasedSearch = null;
-      }
    }
 
    function createModalDialogForContent(windowColorScheme: WindowColorScheme, eloIcon: EloIcon, title: String, content: Node): ModalDialogBox {
@@ -377,277 +308,37 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
       }
    }
 
-   function textQuerySearchAction2(): Void {
-      FX.deferAction(function(): Void {
-         searcher.turnedOn = true;
-      });
-      def eloSearchNode = scyDesktop.scyToolFactory.createNewScyToolNode("search","scy/search", null, null, false) as EloSearchNode;
-      def eloIcon = windowStyler.getScyEloIcon(ImageWindowStyler.generalSearch);
-      def windowColorScheme = windowStyler.getWindowColorScheme(ImageWindowStyler.generalSearch);
-
-      def dialogWindow = createModalDialogForContent(windowColorScheme, eloIcon, ##"Search", eloSearchNode);
-      eloSearchNode.window = dialogWindow.dialogWindow;
-      eloSearchNode.cancelAction= function():Void{
-         dialogWindow.dialogWindow.close();
-         searcher.turnedOn = false;
-      }
-      eloSearchNode.eloOpenedAction = function(newWindow:ScyWindow){
-         dialogWindow.dialogWindow.close();
-         searcher.turnedOn = false;
-      }
-      eloSearchNode.initialize(true);
-      eloSearchNode.newElo();
-   }
-
-   function eloBasedSearchAction2(scyElo: ScyElo): Void {
-      FX.deferAction(function(): Void {
-         searcher.turnedOn = true;
-      });
-      def eloSearchNode = scyDesktop.scyToolFactory.createNewScyToolNode("search","scy/search", null, null, false) as EloSearchNode;
-      def eloIcon = windowStyler.getScyEloIcon(ImageWindowStyler.generalSearch);
-      def windowColorScheme = windowStyler.getWindowColorScheme(ImageWindowStyler.generalSearch);
-
-      def dialogWindow = createModalDialogForContent(windowColorScheme, eloIcon, ##"Search", eloSearchNode);
-      eloSearchNode.window = dialogWindow.dialogWindow;
-      eloSearchNode.cancelAction= function():Void{
-         dialogWindow.dialogWindow.close();
-         searcher.turnedOn = false;
-      }
-      eloSearchNode.eloOpenedAction = function(newWindow:ScyWindow){
-         dialogWindow.dialogWindow.close();
-         searcher.turnedOn = false;
-      }
-      eloSearchNode.searchBasedOnElo(scyElo);
-      eloSearchNode.initialize(true);
-      eloSearchNode.newElo();
-   }
-
-   function searchEloAction(): Void {
-      searcher.turnedOn = true;
-      searchElos = SearchElos {
-                 newEloCreationRegistry: scyDesktop.newEloCreationRegistry
-                 windowStyler: windowStyler
-                 cancelAction: cancelModalDialog
-                 searchAction: searchForElos
-                 simpleSearchAction: simpleSearchForElos
-                 openAction: openElo
-              }
-      var typeNames = scyDesktop.newEloCreationRegistry.getEloTypeNames();
-      searchElos.typesListView.items = Sequences.sort(typeNames);
-
-      def eloIcon = windowStyler.getScyEloIcon(ImageWindowStyler.generalSearch);
-      def windowColorScheme = windowStyler.getWindowColorScheme(ImageWindowStyler.generalSearch);
-
-      createModalDialog(windowColorScheme, eloIcon, ##"Search", searchElos);
-   }
-
-   function searchForElos(searchElos: SearchElos): Void {
-      if (backgroundQuerySearch != null) {
-         backgroundQuerySearch.abort();
-      }
-
-      searchElos.openButton.disable = true;
-      var searchQuery: AndQuery;
-      var typeQuery = createTypeQuery(searchElos);
-      var titleQuery = createTitleQuery(searchElos);
-      var authorQuery = createAuthorQuery(searchElos);
-      if (typeQuery != null) {
-         searchQuery = new AndQuery(typeQuery);
-      }
-      if (titleQuery != null) {
-         if (searchQuery == null) {
-            searchQuery = new AndQuery(titleQuery);
-         } else {
-            searchQuery.addQueryComponent(titleQuery);
-         }
-      }
-      if (authorQuery != null) {
-         if (searchQuery == null) {
-            searchQuery = new AndQuery(authorQuery);
-         } else {
-            searchQuery.addQueryComponent(authorQuery);
-         }
-      }
-      def query = new Query(searchQuery);
-      backgroundQuerySearch = new BackgroundQuerySearch(tbi, scyDesktop.newEloCreationRegistry, query, this);
-
-      backgroundQuerySearch.start();
-      searchElos.showSearching();
-   }
-
-   function simpleSearchForElos(searchElos: SearchElos): Void {
-      if (backgroundQuerySearch != null) {
-         backgroundQuerySearch.abort();
-      }
-
-      searchElos.openButton.disable = true;
-      def query = QueryFactory.createSimpleQueryForExperts(searchElos.simpleSearchField.text);
-      if (scyDesktop.initializer.authorMode) {
-         query.setFindDeleted(true);
-         query.setFindHidden(true);
-      }
-      backgroundQuerySearch = new BackgroundQuerySearch(tbi, scyDesktop.newEloCreationRegistry, query, this);
-
-      backgroundQuerySearch.start();
-      searchElos.showSearching();
-   }
-
-   override public function querySearchFinished(scySearchResultList: List): Void {
-      setScySearchResults(scySearchResultList, gridEloSearch);
-   }
-
-   function setScySearchResults(scySearchResultList: List, showSearching: ShowSearching) {
-      def results =
-              for (scySearchResultObject in scySearchResultList) {
-                 def scySearchResult = scySearchResultObject as ScySearchResult;
-                 def eloIcon: EloIcon = windowStyler.getScyEloIcon(scySearchResult.getScyElo());
-                 scySearchResult.setEloIcon(eloIcon);
-                 scySearchResult
-              }
-      showSearching.showSearchResult(results);
-   }
-
-   function createTypeQuery(searchElos: SearchElos): IQueryComponent {
-      var eloTypeName = searchElos.typesListView.selectedItem as String;
-      if (not searchElos.allTypesCheckBox.selected and eloTypeName != null) {
-         var eloType = scyDesktop.newEloCreationRegistry.getEloType(eloTypeName);
-         return new MetadataQueryComponent(technicalFormatKey, SearchOperation.EQUALS, eloType);
-      }
-      return null;
-   }
-
-   function createTitleQuery(searchElos: SearchElos): IQueryComponent {
-      var searchTitle = searchElos.nameTextbox.rawText.trim();
-      if (searchTitle.length() > 0) {
-         return new MetadataQueryComponent(titleKey, SearchOperation.REGULAR_EXPRESSIONS, ".*{searchTitle}.*");
-      }
-      return null;
-   }
-
-   function createAuthorQuery(searchElos: SearchElos): IQueryComponent {
-      // if both mine and others and checked or unchecked, nothing to do
-      if (searchElos.mineCheckBox.selected or searchElos.othersCheckBox.selected) {
-         if (not (searchElos.mineCheckBox.selected and searchElos.othersCheckBox.selected)) {
-            if (searchElos.mineCheckBox.selected) {
-               var authorValue = new Contribute(userId, System.currentTimeMillis());
-               return new MetadataQueryComponent(authorKey, SearchOperation.EQUALS, authorValue);
-            }
-            if (searchElos.othersCheckBox.selected) {
-               var authorValue = new Contribute(userId, System.currentTimeMillis());
-               return new MetadataQueryComponent(authorKey, SearchOperation.NOT_EQUALS, authorValue);
-            }
-         }
-      }
-      return null;
-   }
-
-   function openElo(searchElos: SearchElos): Void {
-      var scySearchResult = searchElos.resultsListView.selectedItem as ScySearchResult;
-      if (scySearchResult != null) {
-         scyWindowControl.addOtherScyWindow(scySearchResult.getScyElo().getUri());
-      }
-
-      searchElos.modalDialogBox.close();
-      searcher.turnedOn = false;
-   }
-
    function textQuerySearchAction(): Void {
-      FX.deferAction(function(): Void {
-         searcher.turnedOn = true;
-      });
-      gridEloSearch = GridEloSearch {
-                 newEloCreationRegistry: scyDesktop.newEloCreationRegistry
-                 windowStyler: windowStyler
-                 cancelAction: cancelModalDialog
-                 doSearch: doTextQuerySearch
-                 openAction: doEloBasedOpen
-              }
-      def eloIcon = windowStyler.getScyEloIcon(ImageWindowStyler.generalSearch);
-      def windowColorScheme = windowStyler.getWindowColorScheme(ImageWindowStyler.generalSearch);
-
-      createModalDialog(windowColorScheme, eloIcon, ##"Search", gridEloSearch);
-   }
-
-   function createQueryContext(eloUri: String): QueryContext {
-      def queryContext: QueryContext = new QueryContext();
-      queryContext.setEloUri(eloUri);
-      queryContext.setUsername(userId);
-      queryContext.setMission(tbi.getMissionSpecificationURI().toASCIIString());
-      queryContext.setTool("scy-simple-search");
-      return queryContext;
-   }
-
-   function doTextQuerySearch(gridEloSearch: GridEloSearch): Void {
-      if (backgroundQuerySearch != null) {
-         backgroundQuerySearch.abort();
-      }
-
-      searchElos.openButton.disable = true;
-      def searchQuery = QueryFactory.createSimpleQueryForExperts(gridEloSearch.queryBox.rawText.trim());
-      //      def searchQuery = new Query(new MetadataQueryComponent(gridEloSearch.queryBox.rawText.trim()));
-      def queryContext: QueryContext = createQueryContext(null);
-      searchQuery.setQueryContext(queryContext);
-      //        searchQuery.setAllowedEloTypes(getAllowedEloTypes());
-      logger.info("Adding Query Context: {queryContext}");
-      searchQuery.setIncludedEloTypes(scyDesktop.newEloCreationRegistry.getEloTypes());
-      backgroundQuerySearch = new BackgroundQuerySearch(tbi, scyDesktop.newEloCreationRegistry, searchQuery, this);
-
-      backgroundQuerySearch.start();
-      gridEloSearch.showSearching();
+      startSearchAction(null)
    }
 
    function eloBasedSearchAction(scyElo: ScyElo): Void {
+      startSearchAction(scyElo)
+   }
+
+   function startSearchAction(scyElo: ScyElo): Void {
       FX.deferAction(function(): Void {
          searcher.turnedOn = true;
       });
-      eloBasedSearchDesign = GridEloBasedSearch {
-                 newEloCreationRegistry: scyDesktop.newEloCreationRegistry
-                 windowStyler: windowStyler
-                 cancelAction: cancelModalDialog
-                 doSearch: doEloBasedSearch
-                 baseOnAction: doEloBasedBaseOn
-                 openAction: doEloBasedOpen
-              }
-      eloBasedSearchDesign.baseElo = scyElo;
-      eloBasedSearchDesign.baseEloIcon = windowStyler.getScyEloIcon(scyElo);
-      if (eloBasedSearchers != null) {
-         eloBasedSearchDesign.searchersList.items = for (eloBasedSearcher in eloBasedSearchers) {
-                    eloBasedSearcher as EloBasedSearcher
-                 }
-      }
+      def eloSearchNode = scyDesktop.scyToolFactory.createNewScyToolNode("search","scy/search", null, null, false) as EloSearchNode;
       def eloIcon = windowStyler.getScyEloIcon(ImageWindowStyler.generalSearch);
       def windowColorScheme = windowStyler.getWindowColorScheme(ImageWindowStyler.generalSearch);
 
-      createModalDialog(windowColorScheme, eloIcon, ##"Search", eloBasedSearchDesign);
-   }
-
-   function doEloBasedSearch(eloBasedSearchDesign: GridEloBasedSearch): Void {
-      //      if (eloBasedSearchDesign.selectedEloBasedSearcher == null) {
-      //         delete  eloBasedSearchDesign.searchersList.items;
-      //         return;
-      //      }
-      if (backgroundEloBasedSearch != null) {
-         backgroundEloBasedSearch.abort();
+      def dialogWindow = createModalDialogForContent(windowColorScheme, eloIcon, ##"Search", eloSearchNode);
+      eloSearchNode.window = dialogWindow.dialogWindow;
+      eloSearchNode.cancelAction= function():Void{
+         dialogWindow.dialogWindow.close();
+         searcher.turnedOn = false;
       }
-      eloBasedSearchDesign.showSearching();
-      backgroundEloBasedSearch = new BackgroundEloBasedSearch(tbi, scyDesktop.newEloCreationRegistry, eloBasedSearchDesign.selectedEloBasedSearchers, eloBasedSearchDesign.baseElo, this);
-
-      backgroundEloBasedSearch.start();
-   }
-
-   override public function eloBasedSearchFinished(scySearchResultList: List): Void {
-      setScySearchResults(scySearchResultList, eloBasedSearchDesign);
-   }
-
-   function doEloBasedBaseOn(eloBasedSearchDesign: GridEloBasedSearch): Void {
-      eloBasedSearchDesign.baseElo = eloBasedSearchDesign.selectedSearchResult.getScyElo();
-      eloBasedSearchDesign.baseEloIcon = (eloBasedSearchDesign.selectedSearchResult.getEloIcon() as EloIcon).clone();
-      doEloBasedSearch(eloBasedSearchDesign);
-   }
-
-   function doEloBasedOpen(gridSearchNode: GridSearchNode): Void {
-      scyWindowControl.addOtherScyWindow(gridSearchNode.selectedSearchResult.getScyElo().getUri());
-      cancelModalDialog(gridSearchNode);
+      eloSearchNode.eloOpenedAction = function(newWindow:ScyWindow){
+         dialogWindow.dialogWindow.close();
+         searcher.turnedOn = false;
+      }
+      if (scyElo!=null){
+         eloSearchNode.searchBasedOnElo(scyElo);
+      }
+      eloSearchNode.initialize(true);
+      eloSearchNode.newElo();
    }
 
 }
