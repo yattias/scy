@@ -61,6 +61,15 @@ public class WebEportIndex extends BaseController {
             anchoELOWithStatuses.add(anchoELOWithStatus);
         }
 
+        String serverPort = "";
+        if(request.getServerPort() != 80) {
+            serverPort = ":" + request.getServerPort();
+        }
+        String serverPath = "http://" +  request.getServerName() + serverPort + "/webapp/portfolioShowcase.html?missionRuntimeURI=" + getEncodedUri(missionRuntimeElo.getUri().toString());
+
+        modelAndView.addObject("serverPath", serverPath);
+
+
 
         modelAndView.addObject("obligatoryAnchorElos", obligatoryAnchorElos);
         modelAndView.addObject("portfolio", portfolio);
