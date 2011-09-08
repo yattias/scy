@@ -297,7 +297,49 @@ function renderHtmlLabel(item){
                         </tr>
                     </table>
                 </c:if>
+               <c:if test="${fn:contains(portfolio.portfolioStatus, 'PORTFOLIO_ASSESSED')}">
+                   <script src="http://connect.facebook.net/en_US/all.js"></script>
+                    
+                         <div id="fb-root"></div>
+                  <script type="text/javascript">
+function FBShare(){
+FB.init({
+                        appId  : '121419677960275',
+                        status : true, // check login status
+                        cookie : true, // enable cookies to allow the server to access the session
+                        xfbml  : true, // parse XFBML
+                        //channelUrl : 'http://scy.collide.info:8080/webapp/', // channel.html file
+                        oauth  : true // enable OAuth 2.0
+                      });
 
+                       FB.ui(
+                          {
+                            method: 'stream.publish',
+     message: "I have just published my showcase ePortfolio. Click on the link to have a look....",
+     attachment: {
+       name: 'My showcase ePortfolio',
+       caption: '',
+       description: (
+         'I have just published my showcase ePortfolio. Click on the link to have a look.'
+       ),
+       href: 'http://scy.collide.info:8080/webapp'
+     },
+     user_message_prompt: 'I have just published my showcase ePortfolio. Click on the link to have a look....................'
+   },
+   function(response) {
+     if (response && response.post_id) {
+       //alert('Post was published.');
+     } else {
+       //alert('Post was not published.');
+     }
+   }
+                        );
+}
+
+
+</script>
+<a href="javascript:FBShare();">Share showcase ePortfolio on Facebook</a>
+                </c:if>
             </div>
 
         </div>
