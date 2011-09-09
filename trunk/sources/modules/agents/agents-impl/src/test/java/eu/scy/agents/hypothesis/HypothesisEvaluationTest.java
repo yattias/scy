@@ -37,90 +37,89 @@ import static org.junit.Assert.assertNotNull;
 
 public class HypothesisEvaluationTest extends AbstractTestFixture {
 
-	private static final String ELO_TYPE = "scy/xproc";
-	private static final String MISSION = "roolo://memory/0/0/Design+a+CO2-friendly+house.scymissionspecification";
+    private static final String ELO_TYPE = "scy/xproc";
+    private static final String MISSION = "roolo://memory/0/0/Design+a+CO2-friendly+house.scymissionspecification";
 
-	private IELO elo;
+    private IELO elo;
 
-	// String[] expectedKeywords = new String[] { "ingredients", "nontoxic",
-	// "binder", "solvent", "labels", "toxic", "chemical", "voc", "paint",
-	// "health", "natural", "pigment" };
+    // String[] expectedKeywords = new String[] { "ingredients", "nontoxic",
+    // "binder", "solvent", "labels", "toxic", "chemical", "voc", "paint",
+    // "health", "natural", "pigment" };
 
-	private static final long TIME_IN_MILLIS = 666;
+    private static final long TIME_IN_MILLIS = 666;
 
-	private static final String UUID1234 = "uuid1234";
+    private static final String UUID1234 = "uuid1234";
 
-	private String eloPath;
+    private String eloPath;
 
-	@BeforeClass
-	public static void startTS() {
-		startTupleSpaceServer();
-	}
+    @BeforeClass
+    public static void startTS() {
+        startTupleSpaceServer();
+    }
 
-	@AfterClass
-	public static void stopTS() {
-		stopTupleSpaceServer();
-	}
+    @AfterClass
+    public static void stopTS() {
+        stopTupleSpaceServer();
+    }
 
-	@Override
-	@Before
-	public void setUp() throws Exception {
-		super.setUp();
+    @Override
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
 
-		HashMap<String, Object> params = new HashMap<String, Object>();
-		params.put(AgentProtocol.PARAM_AGENT_ID, new VMID());
-		params.put(AgentProtocol.TS_HOST, TSHOST);
-		params.put(AgentProtocol.TS_PORT, TSPORT);
-		this.agentMap.put(ExtractTopicModelKeywordsAgent.NAME, params);
-		this.agentMap.put(ExtractKeyphrasesAgent.NAME, params);
-		this.agentMap.put(HypothesisEvaluationAgent.NAME, params);
-		this.agentMap.put(OntologyKeywordsAgent.NAME, params);
-		this.agentMap.put(SessionAgent.NAME, params);
-		this.startAgentFramework(this.agentMap);
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put(AgentProtocol.PARAM_AGENT_ID, new VMID());
+        params.put(AgentProtocol.TS_HOST, TSHOST);
+        params.put(AgentProtocol.TS_PORT, TSPORT);
+        this.agentMap.put(ExtractTopicModelKeywordsAgent.NAME, params);
+        this.agentMap.put(ExtractKeyphrasesAgent.NAME, params);
+        this.agentMap.put(HypothesisEvaluationAgent.NAME, params);
+        this.agentMap.put(OntologyKeywordsAgent.NAME, params);
+        this.agentMap.put(SessionAgent.NAME, params);
+        this.startAgentFramework(this.agentMap);
 
-		InputStream inStream = this.getClass().getResourceAsStream("/copexExampleElo.xml");
-		String eloContent = this.readFile(inStream);
-		this.elo = this.createNewElo("TestCopex", ELO_TYPE);
-		this.elo.setContent(new BasicContent(eloContent));
-		IMetadata metadata = this.repository.addNewELO(this.elo);
-		URI eloUri = (URI) metadata.getMetadataValueContainer(
-				this.typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER)).getValue();
-		this.eloPath = eloUri.toString();
+        InputStream inStream = this.getClass().getResourceAsStream("/copexExampleElo.xml");
+        String eloContent = this.readFile(inStream);
+        this.elo = this.createNewElo("TestCopex", ELO_TYPE);
+        this.elo.setContent(new BasicContent(eloContent));
+        IMetadata metadata = this.repository.addNewELO(this.elo);
+        URI eloUri = (URI) metadata.getMetadataValueContainer(
+                this.typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER)).getValue();
+        this.eloPath = eloUri.toString();
 
-		IMetadataKey keywordKey = this.typeManager.getMetadataKey(CoreRooloMetadataKeyIds.KEYWORDS.getId());
-		keywordKey = this.typeManager.getMetadataKey(KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM);
-	}
+        IMetadataKey keywordKey = this.typeManager.getMetadataKey(CoreRooloMetadataKeyIds.KEYWORDS.getId());
+        keywordKey = this.typeManager.getMetadataKey(KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM);
+    }
 
-	@Override
-	@After
-	public void tearDown() {
-		try {
-			this.stopAgentFrameWork();
-			super.tearDown();
-		} catch (AgentLifecycleException e) {
-			e.printStackTrace();
-		}
-	}
+    @Override
+    @After
+    public void tearDown() {
+        try {
+            this.stopAgentFrameWork();
+            super.tearDown();
+        } catch ( AgentLifecycleException e ) {
+            e.printStackTrace();
+        }
+    }
 
-	@Test
-	public void testRun() throws TupleSpaceException, IOException, ClassNotFoundException {
-		this.getActionSpace().write(
-				this.login("testUser", "roolo://memory/0/0/Design+a+CO2-friendly+house.scymissionspecification",
-						Mission.MISSION1.getName(), "en", "co2"));
+    @Test
+    public void testRun() throws TupleSpaceException, IOException, ClassNotFoundException {
+        this.login("testUser", "roolo://memory/0/0/Design+a+CO2-friendly+house.scymissionspecification",
+                Mission.MISSION1.getName(), "en", "co2_2");
 
-		Tuple tuple = new Tuple("action", UUID1234, TIME_IN_MILLIS, ActionConstants.ACTION_ELO_SAVED, "testUser",
-				"SomeTool", MISSION, "TestSession", this.eloPath, "elo_type=" + ELO_TYPE, "elo_uri=" + this.eloPath);
-		this.getActionSpace().write(tuple);
+        Tuple tuple = new Tuple("action", UUID1234, TIME_IN_MILLIS, ActionConstants.ACTION_ELO_SAVED, "testUser",
+                "SomeTool", MISSION1, "TestSession", this.eloPath, "elo_type=" + ELO_TYPE, "elo_uri=" + this.eloPath);
+        this.getActionSpace().write(tuple);
 
-		Tuple response = this.getCommandSpace().waitToTake(
-				new Tuple(HypothesisEvaluationAgent.EVAL, String.class, String.class, String.class, String.class,
-						String.class, Field.createWildCardField()), AgentProtocol.MINUTE * 1);
-		assertNotNull("no response received", response);
-		ByteArrayInputStream bytesIn = new ByteArrayInputStream((byte[]) response.getField(6).getValue());
-		ObjectInputStream objectIn = new ObjectInputStream(bytesIn);
-		HashMap<Integer, Integer> histogram = (HashMap<Integer, Integer>) objectIn.readObject();
-		String string = histogram.toString();
-		assertEquals("{0=1, 2=3}", string);
+        Tuple response = this.getCommandSpace().waitToTake(
+                new Tuple(HypothesisEvaluationAgent.EVAL, String.class, String.class, String.class, String.class,
+                        String.class, Field.createWildCardField()), AgentProtocol.MINUTE * 1);
+        assertNotNull("no response received", response);
+        ByteArrayInputStream bytesIn = new ByteArrayInputStream((byte[]) response.getField(6).getValue());
+        ObjectInputStream objectIn = new ObjectInputStream(bytesIn);
+        HashMap<Integer, Integer> histogram = (HashMap<Integer, Integer>) objectIn.readObject();
+        String string = histogram.toString();
+        assertEquals("{0=1, 2=3}", string);
 
-	}
+    }
 }

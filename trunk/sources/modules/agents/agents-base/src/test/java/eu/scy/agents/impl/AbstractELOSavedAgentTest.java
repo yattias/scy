@@ -44,26 +44,6 @@ public class AbstractELOSavedAgentTest extends AbstractELOSavedAgent {
         super(AbstractELOSavedAgentTest.class.getName(), "id1", TSHOST, TSPORT);
     }
 
-    // @Override
-    // protected void processELOSavedAction(IAction action) {
-    // processActionCalled = true;
-    // try {
-    // assertEquals("SomeMission", action.getContext(ContextConstants.mission));
-    // assertEquals("TestSession", action.getContext(ContextConstants.session));
-    // assertEquals("SomeTool", action.getContext(ContextConstants.tool));
-    // assertEquals(UUID1234, action.getId());
-    // assertEquals("testUser", action.getUser());
-    // assertEquals(TIME_IN_MILLIS, action.getTimeInMillis());
-    // assertEquals("elo_saved", action.getType());
-    //
-    // assertEquals(ELO_URI, action.getAttribute("elouri"));
-    // assertEquals(ELO_TYPE, action.getAttribute("type"));
-    // } catch (AssertionError e) {
-    // e.printStackTrace();
-    // errorOccurred = true;
-    // }
-    // }
-
     @BeforeClass
     public static void startTS() {
         if ( !Server.isRunning() ) {

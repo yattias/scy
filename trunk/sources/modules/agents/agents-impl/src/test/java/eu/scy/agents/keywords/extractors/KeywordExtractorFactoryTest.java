@@ -1,9 +1,9 @@
 package eu.scy.agents.keywords.extractors;
 
-import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.assertTrue;
 
 public class KeywordExtractorFactoryTest {
 

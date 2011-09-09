@@ -1,6 +1,6 @@
 package eu.scy.agents.groupformation;
 
-import eu.scy.common.mission.StrategyType;
+import eu.scy.common.mission.GroupformationStrategyType;
 
 import java.net.URI;
 import java.util.HashMap;
@@ -16,12 +16,12 @@ public class GroupFormationActivation {
 
     public static class GroupFormationInfo {
 
-        private StrategyType strategy;
+        private GroupformationStrategyType strategy;
         private int maxUsers;
         private int minUsers;
         private URI referenceElo;
 
-        public void setStrategy(StrategyType strategy) {
+        public void setStrategy(GroupformationStrategyType strategy) {
             this.strategy = strategy;
         }
 
@@ -49,7 +49,7 @@ public class GroupFormationActivation {
             return referenceElo;
         }
 
-        public StrategyType getStrategy() {
+        public GroupformationStrategyType getStrategy() {
             return strategy;
         }
 
@@ -70,7 +70,7 @@ public class GroupFormationActivation {
         groupFormationInfoMap = new HashMap<String, GroupFormationInfo>();
     }
 
-    public void addStrategy(String las, StrategyType strategy) {
+    public void addStrategy(String las, GroupformationStrategyType strategy) {
         GroupFormationInfo groupFormationInfo = getOrAddGroupFormationInfo(las);
         groupFormationInfo.setStrategy(strategy);
     }

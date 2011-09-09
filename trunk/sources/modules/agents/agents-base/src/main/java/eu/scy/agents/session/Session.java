@@ -128,4 +128,25 @@ public class Session {
         }
         return IAction.NOT_AVAILABLE;
     }
+
+    public Set<String> getUsersInLas(String missionName, String las) {
+        Set<String> users = new HashSet<String>();
+        try {
+            Tuple missionNameTuple = sessionSpace.read(new Tuple(Session.MISSION, String.class, String.class, missionName, String.class,
+                    String.class));
+            if ( missionNameTuple != null ) {
+                String missionSpec = (String) missionNameTuple.getField(MISSION_SPECIFICATION_FIELD).getValue();
+                Tuple[] lasTuples = sessionSpace.readAll(new Tuple(Session.LAS, String.class, missionSpec, las));
+                for ( Tuple lasTuple : lasTuples ) {
+                    String user = (String) lasTuple.getField(USER_FIELD).getValue();
+                    users.add(user);
+                }
+            } else {
+                LOGGER.warn("No tuple found for ");
+            }
+        } catch ( TupleSpaceException e ) {
+            e.printStackTrace();
+        }
+        return users;
+    }
 }

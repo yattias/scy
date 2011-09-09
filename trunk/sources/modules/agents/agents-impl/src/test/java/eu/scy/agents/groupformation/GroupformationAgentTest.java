@@ -62,9 +62,9 @@ public class GroupformationAgentTest extends AbstractTestFixture {
 
 	@Test
 	public void testRun() throws TupleSpaceException, InterruptedException {
-		this.getActionSpace().write(this.login("user1", this.MISSION1, Mission.MISSION1.getName(), "en", "co2"));
-		this.getActionSpace().write(this.login("user2", this.MISSION1, Mission.MISSION1.getName(), "en", "co2"));
-		this.getActionSpace().write(this.login("user3", this.MISSION1, Mission.MISSION1.getName(), "en", "co2"));
+		this.getActionSpace().write(this.login("user1", this.MISSION1, Mission.MISSION1.getName(), "en", "co2_2"));
+		this.getActionSpace().write(this.login("user2", this.MISSION1, Mission.MISSION1.getName(), "en", "co2_2"));
+		this.getActionSpace().write(this.login("user3", this.MISSION1, Mission.MISSION1.getName(), "en", "co2_2"));
 
 		Thread.sleep(200);
 
