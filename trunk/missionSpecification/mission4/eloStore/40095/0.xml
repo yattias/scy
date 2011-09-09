@@ -22,7 +22,7 @@
           <dateTime>2011-09-06T11:43:29.028+0200</dateTime>
         </date>
       </contribute>
-      <version>20</version>
+      <version>21</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -51,37 +51,25 @@
         <string language="fr">But de l'analyse</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
-  <template>TRUE</template>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACHUlEQVR42u3ST4tSURjH8fsCInob1fto10to16J1QZuCmE2bFlH7WoQDtQhq0yJQ8Cb+D1TwzyIRyVGvSd2ZMc1Sf815wIuK0EADxfj9wcPxec65x8tHvbm+aKZBVNK3tX5zv1rPr/Wx2Iu1/uc80I9f/Z0pzwF9qB3q1u09Xb/58AQwlO/6O3t6HPO13H/9/qNSjSMDdL07U2hNDdD12U8T2z/+3tXh8UFU4VHHanW2rbadO+3sX95ngM/e5HXh4iVdu/HAAD3Ps9ndR68M8Pnbgi5fuWqrA3R77kzsXckAXf8y3rD94dfPCgbtnSkDlIYrFa71m/sOcLV3gKt9t9tSu93cmfLu7T/R/f2nUbl+c7attp077ew83efpDLJYLP54Zjab6X/LeDz+6zsiwNFopGKxqGQyqTAMVS6X1Wg0ooOud8lkMid/3bZ97vV6qtfryufzNp/P5zYfDAbK5XIKgsBWl1qtZmuhULC11WoplUrZ97q4ZzudjhKJRPSMe59lstmsrc1mU6VSyd6x3+8rnU7b3Pd9W6vVquLxuCqVivXL1b3LdDq1e4bDoSaTyZn8CJ4IgAACCCABEEAAASQAAggggARAAAEEkAAIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAASQAAggggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAATyH+Q0rdL/0GdOBcwAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Calibri;\f3\fnil Times New Roman;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-\margl1417\margr1417\margt1417\margb1417\widowctrl
-\li0\ri0\fi0\ql\f2\fs24\i\b0\ul0\cf0 "I want to know whether the blood found at the crime scene has come from the victim, or any of the suspects."\par
-\par
-\f3\i0\par
-\f1\cf1\par
-\par
-\par
-\li0\ri0\fi0\ul0\par
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Calibri;\f3\fnil Times New Roman;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+\margl1417\margr1417\margt1417\margb1417\widowctrl&#xD;
+\li0\ri0\fi0\ql\f2\fs24\i\b0\ul0\cf0 "I want to know whether the blood found at the crime scene has come from the victim, or any of the suspects."\par&#xD;
+\par&#xD;
+\f3\i0\par&#xD;
+\f1\cf1\par&#xD;
+\par&#xD;
+\par&#xD;
+\li0\ri0\fi0\ul0\par&#xD;
 }</RichText>
 </content>
 <resources>

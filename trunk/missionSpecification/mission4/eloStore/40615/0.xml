@@ -22,7 +22,7 @@
           <dateTime>2011-09-06T11:52:13.720+0200</dateTime>
         </date>
       </contribute>
-      <version>9</version>
+      <version>10</version>
     </lifecycle>
     <annotation>
       <entity>colorId</entity>
@@ -59,36 +59,24 @@
         <string language="fr">But de l'analyse</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
-  <template>TRUE</template>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACAklEQVR42u3SP2tTYRTH8ecFiPRtqO/DrUNegJuDQ6YKXW5BsnRxKHbIVgdJwQ4BO6RDoUt0KA2CBKoZLCVoQ9MWTdskzb+bY8+Be7n3ktSEDBbz/cHh3vOc53ly+RDny7kM5Cwskd+xPjk//HYQ63O5d7G+59el0z+dm3IK9PHrpbxYysji89VbwIYUtX+ZkbVcUYJ5fvezfKpcGaD2uqd03DVA7fe/39j8ulWTy+uTsBpXP62ia6Nq1L5J1/7lfQa48eFAHjxckKfPXhmgc87Wll9vGeDb7ZI8evzEngqoM92T2/ligNq/36vY/OLXD6mfVeemDFDkIlKNWJ+cK2C0V8BoX6sdS7V6NDflvM03srK5Hpb2ybVRNWrfpGv/033u9m8j2WxW2u22vkq327XncDiUIIPBQHzfl1arZfNUKmXrvV4v3BOcC+5pNpt2xvM8O6fJ5/P21PVCoSDJ6H060zv6/X5sPfim4Hf0/uj3dTqd8H1comeSCc5PG/e3DeVyeewsijzLnrv2JtemuW+SpNPpme52QmYKgAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAAQSQAAgggAACSAAEEEAACYAAAgggARBAAAEkAAIIIIAEQAABBJAACCCAABIAAbyf+QO4O8j0GeqY5gAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\li0\ri0\fi0\f1\fs24\i\b0\ul0\cf1\ldblquote The attorney wants to know whether the ink on the anonymous letter comes from one of the collected pens.\rdblquote\par
-\par
-\i0\par
-\par
-\par
-\li0\ri0\fi0\ul0\par
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i\b0\ul0\cf1\ldblquote The attorney wants to know whether the ink on the anonymous letter comes from one of the collected pens.\rdblquote\par&#xD;
+\par&#xD;
+\i0\par&#xD;
+\par&#xD;
+\par&#xD;
+\li0\ri0\fi0\ul0\par&#xD;
 }</RichText>
 </content>
 <resources>
