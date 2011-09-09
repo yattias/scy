@@ -33,7 +33,7 @@ public class ScyToolFactory extends ContentFactory {
    public var newTitleGenerator: NewTitleGenerator;
 
    public function createNewScyToolNode(id: String, type: String, eloUri: URI, scyWindow: ScyWindow, drawer: Boolean): Node {
-      if (id == null) {
+      if (id == null or id.length()==0) {
          // no tool specified
          return null;
       }
