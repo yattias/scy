@@ -4,7 +4,6 @@
  */
 package eu.scy.client.desktop.scydesktop.config;
 
-import eu.scy.common.mission.StrategyType;
 import java.net.URI;
 
 /**
