@@ -6,6 +6,9 @@
 package eu.scy.client.desktop.scydesktop.tools.mission;
 import eu.scy.common.mission.MissionEloType;
 import eu.scy.common.mission.impl.jdom.RuntimeSettingsEloContentXmlUtils;
+import eu.scy.client.desktop.scydesktop.tools.content.eloImporter.ExampleFileFilter;
+import eu.scy.client.desktop.scydesktop.tools.mission.springimport.SpringConfigFileImporter;
+import javax.swing.JFileChooser;
 
 public class RuntimeSettingsEditor extends EloXmlEditor {
 
@@ -14,6 +17,21 @@ public class RuntimeSettingsEditor extends EloXmlEditor {
    }
 
    override protected function doImport(): Void {
+      var fileChooser = new JFileChooser();
+      fileChooser.setCurrentDirectory(lastUsedDirectory);
+      fileChooser.setFileFilter(new ExampleFileFilter("xml", "Spring mission specification"));
+      if (JFileChooser.APPROVE_OPTION == fileChooser.showOpenDialog(getParentComponent())) {
+         //getting the file from the fileChooser
+         lastUsedDirectory = fileChooser.getCurrentDirectory();
+         var springConfigFileImporter = SpringConfigFileImporter {
+               file: fileChooser.getSelectedFile().getAbsolutePath()
+               tbi: toolBrokerAPI
+            }
+         setContent(springConfigFileImporter.runtimeSettingsEloContentXml,springConfigFileImporter.errors);
+         missionId = springConfigFileImporter.missionId;
+         language = springConfigFileImporter.language;
+         suggestedTitle = springConfigFileImporter.missionTitle;
+      }
    }
 
    override protected function validateXml(xml: String): String {

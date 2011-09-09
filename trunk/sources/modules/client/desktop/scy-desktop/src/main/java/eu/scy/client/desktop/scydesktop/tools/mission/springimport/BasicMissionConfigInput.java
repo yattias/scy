@@ -4,13 +4,18 @@
  */
 package eu.scy.client.desktop.scydesktop.tools.mission.springimport;
 
+import eu.scy.client.desktop.desktoputils.StringUtils;
 import eu.scy.common.mission.EloToolConfig;
 import eu.scy.client.desktop.scydesktop.config.BasicConfig;
 import eu.scy.client.desktop.scydesktop.config.BasicMissionMap;
+import eu.scy.client.desktop.scydesktop.config.RuntimeSettingConfig;
 import eu.scy.common.mission.Las;
 import eu.scy.common.mission.MissionAnchor;
 import eu.scy.common.mission.MissionModelEloContent;
 import eu.scy.common.mission.ColorSchemesElo;
+import eu.scy.common.mission.RuntimeSetting;
+import eu.scy.common.mission.RuntimeSettingKey;
+import eu.scy.common.mission.StrategyType;
 import eu.scy.common.mission.impl.BasicLas;
 import eu.scy.common.mission.impl.BasicMissionAnchor;
 import eu.scy.common.mission.impl.BasicMissionModelEloContent;
@@ -51,6 +56,7 @@ public class BasicMissionConfigInput implements MissionConfigInput
    private String xhtmlVersionId;
    private Locale language;
    private IMetadata templateTrueMetadata;
+   private List<RuntimeSetting> runtimeSettings = new ArrayList<RuntimeSetting>();
 
    public void parseEloConfigs(ToolBrokerAPI tbi)
    {
@@ -76,6 +82,8 @@ public class BasicMissionConfigInput implements MissionConfigInput
       {
          setTemplateFlag(anchor.getUri());
       }
+      findGroupFormationRuntimeSettings();
+      checkRuntimeSettings();
    }
 
    private void setTemplateFlag(URI eloUri)
@@ -308,6 +316,7 @@ public class BasicMissionConfigInput implements MissionConfigInput
          missionAnchor.setTargetDescriptionUri(basicMissionAnchor.getTargetDescriptionUri());
          missionAnchor.setAssignmentUri(basicMissionAnchor.getAssignmentUri());
          missionAnchor.setResourcesUri(basicMissionAnchor.getResourcesUri());
+         missionAnchor.setHelpUri(basicMissionAnchor.getHelpUri());
          missionAnchor.setColorSchemeId(basicMissionAnchor.getColorScheme());
          missionAnchor.setRelationNames(basicMissionAnchor.getRelationNames());
          missionAnchor.setDependingOnMissionAnchorIds(basicMissionAnchor.getDependingOnMissionAnchorIds());
@@ -370,14 +379,20 @@ public class BasicMissionConfigInput implements MissionConfigInput
          las.setIntermediateAnchors(intermediateAnchors);
       }
       // check the dependingOnMissionAnchorIds
-      for (BasicMissionAnchor missionAnchor: missionAnchorMap.values()){
+      for (BasicMissionAnchor missionAnchor : missionAnchorMap.values())
+      {
          List<String> dependingOnMissionAnchorIds = new ArrayList<String>();
-         if (missionAnchor.getDependingOnMissionAnchorIds()!=null){
-            for (String dependingOnMissionAnchorId : missionAnchor.getDependingOnMissionAnchorIds()){
-               if (missionAnchorMap.containsKey(dependingOnMissionAnchorId)){
+         if (missionAnchor.getDependingOnMissionAnchorIds() != null)
+         {
+            for (String dependingOnMissionAnchorId : missionAnchor.getDependingOnMissionAnchorIds())
+            {
+               if (missionAnchorMap.containsKey(dependingOnMissionAnchorId))
+               {
                   dependingOnMissionAnchorIds.add(dependingOnMissionAnchorId);
-               } else {
-               logger.error(addError("Cannot find depending on mission anchor with id '" + dependingOnMissionAnchorId + "' for mission anchor with id '" + missionAnchor.getId() + "'"));
+               }
+               else
+               {
+                  logger.error(addError("Cannot find depending on mission anchor with id '" + dependingOnMissionAnchorId + "' for mission anchor with id '" + missionAnchor.getId() + "'"));
 
                }
             }
@@ -448,5 +463,107 @@ public class BasicMissionConfigInput implements MissionConfigInput
    {
       this.missionTitle = missionTitle;
    }
-   
+
+   @Override
+   public List<RuntimeSetting> getRuntimeSettings()
+   {
+      return runtimeSettings;
+   }
+
+   public void setRuntimeSettings(List<RuntimeSettingConfig> runtimeSettingConfigs)
+   {
+      for (RuntimeSettingConfig runtimeSettingConfig : runtimeSettingConfigs)
+      {
+         int nrOfErrors = errors.size();
+         if (StringUtils.isEmpty(runtimeSettingConfig.getName()))
+         {
+            addError("the name of a runtime setting config may not be empty");
+         }
+         if (runtimeSettingConfig.getValue() == null)
+         {
+            addError("the value of a runtime setting config must be defined, name is " + runtimeSettingConfig.getName());
+         }
+         if (nrOfErrors == errors.size())
+         {
+            runtimeSettings.add(new RuntimeSetting(new RuntimeSettingKey(runtimeSettingConfig.getName(), runtimeSettingConfig.getLasId(), runtimeSettingConfig.getEloUri()), runtimeSettingConfig.getValue()));
+         }
+      }
+   }
+
+   private void findGroupFormationRuntimeSettings()
+   {
+      for (eu.scy.client.desktop.scydesktop.config.BasicLas basicLas : getBasicMissionMap().getLasses())
+      {
+         if (basicLas.getGroupFormationConfig() != null)
+         {
+            int nrOfErrors = errors.size();
+            StrategyType strategy = null;
+            if (StringUtils.isEmpty(basicLas.getGroupFormationConfig().getStrategy()))
+            {
+               addError("group formation strategy may not be empty, in las " + basicLas.getId());
+            }
+            else
+            {
+               try
+               {
+                  strategy = StrategyType.valueOf(basicLas.getGroupFormationConfig().getStrategy());
+               }
+               catch (IllegalArgumentException e)
+               {
+                  addError("group formation strategy (" + basicLas.getGroupFormationConfig().getStrategy() + ") is a unknown type, in las " + basicLas.getId());
+               }
+            }
+            if (basicLas.getGroupFormationConfig().getMinimumNrOfUsers() < 2)
+            {
+               addError("group formation minimum number of users (" + basicLas.getGroupFormationConfig().getMinimumNrOfUsers() + ") must be at least 2, in las " + basicLas.getId());
+            }
+            if (basicLas.getGroupFormationConfig().getMinimumNrOfUsers() > basicLas.getGroupFormationConfig().getMaximumNrOfUsers())
+            {
+               addError("group formation minimum number of users (" + basicLas.getGroupFormationConfig().getMinimumNrOfUsers() + ") may not be larger then maximum number of users (" + basicLas.getGroupFormationConfig().getMaximumNrOfUsers() + "), in las " + basicLas.getId());
+            }
+            if (basicLas.getGroupFormationConfig().getReferenceEloUri() != null)
+            {
+               ScyElo elo = ScyElo.loadElo(basicLas.getGroupFormationConfig().getReferenceEloUri(), tbi);
+               if (elo == null)
+               {
+                  addError("group formation reference ELO (" + basicLas.getGroupFormationConfig().getReferenceEloUri() + ") cannot be found, in las " + basicLas.getId());
+               }
+
+            }
+            if (nrOfErrors == errors.size())
+            {
+               runtimeSettings.add(new RuntimeSetting(new RuntimeSettingKey("groupformation.strategy", basicLas.getId(), null), strategy.toString()));
+               runtimeSettings.add(new RuntimeSetting(new RuntimeSettingKey("groupformation.minUsers", basicLas.getId(), null), "" + basicLas.getGroupFormationConfig().getMinimumNrOfUsers()));
+               runtimeSettings.add(new RuntimeSetting(new RuntimeSettingKey("groupformation.maxUsers", basicLas.getId(), null), "" + basicLas.getGroupFormationConfig().getMaximumNrOfUsers()));
+               if (basicLas.getGroupFormationConfig().getReferenceEloUri() != null)
+               {
+                  runtimeSettings.add(new RuntimeSetting(new RuntimeSettingKey("groupformation.referenceElo", basicLas.getId(), null), basicLas.getGroupFormationConfig().getReferenceEloUri().toString()));
+               }
+            }
+         }
+      }
+   }
+
+   private void checkRuntimeSettings()
+   {
+      Set<String> lasIds = new HashSet<String>();
+      for (eu.scy.client.desktop.scydesktop.config.BasicLas basicLas : getBasicMissionMap().getLasses())
+      {
+         lasIds.add(basicLas.getId());
+      }
+      List<RuntimeSetting> checkedRuntimeSettings = new ArrayList<RuntimeSetting>();
+      for (RuntimeSetting runtimeSetting : runtimeSettings)
+      {
+         int nrOfErrors = errors.size();
+         if (runtimeSetting.getKey().getLasId() != null && !lasIds.contains(runtimeSetting.getKey().getLasId()))
+         {
+            addError("unknown lasId " + runtimeSetting.getKey().getLasId() + " in runtime setting: " + runtimeSetting);
+         }
+         if (nrOfErrors == errors.size())
+         {
+            checkedRuntimeSettings.add(runtimeSetting);
+         }
+      }
+      runtimeSettings = checkedRuntimeSettings;
+   }
 }

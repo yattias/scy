@@ -7,6 +7,7 @@ package eu.scy.client.desktop.scydesktop.tools.mission.springimport;
 
 import eu.scy.common.mission.EloToolConfig;
 import eu.scy.common.mission.MissionModelEloContent;
+import eu.scy.common.mission.RuntimeSetting;
 import java.net.URI;
 import java.util.List;
 import java.util.Locale;
@@ -38,4 +39,6 @@ public interface MissionConfigInput {
    public Locale getLanguage();
 
    public String getMissionTitle();
+
+   public List<RuntimeSetting> getRuntimeSettings();
 }
