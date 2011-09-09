@@ -70,6 +70,7 @@ public class AddKeywordsToMetadataAgent extends AbstractELOSavedAgent implements
 		extractor.setMission(missionForUser);
 		extractor.setTupleSpace(getCommandSpace());
 		List<String> keywords = extractor.getKeywords(elo);
+
 		IMetadataValueContainer mvc = elo.getMetadata().getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.SOCIAL_TAGS));
 		if (mvc != null && mvc.getValue() != null && mvc.getValue() instanceof SocialTags) {
 		    SocialTags st = (SocialTags) mvc.getValue();
