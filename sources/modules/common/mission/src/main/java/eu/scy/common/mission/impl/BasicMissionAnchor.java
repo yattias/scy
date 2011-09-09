@@ -23,6 +23,7 @@ public class BasicMissionAnchor implements MissionAnchor
    private URI targetDescriptionUri;
    private URI assignmentUri;
    private URI resourcesUri;
+   private URI helpUri;
    private String iconType;
    private ColorSchemeId colorSchemeId;
 
@@ -208,5 +209,14 @@ public class BasicMissionAnchor implements MissionAnchor
         return getScyElo().getObligatoryInPortfolio();
     }
 
+   @Override
+   public URI getHelpUri()
+   {
+      return helpUri;
+   }
 
+   public void setHelpUri(URI helpUri)
+   {
+      this.helpUri = helpUri;
+   }
 }
