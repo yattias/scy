@@ -34,7 +34,9 @@ public enum EloFunctionalRole
    REPORT_EVALUATION("reportEvaluation"), REPORT_FINAL("reportFinal"),
    PRESENTATION_DESIGN("presentationDesign"), PRESENTATION_FINAL("presentationFinal"), PRESENTATION_EXPERT("presentationExpert"),
    INFORMATION_RESOURCE("informationResource"), INFORMATION_ASSIGNMENT("informationAssignment"), INFORMATION_HELP("informationHelp"),
-   SOURCE_DATA("sourceData");
+   SOURCE_DATA("sourceData"),
+   SEARCH("search"),
+   CONVERSATION("conversation");
    
    private final String string;
    private final String[] alternativeStrings;
