@@ -13,7 +13,7 @@
                <property name="display" value="Chat"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="chat"/>
-               <property name="rightDrawerCreatorId" value="chat"/>
+               <property name="rightDrawerCreatorId" value=""/>
 <!--               <property name="topDrawerCreatorId" value="presence"/>-->
                <property name="bottomDrawerCreatorId" value="eloXmlViewerId"/>
                <property name="leftDrawerCreatorId" value="progress"/>
