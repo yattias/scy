@@ -13,9 +13,9 @@ import eu.scy.common.mission.Las;
 import eu.scy.common.mission.MissionAnchor;
 import eu.scy.common.mission.MissionModelEloContent;
 import eu.scy.common.mission.ColorSchemesElo;
+import eu.scy.common.mission.GroupformationStrategyType;
 import eu.scy.common.mission.RuntimeSetting;
 import eu.scy.common.mission.RuntimeSettingKey;
-import eu.scy.common.mission.StrategyType;
 import eu.scy.common.mission.impl.BasicLas;
 import eu.scy.common.mission.impl.BasicMissionAnchor;
 import eu.scy.common.mission.impl.BasicMissionModelEloContent;
@@ -497,7 +497,7 @@ public class BasicMissionConfigInput implements MissionConfigInput
          if (basicLas.getGroupFormationConfig() != null)
          {
             int nrOfErrors = errors.size();
-            StrategyType strategy = null;
+            GroupformationStrategyType strategy = null;
             if (StringUtils.isEmpty(basicLas.getGroupFormationConfig().getStrategy()))
             {
                addError("group formation strategy may not be empty, in las " + basicLas.getId());
@@ -506,7 +506,7 @@ public class BasicMissionConfigInput implements MissionConfigInput
             {
                try
                {
-                  strategy = StrategyType.valueOf(basicLas.getGroupFormationConfig().getStrategy());
+                  strategy = GroupformationStrategyType.valueOf(basicLas.getGroupFormationConfig().getStrategy());
                }
                catch (IllegalArgumentException e)
                {
