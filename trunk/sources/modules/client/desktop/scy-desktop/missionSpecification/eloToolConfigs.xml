@@ -67,6 +67,13 @@
                <property name="rightDrawerCreatorId" value="propertiesViewer"/>
             </bean>
             <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
+               <property name="eloType" value="scy/search"/>
+               <property name="eloSystemRole" value="USER"/>
+               <property name="contentCreatorId" value="search"/>
+               <property name="topDrawerCreatorId" value="xmlViewer"/>
+               <property name="rightDrawerCreatorId" value="propertiesViewer"/>
+            </bean>
+            <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
                <property name="eloType" value="scy/speedTest"/>
                <property name="eloSystemRole" value="SYSTEM"/>
                <property name="contentCreatorId" value="speedTestPanel"/>
