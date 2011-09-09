@@ -12,7 +12,7 @@
           <dateTime>2010-02-23T14:05:44.759+0100</dateTime>
         </date>
       </contribute>
-      <version>4</version>
+      <version>5</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -39,16 +39,16 @@
     <annotation>
       <entity>externalDoc</entity>
       <date>
-        <dateTime>2011-06-29T16:01:52.369+0200</dateTime>
+        <dateTime>2011-09-09T16:22:00.986+0200</dateTime>
       </date>
       <file>
-        <assignment>To make your drawing, you have to :&#xD;&#xD;&#xD;&#xD;
-- Go to GoogleSketchUp&#xD;&#xD;&#xD;&#xD;
-- Make your drawing&#xD;&#xD;&#xD;&#xD;
-- Save it in your computer&#xD;&#xD;&#xD;&#xD;
-- Then come back here and click on the upload file button&#xD;&#xD;&#xD;&#xD;
-- Select your drawing document&#xD;&#xD;&#xD;&#xD;
-- Press "open"&#xD;&#xD;&#xD;&#xD;
+        <assignment>To make your drawing, you have to :&#xD;&#xD;&#xD;&#xD;&#xD;
+- Go to GoogleSketchUp&#xD;&#xD;&#xD;&#xD;&#xD;
+- Make your drawing&#xD;&#xD;&#xD;&#xD;&#xD;
+- Save it in your computer&#xD;&#xD;&#xD;&#xD;&#xD;
+- Then come back here and click on the upload file button&#xD;&#xD;&#xD;&#xD;&#xD;
+- Select your drawing document&#xD;&#xD;&#xD;&#xD;&#xD;
+- Press "open"&#xD;&#xD;&#xD;&#xD;&#xD;
 - Save your drawing in SCY-Lab</assignment>
         <description />
         <name />
