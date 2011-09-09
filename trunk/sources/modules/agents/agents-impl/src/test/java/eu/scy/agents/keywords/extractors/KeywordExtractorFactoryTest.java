@@ -17,11 +17,11 @@ public class KeywordExtractorFactoryTest {
 	@Test
 	public void testGetKeywordExtractor() {
 		assertTrue(factory.getKeywordExtractor("scy/text") instanceof TextExtractor);
-		assertTrue(factory.getKeywordExtractor("scy/richtext") instanceof RichTextExtractor);
-		assertTrue(factory.getKeywordExtractor("scy/richtext") instanceof RichTextExtractor);
-		assertTrue(factory.getKeywordExtractor("scy/richtext") instanceof RichTextExtractor);
-		assertTrue(factory.getKeywordExtractor("scy/richtext") instanceof RichTextExtractor);
-		assertTrue(factory.getKeywordExtractor("scy/richtext") instanceof RichTextExtractor);
+		assertTrue(factory.getKeywordExtractor("scy/rtf") instanceof RichTextExtractor);
+		assertTrue(factory.getKeywordExtractor("scy/rtf") instanceof RichTextExtractor);
+		assertTrue(factory.getKeywordExtractor("scy/rtf") instanceof RichTextExtractor);
+		assertTrue(factory.getKeywordExtractor("scy/rtf") instanceof RichTextExtractor);
+		assertTrue(factory.getKeywordExtractor("scy/rtf") instanceof RichTextExtractor);
 	}
 
 	@Test

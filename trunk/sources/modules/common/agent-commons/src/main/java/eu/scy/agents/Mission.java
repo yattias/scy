@@ -4,9 +4,20 @@ package eu.scy.agents;
 public enum Mission {
 
     MISSION1("http://www.scy.eu/co2house#", "Design a CO2 friendly house", "mission1"),
+    MISSION1_UT("http://www.scy.eu/co2house#", "Design a CO2 friendly house (UT version)", "mission1"),
+    MISSION1_OSLO("http://www.scy.eu/co2house#", "Design a CO2 friendly house (Oslo version)", "mission1"),
+
     MISSION2("http://www.scy.eu/ecosystem#", "ECO mission", "mission2"),
+
     MISSION3("http://www.scy.eu/pizza#", "A Healthy Pizza", "mission3"),
-    MISSION4("http://www.scy.eu/dna#", "DNA", "mission4"),
+    MISSION3_DUTCH("http://www.scy.eu/pizza#", "Een gezonde pizza", "mission3"),
+    MISSION3_GREEK("http://www.scy.eu/pizza#", "Υγιεινή πίτσα", "mission3"),
+
+    MISSION4("http://www.scy.eu/dna#", "Forensic mission", "mission4"),
+    GMO("http://www.scy.eu/dna#", "GMO mission", "mission4"),
+
+    MISSION5("http://www.scy.eu/dna#", "Run for your life!", "mission5"),
+
     UNKNOWN_MISSION("", "", "");
 
     private String namespace;

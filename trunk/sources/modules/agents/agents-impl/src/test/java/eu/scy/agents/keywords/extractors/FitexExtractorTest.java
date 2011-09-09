@@ -17,7 +17,7 @@ public class FitexExtractorTest extends AbstractExtractorTest {
 
 	@Before
 	public void setup() throws Exception {
-		loadElo("/SCYDataExample1.xml", "TestFitex", "scy/pds");
+		elo = loadElo("/SCYDataExample1.xml", "TestFitex", "scy/pds");
 		extractor = new FitexExtractor();
 		extractor.setMission(Mission.MISSION1);
 		extractor.setTupleSpace(getCommandSpace());

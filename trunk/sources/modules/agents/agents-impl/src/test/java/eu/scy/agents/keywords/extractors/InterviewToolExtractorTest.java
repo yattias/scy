@@ -17,7 +17,7 @@ public class InterviewToolExtractorTest extends AbstractExtractorTest {
 
 	@Before
 	public void setup() throws Exception {
-		loadElo("/interviewToolExample1.xml", "TestInterview", "scy/interview");
+		elo = loadElo("/interviewToolExample1.xml", "TestInterview", "scy/interview");
 		extractor = new InterviewToolExtractor();
 		extractor.setMission(Mission.MISSION1);
 		extractor.setTupleSpace(getCommandSpace());

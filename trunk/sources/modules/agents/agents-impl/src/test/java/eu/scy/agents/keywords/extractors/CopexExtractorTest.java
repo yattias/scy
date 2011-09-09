@@ -17,7 +17,7 @@ public class CopexExtractorTest extends AbstractExtractorTest {
 
 	@Before
 	public void setup() throws Exception {
-		loadElo("/copexExampleElo.xml", "TestCopex", "scy/copex");
+		elo = loadElo("/copexExampleElo.xml", "TestCopex", "scy/copex");
 		extractor = new CopexExtractor();
 		extractor.setMission(Mission.MISSION1);
 		extractor.setTupleSpace(getCommandSpace());
@@ -26,8 +26,8 @@ public class CopexExtractorTest extends AbstractExtractorTest {
 	@Test
 	public void testGetKeywords() {
 		List<String> keywords = extractor.getKeywords(elo);
-		assertEquals(14, keywords.size());
-		assertTrue(hasItems(keywords, "transfers", "influence", "atmosphere",
+		assertEquals(13, keywords.size());
+		assertTrue(hasItems(keywords, "transfers", "atmosphere",
 				"roughly", "stored", "finite", "human", "fossil fuels",
 				"balance", "carbon", "fossil", "fuels", "release", "decay"));
 	}

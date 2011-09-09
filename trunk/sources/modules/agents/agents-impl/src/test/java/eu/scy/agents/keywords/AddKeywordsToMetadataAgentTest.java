@@ -11,6 +11,7 @@ import java.net.URI;
 import java.rmi.dgc.VMID;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -118,16 +119,11 @@ public class AddKeywordsToMetadataAgentTest extends AbstractTestFixture {
 	@Test
 	public void testRun() throws InterruptedException, TupleSpaceException, IOException {
 
-		this.login("SomeUser", MISSION1, "Design a CO2 friendly house", "en", "co2");
+		this.login(UUID1234, MISSION1, "Design a CO2 friendly house", "en", "co2_2");
 
-		// this.getActionSpace().write(
-		// new Tuple(ActionConstants.ACTION, "ID", 122345L, ActionConstants.ACTION_LOG_IN, UUID1234,
-		// "scy-desktop", MISSION1, "n/a", this.copexEloPath, "missionSpecification=" + MISSION1,
-		// "language=en", "missionName=Design a CO2 friendly house"));
-		//
 		Thread.sleep(AgentProtocol.SECOND);
 		this.addMetadataAgent.processELOSavedAction(ActionConstants.ACTION_ELO_SAVED, UUID1234, TIME_IN_MILLIS,
-				"copex", "co2", "TestSession", this.copexEloPath, EloTypes.SCY_XPROC);
+				"copex", MISSION1, "TestSession", this.copexEloPath, EloTypes.SCY_XPROC);
 
 		IELO retrievedELO = this.repository.retrieveELOLastVersion(this.copexEloUri);
 		IMetadata metadata = retrievedELO.getMetadata();

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.rmi.dgc.VMID;
 import java.util.HashMap;
 
+import eu.scy.agents.keywords.ExtractKeyphrasesAgent;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -44,7 +45,7 @@ public class AbstractExtractorTest extends AbstractTestFixture {
 	@Before
 	public void startAgents() throws Exception, ClassNotFoundException,
 			IOException {
-		this.setUp();
+		super.setUp();
 
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put(AgentProtocol.TS_HOST, TSHOST);
@@ -56,8 +57,8 @@ public class AbstractExtractorTest extends AbstractTestFixture {
 		params.put(AgentProtocol.PARAM_AGENT_ID, new VMID());
 		this.agentMap.put(ExtractTopicModelKeywordsAgent.NAME, params);
 		params.put(AgentProtocol.PARAM_AGENT_ID, new VMID());
-		agentMap.put(RooloAccessorAgent.class.getName(), params);
-		// agentMap.put(OntologyLookupAgent.class.getName(), params);
+        this.agentMap.put(ExtractKeyphrasesAgent.NAME, params);
+        params.put(AgentProtocol.PARAM_AGENT_ID, new VMID());
 		this.startAgentFramework(this.agentMap);
 	}
 
