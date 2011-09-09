@@ -22,7 +22,7 @@
           <dateTime>2011-03-03T15:55:43.834+0100</dateTime>
         </date>
       </contribute>
-      <version>16</version>
+      <version>19</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -57,11 +57,11 @@
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\f1\fs24\i0\b0\cf1\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+\f1\fs24\i0\b0\cf1\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
 }</RichText>
 </content>
 <resources>

@@ -1,0 +1,52 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-09-09T16:59:52.413+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1315580392413</dateCreated>
+        <dateLastModified>1315580392413</dateLastModified>
+      </customElements>
+      <format>scy/pedagogicalplansettings</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30204/0/%CE%A5%CE%B3%CE%B9%CE%B5%CE%B9%CE%BD%CE%AE+%CF%80%CE%AF%CF%84%CF%83%CE%B1.scy</entry>
+      </identifier>
+      <las />
+      <missionId>pizza2</missionId>
+      <title>
+        <string language="el">Υγιεινή πίτσα</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <template>TRUE</template>
+</metadata>
+<content languageIndependent="true">
+
+</content>
+<resources>
+</resources>
+</elo>
