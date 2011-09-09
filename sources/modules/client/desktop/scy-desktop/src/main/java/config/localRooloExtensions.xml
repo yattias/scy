@@ -211,6 +211,12 @@
                </key>
                <value>.scysearch</value>
             </entry>
+            <entry>
+               <key>
+                  <value>scy/chat</value>
+               </key>
+               <value>.scychat</value>
+            </entry>
          </map>
       </property>
    </bean>
