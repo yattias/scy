@@ -7,7 +7,7 @@ package eu.scy.common.mission;
 * Time: 14:07
 * To change this template use File | Settings | File Templates.
 */
-public enum StrategyType {
+public enum GroupformationStrategyType {
     SAME,
     CLUSTER,
     DUMMY

@@ -17,9 +17,6 @@ import java.rmi.dgc.VMID;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * TODO Get all users for mission. Send notification for all users.
- */
 public class ScaffoldingNotificatorAgent extends AbstractThreadedAgent {
 
     public static final String NAME = ScaffoldingNotificatorAgent.class.getName();

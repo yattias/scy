@@ -17,6 +17,13 @@ public class Group implements Iterable<String> {
         group = new LinkedHashSet<String>();
     }
 
+    public Group(Group toClone) {
+        group = new LinkedHashSet<String>();
+        for ( String user : toClone ) {
+            group.add(user);
+        }
+    }
+
     @Override
     public Iterator<String> iterator() {
         return group.iterator();

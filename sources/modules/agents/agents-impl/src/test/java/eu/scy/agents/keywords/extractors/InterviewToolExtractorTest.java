@@ -3,15 +3,14 @@
  */
 package eu.scy.agents.keywords.extractors;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.util.List;
-
+import eu.scy.agents.Mission;
 import org.junit.Before;
 import org.junit.Test;
 
-import eu.scy.agents.Mission;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class InterviewToolExtractorTest extends AbstractExtractorTest {
 

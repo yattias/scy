@@ -15,7 +15,7 @@ import eu.scy.agents.impl.AbstractRequestAgent;
 import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.session.Session;
-import eu.scy.common.mission.StrategyType;
+import eu.scy.common.mission.GroupformationStrategyType;
 import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
@@ -60,10 +60,10 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
     public GroupFormationAgent(Map<String, Object> params) {
         super(NAME, params);
         lock = new Object();
-        if (params.containsKey(AgentProtocol.TS_HOST)) {
+        if ( params.containsKey(AgentProtocol.TS_HOST) ) {
             host = (String) params.get(AgentProtocol.TS_HOST);
         }
-        if (params.containsKey(AgentProtocol.TS_PORT)) {
+        if ( params.containsKey(AgentProtocol.TS_PORT) ) {
             port = (Integer) params.get(AgentProtocol.TS_PORT);
         }
         params.put(MIN_GROUP_SIZE_PARAMETER, 2);
@@ -73,7 +73,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
         try {
             listenerId = getActionSpace().eventRegister(Command.WRITE,
                     getActivationTuple(), this, true);
-        } catch (TupleSpaceException e) {
+        } catch ( TupleSpaceException e ) {
             e.printStackTrace();
         }
         missionGroupsCache = new MissionGroupCache();
@@ -92,11 +92,11 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
     @Override
     protected void doRun() throws TupleSpaceException, AgentLifecycleException,
             InterruptedException {
-        while (status == Status.Running) {
+        while ( status == Status.Running ) {
             sendAliveUpdate();
             try {
                 Thread.sleep(AgentProtocol.ALIVE_INTERVAL / 3);
-            } catch (InterruptedException e) {
+            } catch ( InterruptedException e ) {
                 throw new AgentLifecycleException(e.getMessage(), e);
             }
         }
@@ -127,7 +127,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
     @Override
     public void call(Command command, int seq, Tuple afterTuple,
                      Tuple beforeTuple) {
-        if (listenerId != seq) {
+        if ( listenerId != seq ) {
             logger.debug("Callback passed to Superclass.");
             super.call(command, seq, afterTuple, beforeTuple);
             return;
@@ -137,20 +137,20 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
             String type = action.getType();
             String oldLas = action.getAttribute(OLD_LAS);
             String las = action.getAttribute(LAS);
-            if (!correctLasEntry(oldLas, las)) {
+            if ( !correctLasEntry(oldLas, las) ) {
                 return;
             }
-            if (type.equals(ActionConstants.ACTION_LOG_OUT)) {
-                synchronized (lock) {
+            if ( type.equals(ActionConstants.ACTION_LOG_OUT) ) {
+                synchronized ( lock ) {
                     missionGroupsCache.removeUser(action.getUser());
                     return;
                 }
             }
-            if (!type.equals(ActionConstants.ACTION_LAS_CHANGED)) {
+            if ( !type.equals(ActionConstants.ACTION_LAS_CHANGED) ) {
                 return;
             }
-            if ("conceptualisatsionConceptMap".equals(oldLas)) {
-                synchronized (lock) {
+            if ( "conceptualisatsionConceptMap".equals(oldLas) ) {
+                synchronized ( lock ) {
                     removeUserFromCache(
                             action,
                             (Integer) configuration.getParameter(new AgentParameter(
@@ -159,10 +159,10 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
                                     MIN_GROUP_SIZE_PARAMETER)), oldLas);
                 }
             }
-            if ("conceptualisatsionConceptMap".equals(las)) {
+            if ( "conceptualisatsionConceptMap".equals(las) ) {
                 try {
                     runGroupFormation(action);
-                } catch (TupleSpaceException e) {
+                } catch ( TupleSpaceException e ) {
                     e.printStackTrace();
                 }
             }
@@ -170,10 +170,10 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
     }
 
     private boolean correctLasEntry(String oldLas, String newLas) {
-        if (oldLas == null) {
+        if ( oldLas == null ) {
             return false;
         }
-        if (oldLas.equals(newLas)) {
+        if ( oldLas.equals(newLas) ) {
             return false;
         }
         return true;
@@ -199,12 +199,12 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 
         String eloUri = action.getContext(ContextConstants.eloURI);
         IELO elo = getElo(eloUri);
-        StrategyType strategy = StrategyType.DUMMY;// action.getAttribute(STsRATEGY);
+        GroupformationStrategyType strategy = GroupformationStrategyType.DUMMY;// action.getAttribute(STsRATEGY);
 
         Set<String> availableUsers = getAvailableUsers(mission, las,
                 action.getUser());
-        if (availableUsers.size() < minGroupSize) {
-            if (!missionGroupsCache.contains(mission, las, action.getUser())) {
+        if ( availableUsers.size() < minGroupSize ) {
+            if ( !missionGroupsCache.contains(mission, las, action.getUser()) ) {
                 sendWaitNotification(action);
             }
             return;
@@ -226,10 +226,10 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
         missionGroupsCache.addGroups(mission, las, formedGroups);
         // }
         try {
-            synchronized (lock) {
+            synchronized ( lock ) {
                 sendGroupNotification(action, formedGroups);
             }
-        } catch (TupleSpaceException e) {
+        } catch ( TupleSpaceException e ) {
             LOGGER.error("Could not write into Tuplespace", e);
         }
 
@@ -239,36 +239,21 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
             throws TupleSpaceException {
         Set<String> availableUsers = new HashSet<String>();
         availableUsers.add(thisUser);
-        Tuple[] allUsersInLas = getSessionSpace()
-                .readAll(
-                        new Tuple(Session.LAS, String.class, mission
-                                .getName(), las));
-        for (Tuple t : allUsersInLas) {
+        Tuple[] allUsersInLas = getSessionSpace().readAll(new Tuple(Session.LAS, String.class, mission.getName(),
+                las));
+        for ( Tuple t : allUsersInLas ) {
             availableUsers.add((String) t.getField(1).getValue());
         }
         Collection<Group> groups = missionGroupsCache.getGroups(mission, las);
-        for (Group group : groups) {
+        for ( Group group : groups ) {
             availableUsers.removeAll(group.asSet());
         }
         return availableUsers;
     }
 
-    // private boolean groupsAreOk(Collection<Set<String>> formedGroup,
-    // int minGroupSize, int maxGroupSize) {
-    // for (Set<String> group : formedGroup) {
-    // if (group.size() < minGroupSize || group.size() > maxGroupSize) {
-    // return false;
-    // }
-    // }
-    // return true;
-    // }
-
-    private void sendGroupNotification(IAction action,
-                                       Collection<Group> formedGroups) throws TupleSpaceException {
-
-        for (Group group : formedGroups) {
-
-            for (String user : group) {
+    private void sendGroupNotification(IAction action, Collection<Group> formedGroups) throws TupleSpaceException {
+        for ( Group group : formedGroups ) {
+            for ( String user : group ) {
                 String notificationId = createId();
                 Tuple removeAllBuddiesTuple = createRemoveAllBuddiesNotification(
                         action, notificationId, user);
@@ -279,7 +264,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
                                 + " notification was not processed");
             }
 
-            for (String user : group) {
+            for ( String user : group ) {
                 StringBuilder message = new StringBuilder();
                 message.append("Please consider collaboration with these students:\n");
 
@@ -291,8 +276,8 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
                         action, messageNotificationId, message.toString(), user);
                 logGroupFormation(action, userListString, user);
 
-                for (String userToBuddify : group) {
-                    if (!user.equals(userToBuddify)) {
+                for ( String userToBuddify : group ) {
+                    if ( !user.equals(userToBuddify) ) {
                         String buddifyNotificationId = messageNotificationId;
                         Tuple buddifyNotification = createBuddifyNotificationTuple(
                                 action, buddifyNotificationId, user,
@@ -318,7 +303,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
                 new Tuple(ActionConstants.ACTION, notificationId, Long.class,
                         String.class, Field.createWildCardField()),
                 AgentProtocol.MILLI_SECOND * 50);
-        if (notificationProcessedTuple == null) {
+        if ( notificationProcessedTuple == null ) {
             logger.warn(message);
         }
     }
@@ -374,7 +359,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
                 .getActionAsTuple(groupFormationAction);
         try {
             getActionSpace().write(actionAsTuple);
-        } catch (TupleSpaceException e) {
+        } catch ( TupleSpaceException e ) {
             LOGGER.error("Could not write action into Tuplespace", e);
         }
     }
@@ -400,13 +385,13 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
     String createUserListString(String userToNotify, Group group) {
         StringBuilder message = new StringBuilder();
         int i = 0;
-        for (String user : group) {
-            if (user.equals(userToNotify)) {
+        for ( String user : group ) {
+            if ( user.equals(userToNotify) ) {
                 i++;
                 continue;
             }
             message.append(sanitizeName(user));
-            if (i != group.size() - 1) {
+            if ( i != group.size() - 1 ) {
                 message.append("; ");
             }
             i++;
@@ -416,7 +401,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 
     private String sanitizeName(String user) {
         int indexOf = user.indexOf("@");
-        if (indexOf != -1) {
+        if ( indexOf != -1 ) {
             return user.substring(0, indexOf);
         }
         return user;
@@ -425,7 +410,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
     private IELO getElo(String eloUri) {
         try {
             return repository.retrieveELO(new URI(eloUri));
-        } catch (URISyntaxException e) {
+        } catch ( URISyntaxException e ) {
             e.printStackTrace();
             return null;
         }
@@ -437,7 +422,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
                 action.getUser());
         try {
             getCommandSpace().write(notificationTuple);
-        } catch (TupleSpaceException e) {
+        } catch ( TupleSpaceException e ) {
             e.printStackTrace();
         }
     }

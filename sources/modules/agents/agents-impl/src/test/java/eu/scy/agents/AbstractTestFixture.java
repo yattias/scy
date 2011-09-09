@@ -18,6 +18,8 @@ import roolo.api.IExtensionManager;
 import roolo.api.IRepository;
 import roolo.elo.BasicELO;
 import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadata;
+import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
@@ -125,8 +127,11 @@ public class AbstractTestFixture {
 
 	protected IELO createNewElo(String title, String type) {
 		BasicELO elo = new BasicELO();
-		IMetadataValueContainer titleContainer = elo.getMetadata().getMetadataValueContainer(
-				this.typeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId()));
+        String id = CoreRooloMetadataKeyIds.TITLE.getId();
+        IMetadataKey metadataKey = this.typeManager.getMetadataKey(id);
+        IMetadata metadata = elo.getMetadata();
+        IMetadataValueContainer titleContainer = metadata.getMetadataValueContainer(
+                metadataKey);
 		titleContainer.setValue(title);
 		IMetadataValueContainer typeContainer = elo.getMetadata().getMetadataValueContainer(
 				this.typeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId()));

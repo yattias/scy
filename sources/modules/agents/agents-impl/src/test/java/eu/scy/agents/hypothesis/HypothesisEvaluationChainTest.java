@@ -1,29 +1,5 @@
 package eu.scy.agents.hypothesis;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import info.collide.sqlspaces.commons.Field;
-import info.collide.sqlspaces.commons.Tuple;
-import info.collide.sqlspaces.commons.TupleSpaceException;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-import java.rmi.dgc.VMID;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.ResourceBundle;
-
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import roolo.elo.api.IELO;
-import roolo.elo.api.IMetadata;
-import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-import roolo.elo.content.BasicContent;
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.Mission;
 import eu.scy.agents.api.AgentLifecycleException;
@@ -34,6 +10,29 @@ import eu.scy.agents.keywords.ExtractKeywordsAgent;
 import eu.scy.agents.keywords.ExtractTopicModelKeywordsAgent;
 import eu.scy.agents.keywords.OntologyKeywordsAgent;
 import eu.scy.agents.session.SessionAgent;
+import info.collide.sqlspaces.commons.Field;
+import info.collide.sqlspaces.commons.Tuple;
+import info.collide.sqlspaces.commons.TupleSpaceException;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadata;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import roolo.elo.content.BasicContent;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.rmi.dgc.VMID;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class HypothesisEvaluationChainTest extends AbstractTestFixture {
 
@@ -116,7 +115,7 @@ public class HypothesisEvaluationChainTest extends AbstractTestFixture {
 	public void testRun() throws InterruptedException, TupleSpaceException, IOException {
 
 		ResourceBundle messages = ResourceBundle.getBundle("agent_messages", new Locale("en"));
-		this.login("testUser", MISSION1, Mission.MISSION1.getName(), "en", "co2");
+		this.login("testUser", MISSION1, Mission.MISSION1.getName(), "en", "co2_2");
 
 		Tuple response = this.writeTupleGetResponse(this.eloPath);
 		assertNotNull("no response received", response);

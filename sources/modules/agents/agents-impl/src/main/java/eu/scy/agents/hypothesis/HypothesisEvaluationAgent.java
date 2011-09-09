@@ -107,7 +107,7 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements
             if (eloType == null) {
                 logger.warn(eloUri + " has no type");
             }
-            mission = getSession().getMission(user).getName();
+            String missionName = getSession().getMission(user).getName();
             String language = getSession().getLanguage(user);
             ScyElo elo = ScyElo.loadElo(URI.create(eloUri), rooloServices);
 
@@ -125,14 +125,14 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements
 
             Set<String> topicKeywords = callKeywordsAgent(
                     ExtractTopicModelKeywordsAgent.EXTRACT_TOPIC_MODEL_KEYWORDS,
-                    text, mission, language, AgentProtocol.SECOND * 30);
+                    text, missionName, language, AgentProtocol.SECOND * 30);
             logger.debug("found in tm keywords: " + topicKeywords);
             Set<String> ontologyKeywords = callKeywordsAgent(
                     OntologyKeywordsAgent.EXTRACT_ONTOLOGY_KEYWORDS, text,
-                    mission, language, AgentProtocol.SECOND * 10);
+                    missionName, language, AgentProtocol.SECOND * 10);
             logger.debug("found in ont keywords: " + ontologyKeywords);
             Set<String> keyPharses = callKeywordsAgent(
-                    ExtractKeyphrasesAgent.EXTRACT_KEYPHRASES, text, mission, language,
+                    ExtractKeyphrasesAgent.EXTRACT_KEYPHRASES, text, missionName, language,
                     AgentProtocol.SECOND * 30);
             logger.debug("found in keyphrases: " + keyPharses);
 

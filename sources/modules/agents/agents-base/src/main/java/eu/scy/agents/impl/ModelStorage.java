@@ -1,18 +1,16 @@
 package eu.scy.agents.impl;
 
+import eu.scy.agents.Mission;
+import eu.scy.agents.api.IPersistentStorage;
 import info.collide.sqlspaces.client.TupleSpace;
+import org.apache.log4j.Logger;
+import org.apache.log4j.lf5.util.StreamUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
-
-import org.apache.log4j.Logger;
-import org.apache.log4j.lf5.util.StreamUtils;
-
-import eu.scy.agents.Mission;
-import eu.scy.agents.api.IPersistentStorage;
 
 /**
  * The implementation of {@link IPersistentStorage}. Saves things as ELOs
@@ -60,7 +58,6 @@ public class ModelStorage implements IPersistentStorage {
 
 	private String computePath(String mission, String language, String key) {
 		pathBuffer.setLength(0);
-		// pathBuffer.append(mapping.getMission(mission));
 		pathBuffer.append(Mission.getForName(mission).getId());
 		pathBuffer.append("/");
 		pathBuffer.append(language);
