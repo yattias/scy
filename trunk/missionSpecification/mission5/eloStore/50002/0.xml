@@ -22,7 +22,7 @@
           <dateTime>2011-08-29T16:36:24.000+0200</dateTime>
         </date>
       </contribute>
-      <version>7</version>
+      <version>8</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -58,42 +58,42 @@
   </thumbnail>
 </metadata>
 <content languages="en" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Verdana;\f3\fnil Times New Roman;}&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;\red0\green0\blue128;}&#xD;
-{\stylesheet{\s2\f1\fs24\i0\b0\cf1 default;}{\s1\li0\ri0\fi0\sa80\sb80\sbasedon2\snext1 DP Document;}{\s3\li0\ri0\fi0\sbasedon2 default;}}&#xD;
-\paperw11906\paperh16838\margl1417\margr1417\margt1417\margb1417\widowctrl&#xD;
-\s1\li0\ri0\fi0\sa80\sb80\f2\fs24\i0\b\ul0\cf2 Make your predictions (remove the words that do not apply)\'85\par&#xD;
-\pard\s3\ql\b0\par&#xD;
-\i Situation 1. \par&#xD;
-At time 0 you drink an energy drink containing glucose. After that you sit down and relax for 60 minutes.\par&#xD;
-\i0\par&#xD;
-I expect that at first the blood glucose concentration will\~ rise / lower / remain the same. Later the blood glucose concentration will\~ rise / lower / remain the same.\par&#xD;
-\par&#xD;
-\i Situation 2. \par&#xD;
-At time 0 you drink an energy drink containing glucose. After 30 minutes you start running on a treadmill for 20 minutes.\par&#xD;
-\i0\par&#xD;
-I expect that at first the blood glucose concentration will\~ rise / lower / remain the same. Later the blood glucose concentration will\~ rise / lower / remain the same.\par&#xD;
-\par&#xD;
-\i Situation 3. \par&#xD;
-At time 0 you drink a glass of water. After 30 minutes you start running on a treadmill for 20 minutes.\par&#xD;
-\i0\par&#xD;
-I expect that at first the blood glucose concentration will\~ rise / lower / remain the same. Later the blood glucose concentration will\~ rise / lower / remain the same.\par&#xD;
-\par&#xD;
-\i Situation 4. \par&#xD;
-At time 0 you drink a glass of water. After that you sit down and relax for 60 minutes.\par&#xD;
-\i0\par&#xD;
-I expect that at first the blood glucose concentration will\~ rise / lower / remain the same. Later the blood glucose concentration will\~ rise / lower / remain the same.\par&#xD;
-\par&#xD;
-\par&#xD;
-\b\par&#xD;
-Write a hypothesis for each of the two research questions\'85\par&#xD;
-\b0\par&#xD;
-1. What are the effects of glucose ingestion on blood glucose concentration?\par&#xD;
-\par&#xD;
-2. What are the effects of exercise on blood glucose concentration?\par&#xD;
-\f3\cf0\par&#xD;
-\pard\li0\ri0\fi0\f1\ul0\cf1\par&#xD;
+<RichText>{\rtf1\ansi&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Verdana;\f3\fnil Times New Roman;}&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;\red0\green0\blue128;}&#xD;&#xD;
+{\stylesheet{\s2\f1\fs24\i0\b0\cf1 default;}{\s1\li0\ri0\fi0\sa80\sb80\sbasedon2\snext1 DP Document;}{\s3\li0\ri0\fi0\sbasedon2 default;}}&#xD;&#xD;
+\paperw11906\paperh16838\margl1417\margr1417\margt1417\margb1417\widowctrl&#xD;&#xD;
+\s1\li0\ri0\fi0\sa80\sb80\f2\fs24\i0\b\ul0\cf2 Make your predictions (remove the words that do not apply)\'85\par&#xD;&#xD;
+\pard\s3\ql\b0\par&#xD;&#xD;
+\i Situation 1. \par&#xD;&#xD;
+At time 0 you drink an energy drink containing glucose. After that you sit down and relax for 60 minutes.\par&#xD;&#xD;
+\i0\par&#xD;&#xD;
+I expect that at first the blood glucose concentration will\~ rise / lower / remain the same. Later the blood glucose concentration will\~ rise / lower / remain the same.\par&#xD;&#xD;
+\par&#xD;&#xD;
+\i Situation 2. \par&#xD;&#xD;
+At time 0 you drink an energy drink containing glucose. After 30 minutes you start running on a treadmill for 20 minutes.\par&#xD;&#xD;
+\i0\par&#xD;&#xD;
+I expect that at first the blood glucose concentration will\~ rise / lower / remain the same. Later the blood glucose concentration will\~ rise / lower / remain the same.\par&#xD;&#xD;
+\par&#xD;&#xD;
+\i Situation 3. \par&#xD;&#xD;
+At time 0 you drink a glass of water. After 30 minutes you start running on a treadmill for 20 minutes.\par&#xD;&#xD;
+\i0\par&#xD;&#xD;
+I expect that at first the blood glucose concentration will\~ rise / lower / remain the same. Later the blood glucose concentration will\~ rise / lower / remain the same.\par&#xD;&#xD;
+\par&#xD;&#xD;
+\i Situation 4. \par&#xD;&#xD;
+At time 0 you drink a glass of water. After that you sit down and relax for 60 minutes.\par&#xD;&#xD;
+\i0\par&#xD;&#xD;
+I expect that at first the blood glucose concentration will\~ rise / lower / remain the same. Later the blood glucose concentration will\~ rise / lower / remain the same.\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\b\par&#xD;&#xD;
+Write a hypothesis for each of the two research questions\'85\par&#xD;&#xD;
+\b0\par&#xD;&#xD;
+1. What are the effects of glucose ingestion on blood glucose concentration?\par&#xD;&#xD;
+\par&#xD;&#xD;
+2. What are the effects of exercise on blood glucose concentration?\par&#xD;&#xD;
+\f3\cf0\par&#xD;&#xD;
+\pard\li0\ri0\fi0\f1\ul0\cf1\par&#xD;&#xD;
 }</RichText>
 </content>
 <resources>

@@ -22,7 +22,7 @@
           <dateTime>2011-08-29T16:37:42.796+0200</dateTime>
         </date>
       </contribute>
-      <version>7</version>
+      <version>8</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -58,26 +58,26 @@
   </thumbnail>
 </metadata>
 <content languages="en" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Verdana;}&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;\red0\green0\blue128;}&#xD;
-\paperw11906\paperh16838\margl1273\margr1273\margt1417\margb1134\widowctrl&#xD;
-\li0\ri0\fi0\ql\f2\fs24\i0\b\ul0\cf2 Write a short summary of your results\'85\par&#xD;
-\b0\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-\b Answer your research questions\'85\par&#xD;
-\par&#xD;
-\b0 What are the effects of glucose ingestion on blood glucose concentration?\par&#xD;
-\par&#xD;
-\par&#xD;
-What are the effects of exercise on blood glucose concentration?\f1\cf1\par&#xD;
-\li0\ri0\fi0\ul0\par&#xD;
+<RichText>{\rtf1\ansi&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Verdana;}&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;\red0\green0\blue128;}&#xD;&#xD;
+\paperw11906\paperh16838\margl1273\margr1273\margt1417\margb1134\widowctrl&#xD;&#xD;
+\li0\ri0\fi0\ql\f2\fs24\i0\b\ul0\cf2 Write a short summary of your results\'85\par&#xD;&#xD;
+\b0\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\b Answer your research questions\'85\par&#xD;&#xD;
+\par&#xD;&#xD;
+\b0 What are the effects of glucose ingestion on blood glucose concentration?\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+What are the effects of exercise on blood glucose concentration?\f1\cf1\par&#xD;&#xD;
+\li0\ri0\fi0\ul0\par&#xD;&#xD;
 }</RichText>
 </content>
 <resources>

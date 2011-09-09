@@ -22,7 +22,7 @@
           <dateTime>2011-08-29T16:38:19.796+0200</dateTime>
         </date>
       </contribute>
-      <version>6</version>
+      <version>7</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -58,29 +58,29 @@
   </thumbnail>
 </metadata>
 <content languages="en" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Verdana;}&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;\red0\green0\blue128;}&#xD;
-\paperw11906\paperh16838\margl1417\margr1417\margt1417\margb1417\widowctrl&#xD;
-\li0\ri0\fi0\ql\f2\fs24\i0\b\ul0\cf2 Introduction\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-Research questions and hypotheses\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-Simulation\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-Results\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-Conclusion\par&#xD;
-\f1\b0\cf1\par&#xD;
-\li0\ri0\fi0\ul0\par&#xD;
+<RichText>{\rtf1\ansi&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Verdana;}&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;\red0\green0\blue128;}&#xD;&#xD;
+\paperw11906\paperh16838\margl1417\margr1417\margt1417\margb1417\widowctrl&#xD;&#xD;
+\li0\ri0\fi0\ql\f2\fs24\i0\b\ul0\cf2 Introduction\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+Research questions and hypotheses\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+Simulation\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+Results\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+Conclusion\par&#xD;&#xD;
+\f1\b0\cf1\par&#xD;&#xD;
+\li0\ri0\fi0\ul0\par&#xD;&#xD;
 }</RichText>
 </content>
 <resources>
