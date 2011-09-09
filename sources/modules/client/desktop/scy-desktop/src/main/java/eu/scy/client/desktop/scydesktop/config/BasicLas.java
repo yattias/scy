@@ -26,6 +26,7 @@ public class BasicLas
    private String tooltip;
    private URI instructionUri;
    private LasType lasType;
+   private GroupFormationConfig groupFormationConfig;
 
    public String getAnchorEloId()
    {
@@ -134,5 +135,15 @@ public class BasicLas
    public void setLasType(LasType lasType)
    {
       this.lasType = lasType;
+   }
+
+   public GroupFormationConfig getGroupFormationConfig()
+   {
+      return groupFormationConfig;
+   }
+
+   public void setGroupFormationConfig(GroupFormationConfig groupFormationConfig)
+   {
+      this.groupFormationConfig = groupFormationConfig;
    }
 }

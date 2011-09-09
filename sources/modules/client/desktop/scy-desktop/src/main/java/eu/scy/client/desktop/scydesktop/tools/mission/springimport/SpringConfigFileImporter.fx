@@ -16,6 +16,8 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.lang.StringBuilder;
 import java.net.URI;
 import java.util.Locale;
+import eu.scy.common.mission.impl.BasicRuntimeSettingsEloContent;
+import eu.scy.common.mission.impl.jdom.RuntimeSettingsEloContentXmlUtils;
 
 /**
  * @author SikkenJ
@@ -32,6 +34,7 @@ public class SpringConfigFileImporter {
    public-read var missionMapXml: String;
    public-read var eloToolConfigsXml: String;
    public-read var templateElosXml: String;
+   public-read var runtimeSettingsEloContentXml: String;
    public-read var missionId: String;
    public-read var missionTitle: String;
    public-read var xhtmlVersionId: String;
@@ -57,6 +60,9 @@ public class SpringConfigFileImporter {
       def templateElosEloContent = new BasicTemplateElosEloContent();
       templateElosEloContent.setTemplateEloUris(missionConfigInput.getTemplateEloUris());
       templateElosXml = TemplateElosEloContentXmlUtils.templateElosEloContentToXml(templateElosEloContent);
+      def runtimeSettingsEloContent = new BasicRuntimeSettingsEloContent();
+      runtimeSettingsEloContent.addSettings(missionConfigInput.getRuntimeSettings());
+      runtimeSettingsEloContentXml = RuntimeSettingsEloContentXmlUtils.runtimeSettingsToXml(runtimeSettingsEloContent);
       def builder = new StringBuilder();
       if (missionDescriptionUri==null){
          builder.append("Mission description uri is not defined\n");

@@ -35,6 +35,7 @@ public class MissionAnchorFX extends MissionAnchor {
    public var targetDescriptionUri: URI;
    public var assignmentUri: URI;
    public var resourcesUri: URI;
+   public var helpUri: URI;
    public var windowColorScheme: WindowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
    public var colorScheme: ColorSchemeId;
 
@@ -56,6 +57,7 @@ public class MissionAnchorFX extends MissionAnchor {
       targetDescriptionUri = missionAnchor.getTargetDescriptionUri();
       assignmentUri = missionAnchor.getAssignmentUri();
       resourcesUri = missionAnchor.getResourcesUri();
+      helpUri = missionAnchor.getHelpUri();
       colorScheme = missionAnchor.getColorSchemeId();
    }
 
@@ -87,6 +89,10 @@ public class MissionAnchorFX extends MissionAnchor {
 
    override public function getResourcesUri(): URI {
       return resourcesUri;
+   }
+
+   override public function getHelpUri(): URI {
+      return helpUri;
    }
 
    override public function setExisting(existing: Boolean): Void {
