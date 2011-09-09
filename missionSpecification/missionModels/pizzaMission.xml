@@ -319,7 +319,7 @@
                <property name="loEloUris">
                   <list />
                </property>
-               <property name="dependingOnMissionAnchorIdsXX">
+               <property name="dependingOnMissionAnchorIds">
                	  <list>
                	  	<value>criteriaFinalTable</value>
               	  </list>
@@ -415,9 +415,6 @@
                	  <list>
                	  	<value>foodAndExerciseDiary</value>
                	  </list>
-               </property>
-               <property name="dependingOnMissionAnchorIds">
-               	  <list />
                </property>
             </bean>
 		
