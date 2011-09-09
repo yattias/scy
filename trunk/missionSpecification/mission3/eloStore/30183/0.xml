@@ -9,7 +9,7 @@
         </role>
         <entity>costas</entity>
         <date>
-          <dateTime>2011-07-02T17:47:35.812+0300</dateTime>
+          <dateTime>2011-07-02T16:47:35.812+0200</dateTime>
         </date>
       </contribute>
       <contribute>
@@ -19,10 +19,10 @@
         </role>
         <entity>costas</entity>
         <date>
-          <dateTime>2011-07-02T17:47:35.812+0300</dateTime>
+          <dateTime>2011-07-02T16:47:35.812+0200</dateTime>
         </date>
       </contribute>
-      <version>5</version>
+      <version>6</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -51,68 +51,56 @@
         <string language="el">Θρεπτικές Ουσίες και Υπολογισμός Ενέργειας</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
-  <template>TRUE</template>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAG5klEQVR42u1ca0xURxTePzbBNG3Sn41Nm6BJfxg0otBIJVE0UUkMWh+gkbYhajUkGB4mRqsxRfCPKA9Bedi0lEeblIeAWKClSo1gDQgUBGV3VVbe4CKWN3u65+zOsIu7hMK94L3Ml5ycuTOzc+DLnHtnzpx7NampadDVB2+I8TU4rEf5616d07a8/GKH9d1G5+M1tfRCezdYpAsmy1Oly0G5awa/czZ2l41M12+asTRIoHEA4NXwpIyB5R9uM3fqH2L1JtLB314xE1hPbZY6E2/DupzcIhgZtR/PBBZjk+OZ+JjJmb+bCeyD9vYhRYqZwOvwykzgnQYjfO7jC496AapaBqHHSuAf9S+pzcPLByoe9cNXoZfgrpVArP/C/0v44P2lVMa63LybMDZmaUMJ/CYc/taPQEfP5Hi1bZPt8d//Bs1mAnWGfhKtVTsSrYOydga/cza21kam6zfdWJrUtOsw8C/Ar+VNoNFo4BPXT6Hgro4TmF3aCCXVnZB35wn1+TrsMicQr93cveDjjz6kMiNwYsLStmTJO5DzZzMU3dNzAnE8tIPtKAk/lFoIbH2pSCECXw8CJP5cwSUl5x4n8FJ6uV1bUEQcJzA2vQyWvvseSdIvdzmB6LO2v0nNreIEXv7JfrzEH8ugWWv+Y/TtihQisOrhC4hKyOVy/kouJzA6Kc9SZ20rLKvlBJ631rM2RmB+yUO78aISczmBWGb9UVfWtCqbwLrGDqj9x2CWF1PE4PRabxi2XtvKi/8hBjtt6ATQPdEpUjTjEyZAQXh6fkb3L4S/fwAwYHvNw1pgfaUSxHeR50Gr1Uk+9nyJBqbgyJEjYDJZ/jnUwcHB4OvrCzt27ACpsWHDBtKPHz8GpUIDAnMnsLq6GjIzM6lCr9dDf38/HD9+nHfKysqClpYWOHDgAF0nJCSQnmD+Pkvs37+ftKurq7IJRLLCwsKoYtOmTaSRsHXr1sGKFSsgOTnZ7kcxMTGkBwcHZ23Y3d0d6uvrqbxt2zbhwovahQsLC6G0tBTS0tLgwoUL1ID62rVrkJGRIZtxrVYLt2/fptmu+BlYUFBA+v79+6SLi4th48aNEBAQIJvxqqoqGBkZUQeBAnMksKioCA4dOgQ3btwg101JSaH6ffv28Se0HIiMjISOjg4qnzx5UpkEhoaG0kVERASsWrWKyg8ePCCNC+n8/HzJDZ8+fZr0qVOnoLe3l8pnz54VLrxoXVhAECgIVDSBGHFhiI+Pp/0x29bFxsaSZlEaxNOnTwV7jEBcRuAT2MfHB3bu3EllJG3t2rV2nZ8/fw59fX3U9uzZM8GecOF5IhDDTmfOnJHEoE6nI71y5UqIiopSF4Fr1qwBg8FA5d27d5OWOhKdmJhIGhfsDQ0NwoWFC1uBkRHE1atXoby8nKIkzlBZWUl6dHR0VkbxYYWYzoaiCAwJCYGysjK7BnTdwMBAKl+8eJGWNRidRmCEGqPVswVbHnl4eAgXFi5sBrrswMAARWDYQdHQ0BAdN9bV1clmXMnHmXYE4g7j1q1bVOHp6Unaz89PFoPsKYzaaDQKFxYubAW67vDwMM3G8fFxvu9FVx7DhD8ZsGvXLvUQiAEE2yXG9u3bZTPKdiN79uzhUWilPpEX1IVtozviHiiCCQKCwIUikN3UnQGzsxwhJyeHzpPVcC+bE4FNTU2wbNkyWr4gsrOzaVeCqR142I4H7a2trZRRZQuWnYWZXZ2dncKF5/L0XKyzkAg8ceKEHRFMwsPDZTGKkR1VzkBczLLDInYSh4dImLUqJWpqahafC+OWTkrgtlFVBGKWlC0aGxtJe3l5SW5UjjEXlECMSLNwFoO/vz8vY040xgXxKYzR6bi4ONi8ebNYBM7Uhdva2iQ3zNLnVDMDHWFqZoJUWL58ufpmIOZEI9iBD2amCrzFe2G2TFIFgVu3bp03g8721YqfgUFBQeDt7c1dWG7g/ZWF9KVeqC+oC8u1fcNDekxSYiLugQKCQEHg20JgSUnJGw0VFRW8jCkYmEWALyUKOCAQQ1jr16/nr+CzHcjq1at5R5Yjg2lwGKFGzCVDa1G48OHDh0mzV2Bt4ebmJqYfI9DZeUZPT49shru7u9U3AzEizRa1bMeA7i1HihuGxvCVCtW68NRDooMHD0pufO/eveolkH2hQ2AGBB47doyHsxgwnIWzcMuWLXYRaYxcJyUl8UTM2QDPm3FsDKqyT6ioagZOdd/o6Gi7rxlJBXzFjH2jQexEFvs6cCEi0qp7Cs93eoacbwAIF1YSgZgPzb6dhVHp9PR0cHFxkc3o0aNHSeNHfc6dO/fGvlvRM1DOkD5m+6NgGp1cmf/ChQWBgkABQaAgUBAoCBSYEf4D+VdJ+oiFwIoAAAAASUVORK5CYII=</base64>
   </thumbnail>
 </metadata>
 <content languages="en el" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Times New Roman;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-\widowctrl
-\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1\par
-\b\u932 ?\u965 ?\u961 ?\u943 ? \u904 ?\u957 ?\u964 ?\u945 ?\u956 ?\b0  (100g)\par
-\u928 ?\u961 ?\u969 ?\u964 ?\u949 ?\u912 ?\u957 ?\u949 ?\u962 ?:\tab\tab   40g\par
-\u933 ?\u948 ?\u945 ?\u964 ?\u940 ?\u957 ?\u952 ?\u961 ?\u945 ?\u954 ?\u949 ?\u962 ?:\tab   40g\par
-\u923 ?\u953 ?\u960 ?\u945 ?\u961 ?\u940 ?:\tab\tab     5g\par
-\u917 ?\u957 ?\u941 ?\u961 ?\u947 ?\u949 ?\u953 ?\u945 ?:\tab\tab\ul   ?  \ul0 kcal\par
-\par
-\b\u931 ?\u964 ?\u942 ?\u952 ?\u959 ?\u962 ? \u922 ?\u959 ?\u964 ?\u972 ?\u960 ?\u959 ?\u965 ?\u955 ?\u959 ?\u965 ?\b0  (100g)\par
-\u928 ?\u961 ?\u969 ?\u964 ?\u949 ?\u912 ?\u957 ?\u949 ?\u962 ?:\tab\tab 15g\par
-\u933 ?\u948 ?\u945 ?\u964 ?\u940 ?\u957 ?\u952 ?\u961 ?\u945 ?\u954 ?\u949 ?\u962 ?:\tab 15g\par
-\u923 ?\u953 ?\u960 ?\u945 ?\u961 ?\u940 ?:\tab\tab 16g\par
-\u917 ?\u957 ?\u941 ?\u961 ?\u947 ?\u949 ?\u953 ?\u945 ?:\tab\tab\ul    ?  \ul0 kcal\par
-\par
-\b BBQ Sauce\b0  (100g)\par
-\u928 ?\u961 ?\u969 ?\u964 ?\u949 ?\u912 ?\u957 ?\u949 ?\u962 ?:\tab\tab      0g\par
-\u933 ?\u948 ?\u945 ?\u964 ?\u940 ?\u957 ?\u952 ?\u961 ?\u945 ?\u954 ?\u949 ?\u962 ?:\tab    36g\par
-\u923 ?\u953 ?\u960 ?\u945 ?\u961 ?\u940 ?:\tab\tab      1g\par
-\u917 ?\u957 ?\u941 ?\u961 ?\u947 ?\u949 ?\u953 ?\u945 ?:\tab\tab\ul    ?  \ul0 kcal\par
-\par
-\b\u931 ?\u945 ?\u955 ?\u940 ?\u956 ?\u953 ?\b0  (100g)\par
-\u928 ?\u961 ?\u969 ?\u964 ?\u949 ?\u912 ?\u957 ?\u949 ?\u962 ?:\tab\tab 23g\par
-\u933 ?\u948 ?\u945 ?\u964 ?\u940 ?\u957 ?\u952 ?\u961 ?\u945 ?\u954 ?\u949 ?\u962 ?:\tab   0g\par
-\u923 ?\u953 ?\u960 ?\u945 ?\u961 ?\u940 ?:\tab\tab 44g\par
-\u917 ?\u957 ?\u941 ?\u961 ?\u947 ?\u949 ?\u953 ?\u945 ?:\tab                       \ul    ?  \ul0 kcal\par
-\b\par
-\u922 ?\u961 ?\u949 ?\u956 ?\u956 ?\u973 ?\u948 ?\u953 ?\u945 ?\b0  (100g)\par
-\u928 ?\u961 ?\u969 ?\u964 ?\u949 ?\u912 ?\u957 ?\u949 ?\u962 ?:\tab\tab  1g\par
-\u933 ?\u948 ?\u945 ?\u964 ?\u940 ?\u957 ?\u952 ?\u961 ?\u945 ?\u954 ?\u949 ?\u962 ?:\tab  9g\par
-\u923 ?\u953 ?\u960 ?\u945 ?\u961 ?\u940 ?:\tab\tab  0g\par
-\u917 ?\u957 ?\u941 ?\u961 ?\u947 ?\u949 ?\u953 ?\u945 ?:\tab                      \ul   ?  \ul0 kcal\par
-\b\par
-\u913 ?\u957 ?\u945 ?\u957 ?\u940 ?\u962 ?\b0  (100g)\par
-\u928 ?\u961 ?\u969 ?\u964 ?\u949 ?\u912 ?\u957 ?\u949 ?\u962 ?:\tab\tab    1g\par
-\u933 ?\u948 ?\u945 ?\u964 ?\u940 ?\u957 ?\u952 ?\u961 ?\u945 ?\u954 ?\u949 ?\u962 ?:\tab  23g\par
-\u923 ?\u953 ?\u960 ?\u945 ?\u961 ?\u940 ?:\tab\tab    0g\par
-\u917 ?\u957 ?\u941 ?\u961 ?\u947 ?\u949 ?\u953 ?\u945 ?:\tab                       \ul    ?  \ul0 kcal\f2\b\sl360\cf0\par
-\f1\b0\sl0\cf1\par
-\li0\ri0\fi0\ul0\sl0\par
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Times New Roman;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+\widowctrl&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1\par&#xD;
+\b\u932 ?\u965 ?\u961 ?\u943 ? \u904 ?\u957 ?\u964 ?\u945 ?\u956 ?\b0  (100g)\par&#xD;
+\u928 ?\u961 ?\u969 ?\u964 ?\u949 ?\u912 ?\u957 ?\u949 ?\u962 ?:\tab\tab   40g\par&#xD;
+\u933 ?\u948 ?\u945 ?\u964 ?\u940 ?\u957 ?\u952 ?\u961 ?\u945 ?\u954 ?\u949 ?\u962 ?:\tab   40g\par&#xD;
+\u923 ?\u953 ?\u960 ?\u945 ?\u961 ?\u940 ?:\tab\tab     5g\par&#xD;
+\u917 ?\u957 ?\u941 ?\u961 ?\u947 ?\u949 ?\u953 ?\u945 ?:\tab\tab\ul   ?  \ul0 kcal\par&#xD;
+\par&#xD;
+\b\u931 ?\u964 ?\u942 ?\u952 ?\u959 ?\u962 ? \u922 ?\u959 ?\u964 ?\u972 ?\u960 ?\u959 ?\u965 ?\u955 ?\u959 ?\u965 ?\b0  (100g)\par&#xD;
+\u928 ?\u961 ?\u969 ?\u964 ?\u949 ?\u912 ?\u957 ?\u949 ?\u962 ?:\tab\tab 15g\par&#xD;
+\u933 ?\u948 ?\u945 ?\u964 ?\u940 ?\u957 ?\u952 ?\u961 ?\u945 ?\u954 ?\u949 ?\u962 ?:\tab 15g\par&#xD;
+\u923 ?\u953 ?\u960 ?\u945 ?\u961 ?\u940 ?:\tab\tab 16g\par&#xD;
+\u917 ?\u957 ?\u941 ?\u961 ?\u947 ?\u949 ?\u953 ?\u945 ?:\tab\tab\ul    ?  \ul0 kcal\par&#xD;
+\par&#xD;
+\b BBQ Sauce\b0  (100g)\par&#xD;
+\u928 ?\u961 ?\u969 ?\u964 ?\u949 ?\u912 ?\u957 ?\u949 ?\u962 ?:\tab\tab      0g\par&#xD;
+\u933 ?\u948 ?\u945 ?\u964 ?\u940 ?\u957 ?\u952 ?\u961 ?\u945 ?\u954 ?\u949 ?\u962 ?:\tab    36g\par&#xD;
+\u923 ?\u953 ?\u960 ?\u945 ?\u961 ?\u940 ?:\tab\tab      1g\par&#xD;
+\u917 ?\u957 ?\u941 ?\u961 ?\u947 ?\u949 ?\u953 ?\u945 ?:\tab\tab\ul    ?  \ul0 kcal\par&#xD;
+\par&#xD;
+\b\u931 ?\u945 ?\u955 ?\u940 ?\u956 ?\u953 ?\b0  (100g)\par&#xD;
+\u928 ?\u961 ?\u969 ?\u964 ?\u949 ?\u912 ?\u957 ?\u949 ?\u962 ?:\tab\tab 23g\par&#xD;
+\u933 ?\u948 ?\u945 ?\u964 ?\u940 ?\u957 ?\u952 ?\u961 ?\u945 ?\u954 ?\u949 ?\u962 ?:\tab   0g\par&#xD;
+\u923 ?\u953 ?\u960 ?\u945 ?\u961 ?\u940 ?:\tab\tab 44g\par&#xD;
+\u917 ?\u957 ?\u941 ?\u961 ?\u947 ?\u949 ?\u953 ?\u945 ?:\tab                       \ul    ?  \ul0 kcal\par&#xD;
+\b\par&#xD;
+\u922 ?\u961 ?\u949 ?\u956 ?\u956 ?\u973 ?\u948 ?\u953 ?\u945 ?\b0  (100g)\par&#xD;
+\u928 ?\u961 ?\u969 ?\u964 ?\u949 ?\u912 ?\u957 ?\u949 ?\u962 ?:\tab\tab  1g\par&#xD;
+\u933 ?\u948 ?\u945 ?\u964 ?\u940 ?\u957 ?\u952 ?\u961 ?\u945 ?\u954 ?\u949 ?\u962 ?:\tab  9g\par&#xD;
+\u923 ?\u953 ?\u960 ?\u945 ?\u961 ?\u940 ?:\tab\tab  0g\par&#xD;
+\u917 ?\u957 ?\u941 ?\u961 ?\u947 ?\u949 ?\u953 ?\u945 ?:\tab                      \ul   ?  \ul0 kcal\par&#xD;
+\b\par&#xD;
+\u913 ?\u957 ?\u945 ?\u957 ?\u940 ?\u962 ?\b0  (100g)\par&#xD;
+\u928 ?\u961 ?\u969 ?\u964 ?\u949 ?\u912 ?\u957 ?\u949 ?\u962 ?:\tab\tab    1g\par&#xD;
+\u933 ?\u948 ?\u945 ?\u964 ?\u940 ?\u957 ?\u952 ?\u961 ?\u945 ?\u954 ?\u949 ?\u962 ?:\tab  23g\par&#xD;
+\u923 ?\u953 ?\u960 ?\u945 ?\u961 ?\u940 ?:\tab\tab    0g\par&#xD;
+\u917 ?\u957 ?\u941 ?\u961 ?\u947 ?\u949 ?\u953 ?\u945 ?:\tab                       \ul    ?  \ul0 kcal\f2\b\sl360\cf0\par&#xD;
+\f1\b0\sl0\cf1\par&#xD;
+\li0\ri0\fi0\ul0\sl0\par&#xD;
 }</RichText>
 </content>
 <resources>

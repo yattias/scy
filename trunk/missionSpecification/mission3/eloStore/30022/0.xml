@@ -22,7 +22,7 @@
           <dateTime>2011-05-16T10:17:31.483+0200</dateTime>
         </date>
       </contribute>
-      <version>15</version>
+      <version>17</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -69,30 +69,30 @@
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Arial;}&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\margl1417\margr1417\margt1417\margb1417\widowctrl&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-I. Diet-related health problems such as obesity, diabetes and cardiovascular diseases are a major threat to our society.\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-II. Eating healthy is entirely your own responsibility.\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-III. Soft drinks (such as coke or lemonade) fit well in a healthy diet.\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-IV. School canteens should not sell fast food products at all.\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-V. Fast food restaurants (such as McDonalds) should provide customers with more information about the nutritional value of their products.\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\f1\cf1\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\li0\ri0\fi0\ul0\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Arial;}&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+\margl1417\margr1417\margt1417\margb1417\widowctrl&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+I. Diet-related health problems such as obesity, diabetes and cardiovascular diseases are a major threat to our society.\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+II. Eating healthy is entirely your own responsibility.\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+III. Soft drinks (such as coke or lemonade) fit well in a healthy diet.\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+IV. School canteens should not sell fast food products at all.\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+V. Fast food restaurants (such as McDonalds) should provide customers with more information about the nutritional value of their products.\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+\f1\cf1\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+\li0\ri0\fi0\ul0\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
 }</RichText>
 </content>
 <resources>
