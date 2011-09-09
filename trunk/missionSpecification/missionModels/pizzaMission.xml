@@ -319,7 +319,7 @@
                <property name="loEloUris">
                   <list />
                </property>
-               <property name="dependingOnMissionAnchorIds">
+               <property name="dependingOnMissionAnchorIdsXX">
                	  <list>
                	  	<value>criteriaFinalTable</value>
               	  </list>

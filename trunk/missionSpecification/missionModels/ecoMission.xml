@@ -48,6 +48,14 @@
                      <property name="intermediateEloIds">
                         <list />
                      </property>
+                     <property name="groupFormationConfig">
+							<bean class="eu.scy.client.desktop.scydesktop.config.GroupFormationConfig">
+							   <property name="strategy" value="DUMMY"/>
+							   <property name="minimumNrOfUsers" value="2"/>
+							   <property name="maximumNrOfUsers" value="10"/>
+							   <property name="referenceEloUri" value="roolo://memory/20001/0/eco_reference_map.mapping"/>
+							</bean>
+                     </property>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="reportingVideo"/>
