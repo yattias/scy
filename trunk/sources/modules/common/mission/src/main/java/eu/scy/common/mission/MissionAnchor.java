@@ -20,6 +20,7 @@ public interface MissionAnchor
    public URI getTargetDescriptionUri();
    public URI getAssignmentUri();
    public URI getResourcesUri();
+   public URI getHelpUri();
    public String getIconType();
    public ColorSchemeId getColorSchemeId();
 

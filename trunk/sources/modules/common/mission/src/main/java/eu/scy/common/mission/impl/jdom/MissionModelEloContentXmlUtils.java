@@ -57,6 +57,7 @@ public class MissionModelEloContentXmlUtils
    private final static String targetDescriptionUriName = "targetDescriptionUri";
    private final static String assignmentUriName = "assignmentUri";
    private final static String resourcesUriName = "resourcesUri";
+   private final static String helpUriName = "helpUri";
    private final static String colorSchemeName = "colorScheme";
    private final static String windowStatesXmlsName = "windowStatesXmls";
    private final static String windowStatesXmlName = "windowStatesXml";
@@ -135,6 +136,7 @@ public class MissionModelEloContentXmlUtils
       root.addContent(createElement(targetDescriptionUriName, missionAnchor.getTargetDescriptionUri()));
       root.addContent(createElement(assignmentUriName, missionAnchor.getAssignmentUri()));
       root.addContent(createElement(resourcesUriName, missionAnchor.getResourcesUri()));
+      root.addContent(createElement(helpUriName, missionAnchor.getHelpUri()));
       root.addContent(createElement(colorSchemeName, missionAnchor.getColorSchemeId()));
       root.addContent(createElement(dependingOnMissionAnchorIdsName, dependingOnMissionAnchorIdName, missionAnchor.getDependingOnMissionAnchorIds()));
       return root;
@@ -258,6 +260,7 @@ public class MissionModelEloContentXmlUtils
       missionAnchor.setTargetDescriptionUri(getUriValue(root, targetDescriptionUriName));
       missionAnchor.setAssignmentUri(getUriValue(root, assignmentUriName));
       missionAnchor.setResourcesUri(getUriValue(root, resourcesUriName));
+      missionAnchor.setHelpUri(getUriValue(root, helpUriName));
       missionAnchor.setColorSchemeId(getEnumValue(ColorSchemeId.class, root, colorSchemeName));
       missionAnchor.setDependingOnMissionAnchorIds(getStringListValue(root, dependingOnMissionAnchorIdsName, dependingOnMissionAnchorIdName));
       return missionAnchor;

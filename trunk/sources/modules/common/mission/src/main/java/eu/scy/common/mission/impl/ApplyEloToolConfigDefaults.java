@@ -115,6 +115,6 @@ public class ApplyEloToolConfigDefaults
 
    private boolean isEmpty(String string)
    {
-      return string == null || string.trim().length() == 0;
+      return string == null;
    }
 }

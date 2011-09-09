@@ -5,6 +5,12 @@ public class RuntimeSetting
    private RuntimeSettingKey key;
    private String value;
 
+   @Override
+   public String toString()
+   {
+      return "RuntimeSetting{" + "key=" + key + "value=" + value + '}';
+   }
+
    public RuntimeSetting()
    {
    }
