@@ -74,23 +74,20 @@
 
 
 
-            <table>
-                <tr class="${oddEven.oddEven}">
-                    <td>
-                        <strong>General learning goals</strong>
-                    </td>
-                    <td>
+                        <h2><spring:message code="GENERAL_LEARNING_GOALS"/> </h2>
+                            <c:if test="${portfolioLocked == false}">
+                                <a href="javascript:loadDialog('/webapp/app/webeport/selectLearningGoalsForElo.html?eloURI=' + encodeURIComponent('${elo.uri}') + '&lgType=general&missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${anchorEloURI}'), '<spring:message code="SELECT_LEARNING_GOAL"></spring:message>');"><spring:message code="SELECT_LEARNING_GOAL"></spring:message> </a>
+                            </c:if>
                         <div id="generalLearningGoals">
                             <c:choose>
                                 <c:when test="${fn:length(selectedGeneralLearningGoalWithScores) > 0}">
-
                                     <table>
                                         <tr>
                                             <td width="45%">
-                                                <strong><spring:message code="LEARNING_GOAL"/></strong>
+                                                <strong><spring:message code="SELECTED_LEARNING_GOALS"/></strong>
                                             </td>
                                             <td width="45%">
-                                                <strong><spring:message code="CRITERIA"/></strong>
+                                                <strong><spring:message code="SELECTED_CRITERIA"/></strong>
                                             </td>
                                             <td>
                                                 <strong><spring:message code="LEVEL"/></strong>
@@ -99,7 +96,7 @@
                                         </tr>
 
                                         <c:forEach var="generalLearningGoalWithScore" items="${selectedGeneralLearningGoalWithScores}">
-                                            <tr>
+                                            <tr class="${oddEven.oddEven}">
                                                 <td>
                                                     ${generalLearningGoalWithScore.learningGoalText}
                                                 </td>
@@ -107,11 +104,21 @@
                                                     ${generalLearningGoalWithScore.criteriaText}
                                                 </td>
                                                 <td>
-                                                    <spring:message code="${generalLearningGoalWithScore.criteriaLevel}"/>
+                                                    <c:if test="${generalLearningGoalWithScore.criteriaLevel =='LOW'}">
+                                                        <img src="/webapp/themes/scy/default/images/red.png" alt="<spring:message code="LOW"/>"  />
+                                                    </c:if>
+                                                    <c:if test="${generalLearningGoalWithScore.criteriaLevel =='MEDIUM'}">
+                                                        <img src="/webapp/themes/scy/default/images/yellow.png" alt="<spring:message code="MEDIUM"/>"  />
+                                                    </c:if>
+                                                    <c:if test="${generalLearningGoalWithScore.criteriaLevel =='HIGH'}">
+                                                        <img src="/webapp/themes/scy/default/images/green.png" alt="<spring:message code="HIGH"/>"/>
+                                                    </c:if>
                                                 </td>
                                                 <td>
                                                     <center>
-                                                        <a href="javascript:if(confirm('Do you really want to delete this?')){ location.href='editEloReflections.html?anchorEloURI='  + encodeURIComponent('${anchorEloURI}') + '&amp;eloURI='  + encodeURIComponent('${eloURI}') + '&amp;missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;generalLearningGoalWithScoreId=${generalLearningGoalWithScore.id}&amp;action=delete';}">x</a>
+                                                        <a href="javascript:if(confirm('Do you really want to delete this?')){ location.href='editEloReflections.html?anchorEloURI='  + encodeURIComponent('${anchorEloURI}') + '&amp;eloURI='  + encodeURIComponent('${eloURI}') + '&amp;missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;generalLearningGoalWithScoreId=${generalLearningGoalWithScore.id}&amp;action=delete';}">
+                                                            <img src="/webapp/themes/scy/default/images/trash.png" alt="delete"/>
+                                                        </a>
                                                     </center>
                                                 </td>
 
@@ -122,27 +129,16 @@
                                     </table>
                                 </c:when>
                             </c:choose>
-                            <c:if test="${portfolioLocked == false}">
-                                <table>
-                                    <tr>
-                                        <td colspan="5" align="right">
 
-                                            <a href="javascript:loadDialog('/webapp/app/webeport/selectLearningGoalsForElo.html?eloURI=' + encodeURIComponent('${elo.uri}') + '&lgType=general&missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${anchorEloURI}'), '<spring:message code="SELECT_LEARNING_GOAL"></spring:message>');"><spring:message code="SELECT_LEARNING_GOAL"></spring:message> </a>
-
-                                        </td>
-                                    </tr>
-                                </c:if>
-                            </table>    
 
                         </div>
 
-                    </td>
-                </tr>
-                <tr class="${oddEven.oddEven}">
-                    <td>
-                        <strong>Specific learning gooals</strong>
-                    </td>
-                    <td>
+                        <br/>
+                        <h2><spring:message code="SPECIFIC_LEARNING_GOALS"/></h2>
+                        <c:if test="${portfolioLocked == false}">
+                            <a href="javascript:loadDialog('/webapp/app/webeport/selectLearningGoalsForElo.html?eloURI=' + encodeURIComponent('${elo.uri}') + '&lgType=specific&missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${anchorEloURI}'), '<spring:message code="SELECT_LEARNING_GOAL"></spring:message>');"><spring:message code="SELECT_LEARNING_GOAL"></spring:message> </a>
+                        </c:if>
+
                         <div id="generalLearningGoals">
                             <c:choose>
                                 <c:when test="${fn:length(selectedSpecificLearningGoalWithScores) > 0}">
@@ -150,10 +146,10 @@
                                     <table>
                                         <tr>
                                             <td width="45%">
-                                                <strong><spring:message code="LEARNING_GOAL"/></strong>
+                                                <strong><spring:message code="SELECTED_LEARNING_GOALS"/></strong>
                                             </td>
                                             <td width="44%">
-                                                <strong><spring:message code="CRITERIA"/></strong>
+                                                <strong><spring:message code="SELECTED_CRITERIA"/></strong>
                                             </td>
                                             <td>
                                                 <strong><spring:message code="LEVEL"/></strong> 
@@ -162,7 +158,7 @@
                                         </tr>
 
                                         <c:forEach var="generalLearningGoalWithScore" items="${selectedSpecificLearningGoalWithScores}">
-                                            <tr>
+                                            <tr class="${oddEven.oddEven}">
                                                 <td>
                                                     ${generalLearningGoalWithScore.learningGoalText}
                                                 </td>
@@ -170,11 +166,21 @@
                                                     ${generalLearningGoalWithScore.criteriaText}
                                                 </td>
                                                 <td>
-                                                    <spring:message code="${generalLearningGoalWithScore.criteriaLevel}"/>
+                                                    <c:if test="${generalLearningGoalWithScore.criteriaLevel =='LOW'}">
+                                                        <img src="/webapp/themes/scy/default/images/red.png" alt="<spring:message code="LOW"/>"  />
+                                                    </c:if>
+                                                    <c:if test="${generalLearningGoalWithScore.criteriaLevel =='MEDIUM'}">
+                                                        <img src="/webapp/themes/scy/default/images/yellow.png" alt="<spring:message code="MEDIUM"/>"  />
+                                                    </c:if>
+                                                    <c:if test="${generalLearningGoalWithScore.criteriaLevel =='HIGH'}">
+                                                        <img src="/webapp/themes/scy/default/images/green.png" alt="<spring:message code="HIGH"/>"/>
+                                                    </c:if>
                                                 </td>
                                                 <td>
                                                     <center>
-                                                        <a href="javascript:if(confirm('Do you really want to delete this?')){ location.href='editEloReflections.html?anchorEloURI='  + encodeURIComponent('${anchorEloURI}') + '&amp;eloURI='  + encodeURIComponent('${eloURI}') + '&amp;missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;generalLearningGoalWithScoreId=${generalLearningGoalWithScore.id}&amp;action=delete';}">x</a>
+                                                        <a href="javascript:if(confirm('Do you really want to delete this?')){ location.href='editEloReflections.html?anchorEloURI='  + encodeURIComponent('${anchorEloURI}') + '&amp;eloURI='  + encodeURIComponent('${eloURI}') + '&amp;missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;generalLearningGoalWithScoreId=${generalLearningGoalWithScore.id}&amp;action=delete';}">
+                                                            <img src="/webapp/themes/scy/default/images/trash.png" alt="delete"/>
+                                                        </a>
                                                     </center>
                                                 </td>
 
@@ -185,20 +191,11 @@
                                     </table>
                                 </c:when>
                             </c:choose>
-                            <c:if test="${portfolioLocked == false}">
-                                <table>
-                                    <tr>
-                                        <td align="right">
-                                            <a href="javascript:loadDialog('/webapp/app/webeport/selectLearningGoalsForElo.html?eloURI=' + encodeURIComponent('${elo.uri}') + '&lgType=specific&missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${anchorEloURI}'), '<spring:message code="SELECT_LEARNING_GOAL"></spring:message>');"><spring:message code="SELECT_LEARNING_GOAL"></spring:message> </a>
-                                        </td>
-                                    </tr>
-                                </table>
-
-                            </c:if>
                         </div>
 
-                    </td>
-                </tr>
+
+            <table>
+                <tr>
                 <form action="/webapp/app/webeport/StoreEloReflections.html" >
                 <c:choose>
                     <c:when test="${fn:length(reflectionQuestions) > 0}">

@@ -39,6 +39,10 @@
                    /app/scyauthor/viewPedagogicalPlan.html=viewPedagogicalPlanController
                    /app/scyauthor/assessmentToolViewer.html=assessmentToolViewerController
                    /app/scyauthor/ConfigureAssessment.html=configureAssessmentController
+                   /app/scyauthor/eportfolioStudentElo.html=eportfolioStudentEloController
+                   /app/scyauthor/eportfolioStudentMission.html=eportfolioStudentMissionController
+                   /app/scyauthor/eportfolioTeacherMission.html=eportfolioTeacherMissionController
+                   /app/scyauthor/eportfolioTeacherElo.html=eportfolioTeacherEloController
                    /app/scyauthor/ScaffoldingLevel.html=scaffoldingLevelController
                    /app/scyauthor/LearningGoals.html=learningGoalsController
                    /app/scyauthor/clearAllPortfolios.html=clearAllPortfolios
@@ -121,6 +125,42 @@
     </bean>
 
     <bean id="configureAssessmentController" class="eu.scy.server.controllers.ConfigureAssessmentController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="transferObjectServiceCollection" ref="transferObjectServiceCollection"/>
+        <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
+    </bean>
+
+    <bean id="eportfolioStudentEloController" class="eu.scy.server.controllers.EPortfolioStudentEloController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="transferObjectServiceCollection" ref="transferObjectServiceCollection"/>
+        <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
+    </bean>
+
+    <bean id="eportfolioStudentMissionController" class="eu.scy.server.controllers.EPortfolioStudentMissionController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="transferObjectServiceCollection" ref="transferObjectServiceCollection"/>
+        <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
+    </bean>
+
+    <bean id="eportfolioTeacherMissionController" class="eu.scy.server.controllers.EPortfolioTeacherMissionController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="transferObjectServiceCollection" ref="transferObjectServiceCollection"/>
+        <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
+    </bean>
+
+    <bean id="eportfolioTeacherEloController" class="eu.scy.server.controllers.EPortfolioTeacherEloController">
         <property name="serverService" ref="serverService"/>
         <property name="urlInspector" ref="urlInspector"/>
         <property name="missionELOService" ref="missionELOService"/>
