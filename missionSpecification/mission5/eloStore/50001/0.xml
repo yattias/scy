@@ -22,7 +22,7 @@
           <dateTime>2011-08-29T16:37:15.203+0200</dateTime>
         </date>
       </contribute>
-      <version>6</version>
+      <version>7</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -94,34 +94,34 @@
   </thumbnail>
 </metadata>
 <content languages="en" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Verdana;}&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;\red0\green0\blue128;}&#xD;
-{\stylesheet{\s1\li0\ri0\fi0\sa80\sb80\sbasedon2\snext1 DP Document;}{\s3\li0\ri0\fi0\sbasedon2 default;}{\s2\f1\fs24\i0\b0\cf1 default;}}&#xD;
-\paperw11906\paperh16838\margl1417\margr1417\margt1417\margb1417\widowctrl&#xD;
-\s1\li0\ri0\fi0\sa80\sb80\f2\fs24\i\b\ul0\cf2 list of information\i0\par&#xD;
-\pard\s3\ql\sa80\sb80\par&#xD;
-Carbohydrates\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-Glucose\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-Insulin\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-Role of glucose in the body\par&#xD;
-\pard\ql\sa80\sb80\par&#xD;
-\par&#xD;
-\par&#xD;
-\f1\b0\cf1\par&#xD;
-\li0\ri0\fi0\ul0\par&#xD;
+<RichText>{\rtf1\ansi&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Verdana;}&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;\red0\green0\blue128;}&#xD;&#xD;
+{\stylesheet{\s1\li0\ri0\fi0\sa80\sb80\sbasedon2\snext1 DP Document;}{\s3\li0\ri0\fi0\sbasedon2 default;}{\s2\f1\fs24\i0\b0\cf1 default;}}&#xD;&#xD;
+\paperw11906\paperh16838\margl1417\margr1417\margt1417\margb1417\widowctrl&#xD;&#xD;
+\s1\li0\ri0\fi0\sa80\sb80\f2\fs24\i\b\ul0\cf2 list of information\i0\par&#xD;&#xD;
+\pard\s3\ql\sa80\sb80\par&#xD;&#xD;
+Carbohydrates\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+Glucose\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+Insulin\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+Role of glucose in the body\par&#xD;&#xD;
+\pard\ql\sa80\sb80\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\f1\b0\cf1\par&#xD;&#xD;
+\li0\ri0\fi0\ul0\par&#xD;&#xD;
 }</RichText>
 </content>
 <resources>
