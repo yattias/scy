@@ -1,0 +1,52 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-09-09T16:11:56.842+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1315577516842</dateCreated>
+        <dateLastModified>1315577516842</dateLastModified>
+      </customElements>
+      <format>scy/runtimesettings</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20198/0/ECO+mission.runtimesettings</entry>
+      </identifier>
+      <las />
+      <missionId>eco</missionId>
+      <title>
+        <string language="en">ECO mission</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <template>TRUE</template>
+</metadata>
+<content languages="en" contentType="xml">
+<runtimeSettings />
+</content>
+<resources>
+</resources>
+</elo>
