@@ -331,6 +331,13 @@
                <property name="contentCreatorId" value="search"/>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/chat"/>
+               <property name="display" value="Chat"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="chat"/>
+               <property name="rightDrawerCreatorId" value=""/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/speedTest"/>
                <property name="display" value="Speed test"/>
                <property name="creatable" value="true"/>
