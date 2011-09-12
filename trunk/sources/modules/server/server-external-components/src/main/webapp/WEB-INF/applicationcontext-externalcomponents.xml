@@ -83,7 +83,8 @@
 				<!--<ref bean="userLocationAgent" /> -->
 				<ref bean="portfolioNotificator" />
                 <ref bean="feedbackNotificator" />
-				<ref bean="groupFormation" />
+				<!--<ref bean="groupFormation" />-->
+                <ref bean="groupFormation2" />
 				<ref bean="rooloAccessor" />
 				<ref bean="sessionAgent" />
 				<ref bean="cmEnricher" />
