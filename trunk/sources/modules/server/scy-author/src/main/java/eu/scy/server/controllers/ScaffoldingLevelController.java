@@ -49,7 +49,6 @@ public class ScaffoldingLevelController extends BaseController{
         agentLevels.add("No");
         agentLevels.add("Medium");
         agentLevels.add("High");
-        agentLevels.add("Blame Hill");
         return agentLevels;
     }
 
