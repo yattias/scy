@@ -168,4 +168,8 @@ public class DummyAwarenessService implements IAwarenessService {
     @Override
     public void removeInvitationListener(IAwarenessInvitationListener invitationListener) {
     }
+
+    @Override
+    public void inviteUserToChat(String room, String user) {
+    }
 }
