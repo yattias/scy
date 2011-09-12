@@ -18,17 +18,7 @@ public class ContactAwarenessInvitationListener extends IAwarenessInvitationList
     public-init var awarenessServiceWrapper:AwarenessServiceWrapper ;
 
     public override function handleInvitationEvent(inviter:String, room:String) : Void {
-        var scyDesktop = awarenessServiceWrapper.contactlist.scyDesktop;
-        var chatWindow: ScyWindow;
-//        chatWindow = scyDesktop.scyWindowControl.windowManager.findScyWindow(room);
-        if (chatWindow == null) {
-            // create new chat window
-            // tell window to join chat
-        }
-
-
-        scyDesktop.windows.addScyWindow(chatWindow);
+        var contactList = awarenessServiceWrapper.contactlist;
+        contactList.openChat(inviter);
     }
-
-
 }

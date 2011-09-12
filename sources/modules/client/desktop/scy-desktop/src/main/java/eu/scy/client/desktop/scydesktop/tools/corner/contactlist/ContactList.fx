@@ -16,6 +16,25 @@ import eu.scy.client.desktop.scydesktop.draganddrop.DragAndDropManager;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import roolo.search.IQueryComponent;
+import roolo.search.AndQuery;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import roolo.api.IRepository;
+import roolo.elo.api.IMetadataKey;
+import roolo.search.MetadataQueryComponent;
+import roolo.search.IQuery;
+import roolo.elo.api.IELO;
+import roolo.search.Query;
+import eu.scy.common.scyelo.ScyElo;
+import java.lang.System;
+import roolo.elo.metadata.keys.Contribute;
+import roolo.search.ISearchResult;
+import java.net.URI;
+import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
+import java.net.URLEncoder;
+import java.lang.String;
+import eu.scy.chat.controller.MUCChatController;
 
 /**
  * @author Sven
@@ -29,13 +48,20 @@ public class ContactList extends CustomNode {
     public-init var columns: Integer;
     public-init var stateIndicatorOpacity:Boolean = true;
 
+    def chatManager:ChatManager = ChatManager{};
+
     def contactTooltipCreator = ContactTooltipCreator{
    }
 
     var awarenessServiceWrapper:AwarenessServiceWrapper;
 
-    public var toolBrokerAPI;
+    public var toolBrokerAPI:ToolBrokerAPI;
     public var awarenessService:IAwarenessService;
+    public var repository:IRepository;
+    var technicalTypeKey:IMetadataKey;
+    var authorKey:IMetadataKey;
+    var titleKey:IMetadataKey;
+    var uriKey:IMetadataKey;
 
     public var contacts: Contact[] on replace {
                 createContactFrames();
@@ -53,6 +79,12 @@ public class ContactList extends CustomNode {
                             unexpandOtherFrames(contactFrame);
                             startDragging(e,contactFrame);
                         };
+                        onMouseClicked: function (e: MouseEvent) {
+                            if (e.clickCount >= 2) {
+                                openChat(contact.name);
+                            }
+                        }
+
                     };
                     //set indicators of online state by opacity (online, away, offline)
                     if (stateIndicatorOpacity){
@@ -62,6 +94,68 @@ public class ContactList extends CustomNode {
             insert contactFrame into contactFrames;
         }
     }
+
+    public function openChat(contact : String) : Void {
+        var chatWindow: ScyWindow = null;
+        // first check if we have this URI already registered then the chat is open and we ignore
+        var eloUri : URI = chatManager.getChatMappingForUser(contact);
+        if (eloUri != null) {
+            chatWindow = scyDesktop.scyWindowControl.windowManager.findScyWindow(eloUri);
+            if (chatWindow != null) {
+                if (chatWindow.isClosed) {
+                    chatWindow.open();
+                }
+                return;
+            }
+        } else {
+            // if not try to find the ELO from roolo
+            def technicalTypeQuery : IQueryComponent = new MetadataQueryComponent(technicalTypeKey, "scy/chat");
+            def firstAuthorQuery : IQueryComponent= new MetadataQueryComponent(authorKey, toolBrokerAPI.getLoginUserName());
+            def secondAuthorQuery : IQueryComponent= new MetadataQueryComponent(authorKey, contact);
+
+            def andQuery = new AndQuery(technicalTypeQuery, firstAuthorQuery, secondAuthorQuery);
+            var searchResultList = toolBrokerAPI.getRepository().search(new Query(andQuery));
+
+            for (searchResultObject in searchResultList) {
+                eloUri = (searchResultObject as ISearchResult).getUri();
+            }
+        }
+        // if still not found we create a new chat ELO
+        if (eloUri == null) {
+            def elo = toolBrokerAPI.getELOFactory().createELO();
+            elo.getMetadata().getMetadataValueContainer(technicalTypeKey).setValue("scy/chat");
+            def timestamp = System.currentTimeMillis();
+            elo.getMetadata().getMetadataValueContainer(authorKey).setValue(new Contribute(toolBrokerAPI.getLoginUserName(), timestamp));
+            elo.getMetadata().getMetadataValueContainer(authorKey).addValue(new Contribute(contact, timestamp));
+            elo.getMetadata().getMetadataValueContainer(titleKey).setValue("Chat");
+            def content = toolBrokerAPI.getELOFactory().createContent();
+            // we do not need to set any "meaningful" content (yet) as the chat room id is derived from the ELO URI
+            // however if content is null then EloSearchNode.loadElo throuws an exception (NPE)
+            content.setXmlString("<chat />");
+            elo.setContent(content);
+            def newMetadata = toolBrokerAPI.getRepository().addNewELO(elo);
+            eloUri = newMetadata.getMetadataValueContainer(uriKey).getValue() as URI;
+        }
+
+        // now register for next event
+        chatManager.addChatMapping(contact, eloUri);
+        
+        chatWindow = scyDesktop.scyWindowControl.windowManager.findScyWindow(eloUri);
+        if (chatWindow == null) {
+            chatWindow = scyDesktop.scyWindowControl.addOtherScyWindow(eloUri);
+            scyDesktop.scyWindowControl.makeMainScyWindow(eloUri);
+        }
+
+        // test
+//        var s : String = URLEncoder.encode(eloUri.toString(), "utf-8");
+//        s = s.replace("/", "");
+//        s = s.replace(".", "");
+//        s = s.replace(":", "");
+//        var chatController = new MUCChatController(awarenessService, s);
+//        chatController.connectToRoom();
+//        awarenessService.inviteUserToChat(s, contact);
+    }
+
 
     function startDragging(e:MouseEvent, dragObject:ContactFrame){
         var dragNode = Group{
@@ -161,6 +255,13 @@ public class ContactList extends CustomNode {
     init {
         toolBrokerAPI = scyDesktop.config.getToolBrokerAPI();
         awarenessService = toolBrokerAPI.getAwarenessService();
+        repository = toolBrokerAPI.getRepository();
+
+        technicalTypeKey = toolBrokerAPI.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
+        authorKey = toolBrokerAPI.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR);
+        titleKey = toolBrokerAPI.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TITLE);
+        uriKey = toolBrokerAPI.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER);
+
         awarenessServiceWrapper = AwarenessServiceWrapper{
           contactlist:this;
         };
