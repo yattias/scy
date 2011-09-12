@@ -2,9 +2,11 @@ package eu.scy.core;
 
 import eu.scy.core.model.SCYGrantedAuthority;
 import eu.scy.core.model.User;
+import eu.scy.core.model.UserComparator;
 import eu.scy.core.persistence.UserDAO;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -53,7 +55,9 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService{
 
     @Override
     public List<User> getUsers() {
-        return getUserDAO().getUsers();
+        List<User> users = getUserDAO().getUsers();
+        Collections.sort(users, new UserComparator());
+        return users;
     }
 
     @Override
