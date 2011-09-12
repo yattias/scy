@@ -12,9 +12,9 @@
             <c:forEach var="transporter" items="${anchorElos}">
 
                     <h2>${transporter.anchorElo.myname}</h2>
-                     <c:choose>
+                     <c:choose>                                                                       
                          <c:when test="${fn:length(transporter.reflectionQuestions) > 0}">
-                            <table>
+                              <table>
                                 <tr>
                                     <th><spring:message code="QUESTION_TITLE"/> </th>
                                     <th><spring:message code="QUESTION"/> </th>
@@ -34,17 +34,16 @@
                                         
                                     </tr>
                                 </c:forEach>
-                                <tr>
-                                    <td align="right" colspan="4">
-                                        <a href="javascript:openPage('addReflectionQuestionOnMission', 'eportfolioStudentElo.html?action=addReflectionQuestion&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${transporter.anchorElo.uri}'));">
-                                            <spring:message code="ADD_QUESTION"/>
-                                        </a>
-                                    </td>
-                                </tr>
-                            </table>
-                        </c:when>
+                                  </table>
+                            </c:when>
+
                      </c:choose>
+                           <a href="javascript:openPage('addReflectionQuestionOnMission', 'eportfolioStudentElo.html?action=addReflectionQuestion&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${transporter.anchorElo.uri}'));">
+                               <spring:message code="ADD_QUESTION"/>
+                           </a>
             </c:forEach>
+
+
     </c:when>
 </c:choose>
 <br/><br/>
