@@ -205,4 +205,9 @@ public class OOOChatController implements ChatController {
     public void sendMessage(String message) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    @Override
+    public void sendInvitation(String user) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

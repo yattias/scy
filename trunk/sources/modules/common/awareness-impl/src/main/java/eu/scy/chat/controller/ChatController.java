@@ -43,6 +43,13 @@ public interface ChatController {
 	 */
 	public abstract void sendMessage(final String message);
 
+        /**
+         * Sends an invitation to a user to join the MUC
+         *
+         * @param user
+         */
+        public void sendInvitation(String user);
+
 	/**
 	 * for OOO sends a message to the recipient
 	 * 

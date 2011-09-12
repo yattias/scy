@@ -248,4 +248,12 @@ public interface IAwarenessService {
 	 */
 	public MultiUserChat getMultiUserChat(String ELOUri) throws AwarenessServiceException;
 
+        /**
+         * sends an invitation to a user for the MUC with the room
+         *
+         * @param room
+         * @param user
+         */
+        public void inviteUserToChat(String room, String user);
+
 }

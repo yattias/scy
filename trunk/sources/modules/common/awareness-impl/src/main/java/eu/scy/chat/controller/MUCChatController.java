@@ -28,6 +28,7 @@ import eu.scy.awareness.event.IAwarenessRosterEvent;
 import eu.scy.awareness.event.IAwarenessRosterListener;
 import eu.scy.presence.IPresenceEvent;
 import java.net.URLEncoder;
+import org.jivesoftware.smackx.muc.MultiUserChat;
 
 public class MUCChatController implements ChatController {
 
@@ -342,5 +343,10 @@ public class MUCChatController implements ChatController {
 
     @Override
     public void registerChatArea(JTextArea chatArea) {
+    }
+
+    @Override
+    public void sendInvitation(String user) {
+        awarenessService.inviteUserToChat(ELOUri, user);
     }
 }

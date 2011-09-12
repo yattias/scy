@@ -260,4 +260,9 @@ public class AwarenessServiceMockImpl implements IAwarenessService {
 		return null;
 	}
 
+    @Override
+    public void inviteUserToChat(String room, String user) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }

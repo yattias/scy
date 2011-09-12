@@ -51,6 +51,7 @@ import eu.scy.awareness.event.IAwarenessRosterListener;
 import eu.scy.awareness.tool.ChatPresenceToolEvent;
 import eu.scy.awareness.tool.IChatPresenceToolEvent;
 import eu.scy.awareness.tool.IChatPresenceToolListener;
+import org.jivesoftware.smack.filter.PacketFilter;
 
 public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListener {
 
@@ -376,6 +377,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
                     if ("p2p".equals(reason)) {
                         joinMUCRoom(room);
                         for (IAwarenessInvitationListener listener : invitationListeners) {
+                            inviter = StringUtils.parseName(inviter);
                             listener.handleInvitationEvent(inviter, room);
                         }
                     }
@@ -384,15 +386,31 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
                 }
             }
         });
+
+        xmppConnection.addPacketListener(new PacketListener() {
+
+            @Override
+            public void processPacket(Packet packet) {
+                Message message = (Message) packet;
+                if (message.getType() == Message.Type.chat) {
+                    String name = StringUtils.parseName(message.getFrom());
+                }
+            }
+        }, new PacketFilter() {
+
+            @Override
+            public boolean accept(Packet packet) {
+                return packet instanceof Message;
+            }
+        });
     }
     
-    public boolean inviteUserToChat(String roomId, String username) {
+    @Override
+    public void inviteUserToChat(String roomId, String username) {
         MultiUserChat chat = joinedMUCRooms.get(roomId);
         if (chat != null) {
-            chat.invite(username, "p2p");
-            return true;
+            chat.invite(username + "@" + xmppConnection.getServiceName(), "p2p");
         }
-        return false;
     }
 
     public boolean hasJoinedRoom(String ELOUri, String user) throws AwarenessServiceException {
