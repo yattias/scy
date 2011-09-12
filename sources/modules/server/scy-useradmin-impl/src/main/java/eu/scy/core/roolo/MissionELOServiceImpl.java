@@ -255,15 +255,18 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
 
     private boolean getIsDefinedAsObligatoryInPedagogicalPlan(PedagogicalPlanTransfer pedagogicalPlan, ScyElo scyElo) {
         List<LasTransfer> lasses = pedagogicalPlan.getMissionPlan().getLasTransfers();
-        for (int i = 0; i < lasses.size(); i++) {
-            LasTransfer lasTransfer = lasses.get(i);
-            if (lasTransfer.getAnchorElo() != null) {
-                if (lasTransfer.getAnchorElo().getObligatoryInPortfolio() != null) {
-                    if (lasTransfer.getAnchorElo().getObligatoryInPortfolio() && lasTransfer.getAnchorElo().getName().equals(scyElo.getTitle()))
-                        return true;
-                }
+        if(lasses != null) {
+            for (int i = 0; i < lasses.size(); i++) {
+                LasTransfer lasTransfer = lasses.get(i);
+                if (lasTransfer.getAnchorElo() != null) {
+                    if (lasTransfer.getAnchorElo().getObligatoryInPortfolio() != null) {
+                        if (lasTransfer.getAnchorElo().getObligatoryInPortfolio() && lasTransfer.getAnchorElo().getName().equals(scyElo.getTitle()))
+                            return true;
+                    }
 
+                }
             }
+
         }
         return false;
     }
