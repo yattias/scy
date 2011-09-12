@@ -14,12 +14,12 @@ import eu.scy.agents.impl.AbstractRequestAgent;
 import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.AgentRooloServiceImpl;
+import eu.scy.common.mission.GroupformationStrategyType;
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.mission.RuntimeSetting;
 import eu.scy.common.mission.RuntimeSettingKey;
 import eu.scy.common.mission.RuntimeSettingsElo;
 import eu.scy.common.mission.RuntimeSettingsEloContent;
-import eu.scy.common.mission.GroupformationStrategyType;
 import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
@@ -160,10 +160,12 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
     private GroupFormationActivation getGroupFormationActivation(
             URI missionUri, String user) {
         Mission mission = getSession().getMission(user);
+        String missionSpecification = getSession().getMissionSpecification(missionUri.toString());
+
         GroupFormationActivation groupformationActivation = missionSpecsMap
                 .get(mission);
         if ( groupformationActivation == null ) {
-            groupformationActivation = readGroupFormationActivation(missionUri,
+            groupformationActivation = readGroupFormationActivation(URI.create(missionSpecification),
                     mission);
         }
         return groupformationActivation;
