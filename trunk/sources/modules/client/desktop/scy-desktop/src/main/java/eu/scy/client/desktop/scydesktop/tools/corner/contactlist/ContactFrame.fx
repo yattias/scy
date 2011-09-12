@@ -42,7 +42,6 @@ public class ContactFrame extends CustomNode {
                         preserveRatio: false;
                         url: "{contact.imageURL}&showIcon";
                     }
-
                 }
                 
     def imageView: ImageView = ImageView {

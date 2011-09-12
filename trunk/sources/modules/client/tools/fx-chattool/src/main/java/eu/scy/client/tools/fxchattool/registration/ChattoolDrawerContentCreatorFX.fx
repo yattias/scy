@@ -21,6 +21,7 @@ import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorFX;
+import roolo.elo.metadata.keys.Contribute;
 
 
 /**
@@ -75,15 +76,38 @@ public class ChattoolDrawerContentCreatorFX extends ScyToolCreatorFX {
                 scyWindow: scyWindow
             };
             chatController.registerChat(chattool);
+
+            def presenceListener = PresenceListener {
+                ownershipManager: scyWindow.ownershipManager;
+            };
+
+            chatController.getAwarenessService().addAwarenessPresenceListener(presenceListener);
             chatController.connectToRoom();
+
+            var metadata = repository.retrieveMetadata(eloUri);
+
+            var buddies:String[];
+            var authors = metadata.getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR)) as List;
+            if (authors != null) {
+                for (author in authors) {
+                    if (author instanceof String) {
+                        insert (author as String) into buddies;
+                    } else if (author instanceof Contribute) {
+                        insert ((author as Contribute).getVCard()) into buddies;
+                    }
+                }
+            }
+            for (buddy in buddies) {
+                if (not buddy.equals(toolBrokerAPI.getLoginUserName())) {
+                    // todo check if user is already in mission
+                    chatController.sendInvitation(buddy);
+                }
+            }
+
             return chattool;
         }
         else {
             return null;
         }
-
-
-
-
    }
 }

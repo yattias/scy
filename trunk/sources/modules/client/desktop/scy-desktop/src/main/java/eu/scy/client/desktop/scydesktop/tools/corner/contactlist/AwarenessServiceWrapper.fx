@@ -67,14 +67,10 @@ public class AwarenessServiceWrapper {
                         insert contact into contacts;
                     }
                 }
-                }
-                if (contactlist.showOfflineContacts){
-                    insert offlineContacts into contacts;
-                }
-
-            return contacts;
+             }
+             if (contactlist.showOfflineContacts) {
+               insert offlineContacts into contacts;
+             }
+             return contacts;
         }
-
-
-
 }
