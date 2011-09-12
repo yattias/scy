@@ -519,7 +519,7 @@
   <eloToolConfig>
     <eloType>scy/chat</eloType>
     <eloSystemRole>USER</eloSystemRole>
-    <contentCreatorId>search</contentCreatorId>
+    <contentCreatorId>chat</contentCreatorId>
     <topDrawerCreatorId />
     <rightDrawerCreatorId />
     <bottomDrawerCreatorId />
