@@ -87,7 +87,7 @@ public class ChattoolDrawerContentCreatorFX extends ScyToolCreatorFX {
             var metadata = repository.retrieveMetadata(eloUri);
 
             var buddies:String[];
-            var authors = metadata.getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR)) as List;
+            var authors = (metadata.getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR)).getValueList()) as List;
             if (authors != null) {
                 for (author in authors) {
                     if (author instanceof String) {
