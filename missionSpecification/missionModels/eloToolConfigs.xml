@@ -279,7 +279,7 @@
             </bean>
             <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
                <property name="eloType" value="scy/chat"/>
-               <property name="contentCreatorId" value="search"/>
+               <property name="contentCreatorId" value="chat"/>
                <property name="rightDrawerCreatorId" value=""/>
             </bean>
             <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
