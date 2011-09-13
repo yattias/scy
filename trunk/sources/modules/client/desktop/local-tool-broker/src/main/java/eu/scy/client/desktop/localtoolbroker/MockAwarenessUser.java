@@ -9,6 +9,7 @@ public class MockAwarenessUser implements IAwarenessUser {
     private String presence;
     private String jid;
     private String nickName;
+    private String mode;
 
     public MockAwarenessUser(String status, String presence, String jid, String nickName) {
         this.status = status;
@@ -73,4 +74,16 @@ public class MockAwarenessUser implements IAwarenessUser {
         }
         this.nickName = nickName;
     }
+
+   @Override
+   public void setMode(String mode)
+   {
+      this.mode = mode;
+   }
+
+   @Override
+   public String getMode()
+   {
+      return mode;
+   }
 }
