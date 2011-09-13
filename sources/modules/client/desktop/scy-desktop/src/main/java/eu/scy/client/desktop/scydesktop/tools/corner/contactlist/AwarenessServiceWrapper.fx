@@ -50,12 +50,13 @@ public class AwarenessServiceWrapper {
             for (buddy in buddies){
                 def awarenessUser:IAwarenessUser = buddy as IAwarenessUser;
                 def presence = awarenessUser.getPresence();
+                def mode = awarenessUser.getMode();
                 def contact:Contact = Contact{
                     awarenessUser: awarenessUser;
                     currentMission: awarenessUser.getStatus();    //Not sure
                     name: awarenessUser.getNickName();
                     onlineState: if (presence.equals("unavailable")) OnlineState.OFFLINE else
-                        (if(presence.equals("idle")) OnlineState.AWAY else OnlineState.ONLINE );
+                        (if("away".equals(mode)) OnlineState.AWAY else OnlineState.ONLINE );
                     imageURL: "{IMAGE_BASE_DIR}?username={awarenessUser.getNickName()}";
                     }
                 //filter names "" and " "
