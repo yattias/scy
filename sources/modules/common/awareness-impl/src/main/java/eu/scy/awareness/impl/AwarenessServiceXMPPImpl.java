@@ -269,7 +269,14 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
                 IAwarenessUser au = new AwarenessUser();
                 au.setJid(buddy.getUser());
                 au.setNickName(buddy.getName());
-                au.setPresence(roster.getPresence(buddy.getUser()).toString());
+                Presence presence = roster.getPresence(buddy.getUser());
+                if (presence != null) {
+                    if (presence.getMode() != null) {
+                        au.setMode(presence.getMode().toString());
+                    }
+                    String presenceString = presence.toString();
+                    au.setPresence(presenceString);
+                }
                 buddies.add(au);
             }
             return buddies;

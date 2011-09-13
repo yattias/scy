@@ -11,6 +11,7 @@ public class AwarenessUser implements IAwarenessUser {
     private String correctUsername;
     private String jid;
     private String nickName;
+    private String mode;
 
     public void setStatus(String status) {
         this.status = status;
@@ -59,5 +60,15 @@ public class AwarenessUser implements IAwarenessUser {
             nickName = StringUtils.parseName(nickName);
         }
         this.nickName = nickName;
+    }
+
+    @Override
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
+
+    @Override
+    public String getMode() {
+        return mode;
     }
 }
