@@ -18,11 +18,10 @@ public class PresenceListener extends IAwarenessPresenceListener {
         def username = StringUtils.parseName(user.getJid());
         var presence = event.getPresence();
         if ("available".equals(presence)) {
-            ownershipManager.joined(username);
+            ownershipManager.wentOnline(username);
         } else {
-            ownershipManager.left(username);
+            ownershipManager.wentOffline(username);
         }
-        ownershipManager.update();
     }
 
 }
