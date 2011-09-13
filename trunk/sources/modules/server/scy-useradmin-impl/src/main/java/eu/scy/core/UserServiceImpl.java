@@ -62,7 +62,9 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService{
 
     @Override
     public List<User> getStudents() {
-        return getUserDAO().getStudents();
+        List<User> students = getUserDAO().getStudents();
+        Collections.sort(students, new UserComparator());
+        return students;
     }
 
     @Transactional
