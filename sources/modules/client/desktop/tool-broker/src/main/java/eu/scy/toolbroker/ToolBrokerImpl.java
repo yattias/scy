@@ -50,6 +50,7 @@ import eu.scy.toolbrokerapi.ServerNotRespondingException;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.toolbrokerapi.ToolBrokerAPIRuntimeSetting;
 import java.net.URI;
+import javax.jws.WebParam.Mode;
 import org.jivesoftware.smack.packet.Presence;
 
 /**
@@ -596,7 +597,8 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
     @Override
     public void setUserPresence(boolean available) {
         if (connection != null && connection.isConnected()) {
-            Presence presence = new Presence(available ? Presence.Type.available : Presence.Type.unavailable);
+            Presence presence = new Presence(Presence.Type.available);
+            presence.setMode(available ? Presence.Mode.available : Presence.Mode.away);
             connection.sendPacket(presence);
         }
     }
