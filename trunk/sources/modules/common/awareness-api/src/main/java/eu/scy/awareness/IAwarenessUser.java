@@ -18,4 +18,7 @@ public interface IAwarenessUser {
     
     public void setNickName(String nickName);
     public String getNickName();
+
+    public void setMode(String mode);
+    public String getMode();
 }
