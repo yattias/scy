@@ -23,18 +23,14 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.api.IRepository;
 import roolo.elo.api.IMetadataKey;
 import roolo.search.MetadataQueryComponent;
-import roolo.search.IQuery;
 import roolo.elo.api.IELO;
 import roolo.search.Query;
-import eu.scy.common.scyelo.ScyElo;
 import java.lang.System;
 import roolo.elo.metadata.keys.Contribute;
 import roolo.search.ISearchResult;
 import java.net.URI;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
-import java.net.URLEncoder;
 import java.lang.String;
-import eu.scy.chat.controller.MUCChatController;
 
 /**
  * @author Sven
@@ -143,17 +139,8 @@ public class ContactList extends CustomNode {
         chatWindow = scyDesktop.scyWindowControl.windowManager.findScyWindow(eloUri);
         if (chatWindow == null) {
             chatWindow = scyDesktop.scyWindowControl.addOtherScyWindow(eloUri);
-            scyDesktop.scyWindowControl.makeMainScyWindow(eloUri);
+            chatWindow.openWindow(100, 100, 250, 300);
         }
-
-        // test
-//        var s : String = URLEncoder.encode(eloUri.toString(), "utf-8");
-//        s = s.replace("/", "");
-//        s = s.replace(".", "");
-//        s = s.replace(":", "");
-//        var chatController = new MUCChatController(awarenessService, s);
-//        chatController.connectToRoom();
-//        awarenessService.inviteUserToChat(s, contact);
     }
 
 
