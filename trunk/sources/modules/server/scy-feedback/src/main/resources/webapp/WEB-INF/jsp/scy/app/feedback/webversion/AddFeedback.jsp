@@ -21,11 +21,11 @@
             Quality score: <img src="/webapp/themes/scy/default/images/smiley_${feedbackItem.evalu}.png" alt=""/><br/>
             <div id="feedback_on_feedback_${feedbackItem.id}" ></div>
             <form action="/webapp/app/feedback/webversion/AddReplyToFeedback.html" method="POST" accept-charset="UTF-8"
-                  onsubmit="postFeedback(this, 'feedback_on_feedback_${feedbackItem.id}', true, 'after');return false;">
+                  onsubmit="postFeedback(this, 'feedback_on_feedback_${feedbackItem.id}', true, 'after');document.getElementById('feedbackReplytext${feedbackItem.id}').value='';return false;">
 
                 <input type="hidden" name="feedbackId" value="${feedbackItem.id}"/>
                 <input type="hidden" name="feedbackEloURI" value="${feedbackElo.uri}"/>
-                <input type="textarea" name="reply" style="width:100%;height:50px;"/>
+                <input type="textarea" id="feedbackReplytext${feedbackItem.id}" name="reply" style="width:100%;height:50px;"/>
                 <input type="submit">
             </form>
 

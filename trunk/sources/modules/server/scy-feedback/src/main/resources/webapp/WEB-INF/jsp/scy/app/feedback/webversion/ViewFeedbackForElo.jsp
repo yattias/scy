@@ -110,7 +110,7 @@
             <!--/td>
             <td style="width:50%;"-->
                 <!--form method="POST" accept-charset="UTF-8" action="/webapp/app/feedback/webversion/AddFeedback.html" onsubmit="postFeedback(this, 'feedbackReturnContainer', this.parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[5]);return false;"-->
-                <form method="POST" accept-charset="UTF-8" action="/webapp/app/feedback/webversion/AddFeedback.html" onsubmit="postFeedback(this, document.getElementById('feedbackReturnContainer'), true, 'before');return false;">
+                <form method="POST" accept-charset="UTF-8" action="/webapp/app/feedback/webversion/AddFeedback.html" onsubmit="postFeedback(this, document.getElementById('feedbackReturnContainer'), true, 'before');document.getElementById('feedbacktext').value='';return false;">
                     <textarea id="feedbacktext" name="feedbacktext"style="width:90%;height:50px;"></textarea><br/>
                     <input type="hidden" name="feedbackEloURI" id="feedbackEloURI" value="${feedbackElo.uri}"/>
                     <!--s:ajaxELOSlider sliderValues="${feedbackLevels}" defaultValue="${scaffoldingLevel}" eloURI="${transferElo.uri}" property="globalMissionScaffoldingLevel" rooloServices="${rooloServices}"/-->
@@ -189,11 +189,11 @@
                                         </c:when>
                                     </c:choose>
                                     <div id="feedback_on_feedback_${feedbackItem.id}" ></div>
-                                    <form action="/webapp/app/feedback/webversion/AddReplyToFeedback.html" method="POST" accept-charset="UTF-8" onsubmit="postFeedback(this, document.getElementById('feedback_on_feedback_${feedbackItem.id}'), true, 'after');return false;">
+                                    <form action="/webapp/app/feedback/webversion/AddReplyToFeedback.html" method="POST" accept-charset="UTF-8" onsubmit="postFeedback(this, document.getElementById('feedback_on_feedback_${feedbackItem.id}'), true, 'after');document.getElementById('feedbackItem${feedbackItem.id}').value='';return false;">
 
                                         <input type="hidden" name="feedbackId" value="${feedbackItem.id}"/>
                                         <input type="hidden" name="feedbackEloURI" value="${feedbackElo.uri}"/>
-                                        <input type="textarea" name="reply" style="width:100%;height:50px;"/>
+                                        <input type="textarea" name="reply" id="feedbackItem${feedbackItem.id}" style="width:100%;height:50px;"/>
                                         <input type="submit">
                                     </form>
 
