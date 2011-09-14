@@ -55,6 +55,7 @@ public class SelectLearningGoalsForElo extends BaseController {
         modelAndView.addObject("eloURI" , getEncodedUri(eloURI.toString()));
         modelAndView.addObject("missionRuntimeURI", getEncodedUri(missionRuntimeURI.toString()));
         modelAndView.addObject("anchorEloURI", getEncodedUri(anchorEloURI.toString()));
+        modelAndView.addObject("pedagogicalPlan", pedagogicalPlan);
     }
 
     public PortfolioELOService getPortfolioELOService() {

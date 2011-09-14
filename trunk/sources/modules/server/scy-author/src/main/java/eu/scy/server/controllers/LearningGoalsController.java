@@ -55,6 +55,12 @@ public class LearningGoalsController extends BaseController{
             } else if (action.equals("setLevelOnCriteria")) {
                 LearningGoal learningGoal = getLearningGoal(pedagogicalPlanTransfer, request);
                 setLevelOnCriteria(missionSpecificationElo, pedagogicalPlanTransfer, learningGoal, request);
+            } else if (action.equals("addLearningGoalsOnly")) {
+                setLearningGoalsOnly(missionSpecificationElo, pedagogicalPlanTransfer, request);
+            } else if (action.equals("addScorableLearningGoals")) {
+                setScorableLearningGoals(missionSpecificationElo, pedagogicalPlanTransfer, request);
+            } else if (action.equals("addLearningGoalsWithCriteria")) {
+                setUseLearningGoalsWithCriteria(missionSpecificationElo, pedagogicalPlanTransfer, request);
             }
 
         }
@@ -62,6 +68,46 @@ public class LearningGoalsController extends BaseController{
         modelAndView.addObject("pedagogicalPlan", pedagogicalPlanTransfer);
         modelAndView.addObject("transferObjectServiceCollection", getTransferObjectServiceCollection());
         modelAndView.addObject("missionSpecificationEloURI", getEncodedUri(request.getParameter(ELO_URI)));
+    }
+
+    private void setUseLearningGoalsWithCriteria(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer, HttpServletRequest request) {
+        if(pedagogicalPlanTransfer.getAssessmentSetup().getUseLearningGoalsWithCriteria() != null) {
+            pedagogicalPlanTransfer.getAssessmentSetup().setUseLearningGoalsWithCriteria(!pedagogicalPlanTransfer.getAssessmentSetup().getUseLearningGoalsWithCriteria());
+        } else {
+            pedagogicalPlanTransfer.getAssessmentSetup().setUseLearningGoalsWithCriteria(true);    
+        }
+
+        ScyElo pedagogicalPlanElo = getPedagogicalPlanEloForMission(missionSpecificationElo);
+        pedagogicalPlanElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(pedagogicalPlanTransfer));
+        pedagogicalPlanElo.updateElo();
+
+    }
+
+    private void setScorableLearningGoals(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer, HttpServletRequest request) {
+        logger.info("Setting learning add goals only to pedagogical plan!");
+        if(pedagogicalPlanTransfer.getAssessmentSetup().getUseScorableLearningGoals() != null) {
+            pedagogicalPlanTransfer.getAssessmentSetup().setUseScorableLearningGoals(!pedagogicalPlanTransfer.getAssessmentSetup().getUseScorableLearningGoals());
+        } else {
+            pedagogicalPlanTransfer.getAssessmentSetup().setUseScorableLearningGoals(true);
+        }
+
+        ScyElo pedagogicalPlanElo = getPedagogicalPlanEloForMission(missionSpecificationElo);
+        pedagogicalPlanElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(pedagogicalPlanTransfer));
+        pedagogicalPlanElo.updateElo();
+
+    }
+
+    private void setLearningGoalsOnly(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer, HttpServletRequest request) {
+        logger.info("Setting learning add goals only to pedagogical plan!");
+        if(pedagogicalPlanTransfer.getAssessmentSetup().getUseOnlyLearningGoals() != null) {
+            pedagogicalPlanTransfer.getAssessmentSetup().setUseOnlyLearningGoals(!pedagogicalPlanTransfer.getAssessmentSetup().getUseOnlyLearningGoals());
+        } else {
+            pedagogicalPlanTransfer.getAssessmentSetup().setUseOnlyLearningGoals(true);    
+        }
+
+        ScyElo pedagogicalPlanElo = getPedagogicalPlanEloForMission(missionSpecificationElo);
+        pedagogicalPlanElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(pedagogicalPlanTransfer));
+        pedagogicalPlanElo.updateElo();
     }
 
     private void setLevelOnCriteria(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer, LearningGoal learningGoal, HttpServletRequest request) {
