@@ -25,6 +25,12 @@ import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorRegistryF
 /**
  * @author sikken
  */
+public def noToolCreatorId = "none";
+
+public function isNoToolCreatorId(id: String): Boolean{
+   noToolCreatorId.equalsIgnoreCase(id)
+}
+
 public class ScyToolFactory extends ContentFactory {
 
    def logger = Logger.getLogger(this.getClass());
@@ -37,6 +43,11 @@ public class ScyToolFactory extends ContentFactory {
          // no tool specified
          return null;
       }
+      if (isNoToolCreatorId(id)){
+         // it is the no tool creator id, so don't create a tool
+         return null;
+      }
+
       var startNanos = System.nanoTime();
       var toolTypeCreated = "?";
       var toolNode: Node;

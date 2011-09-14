@@ -16,6 +16,7 @@ import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorRegistryFX;
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreator;
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorFX;
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorRegistryFX;
+import java.lang.IllegalArgumentException;
 
 /**
  * @author sikken
@@ -31,6 +32,10 @@ public class ScyToolCreatorRegistryFXImpl extends BasicContentCreatorRegistryFX,
    }
 
    override public function registerScyToolCreatorFX(scyToolCreatorFX: ScyToolCreatorFX, id: String): Void {
+      if (ScyToolFactory.isNoToolCreatorId(id)){
+         // it is the no tool creator id, can't register that one
+         throw new IllegalArgumentException("the creator id may not be the no creator id: {id}");
+      }
       logger.info("registering ScyToolCreatorFX with id {id}, class {scyToolCreatorFX.getClass()}");
       registerContentCreatorFX(scyToolCreatorFX, id);
    }
