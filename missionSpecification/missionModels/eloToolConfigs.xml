@@ -280,8 +280,11 @@
             <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
                <property name="eloType" value="scy/chat"/>
                <property name="contentCreatorId" value="chat"/>
-               <property name="rightDrawerCreatorId" value=""/>
-            </bean>
+               <property name="topDrawerCreatorId" value="none"/>
+               <property name="rightDrawerCreatorId" value="none"/>
+               <property name="bottomDrawerCreatorId" value="none"/>
+               <property name="leftDrawerCreatorId" value="none"/>
+           </bean>
             <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
                <property name="eloType" value="scy/speedTest"/>
                <property name="eloSystemRole" value="SYSTEM"/>

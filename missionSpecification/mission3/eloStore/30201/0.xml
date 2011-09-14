@@ -520,10 +520,10 @@
     <eloType>scy/chat</eloType>
     <eloSystemRole>USER</eloSystemRole>
     <contentCreatorId>chat</contentCreatorId>
-    <topDrawerCreatorId />
-    <rightDrawerCreatorId />
-    <bottomDrawerCreatorId />
-    <leftDrawerCreatorId />
+    <topDrawerCreatorId>none</topDrawerCreatorId>
+    <rightDrawerCreatorId>none</rightDrawerCreatorId>
+    <bottomDrawerCreatorId>none</bottomDrawerCreatorId>
+    <leftDrawerCreatorId>none</leftDrawerCreatorId>
     <isContentCollaboration />
     <isTopDrawerCollaboration />
     <isRightDrawerCollaboration />
