@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 import java.net.URLDecoder;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -37,7 +38,8 @@ public class UrlInspector {
         Map parameterMap = request.getParameterMap();
         while (parameterNames.hasMoreElements()) {
             Object o = parameterNames.nextElement();
-            String value = String.valueOf(parameterMap.get(o));
+            Object[] v = (Object[]) parameterMap.get(o);
+            String value = Arrays.deepToString(v);
             System.out.println("--[" + o + "]-- [" + value + "]");
         }
         System.out.println("DONE PARAMETERS");
