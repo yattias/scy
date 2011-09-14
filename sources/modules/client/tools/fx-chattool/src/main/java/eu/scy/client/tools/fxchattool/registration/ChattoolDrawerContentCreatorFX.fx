@@ -25,7 +25,7 @@ import roolo.elo.metadata.keys.Contribute;
 
 
 /**
- * @author jeremyt
+ * @author adam
  */
 
 public class ChattoolDrawerContentCreatorFX extends ScyToolCreatorFX {
@@ -34,7 +34,7 @@ public class ChattoolDrawerContentCreatorFX extends ScyToolCreatorFX {
         repository = toolBrokerAPI.getRepository();
         awarenessService = toolBrokerAPI.getAwarenessService();
         metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
-         return createChatToolNode(scyWindow);
+        return createChatToolNode(scyWindow);
     }
 
     public var awarenessService:IAwarenessService;
@@ -47,13 +47,7 @@ public class ChattoolDrawerContentCreatorFX extends ScyToolCreatorFX {
 
     function createChatToolNode(scyWindow:ScyWindow) : Node {
         var eloUri:URI = scyWindow.eloUri;
-        if(eloUri == null){
-            def elo = toolBrokerAPI.getELOFactory().createELO();
-            elo.getMetadata().getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId())).setValue("scy/chat");
-            def newMetadata = toolBrokerAPI.getRepository().addNewELO(elo);
-            eloUri = newMetadata.getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId())).getValue() as URI;
-        }
-
+        
         if(eloUri != null) {
             var metadataFirstVersion = repository.retrieveMetadataFirstVersion(eloUri);
 
@@ -86,21 +80,25 @@ public class ChattoolDrawerContentCreatorFX extends ScyToolCreatorFX {
 
             var metadata = repository.retrieveMetadata(eloUri);
 
-            var buddies:String[];
-            var authors = (metadata.getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR)).getValueList()) as List;
-            if (authors != null) {
-                for (author in authors) {
-                    if (author instanceof String) {
-                        insert (author as String) into buddies;
-                    } else if (author instanceof Contribute) {
-                        insert ((author as Contribute).getVCard()) into buddies;
+            def technicalFormat = metadata.getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT)).getValue() as String;
+
+            if ("scy/chat".equals(technicalFormat)) {
+                var buddies:String[];
+                var authors = (metadata.getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR)).getValueList()) as List;
+                if (authors != null) {
+                    for (author in authors) {
+                        if (author instanceof String) {
+                            insert (author as String) into buddies;
+                        } else if (author instanceof Contribute) {
+                            insert ((author as Contribute).getVCard()) into buddies;
+                        }
                     }
                 }
-            }
-            for (buddy in buddies) {
-                if (not buddy.equals(toolBrokerAPI.getLoginUserName())) {
-                    // todo check if user is already in mission
-                    chatController.sendInvitation(buddy);
+                for (buddy in buddies) {
+                    if (not buddy.equals(toolBrokerAPI.getLoginUserName())) {
+                        // todo check if user is already in mission
+                        chatController.sendInvitation(buddy);
+                    }
                 }
             }
 
