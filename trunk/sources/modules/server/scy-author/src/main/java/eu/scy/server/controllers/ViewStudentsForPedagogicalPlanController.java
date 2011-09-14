@@ -42,6 +42,10 @@ public class ViewStudentsForPedagogicalPlanController extends BaseController {
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
         String message = (String) request.getSession().getAttribute("message");
 
+        if(request.getAttribute("tab") != null) {
+            modelAndView.addObject("tab", request.getAttribute("tab"));
+        }
+
         PedagogicalPlan pedagogicalPlan = null;
         String missionURI = request.getParameter(ELO_URI);
         try {

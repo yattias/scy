@@ -14,7 +14,7 @@
 
                 <script type="text/javascript">
                     dojo.addOnLoad(function() {
-                        initTeacherTabs();
+                        initTeacherTabs('${tab}');
                     })
                 </script>
 
