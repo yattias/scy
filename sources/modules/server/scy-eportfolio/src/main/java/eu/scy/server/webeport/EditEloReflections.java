@@ -112,6 +112,7 @@ public class EditEloReflections extends BaseController {
             modelAndView.addObject("reflectionQuestions", reflectionQuestions);
             modelAndView.addObject("selectedGeneralLearningGoalWithScores", selectedGeneralLearningGoalWithScores);
             modelAndView.addObject("selectedSpecificLearningGoalWithScores", selectedSpecificLearningGoalWithScores);
+            modelAndView.addObject("pedagogicalPlan", pedagogicalPlanTransfer);
             if (portfolio.getPortfolioStatus().equals(Portfolio.PORTFOLIO_STATUS_ASSESSED)) {
                 modelAndView.addObject("portfolioLocked", true);
             } else {
@@ -312,7 +313,11 @@ public class EditEloReflections extends BaseController {
     private void addGeneralLearningGoal(HttpServletRequest request, MissionRuntimeElo missionRuntimeElo, TransferElo transferElo) {
         String level = request.getParameter("level");
         String criteriaId = request.getParameter("criteriaId");
-        LearningGoalCriterium learningGoalCriterium = getLearninGoalCriterium(missionRuntimeElo, criteriaId);
+        LearningGoalCriterium learningGoalCriterium = null;
+        if(criteriaId != null) {
+            learningGoalCriterium = getLearninGoalCriterium(missionRuntimeElo, criteriaId);
+        }
+
 
         SelectedLearningGoalWithScore selectedLearningGoalWithScore = new SelectedLearningGoalWithScore();
         String learningGoalId = request.getParameter("learningGoalId");
@@ -322,6 +327,8 @@ public class EditEloReflections extends BaseController {
         if (learningGoalCriterium != null) {
             selectedLearningGoalWithScore.setCriteriaText(learningGoalCriterium.getCriterium());
             selectedLearningGoalWithScore.setCriteriaLevel(learningGoalCriterium.getLevel());
+        } else {
+            selectedLearningGoalWithScore.setCriteriaLevel(level);
         }
 
 
@@ -336,7 +343,11 @@ public class EditEloReflections extends BaseController {
     private void addSpecificLearningGoal(HttpServletRequest request, MissionRuntimeElo missionRuntimeElo, TransferElo transferElo) {
         String level = request.getParameter("level");
         String criteriaId = request.getParameter("criteriaId");
-        LearningGoalCriterium learningGoalCriterium = getLearninGoalCriterium(missionRuntimeElo, criteriaId);
+        LearningGoalCriterium learningGoalCriterium = null;
+        if(criteriaId != null) {
+            learningGoalCriterium = getLearninGoalCriterium(missionRuntimeElo, criteriaId);
+        }
+
 
 
         SelectedLearningGoalWithScore selectedLearningGoalWithScore = new SelectedLearningGoalWithScore();
@@ -346,8 +357,13 @@ public class EditEloReflections extends BaseController {
         selectedLearningGoalWithScore.setLearningGoalId(learningGoalId);
         selectedLearningGoalWithScore.setEloURI(transferElo.getUri());
         selectedLearningGoalWithScore.setScore(level);
-        selectedLearningGoalWithScore.setCriteriaText(learningGoalCriterium.getCriterium());
-        selectedLearningGoalWithScore.setCriteriaLevel(learningGoalCriterium.getLevel());
+        if(learningGoalCriterium != null) {
+            selectedLearningGoalWithScore.setCriteriaText(learningGoalCriterium.getCriterium());
+            selectedLearningGoalWithScore.setCriteriaLevel(learningGoalCriterium.getLevel());
+        } else {
+            selectedLearningGoalWithScore.setCriteriaLevel(level);
+        }
+
 
         Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo, getCurrentUserName(request));
         portfolio.addSelectedSpecificLearningGoalWithScore(selectedLearningGoalWithScore);

@@ -17,6 +17,10 @@ public class AssessmentSetupTransfer extends BaseXMLTransfer{
     private List specificLearningGoals = new LinkedList();
     private List reflectionQuestions = new LinkedList();
     private List reflectionTabs = new LinkedList();
+    private Boolean useOnlyLearningGoals = true;
+    private Boolean useScorableLearningGoals = false;
+    private Boolean useLearningGoalsWithCriteria = false;
+
 
 
     public List getGeneralLearningGoals() {
@@ -84,6 +88,42 @@ public class AssessmentSetupTransfer extends BaseXMLTransfer{
         } catch (Exception e) {
             if(reflectionTabs instanceof AbstractList) reflectionTabs = new LinkedList();
             getReflectionTabs().add(tab);
+        }
+    }
+
+    public Boolean getUseOnlyLearningGoals() {
+        return useOnlyLearningGoals;
+    }
+
+    public void setUseOnlyLearningGoals(Boolean useOnlyLearningGoals) {
+        this.useOnlyLearningGoals = useOnlyLearningGoals;
+        if(useOnlyLearningGoals) {
+            this.useScorableLearningGoals = false;
+            this.useLearningGoalsWithCriteria = false;
+        }
+    }
+
+    public Boolean getUseScorableLearningGoals() {
+        return useScorableLearningGoals;
+    }
+
+    public void setUseScorableLearningGoals(Boolean useScorableLearningGoals) {
+        this.useScorableLearningGoals = useScorableLearningGoals;
+        if(useScorableLearningGoals) {
+            this.useOnlyLearningGoals = false;
+            this.useLearningGoalsWithCriteria = false;
+        }
+    }
+
+    public Boolean getUseLearningGoalsWithCriteria() {
+        return useLearningGoalsWithCriteria;
+    }
+
+    public void setUseLearningGoalsWithCriteria(Boolean useLearningGoalsWithCriteria) {
+        this.useLearningGoalsWithCriteria = useLearningGoalsWithCriteria;
+        if(useLearningGoalsWithCriteria) {
+            this.useOnlyLearningGoals = false;
+            this.useScorableLearningGoals = false;
         }
     }
 }

@@ -1,4 +1,5 @@
 <%@ include file="common-taglibs.jsp" %>
+<%@ include file="common-taglibs.jsp" %>
 <tiles:insertDefinition name="default-page">
     <tiles:putAttribute name="main">
    <style type="text/css">
@@ -83,37 +84,76 @@
                                 <c:when test="${fn:length(selectedGeneralLearningGoalWithScores) > 0}">
                                     <table>
                                         <tr>
-                                            <td width="45%">
-                                                <strong><spring:message code="SELECTED_LEARNING_GOALS"/></strong>
-                                            </td>
-                                            <td width="45%">
-                                                <strong><spring:message code="SELECTED_CRITERIA"/></strong>
-                                            </td>
-                                            <td>
-                                                <strong><spring:message code="LEVEL"/></strong>
-                                            </td>
-                                            <td></td>
+                                            <c:if test="${pedagogicalPlan.assessmentSetup.useOnlyLearningGoals}">
+                                                <td width="97%">
+                                                    <strong><spring:message code="SELECTED_LEARNING_GOALS"/></strong>
+                                                </td>
+                                            </c:if>
+                                            <c:if test="${pedagogicalPlan.assessmentSetup.useScorableLearningGoals}">
+                                                <td width="87%">
+                                                    <strong><spring:message code="SELECTED_LEARNING_GOALS"/></strong>
+                                                </td>
+                                                 <td width="10">
+                                                    <strong><spring:message code="LEVEL"/></strong>
+                                                </td>
+                                            </c:if>
+                                            <c:if test="${pedagogicalPlan.assessmentSetup.useLearningGoalsWithCriteria}">
+                                                <td width="42%">
+                                                    <strong><spring:message code="SELECTED_LEARNING_GOALS"/></strong>
+                                                </td>
+                                                <td width="45%">
+                                                    <strong><spring:message code="SELECTED_CRITERIA"/></strong>
+                                                </td>
+                                                <td>
+                                                    <strong><spring:message code="LEVEL"/></strong>
+                                                </td>
+                                            </c:if>
+                                            <td width="3%"></td>
                                         </tr>
 
                                         <c:forEach var="generalLearningGoalWithScore" items="${selectedGeneralLearningGoalWithScores}">
                                             <tr class="${oddEven.oddEven}">
-                                                <td>
-                                                    ${generalLearningGoalWithScore.learningGoalText}
-                                                </td>
-                                                <td>
-                                                    ${generalLearningGoalWithScore.criteriaText}
-                                                </td>
-                                                <td>
-                                                    <c:if test="${generalLearningGoalWithScore.criteriaLevel =='LOW'}">
-                                                        <img src="/webapp/themes/scy/default/images/red.png" alt="<spring:message code="LOW"/>"  />
-                                                    </c:if>
-                                                    <c:if test="${generalLearningGoalWithScore.criteriaLevel =='MEDIUM'}">
-                                                        <img src="/webapp/themes/scy/default/images/yellow.png" alt="<spring:message code="MEDIUM"/>"  />
-                                                    </c:if>
-                                                    <c:if test="${generalLearningGoalWithScore.criteriaLevel =='HIGH'}">
-                                                        <img src="/webapp/themes/scy/default/images/green.png" alt="<spring:message code="HIGH"/>"/>
-                                                    </c:if>
-                                                </td>
+                                                <c:if test="${pedagogicalPlan.assessmentSetup.useOnlyLearningGoals}">
+                                                    <td>
+                                                        ${generalLearningGoalWithScore.learningGoalText}
+                                                    </td>
+                                                </c:if>
+                                                <c:if test="${pedagogicalPlan.assessmentSetup.useScorableLearningGoals}">
+                                                    <td>
+                                                        ${generalLearningGoalWithScore.learningGoalText}
+                                                    </td>
+                                                    <td>
+                                                        <c:if test="${generalLearningGoalWithScore.criteriaLevel =='LOW'}">
+                                                            <img src="/webapp/themes/scy/default/images/red.png" alt="<spring:message code="LOW"/>"  />
+                                                        </c:if>
+                                                        <c:if test="${generalLearningGoalWithScore.criteriaLevel =='MEDIUM'}">
+                                                            <img src="/webapp/themes/scy/default/images/yellow.png" alt="<spring:message code="MEDIUM"/>"  />
+                                                        </c:if>
+                                                        <c:if test="${generalLearningGoalWithScore.criteriaLevel =='HIGH'}">
+                                                            <img src="/webapp/themes/scy/default/images/green.png" alt="<spring:message code="HIGH"/>"/>
+                                                        </c:if>
+
+                                                    </td>
+                                                </c:if>
+                                                <c:if test="${pedagogicalPlan.assessmentSetup.useLearningGoalsWithCriteria}">
+                                                    <td>
+                                                        ${generalLearningGoalWithScore.learningGoalText}
+                                                    </td>
+                                                    <td>
+                                                        ${generalLearningGoalWithScore.criteriaText}
+                                                    </td>
+                                                    <td>
+                                                        <c:if test="${generalLearningGoalWithScore.criteriaLevel =='LOW'}">
+                                                            <img src="/webapp/themes/scy/default/images/red.png" alt="<spring:message code="LOW"/>"  />
+                                                        </c:if>
+                                                        <c:if test="${generalLearningGoalWithScore.criteriaLevel =='MEDIUM'}">
+                                                            <img src="/webapp/themes/scy/default/images/yellow.png" alt="<spring:message code="MEDIUM"/>"  />
+                                                        </c:if>
+                                                        <c:if test="${generalLearningGoalWithScore.criteriaLevel =='HIGH'}">
+                                                            <img src="/webapp/themes/scy/default/images/green.png" alt="<spring:message code="HIGH"/>"/>
+                                                        </c:if>
+                                                    </td>
+                                                </c:if>
                                                 <td>
                                                     <center>
                                                         <a href="javascript:if(confirm('Do you really want to delete this?')){ location.href='editEloReflections.html?anchorEloURI='  + encodeURIComponent('${anchorEloURI}') + '&amp;eloURI='  + encodeURIComponent('${eloURI}') + '&amp;missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;generalLearningGoalWithScoreId=${generalLearningGoalWithScore.id}&amp;action=delete';}">
@@ -145,37 +185,76 @@
 
                                     <table>
                                         <tr>
-                                            <td width="45%">
-                                                <strong><spring:message code="SELECTED_LEARNING_GOALS"/></strong>
-                                            </td>
-                                            <td width="44%">
-                                                <strong><spring:message code="SELECTED_CRITERIA"/></strong>
-                                            </td>
-                                            <td>
-                                                <strong><spring:message code="LEVEL"/></strong> 
-                                            </td>
-                                            <td></td>
+                                            <c:if test="${pedagogicalPlan.assessmentSetup.useOnlyLearningGoals}">
+                                                <td width="97%">
+                                                    <strong><spring:message code="SELECTED_LEARNING_GOALS"/></strong>
+                                                </td>
+                                            </c:if>
+                                            <c:if test="${pedagogicalPlan.assessmentSetup.useScorableLearningGoals}">
+                                                <td width="87%">
+                                                    <strong><spring:message code="SELECTED_LEARNING_GOALS"/></strong>
+                                                </td>
+                                                 <td width="10">
+                                                    <strong><spring:message code="LEVEL"/></strong>
+                                                </td>
+                                            </c:if>
+                                            <c:if test="${pedagogicalPlan.assessmentSetup.useLearningGoalsWithCriteria}">
+                                                <td width="42%">
+                                                    <strong><spring:message code="SELECTED_LEARNING_GOALS"/></strong>
+                                                </td>
+                                                <td width="45%">
+                                                    <strong><spring:message code="SELECTED_CRITERIA"/></strong>
+                                                </td>
+                                                <td>
+                                                    <strong><spring:message code="LEVEL"/></strong>
+                                                </td>
+                                            </c:if>
+                                            <td width="3%"></td>
                                         </tr>
 
                                         <c:forEach var="generalLearningGoalWithScore" items="${selectedSpecificLearningGoalWithScores}">
                                             <tr class="${oddEven.oddEven}">
-                                                <td>
-                                                    ${generalLearningGoalWithScore.learningGoalText}
-                                                </td>
-                                                <td>
-                                                    ${generalLearningGoalWithScore.criteriaText}
-                                                </td>
-                                                <td>
-                                                    <c:if test="${generalLearningGoalWithScore.criteriaLevel =='LOW'}">
-                                                        <img src="/webapp/themes/scy/default/images/red.png" alt="<spring:message code="LOW"/>"  />
-                                                    </c:if>
-                                                    <c:if test="${generalLearningGoalWithScore.criteriaLevel =='MEDIUM'}">
-                                                        <img src="/webapp/themes/scy/default/images/yellow.png" alt="<spring:message code="MEDIUM"/>"  />
-                                                    </c:if>
-                                                    <c:if test="${generalLearningGoalWithScore.criteriaLevel =='HIGH'}">
-                                                        <img src="/webapp/themes/scy/default/images/green.png" alt="<spring:message code="HIGH"/>"/>
-                                                    </c:if>
-                                                </td>
+                                                <c:if test="${pedagogicalPlan.assessmentSetup.useOnlyLearningGoals}">
+                                                    <td>
+                                                        ${generalLearningGoalWithScore.learningGoalText}
+                                                    </td>
+                                                </c:if>
+                                                <c:if test="${pedagogicalPlan.assessmentSetup.useScorableLearningGoals}">
+                                                    <td>
+                                                        ${generalLearningGoalWithScore.learningGoalText}
+                                                    </td>
+                                                    <td>
+                                                        <c:if test="${generalLearningGoalWithScore.criteriaLevel =='LOW'}">
+                                                            <img src="/webapp/themes/scy/default/images/red.png" alt="<spring:message code="LOW"/>"  />
+                                                        </c:if>
+                                                        <c:if test="${generalLearningGoalWithScore.criteriaLevel =='MEDIUM'}">
+                                                            <img src="/webapp/themes/scy/default/images/yellow.png" alt="<spring:message code="MEDIUM"/>"  />
+                                                        </c:if>
+                                                        <c:if test="${generalLearningGoalWithScore.criteriaLevel =='HIGH'}">
+                                                            <img src="/webapp/themes/scy/default/images/green.png" alt="<spring:message code="HIGH"/>"/>
+                                                        </c:if>
+                                                        
+                                                    </td>
+                                                </c:if>
+                                                <c:if test="${pedagogicalPlan.assessmentSetup.useLearningGoalsWithCriteria}">
+                                                    <td>
+                                                        ${generalLearningGoalWithScore.learningGoalText}
+                                                    </td>
+                                                    <td>
+                                                        ${generalLearningGoalWithScore.criteriaText}
+                                                    </td>
+                                                    <td>
+                                                        <c:if test="${generalLearningGoalWithScore.criteriaLevel =='LOW'}">
+                                                            <img src="/webapp/themes/scy/default/images/red.png" alt="<spring:message code="LOW"/>"  />
+                                                        </c:if>
+                                                        <c:if test="${generalLearningGoalWithScore.criteriaLevel =='MEDIUM'}">
+                                                            <img src="/webapp/themes/scy/default/images/yellow.png" alt="<spring:message code="MEDIUM"/>"  />
+                                                        </c:if>
+                                                        <c:if test="${generalLearningGoalWithScore.criteriaLevel =='HIGH'}">
+                                                            <img src="/webapp/themes/scy/default/images/green.png" alt="<spring:message code="HIGH"/>"/>
+                                                        </c:if>
+                                                    </td>
+                                                </c:if>
                                                 <td>
                                                     <center>
                                                         <a href="javascript:if(confirm('Do you really want to delete this?')){ location.href='editEloReflections.html?anchorEloURI='  + encodeURIComponent('${anchorEloURI}') + '&amp;eloURI='  + encodeURIComponent('${eloURI}') + '&amp;missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;generalLearningGoalWithScoreId=${generalLearningGoalWithScore.id}&amp;action=delete';}">
