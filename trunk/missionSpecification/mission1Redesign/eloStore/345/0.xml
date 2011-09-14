@@ -12,7 +12,7 @@
           <dateTime>2010-02-23T14:18:59.670+0100</dateTime>
         </date>
       </contribute>
-      <version>16</version>
+      <version>20</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -40,17 +40,17 @@
     <annotation>
       <entity>externalDoc</entity>
       <date>
-        <dateTime>2011-09-09T16:22:01.010+0200</dateTime>
+        <dateTime>2011-09-14T13:36:50.371+0200</dateTime>
       </date>
       <file>
-        <assignment>To make your report, you have to:&#xD;&#xD;&#xD;&#xD;&#xD;
-- Go to the Word application of your computer&#xD;&#xD;&#xD;&#xD;&#xD;
-- Create your report&#xD;&#xD;&#xD;&#xD;&#xD;
-- If you want to add some pictures, graphs, concept maps... you have created in SCY-Lab, use the "print screen" button of your keyboard (or the snipping tool of your computer) and paste your image in your report&#xD;&#xD;&#xD;&#xD;&#xD;
-- Save your report in your computer&#xD;&#xD;&#xD;&#xD;&#xD;
-- Then come back here and click on the upload file button&#xD;&#xD;&#xD;&#xD;&#xD;
-- Select your report document&#xD;&#xD;&#xD;&#xD;&#xD;
-- Press "open"&#xD;&#xD;&#xD;&#xD;&#xD;
+        <assignment>To make your report, you have to:&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+- Go to the Word application of your computer&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+- Create your report&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+- If you want to add some pictures, graphs, concept maps... you have created in SCY-Lab, use the "print screen" button of your keyboard (or the snipping tool of your computer) and paste your image in your report&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+- Save your report in your computer&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+- Then come back here and click on the upload file button&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+- Select your report document&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+- Press "open"&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
 - Save your report in SCY-Lab</assignment>
         <description />
         <name />
