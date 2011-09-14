@@ -11,7 +11,7 @@ public class MockAwarenessUser implements IAwarenessUser {
     private String nickName;
     private String mode;
 
-    public MockAwarenessUser(String status, String presence, String jid, String nickName) {
+    public MockAwarenessUser(String status, String presence, String jid, String nickName, String mode) {
         this.status = status;
         this.presence = presence;
         this.jid = jid;
@@ -19,7 +19,7 @@ public class MockAwarenessUser implements IAwarenessUser {
     }
 
     public MockAwarenessUser() {
-        this("online", "online", "sven@scy.collide.info", "sven");
+        this("online", "available", "sven@scy.collide.info", "sven", "available");
     }
 
     @Override
