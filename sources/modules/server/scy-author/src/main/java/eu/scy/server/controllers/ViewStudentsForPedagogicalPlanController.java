@@ -40,8 +40,6 @@ public class ViewStudentsForPedagogicalPlanController extends BaseController {
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
-        String message = (String) request.getSession().getAttribute("message");
-
         if(request.getAttribute("tab") != null) {
             modelAndView.addObject("tab", request.getAttribute("tab"));
         }
@@ -52,31 +50,26 @@ public class ViewStudentsForPedagogicalPlanController extends BaseController {
 
             if (missionURI != null) missionURI = URLDecoder.decode(missionURI, "UTF-8");
 
-
-            URI uri = null;
+            URI missionSpecificationUri = null;
 
             try {
-                uri = new URI(missionURI);
+                missionSpecificationUri = new URI(missionURI);
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
-            MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(uri, getMissionELOService());
+            MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(missionSpecificationUri, getMissionELOService());
 
             String action = request.getParameter("action");
             if (action != null) {
                 if (action.equals("addStudent")) {
                     String username = request.getParameter("username");
-                    addStudent(missionURI, username, modelAndView, pedagogicalPlan);
+                    addStudent(missionSpecificationElo, username, modelAndView, pedagogicalPlan);
                     modelAndView.setViewName("forward:viewPedagogicalPlan.html");
                     return;
                 } else if (action.equals("removeStudent")) {
                     removeStudent(request.getParameter("username"), modelAndView, pedagogicalPlan);
-                } else if(action.equals("addMultipleUsers")) {
-                    addMultipleStudents(missionURI);
                 }
             }
-            
-
 
             List userNames = getMissionELOService().getAssignedUserNamesFor(missionSpecificationElo);
 
@@ -88,7 +81,6 @@ public class ViewStudentsForPedagogicalPlanController extends BaseController {
                 String s = (String) userNames.get(i);
                 User user = getUserService().getUser(s);
                 users.add(user);
-
             }
             String encodedURI = getEncodedUri(request.getParameter(ELO_URI));
 
@@ -105,23 +97,7 @@ public class ViewStudentsForPedagogicalPlanController extends BaseController {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-
-
-
         modelAndView.addObject("pedagogicalPlan", pedagogicalPlan);
-    }
-
-    private void addMultipleStudents(String missionURI) {
-        logger.info("ADDING MULTIPLE STUDENTS!");
-        for(int counter = 0; counter < 30; counter++) {
-            String userName = "uib" + counter;
-            User user = getUserService().createUser(userName, userName, "ROLE_STUDENT");
-            if(user != null) {
-                addStudent(missionURI, user.getUserDetails().getUsername(), null, null);
-            }
-            logger.info("ADDED STUDENT: " + user.getUserDetails().getUsername());
-        }
-
     }
 
     private void removeStudent(String username, ModelAndView modelAndView, PedagogicalPlan plan) {
@@ -129,19 +105,15 @@ public class ViewStudentsForPedagogicalPlanController extends BaseController {
         getAssignedPedagogicalPlanService().removeAssignedAssessment(user, plan);
     }
 
-    private void addStudent(String missionURIString, String username, ModelAndView modelAndView, PedagogicalPlan pedagogicalPlan) {
+    private void addStudent(MissionSpecificationElo missionSpecificationElo, String username, ModelAndView modelAndView, PedagogicalPlan pedagogicalPlan) {
         try {
             long start = System.currentTimeMillis();
-            logger.info("LOADING URI: " + missionURIString + " ?????????? ADDING STUDENT!");
-            URI missionURI = new URI(missionURIString);
-            MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(missionURI, getMissionELOService());
-            MissionRuntimeModel missionRuntimeModel = missionSpecificationElo.getMissionManagement().createMissionRuntimeModelElos(username);
+            missionSpecificationElo.getMissionManagement().createMissionRuntimeModelElos(username);
             long totalTime = System.currentTimeMillis() - start;
             logger.info("ASSIGNING STUDENT: " + username + " TO MISSION " + missionSpecificationElo.getTitle() + " TOOK " + totalTime + " MILLIS!");
         } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
-
     }
 
     public PedagogicalPlanPersistenceService getPedagogicalPlanPersistenceService() {
