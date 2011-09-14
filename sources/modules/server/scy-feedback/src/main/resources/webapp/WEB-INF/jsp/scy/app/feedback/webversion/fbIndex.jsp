@@ -33,6 +33,11 @@
                 /*background-color:#cc6600;*/
             }
 
+            .feedbackEloContainer a:hover{
+                background-color:transparent !important;
+                text-decoration:underline;
+            }
+
             .feedbackEloContainer .thumbContainer{
                 margin:2px;
                 padding:2px;
