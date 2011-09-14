@@ -1271,4 +1271,8 @@ public class CopexPanel extends JPanel implements PropertyChangeListener{
         if(isCollaborate())
             copexSync.addSyncAddTask(task, taskSelected, insertIn);
     }
+
+    public void exportToPdf(){
+       activCopex.printCopex(true);
+    }
 }
