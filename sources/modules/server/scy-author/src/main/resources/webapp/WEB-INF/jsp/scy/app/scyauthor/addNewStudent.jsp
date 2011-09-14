@@ -3,7 +3,7 @@
     <tiles:putAttribute name="main">
 
 
-        ${eloURI}
+        
 
         <form action="addNewStudent.html">
 
