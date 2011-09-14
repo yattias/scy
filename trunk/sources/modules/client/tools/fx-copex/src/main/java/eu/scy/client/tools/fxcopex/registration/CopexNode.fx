@@ -81,7 +81,7 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
    var collaborative: Boolean = false;
    var elo:IELO;
 
-   var bundle:ResourceBundleWrapper;
+   def bundle:ResourceBundleWrapper = new ResourceBundleWrapper(this);;
 
    var notificationDialog: NotificationDialog;
    // manager of the title bar to show/hide the notification button
@@ -93,6 +93,13 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
    def saveAsTitleBarButton = TitleBarButton {
               actionId: TitleBarButton.saveAsActionId
               action: doSaveAsElo
+           }
+
+   def exportToPdfTitleBarButton = TitleBarButton {
+              actionId: "exportToPdf"
+              iconType: "export"
+              action: exportToPdf
+              tooltip:bundle.getString("FX-COPEX.EXPORT_TO_PDF_TOOLTIP")
            }
 
    def notificationTitleBarButton = TitleBarButton {
@@ -120,7 +127,8 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
       if (windowContent) {
          titleBarButtonManager.titleBarButtons = [
                     saveTitleBarButton,
-                    saveAsTitleBarButton
+                    saveAsTitleBarButton,
+                    exportToPdfTitleBarButton
                  ]
       }
    }
@@ -148,7 +156,7 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
    }
 
    public override function create(): Node {
-      bundle = new ResourceBundleWrapper(this);
+//      bundle = new ResourceBundleWrapper(this);
       wrappedCopexPanel = ScySwingWrapper.wrap(scyCopexPanel);
    }
 
@@ -189,6 +197,10 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
     override public function eloSaved (elo : IELO) : Void {
         this.elo = elo;
         scyCopexPanel.setEloUri(elo.getUri().toString());
+    }
+
+    function exportToPdf(){
+       scyCopexPanel.exportToPdf();
     }
 
    function resizeContent(){

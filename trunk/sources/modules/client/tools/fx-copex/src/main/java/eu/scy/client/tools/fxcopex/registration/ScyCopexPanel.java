@@ -122,6 +122,10 @@ public class ScyCopexPanel extends JPanel implements ActionCopex, ISyncListener{
         
     }
 
+    public void exportToPdf(){
+       copex.exportToPdf();
+    }
+
     /* logs a user action
      * @param type type of the action (action_added, ...)
      * @param attribute list of the attribute of the action (position in the tree, name of the action...)
