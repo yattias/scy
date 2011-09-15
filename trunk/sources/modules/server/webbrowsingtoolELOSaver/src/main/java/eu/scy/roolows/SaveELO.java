@@ -119,7 +119,6 @@ public class SaveELO {
             authType = jsonData.optString("authType", null);
             password = jsonData.optString("password", null);
 
-            //TODO authenticate User!
             boolean authenticated = auth(authType, username, password);
             if (authenticated) {
                 //Authentication ok
@@ -214,7 +213,7 @@ public class SaveELO {
     private void logSavedELOAction(String username, String eloUri, String type, String elo_type) {
         IAction action = new Action();
         action.setType(type);
-        action.setUser(getSmackName(username));
+        action.setUser(getJid(username));
         action.addContext(ContextConstants.eloURI, eloUri);
         action.addContext(ContextConstants.tool, "roolo-ws");
         action.addAttribute("elo_type", elo_type);
@@ -222,8 +221,8 @@ public class SaveELO {
         beans.getActionLogger().log(action);
     }
 
-    private String getSmackName(String username) {
-        return (username + "@" + beans.getServerConfig().getOpenFireHost() + "/Smack");
+    private String getJid(String username) {
+        return (username + "@" + beans.getServerConfig().getOpenFireHost());
     }
 
     private boolean auth(String authType, String username, String password) {
