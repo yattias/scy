@@ -7,14 +7,21 @@
                 <spring:message code="HELP_TEXT_CLICK_ON_LEARNING_GOAL"/> 
 
             </p>
-            <ul>
+            <table>
+
+            </table>
             <c:forEach var="learningGoal" items="${learningGoals}">
-                <li><a href=/webapp/app/webeport/editEloReflections.html?eloURI=${eloURI}&missionRuntimeURI=${missionRuntimeURI}&anchorEloURI=${anchorEloURI}&action=addLearningGoal&learningGoalId=${learningGoal.id}&lgType=${learningGoalType}>
-                                ${learningGoal.goal}
-                            </a>
-                    </li>
+                <tr class="${oddEven.oddEven}">
+                    <td align="left">
+                        <a href=/webapp/app/webeport/editEloReflections.html?eloURI=${eloURI}&missionRuntimeURI=${missionRuntimeURI}&anchorEloURI=${anchorEloURI}&action=addLearningGoal&learningGoalId=${learningGoal.id}&lgType=${learningGoalType}>
+                            <img src="/webapp/themes/scy/default/images/green.png" alt="<spring:message code="HIGH"/>"/> ${learningGoal.goal}
+                        </a>
+
+                    </td>
+                </tr>
+
             </c:forEach>
-            </ul>
+
         </c:if>
         <c:if test="${pedagogicalPlan.assessmentSetup.useScorableLearningGoals}">
             <p>
