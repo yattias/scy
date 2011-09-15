@@ -489,12 +489,12 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 	public void proposeCollaborationWith(String proposedUser, String elouri, String mucid) {
 		logger.debug("TBI: proposeCollaborationWith: user: " + proposedUser + " eloid: " + elouri);
 		// callback.receivedCollaborationResponse(elouri, proposedUser);
+		String proposingUser = org.jivesoftware.smack.util.StringUtils.parseBareAddress(connection.getUser());
 		final LinkedBlockingQueue<INotification> queue = new LinkedBlockingQueue<INotification>();
-		collaborationAnswers.put(connection.getUser() + "#" + proposedUser + "#" + elouri, queue);
-		logger.debug("==========XMPPName: " + connection.getUser());
+		collaborationAnswers.put(proposingUser + "#" + proposedUser + "#" + elouri, queue);
 		final IActionLogger log = getActionLogger();
 		final IAction requestCollaborationAction = new Action();
-		requestCollaborationAction.setUser(connection.getUser());
+		requestCollaborationAction.setUser(proposingUser);
 		requestCollaborationAction.setType("collaboration_request");
 		requestCollaborationAction.addContext(ContextConstants.tool, "scylab");
 		requestCollaborationAction.addAttribute("proposed_user", proposedUser);
@@ -525,15 +525,16 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 	@Override
 	public String answerCollaborationProposal(boolean accept, String proposingUser, String elouri) {
 		LinkedBlockingQueue<INotification> queue = new LinkedBlockingQueue<INotification>();
-		collaborationAnswers.put(proposingUser + "#" + connection.getUser() + "#" + elouri, queue);
+		String proposedUser = org.jivesoftware.smack.util.StringUtils.parseBareAddress(connection.getUser());
+		collaborationAnswers.put(proposingUser + "#" + proposedUser + "#" + elouri, queue);
 		IActionLogger log = getActionLogger();
 		IAction collaborationResponseAction = new Action();
-		collaborationResponseAction.setUser(connection.getUser());
+		collaborationResponseAction.setUser(proposedUser);
 		collaborationResponseAction.setType("collaboration_response");
 		collaborationResponseAction.addContext(ContextConstants.tool, "scylab");
 		collaborationResponseAction.addAttribute("request_accepted", String.valueOf(accept));
 		collaborationResponseAction.addAttribute("proposing_user", proposingUser);
-		collaborationResponseAction.addAttribute("proposed_user", connection.getUser());
+		collaborationResponseAction.addAttribute("proposed_user", proposedUser);
 		collaborationResponseAction.addAttribute("proposed_elo", elouri);
 		log.log(collaborationResponseAction);
 		if (accept) {
