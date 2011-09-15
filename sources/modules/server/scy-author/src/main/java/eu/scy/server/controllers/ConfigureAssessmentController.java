@@ -57,6 +57,12 @@ public class ConfigureAssessmentController extends BaseController {
                     removeReflectionQuestion(missionSpecificationElo, pedagogicalPlanTransfer, reflectionQuestionId);
                 } else if(action.equals("addTeachersQuestionToElo")) {
                     addteachersQuestionToElo(missionSpecificationElo, pedagogicalPlanTransfer, anchorEloURI, request);
+                } else if(action.equals("addRubricToElo")) {
+                    addRubricToElo(missionSpecificationElo, pedagogicalPlanTransfer, anchorEloURI, request);
+                } else if(action.equals("addCriteria")) {
+                    addCriteriaToRubric(missionSpecificationElo, pedagogicalPlanTransfer, anchorEloURI, request);
+                } else if(action.equals("addRubricCategory")) {
+                    addCategoryToRubric(missionSpecificationElo, pedagogicalPlanTransfer, anchorEloURI, request);
                 }
 
             }
@@ -78,6 +84,10 @@ public class ConfigureAssessmentController extends BaseController {
                 anchorEloReflectionQuestionFOrTeacherTransporter.setAnchorElo(transferElo);
                 anchorEloReflectionQuestionFOrTeacherTransporter.setTeacherQuestionToElos(teacherQuestionToElos);
                 anchorEloReflectionQuestionFOrTeacherTransporters.add(anchorEloReflectionQuestionFOrTeacherTransporter);
+                List <RubricForElo> rubricForElos = pedagogicalPlanTransfer.getAssessmentSetup().getRubricsForElo(transferElo.getUri());
+                anchorEloReflectionQuestionFOrTeacherTransporter.setRubricForElos(rubricForElos);
+
+
             }
 
             modelAndView.addObject("pedagogicalPlan", pedagogicalPlanTransfer);
@@ -89,6 +99,59 @@ public class ConfigureAssessmentController extends BaseController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+    }
+
+    private void addCategoryToRubric(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer, String anchorEloURI, HttpServletRequest request) {
+        ScyElo anchorElo = ScyElo.loadLastVersionElo(getURI(anchorEloURI), getMissionELOService());
+        TransferElo anchorEloTransfer = new TransferElo(anchorElo);
+        String rubricId = request.getParameter("rubricId");
+        Rubric rubric = pedagogicalPlanTransfer.getAssessmentSetup().getRubric(rubricId);
+        if(rubric != null) {
+            RubricCategory rubricCategory = new RubricCategory();
+            rubric.addRubricCategory(rubricCategory);
+        }
+
+        ScyElo pedagogicalPlanElo = getPedagogicalPlanEloForMission(missionSpecificationElo);
+        pedagogicalPlanElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(pedagogicalPlanTransfer));
+        pedagogicalPlanElo.updateElo();
+
+    }
+
+    private void addCriteriaToRubric(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer, String anchorEloURI, HttpServletRequest request) {
+        ScyElo anchorElo = ScyElo.loadLastVersionElo(getURI(anchorEloURI), getMissionELOService());
+        TransferElo anchorEloTransfer = new TransferElo(anchorElo);
+        String categoryId = request.getParameter("categoryId");
+        RubricCategory category = pedagogicalPlanTransfer.getAssessmentSetup().getRubricCategory(categoryId);
+        category.addRubricAssessmentCriteria(new RubricAssessmentCriteria());
+
+        ScyElo pedagogicalPlanElo = getPedagogicalPlanEloForMission(missionSpecificationElo);
+        pedagogicalPlanElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(pedagogicalPlanTransfer));
+        pedagogicalPlanElo.updateElo();
+
+    }
+
+    private void addRubricToElo(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer, String anchorEloURI, HttpServletRequest request) {
+        ScyElo anchorElo = ScyElo.loadLastVersionElo(getURI(anchorEloURI), getMissionELOService());
+        TransferElo anchorEloTransfer = new TransferElo(anchorElo);
+        logger.info("*** **** **** **** Adding rubrik to anchor elo: " + anchorEloTransfer.getMyname());
+
+        RubricForElo rubricForElo = new RubricForElo();
+        rubricForElo.setAnchorElo(anchorEloTransfer.getUri());
+
+        RubricCategory category = new RubricCategory();
+        category.setName("Click to add category name");
+        rubricForElo.addRubricCategory(category);
+
+        RubricAssessmentCriteria assessmentCriteria = new RubricAssessmentCriteria();
+        assessmentCriteria.setAssessmentCriteria("Click to edit assessment criteria");
+        category.addRubricAssessmentCriteria(assessmentCriteria);
+
+        pedagogicalPlanTransfer.getAssessmentSetup().addRubric(rubricForElo);
+
+        ScyElo pedagogicalPlanElo = getPedagogicalPlanEloForMission(missionSpecificationElo);
+        pedagogicalPlanElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(pedagogicalPlanTransfer));
+        pedagogicalPlanElo.updateElo();
 
     }
 

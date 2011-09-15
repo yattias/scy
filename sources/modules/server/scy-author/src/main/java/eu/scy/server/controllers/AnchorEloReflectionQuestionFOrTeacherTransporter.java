@@ -1,5 +1,6 @@
 package eu.scy.server.controllers;
 
+import eu.scy.core.model.transfer.RubricForElo;
 import eu.scy.core.model.transfer.TeacherQuestionToElo;
 import eu.scy.core.model.transfer.TransferElo;
 
@@ -17,6 +18,7 @@ public class AnchorEloReflectionQuestionFOrTeacherTransporter {
 
     private TransferElo anchorElo;
     private List<TeacherQuestionToElo> teacherQuestionToElos = new LinkedList<TeacherQuestionToElo>();
+    private List<RubricForElo> rubricForElos = new LinkedList<RubricForElo>();
 
     public TransferElo getAnchorElo() {
         return anchorElo;
@@ -32,5 +34,13 @@ public class AnchorEloReflectionQuestionFOrTeacherTransporter {
 
     public void setTeacherQuestionToElos(List<TeacherQuestionToElo> teacherQuestionToElos) {
         this.teacherQuestionToElos = teacherQuestionToElos;
+    }
+
+    public List<RubricForElo> getRubricForElos() {
+        return rubricForElos;
+    }
+
+    public void setRubricForElos(List<RubricForElo> rubricForElos) {
+        this.rubricForElos = rubricForElos;
     }
 }

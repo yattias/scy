@@ -18,6 +18,7 @@ public class AssessmentSetupTransfer extends BaseXMLTransfer{
     private List reflectionQuestions = new LinkedList();
     private List reflectionTabs = new LinkedList();
     private List <TeacherQuestionToElo> teacherQuestionToElos = new LinkedList<TeacherQuestionToElo>();
+    private List rubrics = new LinkedList();
     
     private Boolean useOnlyLearningGoals = true;
     private Boolean useScorableLearningGoals = false;
@@ -152,4 +153,50 @@ public class AssessmentSetupTransfer extends BaseXMLTransfer{
         return returnList;
     }
 
+    public List getRubrics() {
+        if(rubrics == null) rubrics = new LinkedList();
+        return rubrics;
+    }
+
+    public void setRubrics(List rubrics) {
+        this.rubrics = rubrics;
+    }
+
+    public void addRubric(Rubric rubric) {
+        getRubrics().add(rubric);
+    }
+
+    public List <RubricForElo> getRubricsForElo(String uri) {
+        List returnList = new LinkedList<RubricForElo>();
+        for (int i = 0; i < getRubrics().size(); i++) {
+            Rubric rubric = (Rubric) rubrics.get(i);
+            if(rubric instanceof RubricForElo) {
+                RubricForElo rubricForElo = (RubricForElo) rubric;
+                if(rubricForElo.getAnchorElo().equals(uri)) returnList.add(rubricForElo);
+
+            }
+        }
+
+        return returnList;
+    }
+
+    public Rubric getRubric(String rubricId) {
+        for (int i = 0; i < getRubrics().size(); i++) {
+            Rubric rubric = (Rubric) getRubrics().get(i);
+            if(rubric.getId().equals(rubricId)) return rubric;
+        }
+
+        return null;
+    }
+
+    public RubricCategory getRubricCategory(String categoryId) {
+        for (int i = 0; i < getRubrics().size(); i++) {
+            Rubric rubric = (Rubric) getRubrics().get(i);
+            for (int j = 0; j < rubric.getRubricCategories().size(); j++) {
+                RubricCategory rubricCategory = rubric.getRubricCategories().get(j);
+                if(rubricCategory.getId().equals(categoryId)) return rubricCategory;
+            }
+        }
+        return null;
+    }
 }
