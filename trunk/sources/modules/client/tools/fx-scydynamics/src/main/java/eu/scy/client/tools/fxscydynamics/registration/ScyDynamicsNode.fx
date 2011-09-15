@@ -92,7 +92,7 @@ public class ScyDynamicsNode extends IScaffoldChangeListener, CustomNode, Resiza
 		actionLogger = toolBrokerAPI.getActionLogger();
 		technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
 		keywordsKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.KEYWORDS);
-		modelEditor.setActionLogger(toolBrokerAPI.getActionLogger(), toolBrokerAPI.getLoginUserName());
+		modelEditor.setActionLogger(toolBrokerAPI.getActionLogger(), toolBrokerAPI.getLoginUserName(), toolBrokerAPI.getMissionRuntimeURI().toString());
 		this.scaffoldLevelChanged(ScaffoldManager.getInstance().getScaffoldLevel());
 	}
 
