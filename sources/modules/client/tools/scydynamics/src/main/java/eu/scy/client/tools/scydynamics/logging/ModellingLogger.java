@@ -22,7 +22,7 @@ public class ModellingLogger implements IModellingLogger {
     private IAction action;
     private IActionLogger logger;
     private String username;
-    private String mission = "mission1";
+    private String missionRuntimeURI = "mission1";
     private String toolname = "scy-dynamics";
     private String session = "n/a";
     private String eloURI = "n/a";
@@ -45,9 +45,10 @@ public class ModellingLogger implements IModellingLogger {
     public static final String GRAPH_VIEWED = "graph_viewed";
     public static final String TABLE_VIEWED = "table_viewed";
 
-    public ModellingLogger(IActionLogger logger, String username) {
+    public ModellingLogger(IActionLogger logger, String username, String missionRuntimeURI) {
         this.logger = logger;
         this.username = username;
+        this.missionRuntimeURI = missionRuntimeURI;
     }
 
     public void setEloUri(String newUri) {
@@ -65,7 +66,7 @@ public class ModellingLogger implements IModellingLogger {
         newAction.setUser(username);
         newAction.addContext(ContextConstants.tool, toolname);
         newAction.addContext(ContextConstants.eloURI, eloURI);
-        newAction.addContext(ContextConstants.mission, mission);
+        newAction.addContext(ContextConstants.mission, missionRuntimeURI);
         newAction.addContext(ContextConstants.session, "n/a");
         return newAction;
     }

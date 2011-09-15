@@ -104,7 +104,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		this.properties = getDefaultProperties();
 		properties.putAll(newProps);
 		DEBUGLOGGER.info("using properties: " + properties);
-		actionLogger = new ModellingLogger(new DevNullActionLogger(), "username");
+		actionLogger = new ModellingLogger(new DevNullActionLogger(), "username", "nullmission");
 		// actionLogger = new ModellingLogger(new SystemOutActionLogger(),
 		// "username");
 		new JTools(JColab.JCOLABAPP_RESOURCES, JColab.JCOLABSYS_RESOURCES);
@@ -207,8 +207,8 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		return actionLogger;
 	}
 
-	public void setActionLogger(IActionLogger newLogger, String username) {
-		this.actionLogger = new ModellingLogger(newLogger, username);
+	public void setActionLogger(IActionLogger newLogger, String username, String missionRuntimeUri) {
+		this.actionLogger = new ModellingLogger(newLogger, username, missionRuntimeUri);
 	}
 
 	public FileToolbar getFileToolbar() {
