@@ -145,7 +145,7 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
             var c: ContactFrame = object as ContactFrame;
             logger.info("acceptDrop user: {c.contact.name}");
             scyWindow.ownershipManager.addPendingOwner(c.contact.name);
-            scyWindow.windowManager.scyDesktop.config.getToolBrokerAPI().proposeCollaborationWith("{c.contact.awarenessUser.getJid()}/Smack", scyWindow.eloUri.toString(), scyWindow.mucId);
+            scyWindow.windowManager.scyDesktop.config.getToolBrokerAPI().proposeCollaborationWith("{c.contact.awarenessUser.getJid()}", scyWindow.eloUri.toString(), scyWindow.mucId);
             return;
         }
         if(object instanceof ISynchronizable){
