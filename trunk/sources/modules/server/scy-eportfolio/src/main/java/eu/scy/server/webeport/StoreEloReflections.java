@@ -80,9 +80,13 @@ public class StoreEloReflections extends BaseController {
 
         for (int i = 0; i < reflectionParameters.size(); i++) {
             String value = request.getParameter(reflectionParameters.get(i));
-            String[] keyValue = reflectionParameters.get(i).split("-");
-            if (keyValue.length > 0) {
-                String reflectionQuestionId = keyValue[1];
+            String reflectionQuestionId = null;
+            try {
+                reflectionQuestionId = reflectionParameters.get(i).substring("reflection-".length(), value.length());
+            } catch (Exception e) {
+                logger.error(e.getMessage(), e);
+            }
+            if (reflectionQuestionId != null) {
                 String reflectionQuestionAnswer = value;
                 logger.info("******** ******** ADDING ANSWER: " + reflectionQuestionAnswer + " TO REFLECTION QUESTION: " + reflectionQuestionId);
                 EloReflectionQuestionAnswers eloReflectionQuestionAnswers = new EloReflectionQuestionAnswers();
