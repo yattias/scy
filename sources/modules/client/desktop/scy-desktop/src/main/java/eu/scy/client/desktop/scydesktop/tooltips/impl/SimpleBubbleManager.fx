@@ -7,55 +7,55 @@ package eu.scy.client.desktop.scydesktop.tooltips.impl;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleManager;
 import eu.scy.client.desktop.scydesktop.tooltips.Bubble;
 import javafx.scene.Node;
-import javafx.animation.Timeline;
-import javafx.animation.KeyFrame;
-import java.lang.System;
 import eu.scy.client.desktop.scydesktop.tooltips.impl.bubblestore.BubbleStoreImpl;
 import eu.scy.client.desktop.desktoputils.art.ScyColors;
 import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import eu.scy.actionlogging.api.ActionLoggedEventListener;
+import eu.scy.actionlogging.api.ActionLoggedEvent;
 
 /**
  * @author sikken
  */
-public class SimpleBubbleManager extends BubbleManager {
+public class SimpleBubbleManager extends BubbleManager, ActionLoggedEventListener, ShowNextBubble {
 
+   public-init var tbi: ToolBrokerAPI;
    def timeStep = 1s;
-   def bubbleDelayMillis = 10000;
    def bubbleStore = new BubbleStoreImpl();
-   var lastShownBubbleTime: Long = System.currentTimeMillis();
    var activeLayerId: Object;
    var noBubbleFoundCounter = 0;
+   def bubbleManagerTimer = new BubbleManagerTimer(this);
+   def activateBubbleManager = false;
 
    init {
    }
 
+   public override function actionLogged(actionLoggedEvent: ActionLoggedEvent): Void {
+      println("actionLogged");
+      bubbleManagerTimer.userDidSomething();
+   }
+
    public override function start(): Void {
-      def timer = Timeline {
-         repeatCount: Timeline.INDEFINITE
-         keyFrames: [
-            KeyFrame {
-               time: timeStep
-               action: bubbleStep
-            }
-         ];
+      if (activateBubbleManager) {
+         bubbleManagerTimer.start();
+         tbi.getActionLogger().addActionLoggedEventListener(this);
       }
-//      timer.play();
-      lastShownBubbleTime = System.currentTimeMillis();
+   }
+
+   override function showNextBubble(): Void {
+      FX.deferAction(bubbleStep);
    }
 
    function bubbleStep(): Void {
-      if (System.currentTimeMillis() > lastShownBubbleTime + bubbleDelayMillis) {
-         def bubbleToDisplay = bubbleStore.getNextBubble(activeLayerId) as AbstractBubble;
-         if (bubbleToDisplay != null) {
-            showBubble(bubbleToDisplay);
-            bubbleStore.removeBubbles(bubbleToDisplay.id);
-            lastShownBubbleTime = System.currentTimeMillis();
-            noBubbleFoundCounter = 0;
-         } else {
-            ++noBubbleFoundCounter;
-            if (noBubbleFoundCounter < 5) {
-               println("no bubble found to display");
-            }
+      def bubbleToDisplay = bubbleStore.getNextBubble(activeLayerId) as AbstractBubble;
+      if (bubbleToDisplay != null) {
+         showBubble(bubbleToDisplay);
+         //         bubbleStore.removeBubbles(bubbleToDisplay.id);
+         noBubbleFoundCounter = 0;
+      } else {
+         ++noBubbleFoundCounter;
+         if (noBubbleFoundCounter < 5) {
+            println("no bubble found to display");
          }
       }
    }
@@ -64,7 +64,7 @@ public class SimpleBubbleManager extends BubbleManager {
       println("display bubble: {bubble}");
       def bubbleNode = TextTooltip {
                  content: bubble.id
-                 windowColorScheme: WindowColorScheme.getWindowColorScheme(ScyColors.darkGray)
+                 windowColorScheme: bubble.windowColorScheme
               }
 
       TooltipShower {
@@ -80,7 +80,6 @@ public class SimpleBubbleManager extends BubbleManager {
    }
 
    public function bubbleRemoved(bubble: AbstractBubble): Void {
-      lastShownBubbleTime = System.currentTimeMillis();
       bubbleStore.removeBubble(bubble);
    }
 
@@ -93,12 +92,17 @@ public class SimpleBubbleManager extends BubbleManager {
    }
 
    public override function createBubble(targetNode: Node, priority: Integer, id: String, layerId: Object, displayKey: String): Bubble {
+      createBubble(targetNode, priority, id, layerId, displayKey, WindowColorScheme.getWindowColorScheme(ScyColors.darkGray));
+   }
+
+   public override function createBubble(targetNode: Node, priority: Integer, id: String, layerId: Object, displayKey: String, windowColorScheme: WindowColorScheme): Bubble {
       def bubble = TextBubble {
                  priority: priority
                  id: id
                  layerId: layerId
                  targetNode: targetNode
                  bubbleText: displayKey
+                 windowColorScheme: windowColorScheme
               }
       bubbleStore.addBubble(bubble);
       return bubble;

@@ -5,6 +5,7 @@
 package eu.scy.client.desktop.scydesktop.tooltips;
 
 import javafx.scene.Node;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 
 /**
  * @author SikkenJ
@@ -20,5 +21,7 @@ public mixin class BubbleManager {
    public abstract function hidingLayer(layerId: Object): Void;
 
    public abstract function createBubble(targetNode: Node, priority: Integer, id: String, layerId: Object, displayKey: String): Bubble;
+   
+   public abstract function createBubble(targetNode: Node, priority: Integer, id: String, layerId: Object, displayKey: String, windowColorScheme: WindowColorScheme): Bubble;
 
 }

@@ -158,9 +158,9 @@ public class EloManagement extends CustomNode {
    }
 
    function createBubbles() {
-      scyDesktop.bubbleManager.createBubble(archiver, 6, "archiver", "desktop", "archiver");
-      scyDesktop.bubbleManager.createBubble(newFromEloTemplateButton, 4, "newFromEloTemplateButton", "desktop", "newFromEloTemplateButton");
-      scyDesktop.bubbleManager.createBubble(searcher, 5, "search", "desktop", "search");
+      scyDesktop.bubbleManager.createBubble(archiver, 6, "archiver", "desktop", "archiver", archiver.eloIcon.windowColorScheme);
+      scyDesktop.bubbleManager.createBubble(newFromEloTemplateButton, 4, "newFromEloTemplateButton", "desktop", "newFromEloTemplateButton", newFromEloTemplateButton.eloIcon.windowColorScheme);
+      scyDesktop.bubbleManager.createBubble(searcher, 5, "search", "desktop", "search", searcher.eloIcon.windowColorScheme);
       scyDesktop.bubbleManager.showingLayer("desktop");
    }
 

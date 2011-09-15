@@ -214,7 +214,9 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
    public def dragAndDropManager: DragAndDropManager = SimpleDragAndDropManager {
               windowManager: windows;
            };
-   public def bubbleManager: BubbleManager = SimpleBubbleManager {};
+   public def bubbleManager: BubbleManager = SimpleBubbleManager {
+         tbi: missionRunConfigs.tbi
+      };
    public var scyToolFactory: ScyToolFactory;
    var windowPositioner: WindowPositioner;
    public-read var scyWindowControl: ScyWindowControl;
