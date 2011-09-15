@@ -32,6 +32,7 @@ public class Portfolio extends BaseXMLTransfer {
     private List <SelectedLearningGoalWithScore> selectedGeneralLearningGoalWithScores = new LinkedList<SelectedLearningGoalWithScore>();
     private List <SelectedLearningGoalWithScore> selectedSpecificLearningGoalWithScores = new LinkedList<SelectedLearningGoalWithScore>();
     private List <EloAssessment> eloAssessments = new LinkedList<EloAssessment>();
+    private List <EloReflectionQuestionAnswers> eloReflectionQuestionAnswers = new LinkedList<EloReflectionQuestionAnswers>();
 
     public final static String PORTFOLIO_STATUS_NOT_SUBMITTED = "PORTFOLIO_STATUS_NOT_SUBMITTED";
     public final static String PORTFOLIO_STATUS_SUBMITTED_WAITING_FOR_ASSESSMENT = "PORTFOLIO_STATUS_SUBMITTED_WAITING_FOR_ASSESSMENT";
@@ -343,5 +344,16 @@ public class Portfolio extends BaseXMLTransfer {
         return null;
     }
 
+    public List<EloReflectionQuestionAnswers> getEloReflectionQuestionAnswers() {
+        return eloReflectionQuestionAnswers;
+    }
 
+    public void setEloReflectionQuestionAnswers(List<EloReflectionQuestionAnswers> eloReflectionQuestionAnswers) {
+        this.eloReflectionQuestionAnswers = eloReflectionQuestionAnswers;
+    }
+
+    public void addEloReflectionQuestion(EloReflectionQuestionAnswers eloReflectionQuestionAnswer) {
+        if(getEloReflectionQuestionAnswers() == null) this.eloReflectionQuestionAnswers = new LinkedList<EloReflectionQuestionAnswers>();
+        getEloReflectionQuestionAnswers().add(eloReflectionQuestionAnswer);
+    }
 }
