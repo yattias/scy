@@ -134,8 +134,21 @@
                                                 </c:when>
                                             </c:choose>
                                         </div>
-                                        <div dojoType="dijit.layout.ContentPane" title="This too">
-                                            Hi how are you? .....Great, thx
+                                        <div dojoType="dijit.layout.ContentPane" title="<spring:message code="REFLECTION_QUESTIONS"/> ">
+                                            <c:choose>
+                                                <c:when test="${fn:length(eloReflectionQuestions) > 0}">
+                                                    <table>
+                                                        <c:forEach var="reflectionQuestion" items="${eloReflectionQuestions}">
+                                                            <tr>
+                                                                <td>
+                                                                    ${reflectionQuestion.questionAnswer}                                                                    
+                                                                </td>
+                                                            </tr>
+                                                        </c:forEach>
+                                                    </table>
+                                                </c:when>
+                                            </c:choose>
+
                                         </div>
                                     </div>
                                 </div>

@@ -1,5 +1,6 @@
 package eu.scy.core.model.transfer;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -355,5 +356,19 @@ public class Portfolio extends BaseXMLTransfer {
     public void addEloReflectionQuestion(EloReflectionQuestionAnswers eloReflectionQuestionAnswer) {
         if(getEloReflectionQuestionAnswers() == null) this.eloReflectionQuestionAnswers = new LinkedList<EloReflectionQuestionAnswers>();
         getEloReflectionQuestionAnswers().add(eloReflectionQuestionAnswer);
+    }
+
+    public List<EloReflectionQuestionAnswers> getEloReflectionsForElo(String uri) {
+        if(getEloReflectionQuestionAnswers() != null) {
+            List<EloReflectionQuestionAnswers> returnList = new LinkedList<EloReflectionQuestionAnswers>();
+            for (int i = 0; i < getEloReflectionQuestionAnswers().size(); i++) {
+                EloReflectionQuestionAnswers reflectionQuestionAnswers = getEloReflectionQuestionAnswers().get(i);
+                if(reflectionQuestionAnswers.getEloURI().equals(uri)) returnList.add(reflectionQuestionAnswers);
+            }
+            return returnList;
+        } else {
+            return Collections.EMPTY_LIST;
+        }
+
     }
 }

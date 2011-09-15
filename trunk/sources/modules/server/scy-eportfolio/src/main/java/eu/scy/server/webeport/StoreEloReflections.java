@@ -82,7 +82,7 @@ public class StoreEloReflections extends BaseController {
             String value = request.getParameter(reflectionParameters.get(i));
             String reflectionQuestionId = null;
             try {
-                reflectionQuestionId = reflectionParameters.get(i).substring("reflection-".length(), value.length());
+                reflectionQuestionId = reflectionParameters.get(i).substring("reflection-".length(), reflectionParameters.get(i).length());
             } catch (Exception e) {
                 logger.error(e.getMessage(), e);
             }

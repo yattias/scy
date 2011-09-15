@@ -68,7 +68,7 @@ public class AddFeedbackController extends BaseController {
             host = "scy.collide.info";
         }
 
-        String username = feedbackEloTransfer.getCreatedBy() + "@" + host + "/Smack";
+        String username = feedbackEloTransfer.getCreatedBy() + "@" + host;
         logger.info("USERNAME: " + username);
 
         getActionLoggerService().logAction("feedback_given", username, "feedback", parentEloURI.toString());
