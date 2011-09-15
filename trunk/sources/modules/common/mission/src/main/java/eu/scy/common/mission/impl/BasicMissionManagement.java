@@ -28,6 +28,7 @@ import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.mission.MissionSpecificationEloContent;
 import eu.scy.common.mission.RuntimeSettingsElo;
 import eu.scy.common.mission.TemplateElosElo;
+import eu.scy.common.mission.utils.ActivityTimer;
 import eu.scy.common.scyelo.QueryFactory;
 import eu.scy.common.scyelo.RooloServices;
 import eu.scy.common.scyelo.ScyElo;
@@ -44,6 +45,7 @@ public class BasicMissionManagement implements MissionManagement
    private final RooloServices rooloServices;
    private final IMetadataKey titleKey;
    private final IMetadataKey missionRuntimeKey;
+   private ActivityTimer createMissionRuntimeModelElosTimer;
 
    public BasicMissionManagement(MissionSpecificationElo missionSpecificationElo,
       RooloServices rooloServices)
@@ -91,9 +93,12 @@ public class BasicMissionManagement implements MissionManagement
    private MissionRuntimeModel createMissionRuntimeModelElos(String userName,
       boolean runSpecificationElos)
    {
+      createMissionRuntimeModelElosTimer = new ActivityTimer("BasicMissionManagement.createMissionRuntimeModelElos");
+      createMissionRuntimeModelElosTimer.startActivity("getMissionRuntimeModel");
       MissionRuntimeModel missionRuntimeModel = getMissionRuntimeModel(userName);
       if (missionRuntimeModel == null)
       {
+         createMissionRuntimeModelElosTimer.startActivity("creating new missionRuntimeElo");
          // it does not exists, so create it
          final MissionSpecificationEloContent missionSpecification = missionSpecificationElo.getTypedContent();
          MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.createElo(rooloServices);
@@ -115,6 +120,7 @@ public class BasicMissionManagement implements MissionManagement
             missionRuntimeElo.saveAsNewElo();
          }
          // create the elo tool configs
+         createMissionRuntimeModelElosTimer.startActivity("creating EloToolConfigsElo");
          EloToolConfigsElo eloToolConfigsElo = EloToolConfigsElo.loadElo(
             missionSpecification.getEloToolConfigsEloUri(), rooloServices);
          eloToolConfigsElo.setAuthor(userName);
@@ -124,6 +130,7 @@ public class BasicMissionManagement implements MissionManagement
             eloToolConfigsElo.saveAsForkedElo();
          }
          // create the personal mission map model
+         createMissionRuntimeModelElosTimer.startActivity("creating MissionModelElo");
          MissionModelElo personalMissionMapModelElo;
          if (!runSpecificationElos)
          {
@@ -138,6 +145,7 @@ public class BasicMissionManagement implements MissionManagement
                missionSpecification.getMissionMapModelEloUri(), rooloServices);
          }
          // create the template elos elo
+         createMissionRuntimeModelElosTimer.startActivity("creating TemplateElosElo");
          TemplateElosElo templateElosElo = TemplateElosElo.loadElo(
             missionSpecification.getTemplateElosEloUri(), rooloServices);
          templateElosElo.setAuthor(userName);
@@ -147,6 +155,7 @@ public class BasicMissionManagement implements MissionManagement
             templateElosElo.saveAsForkedElo();
          }
          // create an empty runtime settings elo
+         createMissionRuntimeModelElosTimer.startActivity("creating RuntimeSettingsElo");
          RuntimeSettingsElo runtimeSettingsElo = RuntimeSettingsElo.loadElo(
             missionSpecification.getRuntimeSettingsEloUri(), rooloServices);
          if (runtimeSettingsElo != null)
@@ -165,11 +174,12 @@ public class BasicMissionManagement implements MissionManagement
             runtimeSettingsElo.setMissionId(missionSpecification.getMissionId());
             if (!runSpecificationElos)
             {
-              runtimeSettingsElo.setMissionId(missionSpecification.getMissionId());
-              runtimeSettingsElo.saveAsNewElo();
+               runtimeSettingsElo.setMissionId(missionSpecification.getMissionId());
+               runtimeSettingsElo.saveAsNewElo();
             }
          }
          runtimeSettingsElo.setAuthor(userName);
+         createMissionRuntimeModelElosTimer.startActivity("creating ColorSchemesElo");
          ColorSchemesElo colorSchemesElo = null;
          if (missionSpecification.getColorSchemesEloUri() != null)
          {
@@ -200,6 +210,7 @@ public class BasicMissionManagement implements MissionManagement
          }
          if (!runSpecificationElos)
          {
+            createMissionRuntimeModelElosTimer.startActivity("creating ePortfolioElo");
             ScyElo ePortfolioElo = ScyElo.createElo(MissionEloType.EPORTFOLIO.getType(),
                rooloServices);
             ePortfolioElo.getElo().getMetadata().getMetadataValueContainer(titleKey).setValuesI18n(missionTitleMetadata);
@@ -211,6 +222,7 @@ public class BasicMissionManagement implements MissionManagement
          }
          if (!runSpecificationElos)
          {
+            createMissionRuntimeModelElosTimer.startActivity("creating pedagogicalPlanSettings elo");
             ScyElo pedagogicalPlanSettings = ScyElo.createElo(
                MissionEloType.PADAGOGICAL_PLAN_SETTINGS.getType(), rooloServices);
             pedagogicalPlanSettings.getElo().getMetadata().getMetadataValueContainer(titleKey).setValuesI18n(missionTitleMetadata);
@@ -225,10 +237,12 @@ public class BasicMissionManagement implements MissionManagement
          {
             missionRuntimeElo.updateElo();
          }
+         createMissionRuntimeModelElosTimer.startActivity("creating BasicMissionRuntimeModel");
          missionRuntimeModel = new BasicMissionRuntimeModel(missionRuntimeElo,
             missionSpecificationElo, rooloServices, personalMissionMapModelElo,
             eloToolConfigsElo, templateElosElo, runtimeSettingsElo, colorSchemesElo);
       }
+      createMissionRuntimeModelElosTimer.endActivity();
       return missionRuntimeModel;
    }
 
@@ -236,13 +250,18 @@ public class BasicMissionManagement implements MissionManagement
       URI missionRuntimeEloUri, URI missionSpecificationEloUri,
       EloToolConfigsElo eloToolConfigsElo)
    {
+      createMissionRuntimeModelElosTimer.startActivity("MissionModelElo.loadElo");
       final MissionSpecificationEloContent missionSpecification = missionSpecificationElo.getTypedContent();
       MissionModelElo missionModelElo = MissionModelElo.loadElo(
          missionSpecification.getMissionMapModelEloUri(), rooloServices);
+      createMissionRuntimeModelElosTimer.startActivity("missionModelElo.getMissionModel");
       final MissionModel missionModel = missionModelElo.getMissionModel();
+      createMissionRuntimeModelElosTimer.startActivity("missionModel.loadMetadata");
       missionModel.loadMetadata(rooloServices);
+      createMissionRuntimeModelElosTimer.startActivity("makePersonalMissionModel");
       makePersonalMissionModel(missionModel, userName, missionRuntimeEloUri,
          missionSpecificationEloUri, eloToolConfigsElo.getTypedContent());
+      createMissionRuntimeModelElosTimer.startActivity("saving missionModelElo");
       missionModelElo.setMissionId(missionSpecification.getMissionId());
       missionModelElo.setAuthor(userName);
       missionModelElo.saveAsForkedElo();
@@ -253,33 +272,46 @@ public class BasicMissionManagement implements MissionManagement
       URI missionRuntimeEloUri, URI missionSpecificationEloUri,
       EloToolConfigsEloContent eloToolConfigs)
    {
+      long usedNanos = 0;
+      int nrOfAnchorsCreated = 0;
       for (Las las : missionModel.getLasses())
       {
          if (las.getMissionAnchor().isExisting())
          {
             String lasTitle = getLasTitle(las);
-            if (lasTitle!=null){
+            if (lasTitle != null)
+            {
                las.setTitle(lasTitle);
             }
          }
+         long startNanos = System.nanoTime();
          makePersonalMissionAnchor(las.getMissionAnchor(), userName, missionRuntimeEloUri,
             missionSpecificationEloUri, eloToolConfigs);
+         ++nrOfAnchorsCreated;
          for (MissionAnchor anchor : las.getIntermediateAnchors())
          {
             makePersonalMissionAnchor(anchor, userName, missionRuntimeEloUri,
                missionSpecificationEloUri, eloToolConfigs);
+            ++nrOfAnchorsCreated;
          }
+         usedNanos += System.nanoTime() - startNanos;
       }
+      double averageMillis = (usedNanos / 1e6) / nrOfAnchorsCreated;
+      logger.info("Created " + nrOfAnchorsCreated + " in " + (usedNanos / 1e6) + ", average: " + averageMillis);
    }
 
-   private String getLasTitle(Las las){
+   private String getLasTitle(Las las)
+   {
       if (las.getMissionAnchor().isExisting())
       {
          List<Locale> languages = missionSpecificationElo.getElo().getLanguages();
-         if (languages!=null && languages.size()>0){
-            for (Locale language : languages){
+         if (languages != null && languages.size() > 0)
+         {
+            for (Locale language : languages)
+            {
                String title = las.getMissionAnchor().getScyElo().getTitle(language);
-               if (title!=null){
+               if (title != null)
+               {
                   return title;
                }
             }
@@ -300,26 +332,36 @@ public class BasicMissionManagement implements MissionManagement
    {
       if (missionAnchor.isExisting())
       {
+         ActivityTimer timer = new ActivityTimer("makePersonalMissionAnchor");
+         long startNanos = System.nanoTime();
+         long saveNanos = 0;
+         timer.startActivity("getEloToolConfig");
          EloToolConfig eloConfig = eloToolConfigs.getEloToolConfig(missionAnchor.getScyElo().getTechnicalFormat());
          if (!eloConfig.isContentStatic())
          {
+            timer.startActivity("L");
             missionAnchor.getScyElo().setLasId(missionAnchor.getLas().getId());
+            timer.startActivity("setIconType");
             if (!isEmpty(missionAnchor.getIconType()))
             {
                missionAnchor.getScyElo().setIconType(missionAnchor.getIconType());
             }
+            timer.startActivity("setColorSchemeId");
             if (missionAnchor.getColorSchemeId() != null)
             {
                missionAnchor.getScyElo().setColorSchemeId(missionAnchor.getColorSchemeId());
             }
+            timer.startActivity("setAssignmentUri");
             if (missionAnchor.getAssignmentUri() != null)
             {
                missionAnchor.getScyElo().setAssignmentUri(missionAnchor.getAssignmentUri());
             }
+            timer.startActivity("setResourcesUri");
             if (missionAnchor.getResourcesUri() != null)
             {
                missionAnchor.getScyElo().setResourcesUri(missionAnchor.getResourcesUri());
             }
+            timer.startActivity("set properties");
             missionAnchor.getScyElo().setAuthor(userName);
             missionAnchor.getScyElo().setMissionRuntimeEloUri(missionRuntimeEloUri);
             missionAnchor.getScyElo().setMissionSpecificationEloUri(missionSpecificationEloUri);
@@ -327,14 +369,21 @@ public class BasicMissionManagement implements MissionManagement
             missionAnchor.getScyElo().setCreator(userName);
             missionAnchor.getScyElo().setTemplate(true);
             missionAnchor.getScyElo().setMissionId(missionSpecificationElo.getTypedContent().getMissionId());
+            timer.startActivity("getLanguages");
             List<Locale> missionLanguages = missionSpecificationElo.getElo().getLanguages();
-            if (missionLanguages==null){
+            if (missionLanguages == null)
+            {
                missionLanguages = new ArrayList<Locale>();
             }
             missionAnchor.getScyElo().getContent().setLanguages(missionLanguages);
+            long startSaveNanos = System.nanoTime();
+            timer.startActivity("saveAsForkedElo");
             missionAnchor.getScyElo().saveAsForkedElo();
+            saveNanos = System.nanoTime() - startSaveNanos;
             missionAnchor.setEloUri(missionAnchor.getScyElo().getUri());
          }
+         timer.endActivity();
+//         logger.info("missionAnchor.getScyElo().saveAsForkedElo() took: " + (saveNanos/1e6) + " with overhead " + (System.nanoTime()-startNanos-saveNanos)/1e6 + " millis");
       }
       else
       {
