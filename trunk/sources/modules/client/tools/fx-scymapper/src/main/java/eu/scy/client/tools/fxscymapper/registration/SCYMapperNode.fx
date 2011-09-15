@@ -142,7 +142,7 @@ public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX
         var c: ContactFrame = object as ContactFrame;
         logger.debug("acceptDrop user: {c.contact.name}");
         scyWindow.ownershipManager.addPendingOwner(c.contact.name);
-        scyWindow.windowManager.scyDesktop.config.getToolBrokerAPI().proposeCollaborationWith("{c.contact.awarenessUser.getJid()}/Smack", scyWindow.eloUri.toString(), scyWindow.mucId);
+        scyWindow.windowManager.scyDesktop.config.getToolBrokerAPI().proposeCollaborationWith("{c.contact.awarenessUser.getJid()}", scyWindow.eloUri.toString(), scyWindow.mucId);
         logger.debug("scyDesktop: {scyWindow.windowManager.scyDesktop}");
     }
 
