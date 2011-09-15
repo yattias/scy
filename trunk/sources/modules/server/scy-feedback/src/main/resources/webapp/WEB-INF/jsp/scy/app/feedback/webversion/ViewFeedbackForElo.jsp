@@ -22,6 +22,10 @@
 
                 dialog.show();
             }
+
+            function showBlockLevelElement(elementId){
+                document.getElementById(elementId).style.display = 'block';
+            }
         </script>
         <style type="text/css">
 
@@ -189,11 +193,12 @@
                                         </c:when>
                                     </c:choose>
                                     <div id="feedback_on_feedback_${feedbackItem.id}" ></div>
-                                    <form action="/webapp/app/feedback/webversion/AddReplyToFeedback.html" method="POST" accept-charset="UTF-8" onsubmit="postFeedback(this, document.getElementById('feedback_on_feedback_${feedbackItem.id}'), true, 'after');document.getElementById('feedbackItem${feedbackItem.id}').value='';return false;">
+                                <a href="javascript:showBlockLevelElement('feedbackOnFeedbackForm${feedbackItem.id}');">Give feedback</a>
+                                    <form action="/webapp/app/feedback/webversion/AddReplyToFeedback.html" style="display:none;" id="feedbackOnFeedbackForm${feedbackItem.id}" method="POST" accept-charset="UTF-8" onsubmit="postFeedback(this, document.getElementById('feedback_on_feedback_${feedbackItem.id}'), true, 'after');document.getElementById('feedbackItem${feedbackItem.id}').value='';return false;">
 
                                         <input type="hidden" name="feedbackId" value="${feedbackItem.id}"/>
                                         <input type="hidden" name="feedbackEloURI" value="${feedbackElo.uri}"/>
-                                        <input type="textarea" name="reply" id="feedbackItem${feedbackItem.id}" style="width:100%;height:50px;"/>
+                                        <input type="textarea" name="reply" id="feedbackItem${feedbackItem.id}" style="width:100%;height:50px;border:2px solid #03a5be;"/>
                                         <input type="submit">
                                     </form>
 
