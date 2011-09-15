@@ -126,8 +126,9 @@ public class FeedbackAgent extends AbstractThreadedAgent {
     private void handleFeedbackGiven(IAction action) {
         try {
             String user = action.getUser();
-            String mission = getSession().getMissionRuntimeURI(user);
-            this.getCommandSpace().write(createNotification(user, mission, action, FEEDBACK_GIVEN));
+            String missionRT = getSession().getMissionRuntimeURI(user);
+            String missionSpec = getSession().getMissionSpecification(missionRT);
+            this.getCommandSpace().write(createNotification(user, missionSpec, action, FEEDBACK_GIVEN));
         } catch ( TupleSpaceException e ) {
             LOGGER.warn("could not write elo added to portfolio tuple");
             e.printStackTrace();
