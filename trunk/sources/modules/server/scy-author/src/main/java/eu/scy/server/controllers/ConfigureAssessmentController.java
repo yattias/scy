@@ -55,12 +55,16 @@ public class ConfigureAssessmentController extends BaseController {
                 } else if(action.equals("removeReflectionQuestion")) {
                     String reflectionQuestionId = request.getParameter("reflectionQuestionId");
                     removeReflectionQuestion(missionSpecificationElo, pedagogicalPlanTransfer, reflectionQuestionId);
+                } else if(action.equals("addTeachersQuestionToElo")) {
+                    addteachersQuestionToElo(missionSpecificationElo, pedagogicalPlanTransfer, anchorEloURI, request);
                 }
 
             }
 
             List <TransferElo> anchorElos = getMissionELOService().getObligatoryAnchorELOs(missionSpecificationElo, pedagogicalPlanTransfer);
             List <AnchorEloReflectionQuestionTransporter> anchorEloReflectionQuestionTransporters = new LinkedList<AnchorEloReflectionQuestionTransporter>();
+            List <AnchorEloReflectionQuestionFOrTeacherTransporter> anchorEloReflectionQuestionFOrTeacherTransporters = new LinkedList<AnchorEloReflectionQuestionFOrTeacherTransporter>();
+
             for (int i = 0; i < anchorElos.size(); i++) {
                 TransferElo transferElo = anchorElos.get(i);
                 List <ReflectionQuestion> reflectionQuestions = pedagogicalPlanTransfer.getAssessmentSetup().getReflectionQuestionsForAnchorElo(transferElo.getUri());
@@ -68,19 +72,37 @@ public class ConfigureAssessmentController extends BaseController {
                 anchorEloReflectionQuestionTransporter.setAnchorElo(transferElo);
                 anchorEloReflectionQuestionTransporter.setReflectionQuestions(reflectionQuestions);
                 anchorEloReflectionQuestionTransporters.add(anchorEloReflectionQuestionTransporter);
+
+                List <TeacherQuestionToElo> teacherQuestionToElos = pedagogicalPlanTransfer.getAssessmentSetup().getTeacherQuestionToElo(transferElo.getUri());
+                AnchorEloReflectionQuestionFOrTeacherTransporter anchorEloReflectionQuestionFOrTeacherTransporter = new AnchorEloReflectionQuestionFOrTeacherTransporter();
+                anchorEloReflectionQuestionFOrTeacherTransporter.setAnchorElo(transferElo);
+                anchorEloReflectionQuestionFOrTeacherTransporter.setTeacherQuestionToElos(teacherQuestionToElos);
+                anchorEloReflectionQuestionFOrTeacherTransporters.add(anchorEloReflectionQuestionFOrTeacherTransporter);
             }
-
-
-            logger.info("Ich habe die parameteren gesatt: " + uriParam);
 
             modelAndView.addObject("pedagogicalPlan", pedagogicalPlanTransfer);
             modelAndView.addObject("transferObjectServiceCollection", getTransferObjectServiceCollection());
             modelAndView.addObject("missionSpecificationEloURI", URLEncoder.encode(uriParam, "UTF-8"));
             modelAndView.addObject("anchorElos", anchorEloReflectionQuestionTransporters);
+            modelAndView.addObject("anchorEloReflectionQuestionForTeacherTransporters", anchorEloReflectionQuestionFOrTeacherTransporters);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+    }
+
+    private void addteachersQuestionToElo(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer, String anchorEloURI, HttpServletRequest request) {
+        ScyElo anchorElo = ScyElo.loadLastVersionElo(getURI(anchorEloURI), getMissionELOService());
+        TransferElo anchorEloTransfer = new TransferElo(anchorElo);
+        logger.info("*** **** **** **** Adding teacher question to anchor elo: " + anchorEloTransfer.getMyname());
+        TeacherQuestionToElo teacherQuestionToElo = new TeacherQuestionToElo();
+        teacherQuestionToElo.setEloURI(anchorEloTransfer.getUri());
+        teacherQuestionToElo.setQuestionType("text");
+        pedagogicalPlanTransfer.getAssessmentSetup().addTeacherQuestionToElo(teacherQuestionToElo);
+        ScyElo pedagogicalPlanElo = getPedagogicalPlanEloForMission(missionSpecificationElo);
+        pedagogicalPlanElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(pedagogicalPlanTransfer));
+        pedagogicalPlanElo.updateElo();
 
     }
 

@@ -34,6 +34,7 @@ public class Portfolio extends BaseXMLTransfer {
     private List <SelectedLearningGoalWithScore> selectedSpecificLearningGoalWithScores = new LinkedList<SelectedLearningGoalWithScore>();
     private List <EloAssessment> eloAssessments = new LinkedList<EloAssessment>();
     private List <EloReflectionQuestionAnswers> eloReflectionQuestionAnswers = new LinkedList<EloReflectionQuestionAnswers>();
+    
 
     public final static String PORTFOLIO_STATUS_NOT_SUBMITTED = "PORTFOLIO_STATUS_NOT_SUBMITTED";
     public final static String PORTFOLIO_STATUS_SUBMITTED_WAITING_FOR_ASSESSMENT = "PORTFOLIO_STATUS_SUBMITTED_WAITING_FOR_ASSESSMENT";
@@ -371,4 +372,5 @@ public class Portfolio extends BaseXMLTransfer {
         }
 
     }
+
 }

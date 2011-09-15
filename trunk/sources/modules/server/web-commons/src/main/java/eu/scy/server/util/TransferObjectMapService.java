@@ -130,6 +130,17 @@ public class TransferObjectMapService {
             Tab tab = (Tab) assessmentSetupTransfer.getReflectionTabs().get(i);
             registerReflectionTab(tab, map);
         }
+
+        for (int i = 0; i < assessmentSetupTransfer.getTeacherQuestionToElos().size(); i++) {
+            TeacherQuestionToElo teacherQuestionToElo = assessmentSetupTransfer.getTeacherQuestionToElos().get(i);
+            registerTeacherQuestion(map, teacherQuestionToElo);
+        }
+
+    }
+
+    private void registerTeacherQuestion(Map map, TeacherQuestionToElo teacherQuestionToElo) {
+        map.put(teacherQuestionToElo.getId(), teacherQuestionToElo);
+
     }
 
     private void registerReflectionTab(Tab tab, Map map) {
