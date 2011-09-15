@@ -51,9 +51,10 @@ public class ConceptMapActionLogger extends DiagramElementAdapter {
     public static final String NODE_REMOVED = "node_removed";
     public static final String LINK_FLIPPED = "link_flipped";
 
-    public ConceptMapActionLogger(IActionLogger actionLogger, IDiagramModel diagram, String username) {
+    public ConceptMapActionLogger(IActionLogger actionLogger, IDiagramModel diagram, String username, String mission) {
         this.logger = actionLogger;
         this.username = username;
+        this.mission = mission;
         this.setDiagram(diagram);
     }
 

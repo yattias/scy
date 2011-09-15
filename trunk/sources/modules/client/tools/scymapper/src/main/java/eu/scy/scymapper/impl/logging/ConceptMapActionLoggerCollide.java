@@ -30,8 +30,8 @@ public class ConceptMapActionLoggerCollide extends ConceptMapActionLogger {
 
     private SCYMapperPanelCollide panel;
 
-    public ConceptMapActionLoggerCollide(IActionLogger actionLogger, IDiagramModel diagram, String username, IConceptMap conceptMap, SCYMapperPanelCollide panel) {
-        super(actionLogger, diagram, username);
+    public ConceptMapActionLoggerCollide(IActionLogger actionLogger, IDiagramModel diagram, String username, String missionRuntimeURI, IConceptMap conceptMap, SCYMapperPanelCollide panel) {
+        super(actionLogger, diagram, username, missionRuntimeURI);
         this.conceptMap = conceptMap;
         this.panel = panel;
     }
