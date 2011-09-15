@@ -1,5 +1,6 @@
 package eu.scy.actionlogging;
 
+import eu.scy.actionlogging.api.ActionLoggedEventListener;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
@@ -51,5 +52,17 @@ public class CompletingActionLogger implements IActionLogger {
     public IActionLogger getInternalLogger() {
         return internalLogger;
     }
+
+   @Override
+   public void addActionLoggedEventListener(ActionLoggedEventListener actionLoggedEventListener)
+   {
+      internalLogger.addActionLoggedEventListener(actionLoggedEventListener);
+   }
+
+   @Override
+   public void removeActionLoggedEventListener(ActionLoggedEventListener actionLoggedEventListener)
+   {
+      internalLogger.removeActionLoggedEventListener(actionLoggedEventListener);
+   }
     
 }

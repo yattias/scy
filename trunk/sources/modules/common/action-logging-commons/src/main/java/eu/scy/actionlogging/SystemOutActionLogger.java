@@ -1,5 +1,7 @@
 package eu.scy.actionlogging;
 
+import eu.scy.actionlogging.api.ActionLoggedEvent;
+import eu.scy.actionlogging.api.ActionLoggedEventListener;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
@@ -8,6 +10,8 @@ import org.dom4j.io.XMLWriter;
 
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * This IActionLogger logs to the console (useful for testing and debugging.
@@ -20,6 +24,7 @@ public class SystemOutActionLogger implements IActionLogger {
 
     private OutputFormat format;
     private XMLWriter writer;
+    private List<ActionLoggedEventListener> actionLoggedEventListeners = new CopyOnWriteArrayList<ActionLoggedEventListener>();
 
     public SystemOutActionLogger() {
         this.format = OutputFormat.createPrettyPrint();
@@ -38,6 +43,7 @@ public class SystemOutActionLogger implements IActionLogger {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        sendActionLoggedEvent(action);
     }
 
     @Override
@@ -45,5 +51,28 @@ public class SystemOutActionLogger implements IActionLogger {
     public void log(String username, String source, IAction action) {
         log(action);
     }
+
+    @Override
+   public void addActionLoggedEventListener(ActionLoggedEventListener actionLoggedEventListener)
+   {
+      if (!actionLoggedEventListeners.contains(actionLoggedEventListener)){
+         actionLoggedEventListeners.add(actionLoggedEventListener);
+      }
+   }
+
+   @Override
+   public void removeActionLoggedEventListener(ActionLoggedEventListener actionLoggedEventListener)
+   {
+      actionLoggedEventListeners.remove(actionLoggedEventListener);
+   }
+
+   private void sendActionLoggedEvent(IAction action){
+      if (!actionLoggedEventListeners.isEmpty()){
+         ActionLoggedEvent actionLoggedEvent = new ActionLoggedEvent(action);
+         for (ActionLoggedEventListener actionLoggedEventListener: actionLoggedEventListeners){
+            actionLoggedEventListener.actionLogged(actionLoggedEvent);
+         }
+      }
+   }
 
 }

@@ -1,24 +1,28 @@
 package eu.scy.actionlogging.logger;
 
+import eu.scy.actionlogging.api.ActionLoggedEventListener;
 import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Logger;
 import org.jivesoftware.smack.Connection;
-import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.packet.Message;
 
 import eu.scy.actionlogging.ActionPacketTransformer;
+import eu.scy.actionlogging.api.ActionLoggedEvent;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.common.configuration.Configuration;
 import eu.scy.common.smack.SmacketExtension;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import org.jivesoftware.smack.util.StringUtils;
 
 public class ActionLogger implements IActionLogger {
 
     private Connection connection;
     private static Logger debugLogger = Logger.getLogger(ActionLogger.class.getName());
+    private List<ActionLoggedEventListener> actionLoggedEventListeners = new CopyOnWriteArrayList<ActionLoggedEventListener>();
     /**
      * simple constructor for an actionlogger
      */
@@ -63,6 +67,7 @@ public class ActionLogger implements IActionLogger {
         } else {
             r.run();
         }
+        sendActionLoggedEvent(action);
     }
 
     public void init(Connection connection) {
@@ -80,4 +85,26 @@ public class ActionLogger implements IActionLogger {
         return "eu.scy.actionlogging.logger.ActionLogger connected via XMPP to " + connection.getHost() + ":" + connection.getPort();
     }
 
+   @Override
+   public void addActionLoggedEventListener(ActionLoggedEventListener actionLoggedEventListener)
+   {
+      if (!actionLoggedEventListeners.contains(actionLoggedEventListener)){
+         actionLoggedEventListeners.add(actionLoggedEventListener);
+      }
+   }
+
+   @Override
+   public void removeActionLoggedEventListener(ActionLoggedEventListener actionLoggedEventListener)
+   {
+      actionLoggedEventListeners.remove(actionLoggedEventListener);
+   }
+
+   private void sendActionLoggedEvent(IAction action){
+      if (!actionLoggedEventListeners.isEmpty()){
+         ActionLoggedEvent actionLoggedEvent = new ActionLoggedEvent(action);
+         for (ActionLoggedEventListener actionLoggedEventListener: actionLoggedEventListeners){
+            actionLoggedEventListener.actionLogged(actionLoggedEvent);
+         }
+      }
+   }
 }

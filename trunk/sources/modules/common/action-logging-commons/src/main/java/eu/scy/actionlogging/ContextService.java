@@ -1,5 +1,7 @@
 package eu.scy.actionlogging;
 
+import eu.scy.actionlogging.api.ActionLoggedEvent;
+import eu.scy.actionlogging.api.ActionLoggedEventListener;
 import java.rmi.dgc.VMID;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,6 +12,8 @@ import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.actionlogging.api.IContextService;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ContextService implements IActionLogger, IContextService {
 
@@ -22,6 +26,8 @@ public class ContextService implements IActionLogger, IContextService {
     private String session;
 
     private Map<String, Set<String>> currentlyOpenedELOs;
+
+    private List<ActionLoggedEventListener> actionLoggedEventListeners = new CopyOnWriteArrayList<ActionLoggedEventListener>();
 
     public ContextService() {
         this.session = new VMID().toString();
@@ -74,6 +80,7 @@ public class ContextService implements IActionLogger, IContextService {
         } else if (action.getType().equals("tool_closed")) {
             currentlyOpenedELOs.get(currentLAS).remove(action.getContext(ContextConstants.eloURI));
         }
+        sendActionLoggedEvent(action);
     }
 
     @Override
@@ -81,4 +88,27 @@ public class ContextService implements IActionLogger, IContextService {
     public void log(String username, String source, IAction action) {
         log(action);
     }
+
+   @Override
+   public void addActionLoggedEventListener(ActionLoggedEventListener actionLoggedEventListener)
+   {
+      if (!actionLoggedEventListeners.contains(actionLoggedEventListener)){
+         actionLoggedEventListeners.add(actionLoggedEventListener);
+      }
+   }
+
+   @Override
+   public void removeActionLoggedEventListener(ActionLoggedEventListener actionLoggedEventListener)
+   {
+      actionLoggedEventListeners.remove(actionLoggedEventListener);
+   }
+
+   private void sendActionLoggedEvent(IAction action){
+      if (!actionLoggedEventListeners.isEmpty()){
+         ActionLoggedEvent actionLoggedEvent = new ActionLoggedEvent(action);
+         for (ActionLoggedEventListener actionLoggedEventListener: actionLoggedEventListeners){
+            actionLoggedEventListener.actionLogged(actionLoggedEvent);
+         }
+      }
+   }
 }
