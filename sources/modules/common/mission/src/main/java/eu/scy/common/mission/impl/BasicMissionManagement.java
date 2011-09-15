@@ -46,6 +46,7 @@ public class BasicMissionManagement implements MissionManagement
    private final IMetadataKey titleKey;
    private final IMetadataKey missionRuntimeKey;
    private ActivityTimer createMissionRuntimeModelElosTimer;
+   private final boolean logTimings = false;
 
    public BasicMissionManagement(MissionSpecificationElo missionSpecificationElo,
       RooloServices rooloServices)
@@ -94,6 +95,7 @@ public class BasicMissionManagement implements MissionManagement
       boolean runSpecificationElos)
    {
       createMissionRuntimeModelElosTimer = new ActivityTimer("BasicMissionManagement.createMissionRuntimeModelElos");
+      createMissionRuntimeModelElosTimer.setAutoLog(logTimings);
       createMissionRuntimeModelElosTimer.startActivity("getMissionRuntimeModel");
       MissionRuntimeModel missionRuntimeModel = getMissionRuntimeModel(userName);
       if (missionRuntimeModel == null)
@@ -297,7 +299,7 @@ public class BasicMissionManagement implements MissionManagement
          usedNanos += System.nanoTime() - startNanos;
       }
       double averageMillis = (usedNanos / 1e6) / nrOfAnchorsCreated;
-      logger.info("Created " + nrOfAnchorsCreated + " in " + (usedNanos / 1e6) + ", average: " + averageMillis);
+      logger.info("Created " + nrOfAnchorsCreated + " forked mission anchors in " + (usedNanos / 1e6) + " ms , average: " + averageMillis + " ms");
    }
 
    private String getLasTitle(Las las)
@@ -333,8 +335,7 @@ public class BasicMissionManagement implements MissionManagement
       if (missionAnchor.isExisting())
       {
          ActivityTimer timer = new ActivityTimer("makePersonalMissionAnchor");
-         long startNanos = System.nanoTime();
-         long saveNanos = 0;
+         timer.setAutoLog(logTimings);
          timer.startActivity("getEloToolConfig");
          EloToolConfig eloConfig = eloToolConfigs.getEloToolConfig(missionAnchor.getScyElo().getTechnicalFormat());
          if (!eloConfig.isContentStatic())
@@ -379,11 +380,9 @@ public class BasicMissionManagement implements MissionManagement
             long startSaveNanos = System.nanoTime();
             timer.startActivity("saveAsForkedElo");
             missionAnchor.getScyElo().saveAsForkedElo();
-            saveNanos = System.nanoTime() - startSaveNanos;
             missionAnchor.setEloUri(missionAnchor.getScyElo().getUri());
          }
          timer.endActivity();
-//         logger.info("missionAnchor.getScyElo().saveAsForkedElo() took: " + (saveNanos/1e6) + " with overhead " + (System.nanoTime()-startNanos-saveNanos)/1e6 + " millis");
       }
       else
       {
