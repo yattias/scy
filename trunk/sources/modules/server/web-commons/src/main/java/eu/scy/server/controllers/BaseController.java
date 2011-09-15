@@ -131,7 +131,11 @@ public abstract class BaseController extends AbstractController {
 
     public String getCurrentUserName(HttpServletRequest request) {
         org.springframework.security.userdetails.User user = (org.springframework.security.userdetails.User) request.getSession().getAttribute("CURRENT_USER");
-        return user.getUsername();
+        if(user != null) {
+            return user.getUsername();
+        }
+        return null;
+
     }
 
     public User getCurrentUser(HttpServletRequest request) {
