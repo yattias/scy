@@ -36,6 +36,7 @@ import javax.swing.JOptionPane;
 import java.lang.Exception;
 import eu.scy.client.desktop.scydesktop.login.MissionListCellDisplay;
 import eu.scy.common.scyelo.MissionLanguageTitleComparator;
+import java.net.URLDecoder;
 
 /**
  * @author SikkenJ
@@ -87,18 +88,20 @@ public class MissionLocator {
       }
 
       // multiple missions possible, ask the user which one
+      initializer.launchTimer.startActivity("asking user for mission");
       askUserForMission(missions);
    }
 
    function startNewMission(missionSpecificationElo: MissionSpecificationElo) {
       ProgressOverlay.startShowWorking();
       var missionRuntimeModel: MissionRuntimeModel;
-      var missionRuntimeElo: MissionRuntimeElo;
+      //      var missionRuntimeElo: MissionRuntimeElo;
       XFX.runActionInBackgroundAndCallBack(function(): Object {
          def missionManagement = missionSpecificationElo.getMissionManagement();
          if (not initializer.dontUseMissionRuntimeElos) {
             // this is the normal way
             logger.info("prepare new mission runtime for {missionSpecificationElo.getUri()}");
+            initializer.launchTimer.startActivity("creating mission runtime model");
             missionRuntimeModel = missionManagement.createMissionRuntimeModelElos(userName);
          } else {
             // this is a special way, try not to change the elos while running,
@@ -106,12 +109,15 @@ public class MissionLocator {
             // try to use the specificatins elos directly
             // or do not save new elos
             logger.info("starting mission (without runtime elos) from {missionSpecificationElo.getUri()}");
+            initializer.launchTimer.startActivity("creating mission runtime model, using the specification elos");
             missionRuntimeModel = missionManagement.getMissionRuntimeModelElosOnSpecifiaction(userName);
          }
          def missionModel = missionRuntimeModel.getMissionModel();
+         initializer.launchTimer.startActivity("missionModel.loadMetadata");
          missionModel.loadMetadata(tbi);
          return missionModel;
       }, function(missionModel): Void {
+         initializer.launchTimer.startActivity("creating MissionModelFX");
          missionMapModel = MissionModelFX {
                     tbi: tbi
                     missionModel: missionModel as MissionModel
@@ -132,17 +138,22 @@ public class MissionLocator {
       var missionRuntimeModel: MissionRuntimeModel;
       var missionRuntimeEloToUse = missionRuntimeElo;
       XFX.runActionInBackgroundAndCallBack(function(): Object {
+         initializer.launchTimer.startActivity("checking for last version of missionRuntimeElo");
          def lastVersionMissionRuntimeElo = tbi.getRepository().retrieveELOLastVersion(missionRuntimeElo.getUri());
-         if (missionRuntimeElo.getUri()!=lastVersionMissionRuntimeElo.getUri()){
-            missionRuntimeEloToUse = new MissionRuntimeElo(lastVersionMissionRuntimeElo,tbi);
+         if (missionRuntimeElo.getUri() != lastVersionMissionRuntimeElo.getUri()) {
+            missionRuntimeEloToUse = new MissionRuntimeElo(lastVersionMissionRuntimeElo, tbi);
             logger.error("not last version of mission runtime specified, switching to last version: {missionRuntimeElo.getUri()} -> {missionRuntimeEloToUse.getUri()}");
          }
+         initializer.launchTimer.startActivity("inject first version uri of mission runtime elo into tbi");
          injectMissionRuntimeEloInRepository(missionRuntimeEloToUse.getUriFirstVersion());
+         initializer.launchTimer.startActivity("loading missionRuntimeModel");
          missionRuntimeModel = missionRuntimeEloToUse.getMissionRuntimeModel();
          def missionModel = missionRuntimeModel.getMissionModel();
+         initializer.launchTimer.startActivity("missionModel.loadMetadata");
          missionModel.loadMetadata(tbi);
          return missionModel;
       }, function(missionModel): Void {
+         initializer.launchTimer.startActivity("creating MissionModelFX");
          missionMapModel = MissionModelFX {
                     tbi: tbi
                     missionModel: missionModel as MissionModel
@@ -289,7 +300,13 @@ public class MissionLocator {
 
    function startSingleEloMission() {
       def eloUri = findSingleEloUri();
-      def scyElo = ScyElo.loadElo(eloUri, tbi);
+      var scyElo = ScyElo.loadElo(eloUri, tbi);
+      if (scyElo==null){
+         def decodedEloUriString = URLDecoder.decode(eloUri.toString(), "utf-8");
+         logger.info("failed to load elo with uri: {eloUri}, now trying with the decoded eloUri: {decodedEloUriString}");
+         def decodedEloUri = new URI(decodedEloUriString);
+         scyElo = ScyElo.loadElo(decodedEloUri, tbi);
+      }
       if (scyElo != null) {
          var missionRuntimeModel: MissionRuntimeModel;
          def missionRuntimeEloUri = scyElo.getMissionRuntimeEloUri();
