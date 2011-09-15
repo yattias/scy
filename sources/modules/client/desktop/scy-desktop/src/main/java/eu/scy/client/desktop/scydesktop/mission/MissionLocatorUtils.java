@@ -162,7 +162,8 @@ public class MissionLocatorUtils
          List<Locale> languages = mission.getElo().getLanguages();
          if (languages != null)
          {
-            for (Locale language : languages){
+            for (Locale language : languages)
+            {
                id.append('_');
                id.append(language.getLanguage());
             }

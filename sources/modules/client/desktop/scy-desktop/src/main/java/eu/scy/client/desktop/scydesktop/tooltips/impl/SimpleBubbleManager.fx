@@ -11,6 +11,8 @@ import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
 import java.lang.System;
 import eu.scy.client.desktop.scydesktop.tooltips.impl.bubblestore.BubbleStoreImpl;
+import eu.scy.client.desktop.desktoputils.art.ScyColors;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 
 /**
  * @author sikken
@@ -28,7 +30,7 @@ public class SimpleBubbleManager extends BubbleManager {
    }
 
    public override function start(): Void {
-      Timeline {
+      def timer = Timeline {
          repeatCount: Timeline.INDEFINITE
          keyFrames: [
             KeyFrame {
@@ -36,7 +38,8 @@ public class SimpleBubbleManager extends BubbleManager {
                action: bubbleStep
             }
          ];
-      }.play();
+      }
+//      timer.play();
       lastShownBubbleTime = System.currentTimeMillis();
    }
 
@@ -44,17 +47,36 @@ public class SimpleBubbleManager extends BubbleManager {
       if (System.currentTimeMillis() > lastShownBubbleTime + bubbleDelayMillis) {
          def bubbleToDisplay = bubbleStore.getNextBubble(activeLayerId) as AbstractBubble;
          if (bubbleToDisplay != null) {
-            println("display bubble: {bubbleToDisplay}");
+            showBubble(bubbleToDisplay);
             bubbleStore.removeBubbles(bubbleToDisplay.id);
             lastShownBubbleTime = System.currentTimeMillis();
             noBubbleFoundCounter = 0;
          } else {
             ++noBubbleFoundCounter;
-            if (noBubbleFoundCounter<5){
+            if (noBubbleFoundCounter < 5) {
                println("no bubble found to display");
             }
          }
       }
+   }
+
+   function showBubble(bubble: AbstractBubble): Void {
+      println("display bubble: {bubble}");
+      def bubbleNode = TextTooltip {
+                 content: bubble.id
+                 windowColorScheme: WindowColorScheme.getWindowColorScheme(ScyColors.darkGray)
+              }
+
+      TooltipShower {
+         tooltipGroup: SimpleTooltipManager.tooltipGroup
+         tooltipNode: bubbleNode
+         sourceNode: bubble.targetNode
+      //         startAppearingTime: startAppearingTime
+      //         fullAppearingTime: fullAppearingTime
+      //         startDisappearingTime: startDisappearingTime
+      //         fullDisappearingTime: fullDisappearingTime
+      }
+
    }
 
    public function bubbleRemoved(bubble: AbstractBubble): Void {
