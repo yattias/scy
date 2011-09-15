@@ -31,33 +31,10 @@ public class EPortfolioIndex extends BaseController {
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
-        logger.info("HANDLING REQUEST!!!!!!");
-        modelAndView.addObject("currentUser", getCurrentUser(request));
-        modelAndView.addObject("text", "bla bla bla!");
-        modelAndView.addObject("author", getCurrentUser(request).getUserDetails().hasGrantedAuthority("ROLE_AUTHOR"));
-        modelAndView.addObject("toolURLProvider", "/webapp/app/eportfolio/xml/toolURLProvider.html");
-        modelAndView.addObject("la", getCurrentUser(request).getUserDetails().getLocale());
-        try {
-            if(getScyElo() != null) {
-                if(request.getParameter("missionURI") != null) {
-                    modelAndView.addObject("missionURI", URLEncoder.encode(request.getParameter("missionURI"), "UTF-8"));
-                } else {
-                    modelAndView.addObject("missionURI", URLEncoder.encode(getScyElo().getUri().toString(), "UTF-8"));
-                }
 
-            } else {
-                List <ISearchResult> runtimeEloSearchResult = getRuntimeELOService().getRuntimeElosForUser(getCurrentUserName(request));
-                if(runtimeEloSearchResult != null && runtimeEloSearchResult.size() > 0) {
-                    //select default
-                    URI scyEloURI = runtimeEloSearchResult.get(0).getUri();
-                    modelAndView.addObject("missionURI", URLEncoder.encode(scyEloURI.toString(), "UTF-8"));
-                }
+        modelAndView.setViewName("forward:/app/webeport/webEportIndex.html");
 
-            }
 
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
     }
 
      public User getCurrentUser(HttpServletRequest request) {
