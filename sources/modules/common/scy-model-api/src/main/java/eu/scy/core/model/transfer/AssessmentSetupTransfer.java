@@ -17,6 +17,8 @@ public class AssessmentSetupTransfer extends BaseXMLTransfer{
     private List specificLearningGoals = new LinkedList();
     private List reflectionQuestions = new LinkedList();
     private List reflectionTabs = new LinkedList();
+    private List <TeacherQuestionToElo> teacherQuestionToElos = new LinkedList<TeacherQuestionToElo>();
+    
     private Boolean useOnlyLearningGoals = true;
     private Boolean useScorableLearningGoals = false;
     private Boolean useLearningGoalsWithCriteria = false;
@@ -126,4 +128,28 @@ public class AssessmentSetupTransfer extends BaseXMLTransfer{
             this.useScorableLearningGoals = false;
         }
     }
+
+    public void addTeacherQuestionToElo(TeacherQuestionToElo teacherQuestionToElo) {
+        getTeacherQuestionToElos().add(teacherQuestionToElo);
+    }
+
+    public List<TeacherQuestionToElo> getTeacherQuestionToElos() {
+        if(teacherQuestionToElos == null) teacherQuestionToElos = new LinkedList<TeacherQuestionToElo>();
+        return teacherQuestionToElos;
+    }
+
+    public void setTeacherQuestionToElos(List<TeacherQuestionToElo> teacherQuestionToElos) {
+        this.teacherQuestionToElos = teacherQuestionToElos;
+    }
+
+    public List<TeacherQuestionToElo> getTeacherQuestionToElo(String uri) {
+        List <TeacherQuestionToElo> returnList = new LinkedList<TeacherQuestionToElo>();
+        for (int i = 0; i < getTeacherQuestionToElos().size(); i++) {
+            TeacherQuestionToElo teacherQuestionToElo = getTeacherQuestionToElos().get(i);
+            if(teacherQuestionToElo.getEloURI().equals(uri)) returnList.add(teacherQuestionToElo);
+        }
+
+        return returnList;
+    }
+
 }
