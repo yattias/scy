@@ -3,10 +3,7 @@ package eu.scy.server.util;
 import eu.scy.core.model.transfer.*;
 
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -136,6 +133,23 @@ public class TransferObjectMapService {
             registerTeacherQuestion(map, teacherQuestionToElo);
         }
 
+        for (int i = 0; i < assessmentSetupTransfer.getRubrics().size(); i++) {
+            Rubric rubric = (Rubric) assessmentSetupTransfer.getRubrics().get(i);
+            registerRubric(map, rubric);
+        }
+    }
+
+    private void registerRubric(Map map, Rubric rubric) {
+        map.put(rubric.getId(), rubric);
+        List<RubricCategory> rubricCategoryList = rubric.getRubricCategories();
+        for (int i = 0; i < rubricCategoryList.size(); i++) {
+            RubricCategory rubricCategory = rubricCategoryList.get(i);
+            map.put(rubricCategory.getId(), rubricCategory);
+            for (int j = 0; j < rubricCategory.getRubricAssessmentCriterias().size(); j++) {
+                RubricAssessmentCriteria rubricAssessmentCriteria = rubricCategory.getRubricAssessmentCriterias().get(j);
+                map.put(rubricAssessmentCriteria.getId(), rubricAssessmentCriteria);
+            }
+        }
     }
 
     private void registerTeacherQuestion(Map map, TeacherQuestionToElo teacherQuestionToElo) {
