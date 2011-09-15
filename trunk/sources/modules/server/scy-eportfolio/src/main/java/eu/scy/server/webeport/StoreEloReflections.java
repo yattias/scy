@@ -3,6 +3,7 @@ package eu.scy.server.webeport;
 import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.XMLTransferObjectService;
+import eu.scy.core.model.transfer.EloReflectionQuestionAnswers;
 import eu.scy.core.model.transfer.Portfolio;
 import eu.scy.core.model.transfer.TransferElo;
 import eu.scy.core.roolo.MissionELOService;
@@ -14,6 +15,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
+import java.util.Enumeration;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -53,11 +57,43 @@ public class StoreEloReflections extends BaseController {
         toBeAddedToPortfolio.setReflectionComment(eloReflectionDescription);
         portfolio.addElo(elotoBeAddedTransfer, anchorElo);
 
+        addReflectionAnswers(request, toBeAddedToPortfolio, portfolio);
+
         ScyElo portfolioElo = ScyElo.loadLastVersionElo(missionRuntimeElo.getTypedContent().getEPortfolioEloUri(), getMissionELOService());
         portfolioElo.getContent().setXmlString(getXmlTransferObjectService().getToObjectXStream().toXML(portfolio));
         portfolioElo.updateElo();
 
         modelAndView.setViewName("forward:webEportIndex.html");
+
+    }
+
+    private void addReflectionAnswers(HttpServletRequest request, TransferElo toBeAddedToPortfolio, Portfolio portfolio) {
+        List<String> reflectionParameters = new LinkedList<String>();
+
+        Enumeration enumeration = request.getParameterNames();
+        while (enumeration.hasMoreElements()) {
+            String parameter = (String) enumeration.nextElement();
+            if (parameter.startsWith("reflection-")) {
+                reflectionParameters.add(parameter);
+            }
+        }
+
+        for (int i = 0; i < reflectionParameters.size(); i++) {
+            String value = request.getParameter(reflectionParameters.get(i));
+            String[] keyValue = reflectionParameters.get(i).split("-");
+            if (keyValue.length > 0) {
+                String reflectionQuestionId = keyValue[1];
+                String reflectionQuestionAnswer = value;
+                logger.info("******** ******** ADDING ANSWER: " + reflectionQuestionAnswer + " TO REFLECTION QUESTION: " + reflectionQuestionId);
+                EloReflectionQuestionAnswers eloReflectionQuestionAnswers = new EloReflectionQuestionAnswers();
+                eloReflectionQuestionAnswers.setEloURI(toBeAddedToPortfolio.getUri());
+                eloReflectionQuestionAnswers.setQuestionAnswer(reflectionQuestionAnswer);
+                eloReflectionQuestionAnswers.setReflectionQuestionId(reflectionQuestionId);
+                portfolio.addEloReflectionQuestion(eloReflectionQuestionAnswers);
+            }
+
+        }
+
 
     }
 

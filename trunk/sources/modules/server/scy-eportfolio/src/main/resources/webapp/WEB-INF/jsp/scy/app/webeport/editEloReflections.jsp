@@ -288,10 +288,10 @@
                                     <br/>
                                     <c:if test="${portfolioLocked == false}">
                                         <c:if test="${fn:contains(reflectionQuestion.type, 'text')}">
-                                            <textarea rows="4" cols="30" name="${reflectionQuestion.id}"></textarea>
+                                            <textarea rows="4" cols="30" name="reflection-${reflectionQuestion.id}"></textarea>
                                         </c:if>
                                         <c:if test="${fn:contains(reflectionQuestion.type, 'slider')}">
-                                            <input name="${reflectionQuestion.id}" id="${reflectionQuestion.id}" type="text" value="1" style="display:none"/>
+                                            <input name="reflection-${reflectionQuestion.id}" id="${reflectionQuestion.id}" type="text" value="1" style="display:none"/>
                                             <div id="reflectionSlider" dojoType="dijit.form.HorizontalSlider" value="1" minimum="1" maximum="4" discreteValues="1" intermediateChanges="false" showButtons="false" style="width:90%;margin-top:5px;" onChange="document.getElementById('${reflectionQuestion.id}').value = Math.round(this.value);">
                                                 <ol dojoType="dijit.form.HorizontalRuleLabels" container="topDecoration" style="height:1.5em;font-size:75%;color:gray;">
                                                     <li style="margin-bottom:5px;"><img src="/webapp/themes/scy/default/images/smiley_1.png" alt=""  /></li>
