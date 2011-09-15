@@ -141,7 +141,7 @@ public class FeedbackAgent extends AbstractThreadedAgent {
         notificationTuple.add(user);
         notificationTuple.add(action.getContext(ContextConstants.eloURI));
         notificationTuple.add(NAME);
-        notificationTuple.add(action.getContext(ContextConstants.mission));
+        notificationTuple.add(missionSpec);
         notificationTuple.add(action.getContext(ContextConstants.session));
 
         notificationTuple.add("type=" + type);
