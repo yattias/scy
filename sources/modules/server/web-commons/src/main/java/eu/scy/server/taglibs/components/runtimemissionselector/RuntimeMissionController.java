@@ -11,6 +11,8 @@ import roolo.search.ISearchResult;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.List;
@@ -38,16 +40,23 @@ public class RuntimeMissionController extends TagSupport {
                 pageContext.getOut().write("<table width=\"100%\">");
                 for (int i = 0; i < runtimeELOs.size(); i++) {
                     SearchResultTransfer runtimeSearchResult = runtimeELOs.get(i);
+                    URI uri = new URI(runtimeSearchResult.getUri());
+
+                    String locale = "en";
+
+                    if (runtimeSearchResult.getLocale() != null) {
+                        locale = runtimeSearchResult.getLocale().getLanguage();
+                        System.out.println("RUNTIME LANGUAGE: " + locale);
+                    }
+
+
                     pageContext.getOut().write("<tr><td>");
                     pageContext.getOut().write("<a href=\"/webapp/app/student/StudentIndex.html?eloURI=" + URLEncoder.encode(runtimeSearchResult.getUri().toString(), "UTF-8") + "\">");
                     System.out.println("SEARCH RESULT TITLE: " + runtimeSearchResult.getTitle());
                     pageContext.getOut().write(runtimeSearchResult.getTitle());
-                    pageContext.getOut().write("</a>");
-                    pageContext.getOut().write("</td><td>");
-                    pageContext.getOut().write("<a href=\"scy-lab.jnlp?username=" + user + "&mission=" + runtimeSearchResult.getUri().toString());
-                    pageContext.getOut().write("&locale=" + pageContext.getRequest().getLocale().getLanguage());
 
-                    pageContext.getOut().write("\">Start SCYLab</a></td></tr>");
+                    pageContext.getOut().write("</a>");
+                    pageContext.getOut().write("</td></tr>");
 
                 }
                 pageContext.getOut().write("</table>");
