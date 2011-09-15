@@ -13,6 +13,7 @@ import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.common.configuration.Configuration;
 import eu.scy.common.smack.SmacketExtension;
+import org.jivesoftware.smack.util.StringUtils;
 
 public class ActionLogger implements IActionLogger {
 
@@ -43,9 +44,10 @@ public class ActionLogger implements IActionLogger {
 
                 Message packet = new Message();
 
-                packet.setFrom(connection.getUser());
+                String username = StringUtils.parseBareAddress(connection.getUser());
+                packet.setFrom(username);
                 packet.setTo(Configuration.getInstance().getSCYHubName() + "." + Configuration.getInstance().getOpenFireHost());
-                action.setUser(connection.getUser());
+                action.setUser(username);
                 // creating new instances of transformer instead of reusing because of racing conditions
                 ActionPacketTransformer transformer = new ActionPacketTransformer();
                 transformer.setObject(action);
