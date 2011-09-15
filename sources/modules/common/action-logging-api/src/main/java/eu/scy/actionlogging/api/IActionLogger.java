@@ -15,5 +15,17 @@ public interface IActionLogger
      */
     @Deprecated
     public void log(String username, String source, IAction action);
-    
+
+    /**
+     * adds the specified listener to recieve action logged events
+     * @param actionLoggedEventListener	the action logged events listener
+     */
+    public void addActionLoggedEventListener(ActionLoggedEventListener actionLoggedEventListener);
+
+    /**
+     * adds the specified listener to recieve action logged events
+     * @param actionLoggedEventListener	the action logged events listener
+     */
+    public void removeActionLoggedEventListener(ActionLoggedEventListener actionLoggedEventListener);
+
 }
