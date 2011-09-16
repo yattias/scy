@@ -1,6 +1,7 @@
 package eu.scy.client.tools.scydynamics.editor;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 
@@ -73,6 +74,8 @@ public class SimulationSettingsPanel extends JPanel {
 		FlowLayout flowCenter = new FlowLayout();
 		flowCenter.setAlignment(FlowLayout.CENTER);
 		runButton = new JButton(Util.getImageIcon("media-playback-start.png"));
+		runButton.setSize(36, 36);
+		runButton.setPreferredSize(new Dimension(36, 36));
 		runButton.setActionCommand("run");
 		runButton.setToolTipText("Run model");
 		runButton.addActionListener(listener);
@@ -80,6 +83,9 @@ public class SimulationSettingsPanel extends JPanel {
 		
 		stopButton = new JButton(Util.getImageIcon("media-playback-stop.png"));
 		stopButton.setActionCommand("stop");
+		stopButton.setSize(36, 36);
+		stopButton.setPreferredSize(new Dimension(36, 36));
+		
 		stopButton.setToolTipText("Stop model");
 		stopButton.setEnabled(false);
 		stopButton.addActionListener(listener);
@@ -87,6 +93,8 @@ public class SimulationSettingsPanel extends JPanel {
 		
 		JButton button = new JButton(Util.getImageIcon("media-floppy.png"));
 		button.setActionCommand("export");
+		button.setSize(36, 36);
+		button.setPreferredSize(new Dimension(36, 36));
 		button.setToolTipText("Export to SQX");
 		button.addActionListener(listener);
 		if (editor.getProperties().getProperty("editor.export_to_sqv", "false").equals("true")) {

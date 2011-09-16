@@ -45,6 +45,7 @@ import eu.scy.client.tools.scydynamics.listeners.EditorActionListener;
 import eu.scy.client.tools.scydynamics.listeners.EditorMouseListener;
 import eu.scy.client.tools.scydynamics.logging.IModellingLogger;
 import eu.scy.client.tools.scydynamics.logging.ModellingLogger;
+import eu.scy.client.tools.scydynamics.logging.ModellingSQLSpacesLogger;
 import eu.scy.client.tools.scydynamics.model.Model;
 import eu.scy.client.tools.scydynamics.model.ModelUtils;
 import eu.scy.elo.contenttype.dataset.DataSet;
@@ -92,6 +93,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	private final ResourceBundleWrapper bundle;
 	// private ModelSyncControl modelSyncControl;
 	private Domain domain;
+	//private ModellingSQLSpacesLogger sqlspacesLogger;
 
 	public ModelEditor() {
 		this(ModelEditor.getDefaultProperties());
@@ -104,9 +106,10 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		this.properties = getDefaultProperties();
 		properties.putAll(newProps);
 		DEBUGLOGGER.info("using properties: " + properties);
+		// TODO username
+		//sqlspacesLogger = new ModellingSQLSpacesLogger("dummy-user");
 		actionLogger = new ModellingLogger(new DevNullActionLogger(), "username", "nullmission");
-		// actionLogger = new ModellingLogger(new SystemOutActionLogger(),
-		// "username");
+		// actionLogger = new ModellingLogger(new SystemOutActionLogger(), "username");
 		new JTools(JColab.JCOLABAPP_RESOURCES, JColab.JCOLABSYS_RESOURCES);
 		aSelection = new ModelSelection();
 		initComponents();

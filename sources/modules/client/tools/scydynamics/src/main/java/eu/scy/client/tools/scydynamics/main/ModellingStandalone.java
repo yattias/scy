@@ -53,7 +53,6 @@ public class ModellingStandalone extends JFrame implements WindowListener {
 	@Override
 	public void windowOpened(WindowEvent e) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -63,9 +62,10 @@ public class ModellingStandalone extends JFrame implements WindowListener {
 				JOptionPane.YES_NO_OPTION);
 		if (n == JOptionPane.YES_OPTION) {
 			editor.getFileToolbar().saveAs();
-			editor.getActionLogger().close();
-			System.exit(0);
 		}
+		editor.getActionLogger().close();
+		this.dispose();
+		System.exit(0);		
 	}
 
 @Override
