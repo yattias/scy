@@ -93,6 +93,7 @@ public class ScyDynamicsNode extends IScaffoldChangeListener, CustomNode, Resiza
 		technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
 		keywordsKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.KEYWORDS);
 		modelEditor.setActionLogger(toolBrokerAPI.getActionLogger(), toolBrokerAPI.getLoginUserName(), toolBrokerAPI.getMissionRuntimeURI().toString());
+		println("caffold level {ScaffoldManager.getInstance().getScaffoldLevel()}");
 		this.scaffoldLevelChanged(ScaffoldManager.getInstance().getScaffoldLevel());
 	}
 
@@ -271,9 +272,9 @@ public class ScyDynamicsNode extends IScaffoldChangeListener, CustomNode, Resiza
 		if (newLevel == ScaffoldManager.SCAFFOLD_OFF) {
 			modelEditor.setMode(ModelEditor.Mode.QUANTITATIVE_MODELLING);
 		} else if (newLevel == ScaffoldManager.SCAFFOLD_MEDIUM) {
-			modelEditor.setMode(ModelEditor.Mode.CLEAR_BOX);
+			modelEditor.setMode(ModelEditor.Mode.QUANTITATIVE_MODELLING);
 		} else if (newLevel == ScaffoldManager.SCAFFOLD_HIGH) {
-			modelEditor.setMode(ModelEditor.Mode.BLACK_BOX);
+			modelEditor.setMode(ModelEditor.Mode.CLEAR_BOX);
 		}
 
 	}
