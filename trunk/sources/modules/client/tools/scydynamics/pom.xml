@@ -95,7 +95,7 @@
  		<dependency>
 			<groupId>nl.utwente</groupId>
 			<artifactId>colab.um</artifactId>
-			<version>0.1.6</version>
+			<version>0.1.7</version>
 		</dependency>
 
 		<dependency>
@@ -112,7 +112,7 @@
 		<dependency>
 			<groupId>nl.utwente</groupId>
 			<artifactId>simquestviewer</artifactId>
-			<version>2.0.0</version>
+			<version>2.2.0</version>
 		</dependency>
 		
 		<!--<dependency> <groupId>nl.utwente</groupId> <artifactId>colab.resources</artifactId> 
