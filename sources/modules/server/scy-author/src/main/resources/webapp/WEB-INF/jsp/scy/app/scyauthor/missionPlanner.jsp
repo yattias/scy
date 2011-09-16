@@ -44,5 +44,6 @@
 </c:choose>
 
 <a href="missionPlanner.html?eloURI=${eloURI}&action=reinitializePedagogicalPlan">Reinitialize plan</a>
+<!--a href="missionPlanner.html?eloURI=${eloURI}&action=deleteFeedback">DeleteFeedback</a-->
 
 
