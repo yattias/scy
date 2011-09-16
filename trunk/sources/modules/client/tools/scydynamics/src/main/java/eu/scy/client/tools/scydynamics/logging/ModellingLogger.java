@@ -3,7 +3,7 @@ package eu.scy.client.tools.scydynamics.logging;
 import java.awt.Component;
 import java.awt.IllegalComponentStateException;
 
-import colab.all.logging.SQLSpacesLogger;
+//import colab.all.logging.SQLSpacesLogger;
 import colab.um.draw.JdAux;
 import colab.um.draw.JdConst;
 import colab.um.draw.JdFigure;
@@ -57,10 +57,10 @@ public class ModellingLogger implements IModellingLogger {
     }
 
     public void close() {
-    	System.out.println("ModellingLogger.close logger: "+logger);
-        if (logger instanceof SQLSpacesLogger) {
-        	((SQLSpacesLogger)logger).close();
-        }
+    	//System.out.println("ModellingLogger.close logger: "+logger);
+        //if (logger instanceof SQLSpacesLogger) {
+        //	((SQLSpacesLogger)logger).close();
+        //}
     }
 
     public IAction createBasicAction(String type) {
