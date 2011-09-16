@@ -76,4 +76,6 @@ public interface MissionELOService extends BaseELOService {
 
 
     FeedbackEloSearchFilter createFeedbackEloSearchFilter();
+
+    void deleteAllFeedbackFeedback();
 }

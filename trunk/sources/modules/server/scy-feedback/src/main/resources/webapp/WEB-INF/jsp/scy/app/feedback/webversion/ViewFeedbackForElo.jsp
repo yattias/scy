@@ -108,10 +108,12 @@
                 Viewed: ${feedbackElo.shown}<br/>
                 Total Score: ${feedbackElo.score}<br/>
                 Average score: ${feedbackElo.averageScore}<br/>
-                Comment: ${elo.comment}
+                
 
         </div>
         <div dojoType="dojox.layout.ContentPane" style="width:50%;float:left;" executeScripts="true" parseOnLoad="true">
+            <strong><i>${feedbackElo.comment}</i></strong>
+            <br/>
             <!--/td>
             <td style="width:50%;"-->
                 <!--form method="POST" accept-charset="UTF-8" action="/webapp/app/feedback/webversion/AddFeedback.html" onsubmit="postFeedback(this, 'feedbackReturnContainer', this.parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[5]);return false;"-->
@@ -133,7 +135,7 @@
         </div>
     </div>
 
-    <input type="Submit" value="GIVE/GET FEEDBACK" />
+    <input type="Submit" value="GIVE FEEDBACK" />
     </form>
 
 

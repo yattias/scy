@@ -38,6 +38,8 @@ public class MissionPlannerController extends BaseController{
             else if(action.equals("reinitializePedagogicalPlan")) {
                 clearMissionPlanning(missionSpecificationElo);
                 initializeMissionPlanning(missionSpecificationElo);
+            } else if(action.equals("deleteFeedback")) {
+                getMissionELOService().deleteAllFeedbackFeedback();
             }
         }
 

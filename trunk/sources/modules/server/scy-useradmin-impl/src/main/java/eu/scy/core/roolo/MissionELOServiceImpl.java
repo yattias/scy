@@ -211,7 +211,6 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
         */
 
 
-
         //missionModel.getMissionModel().loadMetadata(this);
         List lasses = missionModel.getTypedContent().getLasses();//what is  this? A getter??
 
@@ -381,6 +380,18 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
     }
 
     @Override
+    public void deleteAllFeedbackFeedback() {
+        List<ISearchResult> results = getFeedback();
+
+        for (int i = 0; i < results.size(); i++) {
+            ISearchResult searchResult = (ISearchResult) results.get(i);
+            ScyElo scyELO = getElo(searchResult.getUri());
+            scyELO.getContent().setXmlString("");
+            scyELO.updateElo();
+        }
+    }
+
+    @Override
     public List<ISearchResult> getFeedback() {
 
         final IMetadataKey technicalFormatKey = getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
@@ -408,13 +419,16 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
             ISearchResult searchResult = (ISearchResult) results.get(i);
             ScyElo scyELO = getElo(searchResult.getUri());
             String xmlString = scyELO.getElo().getContent().getXmlString();
-            if (xmlString.startsWith("<feedback>")) {
-                xmlString = fixXml(xmlString, scyELO);
+            if (xmlString != null && xmlString.length() > 0) {
+                if (xmlString.startsWith("<feedback>")) {
+                    xmlString = fixXml(xmlString, scyELO);
+                }
+                FeedbackEloTransfer feedbackTransfer = (FeedbackEloTransfer) getXmlTransferObjectService().getObject(xmlString);
+                URI parent = scyELO.getFeedbackOnEloUri();
+                ScyElo parentElo = ScyElo.loadLastVersionElo(parent, this);
+                newestElos.addElo(new TransferElo(parentElo));
             }
-            FeedbackEloTransfer feedbackTransfer = (FeedbackEloTransfer) getXmlTransferObjectService().getObject(xmlString);
-            URI parent = scyELO.getFeedbackOnEloUri();
-            ScyElo parentElo = ScyElo.loadLastVersionElo(parent, this);
-            newestElos.addElo(new TransferElo(parentElo));
+
         }
 
         return newestElos;
@@ -443,6 +457,7 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
     }
 
     private boolean getHasUserContributedWithFeedbackOnElo(FeedbackEloTransfer feedbackEloTransfer, String currentUserName) {
+        if(feedbackEloTransfer == null) return false;
         List<FeedbackTransfer> feedbackTransfers = feedbackEloTransfer.getFeedbacks();
         for (int i = 0; i < feedbackTransfers.size(); i++) {
             FeedbackTransfer feedbackTransfer = feedbackTransfers.get(i);

@@ -45,13 +45,13 @@ public class XMLTransferObjectServiceImpl implements XMLTransferObjectService {
 
                     public void startNode(String name, Class clazz) {
                         super.startNode(name, clazz);
-                        if(name.equals("id")) cdata=false;
+                        if (name.equals("id")) cdata = false;
                         else cdata = true;
                     }
 
                     protected void writeText(QuickWriter writer, String text) {
 
-                        if(text.indexOf("#") > -1) {
+                        if (text.indexOf("#") > -1) {
                             try {
                                 text = URLEncoder.encode(text, "UTF-8");
                             } catch (UnsupportedEncodingException e) {
@@ -84,7 +84,6 @@ public class XMLTransferObjectServiceImpl implements XMLTransferObjectService {
     public XStream getToObjectXStream() {
         this.xstream = new XStream(new XppDriver() {
 
-            
 
             public HierarchicalStreamWriter createWriter(Writer out) {
 
@@ -94,7 +93,7 @@ public class XMLTransferObjectServiceImpl implements XMLTransferObjectService {
 
                     public void startNode(String name, Class clazz) {
                         super.startNode(name, clazz);
-                        if(name.equals("id")) cdata = false;
+                        if (name.equals("id")) cdata = false;
                         else cdata = true;
                     }
 
@@ -112,33 +111,63 @@ public class XMLTransferObjectServiceImpl implements XMLTransferObjectService {
     }
 
     @Override
-    public Object getObject(String xml){
-
-        if(xml.contains("<content")) {
-            Integer end = xml.indexOf(">");
-            xml = xml.substring(end + 1, xml.length());
-            if(xml.indexOf("</content") > 0) {
-                xml = xml.replaceAll("</content>", "");
+    public Object getObject(String xml) {
+        if (xml != null && xml.length() > 0) {
+            if (xml.startsWith("<feedback>")) {
+                xml = fixXml(xml);
             }
         }
 
-        if(xml.contains("<studentglg>")) {
-            String start = xml.substring(0, xml.indexOf("<studentglg>"));
-            String end = xml.substring(xml.indexOf("</studentglg>") + "</studentglg>".length(), xml.length());
-            xml = start + end;//FUCK!
+
+            /*xml = xml.replaceAll("feedbackeloelo", "feedbackelo");
+           if(xml.startsWith("<feedback")) {
+               xml = xml.replaceAll("<feedback>", "<feedbackelo>");
+               xml = xml.replaceAll("</feedback>", "</feedbackelo>");
+           } */
+
+            if (xml == null || xml.length() == 0) {
+                log.warning("NO OBJECT FOUND");
+                return null;
+            }
+
+
+            if (xml.contains("<content")) {
+                Integer end = xml.indexOf(">");
+                xml = xml.substring(end + 1, xml.length());
+                if (xml.indexOf("</content") > 0) {
+                    xml = xml.replaceAll("</content>", "");
+                }
+            }
+
+            if (xml.contains("<studentglg>")) {
+                String start = xml.substring(0, xml.indexOf("<studentglg>"));
+                String end = xml.substring(xml.indexOf("</studentglg>") + "</studentglg>".length(), xml.length());
+                xml = start + end;//FUCK!
+            }
+
+            if (xml.contains("<studentslg>")) {
+                String start = xml.substring(0, xml.indexOf("<studentslg>"));
+                String end = xml.substring(xml.indexOf("</studentslg>") + "</studentslg>".length(), xml.length());
+                xml = start + end;//FUCK!
+            }
+
+            xml = xml.replaceAll("<goal />", "");
+
+            //log.info("XML AFTER WASH: " + xml);
+
+            return getToObjectXStream().fromXML(xml);
         }
 
-        if(xml.contains("<studentslg>")) {
-            String start = xml.substring(0, xml.indexOf("<studentslg>"));
-            String end = xml.substring(xml.indexOf("</studentslg>") + "</studentslg>".length(), xml.length());
-            xml = start + end;//FUCK!
-        }
+    private String fixXml(String xmlString) {
 
-        xml = xml.replaceAll("<goal />", ""); 
+        String feedback = "<feedback>";
+        String feedbackEnd = "</feedback>";
+        xmlString = xmlString.substring(feedback.length(), xmlString.length());
+        xmlString = xmlString.substring(0, xmlString.length() - feedbackEnd.length());
 
-        //log.info("XML AFTER WASH: " + xml);
+        xmlString = "<feedbackelo>" + xmlString + "</feedbackelo>";
 
-        return getToObjectXStream().fromXML(xml);
+        return xmlString;
     }
 
     private void addAliases(XStream xStream) {
@@ -162,7 +191,6 @@ public class XMLTransferObjectServiceImpl implements XMLTransferObjectService {
         xStream.alias("feedback", FeedbackTransfer.class);
         xStream.alias("reply", FeedbackReplyTransfer.class);
         xStream.alias("learninggoals", LearningGoals.class);
-
 
 
         xStream.aliasField("portfolioConfigService".toLowerCase(), ToolURLContainer.class, "portfolioConfigService");
