@@ -23,12 +23,12 @@ import java.lang.RuntimeException;
 public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionLogger {
 
    public-init var tbi: ToolBrokerAPI;
+   public-init var activateBubbleManager = true;
    def timeStep = 1s;
    def bubbleStore = new BubbleStoreImpl();
    var activeLayerId: Object;
    var noBubbleFoundCounter = 0;
    def bubbleManagerTimer = new BubbleManagerTimer(this);
-   def activateBubbleManager = false;
 
    init {
    }

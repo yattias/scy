@@ -216,6 +216,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
            };
    public def bubbleManager: BubbleManager = SimpleBubbleManager {
          tbi: missionRunConfigs.tbi
+         activateBubbleManager: initializer.showHelpBubbles
       };
    public var scyToolFactory: ScyToolFactory;
    var windowPositioner: WindowPositioner;
