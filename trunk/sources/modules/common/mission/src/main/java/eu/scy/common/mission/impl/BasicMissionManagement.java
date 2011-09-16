@@ -33,8 +33,12 @@ import eu.scy.common.scyelo.QueryFactory;
 import eu.scy.common.scyelo.RooloServices;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
+import java.net.URISyntaxException;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 
 public class BasicMissionManagement implements MissionManagement
@@ -47,6 +51,9 @@ public class BasicMissionManagement implements MissionManagement
    private final IMetadataKey missionRuntimeKey;
    private ActivityTimer createMissionRuntimeModelElosTimer;
    private final boolean logTimings = false;
+   private Set<URI> specificationContentEloUris;
+   private Map<URI, URI> specificationEloUriMap;
+   private URI nullUri;
 
    public BasicMissionManagement(MissionSpecificationElo missionSpecificationElo,
       RooloServices rooloServices)
@@ -452,5 +459,71 @@ public class BasicMissionManagement implements MissionManagement
             missionSpecificationElo, rooloServices));
       }
       return allMissionRuntimeModels;
+   }
+
+   private MissionModelElo missionModelElo;
+
+   @Override
+   public URI getAnchorEloUriForElo(URI eloUri)
+   {
+      if (specificationContentEloUris == null)
+      {
+         if (missionModelElo==null){
+            missionModelElo = MissionModelElo.loadElo(missionSpecificationElo.getTypedContent().getMissionMapModelEloUri(), rooloServices);
+         }
+         specificationContentEloUris = new HashSet<URI>(missionModelElo.getMissionModel().getEloUris(false));
+         specificationEloUriMap = new ConcurrentHashMap<URI, URI>();
+         try
+         {
+            nullUri = new URI("");
+         }
+         catch (URISyntaxException ex)
+         {
+            logger.error("failed to create nullUri", ex);
+         }
+      }
+      return getSpecificationEloUri(eloUri);
+   }
+
+   private URI getSpecificationEloUri(URI eloUri)
+   {
+      if (eloUri == null)
+      {
+         return null;
+      }
+      if (specificationEloUriMap.containsKey(eloUri))
+      {
+         URI uri = specificationEloUriMap.get(eloUri);
+         if (nullUri.equals(uri))
+         {
+            return null;
+         }
+         return uri;
+      }
+      URI specificationEloUri = findSpecificationEloUri(eloUri);
+      specificationEloUriMap.put(eloUri, specificationEloUri == null ? nullUri : specificationEloUri);
+      return specificationEloUri;
+   }
+
+   private URI findSpecificationEloUri(URI eloUri)
+   {
+      if (eloUri == null)
+      {
+         return null;
+      }
+      ScyElo scyElo = ScyElo.loadMetadata(eloUri, rooloServices);
+      if (scyElo == null)
+      {
+         return null;
+      }
+      if (specificationContentEloUris.contains(scyElo.getUri()))
+      {
+         return scyElo.getUri();
+      }
+      if (!eloUri.equals(scyElo.getUriFirstVersion()))
+      {
+         scyElo = ScyElo.loadMetadata(scyElo.getUriFirstVersion(), rooloServices);
+      }
+      return findSpecificationEloUri(scyElo.getIsForkedOfEloUri());
    }
 }
