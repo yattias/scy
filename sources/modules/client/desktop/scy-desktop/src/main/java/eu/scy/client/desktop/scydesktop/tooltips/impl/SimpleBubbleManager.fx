@@ -11,13 +11,16 @@ import eu.scy.client.desktop.scydesktop.tooltips.impl.bubblestore.BubbleStoreImp
 import eu.scy.client.desktop.desktoputils.art.ScyColors;
 import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
-import eu.scy.actionlogging.api.ActionLoggedEventListener;
-import eu.scy.actionlogging.api.ActionLoggedEvent;
+import eu.scy.actionlogging.api.IActionLogger;
+import eu.scy.actionlogging.api.IAction;
+import eu.scy.actionlogging.CompletingActionLogger;
+import eu.scy.actionlogging.MultiActionLogger;
+import java.lang.RuntimeException;
 
 /**
  * @author sikken
  */
-public class SimpleBubbleManager extends BubbleManager, ActionLoggedEventListener, ShowNextBubble {
+public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionLogger {
 
    public-init var tbi: ToolBrokerAPI;
    def timeStep = 1s;
@@ -30,7 +33,7 @@ public class SimpleBubbleManager extends BubbleManager, ActionLoggedEventListene
    init {
    }
 
-   public override function actionLogged(actionLoggedEvent: ActionLoggedEvent): Void {
+   public override function log(action : IAction): Void {
       println("actionLogged");
       bubbleManagerTimer.userDidSomething();
    }
@@ -38,7 +41,15 @@ public class SimpleBubbleManager extends BubbleManager, ActionLoggedEventListene
    public override function start(): Void {
       if (activateBubbleManager) {
          bubbleManagerTimer.start();
-         tbi.getActionLogger().addActionLoggedEventListener(this);
+         if (tbi.getActionLogger() instanceof CompletingActionLogger) {
+             def internalLogger : IActionLogger = (tbi.getActionLogger() as CompletingActionLogger).getInternalLogger();
+             if (internalLogger instanceof MultiActionLogger) {
+                 (internalLogger as MultiActionLogger).addLogger(this);
+             }
+         } else {
+             throw new RuntimeException("BubbleManager could not be added to action logger list")
+         }
+
       }
    }
 
