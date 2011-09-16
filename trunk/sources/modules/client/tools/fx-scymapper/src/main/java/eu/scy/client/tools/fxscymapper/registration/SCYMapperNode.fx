@@ -5,12 +5,8 @@
  */
 package eu.scy.client.tools.fxscymapper.registration;
 
-import javafx.scene.Group;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
-import javafx.scene.control.Button;
 import eu.scy.collaboration.api.CollaborationStartable;
 import javafx.scene.CustomNode;
 import javafx.scene.layout.Resizable;
@@ -34,6 +30,7 @@ import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 import eu.scy.client.desktop.scydesktop.hacks.EloSavedListener;
 import roolo.elo.api.IMetadata;
+import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.OnlineState;
 
 public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack, CollaborationStartable, EloSavedListener {
 
@@ -131,7 +128,9 @@ public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX
         if (object instanceof ContactFrame) {
             var c: ContactFrame = object as ContactFrame;
             if (not scyWindow.ownershipManager.isOwner(c.contact.name)) {
-                return true;
+                if (c.contact.onlineState == OnlineState.ONLINE) {
+                    return true;
+                }
             }
         }
         return false;
