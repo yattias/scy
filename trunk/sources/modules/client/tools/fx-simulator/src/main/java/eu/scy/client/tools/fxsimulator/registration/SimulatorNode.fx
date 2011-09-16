@@ -58,9 +58,11 @@ import java.util.List;
 import eu.scy.elo.contenttype.dataset.DataSetColumn;
 import javafx.util.StringLocalizer;
 import eu.scy.client.tools.scysimulator.SimConfig.MODE;
+import eu.scy.client.desktop.scydesktop.scywindows.scaffold.IScaffoldChangeListener;
+import eu.scy.client.desktop.scydesktop.scywindows.scaffold.ScaffoldManager;
 
 public class SimulatorNode
-		extends ISynchronizable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack, ActionListener, INotifiable {
+		extends IScaffoldChangeListener, ISynchronizable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack, ActionListener, INotifiable {
 
 	var simquestViewer: SimQuestViewer;
 	def logger = Logger.getLogger(SimulatorNode.class.getName());
@@ -263,6 +265,7 @@ public class SimulatorNode
 	}
 
 	public override function initialize(windowContent: Boolean): Void {
+		ScaffoldManager.getInstance().addScaffoldListener(this);
 		repository = toolBrokerAPI.getRepository();
 		metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
 		eloFactory = toolBrokerAPI.getELOFactory();
@@ -407,6 +410,9 @@ public class SimulatorNode
 			info.append(fileUri.toString());
 			switchSwingDisplayComponent(info);
 		}
+		FX.deferAction(function() {
+		       simquestViewer.getInterface().updateVariables();
+		});
 	}
 
 	function setMode(newMode: MODE): Void {
@@ -527,6 +533,11 @@ public class SimulatorNode
 
 	public override function getMinHeight(): Number {
 		400;
+	}
+
+	public override function scaffoldLevelChanged(newLevel: java.lang.Integer): Void {
+		logger.info("setting scaffold to {newLevel}");
+		// TODO
 	}
 
 }
