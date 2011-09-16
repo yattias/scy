@@ -1,7 +1,5 @@
 package eu.scy.actionlogging;
 
-import eu.scy.actionlogging.api.ActionLoggedEvent;
-import eu.scy.actionlogging.api.ActionLoggedEventListener;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,8 +17,6 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * This IActionLogger writes the action log as in XML to file,
@@ -37,7 +33,6 @@ public class FileLogger implements IActionLogger {
     protected final static int BUF_SIZE = 512;
     private OutputStreamWriter write;
     private Transformer trans;
-    private List<ActionLoggedEventListener> actionLoggedEventListeners = new CopyOnWriteArrayList<ActionLoggedEventListener>();
 
     public FileLogger(String filename) {
         logFile = new File(filename);
@@ -97,35 +92,6 @@ public class FileLogger implements IActionLogger {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        sendActionLoggedEvent(action);
     }
 
-    @Override
-    @Deprecated
-    public void log(String username, String source, IAction action) {
-        log(action);
-    }
-
-   @Override
-   public void addActionLoggedEventListener(ActionLoggedEventListener actionLoggedEventListener)
-   {
-      if (!actionLoggedEventListeners.contains(actionLoggedEventListener)){
-         actionLoggedEventListeners.add(actionLoggedEventListener);
-      }
-   }
-
-   @Override
-   public void removeActionLoggedEventListener(ActionLoggedEventListener actionLoggedEventListener)
-   {
-      actionLoggedEventListeners.remove(actionLoggedEventListener);
-   }
-
-   private void sendActionLoggedEvent(IAction action){
-      if (!actionLoggedEventListeners.isEmpty()){
-         ActionLoggedEvent actionLoggedEvent = new ActionLoggedEvent(action);
-         for (ActionLoggedEventListener actionLoggedEventListener: actionLoggedEventListeners){
-            actionLoggedEventListener.actionLogged(actionLoggedEvent);
-         }
-      }
-   }
 }
