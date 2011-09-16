@@ -8,6 +8,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
+import java.util.Collections;
 
 /**
  * This class is a multiplexer of action loggers. Other action loggers can register and deregister
@@ -33,7 +34,7 @@ public class MultiActionLogger implements IActionLogger {
     public List<IActionLogger> getLoggers() {
         lock.lock();
         try {
-            return new ArrayList<IActionLogger>(loggers);
+            return Collections.unmodifiableList(loggers);
         } finally {
             lock.unlock();
         }
