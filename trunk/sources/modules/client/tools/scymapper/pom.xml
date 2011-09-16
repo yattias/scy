@@ -13,6 +13,23 @@
 	<name>SCYMapper concept mapping tool</name>
 
 	<dependencies>
+		
+		<dependency>
+			<groupId>eu.scy.client.client-common</groupId>
+			<artifactId>scy-i18n</artifactId>
+			<version>${pom.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>jmxtools</artifactId>
+					<groupId>com.sun.jdmk</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>log4j</artifactId>
+					<groupId>log4j</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
 		<dependency>
 			<groupId>net.java.dev.timingframework</groupId>
 			<artifactId>timingframework</artifactId>
