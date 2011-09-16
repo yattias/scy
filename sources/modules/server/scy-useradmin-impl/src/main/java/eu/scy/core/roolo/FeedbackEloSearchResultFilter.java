@@ -36,6 +36,8 @@ public class FeedbackEloSearchResultFilter implements Comparator {
                 return compareOnDate(first, last);
             } else if(feedbackEloSearchFilter.getCriteria().equals("MOST_VIEWED")) {
                 return compareOnMostViewed(first,last);
+            } else if(feedbackEloSearchFilter.getCriteria().equals("HIGHEST_SCORED")) {
+                return compareOnHighestScored(first, last);
             }
             
         }
@@ -43,6 +45,25 @@ public class FeedbackEloSearchResultFilter implements Comparator {
         //default to newest
         return compareOnDate(first, last);
 
+    }
+
+    private int compareOnHighestScored(TransferElo first, TransferElo last) {
+        Integer firstScore = null;
+        Integer lastScore = null;
+        if(first.getFeedbackEloTransfer().getScore() != null && first.getFeedbackEloTransfer().getScore().length() > 0) {
+            firstScore = Integer.parseInt(first.getFeedbackEloTransfer().getScore());
+        }
+        if(last.getFeedbackEloTransfer().getScore() != null && last.getFeedbackEloTransfer().getScore().length() > 0) {
+            lastScore = Integer.parseInt(last.getFeedbackEloTransfer().getScore());
+        }
+
+        if(firstScore != null && lastScore != null) {
+            if(firstScore > lastScore) return -1;
+            else if(firstScore < lastScore) return 1;
+            else if(firstScore == lastScore) return 0;
+
+        }
+        return 1;
     }
 
     private int compareOnMostViewed(TransferElo first, TransferElo last) {

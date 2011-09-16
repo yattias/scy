@@ -34,6 +34,7 @@ public class Portfolio extends BaseXMLTransfer {
     private List <SelectedLearningGoalWithScore> selectedSpecificLearningGoalWithScores = new LinkedList<SelectedLearningGoalWithScore>();
     private List <EloAssessment> eloAssessments = new LinkedList<EloAssessment>();
     private List <EloReflectionQuestionAnswers> eloReflectionQuestionAnswers = new LinkedList<EloReflectionQuestionAnswers>();
+    private List <TeachersReflectionsOnMissionAnswer> teachersReflectionsOnMissionAnswers = new LinkedList<TeachersReflectionsOnMissionAnswer>();
     
 
     public final static String PORTFOLIO_STATUS_NOT_SUBMITTED = "PORTFOLIO_STATUS_NOT_SUBMITTED";
@@ -371,6 +372,29 @@ public class Portfolio extends BaseXMLTransfer {
             return Collections.EMPTY_LIST;
         }
 
+    }
+
+    public List<TeachersReflectionsOnMissionAnswer> getTeachersReflectionsOnMissionAnswers() {
+        if(teachersReflectionsOnMissionAnswers == null) teachersReflectionsOnMissionAnswers = new LinkedList<TeachersReflectionsOnMissionAnswer>();
+        return teachersReflectionsOnMissionAnswers;
+    }
+
+    public void setTeachersReflectionsOnMissionAnswers(List<TeachersReflectionsOnMissionAnswer> teachersReflectionsOnMissionAnswers) {
+        this.teachersReflectionsOnMissionAnswers = teachersReflectionsOnMissionAnswers;
+    }
+
+    public void addTeacherReflectionOnMissionAnswer(TeachersReflectionsOnMissionAnswer answer) {
+        boolean found = false;
+        for (int i = 0; i < getTeachersReflectionsOnMissionAnswers().size(); i++) {
+            TeachersReflectionsOnMissionAnswer teachersReflectionsOnMissionAnswer = getTeachersReflectionsOnMissionAnswers().get(i);
+            if(teachersReflectionsOnMissionAnswer.getId().equals(answer.getId())) {
+                found = true;
+            }
+        }
+
+        if(!found) {
+            getTeachersReflectionsOnMissionAnswers().add(answer);
+        }
     }
 
 }

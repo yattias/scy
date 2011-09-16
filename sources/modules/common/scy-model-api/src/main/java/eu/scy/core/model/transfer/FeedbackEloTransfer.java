@@ -125,4 +125,14 @@ public class FeedbackEloTransfer extends BaseXMLTransfer {
         getFeedbacks().add(feedback);
         
     }
+
+    public Integer getAverageScore() {
+        if(getFeedbacks() == null || getFeedbacks().size() == 0) return 0;
+        else{
+            Integer totalScore = new Integer(getScore());
+            return (int) (totalScore/getFeedbacks().size());
+        }
+
+
+    }
 }

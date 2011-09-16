@@ -3,6 +3,7 @@ package eu.scy.server.controllers.scyfeedback.webversion;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.XMLTransferObjectService;
 import eu.scy.core.model.transfer.FeedbackEloTransfer;
+import eu.scy.core.model.transfer.FeedbackTransfer;
 import eu.scy.core.model.transfer.TransferElo;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.server.controllers.BaseController;
@@ -73,6 +74,10 @@ public class ViewFeedbackForElo extends BaseController {
 
         TransferElo transferElo = getMissionELOService().getTransferElo(scyElo);
         try {
+            if(transferElo == null) {
+                modelAndView.setViewName("forward:fbIndex.html");
+                return;
+            }
             String fbURI = transferElo.getFeedbackEloURI();
             fbURI = URLDecoder.decode(fbURI, "UTF-8");
             URI feedbackURI = new URI(fbURI);
@@ -90,7 +95,27 @@ public class ViewFeedbackForElo extends BaseController {
 
             shownInteger++;
 
+            List<FeedbackTransfer> feedbackTransfers = feedbackEloTransfer.getFeedbacks();
+            Integer totalScore = 0;
+            for (int i = 0; i < feedbackTransfers.size(); i++) {
+                FeedbackTransfer feedbackTransfer = feedbackTransfers.get(i);
+                String sc = feedbackTransfer.getEvalu();
+                Integer score = 0;
+                try {
+                    score = Integer.parseInt(sc);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+
+                totalScore += score;
+
+
+
+            }
+
+
             feedbackEloTransfer.setShown(String.valueOf(shownInteger));
+            feedbackEloTransfer.setScore(String.valueOf(totalScore));
             feedbackElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(feedbackEloTransfer));
             feedbackEloTransfer.setUri(fbURI);
             feedbackElo.updateElo();
