@@ -21,6 +21,8 @@ import eu.scy.client.desktop.scydesktop.draganddrop.DropTarget2;
 import eu.scy.client.desktop.desktoputils.art.EloIcon;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import eu.scy.client.desktop.scydesktop.uicontrols.EloIconButton;
+import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
+import eu.scy.client.desktop.desktoputils.XFX;
 
 /**
  * @author SikkenJ
@@ -86,16 +88,22 @@ public class Archiver extends CustomNode, DropTarget2 {
    }
 
    override public function acceptDrop(object: Object): Void {
-      def eloUri = getArchivebleEloUri(object);
-      if (eloUri!=null){
-         archieveElo(eloUri);
-         logger.info("archieved elo: {eloUri}");
-         return
-      }
-      if (object instanceof ScyWindow){
-         archieveScyWindow(object as ScyWindow);
-      }
-   }
+    ProgressOverlay.startShowWorking();
+    XFX.runActionInBackgroundAndCallBack(function(): Object {
+        def eloUri = getArchivebleEloUri(object);
+        if (eloUri != null) {
+            archieveElo(eloUri);
+            logger.info("archieved elo: {eloUri}");
+            return null;
+        }
+        if (object instanceof ScyWindow) {
+            archieveScyWindow(object as ScyWindow);
+        }
+        return null;
+    }, function(o : Object) {
+        ProgressOverlay.stopShowWorking();
+    });
+}
 
    function archieveElo(eloUri: URI):Void{
       scyWindowControl.removeOtherScyWindow(eloUri);
