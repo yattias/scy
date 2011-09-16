@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -50,7 +49,6 @@ import eu.scy.toolbrokerapi.ServerNotRespondingException;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.toolbrokerapi.ToolBrokerAPIRuntimeSetting;
 import java.net.URI;
-import javax.jws.WebParam.Mode;
 import org.jivesoftware.smack.packet.Presence;
 
 /**
