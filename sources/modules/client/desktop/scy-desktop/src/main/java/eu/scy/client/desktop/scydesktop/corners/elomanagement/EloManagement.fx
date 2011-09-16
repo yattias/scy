@@ -39,6 +39,7 @@ import eu.scy.client.desktop.scydesktop.tools.search.EloSearchNode;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.tools.search.ScySearchResult;
 import eu.scy.client.desktop.scydesktop.tools.search.ScySearchResultTitleComparator;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleLayer;
 
 /**
  * @author sikken
@@ -158,10 +159,10 @@ public class EloManagement extends CustomNode {
    }
 
    function createBubbles() {
-      scyDesktop.bubbleManager.createBubble(archiver, 6, "archiver", "desktop", "archiver", archiver.eloIcon.windowColorScheme);
-      scyDesktop.bubbleManager.createBubble(newFromEloTemplateButton, 4, "newFromEloTemplateButton", "desktop", "newFromEloTemplateButton", newFromEloTemplateButton.eloIcon.windowColorScheme);
-      scyDesktop.bubbleManager.createBubble(searcher, 5, "search", "desktop", "search", searcher.eloIcon.windowColorScheme);
-      scyDesktop.bubbleManager.showingLayer("desktop");
+      scyDesktop.bubbleManager.createBubble(archiver, 6, "archiver", BubbleLayer.DESKTOP, "archiver", archiver.eloIcon.windowColorScheme);
+      scyDesktop.bubbleManager.createBubble(newFromEloTemplateButton, 4, "newFromEloTemplateButton", BubbleLayer.DESKTOP, "newFromEloTemplateButton", newFromEloTemplateButton.eloIcon.windowColorScheme);
+      scyDesktop.bubbleManager.createBubble(searcher, 5, "search", BubbleLayer.DESKTOP, "search", searcher.eloIcon.windowColorScheme);
+      scyDesktop.bubbleManager.showingLayer(BubbleLayer.DESKTOP);
    }
 
    var eloTemplateUris: URI[];

@@ -6,12 +6,9 @@
 package eu.scy.client.desktop.scydesktop.tooltips.impl.bubblestore;
 
 import eu.scy.client.desktop.scydesktop.tooltips.impl.JavaBubble;
-import java.util.ArrayList;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleLayer;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.SortedSet;
-import java.util.TreeSet;
 import org.apache.log4j.Logger;
 
 /**
@@ -21,14 +18,14 @@ import org.apache.log4j.Logger;
 public class BubbleStoreImpl {
    private final static Logger logger = Logger.getLogger(BubbleStoreImpl.class);
 
-   private Map<Object, BubbleLayer> bubbleLayerMap = new HashMap<Object, BubbleLayer>();
+   private Map<Object, BubbleLayerStore> bubbleLayerMap = new HashMap<Object, BubbleLayerStore>();
 
-   private BubbleLayer getBubbleLayer(Object layerId)
+   private BubbleLayerStore getBubbleLayer(Object layerId)
    {
-      BubbleLayer bubbleLayer = bubbleLayerMap.get(layerId);
+      BubbleLayerStore bubbleLayer = bubbleLayerMap.get(layerId);
       if (bubbleLayer == null)
       {
-         bubbleLayer = new BubbleLayer();
+         bubbleLayer = new BubbleLayerStore();
          bubbleLayerMap.put(layerId, bubbleLayer);
       }
       return bubbleLayer;
@@ -36,26 +33,26 @@ public class BubbleStoreImpl {
 
    public void addBubble(JavaBubble bubble)
    {
-      BubbleLayer bubbleLayer = getBubbleLayer(bubble.getLayerId());
+      BubbleLayerStore bubbleLayer = getBubbleLayer(bubble.getLayerId());
       bubbleLayer.addBubble(bubble);
    }
 
    public void removeBubble(JavaBubble bubble)
    {
-      BubbleLayer bubbleLayer = getBubbleLayer(bubble.getLayerId());
+      BubbleLayerStore bubbleLayer = getBubbleLayer(bubble.getLayerId());
       bubbleLayer.removeBubble(bubble);
    }
 
    public void removeBubbles(String id)
    {
-      for (BubbleLayer bubbleLayer: bubbleLayerMap.values()){
+      for (BubbleLayerStore bubbleLayer: bubbleLayerMap.values()){
          bubbleLayer.removeBubbles(id);
       }
    }
 
-   public JavaBubble getNextBubble(Object layerId)
+   public JavaBubble getNextBubble(BubbleLayer layerId)
    {
-      BubbleLayer bubbleLayer = getBubbleLayer(layerId);
+      BubbleLayerStore bubbleLayer = getBubbleLayer(layerId);
       return bubbleLayer.getNextBubble();
    }
 

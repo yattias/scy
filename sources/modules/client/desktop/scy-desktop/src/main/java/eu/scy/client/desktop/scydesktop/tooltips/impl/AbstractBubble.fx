@@ -6,8 +6,7 @@ package eu.scy.client.desktop.scydesktop.tooltips.impl;
 
 import eu.scy.client.desktop.scydesktop.tooltips.Bubble;
 import javafx.scene.Node;
-import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
-import eu.scy.client.desktop.desktoputils.art.ScyColors;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleLayer;
 
 /**
  * @author sikken
@@ -15,10 +14,9 @@ import eu.scy.client.desktop.desktoputils.art.ScyColors;
 public class AbstractBubble extends Bubble, JavaBubble {
 
    public-init var id: String;
-   public-init var layerId: Object;
+   public-init var layerId: BubbleLayer;
    public-init var priority: Integer;
    public-init var targetNode: Node;
-   public-init var windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
 
    public override function toString(): String {
       "id={id},priority={priority},layerId={layerId}"
@@ -28,12 +26,30 @@ public class AbstractBubble extends Bubble, JavaBubble {
       return id
    }
 
-   public override function getLayerId(): Object {
+   public override function getLayerId(): BubbleLayer {
       return layerId
    }
 
    public override function getPriority(): java.lang.Integer {
       return priority
+   }
+
+   public override function isVisible():Boolean{
+      var node = targetNode;
+      while (node!=null){
+         if (not node.visible){
+            return false
+         }
+         node = node.parent;
+      }
+      return true
+   }
+
+   public override function canBeUsedNow():Boolean{
+      if (canBeUsed!=null){
+         return canBeUsed()
+      }
+      return true;
    }
 
    public override function startBubbleling(): Void {

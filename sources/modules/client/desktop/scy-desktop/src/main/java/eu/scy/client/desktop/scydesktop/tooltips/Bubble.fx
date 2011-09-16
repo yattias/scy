@@ -3,12 +3,17 @@
  * and open the template in the editor.
  */
 package eu.scy.client.desktop.scydesktop.tooltips;
-import javafx.scene.Node;
+import eu.scy.client.desktop.desktoputils.art.ScyColors;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 
 /**
  * @author SikkenJ
  */
 public mixin class Bubble {
+
+   public var windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
+
+   public var canBeUsed: function():Boolean;
 
    public abstract function startBubbleling(): Void;
 

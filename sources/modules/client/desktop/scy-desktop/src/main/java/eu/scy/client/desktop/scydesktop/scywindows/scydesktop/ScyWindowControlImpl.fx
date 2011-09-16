@@ -283,6 +283,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
                  setScyContent: setScyContent;
                  missionModelFX: missionModel
                  tooltipManager: tooltipManager
+                 bubbleManager: bubbleManager
                  dragAndDropManager: dragAndDropManager
                  tbi: tbi
                  windowControl: this
@@ -320,6 +321,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
                  setScyContent: setScyContent;
                  missionModelFX: missionModel
                  tooltipManager: tooltipManager
+                 bubbleManager: bubbleManager
                  dragAndDropManager: dragAndDropManager
                  tbi: tbi
                  windowControl: this

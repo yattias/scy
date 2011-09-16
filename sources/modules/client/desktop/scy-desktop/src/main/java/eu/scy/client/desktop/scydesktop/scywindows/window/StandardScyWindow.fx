@@ -39,6 +39,7 @@ import eu.scy.actionlogging.Context;
 import eu.scy.client.desktop.desktoputils.XFX;
 import org.apache.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleLayer;
 /**
  * @author sikkenj
  */
@@ -1049,6 +1050,15 @@ public class StandardScyWindow extends ScyWindow {
          }
 
       eloIconChanged();
+
+      def ownersDefined = function():Boolean{
+         sizeof ownershipManager.getOwners()>0
+      }
+
+      var bubble = bubbleManager.createBubble(titleBarBuddies,9,"elo-buddies",BubbleLayer.DESKTOP,"elo-buddies", windowColorScheme);
+      bubble.canBeUsed = ownersDefined;
+      bubble = bubbleManager.createBubble(closedWindowBuddies,8,"elo-buddies",BubbleLayer.DESKTOP,"elo-buddies", windowColorScheme);
+      bubble.canBeUsed = ownersDefined;
 
       return mainContentGroup = Group {
                cursor: bind if (allowDragging and not isMaximized) Cursor.MOVE else null

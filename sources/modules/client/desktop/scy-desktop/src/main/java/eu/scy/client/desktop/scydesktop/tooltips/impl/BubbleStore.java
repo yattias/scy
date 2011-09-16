@@ -4,6 +4,8 @@
  */
 package eu.scy.client.desktop.scydesktop.tooltips.impl;
 
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleLayer;
+
 /**
  *
  * @author sikken
@@ -17,5 +19,5 @@ public interface BubbleStore
 
    public void removeBubbles(String id);
 
-   public JavaBubble getNextBubble(Object layerId);
+   public JavaBubble getNextBubble(BubbleLayer layerId);
 }

@@ -69,4 +69,14 @@ public class BubbleList
    {
       return bubbleList.get(0);
    }
+
+   public JavaBubble getFirstUsableBubble()
+   {
+      for (JavaBubble bubble: bubbleList){
+         if (bubble.isVisible() && bubble.canBeUsedNow()){
+            return bubble;
+         }
+      }
+      return null;
+   }
 }
