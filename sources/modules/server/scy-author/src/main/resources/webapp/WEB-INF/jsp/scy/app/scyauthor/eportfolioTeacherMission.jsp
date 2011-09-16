@@ -1,5 +1,11 @@
 <%@ include file="common-taglibs.jsp" %>
-<div id="teacherQuestionsForMission">
+<script type="text/javascript">
+    if(dijit.byId('teacherQuestionsForMission')){
+        dijit.byId('teacherQuestionsForMission').destroy();
+    }
+</script>
+<div dojoType="dojox.layout.ContentPane" id="teacherQuestionsForMission" executeScripts="true" parseOnLoad="true">
+
 <p>
     <spring:message code="EPORTFOLIO_TEACHER_HELPX"/>
    </p>
@@ -37,7 +43,7 @@
         </c:when>
     </c:choose>
 
-    <a href="javascript:openPage('teacherQuestionsForMission', 'eportfolioTeacherMission.html?action=addTeacherQuestion&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));">
+    <a href="javascript:openPage(document.getElementById('teacherQuestionsForMission').parentNode.id, 'eportfolioTeacherMission.html?action=addTeacherQuestion&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));">
         <spring:message code="ADD_QUESTION"/>
     </a>
 
