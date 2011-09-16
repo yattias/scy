@@ -47,7 +47,7 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
     public var scyWindow: ScyWindow;
     def technicalType: String = "scy/feedback";
     def title: String = "Feedback ELO";
-    def feedbackTagName: String = "feedback";
+    def feedbackTagName: String = "feedbackelo";
     def commentTagName: String = "comment";
     def createdbyTagName: String = "createdby";
     def createdbypictureTagName: String = "createdbypicture";
