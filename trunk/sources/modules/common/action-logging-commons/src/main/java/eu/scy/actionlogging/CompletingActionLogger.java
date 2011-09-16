@@ -1,10 +1,10 @@
 package eu.scy.actionlogging;
 
-import eu.scy.actionlogging.api.ActionLoggedEventListener;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.actionlogging.api.IContextService;
+import java.awt.EventQueue;
 
 /**
  * An action logger that is wrapped around another logger and that corrects missing attributes by
@@ -16,7 +16,6 @@ import eu.scy.actionlogging.api.IContextService;
 public class CompletingActionLogger implements IActionLogger {
 
     private IContextService contextService;
-
     private IActionLogger internalLogger;
 
     public CompletingActionLogger(IContextService contextService, IActionLogger internalLogger) {
@@ -25,16 +24,22 @@ public class CompletingActionLogger implements IActionLogger {
     }
 
     @Override
-    public void log(IAction action) {
-        autoComplete(action);
-        internalLogger.log(action);
-    }
+    public void log(final IAction action) {
+        Runnable r = new Runnable() {
 
-    @Override
-    @Deprecated
-    public void log(String username, String source, IAction action) {
-        autoComplete(action);
-        internalLogger.log(username, source, action);
+            @Override
+            public void run() {
+                autoComplete(action);
+                internalLogger.log(action);
+            }
+        };
+        if (EventQueue.isDispatchThread()) {
+            Thread t = new Thread(r);
+            t.setDaemon(true);
+            t.start();
+        } else {
+            r.run();
+        }
     }
 
     private void autoComplete(IAction action) {
@@ -52,17 +57,4 @@ public class CompletingActionLogger implements IActionLogger {
     public IActionLogger getInternalLogger() {
         return internalLogger;
     }
-
-   @Override
-   public void addActionLoggedEventListener(ActionLoggedEventListener actionLoggedEventListener)
-   {
-      internalLogger.addActionLoggedEventListener(actionLoggedEventListener);
-   }
-
-   @Override
-   public void removeActionLoggedEventListener(ActionLoggedEventListener actionLoggedEventListener)
-   {
-      internalLogger.removeActionLoggedEventListener(actionLoggedEventListener);
-   }
-    
 }

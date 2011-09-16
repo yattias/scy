@@ -1,7 +1,5 @@
 package eu.scy.actionlogging;
 
-import eu.scy.actionlogging.api.ActionLoggedEvent;
-import eu.scy.actionlogging.api.ActionLoggedEventListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,7 +8,6 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * This class is a multiplexer of action loggers. Other action loggers can register and deregister
@@ -21,7 +18,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class MultiActionLogger implements IActionLogger {
 
-    private List<ActionLoggedEventListener> actionLoggedEventListeners = new CopyOnWriteArrayList<ActionLoggedEventListener>();
     private Lock lock;
 
     private List<IActionLogger> loggers;
@@ -71,43 +67,6 @@ public class MultiActionLogger implements IActionLogger {
         } finally {
             lock.unlock();
         }
-        sendActionLoggedEvent(action);
     }
-
-    @Override
-    @Deprecated
-    public void log(String username, String source, IAction action) {
-        lock.lock();
-        try {
-            for (IActionLogger logger : loggers) {
-                logger.log(username, source, action);
-            }
-        } finally {
-            lock.unlock();
-        }
-    }
-
-   @Override
-   public void addActionLoggedEventListener(ActionLoggedEventListener actionLoggedEventListener)
-   {
-      if (!actionLoggedEventListeners.contains(actionLoggedEventListener)){
-         actionLoggedEventListeners.add(actionLoggedEventListener);
-      }
-   }
-
-   @Override
-   public void removeActionLoggedEventListener(ActionLoggedEventListener actionLoggedEventListener)
-   {
-      actionLoggedEventListeners.remove(actionLoggedEventListener);
-   }
-
-   private void sendActionLoggedEvent(IAction action){
-      if (!actionLoggedEventListeners.isEmpty()){
-         ActionLoggedEvent actionLoggedEvent = new ActionLoggedEvent(action);
-         for (ActionLoggedEventListener actionLoggedEventListener: actionLoggedEventListeners){
-            actionLoggedEventListener.actionLogged(actionLoggedEvent);
-         }
-      }
-   }
 
 }

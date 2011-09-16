@@ -1,7 +1,5 @@
 package eu.scy.actionlogging;
 
-import eu.scy.actionlogging.api.ActionLoggedEvent;
-import eu.scy.actionlogging.api.ActionLoggedEventListener;
 import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
@@ -11,8 +9,6 @@ import java.util.ArrayList;
 
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class SQLSpacesActionLogger implements IActionLogger {
 
@@ -25,8 +21,6 @@ public class SQLSpacesActionLogger implements IActionLogger {
     private int port;
 
     private String ip;
-
-    private List<ActionLoggedEventListener> actionLoggedEventListeners = new CopyOnWriteArrayList<ActionLoggedEventListener>();
 
     public SQLSpacesActionLogger(String ip, int port, String space) {
         this(ip, port, space, "ActionLogger");
@@ -50,14 +44,6 @@ public class SQLSpacesActionLogger implements IActionLogger {
             ts.disconnect();
         } catch (TupleSpaceException e) {
             e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void log(String username, String source, IAction action) {
-        boolean success = writeToTs(action);
-        if (!success) {
-            queue.add(action);
         }
     }
 
@@ -95,31 +81,12 @@ public class SQLSpacesActionLogger implements IActionLogger {
 
     @Override
     public void log(IAction action) {
-        // The username and source aren't used any more, therefore -> null
-        log(null, null, action);
-        sendActionLoggedEvent(action);
+        boolean success = writeToTs(action);
+        if (!success) {
+            queue.add(action);
+        }
+
     }
 
-   @Override
-   public void addActionLoggedEventListener(ActionLoggedEventListener actionLoggedEventListener)
-   {
-      if (!actionLoggedEventListeners.contains(actionLoggedEventListener)){
-         actionLoggedEventListeners.add(actionLoggedEventListener);
-      }
-   }
-
-   @Override
-   public void removeActionLoggedEventListener(ActionLoggedEventListener actionLoggedEventListener)
-   {
-      actionLoggedEventListeners.remove(actionLoggedEventListener);
-   }
-
-   private void sendActionLoggedEvent(IAction action){
-      if (!actionLoggedEventListeners.isEmpty()){
-         ActionLoggedEvent actionLoggedEvent = new ActionLoggedEvent(action);
-         for (ActionLoggedEventListener actionLoggedEventListener: actionLoggedEventListeners){
-            actionLoggedEventListener.actionLogged(actionLoggedEvent);
-         }
-      }
-   }
+   
 }
