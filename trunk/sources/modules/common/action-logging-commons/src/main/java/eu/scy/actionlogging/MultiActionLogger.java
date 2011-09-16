@@ -43,7 +43,9 @@ public class MultiActionLogger implements IActionLogger {
     public void addLogger(IActionLogger logger) {
         lock.lock();
         try {
-            loggers.add(logger);
+            if (!loggers.contains(logger)) {
+                loggers.add(logger);
+            }
         } finally {
             lock.unlock();
         }
