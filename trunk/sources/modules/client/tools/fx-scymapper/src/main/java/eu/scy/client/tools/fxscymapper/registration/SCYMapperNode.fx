@@ -139,6 +139,7 @@ public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX
 
     public override function acceptDrop(object: Object): Void {
         logger.debug("acceptDrop of {object.getClass()}");
+        doSaveConceptMap();
         var c: ContactFrame = object as ContactFrame;
         logger.debug("acceptDrop user: {c.contact.name}");
         scyWindow.ownershipManager.addPendingOwner(c.contact.name);

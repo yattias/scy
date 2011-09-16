@@ -10,6 +10,8 @@ import eu.scy.notification.api.INotification;
 import eu.scy.client.desktop.scydesktop.remotecontrol.api.ScyDesktopRemoteCommand;
 import java.net.URI;
 import java.util.HashMap;
+import eu.scy.client.desktop.desktoputils.XFX;
+import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 
 /**
  * @author sven
@@ -34,14 +36,25 @@ public class CollaborationRequestCommand extends ScyDesktopRemoteCommand {
         var collaborationMessageDialogBox: CollaborationMessageDialogBox;
 
         def yesAction:function() = function(){
-            logger.debug(" => accepting collaboration");
-            pendingCollaborationRequestDialogs.remove(eloUri);
-            scyDesktop.config.getToolBrokerAPI().answerCollaborationProposal(true, user, eloUriString);
+            ProgressOverlay.startShowWorking();
+            XFX.runActionInBackgroundAndCallBack(function() : Object {
+                logger.debug(" => accepting collaboration");
+                pendingCollaborationRequestDialogs.remove(eloUri);
+                scyDesktop.config.getToolBrokerAPI().answerCollaborationProposal(true, user, eloUriString);
+                return null;
+            }, function(o : Object){
+                ProgressOverlay.stopShowWorking();
+            });
         }
         def noAction: function() = function(){
-            logger.debug(" => denying collaboration");
-            pendingCollaborationRequestDialogs.remove(eloUri);
-            scyDesktop.config.getToolBrokerAPI().answerCollaborationProposal(false, user, eloUriString);
+            ProgressOverlay.startShowWorking();
+            XFX.runActionInBackgroundAndCallBack(function() : Object {
+                logger.debug(" => denying collaboration");
+                pendingCollaborationRequestDialogs.remove(eloUri);
+                scyDesktop.config.getToolBrokerAPI().answerCollaborationProposal(false, user, eloUriString);
+            }, function(o : Object){
+                ProgressOverlay.stopShowWorking();
+            });
         }
 //        def text = "{userNickname} {##"wants to start a collaboration with you on the ELO"} {eloUri}. {##"Accept?"}";
 
