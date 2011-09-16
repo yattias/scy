@@ -16,6 +16,7 @@ import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.CompletingActionLogger;
 import eu.scy.actionlogging.MultiActionLogger;
 import java.lang.RuntimeException;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleLayer;
 
 /**
  * @author sikken
@@ -26,14 +27,15 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
    public-init var activateBubbleManager = true;
    def timeStep = 1s;
    def bubbleStore = new BubbleStoreImpl();
-   var activeLayerId: Object;
+//   var activeLayerId: Object;
    var noBubbleFoundCounter = 0;
    def bubbleManagerTimer = new BubbleManagerTimer(this);
+   def layerManager = new BubbleLayerManager();
 
    init {
    }
 
-   public override function log(action : IAction): Void {
+   public override function log(action: IAction): Void {
       println("actionLogged");
       bubbleManagerTimer.userDidSomething();
    }
@@ -42,14 +44,13 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
       if (activateBubbleManager) {
          bubbleManagerTimer.start();
          if (tbi.getActionLogger() instanceof CompletingActionLogger) {
-             def internalLogger : IActionLogger = (tbi.getActionLogger() as CompletingActionLogger).getInternalLogger();
-             if (internalLogger instanceof MultiActionLogger) {
-                 (internalLogger as MultiActionLogger).addLogger(this);
-             }
+            def internalLogger: IActionLogger = (tbi.getActionLogger() as CompletingActionLogger).getInternalLogger();
+            if (internalLogger instanceof MultiActionLogger) {
+               (internalLogger as MultiActionLogger).addLogger(this);
+            }
          } else {
-             throw new RuntimeException("BubbleManager could not be added to action logger list")
+            throw new RuntimeException("BubbleManager could not be added to action logger list")
          }
-
       }
    }
 
@@ -58,10 +59,11 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
    }
 
    function bubbleStep(): Void {
-      def bubbleToDisplay = bubbleStore.getNextBubble(activeLayerId) as AbstractBubble;
+      def topLayerId = layerManager.getTopLayer();
+      def bubbleToDisplay = if (topLayerId!=null) bubbleStore.getNextBubble(topLayerId) as AbstractBubble else null;
       if (bubbleToDisplay != null) {
          showBubble(bubbleToDisplay);
-         //         bubbleStore.removeBubbles(bubbleToDisplay.id);
+                  bubbleStore.removeBubbles(bubbleToDisplay.id);
          noBubbleFoundCounter = 0;
       } else {
          ++noBubbleFoundCounter;
@@ -94,23 +96,23 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
       bubbleStore.removeBubble(bubble);
    }
 
-   public override function showingLayer(layerId: Object): Void {
-      activeLayerId = layerId;
+   public override function showingLayer(bubbleLayer: BubbleLayer): Void {
+      layerManager.showLayer(bubbleLayer);
    }
 
-   public override function hidingLayer(layerId: Object): Void {
-
+   public override function hidingLayer(bubbleLayer: BubbleLayer): Void {
+      layerManager.hideLayer(bubbleLayer);
    }
 
-   public override function createBubble(targetNode: Node, priority: Integer, id: String, layerId: Object, displayKey: String): Bubble {
-      createBubble(targetNode, priority, id, layerId, displayKey, WindowColorScheme.getWindowColorScheme(ScyColors.darkGray));
+   public override function createBubble(targetNode: Node, priority: Integer, id: String, bubbleLayer: BubbleLayer, displayKey: String): Bubble {
+      createBubble(targetNode, priority, id, bubbleLayer, displayKey, WindowColorScheme.getWindowColorScheme(ScyColors.darkGray));
    }
 
-   public override function createBubble(targetNode: Node, priority: Integer, id: String, layerId: Object, displayKey: String, windowColorScheme: WindowColorScheme): Bubble {
+   public override function createBubble(targetNode: Node, priority: Integer, id: String, bubbleLayer: BubbleLayer, displayKey: String, windowColorScheme: WindowColorScheme): Bubble {
       def bubble = TextBubble {
                  priority: priority
                  id: id
-                 layerId: layerId
+                 layerId: bubbleLayer
                  targetNode: targetNode
                  bubbleText: displayKey
                  windowColorScheme: windowColorScheme

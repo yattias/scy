@@ -24,10 +24,8 @@ import eu.scy.client.desktop.desktoputils.art.javafx.MoreAssignmentTypeIcon;
 import eu.scy.client.desktop.desktoputils.art.javafx.MoreResourcesTypeIcon;
 import eu.scy.client.desktop.desktoputils.art.javafx.InstructionTypesIcon;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
-import javafx.scene.CustomNode;
-import javafx.scene.Group;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.paint.Color;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleManager;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleLayer;
 
 /**
  * @author SikkenJ
@@ -41,53 +39,60 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
    public var moreInfoToolFactory: MoreInfoToolFactory on replace { moreInfoToolFactoryChanged() };
    public var tbi: ToolBrokerAPI;
    public var tooltipManager: TooltipManager;
+   public var bubbleManager: BubbleManager;
    def noLasColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
    var colorScheme = noLasColorScheme;
+   def lasCurtainBubbleLayerId = BubbleLayer.LAS_CURTAIN;
    def relativInstructioneWindowScreenBoder = 0.2;
    def relativeMoreInfoWindowScreenBoder = 0.15;
    def sceneWidth = bind scene.width on replace { sceneSizeChanged() };
    def sceneHeight = bind scene.height on replace { sceneSizeChanged() };
    def instructionWindow: MoreInfoWindow = MoreInfoWindow {
-         title: ##"Instruction"
-         infoTypeIcon: InstructionTypesIcon {}
-         openAction: showInstructionWindow;
-         closeAction: hideInstructionWindow;
-         hideCloseButton: true
-         visible: false
-         tooltipManager: tooltipManager;
-      }
+              title: ##"Instruction"
+              infoTypeIcon: InstructionTypesIcon {}
+              openAction: showInstructionWindow;
+              closeAction: hideInstructionWindow;
+              hideCloseButton: true
+              visible: false
+              tooltipManager: tooltipManager
+              bubbleManager: bubbleManager
+              bubbleLayerId: lasCurtainBubbleLayerId
+           }
    var instructionTool: ShowInfoUrl;
    def moreInfoWindow: MoreInfoWindow = MoreInfoWindow {
-         title: "More info"
-         closeAction: hideMoreInfoWindow
-         hideCloseButton: false
-         visible: false
-      }
+              title: "More info"
+              closeAction: hideMoreInfoWindow
+              hideCloseButton: false
+              visible: false
+           }
    def agendaWindow: MoreInfoWindow = MoreInfoWindow {
-         title: "Agenda"
-         infoTypeIcon: InstructionTypesIcon {}
-         closeAction: hideAgendaWindow
-         openAction: showAgendaWindow;
-         windowColorScheme: bind colorScheme;
-         hideCloseButton: true
-         visible: false
-      }
+              title: "Agenda"
+              infoTypeIcon: InstructionTypesIcon {}
+              closeAction: hideAgendaWindow
+              openAction: showAgendaWindow;
+              windowColorScheme: bind colorScheme;
+              hideCloseButton: true
+              visible: false
+           }
    public-read var agendaNode: AgendaNode;
    var moreInfoTool: ShowInfoUrl;
    def uriLocalizer = new UriLocalizer();
    var runPhase = false;
    var showingMoreInfoWindow = false;
+   var instructionWindowControlBubble = bubbleManager.createBubble(instructionWindow.curtainControl, 7, "open-close", BubbleLayer.DESKTOP, "lasCurtain.open-close");
 
    init {
       runPhase = true;
       activeLasChanged();
       if (Boolean.getBoolean("agenda")) {
-        showAgendaWindow();
+         showAgendaWindow();
       }
       sceneSizeChanged();
+      
+
    }
 
-   function sceneSizeChanged() : Void {
+   function sceneSizeChanged(): Void {
       if (instructionWindow.visible) {
          instructionWindow.width = (1 - 2 * relativInstructioneWindowScreenBoder) * scene.width;
          instructionWindow.height = (1 - 1 * relativInstructioneWindowScreenBoder) * scene.height;
@@ -151,12 +156,15 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       instructionWindow.setControlFunctionClose();
       ModalDialogLayer.addModalDialog(instructionWindow, false, true, false, 0);
       sceneSizeChanged();
+      instructionWindowControlBubble.windowColorScheme = colorScheme;
+      bubbleManager.showingLayer(lasCurtainBubbleLayerId);
    }
 
    function hideInstructionWindow(): Void {
       if (instructionWindow.visible) {
          instructionWindow.setControlFunctionOpen();
          ModalDialogLayer.removeModalDialog(instructionWindow, true, false);
+         bubbleManager.hidingLayer(lasCurtainBubbleLayerId);
       }
    }
 
@@ -170,7 +178,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
    function initAgendaWindow(): Void {
       if (agendaWindow.content == null) {
          agendaNode = AgendaNode {
-             };
+                 };
          agendaWindow.content = agendaNode
       }
    }
@@ -184,13 +192,13 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       }
    }
 
-   function moreInfoToolFactoryChanged(){
+   function moreInfoToolFactoryChanged() {
       if (instructionWindow.content != null) {
          instructionWindow.content = moreInfoToolFactory.createMoreInfoTool(this);
          if (instructionWindow.content instanceof ShowInfoUrl) {
             instructionTool = instructionWindow.content as ShowInfoUrl;
          }
-         if (instructionWindow.visible and not runPhase){
+         if (instructionWindow.visible and not runPhase) {
             showInstructionWindow();
          }
       }
@@ -198,7 +206,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
 
    public override function showMoreInfo(infoUri: URI, type: MoreInfoTypes, eloUri: URI): Void {
       var scyElo = activeLas.mainAnchor.scyElo;
-      if (eloUri!=null){
+      if (eloUri != null) {
          scyElo = ScyElo.loadMetadata(eloUri, tbi);
       }
       showMoreInfo(infoUri, type, scyElo);
@@ -239,7 +247,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       moreInfoWindow.infoTypeIcon = infoTypeIcon;
       moreInfoWindow.windowColorScheme = moreInfoColorScheme;
       moreInfoTool.showInfoUrl(uriLocalizer.localizeUrlwithChecking(infoUri.toURL()));
-      if (not showingMoreInfoWindow){
+      if (not showingMoreInfoWindow) {
          ModalDialogLayer.addModalDialog(moreInfoWindow, true, true, false, 0);
          showingMoreInfoWindow = true
       }

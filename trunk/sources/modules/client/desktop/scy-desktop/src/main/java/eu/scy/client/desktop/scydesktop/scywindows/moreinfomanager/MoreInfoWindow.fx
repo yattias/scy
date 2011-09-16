@@ -29,6 +29,8 @@ import eu.scy.client.desktop.desktoputils.art.javafx.MoreResourcesTypeIcon;
 import eu.scy.client.desktop.desktoputils.art.javafx.InstructionTypesIcon;
 import javafx.scene.effect.DropShadow;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleManager;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleLayer;
 
 /**
  * @author SikkenJ
@@ -38,6 +40,7 @@ public class MoreInfoWindow extends CustomNode {
    def iconSize = 40.0;
    public var windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
    public var tooltipManager: TooltipManager;
+   public var bubbleManager: BubbleManager;
    public var width = 300.0;
    public var height = 200.0;
    public var title = "Title";
@@ -49,6 +52,7 @@ public class MoreInfoWindow extends CustomNode {
    public var environmentColor = Color.color(.90, .90, .90);
    public var mouseClickedAction: function(: MouseEvent): Void;
    public-init var hideCloseButton: Boolean = false;
+   public-init var bubbleLayerId: BubbleLayer;
    def borderLineWidth = 2.0;
    def borderWidth = 5.0;
    def closeSize = 10.0;
@@ -102,6 +106,11 @@ public class MoreInfoWindow extends CustomNode {
            }
 
    public override function create(): Node {
+      if (not hideCloseButton){
+         bubbleManager.createBubble(windowClose, 5, "close", bubbleLayerId, "lasCurtain.close",windowColorScheme)
+      }
+      bubbleManager.createBubble(curtainControl, 5, "open-close", bubbleLayerId, "lasCurtain.open-close",windowColorScheme);
+
       Group {
          blocksMouse: true
          content: [

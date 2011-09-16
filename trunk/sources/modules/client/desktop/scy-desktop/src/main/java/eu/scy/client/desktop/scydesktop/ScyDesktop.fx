@@ -247,6 +247,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
               moreInfoToolFactory: bind moreInfoToolFactory
               activeLas: bind missionModelFX.activeLas
               tooltipManager: tooltipManager
+              bubbleManager: bubbleManager
            }
    public-init var preventShutdown = true;
    def shutdownHook = ShutdownHook {
@@ -399,6 +400,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                  tbi: config.getToolBrokerAPI()
                  setScyContent: fillScyWindowNow;
                  tooltipManager: tooltipManager
+                 bubbleManager: bubbleManager
                  dragAndDropManager: dragAndDropManager
                  repositoryWrapper: if (config.getRepository() instanceof RepositoryWrapper) config.getRepository() as RepositoryWrapper else null;
                  showEloInfoDisplay: initializer.debugMode

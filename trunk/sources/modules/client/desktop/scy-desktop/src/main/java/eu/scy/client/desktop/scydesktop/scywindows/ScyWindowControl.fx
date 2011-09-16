@@ -20,6 +20,7 @@ import eu.scy.client.desktop.scydesktop.hacks.RepositoryWrapper;
 import eu.scy.client.desktop.scydesktop.edges.IEdgesManager;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.elofactory.EloConfigManager;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleManager;
 
 
 /**
@@ -39,6 +40,7 @@ public mixin class ScyWindowControl {
    public var stage: Stage;
    public var tbi:ToolBrokerAPI;
    public var tooltipManager:TooltipManager;
+   public var bubbleManager: BubbleManager;
    public var dragAndDropManager:DragAndDropManager;
    public var repositoryWrapper:RepositoryWrapper;
    public var eloConfigManager: EloConfigManager;

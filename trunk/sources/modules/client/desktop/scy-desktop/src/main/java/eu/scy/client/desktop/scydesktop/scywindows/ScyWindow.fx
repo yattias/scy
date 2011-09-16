@@ -23,6 +23,7 @@ import javafx.geometry.Point2D;
 import eu.scy.client.desktop.scydesktop.owner.OwnershipManager;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 import eu.scy.client.desktop.desktoputils.art.EloIcon;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleManager;
 
 /**
  * @author sikkenj
@@ -82,6 +83,7 @@ public abstract class ScyWindow extends CustomNode, DropTarget {
     public var closedAction: function(ScyWindow): Void;
     public var windowControl: ScyWindowControl;
     public var tooltipManager: TooltipManager;
+    public var bubbleManager: BubbleManager;
     public var dragAndDropManager: DragAndDropManager;
     public var mucId: String;
     public var tbi: ToolBrokerAPI;

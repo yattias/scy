@@ -10,9 +10,14 @@ package eu.scy.client.desktop.scydesktop.tooltips.impl;
  */
 public interface JavaBubble
 {
+
    public String getId();
 
    public Object getLayerId();
 
    public Integer getPriority();
+
+   public boolean isVisible();
+
+   public boolean canBeUsedNow();
 }

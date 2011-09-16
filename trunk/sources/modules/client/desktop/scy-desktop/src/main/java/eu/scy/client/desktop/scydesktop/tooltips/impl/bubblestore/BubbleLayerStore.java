@@ -6,24 +6,24 @@ package eu.scy.client.desktop.scydesktop.tooltips.impl.bubblestore;
 
 import eu.scy.client.desktop.scydesktop.tooltips.impl.JavaBubble;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
 import org.apache.log4j.Logger;
 
 /**
  *
  * @author SikkenJ
  */
-public class BubbleLayer
+public class BubbleLayerStore
 {
 
-   private final static Logger logger = Logger.getLogger(BubbleLayer.class);
-   private SortedSet<BubbleList> bubbleListSet = new TreeSet<BubbleList>(new BubbleListComparator());
+   private final static Logger logger = Logger.getLogger(BubbleLayerStore.class);
+   private List<BubbleList> bubbleLists = new ArrayList<BubbleList>();
+   private BubbleListComparator bubbleListComparator = new BubbleListComparator();
 
    private BubbleList getBubblelist(int priority)
    {
-      for (BubbleList bubbleList : bubbleListSet)
+      for (BubbleList bubbleList : bubbleLists)
       {
          if (priority == bubbleList.getPriority())
          {
@@ -31,7 +31,8 @@ public class BubbleLayer
          }
       }
       BubbleList bubbleList = new BubbleList(priority);
-      bubbleListSet.add(bubbleList);
+      bubbleLists.add(bubbleList);
+      Collections.sort(bubbleLists, Collections.reverseOrder(bubbleListComparator));
       return bubbleList;
    }
 
@@ -50,14 +51,14 @@ public class BubbleLayer
       }
       if (bubbleList.isEmpty())
       {
-         bubbleListSet.remove(bubbleList);
+         bubbleLists.remove(bubbleList);
       }
    }
 
    public void removeBubbles(String id)
    {
       List<BubbleList> bubbleListsToDelete = new ArrayList<BubbleList>();
-      for (BubbleList bubbleList : bubbleListSet)
+      for (BubbleList bubbleList : bubbleLists)
       {
          bubbleList.removeBubbles(id);
          if (bubbleList.isEmpty()){
@@ -65,16 +66,20 @@ public class BubbleLayer
          }
       }
       for (BubbleList bubbleList: bubbleListsToDelete){
-         bubbleListSet.remove(bubbleList);
+         bubbleLists.remove(bubbleList);
       }
    }
 
    public JavaBubble getNextBubble()
    {
-      if (!bubbleListSet.isEmpty())
+      if (!bubbleLists.isEmpty())
       {
-         BubbleList bubbleList = bubbleListSet.last();
-         return bubbleList.getFirstBubble();
+         for (BubbleList bubbleList : bubbleLists){
+            JavaBubble nextBubble = bubbleList.getFirstUsableBubble();
+            if (nextBubble!=null){
+               return nextBubble;
+            }
+         }
       }
       return null;
    }
