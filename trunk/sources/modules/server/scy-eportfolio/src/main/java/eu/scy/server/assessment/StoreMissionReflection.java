@@ -4,6 +4,7 @@ import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.XMLTransferObjectService;
 import eu.scy.core.model.transfer.Portfolio;
+import eu.scy.core.model.transfer.TeachersReflectionsOnMissionAnswer;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.core.roolo.PedagogicalPlanELOService;
 import eu.scy.core.roolo.PortfolioELOService;
@@ -16,6 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
+import java.util.Enumeration;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -43,6 +46,10 @@ public class StoreMissionReflection extends BaseController {
         MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(missionRuntimeURI, getMissionELOService());
 
         Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo, getCurrentUserName(request));
+
+        storeTeacherQuestions(request, portfolio);
+
+
         portfolio.setAssessmentPortfolioComment(commentsOnPortfolio);
         portfolio.setAssessmentPortfolioRating(rating);
         portfolio.setPortfolioStatus(Portfolio.PORTFOLIO_STATUS_ASSESSED);
@@ -54,6 +61,26 @@ public class StoreMissionReflection extends BaseController {
 
         getActionLoggerService().logActionForRuntime("portfolio_assessed", portfolio.getOwner(), "scy_author", missionRuntimeURI.toString());
 
+    }
+
+    private void storeTeacherQuestions(HttpServletRequest request, Portfolio portfolio) {
+        Enumeration enumeration = request.getParameterNames();
+        while(enumeration.hasMoreElements()) {
+            String parameter = (String) enumeration.nextElement();
+            if(parameter.startsWith("teacherReflection-")) {
+                String id = parameter.substring("teacherReflection-".length(), parameter.length());
+                String value=request.getParameter(parameter);
+                setTeacherQuestionAnswer(portfolio, id, value);
+            }
+        }
+    }
+
+    private void setTeacherQuestionAnswer(Portfolio portfolio, String id, String value) {
+        List teachersReflections = portfolio.getTeachersReflectionsOnMissionAnswers();
+        for (int i = 0; i < teachersReflections.size(); i++) {
+            TeachersReflectionsOnMissionAnswer teacherReflectionsOnMission = (TeachersReflectionsOnMissionAnswer) teachersReflections.get(i);
+            if(teacherReflectionsOnMission.getId().equals(id)) teacherReflectionsOnMission.setAnswer(value);
+        }
     }
 
     public PortfolioELOService getPortfolioELOService() {

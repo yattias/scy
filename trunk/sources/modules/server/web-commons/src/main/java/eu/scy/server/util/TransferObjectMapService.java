@@ -137,6 +137,11 @@ public class TransferObjectMapService {
             Rubric rubric = (Rubric) assessmentSetupTransfer.getRubrics().get(i);
             registerRubric(map, rubric);
         }
+
+        for (int i = 0; i < assessmentSetupTransfer.getTeacherQuestionsToMission().size(); i++) {
+            TeacherQuestionToMission teacherQuestionToMission = assessmentSetupTransfer.getTeacherQuestionsToMission().get(i);
+            map.put(teacherQuestionToMission.getId(), teacherQuestionToMission);
+        }
     }
 
     private void registerRubric(Map map, Rubric rubric) {

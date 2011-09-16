@@ -106,7 +106,8 @@
                 Entered: ${transferElo.createdDate} <br/>
                 Catname: ${transferElo.catname}<br/>
                 Viewed: ${feedbackElo.shown}<br/>
-                Quality Score Average: ${elo.grade}<br/>
+                Total Score: ${feedbackElo.score}<br/>
+                Average score: ${feedbackElo.averageScore}<br/>
                 Comment: ${elo.comment}
 
         </div>

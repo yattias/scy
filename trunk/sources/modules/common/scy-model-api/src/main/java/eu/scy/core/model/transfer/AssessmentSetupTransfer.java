@@ -18,6 +18,7 @@ public class AssessmentSetupTransfer extends BaseXMLTransfer{
     private List reflectionQuestions = new LinkedList();
     private List reflectionTabs = new LinkedList();
     private List <TeacherQuestionToElo> teacherQuestionToElos = new LinkedList<TeacherQuestionToElo>();
+    private List <TeacherQuestionToMission> teacherQuestionsToMission = new LinkedList<TeacherQuestionToMission>();
     private List rubrics = new LinkedList();
     
     private Boolean useOnlyLearningGoals = true;
@@ -180,6 +181,16 @@ public class AssessmentSetupTransfer extends BaseXMLTransfer{
         return returnList;
     }
 
+    public List getRubricForMission() {
+        List <RubricForMission> returnList = new LinkedList<RubricForMission>();
+        for (int i = 0; i < getRubrics().size(); i++) {
+            Object o = getRubrics().get(i);
+            if(o instanceof RubricForMission) returnList.add((RubricForMission) o);
+        }
+
+        return returnList;
+    }
+
     public Rubric getRubric(String rubricId) {
         for (int i = 0; i < getRubrics().size(); i++) {
             Rubric rubric = (Rubric) getRubrics().get(i);
@@ -198,5 +209,18 @@ public class AssessmentSetupTransfer extends BaseXMLTransfer{
             }
         }
         return null;
+    }
+
+    public List<TeacherQuestionToMission> getTeacherQuestionsToMission() {
+        if(teacherQuestionsToMission == null) teacherQuestionsToMission = new LinkedList<TeacherQuestionToMission>();
+        return teacherQuestionsToMission;
+    }
+
+    public void setTeacherQuestionsToMission(List<TeacherQuestionToMission> teacherQuestionsToMission) {
+        this.teacherQuestionsToMission = teacherQuestionsToMission;
+    }
+
+    public void addTeacherQuestiontoMission(TeacherQuestionToMission teacherQuestionToMission) {
+        getTeacherQuestionsToMission().add(teacherQuestionToMission);
     }
 }

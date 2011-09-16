@@ -1,9 +1,10 @@
 package eu.scy.server.assessment;
 
 import eu.scy.common.mission.MissionRuntimeElo;
+import eu.scy.common.mission.MissionSpecificationElo;
+import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.XMLTransferObjectService;
-import eu.scy.core.model.transfer.MissionReflectionQuestionAnswer;
-import eu.scy.core.model.transfer.Portfolio;
+import eu.scy.core.model.transfer.*;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.core.roolo.PedagogicalPlanELOService;
 import eu.scy.core.roolo.PortfolioELOService;
@@ -38,11 +39,33 @@ public class AssessMission extends BaseController {
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
         URI missionRuntimeURI = getURI(request.getParameter("missionRuntimeURI"));
         MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(missionRuntimeURI, getMissionELOService());
+        MissionSpecificationElo missionSpecificationELo = getMissionELOService().getMissionSpecificationELOForRuntume(missionRuntimeElo);
+        PedagogicalPlanTransfer pedagogicalPlan = getPedagogicalPlanELOService().getPedagogicalPlanForMission(missionSpecificationELo);
         Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo, getCurrentUserName(request));
+
+        initializePortfolio(pedagogicalPlan, portfolio, missionRuntimeElo);
+
+        
 
         List<MissionReflectionQuestionAnswer> missionReflectionQuestionAnswers= portfolio.getMissionReflectionQuestionAnswers();
         modelAndView.addObject("missionReflectionQuestionAnswers", missionReflectionQuestionAnswers);
         modelAndView.addObject("missionRuntimeURI", getEncodedUri(missionRuntimeElo.getUri().toString()));
+        modelAndView.addObject("teacherReflectionOnMisionAnswers", portfolio.getTeachersReflectionsOnMissionAnswers());
+    }
+
+    private void initializePortfolio(PedagogicalPlanTransfer pedagogicalPlan, Portfolio portfolio, MissionRuntimeElo missionRuntimeElo) {
+        for (int i = 0; i < pedagogicalPlan.getAssessmentSetup().getTeacherQuestionsToMission().size(); i++) {
+            TeacherQuestionToMission teacherQuestionToMission = pedagogicalPlan.getAssessmentSetup().getTeacherQuestionsToMission().get(i);
+            TeachersReflectionsOnMissionAnswer answer = new TeachersReflectionsOnMissionAnswer();
+            answer.setTeacherQuestionToMissionId(teacherQuestionToMission.getId());
+            answer.setTeacherQuestionToMission(teacherQuestionToMission.getQuestion());
+            portfolio.addTeacherReflectionOnMissionAnswer(answer);
+        }
+
+        ScyElo portfolioElo = ScyElo.loadLastVersionElo(missionRuntimeElo.getTypedContent().getEPortfolioEloUri(), getMissionELOService());
+        portfolioElo.getContent().setXmlString(getXmlTransferObjectService().getToObjectXStream().toXML(portfolio));
+        portfolioElo.updateElo();
+
     }
 
     public PortfolioELOService getPortfolioELOService() {

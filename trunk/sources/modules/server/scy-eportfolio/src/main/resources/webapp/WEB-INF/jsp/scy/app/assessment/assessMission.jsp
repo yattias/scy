@@ -22,12 +22,10 @@
 
                 <c:choose>
                     <c:when test="${fn:length(missionReflectionQuestionAnswers) > 0}">
+                        <h2><spring:message code="STUDENT_REFLECTIONS"/>  </h2>
                             <table>
                                 <c:forEach var="missionReflectionQuestionAnswer" items="${missionReflectionQuestionAnswers}">
                                     <tr>
-                                        <td>
-                                            ${missionReflectionQuestionAnswer.tab.title}
-                                        </td>
                                          <td>
                                             ${missionReflectionQuestionAnswer.tab.question}
                                         </td>
@@ -41,8 +39,30 @@
                     </c:when>
                 </c:choose>
 
-            <div>
+
                 <form action="storeMissionReflection.html">
+                <c:choose>
+                    <c:when test="${fn:length(teacherReflectionOnMisionAnswers) > 0}">
+                        <h2><spring:message code="TEACHERS_REFLECTIONS"/>  </h2>
+                            <table>
+                                <c:forEach var="answer" items="${teacherReflectionOnMisionAnswers}">
+                                    <tr>
+                                        <td>
+                                            ${answer.teacherQuestionToMission} - ${answer.answer}
+                                        </td>
+                                        <td>
+                                            <textarea rows="3" cols="30" name="teacherReflection-${answer.id}">${answer.answer}</textarea>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </table>
+                    </c:when>
+                </c:choose>
+
+
+
+            <div>
+
                     <table>
                         <tr>
                             <td>
@@ -75,8 +95,9 @@
                             </td>
                         </tr>
                     </table>
-                </form>
-            </div>
+
+                </div>
+            </form>
             </div>
 
 
