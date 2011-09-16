@@ -1,5 +1,6 @@
 package eu.scy.common.mission;
 
+import java.net.URI;
 import java.util.List;
 
 public interface MissionManagement
@@ -12,4 +13,5 @@ public interface MissionManagement
    
    public List<MissionRuntimeModel> getAllMissionRuntimeModels();
 
+   public URI getAnchorEloUriForElo(URI eloUri);
 }
