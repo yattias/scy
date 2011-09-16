@@ -47,7 +47,7 @@ public class NewSimulationPanel extends JPanel {
 
         JRadioButton simulationRadio;
         JPanel simulationsPanel = new JPanel();
-	simulationRadio = new JRadioButton();
+		simulationRadio = new JRadioButton();
         simulationRadio.setActionCommand("http://www.scy-lab.eu/sqzx/balance.sqzx");
         simulationRadio.setSelected(true);
         uriRadioButtons.add(simulationRadio);
@@ -55,6 +55,15 @@ public class NewSimulationPanel extends JPanel {
         simulationsPanel.setLayout(flow);
         simulationsPanel.add(simulationRadio);
         simulationsPanel.add(new JLabel("Balance / Seesaw simulation"));
+        allSimulationsPanel.add(simulationsPanel);
+
+		simulationRadio = new JRadioButton();
+        simulationRadio.setActionCommand("http://www.scy-lab.eu/sqzx/glucose.sqzx");
+		uriRadioButtons.add(simulationRadio);
+        simulationsPanel = new JPanel();
+        simulationsPanel.setLayout(flow);
+        simulationsPanel.add(simulationRadio);
+        simulationsPanel.add(new JLabel("Glucose simulation"));
         allSimulationsPanel.add(simulationsPanel);
 
         simulationRadio = new JRadioButton();
@@ -84,14 +93,14 @@ public class NewSimulationPanel extends JPanel {
         simulationsPanel.add(new JLabel("pizza simulation"));
         allSimulationsPanel.add(simulationsPanel);
 
-        simulationRadio = new JRadioButton();
-        simulationRadio.setActionCommand("http://www.scy-lab.eu/sqzx/RotatingPendulum.sqzx");
-        uriRadioButtons.add(simulationRadio);
-        simulationsPanel = new JPanel();
-        simulationsPanel.setLayout(flow);
-        simulationsPanel.add(simulationRadio);
-        simulationsPanel.add(new JLabel("pendulum"));
-        allSimulationsPanel.add(simulationsPanel);
+//        simulationRadio = new JRadioButton();
+//        simulationRadio.setActionCommand("http://www.scy-lab.eu/sqzx/RotatingPendulum.sqzx");
+//        uriRadioButtons.add(simulationRadio);
+//        simulationsPanel = new JPanel();
+//        simulationsPanel.setLayout(flow);
+//        simulationsPanel.add(simulationRadio);
+//        simulationsPanel.add(new JLabel("pendulum"));
+//        allSimulationsPanel.add(simulationsPanel);
 
         simulationRadio = new JRadioButton();
         simulationRadio.setActionCommand("free");
