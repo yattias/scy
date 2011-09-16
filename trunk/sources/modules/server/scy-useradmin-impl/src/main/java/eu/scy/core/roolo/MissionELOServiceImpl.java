@@ -254,12 +254,9 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
         List returnList = new LinkedList();
         for (int i = 0; i < anchorElos.size(); i++) {
             ScyElo scyElo = (ScyElo) anchorElos.get(i);
-            if (scyElo != null && scyElo.getObligatoryInPortfolio() != null) {
-                if (scyElo.getObligatoryInPortfolio()) {
-                    TransferElo transferElo = new TransferElo(scyElo);
-                    returnList.add(transferElo);
-                }
-
+            if (getIsDefinedAsObligatoryInPedagogicalPlan(pedagogicalPlan, scyElo)) {
+                TransferElo transferElo = new TransferElo(scyElo);
+                returnList.add(transferElo);
             }
         }
 
