@@ -199,16 +199,19 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
         log.info("LOADING ANCHOR ELOS FOR MISSION SPEC: " + missionSpecificationElo.getUri());
         List returnList = new LinkedList();
         MissionModelElo missionModel = MissionModelElo.loadLastVersionElo(missionSpecificationElo.getTypedContent().getMissionMapModelEloUri(), this);
-/*
-                List <MissionAnchor> anchorElos = missionModel.getTypedContent().getMissionAnchors();
+        /*
+        List<MissionAnchor> anchorElos = missionModel.getTypedContent().getMissionAnchors();
         for (int i = 0; i < anchorElos.size(); i++) {
             MissionAnchor missionAnchor = anchorElos.get(i);
-            if(missionAnchor.getObligatoryInPortfolio() != null && missionAnchor.getObligatoryInPortfolio()) {
+            if (missionAnchor.getObligatoryInPortfolio() != null && missionAnchor.getObligatoryInPortfolio()) {
                 returnList.add(missionAnchor);
             }
+            returnList.add(missionAnchor.getScyElo());
         }
-        return returnList;
         */
+
+
+
         //missionModel.getMissionModel().loadMetadata(this);
         List lasses = missionModel.getTypedContent().getLasses();//what is  this? A getter??
 
@@ -220,7 +223,7 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
             MissionAnchor missionAnchor = las.getMissionAnchor();
             if (missionAnchor != null) {
                 ScyElo missionAnchorElo = ScyElo.loadLastVersionElo(missionAnchor.getEloUri(), this);
-                missionAnchors.add(missionAnchorElo);
+                returnList.add(missionAnchorElo);
                 if (missionAnchorElo != null) {
                     log.info("MISSION ANCHOR: " + missionAnchorElo.getTitle() + " OBLIGATORY: " + missionAnchorElo.getObligatoryInPortfolio());
                 } else {
@@ -233,7 +236,15 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
 
         log.info("Returning : " + missionAnchors.size() + " MISSION ANCHORS");
 
-        return missionAnchors;
+        //return missionAnchors; */
+
+        log.info("FOUND " + returnList.size() + " ANCHOR ELOS!");
+        for (int i = 0; i < returnList.size(); i++) {
+            ScyElo scyElo = (ScyElo) returnList.get(i);
+            System.out.println("scyElo" + scyElo);
+        }
+
+        return returnList;
     }
 
 
@@ -243,9 +254,12 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
         List returnList = new LinkedList();
         for (int i = 0; i < anchorElos.size(); i++) {
             ScyElo scyElo = (ScyElo) anchorElos.get(i);
-            if (getIsDefinedAsObligatoryInPedagogicalPlan(pedagogicalPlan, scyElo)) {
-                TransferElo transferElo = new TransferElo(scyElo);
-                returnList.add(transferElo);
+            if (scyElo != null && scyElo.getObligatoryInPortfolio() != null) {
+                if (scyElo.getObligatoryInPortfolio()) {
+                    TransferElo transferElo = new TransferElo(scyElo);
+                    returnList.add(transferElo);
+                }
+
             }
         }
 
@@ -255,7 +269,7 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
 
     private boolean getIsDefinedAsObligatoryInPedagogicalPlan(PedagogicalPlanTransfer pedagogicalPlan, ScyElo scyElo) {
         List<LasTransfer> lasses = pedagogicalPlan.getMissionPlan().getLasTransfers();
-        if(lasses != null) {
+        if (lasses != null) {
             for (int i = 0; i < lasses.size(); i++) {
                 LasTransfer lasTransfer = lasses.get(i);
                 if (lasTransfer.getAnchorElo() != null) {
@@ -341,7 +355,7 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
 
     @Override
     public List<TransferElo> getElosForFeedback(MissionRuntimeElo missionRuntimeElo, String username, FeedbackEloSearchFilter feedbackEloSearchFilter) {
-        List <TransferElo> returnList = new LinkedList<TransferElo>();
+        List<TransferElo> returnList = new LinkedList<TransferElo>();
         List<ISearchResult> feedbackList = getFeedback();
         for (int i = 0; i < feedbackList.size(); i++) {
             ISearchResult searchResult = feedbackList.get(i);
