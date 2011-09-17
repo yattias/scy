@@ -217,7 +217,7 @@
                                         </tr>
 
                                         <c:forEach var="generalLearningGoalWithScore" items="${selectedSpecificLearningGoalWithScores}">
-                                            <tr class="${oddEven.oddEven}">
+                                            <tr class="${oddEven.oddEven}_eport">
                                                 <c:if test="${pedagogicalPlan.assessmentSetup.useOnlyLearningGoals}">
                                                     <td>
                                                         ${generalLearningGoalWithScore.learningGoalText}
