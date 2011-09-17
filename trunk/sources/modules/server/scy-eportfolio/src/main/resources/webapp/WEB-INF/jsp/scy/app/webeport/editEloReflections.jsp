@@ -4,115 +4,108 @@
     <tiles:putAttribute name="main">
    <style type="text/css">
         .feedbackHeader{
-                background-image:url(/webapp/themes/scy/default/images/feedback_header.png);
-                background-repeat:no-repeat;
+                /*background-image:url(/webapp/themes/scy/default/images/feedback_header.png);
+                background-repeat:no-repeat;*/
                 color:#ffffff;
-                height:50px;
+                height:80px;
                 background-color:#333333 !important;
                 font-weight:bold;
-                font-size:25px;
-                text-align:center;
-                padding-top:20px;
+                /*font-size:25px;
+                text-align:center;*/
+                padding:10px;
+                line-height:1.5;
+            }
+
+            .tablerow-odd_eport{
+                background-color:#cccccc;
+            }
+            .tablerow-even_eport{
+                background-color:#ebebeb;
+            }
+            table{
+                border:none !important;
             }
     </style>
-        <div style="border:4px solid #cc6600;width:786px;height:95%;padding:4px;" class="greenBorders">
-                    <div class="feedbackHeader" >My ePortfolio</div>
+        <div style="border:4px solid #333333;border-bottom-left-radius:40px;width:786px;height:95%;padding:4px;">
+                    <div class="feedbackHeader" >
+                        <div style="width:80px;height:80px;float:left;">
+                            <a href="javascript:loadDialog('/webapp/components/openEloInScyLabDialog.html?eloURI=${elo.uri}', '${eno.myname}');">
+                                <img src="${elo.thumbnail}"/>
+                            </a>
+                        </div>
+                        <div style="width:150px;height:80px;float:left;text-align:right;">
+                            Mission / ELO name: <br/>
+                            Created by: <br/>
+                            Date: 
+                        </div>
+                        <div style="float:left;">
+                              ${elo.myname}<br/>
+                              ${createdBy}<br/>
+                              ${lastModified}
+                        </div>
+                    </div>
 
                 <div dojoType="dojox.layout.ContentPane" style="width:100%;height:90%;" id="eportfolioPane" parseOnLoad="true" executeScripts="true">
 
-        <table>
-            <tr>
-                <td width="20%">
-                    <a href="javascript:loadDialog('/webapp/components/openEloInScyLabDialog.html?eloURI=${elo.uri}', '${eno.myname}');">
-                        <img src="${elo.thumbnail}"/>
-                    </a>
-                </td>
-                <td>
-                    <table>
-                        <tr>
-                            <td>
-                                <strong>Name</strong>
-                            </td>
-                            <td>
-                                ${elo.myname}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <strong>Created by</strong>
-                            </td>
-                            <td>
-                                ${createdBy}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <strong>Date</strong>
-                            </td>
-                            <td>
-                                ${lastModified}
-                            </td>
-                        </tr>
-                    </table>
 
-                </td>
-            </tr>
-        </table>
         <br/>
-
+        <table style="width:100%;">
         <c:if test="${showWarningNoSpecificLearningGoalsAdded}">
-            <table>
+
                 <tr>
-                    <td width="100%">
+                    <td width="100%" colspan="2">
                         <font color="red">
                             <center><strong><spring:message code="NO_LEARNING_GOALS_HAVE_BEEN_SELECTED_WARNING"/></strong></center>
                         </font>
                     </td>
                 </tr>
-            </table>
-            <br/>
+
         </c:if>
 
+              <tr>
+                   <td style="text-align:right;vertical-align:top;width:40%;">
+                        <strong><spring:message code="GENERAL_LEARNING_GOALS"/>:</strong>
 
-
-                        <h2><spring:message code="GENERAL_LEARNING_GOALS"/> </h2>
-                            <c:if test="${portfolioLocked == false}">
-                                <a href="javascript:loadDialog('/webapp/app/webeport/selectLearningGoalsForElo.html?eloURI=' + encodeURIComponent('${elo.uri}') + '&lgType=general&missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${anchorEloURI}'), '<spring:message code="SELECT_LEARNING_GOAL"></spring:message>');"><spring:message code="SELECT_LEARNING_GOAL"></spring:message> </a>
+                       </td>
+                       <td>
+                           <c:if test="${portfolioLocked == false}">
+                               <input type="button" onclick="loadDialog('/webapp/app/webeport/selectLearningGoalsForElo.html?eloURI=' + encodeURIComponent('${elo.uri}') + '&lgType=general&missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${anchorEloURI}'), '<spring:message code="SELECT_LEARNING_GOAL"></spring:message>');" value="<spring:message code="SELECT_LEARNING_GOAL"></spring:message>">
                             </c:if>
                         <div id="generalLearningGoals">
+
                             <c:choose>
                                 <c:when test="${fn:length(selectedGeneralLearningGoalWithScores) > 0}">
                                     <table>
                                         <tr>
                                             <c:if test="${pedagogicalPlan.assessmentSetup.useOnlyLearningGoals}">
-                                                <td width="97%">
+                                                <td width="97%" style="background-color:#333333;color:#ffffff;">
                                                     <strong><spring:message code="SELECTED_LEARNING_GOALS"/></strong>
                                                 </td>
                                             </c:if>
                                             <c:if test="${pedagogicalPlan.assessmentSetup.useScorableLearningGoals}">
-                                                <td width="87%">
+                                                <td width="87%" style="background-color:#333333;color:#ffffff;">
                                                     <strong><spring:message code="SELECTED_LEARNING_GOALS"/></strong>
                                                 </td>
-                                                 <td width="10">
+                                                 <td width="10" style="background-color:#333333;color:#ffffff;">
                                                     <strong><spring:message code="LEVEL"/></strong>
                                                 </td>
                                             </c:if>
                                             <c:if test="${pedagogicalPlan.assessmentSetup.useLearningGoalsWithCriteria}">
-                                                <td width="42%">
+                                                <td width="42%" style="background-color:#333333;color:#ffffff;">
                                                     <strong><spring:message code="SELECTED_LEARNING_GOALS"/></strong>
                                                 </td>
-                                                <td width="45%">
+                                                <td width="45%" style="background-color:#333333;color:#ffffff;">
                                                     <strong><spring:message code="SELECTED_CRITERIA"/></strong>
                                                 </td>
-                                                <td>
+                                                <td style="background-color:#333333;color:#ffffff;">
                                                     <strong><spring:message code="LEVEL"/></strong>
                                                 </td>
                                             </c:if>
-                                            <td width="3%"></td>
+                                            <td width="3%" style="background-color:#333333;color:#ffffff;">&nbsp;</td>
                                         </tr>
 
                                         <c:forEach var="generalLearningGoalWithScore" items="${selectedGeneralLearningGoalWithScores}">
-                                            <tr class="${oddEven.oddEven}">
+                                            <tr class="${oddEven.oddEven}_eport">
                                                 <c:if test="${pedagogicalPlan.assessmentSetup.useOnlyLearningGoals}">
                                                     <td>
                                                         ${generalLearningGoalWithScore.learningGoalText}
@@ -159,12 +152,13 @@
                                                         <a href="javascript:if(confirm('Do you really want to delete this?')){ location.href='editEloReflections.html?anchorEloURI='  + encodeURIComponent('${anchorEloURI}') + '&amp;eloURI='  + encodeURIComponent('${eloURI}') + '&amp;missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;generalLearningGoalWithScoreId=${generalLearningGoalWithScore.id}&amp;action=delete';}">
                                                             <img src="/webapp/themes/scy/default/images/trash.png" alt="delete"/>
                                                         </a>
+                                                        
                                                     </center>
                                                 </td>
 
 
                                             </tr>
-
+                                               
                                         </c:forEach>
                                     </table>
                                 </c:when>
@@ -173,12 +167,22 @@
 
                         </div>
 
-                        <br/>
-                        <h2><spring:message code="SPECIFIC_LEARNING_GOALS"/></h2>
-                        <c:if test="${portfolioLocked == false}">
-                            <a href="javascript:loadDialog('/webapp/app/webeport/selectLearningGoalsForElo.html?eloURI=' + encodeURIComponent('${elo.uri}') + '&lgType=specific&missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${anchorEloURI}'), '<spring:message code="SELECT_LEARNING_GOAL"></spring:message>');"><spring:message code="SELECT_LEARNING_GOAL"></spring:message> </a>
-                        </c:if>
 
+
+             </td>
+        </tr>
+
+        <tr>
+          <td style="text-align:right;vertical-align:top;width:40%;">
+
+                        <strong><spring:message code="SPECIFIC_LEARNING_GOALS"/>:</strong>
+
+                        </td>
+                        <td>
+                <c:if test="${portfolioLocked == false}">
+                            
+                    <input type="button" onclick="loadDialog('/webapp/app/webeport/selectLearningGoalsForElo.html?eloURI=' + encodeURIComponent('${elo.uri}') + '&lgType=specific&missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${anchorEloURI}'), '<spring:message code="SELECT_LEARNING_GOAL"></spring:message>');" value="<spring:message code="SELECT_LEARNING_GOAL"></spring:message>">
+                        </c:if>
                         <div id="generalLearningGoals">
                             <c:choose>
                                 <c:when test="${fn:length(selectedSpecificLearningGoalWithScores) > 0}">
@@ -186,30 +190,30 @@
                                     <table>
                                         <tr>
                                             <c:if test="${pedagogicalPlan.assessmentSetup.useOnlyLearningGoals}">
-                                                <td width="97%">
+                                                <td width="97%" style="background-color:#333333;color:#ffffff;">
                                                     <strong><spring:message code="SELECTED_LEARNING_GOALS"/></strong>
                                                 </td>
                                             </c:if>
                                             <c:if test="${pedagogicalPlan.assessmentSetup.useScorableLearningGoals}">
-                                                <td width="87%">
+                                                <td width="87%" style="background-color:#333333;color:#ffffff;">
                                                     <strong><spring:message code="SELECTED_LEARNING_GOALS"/></strong>
                                                 </td>
-                                                 <td width="10">
+                                                 <td width="10" style="background-color:#333333;color:#ffffff;">
                                                     <strong><spring:message code="LEVEL"/></strong>
                                                 </td>
                                             </c:if>
                                             <c:if test="${pedagogicalPlan.assessmentSetup.useLearningGoalsWithCriteria}">
-                                                <td width="42%">
+                                                <td width="42%" style="background-color:#333333;color:#ffffff;">
                                                     <strong><spring:message code="SELECTED_LEARNING_GOALS"/></strong>
                                                 </td>
-                                                <td width="45%">
+                                                <td width="45%" style="background-color:#333333;color:#ffffff;">
                                                     <strong><spring:message code="SELECTED_CRITERIA"/></strong>
                                                 </td>
-                                                <td>
+                                                <td style="background-color:#333333;color:#ffffff;">
                                                     <strong><spring:message code="LEVEL"/></strong>
                                                 </td>
                                             </c:if>
-                                            <td width="3%"></td>
+                                            <td width="3%" style="background-color:#333333;color:#ffffff;"></td>
                                         </tr>
 
                                         <c:forEach var="generalLearningGoalWithScore" items="${selectedSpecificLearningGoalWithScores}">
@@ -271,16 +275,17 @@
                                 </c:when>
                             </c:choose>
                         </div>
+        </td>
+        </tr>
 
-
-            <table>
+            
                 <tr>
                 <form action="/webapp/app/webeport/StoreEloReflections.html" >
                 <c:choose>
                     <c:when test="${fn:length(reflectionQuestions) > 0}">
                         <c:forEach var="reflectionQuestion" items="${reflectionQuestions}">
-                            <tr class="${oddEven.oddEven}">
-                                <td>
+                            <tr>
+                                <td style="text-align:right;vertical-align:top;">
                                     <strong>${reflectionQuestion.reflectionQuestionTitle}</strong>
                                 </td>
                                 <td>
@@ -288,7 +293,7 @@
                                     <br/>
                                     <c:if test="${portfolioLocked == false}">
                                         <c:if test="${fn:contains(reflectionQuestion.type, 'text')}">
-                                            <textarea rows="4" cols="30" name="reflection-${reflectionQuestion.id}"></textarea>
+                                            <textarea rows="4" cols="30" style="width:100%;" name="reflection-${reflectionQuestion.id}"></textarea>
                                         </c:if>
                                         <c:if test="${fn:contains(reflectionQuestion.type, 'slider')}">
                                             <input name="reflection-${reflectionQuestion.id}" id="${reflectionQuestion.id}" type="text" value="1" style="display:none"/>
@@ -316,7 +321,7 @@
                     <c:if test="${portfolioLocked == false}">
 
                         <tr>
-                            <td colspan="2"><input type="submit" value="<spring:message code="ADD_TO_PORTFOLIO"/>" name="submitToPortfolio" /></td>
+                            <td colspan="4" style="text-align:center;height:50px;vertical-align:bottom;"><input type="submit" value="<spring:message code="ADD_TO_PORTFOLIO"/>" name="submitToPortfolio" /></td>
                         </tr>
 
             </c:if>
