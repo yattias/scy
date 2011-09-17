@@ -34,17 +34,17 @@ public class Query {
     private boolean hasBracket;
 
 
-    public static void main(String[] args) {
-        // for testing purposes
-        Query query;
-        query = Query.parse("first AND (test and evaluation) OR notLast last");
-        System.out.println(query.toLuceneString());
-        System.out.println(query.replaceOperator("AND", "OR", new AtomicInteger(0)));
-        System.out.println(query.replaceOperator("AND", "OR", new AtomicInteger(1)));
-        System.out.println(query.replaceOperator("AND", "OR", new AtomicInteger(2)));
+//    public static void main(String[] args) {
+//        // for testing purposes
+//        Query query;
 //        query = Query.parse("first AND (test and evaluation) OR notLast last");
-//        System.out.println(query.replaceOperator("OR", "AND", new AtomicInteger(2)));
-    }
+//        System.out.println(query.toLuceneString());
+//        System.out.println(query.replaceOperator("AND", "OR", new AtomicInteger(0)));
+//        System.out.println(query.replaceOperator("AND", "OR", new AtomicInteger(1)));
+//        System.out.println(query.replaceOperator("AND", "OR", new AtomicInteger(2)));
+////        query = Query.parse("first AND (test and evaluation) OR notLast last");
+////        System.out.println(query.replaceOperator("OR", "AND", new AtomicInteger(2)));
+//    }
 
 
     /**
