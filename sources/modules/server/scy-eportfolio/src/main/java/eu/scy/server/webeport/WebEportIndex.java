@@ -18,6 +18,8 @@ import java.net.URI;
 import java.util.LinkedList;
 import java.util.List;
 
+
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -121,4 +123,6 @@ public class WebEportIndex extends BaseController {
     public void setPortfolioELOService(PortfolioELOService portfolioELOService) {
         this.portfolioELOService = portfolioELOService;
     }
+
+    
 }

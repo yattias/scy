@@ -88,10 +88,12 @@
             }
 
         </style>
-        <div dojoType="dojox.layout.ContentPane" executeScripts="true" parseOnLoad="true" style="border:4px solid #cc6600;width:786px;height:95%;padding:4px;" class="greenBorders" parseWidgets="true">
+        <div dojoType="dojox.layout.ContentPane" executeScripts="true" parseOnLoad="true" style="border:4px solid #cc6600;border-bottom-left-radius:40px;width:786px;height:95%;padding:4px;" class="greenBorders" parseWidgets="true">
             <div class="feedbackHeader" >ELO Gallery</div>
     <div dojoType="dojox.layout.ContentPane" parseOnLoad="true" executeScripts="true">
         <h2>Give feedback</h2>
+
+
     <!--table>
         <tr>
             <td style="width:50%;"-->
