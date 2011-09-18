@@ -65,7 +65,7 @@ function renderHtmlLabel(item){
             }
 
             .greenBorders{
-                border-color:#03a5be !important;
+                /*border-color:#03a5be !important;*/
             }
 
             .feedbackHeader{
@@ -189,13 +189,17 @@ function renderHtmlLabel(item){
             .assessedfalse{
                 background-color:#666666;
             }
+
+           table{
+               border:0 !important;
+           }
                
              /* FISHEYE END */
 
 
         </style>
 
-        <div style="border:4px solid #cc6600;width:786px;height:95%;padding:4px;" class="greenBorders">
+        <div style="border:4px solid #333333;border-bottom-left-radius:40px;width:786px;height:95%;padding:4px;"" class="greenBorders">
             <!--img src="/webapp/themes/scy/default/images/feedback_header.png" alt="" class="greenBackgrounds" /-->
             <div class="feedbackHeader">
                 <c:if test="${fn:contains(portfolio.portfolioStatus, 'PORTFOLIO_ASSESSED')}">
@@ -209,7 +213,7 @@ function renderHtmlLabel(item){
                 </c:if>
 
                 </div>
-        <div dojoType="dojox.layout.ContentPane" style="width:100%;height:90%;" id="eportfolioPane" parseOnLoad="true" executeScripts="true">
+        <div dojoType="dojox.layout.ContentPane" style="width:100%;height:40%;" id="eportfolioPane" parseOnLoad="true" executeScripts="true">
 
 
             <div dojoType="dojox.widget.FisheyeList"
@@ -338,11 +342,17 @@ FB.init({
 
 
 </script>
-<a href="javascript:FBShare();">Share showcase ePortfolio on Facebook</a>
+
+
+                
+<a href="javascript:FBShare();">Share showcase ePortfolio on Facebook</a> 
                 </c:if>
             </div>
 
         </div>
+            <div dojoType="dojox.layout.ContentPane" id="reflectionsPane" parseWidgets="true" parseOnLoad="true" executeScripts="true" style="height:100%;" href="reflectionOnMission.html?missionRuntimeURI=${missionRuntimeURI}">
+
+            </div>
         </div>
     </tiles:putAttribute>
 </tiles:insertDefinition>

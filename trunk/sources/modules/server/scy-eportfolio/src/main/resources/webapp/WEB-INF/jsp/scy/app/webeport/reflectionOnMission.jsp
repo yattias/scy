@@ -1,6 +1,6 @@
 <%@ include file="common-taglibs.jsp" %>
-<tiles:insertDefinition name="default-page">
-    <tiles:putAttribute name="main">
+<!--tiles:insertDefinition name="default-page"-->
+    <!--tiles:putAttribute name="main"-->
 
         <script type="text/javascript">
             function checkTextAreasAndEnableSubmit(formid){
@@ -33,11 +33,11 @@
                         padding-top:20px;
                     }
             </style>
-                <div style="border:4px solid #cc6600;width:786px;height:95%;padding:4px;" class="greenBorders">
+                <!--div style="border:4px solid #cc6600;width:786px;height:95%;padding:4px;" class="greenBorders"-->
                             <!--img src="/webapp/themes/scy/default/images/feedback_header.png" alt="" class="greenBackgrounds" /-->
-                            <div class="feedbackHeader" >My ePortfolio</div>
+                     <!--div class="feedbackHeader" >My ePortfolio</div-->
 
-                        <div dojoType="dojox.layout.ContentPane" style="width:100%;height:90%;" id="eportfolioPane" parseOnLoad="true" executeScripts="true">
+                        <div dojoType="dojox.layout.ContentPane" style="width:100%;height:90%;" id="eportfolioReflectionPane" parseOnLoad="true" executeScripts="true">
 
        
 
@@ -82,9 +82,9 @@
 
 
                     </div>
-                    <table>
+                    <table style="width:100%;">
                     <tr>
-                        <td>
+                        <td style="text-align:center;">
                             <input type="hidden" value="${missionRuntimeURI}" name="missionRuntimeURI"/>
                             <input type="submit" value="<spring:message code="SUBMIT_PORTFOLIO"/>" id="submitEport" disabled="true"/>
                         </td>
@@ -95,7 +95,7 @@
             </c:when>
         </c:choose>
         </div>
-        </div>
+        <!--/div-->
         
-    </tiles:putAttribute>
-</tiles:insertDefinition>
+    <!--/tiles:putAttribute-->
+<!--/tiles:insertDefinition-->

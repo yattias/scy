@@ -8,7 +8,7 @@
                 background-repeat:no-repeat;
                 color:#ffffff;
                 height:50px;
-                background-color:#686808 !important;
+                background-color:#7e2b32 !important;
                 font-weight:bold;
                 font-size:25px;
                 text-align:center;
@@ -121,7 +121,7 @@
 
 
 
-        <div style="border:4px solid #686808;width:786px;height:95%;padding:4px;" class="brownBorders">
+        <div style="border:4px solid #7e2b32;border-bottom-left-radius:40px;width:786px;height:95%;padding:4px;" class="brownBorders">
                     <!--img src="/webapp/themes/scy/default/images/feedback_header.png" alt="" class="greenBackgrounds" /-->
                     <div class="assessmentHeader" >Assess ELO</div>
                     

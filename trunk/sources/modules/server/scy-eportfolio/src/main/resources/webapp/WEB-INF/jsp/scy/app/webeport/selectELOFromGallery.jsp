@@ -16,7 +16,7 @@
                 padding-top:20px;
             }
     </style>
-        <div style="border:4px solid #cc6600;width:786px;height:95%;padding:4px;" class="greenBorders">
+        <div style="border:4px solid #333333;border-bottom-left-radius:40px;width:786px;height:95%;padding:4px;">
                     <!--img src="/webapp/themes/scy/default/images/feedback_header.png" alt="" class="greenBackgrounds" /-->
                     <div class="feedbackHeader" >My ePortfolio</div>
                    
