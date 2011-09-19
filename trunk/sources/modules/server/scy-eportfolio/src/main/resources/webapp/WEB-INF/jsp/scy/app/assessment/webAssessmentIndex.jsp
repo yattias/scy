@@ -60,6 +60,9 @@
 
                 width:40px;
                 height:40px;
+                box-shadow: 10px 10px 5px #888;
+                border-radius:5px;
+                border:1px solid #7e2b32;
                 /*background-color:#cccccc;*/
 
             }
@@ -142,7 +145,7 @@
                                 <c:forEach var="elo" items="${elos}">
                                     <!--tr>
                                         <td-->
-                                            <div dojoType="dojox.widget.FisheyeListItem" onclick="location.href='assessElo.html?eloURI=${elo.uri}&missionRuntimeURI=${missionRuntimeURI}'"  label="${elo.myname}" iconSrc="${elo.thumbnail}" isContainer="true" style="cursor:pointer; margin:3px;border:3px solid #ffffff;" ></div>
+                                            <div dojoType="dojox.widget.FisheyeListItem" onclick="location.href='assessElo.html?eloURI=${elo.uri}&missionRuntimeURI=${missionRuntimeURI}'"  label="${elo.myname}" iconSrc="${elo.thumbnail}" isContainer="true" style="cursor:pointer; margin:3px;" ></div>
                                             <!--img src="${elo.thumbnail}"/-->
                                         <!--/td>
                                         <td>
