@@ -58,10 +58,7 @@ public class MissionSpecificationEditor extends EloXmlEditor {
       def missionMapModelElo = saveXmlInElo(MissionEloType.MISSION_MAP_MODEL.getType(), springConfigFileImporter.missionMapXml, springConfigFileImporter.language);
       def eloToolConfigsElo = saveXmlInElo(MissionEloType.ELO_TOOL_CONFIGURATION.getType(), springConfigFileImporter.eloToolConfigsXml, null);
       def templateElosElo = saveXmlInElo(MissionEloType.TEMPLATES_ELOS.getType(), springConfigFileImporter.templateElosXml, springConfigFileImporter.language);
-      def runtimeSettingsElo = RuntimeSettingsElo.createElo(toolBrokerAPI);
-      setContentLanguage(runtimeSettingsElo.getElo(), springConfigFileImporter.language);
-      setTitleMissionIdAndTemplate(runtimeSettingsElo);
-      runtimeSettingsElo.saveAsNewElo();
+      def runtimeSettingsElo = saveXmlInElo(MissionEloType.RUNTIME_SETTINGS.getType(), springConfigFileImporter.runtimeSettingsEloContentXml, springConfigFileImporter.language);
       def missionSpecification = new BasicMissionSpecificationEloContent();
       missionSpecification.setMissionMapModelEloUri(missionMapModelElo.getUri());
       missionSpecification.setEloToolConfigsEloUri(eloToolConfigsElo.getUri());
