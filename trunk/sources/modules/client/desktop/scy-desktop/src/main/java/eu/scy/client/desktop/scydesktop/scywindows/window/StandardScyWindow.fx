@@ -40,6 +40,7 @@ import eu.scy.client.desktop.desktoputils.XFX;
 import org.apache.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleLayer;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleKey;
 /**
  * @author sikkenj
  */
@@ -1055,9 +1056,9 @@ public class StandardScyWindow extends ScyWindow {
          sizeof ownershipManager.getOwners()>0
       }
 
-      var bubble = bubbleManager.createBubble(titleBarBuddies,9,"elo-buddies",BubbleLayer.DESKTOP,"elo-buddies", windowColorScheme);
+      var bubble = bubbleManager.createBubble(titleBarBuddies,9,"elo-buddies",BubbleLayer.DESKTOP,BubbleKey.CLOSED_ELO_BUDDIES, windowColorScheme);
       bubble.canBeUsed = ownersDefined;
-      bubble = bubbleManager.createBubble(closedWindowBuddies,8,"elo-buddies",BubbleLayer.DESKTOP,"elo-buddies", windowColorScheme);
+      bubble = bubbleManager.createBubble(closedWindowBuddies,8,"elo-buddies",BubbleLayer.DESKTOP,BubbleKey.OPEN_ELO_BUDDIES, windowColorScheme);
       bubble.canBeUsed = ownersDefined;
 
       return mainContentGroup = Group {

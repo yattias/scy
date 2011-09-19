@@ -31,6 +31,7 @@ import javafx.scene.effect.DropShadow;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleManager;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleLayer;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleKey;
 
 /**
  * @author SikkenJ
@@ -53,6 +54,8 @@ public class MoreInfoWindow extends CustomNode {
    public var mouseClickedAction: function(: MouseEvent): Void;
    public-init var hideCloseButton: Boolean = false;
    public-init var bubbleLayerId: BubbleLayer;
+   public-init var closeBubbleKey: BubbleKey;
+   public-init var openCloseBubbleKey: BubbleKey;
    def borderLineWidth = 2.0;
    def borderWidth = 5.0;
    def closeSize = 10.0;
@@ -107,9 +110,9 @@ public class MoreInfoWindow extends CustomNode {
 
    public override function create(): Node {
       if (not hideCloseButton){
-         bubbleManager.createBubble(windowClose, 5, "close", bubbleLayerId, "lasCurtain.close",windowColorScheme)
+         bubbleManager.createBubble(windowClose, 5, "moreInfoWindowClose", bubbleLayerId, closeBubbleKey,windowColorScheme)
       }
-      bubbleManager.createBubble(curtainControl, 5, "open-close", bubbleLayerId, "lasCurtain.open-close",windowColorScheme);
+      bubbleManager.createBubble(curtainControl, 5, "moreInfoWindowOpenClose", bubbleLayerId, openCloseBubbleKey,windowColorScheme);
 
       Group {
          blocksMouse: true

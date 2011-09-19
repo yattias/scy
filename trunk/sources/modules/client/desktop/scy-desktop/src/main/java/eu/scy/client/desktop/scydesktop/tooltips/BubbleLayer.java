@@ -13,5 +13,5 @@ public enum BubbleLayer {
    DESKTOP,
    LAS_CURTAIN,
    MISSION_MAP,
-   MISSION_CURTAIN
+   MISSION_MAP_CURTAIN
 }

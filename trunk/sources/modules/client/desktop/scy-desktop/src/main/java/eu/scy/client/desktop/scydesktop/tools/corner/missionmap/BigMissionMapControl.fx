@@ -26,11 +26,13 @@ import java.lang.Void;
 import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoManager;
 import eu.scy.client.common.scyi18n.UriLocalizer;
 import javafx.scene.CacheHint;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleManager;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleLayer;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleKey;
 
 /**
  * @author SikkenJ
  */
-
 public def defaultMissionMapIconName = "mission_map";
 
 public class BigMissionMapControl extends CustomNode {
@@ -41,6 +43,7 @@ public class BigMissionMapControl extends CustomNode {
    public var scyWindowControl: ScyWindowControl;
    public var initializer: Initializer;
    public var tooltipManager: TooltipManager;
+   public var bubbleManager: BubbleManager;
    public var scyDesktop: ScyDesktop;
    public var buttonSize = 30.0;
    public var buttonActionScheme = 1;
@@ -62,8 +65,8 @@ public class BigMissionMapControl extends CustomNode {
    def sceneHeight = bind scene.height on replace { sceneSizeChanged() };
    def relativeWindowScreenBoder = 0.0;
    var bigMissionMapVisible = false on replace {
-       scyDesktop.config.getToolBrokerAPI().setUserPresence(not bigMissionMapVisible);
-   };
+              scyDesktop.config.getToolBrokerAPI().setUserPresence(not bigMissionMapVisible);
+           };
    var initPhase = true;
    var deferLoadTimerCount = 5;
    def instructionWindow: MoreInfoWindow = MoreInfoWindow {
@@ -77,6 +80,10 @@ public class BigMissionMapControl extends CustomNode {
               tooltipManager: tooltipManager;
               cacheHint: CacheHint.SPEED
               cache: true
+              bubbleManager: bubbleManager
+              bubbleLayerId: BubbleLayer.MISSION_MAP_CURTAIN
+              closeBubbleKey:BubbleKey.MISSION_MAP_CLOSE
+              openCloseBubbleKey:BubbleKey.MISION_MAP_CURTAIN_CONTROL
            }
    var instructionTool: ShowInfoUrl;
    def uriLocalizer = new UriLocalizer();
@@ -157,6 +164,7 @@ public class BigMissionMapControl extends CustomNode {
             }
          });
          ModalDialogLayer.addModalDialog(missionMapWindow, true, false, true, 0);
+         bubbleManager.showingLayer(BubbleLayer.MISSION_MAP);
          if (missionMapInstructionAvailable and not missionMapInstructionShown) {
             addInstructionWindow();
             missionMapInstructionShown = true;
@@ -164,7 +172,7 @@ public class BigMissionMapControl extends CustomNode {
       }
    }
 
-   function showDesktopContent():Void{
+   function showDesktopContent(): Void {
       FX.deferAction(scyDesktop.showContent);
       deferLoadTimer();
       initPhase = false;
@@ -191,6 +199,7 @@ public class BigMissionMapControl extends CustomNode {
             missionMapInstructionShown = false;
          }
          bigMissionMap.tooltipManager.removeTooltip();
+         bubbleManager.hidingLayer(BubbleLayer.MISSION_MAP);
       }
    }
 
@@ -223,13 +232,15 @@ public class BigMissionMapControl extends CustomNode {
       instructionWindow.setControlFunctionClose();
       ModalDialogLayer.addModalDialog(instructionWindow, false, true, false, 0);
       sceneSizeChanged();
-      ++nrOfTimesInstructionShowed
+      ++nrOfTimesInstructionShowed;
+      bubbleManager.showingLayer(BubbleLayer.MISSION_MAP_CURTAIN);
    }
 
    function hideInstructionWindow(): Void {
       if (instructionWindow.visible) {
          instructionWindow.setControlFunctionOpen();
          ModalDialogLayer.removeModalDialog(instructionWindow, true, false);
+         bubbleManager.hidingLayer(BubbleLayer.MISSION_MAP_CURTAIN);
       }
    }
 

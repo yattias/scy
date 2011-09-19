@@ -57,7 +57,7 @@ public class MissionMap extends CustomNode {
    var displayGroup = Group {
          managed: false
       };
-   var anchorDisplays: AnchorDisplay[];
+   protected var anchorDisplays: AnchorDisplay[];
    var anchorMap = new HashMap();
    var anchorLinks: AnchorLink[];
    var tooltipCreator: TooltipCreator;
