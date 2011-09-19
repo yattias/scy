@@ -207,10 +207,15 @@ function renderHtmlLabel(item){
                
              /* FISHEYE END */
 
-
+          .tablerow-odd_eport{
+                background-color:#cccccc;
+            }
+            .tablerow-even_eport{
+                background-color:#ebebeb;
+            }
         </style>
 
-        <div style="border:4px solid #333333;border-bottom-left-radius:40px;width:786px;height:95%;padding:4px;"" class="greenBorders">
+        <div style="border:4px solid #333333;border-bottom-left-radius:40px;width:786px;height:95%;padding:4px;background-color:#efefef;" class="greenBorders">
             <!--img src="/webapp/themes/scy/default/images/feedback_header.png" alt="" class="greenBackgrounds" /-->
             <div class="feedbackHeader">
                 <c:if test="${fn:contains(portfolio.portfolioStatus, 'PORTFOLIO_ASSESSED')}">
@@ -224,7 +229,7 @@ function renderHtmlLabel(item){
                 </c:if>
 
                 </div>
-        <div dojoType="dojox.layout.ContentPane" style="width:100%;height:35%;" id="eportfolioPane" parseOnLoad="true" executeScripts="true">
+        <div dojoType="dojox.layout.ContentPane" style="width:100%;height:60%;" id="eportfolioPane" parseOnLoad="true" executeScripts="true">
 
 
             <div dojoType="dojox.widget.FisheyeList"
@@ -267,10 +272,10 @@ function renderHtmlLabel(item){
                             <c:when test="${fn:length(missionReflectionQuestionAnswers) > 0}">
                                 <table>
                                     <tr>
-                                        <th colspan="2"><spring:message code="YOUR_REFLECTIONS_ON_THE_PORTFOLIO"/></th>
+                                        <th colspan="2" style="background-color:#333333;color:#ffffff;"><spring:message code="YOUR_REFLECTIONS_ON_THE_PORTFOLIO"/></th>
                                     </tr>
                                     <c:forEach var="missionReflectionQuestionAnswer" items="${missionReflectionQuestionAnswers}">
-                                        <tr  class="${oddEven.oddEven}">
+                                        <tr  class="${oddEven.oddEven}_eport">
                                             <td>
                                                 ${missionReflectionQuestionAnswer.tab.question}    
                                             </td>
@@ -286,17 +291,17 @@ function renderHtmlLabel(item){
 
                     <table>
                         <tr>
-                            <th colspan="2">
+                            <th colspan="2" style="background-color:#333333;color:#ffffff;">
                                 <spring:message code="TEACHERS_COMMENTS"/>
                             </th>
                         </tr>
-                        <tr  class="${oddEven.oddEven}">
+                        <tr  class="${oddEven.oddEven}_eport">
                             <td><spring:message code="TEACHERS_COMMENT_TO_PORTFOLIO"/> </td>
                             <td>
                                 ${portfolio.assessmentPortfolioComment}
                             </td>
                         </tr>
-                        <tr  class="${oddEven.oddEven}">
+                        <tr  class="${oddEven.oddEven}_eport">
                             <td>
                                 <spring:message code="TEACHERS_RATING_OF_PORTFOLIO"/>
                             </td>
@@ -355,7 +360,7 @@ FB.init({
             </div>
 
         </div>
-            <div dojoType="dojox.layout.ContentPane" id="reflectionsPane" parseWidgets="true" parseOnLoad="true" executeScripts="true" style="height:100%;" href="reflectionOnMission.html?missionRuntimeURI=${missionRuntimeURI}">
+            <div dojoType="dojox.layout.ContentPane" id="reflectionsPane" parseWidgets="true" parseOnLoad="true" executeScripts="true" style="height:40%;background-color:transparent;" href="reflectionOnMission.html?missionRuntimeURI=${missionRuntimeURI}">
 
             </div>
         </div>
