@@ -13,7 +13,8 @@ class CommandExecuter2(val commandHandlerFinder: CommandHandlerFinder) extends C
   def executeCommand(commandLine: String): Boolean = {
     findCommandHandler(commandLine) match {
       case Some(FoundCommandHandler(commandHandler: CommandHandler, params: Seq[String])) =>
-        println("Executing: " + commandHandler.commands(0) + " " + params.mkString(" "))
+        println("Executing: " + commandHandler.commands(0))
+        println("With: " + params.mkString(" "))
         commandHandler.execute(params)
         return true
       case _ =>
