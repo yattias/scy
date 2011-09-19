@@ -80,7 +80,15 @@ function renderHtmlLabel(item){
                 padding-top:20px;
             }
 
+            .soria .dijitTabInnerDiv .dijitTabContent, .soria .dijitTabInnerDiv, .soria .dijitTabContainerTop-tabs .dijitTab, .soria .dijitTabContainerTop-tabs .dijitTabChecked{
+                background-image:url(/webapp/themes/scy/default/images/tabContainerSprite.png) !important;
+                color:#ffffff !important;
+            }
 
+            .soria .dijitTabChecked .dijitTabInnerDiv .dijitTabContent{
+              color:#ffffff !important;
+              font-weight:bold;
+            }
              /* FISHEYE START */
             .dojoxFisheyeListItemLabel {
 
@@ -213,7 +221,7 @@ function renderHtmlLabel(item){
                 </c:if>
 
                 </div>
-        <div dojoType="dojox.layout.ContentPane" style="width:100%;height:40%;" id="eportfolioPane" parseOnLoad="true" executeScripts="true">
+        <div dojoType="dojox.layout.ContentPane" style="width:100%;height:25%;" id="eportfolioPane" parseOnLoad="true" executeScripts="true">
 
 
             <div dojoType="dojox.widget.FisheyeList"

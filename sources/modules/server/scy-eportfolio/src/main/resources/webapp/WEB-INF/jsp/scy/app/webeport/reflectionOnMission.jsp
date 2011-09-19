@@ -51,12 +51,12 @@
                             <div dojoType="dojox.layout.ContentPane" title="${tab.title}">
                                 <table>
                                     <tr>
-                                <td width="20%">
+                                <td width="30%" style="text-align:right; vertical-align:top;">
                                     <strong>${tab.question}</strong>
                                 </td>
-                                <td>
+                                <td style="text-align:left;">
                                     <c:if test="${fn:contains(tab.type, 'text')}">
-                                        <textarea rows="4" cols="30" name="${tab.id}" onkeyup="checkTextAreasAndEnableSubmit('storeReflectionsOnMission')"></textarea>
+                                        <textarea rows="4" cols="30" name="${tab.id}" style="width:100%;" onkeyup="checkTextAreasAndEnableSubmit('storeReflectionsOnMission')"></textarea>
                                     </c:if>
                                     <c:if test="${fn:contains(tab.type, 'slider')}">
                                         <input name="${tab.id}" type="text" id="${tab.id}" value="1" style="display:none;"/>
