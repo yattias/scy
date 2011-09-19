@@ -5,10 +5,8 @@ import info.collide.android.scydatacollector.DataFormElementModel.DataFormElemen
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -16,7 +14,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.util.Log;
 
-public class DataCollectorContentProvider extends ContentProvider {
+public class DataCollectorContentProvider {
 
     private static final String TAG = "DBDataCollector";
 
@@ -24,50 +22,28 @@ public class DataCollectorContentProvider extends ContentProvider {
 
     private static final int DATABASE_VERSION = 9;
 
-    // ContentProvider Name
-    public static final String PROVIDER_NAME = "info.collide.android.scydatacollector.DataCollectorProvider.Forms";
+    // URI Matcher fï¿½r Anfragen an ContentProvider
+    // private static final UriMatcher uriMatcher;
+    // static {
+    // uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+    // // Anfrage ï¿½ber alle Forms
+    // uriMatcher.addURI(PROVIDER_NAME, "forms", FORMS);
+    // // Anfrage an ein Form mit Angabe der ID
+    // uriMatcher.addURI(PROVIDER_NAME, "forms/#", FORMS_ID);
+    // // Anfrage an alle Felder eines Forms mit Angabe der Feld ID
+    // uriMatcher.addURI(PROVIDER_NAME, "forms/#/elements", FORMS_ID_ELEMENTS);
+    // // Anfrage an alle Gepeicherten Daten zu einem Feld mit Angabe der Feld
+    // // ID
+    // uriMatcher.addURI(PROVIDER_NAME, "forms/elements/#/elementdata", FORMS_ELEMENTS_ID);
+    // uriMatcher.addURI(PROVIDER_NAME, "forms/elements/#/events", FORMS_ELEMENTS_ID_EVENTS);
+    // uriMatcher.addURI(PROVIDER_NAME, "forms/elements/events/#/eventdata", FORMS_ELEMENTS_EVENTS_ID);
+    // uriMatcher.addURI(PROVIDER_NAME, "forms/*/elements/#/elementdata/#", FORMS_ELEMENTS_FORM_ID_POS);
+    //
+    // }
 
-    // URI fŸr ContentProvider
-    public static final Uri CONTENT_URI = Uri.parse("content://" + PROVIDER_NAME + "/forms");
+    // Description of tables and the fields
 
-    // ContentProvider URI IDs
-    private static final int FORMS = 1;
-
-    private static final int FORMS_ID = 2;
-
-    private static final int FORMS_ID_ELEMENTS = 3;
-
-    private static final int FORMS_ELEMENTS_ID = 4;
-
-    private static final int FORMS_ELEMENTS_ID_EVENTS = 5;
-
-    private static final int FORMS_ELEMENTS_EVENTS_ID = 6;
-
-    private static final int FORMS_ELEMENTS_FORM_ID_POS = 7;
-
-    // private static final int FORMS_ELEMENTS_ID_EVENTS_ID = 6;
-
-    // URI Matcher fŸr Anfragen an ContentProvider
-    private static final UriMatcher uriMatcher;
-    static {
-        uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        // Anfrage Ÿber alle Forms
-        uriMatcher.addURI(PROVIDER_NAME, "forms", FORMS);
-        // Anfrage an ein Form mit Angabe der ID
-        uriMatcher.addURI(PROVIDER_NAME, "forms/#", FORMS_ID);
-        // Anfrage an alle Felder eines Forms mit Angabe der Feld ID
-        uriMatcher.addURI(PROVIDER_NAME, "forms/#/elements", FORMS_ID_ELEMENTS);
-        // Anfrage an alle Gepeicherten Daten zu einem Feld mit Angabe der Feld
-        // ID
-        uriMatcher.addURI(PROVIDER_NAME, "forms/elements/#/elementdata", FORMS_ELEMENTS_ID);
-        uriMatcher.addURI(PROVIDER_NAME, "forms/elements/#/events", FORMS_ELEMENTS_ID_EVENTS);
-        uriMatcher.addURI(PROVIDER_NAME, "forms/elements/events/#/eventdata", FORMS_ELEMENTS_EVENTS_ID);
-        uriMatcher.addURI(PROVIDER_NAME, "forms/*/elements/#/elementdata/#", FORMS_ELEMENTS_FORM_ID_POS);
-
-    }
-
-    // Beschreibung der Tabellen und der Felder
-    // Felder der Formulartabelle
+    // fields of the form table
     private static final String DATABASE_FORMTABLE = "forms";
 
     public static final String KEY_FORMID = "_id";
@@ -82,7 +58,7 @@ public class DataCollectorContentProvider extends ContentProvider {
 
     private static final String DATABASE_CREATEFORM = "create table " + DATABASE_FORMTABLE + " (" + KEY_FORMID + " integer primary key autoincrement, " + KEY_FORMDESCRIPTION + " text, " + KEY_FORMTITLE + " text, " + KEY_FORMUSER + " text, " + KEY_FORMVERSION + " text);";
 
-    // Felder der Feldertabelle (Felder eines Formulars)
+    // fields of the field table
     private static final String DATABASE_ELEMENTTABLE = "elements";
 
     public static final String KEY_ELEMENTFORMID = "formid";
@@ -95,10 +71,10 @@ public class DataCollectorContentProvider extends ContentProvider {
 
     public static final String KEY_ELEMENTCARDINALITY = "cardinality";
 
-    // Referentielle IntegritŠt wir nicht unterstŸtzt in SQLLite 3.0
+    // referential integrity is not supported in SQLite 3.0
     private static final String DATABASE_CREATEELEMENTS = "create table " + DATABASE_ELEMENTTABLE + " (" + KEY_ELEMENTFORMID + " integer not null, " + KEY_ELEMENTID + " integer primary key autoincrement, " + KEY_ELEMENTTITLE + " text not null, " + KEY_ELEMENTTYPE + " text not null, " + KEY_ELEMENTCARDINALITY + " text not null);";
 
-    // Felder der Felddatentabelle (Daten eines Feldes in einem Formular)
+    // field of the field data table (data of the field of a form)
     private static final String DATABASE_ELEMENTDATATABLE = "elementsdata";
 
     public static final String KEY_ELEMENTDATAELEMENID = "elementid";
@@ -107,10 +83,10 @@ public class DataCollectorContentProvider extends ContentProvider {
 
     public static final String KEY_ELEMENTDATASTOREDDATA = "storeddata";
 
-    // Referentielle IntegritŠt wir nicht unterstŸtzt in SQLLite 3.0
+    // referential integrity is not supported in SQLite 3.0
     private static final String DATABASE_CREATEELEMENTSDATA = "create table " + DATABASE_ELEMENTDATATABLE + " (" + KEY_ELEMENTDATAELEMENID + " integer not null, " + KEY_ELEMENTDATAID + " integer primary key autoincrement, " + KEY_ELEMENTDATASTOREDDATA + " blob);";
 
-    // Felder der Eventstabelle (Events eines Feldes)
+    // fields of the event table
     private static final String DATABASE_EVENTSTABLE = "events";
 
     public static final String KEY_EVENTELEMENTID = "elementid";
@@ -121,28 +97,24 @@ public class DataCollectorContentProvider extends ContentProvider {
 
     public static final String KEY_EVENTDATATYPE = "eventdatatype";
 
-    // public static final String KEY_EVENTDATA = "eventdata";
-
     private static final String DATABASE_CREATEEVENTS = "create table " + DATABASE_EVENTSTABLE + " (" + KEY_EVENTELEMENTID + " integer not null, " + KEY_EVENTID + " integer primary key autoincrement, " + KEY_EVENTTYPE + " text not null, " + KEY_EVENTDATATYPE + " text not null);";
 
-    // Felder der EventDatentabelle (Daten eines Events)
+    // fields of the event data table
     private static final String DATABASE_EVENTDATATABLE = "eventdata";
 
-    //
     public static final String KEY_EVENTDATAEVENTID = "eventid";
 
     public static final String KEY_EVENTDATAID = "eventdataid";
 
-    // public static final String KEY_EVENTDATATYPE = "eventdatatype";
     public static final String KEY_EVENTDATA = "eventdata";
 
     private static final String DATABASE_CREATEEVENTSDATA = "create table " + DATABASE_EVENTDATATABLE + " (" + KEY_EVENTDATAEVENTID + " integer not null, " + KEY_EVENTDATAID + " integer primary key autoincrement, " + KEY_EVENTDATA + " blob);";
 
-    private static DatabaseHelper DBHelper;
-
     private SQLiteDatabase db;
 
-    private static class DatabaseHelper extends SQLiteOpenHelper {
+    private DatabaseHelper dbHelper;
+
+    class DatabaseHelper extends SQLiteOpenHelper {
 
         DatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -173,53 +145,58 @@ public class DataCollectorContentProvider extends ContentProvider {
         }
     }
 
-    // ---closes the database---
-    public void close() {
-        DBHelper.close();
+    public DataCollectorContentProvider(Context context) {
+        dbHelper = new DatabaseHelper(context);
+        db = dbHelper.getWritableDatabase();
     }
 
-    // --- returns DataCollectorFormModell
+    public void close() {
+        dbHelper.close();
+    }
+
     public void getDCFM(Activity context, long formID, DataCollectorFormModel dcfm) {
-        Cursor formsCursor = getFormsCursor(context, formID);
-        Cursor formElementsCursor = getFormElementsCursor(context, formID);
+        Cursor formsCursor = getFormsCursor(formID);
+        Cursor formElementsCursor = getFormElementsCursor(formID);
         cursorToDCFM(dcfm, formsCursor, formElementsCursor, context);
     }
 
     /**
-     * @param _context
      * @param formID
      * @return
      */
-    private static Cursor getFormsCursor(Activity _context, long formID) {
-        return _context.managedQuery(Uri.parse("content://info.collide.android.scydatacollector.DataCollectorProvider.Forms/forms/" + formID), null, null, null, null);
+    private Cursor getFormsCursor(long formID) {
+        SQLiteQueryBuilder sqlBuilder = new SQLiteQueryBuilder();
+        sqlBuilder.setTables(DATABASE_FORMTABLE);
+        sqlBuilder.appendWhere(KEY_FORMID + " = " + formID);
+        return sqlBuilder.query(db, null, null, null, null, null, KEY_FORMTITLE);
     }
 
     private Cursor getFormElementsCursor(long formID) {
-        Uri uri = Uri.parse("content://info.collide.android.scydatacollector.DataCollectorProvider.Forms/forms/" + formID + "/elements");
-        return query(uri, null, null, null, null);
+        SQLiteQueryBuilder sqlBuilder = new SQLiteQueryBuilder();
+        sqlBuilder.setTables(DATABASE_ELEMENTTABLE);
+        sqlBuilder.appendWhere(KEY_ELEMENTFORMID + " = " + formID);
+        return sqlBuilder.query(db, null, null, null, null, null, null);
     }
 
-    private static Cursor getFormElementsCursor(Activity _context, long formID) {
-        return _context.managedQuery(Uri.parse("content://info.collide.android.scydatacollector.DataCollectorProvider.Forms/forms/" + formID + "/elements"), null, null, null, null);
-    }
-
-    private static Cursor getFormElementsDataCursor(Activity _context, long elementID) {
-        return _context.managedQuery(Uri.parse("content://info.collide.android.scydatacollector.DataCollectorProvider.Forms/forms/elements/" + elementID + "/elementdata"), null, null, null, null);
+    private Cursor getFormElementsDataCursor(long elementID) {
+        SQLiteQueryBuilder sqlBuilder = new SQLiteQueryBuilder();
+        sqlBuilder.setTables(DATABASE_ELEMENTDATATABLE);
+        sqlBuilder.appendWhere(KEY_ELEMENTDATAELEMENID + " = " + elementID);
+        return sqlBuilder.query(db, null, null, null, null, null, null);
     }
 
     private Cursor getFormElementsEventsCursor(long elementID) {
-        Uri uri = Uri.parse("content://info.collide.android.scydatacollector.DataCollectorProvider.Forms/forms/elements/" + elementID + "/events");
-        return query(uri, null, null, null, null);
+        SQLiteQueryBuilder sqlBuilder = new SQLiteQueryBuilder();
+        sqlBuilder.setTables(DATABASE_EVENTSTABLE);
+        sqlBuilder.appendWhere(KEY_EVENTELEMENTID + " = " + elementID);
+        return sqlBuilder.query(db, null, null, null, null, null, null);
     }
 
-    private static Cursor getFormElementsEventsCursor(Activity _context, long elementID) {
-        return _context.managedQuery(Uri.parse("content://info.collide.android.scydatacollector.DataCollectorProvider.Forms/forms/elements/" + elementID + "/events"), null, null, null, null);
-
-    }
-
-    private static Cursor getFormElementsEventsDataCursor(Activity _context, long eventID) {
-        return _context.managedQuery(Uri.parse("content://info.collide.android.scydatacollector.DataCollectorProvider.Forms/forms/elements/events/" + eventID + "/eventdata"), null, null, null, null);
-
+    private Cursor getFormElementsEventsDataCursor(Activity _context, long eventID) {
+        SQLiteQueryBuilder sqlBuilder = new SQLiteQueryBuilder();
+        sqlBuilder.setTables(DATABASE_EVENTDATATABLE);
+        sqlBuilder.appendWhere(KEY_EVENTDATAEVENTID + " = " + eventID);
+        return sqlBuilder.query(db, null, null, null, null, null, null);
     }
 
     // ---insert a title into the database---
@@ -233,14 +210,10 @@ public class DataCollectorContentProvider extends ContentProvider {
 
     // ---deletes a particular title---
     public boolean deleteForm(String title) {
-        // db.de
-        // db.
         return db.delete(DATABASE_FORMTABLE, KEY_FORMTITLE + "='" + title + "'", null) > 0;
     }
 
     public boolean deleteForm(Long id) {
-        // db.de
-        // db.
         return db.delete(DATABASE_FORMTABLE, KEY_FORMID + "=" + id + "", null) > 0;
     }
 
@@ -340,11 +313,6 @@ public class DataCollectorContentProvider extends ContentProvider {
     public long dbInsertReturnID(String table, String idField, ContentValues cv) {
         long newRowId = -1;
         newRowId = db.insert(table, null, cv);
-        // Cursor newRow = db.rawQuery("SELECT " + idField + " FROM " + table
-        // + " WHERE ROWID = " + newRowId + ";", null);
-        // newRow.moveToFirst();
-        // Long newFieldID = newRow.getLong(newRow.getColumnIndex(idField));
-        // return newFieldID;
         return newRowId;
 
     }
@@ -360,7 +328,7 @@ public class DataCollectorContentProvider extends ContentProvider {
 
     }
 
-    public static DataCollectorFormModel cursorToDCFM(DataCollectorFormModel dcfm, Cursor form, Cursor formElements, Activity _context) {
+    public DataCollectorFormModel cursorToDCFM(DataCollectorFormModel dcfm, Cursor form, Cursor formElements, Activity _context) {
 
         form.moveToFirst();
         dcfm.setTitle(form.getString(form.getColumnIndex(KEY_FORMTITLE)));
@@ -379,7 +347,7 @@ public class DataCollectorContentProvider extends ContentProvider {
                 dfem.setType(DataFormElementTypes.valueOf(formElements.getString(formElements.getColumnIndex(KEY_ELEMENTTYPE))));
                 dfem.setCardinality(formElements.getString(formElements.getColumnIndex(KEY_ELEMENTCARDINALITY)));
 
-                Cursor elementData = getFormElementsDataCursor(_context, formElements.getLong(formElements.getColumnIndex(KEY_ELEMENTID)));
+                Cursor elementData = getFormElementsDataCursor(formElements.getLong(formElements.getColumnIndex(KEY_ELEMENTID)));
 
                 elementData.moveToFirst();
                 ArrayList<byte[]> data = new ArrayList<byte[]>();
@@ -394,7 +362,7 @@ public class DataCollectorContentProvider extends ContentProvider {
                 dfem.setDataList(data);
 
                 ArrayList<DataFormElementEventModel> dfeemElements = new ArrayList<DataFormElementEventModel>();
-                Cursor elementEvents = getFormElementsEventsCursor(_context, formElements.getLong(formElements.getColumnIndex(KEY_ELEMENTID)));
+                Cursor elementEvents = getFormElementsEventsCursor(formElements.getLong(formElements.getColumnIndex(KEY_ELEMENTID)));
                 elementEvents.moveToFirst();
 
                 if (elementEvents.getCount() > 0) {
@@ -432,12 +400,10 @@ public class DataCollectorContentProvider extends ContentProvider {
 
     }
 
-    @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         Cursor c = null;
 
-        switch (uriMatcher.match(uri)) {
-            case FORMS_ELEMENTS_FORM_ID_POS:
+        // case FORMS_ELEMENTS_FORM_ID_POS:
 
                 // forms/#/elements/#/elementdata/#
 
@@ -470,106 +436,14 @@ public class DataCollectorContentProvider extends ContentProvider {
 
                 db.delete(DATABASE_ELEMENTDATATABLE, KEY_ELEMENTDATAID + "=" + elementDataID, null);
 
-                break;
-            case FORMS:
+        // case FORMS:
                 deleteElements(Long.valueOf(selection));
                 deleteForm(Long.valueOf(selection));
-
-                break;
-        }
 
         return 0;
     }
 
-    @Override
-    public String getType(Uri uri) {
-        switch (uriMatcher.match(uri)) {
-            case FORMS:
-                return "vnd.android.cursor.dir/vnd.android.client.forms";
-            case FORMS_ID:
-                return "vnd.android.cursor.item/vnd.android.client.forms ";
-            default:
-                throw new IllegalArgumentException("Unsupported URI: " + uri);
-        }
-    }
-
-    @Override
-    public Uri insert(Uri uri, ContentValues values) {
-        return null;
-    }
-
-    @Override
-    public boolean onCreate() {
-        Context context = getContext();
-        DatabaseHelper dbHelper = new DatabaseHelper(context);
-        db = dbHelper.getWritableDatabase();
-        return (db == null) ? false : true;
-    }
-
-    @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-
-        Cursor c = null;
-
-        SQLiteQueryBuilder sqlBuilder = new SQLiteQueryBuilder();
-
-        switch (uriMatcher.match(uri)) {
-            case FORMS_ELEMENTS_EVENTS_ID:
-                sqlBuilder.setTables(DATABASE_EVENTDATATABLE);
-                sqlBuilder.appendWhere(KEY_EVENTDATAEVENTID + " = " + uri.getPathSegments().get(3));
-
-                c = sqlBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
-
-                break;
-            case FORMS_ELEMENTS_ID_EVENTS:
-                sqlBuilder.setTables(DATABASE_EVENTSTABLE);
-                sqlBuilder.appendWhere(KEY_EVENTELEMENTID + " = " + uri.getPathSegments().get(2));
-
-                c = sqlBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
-
-                break;
-            case FORMS_ELEMENTS_ID:
-                sqlBuilder.setTables(DATABASE_ELEMENTDATATABLE);
-                sqlBuilder.appendWhere(KEY_ELEMENTDATAELEMENID + " = " + uri.getPathSegments().get(2));
-
-                c = sqlBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
-
-                break;
-            case FORMS_ID_ELEMENTS:
-                sqlBuilder.setTables(DATABASE_ELEMENTTABLE);
-                sqlBuilder.appendWhere(KEY_ELEMENTFORMID + " = " + uri.getPathSegments().get(1));
-                c = sqlBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
-                break;
-            case FORMS:
-                sqlBuilder.setTables(DATABASE_FORMTABLE);
-                if (uriMatcher.match(uri) == FORMS_ID)
-                    sqlBuilder.appendWhere(KEY_FORMID + " = " + uri.getPathSegments().get(1));
-
-                if (sortOrder == null || sortOrder == "")
-                    sortOrder = KEY_FORMTITLE;
-
-                c = sqlBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
-
-                break;
-            case FORMS_ID:
-                sqlBuilder.setTables(DATABASE_FORMTABLE);
-                sqlBuilder.appendWhere(KEY_FORMID + " = " + uri.getPathSegments().get(1));
-
-                if (sortOrder == null || sortOrder == "")
-                    sortOrder = KEY_FORMTITLE;
-
-                c = sqlBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
-                break;
-            default:
-        }
-        c.setNotificationUri(getContext().getContentResolver(), uri);
-        return c;
-    }
-
-    @Override
-    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        DataCollectorFormModel dcfm =  DataCollectorFormModel.fromByteArray(values.getAsByteArray("dcfm"));
-        String username = values.getAsString("username");
+    public int update(DataCollectorFormModel dcfm, String username) {
         if (dcfm != null && username != null) {
             long key = getFormKey(dcfm.getTitle());
             if (key > -1) {

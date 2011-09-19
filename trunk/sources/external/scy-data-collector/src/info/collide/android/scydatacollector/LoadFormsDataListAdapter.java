@@ -5,7 +5,6 @@ import java.util.Hashtable;
 
 import android.app.Activity;
 import android.content.DialogInterface;
-import android.graphics.Typeface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -13,17 +12,17 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 
 public class LoadFormsDataListAdapter extends BaseAdapter {
 
-    private Button _btnDownload;
+    private Button btnDownload;
 
-    private Boolean _ownFormulars;
+    private Boolean ownFormulars;
 
     private ArrayList<DataFormPreviewModel> alDfpm;
 
@@ -42,43 +41,39 @@ public class LoadFormsDataListAdapter extends BaseAdapter {
 
     private Hashtable<Integer, DataFormPreviewModel> _data = new Hashtable<Integer, DataFormPreviewModel>();
 
-    private int _selectedIndex;
+    private int selectedIndex;
 
-    private Activity _context;
+    private Activity context;
 
-    // private DataCollectorContentProvider _dccp = new
-    // DataCollectorContentProvider();
+    private WebServicesController wsc;
 
-    public LoadFormsDataListAdapter(final Activity context, ListView listview, Boolean ownForms) {
-
-        // save the activity/context ref
-        _ownFormulars = ownForms;
-        _context = context;
-        _selectedIndex = -1;
-        _btnDownload = ((Button) _context.findViewById(R.id.btnDownload));
-        // bind this model (and cell renderer) to the listview
-        // listview.setAdapter(this);
+    public LoadFormsDataListAdapter(final Activity context, ListView listview, WebServicesController wsc, Boolean ownForms) {
+        this.ownFormulars = ownForms;
+        this.context = context;
+        this.wsc = wsc;
+        selectedIndex = -1;
+        btnDownload = ((Button) context.findViewById(R.id.btnDownload));
 
         bindListViewListener(listview);
-
-        // load some data into the model
-        getForms();
     }
 
     private void bindListViewListener(ListView listview) {
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
             public void onItemClick(AdapterView<?> parentView, View childView, int position, long id) {
                 setSelected(position);
             }
         });
     }
 
-    private void getForms() {
+    /**
+     * @throws Exception
+     */
+    public void downloadForms(boolean ownForms) {
+        ownFormulars = ownForms;
         try {
-            WebServicesController wsc = new WebServicesController(_context);
-            if (_ownFormulars == true) {
-                DataCollectorConfiguration config = new DataCollectorConfiguration(_context);
+            wsc = new WebServicesController(context);
+            if (ownFormulars) {
+                DataCollectorConfiguration config = new DataCollectorConfiguration(context);
                 alDfpm = wsc.getEloForms(config.getGroupname());
             } else {
                 alDfpm = wsc.getEloForms("");
@@ -89,17 +84,16 @@ public class LoadFormsDataListAdapter extends BaseAdapter {
                 _data.put(id, dfpm);
                 id++;
             }
-            notifyDataSetChanged();
         } catch (Exception ex) {
-            MessageDialog md = new MessageDialog(_context);
+            MessageDialog md = new MessageDialog(context);
             android.content.DialogInterface.OnClickListener oclYes = new android.content.DialogInterface.OnClickListener() {
 
                 public void onClick(DialogInterface dialog, int which) {
-                    _context.finish();
+                    context.finish();
                 }
             };
 
-            md.createInfoDialog(_context.getResources().getString(R.string.msgNoConnectionToRepository), oclYes);
+            md.createInfoDialog(context.getResources().getString(R.string.msgNoConnectionToRepository), oclYes);
         }
     }
 
@@ -129,28 +123,22 @@ public class LoadFormsDataListAdapter extends BaseAdapter {
         }
 
         // update the cell renderer, and handle selection state
-        cellRendererView.display(index, _selectedIndex == index);
+        cellRendererView.display(index, selectedIndex == index);
 
         return cellRendererView;
-
     }
 
     public void setSelected(int index) {
-
         if (index == -1) {
             // unselected
         } else {
             // selected index...
         }
 
-        _selectedIndex = index;
+        selectedIndex = index;
 
         // notify the model that the data has changed, need to update the view
         notifyDataSetChanged();
-
-        // Log.i(getClass().getSimpleName(),
-        // "updating _selectionIndex with index and firing model-change-event: index="
-        // + index);
     }
 
     /**
@@ -169,11 +157,9 @@ public class LoadFormsDataListAdapter extends BaseAdapter {
         private CheckBox _cbDownload;
 
         public CellRendererView() {
-
-            super(_context);
+            super(context);
 
             _createUI();
-
         }
 
         /** create the ui components */
@@ -188,40 +174,34 @@ public class LoadFormsDataListAdapter extends BaseAdapter {
             setPadding(10, 10, 10, 10);
 
             // single row that holds icon/flag & name
-            TableRow row = new TableRow(_context);
+            TableRow row = new TableRow(context);
 
             // fill the first row with: icon/flag, name
-            {
-                _lblFormTitle = new TextView(_context);
-                _lblFormTitle.setTextSize(20f);
-                row.addView(_lblFormTitle);
-            }
+            _lblFormTitle = new TextView(context);
+            _lblFormTitle.setTextSize(20f);
+            row.addView(_lblFormTitle);
 
             // create the 2nd row with: description
-            {
-                _lblFormDescription = new TextView(_context);
-                _lblFormDescription.setPadding(10, 10, 10, 10);
-                _cbDownload = new CheckBox(_context);
-                _cbDownload.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            _lblFormDescription = new TextView(context);
+            _lblFormDescription.setPadding(10, 10, 10, 10);
+            _cbDownload = new CheckBox(context);
+            _cbDownload.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if (_selectedIndex > -1) {
-                            ((DataFormPreviewModel) getItem(_selectedIndex)).setDownload(isChecked);
-                            LoadFormsDataListAdapter.this.notifyDataSetChanged();
-                            _btnDownload.setEnabled(getDownloadCount(alDfpm) > 0);
-                        }
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (selectedIndex > -1) {
+                        ((DataFormPreviewModel) getItem(selectedIndex)).setDownload(isChecked);
+                        LoadFormsDataListAdapter.this.notifyDataSetChanged();
+                        btnDownload.setEnabled(getDownloadCount(alDfpm) > 0);
                     }
-                });
-                _cbDownload.setText(getResources().getString(R.string.chkDownlaod));
-                _btnDownload.setEnabled(false);
-            }
+                }
+            });
+            _cbDownload.setText(getResources().getString(R.string.chkDownlaod));
+            btnDownload.setEnabled(false);
 
             // add the rows to the table
-            {
-                addView(row);
-                addView(_lblFormDescription);
-                addView(_cbDownload);
-            }
+            addView(row);
+            addView(_lblFormDescription);
+            addView(_cbDownload);
         }
 
         /** update the views with the data corresponding to selection index */
@@ -248,13 +228,4 @@ public class LoadFormsDataListAdapter extends BaseAdapter {
             }
         }
     }
-
-    public void update(Boolean ownforms) {
-        // TODO Auto-generated method stub
-        _ownFormulars = ownforms;
-        getForms();
-    }
-
 }
-
-// }

@@ -55,7 +55,7 @@ public class DataCollectorFormActivity extends Activity {
             Bundle extras = getIntent().getExtras();
             Long formid = extras.getLong("dataform");
             
-            DataCollectorContentProvider dccp = new DataCollectorContentProvider();
+            DataCollectorContentProvider dccp = new DataCollectorContentProvider(this);
             dccp.getDCFM(this, formid, formModel);
             Log.d("DataCollector", "Created form activity with title: " + formModel.getTitle());
         }
