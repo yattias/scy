@@ -1,0 +1,77 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-09-19T10:53:35.760+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1316422415760</dateCreated>
+        <dateLastModified>1316422415760</dateLastModified>
+      </customElements>
+      <format>scy/runtimesettings</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20198/0/ECO+mission.runtimesettings</entry>
+      </identifier>
+      <las />
+      <missionId>eco</missionId>
+      <title>
+        <string language="en">ECO mission</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <template>TRUE</template>
+</metadata>
+<content languages="en" contentType="xml">
+<runtimeSettings>
+  <runtimeSetting>
+    <name>groupformation.maxUsers</name>
+    <lasId>conceptualisatsionConceptMap</lasId>
+    <eloUri />
+    <value>10</value>
+  </runtimeSetting>
+  <runtimeSetting>
+    <name>groupformation.strategy</name>
+    <lasId>conceptualisatsionConceptMap</lasId>
+    <eloUri />
+    <value>DUMMY</value>
+  </runtimeSetting>
+  <runtimeSetting>
+    <name>groupformation.referenceElo</name>
+    <lasId>conceptualisatsionConceptMap</lasId>
+    <eloUri />
+    <value>roolo://memory/20001/0/eco_reference_map.mapping</value>
+  </runtimeSetting>
+  <runtimeSetting>
+    <name>groupformation.minUsers</name>
+    <lasId>conceptualisatsionConceptMap</lasId>
+    <eloUri />
+    <value>2</value>
+  </runtimeSetting>
+</runtimeSettings>
+</content>
+<resources>
+</resources>
+</elo>
