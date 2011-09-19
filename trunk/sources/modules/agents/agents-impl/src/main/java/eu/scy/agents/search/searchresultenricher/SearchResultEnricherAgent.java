@@ -49,7 +49,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 
 	// This
 	private static final String AGENT_NAME = "search-result-enricher-agent";
-	private static final String SEARCH_TOOL = "scy-simple-search";
+	private static final String SEARCH_TOOL = "search";
 	private static final String SEARCH_TYPE = "search-query";
 	
 	// RooloAccessorAgent
@@ -62,11 +62,11 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
     // OntologyAgent
 	private static final String ONTOLOGY_AGENT_NAME = "onto";
 	private static final String ONTOLOGY_AGENT_COMMAND = "surrounding";
-	private static final int ONTOLOGY_AGENT_TIMEOUT = 5000;
+	private static final int ONTOLOGY_AGENT_TIMEOUT = 10000;
 	
     private static final Tuple TEMPLATE_FOR_SEARCH_QUERY = new Tuple("action", String.class, Long.class, SEARCH_TYPE, String.class, SEARCH_TOOL, Field.createWildCardField());
 	private static final Tuple TEMPLATE_FOR_SESSION_LANGUAGE= new Tuple("language", String.class, String.class);
-	private static final Tuple TEMPLATE_FOR_MISSION= new Tuple("mission", String.class, String.class, String.class);
+	private static final Tuple TEMPLATE_FOR_MISSION= new Tuple("mission", String.class, String.class, String.class, String.class, String.class);
 	
     private static final String OPERATOR_AND = "AND";
     private static final String OPERATOR_OR = "OR";
@@ -566,7 +566,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
             		logger.info("Could not extract keywords, because no search results available for extraction.");
             	}
             	
-//            	extractAndTestOntologyKeywords(ranking, getMission(user), items, language, query, OPERATOR_OR);
+            	extractAndTestOntologyKeywords(ranking, getMission(user), items, language, query, OPERATOR_OR);
             } else {
 //            	System.out.println("Could not extract keywords, because no language information available.");
             	logger.info("Could not extract keywords, because no language information available.");
@@ -615,7 +615,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 
 		// Collect keywords
 		for(String item : items.toArray(EMPTY_STRING_ARRAY)) {
-			List<String> newKeywords = askOntologyForSurroundingWords(mission, language, item);
+			Set<String> newKeywords = askOntologyForSurroundingWords(mission, language, item);
 			if(newKeywords == null) {
 				return false;
 			}
@@ -651,11 +651,11 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
      * @param word the word used to search for surroundings
      * @return a list of keywords or null if the ontology agent is down
      */
-    private List<String> askOntologyForSurroundingWords(String mission, String language, String word) {
+    private Set<String> askOntologyForSurroundingWords(String mission, String language, String word) {
     	// (<ID>:String, "onto":String, "surrounding":String, <OntName>:String, <OntLabel>:String, 
     	// <Language>:String) -> (<ID>:String, <OntTerm>:String, <Surrounding>:String)
     	
-    	List<String> synonyms = new ArrayList<String>();
+    	HashSet<String> synonyms = new HashSet<String>();
         try {
             String id = new VMID().toString();
             Tuple requestTuple = new Tuple(id, ONTOLOGY_AGENT_NAME, ONTOLOGY_AGENT_COMMAND, Mission.getForName(mission).getNamespace(), word, language);
