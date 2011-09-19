@@ -17,7 +17,7 @@ connect :-
 	ts_host(TsHost),
 	ts_port(TsPort),
         agent_name(Name),
-	tspl_connect_to_ts(CommandSpace, CommandTS, [host(TsHost), port(TsPort), username(Name), password('')]),
+	tspl_connect_to_ts(CommandSpace, CommandTS, [host(TsHost), port(TsPort), user(Name), password('')]),
 	assert(ts(command, CommandTS)).
 
 next_command(Cmd, Id, Params) :-

@@ -68,7 +68,7 @@ agent_connect(Server, _Space, _TS) :-
 	fail.
 agent_connect(Server, Space, TS) :-
 	agent_server(Server, Host, Port),
-	tspl_connect_to_ts(Space, TS, [host(Host), port(Port)]).
+	tspl_connect_to_ts(Space, TS, [host(Host), port(Port), user('cme'), password('')]).
 
 	
 
