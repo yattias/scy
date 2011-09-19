@@ -19,6 +19,7 @@ public class Session {
     public static final int LANGUAGE_FIELD = 2;
     public static final int MISSION_NAME_FIELD = 3;
     public static final int MISSION_RUNTIME_FIELD = 4;
+    public static final int MISSION_ID_FIELD = 5;
 
 
     private TupleSpace sessionSpace;
@@ -122,6 +123,19 @@ public class Session {
                     String.class));
             if ( missionSpecTuple != null ) {
                 return (String) missionSpecTuple.getField(MISSION_SPECIFICATION_FIELD).getValue();
+            }
+        } catch ( TupleSpaceException e ) {
+            e.printStackTrace();
+        }
+        return IAction.NOT_AVAILABLE;
+    }
+
+    public String getMissionId(String missionRT) {
+        try {
+            Tuple missionSpecTuple = sessionSpace.read(new Tuple(Session.MISSION, String.class, String.class, String.class, missionRT,
+                    String.class));
+            if ( missionSpecTuple != null ) {
+                return (String) missionSpecTuple.getField(MISSION_ID_FIELD).getValue();
             }
         } catch ( TupleSpaceException e ) {
             e.printStackTrace();

@@ -152,7 +152,7 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
                 }
             }
             if ( type.equals(ActionConstants.ACTION_LOG_OUT) ) {
-                // TODO implement: think about different cases
+                missionGroupsCache.removeUser(action.getUser());
             }
         }
     }
