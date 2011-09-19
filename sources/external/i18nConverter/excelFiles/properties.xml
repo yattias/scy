@@ -1384,19 +1384,19 @@
             </Cell>
           </Row><Row>
             <Cell>
-              <Data ss:Type="String">advanced search</Data>
+              <Data ss:Type="String">Advanced search</Data>
             </Cell><Cell>
               <Data ss:Type="String">προηγμένη έρευνα </Data>
             </Cell><Cell>
-              <Data ss:Type="String">advanced search</Data>
+              <Data ss:Type="String">Advanced search</Data>
             </Cell><Cell>
-              <Data ss:Type="String">advanced search</Data>
+              <Data ss:Type="String">Advanced search</Data>
             </Cell><Cell>
-              <Data ss:Type="String">advanced search</Data>
+              <Data ss:Type="String">Advanced search</Data>
             </Cell><Cell>
-              <Data ss:Type="String">geavanceerd zoeken</Data>
+              <Data ss:Type="String">Geavanceerd zoeken</Data>
             </Cell><Cell>
-              <Data ss:Type="String">advanced search</Data>
+              <Data ss:Type="String">Advanced search</Data>
             </Cell>
           </Row><Row>
             <Cell>
@@ -1445,6 +1445,22 @@
               <Data ss:Type="String">en anderen</Data>
             </Cell><Cell>
               <Data ss:Type="String">and others</Data>
+            </Cell>
+          </Row><Row>
+            <Cell>
+              <Data ss:Type="String">Are you sure you want to quit SCY-Lab?\nEverything will be saved.</Data>
+            </Cell><Cell>
+              <Data ss:Type="String">Are you sure you want to quit SCY-Lab?\nEverything will be saved.</Data>
+            </Cell><Cell>
+              <Data ss:Type="String">Are you sure you want to quit SCY-Lab?\nEverything will be saved.</Data>
+            </Cell><Cell>
+              <Data ss:Type="String">Are you sure you want to quit SCY-Lab?\nEverything will be saved.</Data>
+            </Cell><Cell>
+              <Data ss:Type="String">Are you sure you want to quit SCY-Lab?\nEverything will be saved.</Data>
+            </Cell><Cell>
+              <Data ss:Type="String">Weet u zeker dat u SCY-Lab wilt stoppen?\nAlles zal worden bewaard.</Data>
+            </Cell><Cell>
+              <Data ss:Type="String">Are you sure you want to quit SCY-Lab?\nEverything will be saved.</Data>
             </Cell>
           </Row><Row>
             <Cell>
@@ -1637,6 +1653,22 @@
               <Data ss:Type="String">Samenwerking is begonnen aan product</Data>
             </Cell><Cell>
               <Data ss:Type="String">Collaboration started on ELO</Data>
+            </Cell>
+          </Row><Row>
+            <Cell>
+              <Data ss:Type="String">Confirm quit</Data>
+            </Cell><Cell>
+              <Data ss:Type="String">Confirm quit</Data>
+            </Cell><Cell>
+              <Data ss:Type="String">Confirm quit</Data>
+            </Cell><Cell>
+              <Data ss:Type="String">Confirm quit</Data>
+            </Cell><Cell>
+              <Data ss:Type="String">Confirm quit</Data>
+            </Cell><Cell>
+              <Data ss:Type="String">Bevestig stoppen</Data>
+            </Cell><Cell>
+              <Data ss:Type="String">Confirm quit</Data>
             </Cell>
           </Row><Row>
             <Cell>
@@ -2536,6 +2568,22 @@
             </Cell>
           </Row><Row>
             <Cell>
+              <Data ss:Type="String">One or more products strongly suggest NOT to quit.</Data>
+            </Cell><Cell>
+              <Data ss:Type="String">One or more products strongly suggest NOT to quit.</Data>
+            </Cell><Cell>
+              <Data ss:Type="String">One or more products strongly suggest NOT to quit.</Data>
+            </Cell><Cell>
+              <Data ss:Type="String">One or more products strongly suggest NOT to quit.</Data>
+            </Cell><Cell>
+              <Data ss:Type="String">One or more products strongly suggest NOT to quit.</Data>
+            </Cell><Cell>
+              <Data ss:Type="String">Een of meer producten wil niet hebben dat u stopt .</Data>
+            </Cell><Cell>
+              <Data ss:Type="String">One or more products strongly suggest NOT to quit.</Data>
+            </Cell>
+          </Row><Row>
+            <Cell>
               <Data ss:Type="String">open</Data>
             </Cell><Cell>
               <Data ss:Type="String">άνοιγμα </Data>
@@ -3173,6 +3221,22 @@
               <Data ss:Type="String">Upload archief</Data>
             </Cell><Cell>
               <Data ss:Type="String">Upload file</Data>
+            </Cell>
+          </Row><Row>
+            <Cell>
+              <Data ss:Type="String">Use as base</Data>
+            </Cell><Cell>
+              <Data ss:Type="String">Use as base</Data>
+            </Cell><Cell>
+              <Data ss:Type="String">Use as base</Data>
+            </Cell><Cell>
+              <Data ss:Type="String">Use as base</Data>
+            </Cell><Cell>
+              <Data ss:Type="String">Use as base</Data>
+            </Cell><Cell>
+              <Data ss:Type="String">Gebruik als basis</Data>
+            </Cell><Cell>
+              <Data ss:Type="String">Use as base</Data>
             </Cell>
           </Row><Row>
             <Cell>

@@ -14,6 +14,7 @@ import i18n2xsl.console.commands.AddNewFromExcelCommand
 import i18n2xsl.console.commands.AddNewFromJavaCommand
 import i18n2xsl.console.commands.RemoveSameStoresAsJavaCommand
 import i18n2xsl.console.commands.RemoveSameStoresAsExcelCommand
+import i18n2xsl.console.commands.ListStores
 
 class ConsoleControl2 {
   //  private val commandExecuter = new SimpleCommandExecuter()
@@ -69,6 +70,7 @@ class ConsoleControl2 {
     commandExecuter.registerCommandHandler(new AddNewFromJavaCommand(propertiesModel))
     commandExecuter.registerCommandHandler(new RemoveSameStoresAsExcelCommand(propertiesModel))
     commandExecuter.registerCommandHandler(new RemoveSameStoresAsJavaCommand(propertiesModel))
+    commandExecuter.registerCommandHandler(new ListStores(propertiesModel))
   }
 
   def start() =

@@ -22,7 +22,8 @@ class AdvancedCommandHandlerFinder extends CommandHandlerFinder {
       case 0 => None
       case 1 => Some(found(0).found)
       case _ =>
-        val sortedFound = found.sortBy(f => f.nrOfExtends)
+//        val sortedFound = found.sortBy(f => f.nrOfExtends)
+        val sortedFound = found.sortWith(commandHandlerComparator)
         Some(sortedFound(0).found)
     }
   }
@@ -75,6 +76,19 @@ class AdvancedCommandHandlerFinder extends CommandHandlerFinder {
       case Some(CheckResult(nrOfExtends, params)) => return Some(new CheckResult(nrOfExtends + addNrOfExtends, params))
       case _ => return None
     }
+  }
+  
+  def commandHandlerComparator(foundResult1: FoundResult, foundResult2: FoundResult): Boolean = {
+    if (foundResult1.nrOfExtends>foundResult2.nrOfExtends){
+      return true
+    } 
+    if (foundResult1.nrOfExtends<foundResult2.nrOfExtends) {
+      return false
+    }
+    if (foundResult1.found.commandHandler.commands(0).size>foundResult2.found.commandHandler.commands(0).size){
+      return true
+    }
+    return false
   }
 
 }
