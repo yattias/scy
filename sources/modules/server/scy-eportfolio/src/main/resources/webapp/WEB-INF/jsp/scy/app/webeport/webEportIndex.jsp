@@ -134,6 +134,8 @@ function renderHtmlLabel(item){
 
                 width:40px;
                 height:40px;
+                box-shadow: 10px 10px 5px #888;
+                border-radius:5px;
                 /*background-color:#cccccc;*/
 
             }
@@ -178,6 +180,7 @@ function renderHtmlLabel(item){
 
             text-align:left !important;
 
+
             }
 
 
@@ -221,7 +224,7 @@ function renderHtmlLabel(item){
                 </c:if>
 
                 </div>
-        <div dojoType="dojox.layout.ContentPane" style="width:100%;height:25%;" id="eportfolioPane" parseOnLoad="true" executeScripts="true">
+        <div dojoType="dojox.layout.ContentPane" style="width:100%;height:35%;" id="eportfolioPane" parseOnLoad="true" executeScripts="true">
 
 
             <div dojoType="dojox.widget.FisheyeList"
@@ -233,7 +236,7 @@ function renderHtmlLabel(item){
 		attachEdge="top"
 		labelEdge="bottom"
 		id="fisheye1"
-        conservativeTrigger="true">
+        conservativeTrigger="true" >
 
 
 
@@ -242,10 +245,11 @@ function renderHtmlLabel(item){
                     <c:when test="${fn:length(anchorElosWithStatuses) > 0}">
                         <c:forEach var="status" items="${anchorElosWithStatuses}">
                             <c:if test="${status.eloHasBeenAdded}">
-                                <div dojoType="dojox.widget.FisheyeListItem" onMouseEnter="renderHtmlLabel(this)" onclick="location.href='/webapp/app/webeport/selectELOFromGallery.html?anchorEloURI=${status.anchorElo.uri}&amp;eloURI=${status.addedElo.uri}&amp;missionRuntimeURI=${missionRuntimeURI}'"  label="<strong>${status.addedElo.myname}</strong><br/>Created by: ${status.addedElo.createdBy}<br/>Last modified:${status.addedElo.modified}<br/>Status: Delivered" iconSrc="${status.anchorElo.thumbnail}" isContainer="true" style="cursor:pointer; margin:3px;border:3px solid #ffffff;" class="assessed${status.eloHasBeenAdded}"><div>Yata</div></div>
+                                <div dojoType="dojox.widget.FisheyeListItem" onMouseEnter="renderHtmlLabel(this)" onclick="location.href='/webapp/app/webeport/selectELOFromGallery.html?anchorEloURI=${status.anchorElo.uri}&amp;eloURI=${status.addedElo.uri}&amp;missionRuntimeURI=${missionRuntimeURI}'"  label="<strong>${status.addedElo.myname}</strong><br/>Created by: ${status.addedElo.createdBy}<br/>Last modified:${status.addedElo.modified}<br/>Status: Delivered" iconSrc="${status.anchorElo.thumbnail}" isContainer="true" style="cursor:pointer; margin:10px !important;border:3px solid #ffffff;" class="assessed${status.eloHasBeenAdded}"><div>Yata</div></div>
                             </c:if>
+
                             <c:if test="${!status.eloHasBeenAdded}">
-                                <div dojoType="dojox.widget.FisheyeListItem" onMouseEnter="renderHtmlLabel(this)" onclick="location.href='/webapp/app/webeport/selectELOFromGallery.html?anchorEloURI=${status.anchorElo.uri}&amp;eloURI=${status.addedElo.uri}&amp;missionRuntimeURI=${missionRuntimeURI}'"  label="<strong>${status.anchorElo.myname}</strong><br/>Created by: ${status.anchorElo.createdBy}<br/>Last modified:${status.anchorElo.modified}<br/Status: Not Delivered" iconSrc="${status.anchorElo.thumbnail}" isContainer="true" style="cursor:pointer; margin:3px;border:3px solid #ffffff;" class="assessed${status.eloHasBeenAdded}"></div>
+                                <div dojoType="dojox.widget.FisheyeListItem" onMouseEnter="renderHtmlLabel(this)" onclick="location.href='/webapp/app/webeport/selectELOFromGallery.html?anchorEloURI=${status.anchorElo.uri}&amp;eloURI=${status.addedElo.uri}&amp;missionRuntimeURI=${missionRuntimeURI}'"  label="<strong>${status.anchorElo.myname}</strong><br/>Created by: ${status.anchorElo.createdBy}<br/>Last modified:${status.anchorElo.modified}<br/Status: Not Delivered" iconSrc="${status.anchorElo.thumbnail}" isContainer="true" style="cursor:pointer; margin:10px !important;border:3px solid #ffffff;" class="assessed${status.eloHasBeenAdded}"></div>
                             </c:if>
 
                         </c:forEach>
@@ -255,14 +259,7 @@ function renderHtmlLabel(item){
 
                 </div>
             <br/><br/>
-            <div>
-                <c:if test="${fn:contains(portfolio.portfolioStatus, 'PORTFOLIO_STATUS_NOT_SUBMITTED')}">
-                    <spring:message code="PORTFOLIO_NOT_SUBMITTED"/>,  <a href="reflectionOnMission.html?missionRuntimeURI=${missionRuntimeURI}"><spring:message code="FINISH_MISSION_PORTFOLIO"></spring:message></a>
-                </c:if>
-                <c:if test="${fn:contains(portfolio.portfolioStatus, 'PORTFOLIO_STATUS_SUBMITTED_WAITING_FOR_ASSESSMENT')}">
-                    <strong><spring:message code="PORTFOLIO_SUBMITTED"/> </strong>
-                </c:if>
-            </div>
+            
             <div>
                 <c:if test="${fn:contains(portfolio.portfolioStatus, 'PORTFOLIO_ASSESSED')}">
 
