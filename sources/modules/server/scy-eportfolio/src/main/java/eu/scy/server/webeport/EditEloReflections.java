@@ -51,33 +51,13 @@ public class EditEloReflections extends BaseController {
             missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(missionRuntimeURI, getMissionELOService());
         }
 
-        String warningText = null;
-        boolean showWarning = false;
-        boolean eloCanBeAddedToPortfolio = true;
-
-        Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo, getCurrentUserName(request));
-        List <EloAnchorEloPair> eloAnchorEloPairs = portfolio.getEloAnchorEloPairs();
-        for (int i = 0; i < eloAnchorEloPairs.size(); i++) {
-            EloAnchorEloPair eloAnchorEloPair = eloAnchorEloPairs.get(i);
-            if(eloAnchorEloPair.getElo() != null && eloAnchorEloPair.getElo().getUri().equals(transferElo.getUri())) {
-                warningText = getMessageSourceAccessor().getMessage("ELO_ALREADY_ADDED_TO_PORTFOLIO");
-                showWarning = true;
-                eloCanBeAddedToPortfolio = false;
-            }
-        }
-
         URI anchorEloURI = getURI(request.getParameter("anchorEloURI"));
         ScyElo anchorElo = null;
-        if (anchorEloURI == null) {
-            anchorEloURI = missionRuntimeElo.getMissionRuntimeModel().getAnchorEloUriForElo(elo.getUri());
-            logger.info("ANCHOR ELO URI: " + anchorEloURI);
-        }
-
 
 
         MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(missionRuntimeElo.getMissionSpecificationEloUri(), getMissionELOService());
         PedagogicalPlanTransfer pedagogicalPlanTransfer = pedagogicalPlanELOService.getPedagogicalPlanForMission(missionSpecificationElo);
-        List <TransferElo> obligatoryAnchorElos = getMissionELOService().getObligatoryAnchorELOs(missionSpecificationElo, pedagogicalPlanTransfer);
+        List<TransferElo> obligatoryAnchorElos = getMissionELOService().getObligatoryAnchorELOs(missionSpecificationElo, pedagogicalPlanTransfer);
 
         boolean anchorEloObligatory = false;
         anchorElo = ScyElo.loadLastVersionElo(anchorEloURI, getMissionELOService());
@@ -85,11 +65,11 @@ public class EditEloReflections extends BaseController {
 
         for (int i = 0; i < obligatoryAnchorElos.size(); i++) {
             TransferElo obligatoryAnchorElo = obligatoryAnchorElos.get(i);
-            if(anchorEloForAddedElo.getUri().equals(obligatoryAnchorElo.getUri())) anchorEloObligatory = true;
+            if (anchorEloForAddedElo.getUri().equals(obligatoryAnchorElo.getUri())) anchorEloObligatory = true;
 
         }
 
-        if(! anchorEloObligatory) {
+        if (!anchorEloObligatory) {
             logger.info("This elo is not obligatory in portfolio");
             modelAndView.setViewName("forward:showCasePortfolioOverview.html");
             return;
@@ -97,6 +77,14 @@ public class EditEloReflections extends BaseController {
 
 
         if (anchorEloURI != null) {
+
+            String warningText = null;
+            boolean showWarning = false;
+            boolean eloCanBeAddedToPortfolio = true;
+
+            Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo, getCurrentUserName(request));
+
+
             anchorElo = ScyElo.loadLastVersionElo(anchorEloURI, getMissionELOService());
             TransferElo anchorEloTransfer = new TransferElo(anchorElo);
             modelAndView.addObject("elo", transferElo);
@@ -117,6 +105,8 @@ public class EditEloReflections extends BaseController {
                 dispatchAction(request, missionRuntimeElo, transferElo);
             }
 
+            portfolio = getMissionELOService().getPortfolio(missionRuntimeElo, getCurrentUserName(request));
+
             List<SelectedLearningGoalWithScore> selectedGeneralLearningGoalWithScores = portfolio.getGeneralLearningGoalsForElo(transferElo.getUri());
             if (selectedGeneralLearningGoalWithScores != null) {
                 for (int i = 0; i < selectedGeneralLearningGoalWithScores.size(); i++) {
@@ -134,13 +124,30 @@ public class EditEloReflections extends BaseController {
                 }
             }
 
+
+            List<EloAnchorEloPair> eloAnchorEloPairs = portfolio.getEloAnchorEloPairs();
+            for (int i = 0; i < eloAnchorEloPairs.size(); i++) {
+                EloAnchorEloPair eloAnchorEloPair = eloAnchorEloPairs.get(i);
+                if (eloAnchorEloPair.getElo() != null && eloAnchorEloPair.getElo().getUri().equals(transferElo.getUri())) {
+                    warningText = getMessageSourceAccessor().getMessage("ELO_ALREADY_ADDED_TO_PORTFOLIO");
+                    showWarning = true;
+                    eloCanBeAddedToPortfolio = false;
+                }
+            }
+
+
+            if (anchorEloURI == null) {
+                anchorEloURI = missionRuntimeElo.getMissionRuntimeModel().getAnchorEloUriForElo(elo.getUri());
+                logger.info("ANCHOR ELO URI: " + anchorEloURI);
+            }
+
+
             boolean showWarningNoGeneralLearningGoalsAdded = false;
             boolean showWarningNoSpecificLearningGoalsAdded = false;
 
             if (selectedGeneralLearningGoalWithScores.size() == 0) showWarningNoGeneralLearningGoalsAdded = true;
             if (selectedSpecificLearningGoalWithScores.size() == 0) showWarningNoSpecificLearningGoalsAdded = true;
 
-            boolean portfolioLocked = false;
             modelAndView.addObject("missionRuntimeURI", getEncodedUri(missionRuntimeElo.getUri().toString()));
             modelAndView.addObject(ELO_URI, getEncodedUri(eloURI.toString()));
             modelAndView.addObject("anchorEloURI", getEncodedUri(anchorEloURI.toString()));
@@ -353,7 +360,7 @@ public class EditEloReflections extends BaseController {
         String level = request.getParameter("level");
         String criteriaId = request.getParameter("criteriaId");
         LearningGoalCriterium learningGoalCriterium = null;
-        if(criteriaId != null) {
+        if (criteriaId != null) {
             learningGoalCriterium = getLearninGoalCriterium(missionRuntimeElo, criteriaId);
         }
 
@@ -383,10 +390,9 @@ public class EditEloReflections extends BaseController {
         String level = request.getParameter("level");
         String criteriaId = request.getParameter("criteriaId");
         LearningGoalCriterium learningGoalCriterium = null;
-        if(criteriaId != null) {
+        if (criteriaId != null) {
             learningGoalCriterium = getLearninGoalCriterium(missionRuntimeElo, criteriaId);
         }
-
 
 
         SelectedLearningGoalWithScore selectedLearningGoalWithScore = new SelectedLearningGoalWithScore();
@@ -396,7 +402,7 @@ public class EditEloReflections extends BaseController {
         selectedLearningGoalWithScore.setLearningGoalId(learningGoalId);
         selectedLearningGoalWithScore.setEloURI(transferElo.getUri());
         selectedLearningGoalWithScore.setScore(level);
-        if(learningGoalCriterium != null) {
+        if (learningGoalCriterium != null) {
             selectedLearningGoalWithScore.setCriteriaText(learningGoalCriterium.getCriterium());
             selectedLearningGoalWithScore.setCriteriaLevel(learningGoalCriterium.getLevel());
         } else {
