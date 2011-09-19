@@ -15,6 +15,9 @@ import eu.scy.client.desktop.desktoputils.XFX;
 import javafx.fxd.FXDNode;
 import javafx.scene.Group;
 import eu.scy.client.common.scyi18n.UriLocalizer;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleManager;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleKey;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleLayer;
 
 /**
  * @author SikkenJ
@@ -23,6 +26,7 @@ public class BigMissionMap extends MissionMap, Resizable {
 
    def logger = Logger.getLogger(this.getClass());
    def missionBackgroundImageName = "missionBackground";
+   public var bubbleManager: BubbleManager;
    public override var width on replace { adjustSize(); }
    public override var height on replace { adjustSize(); }
    public var anchorClicked: function(): Void;
@@ -43,6 +47,7 @@ public class BigMissionMap extends MissionMap, Resizable {
 
    public override function create(): Node {
       missionMapNode = super.create();
+      bubbleManager.createBubble(anchorDisplays[0], 5, "anchorElo", BubbleLayer.MISSION_MAP, BubbleKey.MISSION_MAP_ANCHOR_ELO, anchorDisplays[0].las.mainAnchor.windowColorScheme);
       missionBackgroundImageNode = getBackgroundImageNode();
       placeNodeOn00(missionMapNode);
       if (missionBackgroundImageNode != null) {

@@ -450,6 +450,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                  missionModel: missionModelFX
                  bigMissionMap: true
                  tooltipManager: tooltipManager
+                 bubbleManager: bubbleManager
                  dragAndDropManager: dragAndDropManager
                  runtimeSettingsRetriever: EloRuntimeSettingsRetriever {
                     eloUri: null;
@@ -469,6 +470,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                  missionModel: missionModelFX
                  initializer: initializer
                  tooltipManager: tooltipManager
+                 bubbleManager: bubbleManager
                  scyDesktop: this
                  buttonSize: desktopButtonSize
                  moreInfoToolFactory: bind moreInfoToolFactory

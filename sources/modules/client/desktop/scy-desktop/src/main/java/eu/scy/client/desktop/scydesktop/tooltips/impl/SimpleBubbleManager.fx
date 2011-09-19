@@ -17,12 +17,17 @@ import eu.scy.actionlogging.CompletingActionLogger;
 import eu.scy.actionlogging.MultiActionLogger;
 import java.lang.RuntimeException;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleLayer;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleKey;
+import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
+import org.apache.log4j.Logger;
 
 /**
  * @author sikken
  */
+
 public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionLogger {
 
+   def logger = Logger.getLogger(this.getClass());
    public-init var tbi: ToolBrokerAPI;
    public-init var activateBubbleManager = true;
    def timeStep = 1s;
@@ -31,6 +36,7 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
    var noBubbleFoundCounter = 0;
    def bubbleManagerTimer = new BubbleManagerTimer(this);
    def layerManager = new BubbleLayerManager();
+   def resourceBundleWrapper = new ResourceBundleWrapper(this);
 
    init {
    }
@@ -75,11 +81,7 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
 
    function showBubble(bubble: AbstractBubble): Void {
       println("display bubble: {bubble}");
-      def bubbleNode = TextTooltip {
-                 content: bubble.id
-                 windowColorScheme: bubble.windowColorScheme
-              }
-
+      def bubbleNode = bubble.getBubbleNode();
       TooltipShower {
          tooltipGroup: SimpleTooltipManager.tooltipGroup
          tooltipNode: bubbleNode
@@ -97,28 +99,40 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
    }
 
    public override function showingLayer(bubbleLayer: BubbleLayer): Void {
+      logger.info("showing BubbleLayer: {bubbleLayer}");
       layerManager.showLayer(bubbleLayer);
    }
 
    public override function hidingLayer(bubbleLayer: BubbleLayer): Void {
+      logger.info("hiding BubbleLayer: {bubbleLayer}");
       layerManager.hideLayer(bubbleLayer);
    }
 
-   public override function createBubble(targetNode: Node, priority: Integer, id: String, bubbleLayer: BubbleLayer, displayKey: String): Bubble {
+   public override function createBubble(targetNode: Node, priority: Integer, id: String, bubbleLayer: BubbleLayer, displayKey: BubbleKey): Bubble {
       createBubble(targetNode, priority, id, bubbleLayer, displayKey, WindowColorScheme.getWindowColorScheme(ScyColors.darkGray));
    }
 
-   public override function createBubble(targetNode: Node, priority: Integer, id: String, bubbleLayer: BubbleLayer, displayKey: String, windowColorScheme: WindowColorScheme): Bubble {
+   public override function createBubble(targetNode: Node, priority: Integer, id: String, bubbleLayer: BubbleLayer, displayKey: BubbleKey, windowColorScheme: WindowColorScheme): Bubble {
+      if (displayKey==null){
+         logger.info("no BubbleKey defined, for {id} in layer {bubbleLayer}");
+         return null;
+      }
+
       def bubble = TextBubble {
                  priority: priority
                  id: id
                  layerId: bubbleLayer
                  targetNode: targetNode
-                 bubbleText: displayKey
+                 bubbleText: getBubbleText(displayKey)
                  windowColorScheme: windowColorScheme
               }
       bubbleStore.addBubble(bubble);
       return bubble;
    }
+
+   function getBubbleText(displayKey: BubbleKey):String{
+      resourceBundleWrapper.getString("bubbleHelp.{displayKey}")
+   }
+
 
 }

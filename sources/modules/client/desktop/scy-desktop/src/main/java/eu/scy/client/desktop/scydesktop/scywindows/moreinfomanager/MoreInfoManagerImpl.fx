@@ -26,6 +26,7 @@ import eu.scy.client.desktop.desktoputils.art.javafx.InstructionTypesIcon;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleManager;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleLayer;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleKey;
 
 /**
  * @author SikkenJ
@@ -57,6 +58,8 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
               tooltipManager: tooltipManager
               bubbleManager: bubbleManager
               bubbleLayerId: lasCurtainBubbleLayerId
+              closeBubbleKey:BubbleKey.LAS_CURTAIN_CONTROL
+              openCloseBubbleKey:BubbleKey.LAS_CURTAIN_CONTROL
            }
    var instructionTool: ShowInfoUrl;
    def moreInfoWindow: MoreInfoWindow = MoreInfoWindow {
@@ -79,7 +82,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
    def uriLocalizer = new UriLocalizer();
    var runPhase = false;
    var showingMoreInfoWindow = false;
-   var instructionWindowControlBubble = bubbleManager.createBubble(instructionWindow.curtainControl, 7, "open-close", BubbleLayer.DESKTOP, "lasCurtain.open-close");
+   var instructionWindowControlBubble = bubbleManager.createBubble(instructionWindow.curtainControl, 7, "open-close", BubbleLayer.DESKTOP, BubbleKey.LAS_CURTAIN_CONTROL);
 
    init {
       runPhase = true;
@@ -88,7 +91,6 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
          showAgendaWindow();
       }
       sceneSizeChanged();
-      
 
    }
 

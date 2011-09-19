@@ -34,10 +34,10 @@ public class AbstractBubble extends Bubble, JavaBubble {
       return priority
    }
 
-   public override function isVisible():Boolean{
+   public override function isVisible(): Boolean {
       var node = targetNode;
-      while (node!=null){
-         if (not node.visible){
+      while (node != null) {
+         if (not node.visible) {
             return false
          }
          node = node.parent;
@@ -45,11 +45,18 @@ public class AbstractBubble extends Bubble, JavaBubble {
       return true
    }
 
-   public override function canBeUsedNow():Boolean{
-      if (canBeUsed!=null){
+   public override function canBeUsedNow(): Boolean {
+      if (canBeUsed != null) {
          return canBeUsed()
       }
       return true;
+   }
+
+   public function getBubbleNode(): Node {
+      TextTooltip {
+         content: id
+         windowColorScheme: windowColorScheme
+      }
    }
 
    public override function startBubbleling(): Void {

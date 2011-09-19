@@ -40,6 +40,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.tools.search.ScySearchResult;
 import eu.scy.client.desktop.scydesktop.tools.search.ScySearchResultTitleComparator;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleLayer;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleKey;
 
 /**
  * @author sikken
@@ -159,9 +160,14 @@ public class EloManagement extends CustomNode {
    }
 
    function createBubbles() {
-      scyDesktop.bubbleManager.createBubble(archiver, 6, "archiver", BubbleLayer.DESKTOP, "archiver", archiver.eloIcon.windowColorScheme);
-      scyDesktop.bubbleManager.createBubble(newFromEloTemplateButton, 4, "newFromEloTemplateButton", BubbleLayer.DESKTOP, "newFromEloTemplateButton", newFromEloTemplateButton.eloIcon.windowColorScheme);
-      scyDesktop.bubbleManager.createBubble(searcher, 5, "search", BubbleLayer.DESKTOP, "search", searcher.eloIcon.windowColorScheme);
+      scyDesktop.bubbleManager.createBubble(archiver, 6, "archiver", BubbleLayer.DESKTOP, BubbleKey.ARCHIVER_DRAG, archiver.eloIcon.windowColorScheme);
+      scyDesktop.bubbleManager.createBubble(newFromEloTemplateButton, 4, "newFromEloTemplateButton", BubbleLayer.DESKTOP, BubbleKey.NEW_ELO_FROM_TEMPLATE, newFromEloTemplateButton.eloIcon.windowColorScheme);
+      scyDesktop.bubbleManager.createBubble(searcher, 5, "searchClick", BubbleLayer.DESKTOP, BubbleKey.SEARCH_CLICK, searcher.eloIcon.windowColorScheme);
+      scyDesktop.bubbleManager.createBubble(searcher, 5, "searchDrag", BubbleLayer.DESKTOP, BubbleKey.SEARCH_DRAG, searcher.eloIcon.windowColorScheme);
+      if (showCreateBlankElo) {
+         scyDesktop.bubbleManager.createBubble(searcher, 5, "newBlankElo", BubbleLayer.DESKTOP, BubbleKey.NEW_BLANK_ELO, searcher.eloIcon.windowColorScheme);
+
+      }
       scyDesktop.bubbleManager.showingLayer(BubbleLayer.DESKTOP);
    }
 
@@ -323,21 +329,21 @@ public class EloManagement extends CustomNode {
       FX.deferAction(function(): Void {
          searcher.turnedOn = true;
       });
-      def eloSearchNode = scyDesktop.scyToolFactory.createNewScyToolNode("search","scy/search", null, null, false) as EloSearchNode;
+      def eloSearchNode = scyDesktop.scyToolFactory.createNewScyToolNode("search", "scy/search", null, null, false) as EloSearchNode;
       def eloIcon = windowStyler.getScyEloIcon(ImageWindowStyler.generalSearch);
       def windowColorScheme = windowStyler.getWindowColorScheme(ImageWindowStyler.generalSearch);
 
       def dialogWindow = createModalDialogForContent(windowColorScheme, eloIcon, ##"Search", eloSearchNode);
       eloSearchNode.window = dialogWindow.dialogWindow;
-      eloSearchNode.cancelAction= function():Void{
-         dialogWindow.dialogWindow.close();
-         searcher.turnedOn = false;
-      }
-      eloSearchNode.eloOpenedAction = function(newWindow:ScyWindow){
-         dialogWindow.dialogWindow.close();
-         searcher.turnedOn = false;
-      }
-      if (scyElo!=null){
+      eloSearchNode.cancelAction = function(): Void {
+                 dialogWindow.dialogWindow.close();
+                 searcher.turnedOn = false;
+              }
+      eloSearchNode.eloOpenedAction = function(newWindow: ScyWindow) {
+                 dialogWindow.dialogWindow.close();
+                 searcher.turnedOn = false;
+              }
+      if (scyElo != null) {
          eloSearchNode.searchBasedOnElo(scyElo);
       }
       eloSearchNode.initialize(true);
