@@ -7,7 +7,7 @@
                 /*background-image:url(/webapp/themes/scy/default/images/feedback_header.png);
                 background-repeat:no-repeat;*/
                 color:#ffffff;
-                height:80px;
+                height:100px;
                 background-color:#333333 !important;
                 font-weight:bold;
                 /*font-size:25px;
@@ -28,39 +28,33 @@
     </style>
         <div style="border:4px solid #333333;border-bottom-left-radius:40px;width:786px;height:95%;padding:4px;">
                     <div class="feedbackHeader" >
-                        <div style="width:80px;height:80px;float:left;">
-                            <a href="javascript:loadDialog('/webapp/components/openEloInScyLabDialog.html?eloURI=${elo.uri}', '${eno.myname}');">
-                                <img src="${elo.thumbnail}"/>
-                            </a>
-                        </div>
-                        <div style="width:150px;height:80px;float:left;text-align:right;">
+
+
                             <table width="100%">
                                 <tr>
-                                    <td width="20%" align="left">
-                                        <spring:message code="ELO"/>
-                                    </td>
-                                    <td align="left" width="80%">
-                                        ${elo.myname}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td align="left">
-                                        <spring:message code="CREATED_BY"/>
+                                    <td align="left" style="width:150px;">
+
+                                       <div style="width:80px;height:90px;float:left;">
+                                            <a href="javascript:loadDialog('/webapp/components/openEloInScyLabDialog.html?eloURI=${elo.uri}', '${eno.myname}');">
+                                                <img src="${elo.thumbnail}" style="background-color:#cccccc;padding:5px;border:1px solid #cccccc;border-radius:3px;"/>
+                                            </a>
+                                        </div>
+                                        
                                     </td>
                                     <td align="left">
-                                        ${elo.createdBy}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td align="left">
-                                        <spring:message code="DATE"/>
-                                    </td>
-                                    <td align="left">
+                                        <spring:message code="ELO"/>: ${elo.myname}<br/>
+
+                                        <spring:message code="CREATED_BY"/>:
+
+                                        ${elo.createdBy}<br/>
+
+                                        <spring:message code="DATE"/>:
+
                                         ${elo.lastModified}
                                     </td>
                                 </tr>
                             </table>
-                        </div>
+
                     </div>
 
                 <div dojoType="dojox.layout.ContentPane" style="width:100%;height:90%;" id="eportfolioPane" parseOnLoad="true" executeScripts="true">
