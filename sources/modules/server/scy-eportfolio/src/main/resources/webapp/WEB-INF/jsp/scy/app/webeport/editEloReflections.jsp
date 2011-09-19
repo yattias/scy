@@ -89,10 +89,12 @@
 
                        </td>
                        <td>
+                           ${fn:length(selectedGeneralLearningGoalWithScores)} <spring:message code="SELECTED_GENERAL_LEARNING_GOALS"/>
                            <c:if test="${portfolioLocked == false}">
                                <input type="button" onclick="loadDialog('/webapp/app/webeport/selectLearningGoalsForElo.html?eloURI=' + encodeURIComponent('${elo.uri}') + '&lgType=general&missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${anchorEloURI}'), '<spring:message code="SELECT_LEARNING_GOAL"></spring:message>');" value="<spring:message code="SELECT_LEARNING_GOAL"></spring:message>">
                             </c:if>
-                        <div id="generalLearningGoals">
+
+                        <div id="generalLearningGoalsToolTip">
 
                             <c:choose>
                                 <c:when test="${fn:length(selectedGeneralLearningGoalWithScores) > 0}">
@@ -201,10 +203,12 @@
                         </td>
                         <td>
                 <c:if test="${portfolioLocked == false}">
-                            
+
+                    ${fn:length(selectedSpecificLearningGoalWithScores)} <spring:message code="SELECTED_SPECIFIC_LEARNING_GOALS"/>
                     <input type="button" onclick="loadDialog('/webapp/app/webeport/selectLearningGoalsForElo.html?eloURI=' + encodeURIComponent('${elo.uri}') + '&lgType=specific&missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${anchorEloURI}'), '<spring:message code="SELECT_LEARNING_GOAL"></spring:message>');" value="<spring:message code="SELECT_LEARNING_GOAL"></spring:message>">
                         </c:if>
-                        <div id="generalLearningGoals">
+                        <div id="specificLearningGoalsToolTip">
+
                             <c:choose>
                                 <c:when test="${fn:length(selectedSpecificLearningGoalWithScores) > 0}">
 

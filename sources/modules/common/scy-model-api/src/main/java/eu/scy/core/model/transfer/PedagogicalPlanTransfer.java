@@ -1,6 +1,7 @@
 package eu.scy.core.model.transfer;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.net.URLEncoder;
 import java.util.List;
 
@@ -114,4 +115,5 @@ public class PedagogicalPlanTransfer extends BaseXMLTransfer {
     public void setTrimSearchResultsInEportfolioToContainElosWithEqualTechnicalFormat(Boolean trimSearchResultsInEportfolioToContainElosWithEqualTechnicalFormat) {
         this.trimSearchResultsInEportfolioToContainElosWithEqualTechnicalFormat = trimSearchResultsInEportfolioToContainElosWithEqualTechnicalFormat;
     }
+
 }

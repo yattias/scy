@@ -70,6 +70,7 @@
                 /app/webeport/storeReflectionsOnMission.html=storeReflectionsOnMissionController
                 /app/webeport/selectLearningGoalsForElo.html=selectLearningGoalsForEloController
                 /app/webeport/selectAnchorEloForEloThatHasBeenAddedFromScyLab.html=selectAnchorEloForEloThatHasBeenAddedFromScyLabController
+                /app/webeport/showCasePortfolioOverview.html=showCasePortfolioOverviewController
             </value>
         </property>
     </bean>
@@ -229,6 +230,17 @@
 	</bean>
 
     <bean id="selectLearningGoalsForEloController" class="eu.scy.server.webeport.SelectLearningGoalsForElo">
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="portfolioELOService" ref="portfolioELOService"/>
+        <property name="runtimeELOService" ref="runtimeELOService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
+        <property name="transferObjectMapService" ref="transferObjectMapService"/>
+        <!--property name="runtimeELOService" ref="runtimeELOService"/-->
+	</bean>
+
+    <bean id="showCasePortfolioOverviewController" class="eu.scy.server.webeport.ShowCasePortfolioOverview">
         <property name="urlInspector" ref="urlInspector"/>
         <property name="portfolioELOService" ref="portfolioELOService"/>
         <property name="runtimeELOService" ref="runtimeELOService"/>
