@@ -15,6 +15,14 @@
                 padding-top:20px;
             }
 
+        .soria .dijitAccordionTitleSelected{
+            background-image:url(/webapp/themes/scy/default/images/accordionItemActive.png)!important;
+        }
+
+        .soria .dijitAccordionTitle{
+            background-image:url(/webapp/themes/scy/default/images/titleBar.png)!important;
+        }
+
             th{
                 background-color:#7e2b32;
             }
