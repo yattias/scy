@@ -32,12 +32,16 @@
                         text-align:center;
                         padding-top:20px;
                     }
+
+            .soria .dijitTabPaneWrapper{
+                background-color:transparent !important;
+            }
             </style>
                 <!--div style="border:4px solid #cc6600;width:786px;height:95%;padding:4px;" class="greenBorders"-->
                             <!--img src="/webapp/themes/scy/default/images/feedback_header.png" alt="" class="greenBackgrounds" /-->
                      <!--div class="feedbackHeader" >My ePortfolio</div-->
 
-                        <div dojoType="dojox.layout.ContentPane" style="width:100%;height:90%;" id="eportfolioReflectionPane" parseOnLoad="true" executeScripts="true">
+                        <div dojoType="dojox.layout.ContentPane" style="width:100%;height:90%;background-color:transparent;" id="eportfolioReflectionPane" parseOnLoad="true" executeScripts="true">
 
        
 
@@ -45,10 +49,10 @@
         <c:choose>
             <c:when test="${fn:length(pedagogicalPlan.assessmentSetup.reflectionTabs) > 0}">
                 <form action="storeReflectionsOnMission.html" id="storeReflectionsOnMission" style="display:block;height:50%;">
-                <div dojoType="dijit.layout.TabContainer" style="height:100%;">
+                <div dojoType="dijit.layout.TabContainer" style="height:100%;background-color:transparent;">
 
                         <c:forEach var="tab" items="${pedagogicalPlan.assessmentSetup.reflectionTabs}">
-                            <div dojoType="dojox.layout.ContentPane" title="${tab.title}">
+                            <div dojoType="dojox.layout.ContentPane" style="background-color:transparent;" title="${tab.title}">
                                 <table>
                                     <tr>
                                 <td width="30%" style="text-align:right; vertical-align:top;">

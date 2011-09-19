@@ -26,7 +26,7 @@
                 border:none !important;
             }
     </style>
-        <div style="border:4px solid #333333;border-bottom-left-radius:40px;width:786px;height:95%;padding:4px;">
+        <div style="border:4px solid #333333;border-bottom-left-radius:40px;width:786px;height:95%;padding:4px;background-color:#efefef;">
                     <div class="feedbackHeader" >
 
 
