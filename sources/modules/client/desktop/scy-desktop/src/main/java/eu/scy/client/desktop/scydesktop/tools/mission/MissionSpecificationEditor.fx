@@ -11,11 +11,8 @@ import eu.scy.common.mission.impl.BasicMissionSpecificationEloContent;
 import eu.scy.common.mission.impl.jdom.MissionSpecificationEloContentXmlUtils;
 import java.io.File;
 import eu.scy.common.mission.MissionEloType;
-import eu.scy.common.mission.RuntimeSettingsElo;
 import eu.scy.common.scyelo.ScyElo;
 import java.util.Locale;
-import java.util.ArrayList;
-import roolo.elo.api.IELO;
 
 /**
  * @author sikken
