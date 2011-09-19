@@ -126,7 +126,7 @@ public class PrologAgent extends AbstractForeignAgent {
     @Override
     protected String[] getCommandline() {
         if (prologExe == null) {
-            prologExe = findExecutable("pl", "swipl", "plcon.exe").getAbsolutePath();
+            prologExe = findExecutable("swipl", "pl", "plcon.exe").getAbsolutePath();
         }
         if (goal == null) {
             return new String[] { prologExe, "-f", prologTmpDir.getAbsolutePath() + File.separatorChar + scriptName };
