@@ -34,14 +34,32 @@
                             </a>
                         </div>
                         <div style="width:150px;height:80px;float:left;text-align:right;">
-                            Mission / ELO name: <br/>
-                            Created by: <br/>
-                            Date: 
-                        </div>
-                        <div style="float:left;">
-                              ${elo.myname}<br/>
-                              ${createdBy}<br/>
-                              ${lastModified}
+                            <table width="100%">
+                                <tr>
+                                    <td width="20%" align="left">
+                                        <spring:message code="ELO"/>
+                                    </td>
+                                    <td align="left" width="80%">
+                                        ${elo.myname}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="left">
+                                        <spring:message code="CREATED_BY"/>
+                                    </td>
+                                    <td align="left">
+                                        ${elo.createdBy}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="left">
+                                        <spring:message code="DATE"/>
+                                    </td>
+                                    <td align="left">
+                                        ${elo.lastModified}
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
 
@@ -50,6 +68,15 @@
 
         <br/>
         <table style="width:100%;">
+        <c:if test="${showWarning}">
+            <tr>
+                <td width="100%" colspan="2">
+                    <font color="red">
+                        <center><strong>${warningText}</strong></center>
+                    </font>
+                </td>
+            </tr>
+        </c:if>
         <c:if test="${showWarningNoSpecificLearningGoalsAdded}">
 
                 <tr>
@@ -321,7 +348,11 @@
                     <c:if test="${portfolioLocked == false}">
 
                         <tr>
-                            <td colspan="4" style="text-align:center;height:50px;vertical-align:bottom;"><input type="submit" value="<spring:message code="ADD_TO_PORTFOLIO"/>" name="submitToPortfolio" /></td>
+                            <c:if test="${eloCanBeAddedToPortfolio}">
+                                <td colspan="4" style="text-align:center;height:50px;vertical-align:bottom;">
+                                    <input type="submit" value="<spring:message code="ADD_TO_PORTFOLIO"/>" name="submitToPortfolio" />
+                                </td>
+                            </c:if>
                         </tr>
 
             </c:if>
