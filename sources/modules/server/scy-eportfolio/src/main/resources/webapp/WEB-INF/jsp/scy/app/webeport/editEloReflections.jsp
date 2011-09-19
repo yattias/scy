@@ -36,7 +36,7 @@
 
                                        <div style="width:80px;height:90px;float:left;">
                                             <a href="javascript:loadDialog('/webapp/components/openEloInScyLabDialog.html?eloURI=${elo.uri}', '${eno.myname}');">
-                                                <img src="${elo.thumbnail}" style="background-color:#cccccc;padding:5px;border:1px solid #cccccc;border-radius:3px;"/>
+                                                <img src="${elo.thumbnail}" style="background-color:#cccccc;padding:2px;border:1px solid #cccccc;border-radius:3px;"/>
                                             </a>
                                         </div>
                                         
