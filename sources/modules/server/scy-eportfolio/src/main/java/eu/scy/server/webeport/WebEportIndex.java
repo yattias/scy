@@ -48,7 +48,7 @@ public class WebEportIndex extends BaseController {
         PedagogicalPlanTransfer pedagogicalPlanTransfer = getPedagogicalPlanELOService().getPedagogicalPlanForMission(missionSpecificationElo);
         Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo, getCurrentUserName(request));
 
-        List obligatoryAnchorElos = getObligatoryAnchorElos(missionSpecificationElo, pedagogicalPlanTransfer);
+        List obligatoryAnchorElos = getObligatoryAnchorElos(request, missionSpecificationElo, pedagogicalPlanTransfer);//getObligatoryAnchorElos(missionSpecificationElo, pedagogicalPlanTransfer);
 
         List <AnchoELOWithStatus> anchoELOWithStatuses = new LinkedList<AnchoELOWithStatus>();
 
@@ -86,10 +86,6 @@ public class WebEportIndex extends BaseController {
 
 
 
-    }
-
-    private List getObligatoryAnchorElos(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer) {
-        return getMissionELOService().getObligatoryAnchorELOs(missionSpecificationElo, pedagogicalPlanTransfer);
     }
 
     public MissionELOService getMissionELOService() {

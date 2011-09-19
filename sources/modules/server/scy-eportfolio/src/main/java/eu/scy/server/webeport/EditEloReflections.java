@@ -57,7 +57,7 @@ public class EditEloReflections extends BaseController {
 
         MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(missionRuntimeElo.getMissionSpecificationEloUri(), getMissionELOService());
         PedagogicalPlanTransfer pedagogicalPlanTransfer = pedagogicalPlanELOService.getPedagogicalPlanForMission(missionSpecificationElo);
-        List<TransferElo> obligatoryAnchorElos = getMissionELOService().getObligatoryAnchorELOs(missionSpecificationElo, pedagogicalPlanTransfer);
+        List<TransferElo> obligatoryAnchorElos = getObligatoryAnchorElos(request, missionSpecificationElo, pedagogicalPlanTransfer);//getMissionELOService().getObligatoryAnchorELOs(missionSpecificationElo, pedagogicalPlanTransfer);
 
         boolean anchorEloObligatory = false;
         anchorElo = ScyElo.loadLastVersionElo(anchorEloURI, getMissionELOService());
