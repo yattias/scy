@@ -1,13 +1,11 @@
 package info.collide.android.scydatacollector;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
-import android.content.ContentValues;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,12 +14,14 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ListView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ListView;
 
 public class DownloadFormsOverviewActivity extends ListActivity {
 
     private static final int DOWNLOAD_PROGRESS = 0;
+
+    public static final int PREVIEW_PROGRESS = 1;
     
     private Activity activity = this;
 
@@ -31,6 +31,8 @@ public class DownloadFormsOverviewActivity extends ListActivity {
 
     private ProgressDialog progressDialog;
 
+    private DataCollectorContentProvider dccp;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.downloadforms);
@@ -39,12 +41,14 @@ public class DownloadFormsOverviewActivity extends ListActivity {
         wsc = new WebServicesController(activity);
         ListView lv = (ListView) findViewById(android.R.id.list);
 
-        final LoadFormsDataListAdapter lfdla = new LoadFormsDataListAdapter(this, lv, ownForms.isChecked());
+        dccp = new DataCollectorContentProvider(this);
+
+        final LoadFormsDataListAdapter lfdla = new LoadFormsDataListAdapter(this, lv, wsc, ownForms.isChecked());
 
         ownForms.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                lfdla.update(ownForms.isChecked());
+                new FormOverviewDownloader().execute();
             }
         });
 
@@ -58,6 +62,8 @@ public class DownloadFormsOverviewActivity extends ListActivity {
 
         });
         setListAdapter(lfdla);
+
+        new FormOverviewDownloader().execute();
     }
     
     @Override
@@ -68,12 +74,18 @@ public class DownloadFormsOverviewActivity extends ListActivity {
             progressDialog.setMessage(getString(R.string.msgLoadFormRepo));
             progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             return progressDialog;
+        } else if (id == PREVIEW_PROGRESS) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle(R.string.msgPleaseWait);
+            progressDialog.setMessage(getString(R.string.msgLoadFormRepo));
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            return progressDialog;
         }
         return super.onCreateDialog(id);
     }
 
     private void downloadForms(final ArrayList<DataFormPreviewModel> alDfpm) {
-        ArrayList<String> uris = new ArrayList<String>();
+        final ArrayList<String> uris = new ArrayList<String>();
         for (DataFormPreviewModel dfpm : alDfpm) {
             if (dfpm.is_download()) {
                 uris.add(dfpm.getURI());
@@ -83,28 +95,21 @@ public class DownloadFormsOverviewActivity extends ListActivity {
 
             protected void onPreExecute() {
                 showDialog(DOWNLOAD_PROGRESS);
+                progressDialog.setMax(uris.size());
             };
             
             @Override
             protected Void doInBackground(String... uris) {
-                int countForms = uris.length;
                 String username = new DataCollectorConfiguration(activity).getUserName();
                 
                 for (int i = 0; i < uris.length; i++) {
-                    publishProgress((int) ((i / (float) countForms) * 100));
+                    publishProgress(i);
                     DataCollectorFormModel dcfm = wsc.fetchDCFMFromServer(uris[i]);
                     if (dcfm != null) {
-                        final ContentValues cv = new ContentValues();
-                        try {
-                            cv.put("dcfm", dcfm.toByteArray());
-                            cv.put("username", username);
-                            activity.getContentResolver().update(DataCollectorContentProvider.CONTENT_URI, cv, null, null);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        dccp.update(dcfm, username);
                     }
                 }
-                publishProgress(100);
+                publishProgress(uris.length);
                 return null;
             }
             
@@ -124,5 +129,30 @@ public class DownloadFormsOverviewActivity extends ListActivity {
                 finish();
             };
         }.execute(uris.toArray(new String[] {}));
+    }
+
+    class FormOverviewDownloader extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            showDialog(PREVIEW_PROGRESS);
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            if (getListAdapter() instanceof LoadFormsDataListAdapter) {
+                LoadFormsDataListAdapter listAdapter = (LoadFormsDataListAdapter) getListAdapter();
+                listAdapter.downloadForms(ownForms.isChecked());
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            LoadFormsDataListAdapter listAdapter = (LoadFormsDataListAdapter) getListAdapter();
+            listAdapter.notifyDataSetChanged();
+            dismissDialog(PREVIEW_PROGRESS);
+        }
+
     }
 }

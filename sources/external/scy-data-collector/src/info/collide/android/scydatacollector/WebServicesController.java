@@ -72,13 +72,13 @@ public class WebServicesController {
         JSONObject jsonobj = new JSONObject();
         // TODO ENCODING
         jsonobj.put("content", form.toXML());
-        jsonobj.put("username", config.getGroupname());
+        jsonobj.put("username", config.getUserName());
         jsonobj.put("password", config.getPassword());
-        jsonobj.put("language", "de");
-        jsonobj.put("country", "de");
+        jsonobj.put("language", "en");
+        jsonobj.put("country", "en");
         jsonobj.put("title", form.getTitle());
         jsonobj.put("description", form.getDescription());
-        jsonobj.put("type", "scy/form");
+        jsonobj.put("type", "scy/formauthor");
 
         String mUrl = config.getServerUrl() + saveElo;
         makeRequestTextResult(mUrl, jsonobj);
@@ -90,7 +90,7 @@ public class WebServicesController {
         request.put("password", config.getPassword());
         JSONObject query = new JSONObject();
         query.put("metadatakey", "technicalFormat");
-        query.put("metadatavalue", "scy/formtemplate");
+        query.put("metadatavalue", "scy/formauthor");
 
         JSONArray metadata = new JSONArray();
         metadata.put("title");

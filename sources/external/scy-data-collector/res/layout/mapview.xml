@@ -5,7 +5,8 @@
 	<com.google.android.maps.MapView
 		android:id="@+id/mapView" android:layout_width="fill_parent"
 		android:layout_height="fill_parent" android:enabled="true"
-		android:clickable="true" android:apiKey="0ncE_ZXnv2rp0I9fZZQkcD-GgzP9GY93cu8JUfg" />
+		android:clickable="true" android:apiKey="0F5VQHzhi4LrVmDJ-lgOLCyVzRIVH6Ft6FKIoYQ" />
+		<!-- android:clickable="true" android:apiKey="0ncE_ZXnv2rp0I9fZZQkcD-GgzP9GY93cu8JUfg" /-->
 
 	<ImageButton android:layout_height="wrap_content"
 		android:id="@+id/btnMapViewClose" android:layout_width="wrap_content"

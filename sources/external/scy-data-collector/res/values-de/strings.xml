@@ -56,13 +56,17 @@
 	</string>
 	<string name="mainSelectForms">Formularauswahl</string>
 	<string name="mainSelectFormsDescription">Durchsuche und öffne deine Formulare, lösche oder
-		lade bereits ausgefüllte hoch</string>
+		lade bereits ausgefüllte hoch
+	</string>
 	<string name="mainDownloadForms">Formulardownload</string>
 	<string name="mainDownloadFormsDescription">Durchsuche und lade Formulare auf dein Smartphone
-		herunter</string>
+		herunter
+	</string>
 	<string name="mainConfiguration">Einstellungen</string>
 	<string name="mainConfigurationDescription">Stelle deinen Benutzernamen, dein Passwort und die
-		Adresse des Servers ein</string>
+		Adresse des Servers ein
+	</string>
 	<string name="storeFormResultMessagePositive">Formular erfolgreich gespeichert</string>
-	<string name="storeFormResultMessageNegative">Formular konnte leider nicht gespeichert werden</string>
+	<string name="storeFormResultMessageNegative">Formular konnte leider nicht gespeichert werden
+	</string>
 </resources>

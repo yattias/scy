@@ -5,7 +5,6 @@ import java.util.Hashtable;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,8 +25,7 @@ public class DataCollectorFormsDataListAdapter extends BaseAdapter {
 
     private DataCollectorFormOverviewActivity _context;
 
-    // private DataCollectorContentProvider _dccp = new
-    // DataCollectorContentProvider();
+    private DataCollectorContentProvider dccp;
 
     public DataCollectorFormsDataListAdapter(DataCollectorFormOverviewActivity context, ListView listview) {
 
@@ -40,6 +38,7 @@ public class DataCollectorFormsDataListAdapter extends BaseAdapter {
         bindListViewListener(listview);
 
         // load some data into the model
+        dccp = new DataCollectorContentProvider(context);
         getFormData();
     }
 
@@ -53,24 +52,17 @@ public class DataCollectorFormsDataListAdapter extends BaseAdapter {
     }
 
     private void getFormData() {
-        {
-            _data.clear();
-            Uri allForms = Uri.parse("content://info.collide.android.scydatacollector.DataCollectorProvider.Forms/forms");
-            Cursor c = _context.managedQuery(allForms, null, null, null, null);
-            DataCollectorContentProvider dccp = new DataCollectorContentProvider();
-            if (c.moveToFirst()) {
-                do {
-                    DataCollectorFormModel dcfm = new DataCollectorFormModel();
-                    int formid = c.getInt(c.getColumnIndex(DataCollectorContentProvider.KEY_FORMID));
-                    dccp.getDCFM(_context, formid, dcfm);
-                    _data.put(formid, dcfm);
-                } while (c.moveToNext());
-            }
-            // dccp.close();
-            c.close();
-
+        _data.clear();
+        Cursor c = dccp.getAllForms();
+        if (c.moveToFirst()) {
+            do {
+                DataCollectorFormModel dcfm = new DataCollectorFormModel();
+                int formid = c.getInt(c.getColumnIndex(DataCollectorContentProvider.KEY_FORMID));
+                dccp.getDCFM(_context, formid, dcfm);
+                _data.put(formid, dcfm);
+            } while (c.moveToNext());
         }
-
+        c.close();
     }
 
     public int getCount() {
@@ -102,7 +94,7 @@ public class DataCollectorFormsDataListAdapter extends BaseAdapter {
         cellRendererView.display(index, _selectedIndex == index);
 
         cellRendererView.setBackgroundResource(R.drawable.gradient);
-        
+
         return cellRendererView;
 
     }
@@ -179,7 +171,7 @@ public class DataCollectorFormsDataListAdapter extends BaseAdapter {
                             protected void onPreExecute() {
                                 _context.showDialog(DataCollectorFormOverviewActivity.PROGRESS_DIALOG);
                             }
-                            
+
                             @Override
                             protected Boolean doInBackground(Void... params) {
                                 WebServicesController dcwc = new WebServicesController(_context);
@@ -191,7 +183,7 @@ public class DataCollectorFormsDataListAdapter extends BaseAdapter {
                                 }
                                 return false;
                             }
-                            
+
                             @Override
                             protected void onPostExecute(Boolean result) {
                                 _context.dismissDialog(DataCollectorFormOverviewActivity.PROGRESS_DIALOG);
@@ -228,19 +220,15 @@ public class DataCollectorFormsDataListAdapter extends BaseAdapter {
                 _btnDeleteForm.setOnClickListener(new OnClickListener() {
 
                     public void onClick(View arg0) {
-                        // TODO Auto-generated method stub
-                        // DataCollectorContentProvider cp = new
-                        // DataCollectorContentProvider();
                         MessageDialog mdDeleteForm = new MessageDialog(_context);
                         android.content.DialogInterface.OnClickListener oclYes = new android.content.DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int which) {
-                                Uri uri = Uri.parse("content://info.collide.android.scydatacollector.DataCollectorProvider.Forms/forms");
-                                _context.getContentResolver().delete(uri, String.valueOf(getItemId(_selectedIndex)), null);
+                                dccp = new DataCollectorContentProvider(_context);
+                                dccp.deleteForm(getItemId(_selectedIndex));
 
                                 refreshView();
                                 notifyDataSetChanged();
-
                             }
                         };
                         mdDeleteForm.createYesNoDialog(getResources().getString(R.string.msgDeleteForm), oclYes, getResources().getString(R.string.YES), null, getResources().getString(R.string.NO));

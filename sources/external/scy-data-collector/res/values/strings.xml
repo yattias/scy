@@ -41,7 +41,7 @@
 	<string name="gpsProviderOn">GPS available</string>
 	<string name="Position">Position</string>
 	<string name="of">of</string>
-	<string name="msgLoadFormRepo">Loading Form from Repository</string>
+	<string name="msgLoadFormRepo">Loading Form(s) from Repository</string>
 	<string name="msgNoConnectionToRepository">No connection to Repository!</string>
 	<string name="chkDownlaod">download</string>
 	<string name="msgSaveToRepository">Save to Repository</string>
