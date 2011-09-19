@@ -1,6 +1,7 @@
 package eu.scy.server.webeport;
 
 import eu.scy.common.mission.MissionRuntimeElo;
+import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.XMLTransferObjectService;
 import eu.scy.core.model.transfer.*;
@@ -71,6 +72,30 @@ public class EditEloReflections extends BaseController {
             anchorEloURI = missionRuntimeElo.getMissionRuntimeModel().getAnchorEloUriForElo(elo.getUri());
             logger.info("ANCHOR ELO URI: " + anchorEloURI);
         }
+
+
+
+        MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(missionRuntimeElo.getMissionSpecificationEloUri(), getMissionELOService());
+        PedagogicalPlanTransfer pedagogicalPlanTransfer = pedagogicalPlanELOService.getPedagogicalPlanForMission(missionSpecificationElo);
+        List <TransferElo> obligatoryAnchorElos = getMissionELOService().getObligatoryAnchorELOs(missionSpecificationElo, pedagogicalPlanTransfer);
+
+        boolean anchorEloObligatory = false;
+        anchorElo = ScyElo.loadLastVersionElo(anchorEloURI, getMissionELOService());
+        TransferElo anchorEloForAddedElo = new TransferElo(anchorElo);
+
+        for (int i = 0; i < obligatoryAnchorElos.size(); i++) {
+            TransferElo obligatoryAnchorElo = obligatoryAnchorElos.get(i);
+            if(anchorEloForAddedElo.getUri().equals(obligatoryAnchorElo.getUri())) anchorEloObligatory = true;
+
+        }
+
+        if(! anchorEloObligatory) {
+            logger.info("This elo is not obligatory in portfolio");
+            modelAndView.setViewName("forward:showCasePortfolioOverview.html");
+            return;
+        }
+
+
         if (anchorEloURI != null) {
             anchorElo = ScyElo.loadLastVersionElo(anchorEloURI, getMissionELOService());
             TransferElo anchorEloTransfer = new TransferElo(anchorElo);
@@ -79,7 +104,6 @@ public class EditEloReflections extends BaseController {
 
 
             List<ISearchResult> runtimeElos = getRuntimeELOService().getRuntimeElosForUser(getCurrentUserName(request));
-            PedagogicalPlanTransfer pedagogicalPlanTransfer = null;
             if (runtimeElos.size() > 0) {
                 ISearchResult searchResult = runtimeElos.get(0);
                 pedagogicalPlanTransfer = getPedagogicalPlanELOService().getPedagogicalPlanForMissionRuntimeElo(searchResult.getUri().toString());
@@ -117,8 +141,6 @@ public class EditEloReflections extends BaseController {
             if (selectedSpecificLearningGoalWithScores.size() == 0) showWarningNoSpecificLearningGoalsAdded = true;
 
             boolean portfolioLocked = false;
-            if (portfolio.getPortfolioStatus().equals(Portfolio.PORTFOLIO_STATUS_ASSESSED))
-                logger.info("-------------------------------> THE MISION RUNTIME URI IS: !" + missionRuntimeURI.toString());
             modelAndView.addObject("missionRuntimeURI", getEncodedUri(missionRuntimeElo.getUri().toString()));
             modelAndView.addObject(ELO_URI, getEncodedUri(eloURI.toString()));
             modelAndView.addObject("anchorEloURI", getEncodedUri(anchorEloURI.toString()));
