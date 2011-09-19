@@ -27,7 +27,7 @@
 
 
 <script type="text/javascript">
-    alert("SCRIPTS ARE ENABLED!");
+    //alert("SCRIPTS ARE ENABLED!");
 </script>
 
 

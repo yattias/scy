@@ -50,6 +50,20 @@ public class EditEloReflections extends BaseController {
             missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(missionRuntimeURI, getMissionELOService());
         }
 
+        String warningText = null;
+        boolean showWarning = false;
+        boolean eloCanBeAddedToPortfolio = true;
+
+        Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo, getCurrentUserName(request));
+        List <EloAnchorEloPair> eloAnchorEloPairs = portfolio.getEloAnchorEloPairs();
+        for (int i = 0; i < eloAnchorEloPairs.size(); i++) {
+            EloAnchorEloPair eloAnchorEloPair = eloAnchorEloPairs.get(i);
+            if(eloAnchorEloPair.getElo() != null && eloAnchorEloPair.getElo().getUri().equals(transferElo.getUri())) {
+                warningText = getMessageSourceAccessor().getMessage("ELO_ALREADY_ADDED_TO_PORTFOLIO");
+                showWarning = true;
+                eloCanBeAddedToPortfolio = false;
+            }
+        }
 
         URI anchorEloURI = getURI(request.getParameter("anchorEloURI"));
         ScyElo anchorElo = null;
@@ -79,7 +93,6 @@ public class EditEloReflections extends BaseController {
                 dispatchAction(request, missionRuntimeElo, transferElo);
             }
 
-            Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo, getCurrentUserName(request));
             List<SelectedLearningGoalWithScore> selectedGeneralLearningGoalWithScores = portfolio.getGeneralLearningGoalsForElo(transferElo.getUri());
             if (selectedGeneralLearningGoalWithScores != null) {
                 for (int i = 0; i < selectedGeneralLearningGoalWithScores.size(); i++) {
@@ -120,6 +133,10 @@ public class EditEloReflections extends BaseController {
             }
             modelAndView.addObject("showWarningNoGeneralLearningGoalsAdded", showWarningNoGeneralLearningGoalsAdded);
             modelAndView.addObject("showWarningNoSpecificLearningGoalsAdded", showWarningNoSpecificLearningGoalsAdded);
+            modelAndView.addObject("showWarning", showWarning);
+            modelAndView.addObject("warningText", warningText);
+            modelAndView.addObject("eloCanBeAddedToPortfolio", eloCanBeAddedToPortfolio);
+
 
         } else {
             //this is a silly hack
