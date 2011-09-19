@@ -1,11 +1,15 @@
 package eu.scy.server.controllers;
 
+import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.ServerService;
 import eu.scy.core.UserService;
 import eu.scy.core.model.ScyBase;
 import eu.scy.core.model.Server;
 import eu.scy.core.model.User;
+import eu.scy.core.model.transfer.PedagogicalPlanTransfer;
+import eu.scy.core.model.transfer.TransferElo;
+import eu.scy.core.roolo.MissionELOService;
 import eu.scy.server.controllers.ui.OddEven;
 import eu.scy.server.url.UrlInspector;
 import org.springframework.web.servlet.ModelAndView;
@@ -14,6 +18,7 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -21,6 +26,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -32,6 +38,8 @@ import java.util.Locale;
  */
 public abstract class BaseController extends AbstractController {
 
+    public static final String OBLIGATORY_ANCHOR_ELOS_SESSION_PARAMETER = "OBLIGATORY_ANCHOR_ELOS_SESSION_PARAMETER";
+
     public static final String ELO_URI = "eloURI";
 
     private ServerService serverService;
@@ -39,6 +47,7 @@ public abstract class BaseController extends AbstractController {
     private UrlInspector urlInspector;
     private ScyElo scyElo;
     private UserService userService;
+    private MissionELOService missionELOService;
 
     public ScyElo getScyElo() {
         return scyElo;
@@ -179,12 +188,34 @@ public abstract class BaseController extends AbstractController {
     }
 
     protected String getEncodedUri(String parameter) {
-        logger.info("ENCODING : " + parameter);
         try {
             return URLEncoder.encode(parameter, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             logger.error(e.getMessage(), e);
         }
         return null;
+    }
+
+    public MissionELOService getMissionELOService() {
+        return missionELOService;
+    }
+
+    public void setMissionELOService(MissionELOService missionELOService) {
+        this.missionELOService = missionELOService;
+    }
+
+    public List<TransferElo> getObligatoryAnchorElos(HttpServletRequest request, MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer) {
+        HttpSession session = request.getSession();
+        if(session.getAttribute(OBLIGATORY_ANCHOR_ELOS_SESSION_PARAMETER) == null) {
+            if(getMissionELOService() != null) {
+                logger.info("THE OBLIGATORY ELOS ARE NOT IN SESSION, ADDING THEM NOW!");
+                session.setAttribute(OBLIGATORY_ANCHOR_ELOS_SESSION_PARAMETER, getMissionELOService().getObligatoryAnchorELOs(missionSpecificationElo, pedagogicalPlanTransfer));
+            }
+        } else {
+            logger.info("OBLIGATORY ELOS IN SESSION - WEEE NEEED FOR SPEED!");
+        }
+
+        return (List<TransferElo>) session.getAttribute(OBLIGATORY_ANCHOR_ELOS_SESSION_PARAMETER);
+
     }
 }

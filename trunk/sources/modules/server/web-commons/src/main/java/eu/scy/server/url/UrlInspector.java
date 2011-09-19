@@ -32,9 +32,6 @@ public class UrlInspector {
     public Object instpectRequest(HttpServletRequest request, HttpServletResponse httpServletResponse) {
         log.info(request.getQueryString());
         Enumeration parameterNames = request.getParameterNames();
-        System.out.println("REQUEST START");
-        System.out.println(request.getRequestURL().toString());
-        System.out.println(request.getQueryString());
         Map parameterMap = request.getParameterMap();
         while (parameterNames.hasMoreElements()) {
             Object o = parameterNames.nextElement();
@@ -42,10 +39,8 @@ public class UrlInspector {
             String value = Arrays.deepToString(v);
             System.out.println("--[" + o + "]-- [" + value + "]");
         }
-        System.out.println("DONE PARAMETERS");
-        
+
         String modelString = request.getParameter("model");
-        log.info("MODEL STRING: " + modelString);
 
         if (modelString != null) {
             String type = modelString.substring(0, modelString.indexOf("_"));
@@ -63,7 +58,6 @@ public class UrlInspector {
         }
 
         String eloURI = request.getParameter("eloURI");
-        //if(eloURI == null) eloURI = request.getParameter("missionURI");
         log.info("URI: " + eloURI);
         if (eloURI != null && eloURI.length() > 0) {
             try {
@@ -72,11 +66,9 @@ public class UrlInspector {
                 request.setAttribute("eloURI", uri);
                 ScyElo scyElo =  ScyElo.loadElo(realURI, getMissionELOService());
                 if(scyElo.getTechnicalFormat().equals("scy/missionspecification")) {
-                    log.info("Loaded a missionSpecification");
                     scyElo =  MissionSpecificationElo.loadElo(realURI, getMissionELOService());
                 }
                 else if(scyElo.getTechnicalFormat().equals("scy/missionruntime")) {
-                    log.info("Loaded a mission runtime elo");
                     scyElo = MissionRuntimeElo.loadElo(realURI, getMissionELOService());
                 }
                 ScyElo.loadMetadata(scyElo.getUri(), getMissionELOService());
