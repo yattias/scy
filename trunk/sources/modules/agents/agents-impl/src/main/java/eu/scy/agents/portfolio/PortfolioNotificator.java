@@ -120,21 +120,22 @@ public class PortfolioNotificator extends AbstractThreadedAgent {
 
     private void handleAssessmentFinished(IAction action) {
         try {
-            this.getCommandSpace().write(createNotification(action, ELO_ASSESSMENT_FINISHED));
+            String mission = getSession().getMissionSpecification(action.getContext(ContextConstants.mission));
+            this.getCommandSpace().write(createNotification(action, mission, ELO_ASSESSMENT_FINISHED));
         } catch ( TupleSpaceException e ) {
             LOGGER.warn("could not write elo added to portfolio tuple");
             e.printStackTrace();
         }
     }
 
-    private Tuple createNotification(IAction action, String type) {
+    private Tuple createNotification(IAction action, String missionSpec, String type) {
         Tuple notificationTuple = new Tuple();
         notificationTuple.add(AgentProtocol.NOTIFICATION);
         notificationTuple.add(new VMID().toString());
         notificationTuple.add(action.getUser());
         notificationTuple.add(action.getContext(ContextConstants.eloURI));
         notificationTuple.add(NAME);
-        notificationTuple.add(action.getContext(ContextConstants.mission));
+        notificationTuple.add(missionSpec);
         notificationTuple.add(action.getContext(ContextConstants.session));
 
         notificationTuple.add("type=" + type);

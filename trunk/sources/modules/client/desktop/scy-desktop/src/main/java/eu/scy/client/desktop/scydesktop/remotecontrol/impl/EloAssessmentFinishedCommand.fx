@@ -14,7 +14,8 @@ public class EloAssessmentFinishedCommand extends ScyDesktopRemoteCommand {
     override public function executeRemoteCommand(notification: INotification): Void {
         logger.debug("*****************elo_assessment_finished*Notification*********************");
         def mission = new URI(notification.getMission());
-        if (mission.equals(scyDesktop.missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri())) {
+        def supposedMission = scyDesktop.missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getMissionSpecificationElo();
+        if (mission.equals(supposedMission)) {
             scyDesktop.eportfolioButton.eportfolioButton.eloIcon = scyDesktop.windowStyler.getScyEloIcon("e_portfolio_new");
         } else {
             logger.debug("elo_assessment_finished in other mission: {mission.toString()}");
