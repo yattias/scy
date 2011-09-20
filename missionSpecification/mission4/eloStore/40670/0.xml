@@ -1,0 +1,81 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-09-21T24:13:39.408+0200</dateTime>
+        </date>
+      </contribute>
+      <version>1</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1316556819408</dateCreated>
+        <dateFirstUserSaveKey>1316556890482</dateFirstUserSaveKey>
+        <dateLastModified>1316556890482</dateLastModified>
+      </customElements>
+      <format>scy/templateelos</format>
+    </technical>
+    <educational>
+      <learningResourceType>conversation</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40670/0/Le+laboratoire+de+police+scientifique.scytemplateelos</entry>
+      </identifier>
+      <las>Biologie: Espace d'information</las>
+      <missionId>forensic</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40652/0/Le+laboratoire+de+police+scientifique.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="fr">Le laboratoire de police scientifique</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>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</base64>
+  </thumbnail>
+</metadata>
+<content languages="fr" contentType="xml">
+<templateElosEloUris>
+  <templateElosEloUri>roolo://memory/409/0/Empty_plain_text.text</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/412/0/Word_document.doc</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/410/0/Presentation_document.ppt</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/419/0/Empty+form.scyformauthor</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/405/0/Empty_drawing.scydraw</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/403/0/Empty_concept_map.scymapping</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/404/0/Empty_dataset.dataset</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/406/0/Empty_experimental_procedure.scyxproc</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/418/0/Empty+math+worksheet.scymathtool</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/411/0/Empty_rich_text.rtf</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/420/0/Empty+YouTube+video.scyyoutuber</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/407/0/Google_SketchUp_document.skp</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/408/0/Empty_interview.scyinterview</templateElosEloUri>
+</templateElosEloUris>
+</content>
+<resources>
+</resources>
+</elo>

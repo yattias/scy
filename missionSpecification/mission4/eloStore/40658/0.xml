@@ -1,0 +1,85 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-04-22T14:41:13.709+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-07-26T11:03:57.802+0200</dateTime>
+        </date>
+      </contribute>
+      <version>2</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1303476073709</dateCreated>
+        <dateFirstUserSaveKey>1316553862133</dateFirstUserSaveKey>
+        <dateLastModified>1316553862133</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <educational>
+      <learningResourceType>reportEvaluation</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40658/0/Conclusion+de+mon+exp%C3%A9rience.rtf</entry>
+      </identifier>
+      <las>Espace d'analyse</las>
+      <missionId>forensic</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40652/0/Le+laboratoire+de+police+scientifique.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Conclusion of the experiment</string>
+        <string language="fr">Conclusion de mon expérience</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/40100/0/Conclusion+of+the+experiment.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+  </lom>
+  <template>true</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACvUlEQVR42u3Uz0vTYRwH8O9/4dGDFw/qyR2lRNZAkE4aMUK8LOYM6bBAopmHQpcMT4JN2RBDipAg6AcqNBjl8md1WE1njenc1kpl5C5r73w+sS9+cVjkIBnvN3x4nu9nn+f5bq/DtOW1TaS+wVCfot+P9VR5vd5jvd0sSs7Ozr8u2d9O5iuqtKWVDXzY+on3Ryoc+YpEGobewmpCAHcPCoZ+Zg8yG94p6NVuv4u5+TdAwXiHmosnDiqqBPDlUgLD92egaRpeLG7rgGrfd2dU1iLgduYHrjquo8fhkH4RUO1VDY4+xKXuwd+Ah3kWiuP52y35TM3F4ruHtXeKOlvntcWVKCaehNDeeQ1W2w14ZxZ0wE7HTfieLksvtLYjgJFYGg9mP2Li0Zz0i4Bq//hVVNbLPW4dUD1fuGiVVc19/pKqqNKWVqMwX+nD+Q6n1LnDKgIWe6rehTMC2NF92zBbBDw6e+ueXwBdwz5DX81FN+MVVVqpP/oTK/N3c4l0vmQ/EtnA+vq/11k7r4E5VQQwn88bmoVCoewvstls+r6rq+vE2VQqZXiuqqqStba29o/vyWaz/wewrq4OY2Nj8gVCoRD8fj+am5tlyOVyYWpqSj/U1tYGk8mEgYEBTE9Py/nW1lbU19ejqalJZgKBAKxWq9yhAHp7e6XvdrsF0OfzYX9/H7FYDA0NDaipqUF/f78OqO5NJpPyXF1djZaWFgF0Op3weDzSHx8fh8ViQWNjIyYnJxEMBpHL5TA0NAS73S53qt8zMjICs9msv7/sgAwBCUhAAjIEJCABCcgQkIAEJCBDQAISkIAMAQlIQAIyBCQgAQnIEJCABCQgQ0ACEpCADAEJSEACMgQkIAEJSECGgAQkIAEZAhKQgARkCEhAAhKQISABCUhAhoAEJCABGQISkIAEZAhIQAISkCFg+fML6SOCaUGvugUAAAAASUVORK5CYII=</base64>
+  </thumbnail>
+</metadata>
+<content languages="en fr" contentType="xml">
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Il y a une correspondance entre l'\'e9chantillon de la sc\'e8ne de crime et:\par&#xD;
+\par&#xD;
+\b0\ul0\par&#xD;
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>
