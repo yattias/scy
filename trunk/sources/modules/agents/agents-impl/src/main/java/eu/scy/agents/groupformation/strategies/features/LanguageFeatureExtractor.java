@@ -1,11 +1,8 @@
 package eu.scy.agents.groupformation.strategies.features;
 
-import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.common.scyelo.RooloServices;
 import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
-import roolo.elo.api.IELO;
 
 import java.rmi.dgc.VMID;
 import java.util.HashMap;
@@ -13,7 +10,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class LanguageFeatureExtractor implements FeatureExtractor {
+import roolo.elo.api.IELO;
+import eu.scy.agents.impl.AgentProtocol;
+import eu.scy.common.scyelo.RooloServices;
+
+public class LanguageFeatureExtractor extends AbstractFeatureExtractor {
 
 	private TupleSpace commandSpace;
 
@@ -68,6 +69,12 @@ public class LanguageFeatureExtractor implements FeatureExtractor {
     public void setRepository(RooloServices repository) {
         // TODO Auto-generated method stub
         
+    }
+
+    @Override
+    protected double[] getFeatures(String user, String mission, IELO elo, IELO userELO) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

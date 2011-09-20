@@ -56,7 +56,7 @@ public class CMapClusteringTest extends AbstractFeatureExtractorTest {
 		for (Iterator<IELO> eIt = this.eloList.iterator(); eIt.hasNext();) {
 			IELO e = eIt.next();
 			user = "user" + (userNo + 1);
-			features = ((CMapFeatureExtractor) this.extractor).getCMapFeatures(user, "mission2", this.referenceElo, e);
+			features = ((CMapFeatureExtractor) this.extractor).getFeatures(user, "mission2", this.referenceElo, e);
 			featureVectors[userNo] = new FeatureVector(user, features);
 			userNo++;
 		}

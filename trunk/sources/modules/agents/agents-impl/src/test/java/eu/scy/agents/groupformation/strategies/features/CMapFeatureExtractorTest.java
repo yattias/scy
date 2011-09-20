@@ -17,7 +17,7 @@ public class CMapFeatureExtractorTest extends AbstractFeatureExtractorTest {
 
 	@Test
 	public void testGetFeatures() {
-		double[] features = ((CMapFeatureExtractor) this.extractor).getCMapFeatures("x", "y", this.referenceElo,
+		double[] features = ((CMapFeatureExtractor) this.extractor).getFeatures("x", "y", this.referenceElo,
 				this.elo);
 		assertEquals(4, features.length);
 		assertArrayEquals(new double[] { 37.0, 20.0, 0.0, 19.0 }, features, 0.000001);
