@@ -34,6 +34,10 @@ public class UserAction {
 
     public static final String ACTION_LINK_REMOVED = "link_removed";// not defined in
                                                                     // ActionConstants
+    
+    public static final String ACTION_DATA_EDITED = "data_edited";// not defined in ActionConstants
+    
+    public static final String ACTION_VALUE_CHANGED = "value_changed";// not defined in ActionConstants
 
     // public static final String ACTION_LAS_CHANGED = "las_changed";
 

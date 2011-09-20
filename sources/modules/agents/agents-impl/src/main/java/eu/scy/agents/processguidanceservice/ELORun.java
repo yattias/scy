@@ -227,7 +227,7 @@ public class ELORun extends AbstractRun {
         }
     }
 
-    private void handleStartEvent(RunUser aUser) {
+    private void handleStartEvent(RunUser aUser, long time) {
 
         ELOModel[] aModelList = getELOModel().getNotStartedDependedELOs(aUser.getMissionRun());
         ELORun[] aRunList = getELOModel().getIncompletedDependedELORuns(aUser.getMissionRun());
@@ -252,12 +252,12 @@ public class ELORun extends AbstractRun {
                         }
                         message += "and \"" + aModelList[aModelList.length - 1].getTitle() + "\" in the las: \"" + aModelList[aModelList.length - 1].getLASModel().getId() + "\", which you have not started. You would better complete that activities before doing this activity.";
                     }
-                    aUser.sendNotification(message);
+                    aUser.sendMessage(message, time);
                 }
 
                 if (aRunList.length > 0) {
                     String message = new String("This ELO depends on the following ELO" + (aRunList.length > 1 ? "s " : " ") + ", which you might have not finished.");
-                    aUser.sendNotification(message);
+                    aUser.sendMessage(message, time);
                     int count = 0;
                     for (int i = 0; i < aRunList.length; i++) {
                         answer = aUser.sendConfirmation("Are you sure that you have finished \"" + aRunList[i].getTitle() + "\" in the las: \"" + aRunList[i].getELOModel().getLASModel().getId() + "\"");
@@ -271,7 +271,7 @@ public class ELORun extends AbstractRun {
                         }
                     }
                     if (count < aRunList.length) {
-                        aUser.sendNotification("You would better work on the uncompleted activities before doing this activity.");
+                        aUser.sendMessage("You would better work on the uncompleted activities before doing this activity.", time);
                     }
                 }
                 updateELOTuple(aUser);
@@ -279,7 +279,7 @@ public class ELORun extends AbstractRun {
         }
     }
 
-    private void handleModifyEvent(RunUser aUser) {
+    private void handleModifyEvent(RunUser aUser, long time) {
         ELORun[] aRunList = getELOModel().getInfluencedCompletedELORuns(aUser.getMissionRun());
         if (aRunList.length > 0) {
             String prompt = "Do you want to modify this finished ELO? Such a change may influence on the";
@@ -292,7 +292,10 @@ public class ELORun extends AbstractRun {
                 }
                 prompt += "and \"" + aRunList[aRunList.length - 1].getTitle() + "\".";
             }
-            boolean answer = aUser.sendConfirmation(prompt);
+            aUser.sendMessage(prompt, time);
+            /*
+             * boolean answer = aUser.sendConfirmation(prompt, aTime);
+ 
             if (answer) {
                 for (int i = 0; i < aRunList.length; i++) {
                     aRunList[i].setActivityStatus(ActivityStatus.NEED2CHECK);
@@ -303,6 +306,7 @@ public class ELORun extends AbstractRun {
                 setActivityStatus(ActivityStatus.ACTIVATED);
                 updateELOTuple(aUser);
             }
+                        */
         }
     }
 
@@ -336,9 +340,27 @@ public class ELORun extends AbstractRun {
         if ((getAmountOfChangeWork() > getELOModel().getChangeWorkThreshold()) && (getChangeTime() > getELOModel().getChangeTimeThreshold())) {
 
             if (getActivityStatus() == ActivityStatus.ENABLED) {
-                handleStartEvent(aUser);
+                handleStartEvent(aUser, aTime);
             } else if (getActivityStatus() == ActivityStatus.COMPLETED) {
-                handleModifyEvent(aUser);
+                handleModifyEvent(aUser, aTime);
+            }
+        }
+    }
+    
+    public void handleDataEdited(RunUser aUser, long aTime) {
+        addAmountOfWork(1);
+        addAmountOfChangeWork(1);
+        //addExecutionTime(3);
+        //addChangeTime(3);
+        setLastAccessTime(aTime);
+        aUser.setFocusedELORun(this);
+
+        if (getAmountOfChangeWork() > getELOModel().getChangeWorkThreshold()) {
+
+            if (getActivityStatus() == ActivityStatus.ENABLED) {
+                handleStartEvent(aUser, aTime);
+            } else if (getActivityStatus() == ActivityStatus.COMPLETED) {
+                handleModifyEvent(aUser, aTime);
             }
         }
     }
