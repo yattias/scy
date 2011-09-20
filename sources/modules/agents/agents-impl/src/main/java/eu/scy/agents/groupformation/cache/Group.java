@@ -18,7 +18,7 @@ public class Group implements Iterable<String> {
     }
 
     public Group(Group toClone) {
-        group = new LinkedHashSet<String>();
+        this();
         for ( String user : toClone ) {
             group.add(user);
         }

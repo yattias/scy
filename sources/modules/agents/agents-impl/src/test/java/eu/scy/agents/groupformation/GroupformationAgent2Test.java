@@ -3,7 +3,6 @@ package eu.scy.agents.groupformation;
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.Mission;
 import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.groupformation.cache.Group;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.roolo.rooloaccessor.RooloAccessorAgent;
 import eu.scy.agents.session.SessionAgent;
@@ -104,24 +103,6 @@ public class GroupformationAgent2Test extends AbstractTestFixture {
                 new Tuple(AgentProtocol.NOTIFICATION, String.class, user, String.class,
                         String.class, String.class, String.class,
                         Field.createWildCardField()));
-    }
-
-    @Test
-    public void testcreateUserListString() {
-        GroupFormationAgent groupFormationAgent = new GroupFormationAgent(new HashMap<String, Object>());
-
-        Group group = new Group();
-        group.add("user1@scy.collide.info");
-        group.add("user2@scy.collide.info");
-        group.add("user3@scy.collide.info");
-        String createUserListString = groupFormationAgent.createUserListString("user1@scy.collide.info", group);
-        assertEquals("user2; user3", createUserListString);
-
-        Group group2 = new Group();
-        group2.add("user1@scy.collide.info");
-        group2.add("user2@scy.collide.info");
-        String createUserListString2 = groupFormationAgent.createUserListString("user1@scy.collide.info", group2);
-        assertEquals("user2", createUserListString2);
     }
 
 }
