@@ -57,6 +57,7 @@ import eu.scy.client.desktop.scydesktop.tools.DrawerUIIndicator;
 import eu.scy.client.desktop.scydesktop.tools.versionviewer.VersionViewerCreator;
 import eu.scy.client.desktop.scydesktop.tools.search.EloSearchCreator;
 import eu.scy.client.desktop.scydesktop.tools.mission.RuntimeSettingsEditorCreator;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleKey;
 
 /**
  * @author sikkenj
@@ -136,8 +137,8 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ScyDynamicsContentCreator {}, scyModelId);
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(FlyingSaucerCreator{}, scyFlyingSaucerId);
-   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(FlyingSaucerCreator{ urlSource: UrlSource.ASSIGNMENT; drawerUIIndicator: DrawerUIIndicator.ASSIGNMENT}, scyFlyingSaucerAssignmentId);
-   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(FlyingSaucerCreator{ urlSource: UrlSource.RESOURCES; drawerUIIndicator: DrawerUIIndicator.RESOURCES}, scyFlyingSaucerResourcesId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(FlyingSaucerCreator{ urlSource: UrlSource.ASSIGNMENT; drawerUIIndicator: DrawerUIIndicator.ASSIGNMENT, bubbleKey: BubbleKey.DRAWER_ASSIGNMENT_CONTROL}, scyFlyingSaucerAssignmentId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(FlyingSaucerCreator{ urlSource: UrlSource.RESOURCES; drawerUIIndicator: DrawerUIIndicator.RESOURCES, bubbleKey: BubbleKey.DRAWER_RESOURCES_CONTROL}, scyFlyingSaucerResourcesId);
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(TextEditorScyToolContentCreator {}, scyTextId);
 
