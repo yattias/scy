@@ -229,6 +229,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
    public-read var bottomLeftCorner: Corner;
    public-read var lowDebugGroup = Group {};
    public-read var highDebugGroup = Group {};
+   public-read var contactlist : ContactList;
    var missionRuntimeSettingsManager: RuntimeSettingsManager;
    def cornerToolEffect: Effect = null;
 //    def cornerToolEffect = DropShadow {
@@ -418,7 +419,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
 
    function createMultiEloElements() {
       //The frontend to thecontact list
-      def contactList: ContactList = ContactList {
+      contactlist = ContactList {
                  columns: 2
                  contacts: []
                  dragAndDropManager: dragAndDropManager
@@ -429,7 +430,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                  width: 300
                  stateIndicatorOpacity: initializer.indicateOnlineStateByOpacity
               };
-      contactList.height = 250;
+      contactlist.height = 250;
       missionMap = MissionMap {
                  missionModel: missionModelFX
                  bigMissionMap: false
@@ -478,7 +479,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
               }
 
       topLeftCorner = TopLeftCorner {
-                 content: contactList;
+                 content: contactlist;
                  color: Color.RED;
                  effect: cornerToolEffect
               }
