@@ -460,6 +460,11 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
       showSearchResult(searchResults);
    }
 
+   public function setSuggestions(suggestions: HistoryEntry[]) {
+       suggestionsAndHistoryNode.setSuggestions(suggestions);
+   }
+
+
    override function showSearchResult(results: Object[]): Void {
       super.showSearchResult(results);
       setDateFound(queryLastExcecuted);

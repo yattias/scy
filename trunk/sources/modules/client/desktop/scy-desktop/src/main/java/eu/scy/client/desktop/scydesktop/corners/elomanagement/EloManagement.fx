@@ -60,6 +60,7 @@ public class EloManagement extends CustomNode {
    public var windowStyler: WindowStyler;
    public var buttonSize = -1.0;
    public var buttonActionScheme = -1;
+   public var eloSearchNode: EloSearchNode;
    def showCreateBlankElo = scyDesktop.initializer.authorMode;
    def authorKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR);
    def creatorKey = metadataTypeManager.getMetadataKey(ScyRooloMetadataKeyIds.CREATOR);
@@ -329,7 +330,7 @@ public class EloManagement extends CustomNode {
       FX.deferAction(function(): Void {
          searcher.turnedOn = true;
       });
-      def eloSearchNode = scyDesktop.scyToolFactory.createNewScyToolNode("search", "scy/search", null, null, false) as EloSearchNode;
+      eloSearchNode = scyDesktop.scyToolFactory.createNewScyToolNode("search", "scy/search", null, null, false) as EloSearchNode;
       def eloIcon = windowStyler.getScyEloIcon(ImageWindowStyler.generalSearch);
       def windowColorScheme = windowStyler.getWindowColorScheme(ImageWindowStyler.generalSearch);
 
@@ -337,10 +338,12 @@ public class EloManagement extends CustomNode {
       eloSearchNode.window = dialogWindow.dialogWindow;
       eloSearchNode.cancelAction = function(): Void {
                  dialogWindow.dialogWindow.close();
+                 eloSearchNode = null;
                  searcher.turnedOn = false;
               }
       eloSearchNode.eloOpenedAction = function(newWindow: ScyWindow) {
                  dialogWindow.dialogWindow.close();
+                 eloSearchNode = null;
                  searcher.turnedOn = false;
               }
       if (scyElo != null) {

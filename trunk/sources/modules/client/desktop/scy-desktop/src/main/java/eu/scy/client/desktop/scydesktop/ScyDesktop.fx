@@ -262,7 +262,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
    public def desktopButtonSize = 25.0;
    public def desktopButtonActionScheme = 1;
    var bigMissionMapControl: BigMissionMapControl;
-   var eloManagement: EloManagement;
+   public var eloManagement: EloManagement;
 
    init {
       if (config.isRedirectSystemStreams() and config.getLoggingDirectory() != null) {
