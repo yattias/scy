@@ -24,7 +24,7 @@
 
 		 	<!--<property name="missionMapBackgroundImageUri" value="http://www.scy-lab.eu/content/en/mission4/loupe.png"/>-->
 			<property name="missionMapInstructionUri" value="http://www.scy-lab.eu/content/en/mission4/missionMapInstruction.html"/>
-            <property name="initialLasId" value="Espace d'information"/>
+            <property name="initialLasId" value="Biologie: Espace d'information"/>
             <property name="loEloUris">
                <list>
                </list>
@@ -32,7 +32,7 @@
             <property name="lasses">
                <list>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
-                     <property name="id" value="Espace d'information"/>
+                     <property name="id" value="Chimie: Espace d'information"/>
                      <property name="xPosition" value="45"/>
                      <property name="yPosition" value="80"/>
                      <property name="tooltip" value="Information"/>
@@ -44,7 +44,7 @@
                      </property>
                      <property name="nextLasses">
                         <list>
-                           <value>Espace d'orientation</value>
+                           <value>Chimie: Espace d'orientation</value>
                         </list>
                      </property>
                      <property name="anchorEloId" value="chimConceptMap"/>
@@ -54,7 +54,7 @@
                      </property>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
-                     <property name="id" value="Espace d'orientation"/>
+                     <property name="id" value="Chimie: Espace d'orientation"/>
                      <property name="xPosition" value="35"/>
                      <property name="yPosition" value="30"/>
                      <property name="tooltip" value="Orientation"/>
@@ -62,7 +62,7 @@
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/LAS_Instruction_Chim.html"/>
                      <property name="nextLasses">
                         <list>
-                           <value>Espace de conception</value>
+                           <value>Chimie: Espace de conception</value>
                         </list>
                      </property>
                      <property name="anchorEloId" value="chimGoalAnalysis"/>
@@ -72,7 +72,7 @@
                      </property>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
-                     <property name="id" value="Espace de conception"/>
+                     <property name="id" value="Chimie: Espace de conception"/>
                      <property name="xPosition" value="85"/>
                      <property name="yPosition" value="0"/>
                      <property name="tooltip" value="Design"/>
@@ -84,7 +84,7 @@
                      </property>
                      <property name="nextLasses">
                         <list>
-                           <value>Espace d'expérimentation</value>
+                           <value>Chimie: Espace d'expérimentation</value>
                         </list>
                      </property>
                      <property name="anchorEloId" value="chimExperimentalProcedure"/>
@@ -94,7 +94,7 @@
                      </property>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
-                     <property name="id" value="Espace d'expérimentation"/>
+                     <property name="id" value="Chimie: Espace d'expérimentation"/>
                      <property name="xPosition" value="125"/>
                      <property name="yPosition" value="40"/>
                      <property name="tooltip" value="Experiment"/>
@@ -106,7 +106,7 @@
                      </property>
                      <property name="nextLasses">
                         <list>
-                           <value>Espace d'analyse</value>
+                           <value>Chimie: Espace d'analyse</value>
                         </list>
                      </property>
                      <property name="anchorEloId" value="chimAnnotatedData"/>
@@ -117,7 +117,7 @@
                      </property>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
-                     <property name="id" value="Espace d'analyse"/>
+                     <property name="id" value="Chimie: Espace d'analyse"/>
                      <property name="xPosition" value="95"/>
                      <property name="yPosition" value="90"/>
                      <property name="tooltip" value="Analysis"/>
@@ -125,7 +125,7 @@
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/LAS_Instruction_Chim.html"/>
                      <property name="nextLasses">
                         <list>
-							<value>Espace de rédaction</value>
+							<value>Chimie: Espace de rédaction</value>
                         </list>
                      </property>
                      <property name="anchorEloId" value="chimExperimentConclusion"/>
@@ -136,7 +136,7 @@
                      </property>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
-                     <property name="id" value="Espace de rédaction"/>
+                     <property name="id" value="Chimie: Espace de rédaction"/>
                      <property name="xPosition" value="95"/>
                      <property name="yPosition" value="140"/>
                      <property name="tooltip" value="Reporting"/>
@@ -153,7 +153,7 @@
                      </property>
                   </bean>
 				  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
-                     <property name="id" value="Espace d'information"/>
+                     <property name="id" value="Biologie: Espace d'information"/>
                      <property name="xPosition" value="-95"/>
                      <property name="yPosition" value="80"/>
                      <property name="tooltip" value="Information"/>
@@ -165,7 +165,7 @@
                      </property>
                      <property name="nextLasses">
                         <list>
-                           <value>Espace d'orientation</value>
+                           <value>Biologie: Espace d'orientation</value>
                         </list>
                      </property>
                      <property name="anchorEloId" value="checklist"/>
@@ -176,7 +176,7 @@
                      </property>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
-                     <property name="id" value="Espace d'orientation"/>
+                     <property name="id" value="Biologie: Espace d'orientation"/>
                      <property name="xPosition" value="-105"/>
                      <property name="yPosition" value="30"/>
                      <property name="tooltip" value="Orientation"/>
@@ -184,7 +184,7 @@
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/LAS_Instruction.html"/>
                      <property name="nextLasses">
                         <list>
-                           <value>Espace de conception</value>
+                           <value>Biologie: Espace de conception</value>
                         </list>
                      </property>
                      <property name="anchorEloId" value="bioChoiceTechnique"/>
@@ -196,7 +196,7 @@
                      </property>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
-                     <property name="id" value="Espace de conception"/>
+                     <property name="id" value="Biologie: Espace de conception"/>
                      <property name="xPosition" value="-55"/>
                      <property name="yPosition" value="0"/>
                      <property name="tooltip" value="Design"/>
@@ -208,7 +208,7 @@
                      </property>
                      <property name="nextLasses">
                         <list>
-                           <value>Espace d'expérimentation</value>
+                           <value>Biologie: Espace d'expérimentation</value>
                         </list>
                      </property>
                      <property name="anchorEloId" value="bioExperimentalProcedure"/>
@@ -219,7 +219,7 @@
                      </property>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
-                     <property name="id" value="Espace d'expérimentation"/>
+                     <property name="id" value="Biologie: Espace d'expérimentation"/>
                      <property name="xPosition" value="-15"/>
                      <property name="yPosition" value="40"/>
                      <property name="tooltip" value="Experiment"/>
@@ -231,7 +231,7 @@
                      </property>
                      <property name="nextLasses">
                         <list>
-                           <value>Espace d'analyse</value>
+                           <value>Biologie: Espace d'analyse</value>
                         </list>
                      </property>
                      <property name="anchorEloId" value="bioRepresentationData"/>
@@ -242,7 +242,7 @@
                      </property>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
-                     <property name="id" value="Espace d'analyse"/>
+                     <property name="id" value="Biologie: Espace d'analyse"/>
                      <property name="xPosition" value="-45"/>
                      <property name="yPosition" value="90"/>
                      <property name="tooltip" value="Analysis"/>
@@ -250,7 +250,7 @@
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/LAS_Instruction.html"/>
                      <property name="nextLasses">
                         <list>
-							<value>Espace de rédaction</value>
+							<value>Biologie: Espace de rédaction</value>
                         </list>
                      </property>
                      <property name="anchorEloId" value="bioExperimentConclusion"/>
@@ -263,7 +263,7 @@
                      </property>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
-                     <property name="id" value="Espace de rédaction"/>
+                     <property name="id" value="Biologie: Espace de rédaction"/>
                      <property name="xPosition" value="-45"/>
                      <property name="yPosition" value="140"/>
                      <property name="tooltip" value="Reporting"/>
@@ -354,7 +354,7 @@
             </bean>
 			<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="chimGoalAnalysis"/>
-               <property name="uri" value="roolo://memory/40615/0/Goal+of+the+analysis.rtf"/>
+               <property name="uri" value="roolo://memory/40665/0/But+de+l%27analyse.rtf"/>
                <property name="iconType" value="Research_question"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/TargetDescription.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/Assignments/A_chimGoalAnalysis.html"/>
@@ -471,7 +471,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="bioExperimentConclusion"/>
-               <property name="uri" value="roolo://memory/40100/0/Conclusion+of+the+experiment.rtf"/>
+               <property name="uri" value="roolo://memory/40658/0/Conclusion+de+mon+exp%C3%A9rience.rtf"/>
 			   <property name="iconType" value="hypothese2"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/targetDescription.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/Assignments/A_bioExperimentConclusion.html"/>
@@ -504,7 +504,7 @@
             </bean>
 			<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="chimExperimentConclusion"/>
-               <property name="uri" value="roolo://memory/40549/0/Chemistry%3A+Conclusion+of+the+experiment.rtf"/>
+               <property name="uri" value="roolo://memory/40666/0/Conclusion+de+mon+exp%C3%A9rience.rtf"/>
                <property name="iconType" value="hypothese2"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/targetDescription.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/Assignments/A_chimExperimentConclusion.html"/>
@@ -537,7 +537,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="bioReport"/>
-               <property name="uri" value="roolo://memory/40101/0/Official+report.rtf"/>
+               <property name="uri" value="roolo://memory/40659/0/Raport+officiel.rtf"/>
                <property name="iconType" value="Report"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Reporting/targetDescription.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Reporting/Assignments/A_bioReport.html"/>
@@ -571,7 +571,7 @@
             </bean>-->
 			<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="chimReport"/>
-               <property name="uri" value="roolo://memory/40551/0/Chemistry%3A+Official+report.rtf"/>
+               <property name="uri" value="roolo://memory/40667/0/Rapport+officiel.rtf"/>
                <property name="iconType" value="Report"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Reporting/targetDescription.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Reporting/Assignments/A_chimReport.html"/>

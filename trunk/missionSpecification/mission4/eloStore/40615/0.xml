@@ -22,7 +22,7 @@
           <dateTime>2011-09-06T11:52:13.720+0200</dateTime>
         </date>
       </contribute>
-      <version>10</version>
+      <version>13</version>
     </lifecycle>
     <annotation>
       <entity>colorId</entity>
@@ -59,6 +59,18 @@
         <string language="fr">But de l'analyse</string>
       </title>
     </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_forked_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/40665/0/But+de+l%27analyse.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
   </lom>
   <template>true</template>
   <thumbnail>
@@ -67,16 +79,16 @@
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
-&#xD;
-\li0\ri0\fi0\f1\fs24\i\b0\ul0\cf1\ldblquote The attorney wants to know whether the ink on the anonymous letter comes from one of the collected pens.\rdblquote\par&#xD;
-\par&#xD;
-\i0\par&#xD;
-\par&#xD;
-\par&#xD;
-\li0\ri0\fi0\ul0\par&#xD;
+<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;&#xD;
+&#xD;&#xD;&#xD;&#xD;
+\li0\ri0\fi0\f1\fs24\i\b0\ul0\cf1\ldblquote The attorney wants to know whether the ink on the anonymous letter comes from one of the collected pens.\rdblquote\par&#xD;&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;&#xD;
+\i0\par&#xD;&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;&#xD;
+\li0\ri0\fi0\ul0\par&#xD;&#xD;&#xD;&#xD;
 }</RichText>
 </content>
 <resources>

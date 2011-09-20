@@ -1,0 +1,343 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-09-20T21:55:06.504+0200</dateTime>
+        </date>
+      </contribute>
+      <version>7</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1316548506504</dateCreated>
+        <dateLastModified>1316555110147</dateLastModified>
+      </customElements>
+      <format>scy/missionmapmodel</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40647/0/Le+laboratoire+de+police+scientifique.scymissionmapmodel</entry>
+      </identifier>
+      <las>Espace d'information</las>
+      <missionId>forensic</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40652/0/Le+laboratoire+de+police+scientifique.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="fr">Le laboratoire de police scientifique</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <template>TRUE</template>
+</metadata>
+<content languages="fr" contentType="xml">
+<missionModel>
+  <activeLas>Espace d'information</activeLas>
+  <missionMapBackgroundImageUri />
+  <missionMapInstructionUri>http://www.scy-lab.eu/content/en/mission4/missionMapInstruction.html</missionMapInstructionUri>
+  <missionMapButtonIconType />
+  <loElos />
+  <lasses>
+    <las>
+      <id>Espace d'information</id>
+      <xPos>45.0</xPos>
+      <yPos>80.0</yPos>
+      <toolTip>Information</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Information/LAS_Instruction_Chim.html</instructionUri>
+      <lasType>INFORMATION</lasType>
+      <loElos />
+      <otherElos>
+        <eloUri>roolo://memory/40647/0/Le+laboratoire+de+police+scientifique.scymissionmapmodel</eloUri>
+        <eloUri>roolo://memory/40648/0/Le+laboratoire+de+police+scientifique.scyelotoolconfiguration</eloUri>
+        <eloUri>roolo://memory/40649/0/Le+laboratoire+de+police+scientifique.scytemplateelos</eloUri>
+        <eloUri>roolo://memory/40650/0/Le+laboratoire+de+police+scientifique.runtimesettings</eloUri>
+        <eloUri>roolo://memory/40652/0/Le+laboratoire+de+police+scientifique.scymissionspecification</eloUri>
+        <eloUri>roolo://memory/40653/0/Le+laboratoire+de+police+scientifique.scymissionmapmodel</eloUri>
+        <eloUri>roolo://memory/40654/0/Le+laboratoire+de+police+scientifique.scyelotoolconfiguration</eloUri>
+        <eloUri>roolo://memory/40655/0/Le+laboratoire+de+police+scientifique.scytemplateelos</eloUri>
+        <eloUri>roolo://memory/40656/0/Le+laboratoire+de+police+scientifique.runtimesettings</eloUri>
+      </otherElos>
+      <mainAnchor>
+        <eloUri>roolo://memory/40644/0/Examen+de+la+sc%C3%A8ne+de+crime.rtf</eloUri>
+        <id>checklist</id>
+        <iconType>orientation2</iconType>
+        <loElos />
+        <inputAnchors />
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Information/bioTargetDescription.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Information/Assignments/A_conceptMap.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission4/LAS_Information/Resources/R_conceptMap.html</resourcesUri>
+        <helpUri />
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses>
+        <las>Espace d'orientation</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>Espace d'orientation</id>
+      <xPos>35.0</xPos>
+      <yPos>30.0</yPos>
+      <toolTip>Orientation</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/LAS_Instruction_Chim.html</instructionUri>
+      <lasType>ORIENTATION</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/40624/0/Choice+of+techniques.scymapping</eloUri>
+        <id>bioChoiceTechnique</id>
+        <iconType>research_question</iconType>
+        <loElos />
+        <inputAnchors />
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/TargetDescription.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/Assignments/A_bioChoiceTechnique.html</assignmentUri>
+        <resourcesUri />
+        <helpUri />
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/40645/0/But+de+l%27analyse.rtf</eloUri>
+          <id>bioGoalAnalysis</id>
+          <iconType>assignment</iconType>
+          <loElos />
+          <inputAnchors />
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/TargetDescription.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/Assignments/A_bioGoalAnalysis.html</assignmentUri>
+          <resourcesUri />
+          <helpUri />
+          <colorScheme />
+          <dependingOnMissionAnchorIds />
+        </intermediateAnchor>
+      </intermediateAnchors>
+      <nextLasses>
+        <las>Espace de conception</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>Espace de conception</id>
+      <xPos>85.0</xPos>
+      <yPos>0.0</yPos>
+      <toolTip>Design</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Design/LAS_Instruction_Chim.html</instructionUri>
+      <lasType>DESIGN</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/40646/0/Protocole+exp%C3%A9rimental.scyxproc</eloUri>
+        <id>bioExperimentalProcedure</id>
+        <iconType>Data</iconType>
+        <loElos />
+        <inputAnchors>
+          <anchor>roolo://memory/40645/0/But+de+l%27analyse.rtf</anchor>
+          <anchor>roolo://memory/40624/0/Choice+of+techniques.scymapping</anchor>
+        </inputAnchors>
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Design/targetDescription.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Design/Assignments/A_bioExperimentalProcedure.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission4/LAS_Design/Resources/R_bioExperimentalProcedure.html</resourcesUri>
+        <helpUri />
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses>
+        <las>Espace d'expérimentation</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>Espace d'expérimentation</id>
+      <xPos>125.0</xPos>
+      <yPos>40.0</yPos>
+      <toolTip>Experiment</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/LAS_Instruction_Chim.html</instructionUri>
+      <lasType>EXPERIMENT</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/40577/0/Results+of+my+experiment.scydraw</eloUri>
+        <id>bioRepresentationData</id>
+        <iconType>model</iconType>
+        <loElos />
+        <inputAnchors>
+          <anchor>roolo://memory/40646/0/Protocole+exp%C3%A9rimental.scyxproc</anchor>
+        </inputAnchors>
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/targetDescription.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/Assignments/A_bioAnnotatedData.html</assignmentUri>
+        <resourcesUri />
+        <helpUri />
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/40578/0/Picture+of+my+results.scyformauthor</eloUri>
+          <id>bioPictureData</id>
+          <iconType>concept_map2</iconType>
+          <loElos />
+          <inputAnchors />
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/targetDescription.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/Assignments/A_bioRepresentationData.html</assignmentUri>
+          <resourcesUri />
+          <helpUri />
+          <colorScheme />
+          <dependingOnMissionAnchorIds />
+        </intermediateAnchor>
+      </intermediateAnchors>
+      <nextLasses>
+        <las>Espace d'analyse</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>Espace d'analyse</id>
+      <xPos>95.0</xPos>
+      <yPos>90.0</yPos>
+      <toolTip>Analysis</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/LAS_Instruction_Chim.html</instructionUri>
+      <lasType>ANALYSIS</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/40658/0/Conclusion+de+mon+exp%C3%A9rience.rtf</eloUri>
+        <id>bioExperimentConclusion</id>
+        <iconType>hypothese2</iconType>
+        <loElos />
+        <inputAnchors>
+          <anchor>roolo://memory/40577/0/Results+of+my+experiment.scydraw</anchor>
+        </inputAnchors>
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/targetDescription.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/Assignments/A_bioExperimentConclusion.html</assignmentUri>
+        <resourcesUri />
+        <helpUri />
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/40011/0/Probabilities.scypds</eloUri>
+          <id>Probabilities</id>
+          <iconType>Presentation</iconType>
+          <loElos />
+          <inputAnchors />
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/targetDescription.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/Assignments/A_Probabilities.html</assignmentUri>
+          <resourcesUri />
+          <helpUri />
+          <colorScheme />
+          <dependingOnMissionAnchorIds />
+        </intermediateAnchor>
+      </intermediateAnchors>
+      <nextLasses>
+        <las>Espace de rédaction</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>Espace de rédaction</id>
+      <xPos>95.0</xPos>
+      <yPos>140.0</yPos>
+      <toolTip>Reporting</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Reporting/LAS_Instruction_Chim.html</instructionUri>
+      <lasType>REPORTING</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/40659/0/Raport+officiel.rtf</eloUri>
+        <id>bioReport</id>
+        <iconType>Report</iconType>
+        <loElos />
+        <inputAnchors>
+          <anchor>roolo://memory/40658/0/Conclusion+de+mon+exp%C3%A9rience.rtf</anchor>
+        </inputAnchors>
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Reporting/targetDescription.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Reporting/Assignments/A_bioReport.html</assignmentUri>
+        <resourcesUri />
+        <helpUri />
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses />
+    </las>
+  </lasses>
+  <windowStatesXmls>
+    <windowStatesXml id="Espace de conception">
+      <windowstates>
+        <window uri="roolo://memory/40645/0/But+de+l%27analyse.rtf" layoutX="128.0" layoutY="10.0" relativeLayoutCenterX="0.146875" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" />
+        <window uri="roolo://memory/40646/0/Protocole+exp%C3%A9rimental.scyxproc" layoutX="1032.0" layoutY="10.0" relativeLayoutCenterX="0.853125" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+        <window uri="roolo://memory/40624/0/Choice+of+techniques.scymapping" layoutX="144.19049" layoutY="125.0" relativeLayoutCenterX="0.15952381" relativeLayoutCenterY="0.19038461" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+      </windowstates>
+    </windowStatesXml>
+    <windowStatesXml id="Espace d'expérimentation">
+      <windowstates>
+        <window uri="roolo://memory/40578/0/Picture+of+my+results.scyformauthor" layoutX="410.0" layoutY="135.0" relativeLayoutCenterX="0.4453125" relativeLayoutCenterY="0.20320512" width="320.0" height="47.0" rotation="0.0" relativeWidth="0.25" relativeHeight="0.06025641" />
+        <window uri="roolo://memory/40577/0/Results+of+my+experiment.scydraw" layoutX="1032.0" layoutY="10.0" relativeLayoutCenterX="0.853125" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+        <window uri="roolo://memory/40646/0/Protocole+exp%C3%A9rimental.scyxproc" layoutX="128.0" layoutY="10.0" relativeLayoutCenterX="0.146875" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+      </windowstates>
+    </windowStatesXml>
+    <windowStatesXml id="Espace d'information">
+      <windowstates>
+        <window uri="roolo://memory/40648/0/Le+laboratoire+de+police+scientifique.scyelotoolconfiguration" layoutX="444.00003" layoutY="10.0" relativeLayoutCenterX="0.50000006" relativeLayoutCenterY="0.050451808" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07078313" />
+        <window uri="roolo://memory/40644/0/Examen+de+la+sc%C3%A8ne+de+crime.rtf" layoutX="787.2" layoutY="10.0" relativeLayoutCenterX="0.8404762" relativeLayoutCenterY="0.050451808" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07078313" />
+        <window uri="roolo://memory/40654/0/Le+laboratoire+de+police+scientifique.scyelotoolconfiguration" layoutX="327.80002" layoutY="240.0" relativeLayoutCenterX="0.38472223" relativeLayoutCenterY="0.39683735" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07078313" />
+        <window uri="roolo://memory/40655/0/Le+laboratoire+de+police+scientifique.scytemplateelos" layoutX="444.00003" layoutY="240.0" relativeLayoutCenterX="0.50000006" relativeLayoutCenterY="0.39683735" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07078313" />
+        <window uri="roolo://memory/40653/0/Le+laboratoire+de+police+scientifique.scymissionmapmodel" layoutX="560.2001" layoutY="125.0" relativeLayoutCenterX="0.6152778" relativeLayoutCenterY="0.22364458" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07078313" />
+        <window uri="roolo://memory/40656/0/Le+laboratoire+de+police+scientifique.runtimesettings" layoutX="560.2001" layoutY="240.0" relativeLayoutCenterX="0.6152778" relativeLayoutCenterY="0.39683735" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07078313" />
+        <window uri="roolo://memory/40649/0/Le+laboratoire+de+police+scientifique.scytemplateelos" layoutX="560.2001" layoutY="10.0" relativeLayoutCenterX="0.6152778" relativeLayoutCenterY="0.050451808" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07078313" />
+        <window uri="roolo://memory/40650/0/Le+laboratoire+de+police+scientifique.runtimesettings" layoutX="327.80002" layoutY="125.0" relativeLayoutCenterX="0.38472223" relativeLayoutCenterY="0.22364458" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07078313" />
+        <window uri="roolo://memory/40647/0/Le+laboratoire+de+police+scientifique.scymissionmapmodel" layoutX="327.80002" layoutY="10.0" relativeLayoutCenterX="0.38472223" relativeLayoutCenterY="0.050451808" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07078313" />
+        <window uri="roolo://memory/40652/0/Le+laboratoire+de+police+scientifique.scymissionspecification" layoutX="444.00003" layoutY="125.0" relativeLayoutCenterX="0.50000006" relativeLayoutCenterY="0.22364458" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07078313" />
+      </windowstates>
+    </windowStatesXml>
+    <windowStatesXml id="Espace d'analyse">
+      <windowstates>
+        <window uri="roolo://memory/40658/0/Conclusion+de+mon+exp%C3%A9rience.rtf" layoutX="1032.0" layoutY="10.0" relativeLayoutCenterX="0.853125" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+        <window uri="roolo://memory/40577/0/Results+of+my+experiment.scydraw" layoutX="1032.0" layoutY="10.0" relativeLayoutCenterX="0.853125" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+        <window uri="roolo://memory/40011/0/Probabilities.scypds" layoutX="580.0" layoutY="10.0" relativeLayoutCenterX="0.5" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+      </windowstates>
+    </windowStatesXml>
+    <windowStatesXml id="Espace de rédaction">
+      <windowstates>
+        <window uri="roolo://memory/40659/0/Raport+officiel.rtf" layoutX="276.0" layoutY="101.2" relativeLayoutCenterX="0.5" relativeLayoutCenterY="0.4951282" width="728.0" height="570.0" rotation="0.0" relativeWidth="0.56875" relativeHeight="0.7307692" />
+        <window uri="roolo://memory/40658/0/Conclusion+de+mon+exp%C3%A9rience.rtf" layoutX="534.0" layoutY="162.0" relativeLayoutCenterX="0.4640625" relativeLayoutCenterY="0.2378205" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+      </windowstates>
+    </windowStatesXml>
+  </windowStatesXmls>
+</missionModel>
+</content>
+<resources>
+</resources>
+</elo>

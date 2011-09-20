@@ -1,0 +1,96 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-09-20T21:58:05.021+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-09-20T21:58:05.021+0200</dateTime>
+        </date>
+      </contribute>
+      <version>3</version>
+    </lifecycle>
+    <annotation>
+      <entity>colorId</entity>
+      <colorSchemeId />
+    </annotation>
+    <technical>
+      <customElements>
+        <dateCreated>1316548685021</dateCreated>
+        <dateFirstUserSaveKey>1316556945147</dateFirstUserSaveKey>
+        <dateLastModified>1316556945147</dateLastModified>
+      </customElements>
+      <format>scy/missionspecification</format>
+    </technical>
+    <educational>
+      <learningResourceType>documentDesign</learningResourceType>
+    </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType />
+    </annotation>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40652/0/Le+laboratoire+de+police+scientifique.scymissionspecification</entry>
+      </identifier>
+      <las>Biologie: Espace d'information</las>
+      <missionId>forensic</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40652/0/Le+laboratoire+de+police+scientifique.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="fr">Le laboratoire de police scientifique</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAAA5CAYAAACh6qw/AAAAwUlEQVR42u3TKw6EMBRAUXbGBroLtoDGoNBdDQ6HYi8YDIJOeMkIMh+Dmsy5oi9tCOKkrYpuVZ3LNE2xqeu6pJTKPM+lbds467ou5rIstD4B6ibgtm2Xw3EcY5638V1931/267rG3Pf95ducc8xhGP7rBjZNE/M4jq8/eD5xT1gAAQIEKIAAAQIUQIAAAQogQIAABRAgQIACCBAgQAEECBCgAAIECFAAAQIECBABQIAAAQogQIAABRAgQIACCPB3egBtXuiq+ph7ewAAAABJRU5ErkJggg==</base64>
+  </thumbnail>
+</metadata>
+<content languages="fr" contentType="xml">
+<missionSpeicification>
+  <missionMapModelEloUri>roolo://memory/40668/0/Le+laboratoire+de+police+scientifique.scymissionmapmodel</missionMapModelEloUri>
+  <eloToolConfigsEloUri>roolo://memory/40669/0/Le+laboratoire+de+police+scientifique.scyelotoolconfiguration</eloToolConfigsEloUri>
+  <templateElosEloUri>roolo://memory/40670/0/Le+laboratoire+de+police+scientifique.scytemplateelos</templateElosEloUri>
+  <runtimeSettingsEloUri>roolo://memory/40671/0/Le+laboratoire+de+police+scientifique.runtimesettings</runtimeSettingsEloUri>
+  <agentModelsEloUri />
+  <pedagogicalPlanSettingsEloUri>roolo://memory/40672/0/Le+laboratoire+de+police+scientifique.scy</pedagogicalPlanSettingsEloUri>
+  <colorSchemesEloUri>roolo://memory/40036/0/Color+schemes+Mission4.colorschemes</colorSchemesEloUri>
+  <missionDescriptionUri>http://www.scy-lab.eu/content/en/mission4/missionMapInstruction.html</missionDescriptionUri>
+  <missionId>forensic</missionId>
+  <xhtmlVersionId />
+</missionSpeicification>
+</content>
+<resources>
+</resources>
+</elo>

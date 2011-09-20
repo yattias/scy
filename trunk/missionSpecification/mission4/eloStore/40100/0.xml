@@ -22,7 +22,7 @@
           <dateTime>2011-07-26T11:03:57.802+0200</dateTime>
         </date>
       </contribute>
-      <version>19</version>
+      <version>21</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -51,6 +51,18 @@
         <string language="fr">Conclusion de mon expérience</string>
       </title>
     </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_forked_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/40658/0/Conclusion+de+mon+exp%C3%A9rience.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
   </lom>
   <template>true</template>
   <thumbnail>
@@ -59,13 +71,13 @@
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;
-&#xD;&#xD;&#xD;
-\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 There is a match between crima scene sample and:\b0\par&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;
-\li0\ri0\fi0\ul0\par&#xD;&#xD;&#xD;
+<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;&#xD;&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;&#xD;&#xD;
+&#xD;&#xD;&#xD;&#xD;&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 There is a match between crima scene sample and:\b0\par&#xD;&#xD;&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;&#xD;&#xD;
+\li0\ri0\fi0\ul0\par&#xD;&#xD;&#xD;&#xD;&#xD;
 }</RichText>
 </content>
 <resources>

@@ -1,0 +1,103 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-04-28T14:58:17.619+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-07-08T14:58:19.019+0200</dateTime>
+        </date>
+      </contribute>
+      <version>1</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1303995497619</dateCreated>
+        <dateFirstUserSaveKey>1316556039518</dateFirstUserSaveKey>
+        <dateLastModified>1316556039518</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <educational>
+      <learningResourceType>reportEvaluation</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40666/0/Conclusion+de+mon+exp%C3%A9rience.rtf</entry>
+      </identifier>
+      <las>Chimie: Espace d'analyse</las>
+      <missionId>forensic</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40652/0/Le+laboratoire+de+police+scientifique.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Conclusion of the experiment</string>
+        <string language="fr">Conclusion de mon expérience</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/40549/0/Chemistry%3A+Conclusion+of+the+experiment.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <template>true</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACjUlEQVR42u3Uz2uScRwH8Ocf8eZFD5528CCWB1O8dHFmjJgHKZsL6VAwogikkNp5h0QmQocihqD2g20QHmo296NCLDdXw+maWYrRRJi+8/mGsodJxdZB5P2GN8/zfJ7P90FeB6WV9S3sfYOiH/Pfj8zkBoPBI7PqD/TdnV981Xde/HIwVJXSq5t4v9PCu0PN5r6iVIZitrRWEoDV/bZiXqlB7GZ3272OXr6LhcXXQFv5DXmvUNofqgrAF+kSph/MQZIkPF8u9gDl+6k7M+LaBSxWfuKS9yomvV4x7wLK93IDM49wbiLwG7CTp6kCnr3ZEe/kve1CtdPaCTpY56Xl1TxC0RRGx69g7OJ1BOeWeoDj3huYja2IWWp9VwDmtst4OP8BoccLYt4FlO+fvMyL6/nJez1A+fnM2TFxlfc+fd4bqkrptTzMF6Zw2nFN9FSnXcDuTO7bbEUAOiZuK3a7gId3b94PC8Bb07OKubyX3yoMVaV+f/R/bOXf9krlg77zXG4TGxvH76Cdl8CcKAJQr9f3Bu12W7FgtVr/+pF6va54ttvtime1Wn3sH9hqtQYf0O12IxKJiDYaDTidThgMBhSLRdhsNqhUKpjNZoRCISQSCWQyGXg8HrhcLuh0OoyMjMDv9/c+6nA4xHkZ0mQyQaPRiLlWq4XP50M4HEaz2UQymYTFYhHvYrEYotEojEYjAoGAmMXjcdRqtcEHZAhIQAISkCEgAQlIQIaABCQgARkCEpCABGQISEACEpAhIAEJSECGgAQkIAEZAhKQgARkCEhAAhKQISABCUhAAjIEJCABCcgQkIAEJCBDQAISkIAMAQlIQAIyBCQgAQnIEJCABCQgQ0ACEpCADAH/f34B9pSXxjKQLNQAAAAASUVORK5CYII=</base64>
+  </thumbnail>
+</metadata>
+<content languages="en fr" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 R\'e9digez la conclusion de votre exp\'e9rience ici.\par
+\b0\par
+\b\par
+\par
+\par
+\b0\par
+\par
+\par
+\li0\ri0\fi0\ul0\par
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>

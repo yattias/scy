@@ -22,7 +22,7 @@
           <dateTime>2011-07-26T10:56:59.466+0200</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>5</version>
     </lifecycle>
     <annotation>
       <entity>colorId</entity>
@@ -31,8 +31,8 @@
     <technical>
       <customElements>
         <dateCreated>1303475087910</dateCreated>
-        <dateFirstUserSaveKey>1316531944071</dateFirstUserSaveKey>
-        <dateLastModified>1316531944071</dateLastModified>
+        <dateFirstUserSaveKey>1316553712141</dateFirstUserSaveKey>
+        <dateLastModified>1316553712141</dateLastModified>
       </customElements>
       <format>scy/xproc</format>
     </technical>
@@ -48,51 +48,92 @@
         <catalog>memory</catalog>
         <entry>roolo://memory/40646/0/Protocole+exp%C3%A9rimental.scyxproc</entry>
       </identifier>
-      <las>Biology Design</las>
+      <las>Espace de conception</las>
       <missionId>forensic</missionId>
       <missionRunning>
         <catalog>memory</catalog>
-        <entry>roolo://memory/40637/0/Forensic+mission.scymissionspecification</entry>
+        <entry>roolo://memory/40652/0/Le+laboratoire+de+police+scientifique.scymissionspecification</entry>
       </missionRunning>
       <title>
         <string language="en">Experimental procedure</string>
         <string language="fr">Protocole expérimental</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_fork_of</value>
-      </kind>
-      <resource>
-        <identifier>
-          <catalog>memory</catalog>
-          <entry>roolo://memory/40097/0/Experimental+procedure.scyxproc</entry>
-        </identifier>
-      </resource>
-    </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
-  <template>false</template>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>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</base64>
+    <base64>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</base64>
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
 <experimental_procedure>
   <mission>
+    <type>
+      <id>TYPE_DEFAULT</id>
+      <name language="fr">Type de matériel par défaut</name>
+      <name language="en">Default material type</name>
+    </type>
+    <type>
+      <id>TYPE_LIQUIDE</id>
+      <name language="fr">Liquide</name>
+      <name language="en">Liquid</name>
+    </type>
+    <type>
+      <id>TYPE_PROD_CHIM</id>
+      <name language="fr">Produit chimique</name>
+      <name language="en">Chemical product</name>
+    </type>
+    <type>
+      <id>TYPE_MESUREUR</id>
+      <name language="fr">Mesureur</name>
+      <name language="en">Mesureur</name>
+    </type>
+    <type>
+      <id>TYPE_DELIVREUR</id>
+      <name language="fr">Délivreur</name>
+      <name language="en">Délivreur</name>
+    </type>
+    <type>
+      <id>TYPE_CONTENEUR</id>
+      <name language="fr">Conteneur</name>
+      <name language="en">Container</name>
+    </type>
+    <type>
+      <id>TYPE_USTENSILE</id>
+      <name language="fr">Ustensile</name>
+      <name language="en">Ustensil</name>
+    </type>
+    <type>
+      <id>TYPE_INGREDIENT</id>
+      <name language="fr">Ingrédient</name>
+      <name language="en">Ingredient</name>
+    </type>
+    <type>
+      <id>TYPE_CHAUFFANT</id>
+      <name language="fr">Chauffant</name>
+      <name language="en">Chauffant</name>
+    </type>
+    <type>
+      <id>TYPE_HOMOGENEISATEUR</id>
+      <name language="fr">Homogénéisateur</name>
+      <name language="en">Homogénéisateur</name>
+    </type>
+    <type>
+      <id>TYPE_SOLUTION</id>
+      <name language="fr">Solution</name>
+      <name language="en">Solution</name>
+    </type>
+    <type>
+      <id>TYPE_OBJET</id>
+      <name language="fr">Objet</name>
+      <name language="en">Object</name>
+    </type>
+    <type>
+      <id>TYPE_SOLIDE</id>
+      <name language="fr">Solide</name>
+      <name language="en">Solide</name>
+    </type>
     <type>
       <id>TYPE_DEFAULT</id>
       <name language="fr">Type de matériel par défaut</name>
@@ -560,8 +601,8 @@
     </proc_general_principle>
     <manipulation>
       <step>
-        <description language="en">Restriction digestion</description>
-        <comments language="en" />
+        <description language="fr">Digestion</description>
+        <comments language="fr" />
         <task_right>
           <edit_right>X</edit_right>
           <delete_right>X</delete_right>
@@ -572,8 +613,8 @@
           <repeat_right>N</repeat_right>
         </task_right>
         <step>
-          <description language="en">Place the tube containing the restriction enzyme mix, labeled ENZ, on ice.</description>
-          <comments language="en">Which enzymes does the enzyme mix contain? Why is it interesting to use more than one enzyme?</comments>
+          <description language="fr">Placer le tube contenant les enzymes de restriction (ENZ) sur la glace.</description>
+          <comments language="fr">Quelles enzymes sont présentes dans le mélange? Pourquoi est-il intéressant d'utiliser plusieurs enzymes?</comments>
           <task_right>
             <edit_right>X</edit_right>
             <delete_right>X</delete_right>
@@ -585,8 +626,8 @@
           </task_right>
         </step>
         <step>
-          <description language="en">Place the tubes with the DNA samples in the foam micro test tube holder.</description>
-          <comments language="en" />
+          <description language="fr">Placer les tubes contenant les échantillon d'ADN sur un support pour tube à essai.</description>
+          <comments language="fr" />
           <task_right>
             <edit_right>X</edit_right>
             <delete_right>X</delete_right>
@@ -598,8 +639,8 @@
           </task_right>
         </step>
         <step>
-          <description language="en">Pipet 10 μl of each DNA sample from the stock tubes and transfer to the correct micro test tubes.</description>
-          <comments language="en">Which names do you have chosen for the micro test tubes?</comments>
+          <description language="fr">Pipeter 10 μl de chaque échantillon d'ADN et les déposer dans les bons tubes à essai.</description>
+          <comments language="fr">Quels noms avez-vous donné à vos tubes à essai?</comments>
           <task_right>
             <edit_right>X</edit_right>
             <delete_right>X</delete_right>
@@ -611,8 +652,8 @@
           </task_right>
         </step>
         <step>
-          <description language="en">Pipet 10 μl of enzyme mix (ENZ) into micro test tubes with DNA.</description>
-          <comments language="en" />
+          <description language="fr">Pipeter 10 μl du mélange d'enzyme (ENZ) et les déposer dans les tubes à essai contenant l'ADN.</description>
+          <comments language="fr" />
           <task_right>
             <edit_right>X</edit_right>
             <delete_right>X</delete_right>
@@ -624,8 +665,8 @@
           </task_right>
         </step>
         <step>
-          <description language="en">Tightly cap the tubes and mix the components.</description>
-          <comments language="en" />
+          <description language="fr">Fermer les tubes puis mélanger délicatement.</description>
+          <comments language="fr" />
           <task_right>
             <edit_right>X</edit_right>
             <delete_right>X</delete_right>
@@ -637,8 +678,8 @@
           </task_right>
         </step>
         <step>
-          <description language="en">Place the tubes in the foam micro tube holder and incubate for 45 min at 37°C.</description>
-          <comments language="en">Why 37°C is a good temperature for the enzymes?</comments>
+          <description language="fr">Placer les tubes contenant l'ADN et les enzymes sur un portoir. Incuber pendant 45 min à 37°C.</description>
+          <comments language="fr">Pourquoi 37°C est une bonne température pour les enzymes?</comments>
           <task_right>
             <edit_right>X</edit_right>
             <delete_right>X</delete_right>
@@ -650,8 +691,8 @@
           </task_right>
         </step>
         <step>
-          <description language="en">After the incubation period, remove the tubes from the water bath and place in the refrigerator or proceed directly to the Agarose Gel Electropheresis protocol.</description>
-          <comments language="en" />
+          <description language="fr">Après le temps d'incubation, enlever les tubes du bain-marie et les placer au réfrigérateur ou commencer directement l'électrophorèse sur gel d'agarose.</description>
+          <comments language="fr" />
           <task_right>
             <edit_right>X</edit_right>
             <delete_right>X</delete_right>
@@ -664,8 +705,8 @@
         </step>
       </step>
       <step>
-        <description language="en">Agarose gel electrophoresis</description>
-        <comments language="en" />
+        <description language="fr">Electrophorèse sur gel d'agarose</description>
+        <comments language="fr" />
         <task_right>
           <edit_right>X</edit_right>
           <delete_right>X</delete_right>
@@ -676,8 +717,8 @@
           <repeat_right>N</repeat_right>
         </task_right>
         <step>
-          <description language="en">If a centrifuge is available, pulse spin the tubes in the centrifuge to bring all of the liquid into the bottom of the tube or gently tap on the table top.</description>
-          <comments language="en" />
+          <description language="fr">Si une centrifugeuse est accessible, centrifuger les tubes pour faire descendre tout le liquide au fond des tubes. Sinon, tapoter les tubes doucement sur la table.</description>
+          <comments language="fr" />
           <task_right>
             <edit_right>X</edit_right>
             <delete_right>X</delete_right>
@@ -689,8 +730,8 @@
           </task_right>
         </step>
         <step>
-          <description language="en">Add 5 μl of loading dye "LD" into each tube. Cap the tubes and mix. Collect the sample at the bottom of the tube.</description>
-          <comments language="en" />
+          <description language="fr">Ajouter 5 μl de colorant "LD" dans chaque tube. Refermer les tubes et mélanger doucement. Prélever les échantillons dans le fond des tubes.</description>
+          <comments language="fr" />
           <task_right>
             <edit_right>X</edit_right>
             <delete_right>X</delete_right>
@@ -702,8 +743,8 @@
           </task_right>
         </step>
         <step>
-          <description language="en">Remove the agarose gel from the refrigerator (if applicable) and remove the plastic wrap.</description>
-          <comments language="en" />
+          <description language="fr">Prendre les gels d'agarose dans le réfrigérateur (si besoin) et enlever le plastique de protection.</description>
+          <comments language="fr" />
           <task_right>
             <edit_right>X</edit_right>
             <delete_right>X</delete_right>
@@ -715,8 +756,8 @@
           </task_right>
         </step>
         <step>
-          <description language="en">Place the agarose gel in the electrophoresis apparatus.</description>
-          <comments language="en">On which side of the box do you have to put the wells of the gel?</comments>
+          <description language="fr">Placer le gel dans la cuve à électrophorèse.</description>
+          <comments language="fr">De quel côté de la cuve devez-vous placer les puits du gel?</comments>
           <task_right>
             <edit_right>X</edit_right>
             <delete_right>X</delete_right>
@@ -728,10 +769,10 @@
           </task_right>
         </step>
         <step>
-          <description language="en">Fill the electrophoresis chamber with TAE buffer to cover the gel, using approximately 275 ml of buffer for a Bio-Rad Mini-Sub Cell, horizontal electrophoresis chamber.</description>
-          <comments language="en">There are two options for using TAE Buffer:&#xD;
-1. 1x TAE buffer&#xD;
-2. 0,25 TAE buffer</comments>
+          <description language="fr">Remplir la cuve avec le tampon TAE de façon à recouvrir le gel. Utiliser environ 275 ml de tampon.</description>
+          <comments language="fr">Il y a 2 options d'utilisation du tampon TAE:&#xD;
+1. Le tampon TAE 1x&#xD;
+2. Le tampon TAE 0,25x</comments>
           <task_right>
             <edit_right>X</edit_right>
             <delete_right>X</delete_right>
@@ -743,10 +784,10 @@
           </task_right>
         </step>
         <step>
-          <description language="en">Load each sample into the wells of the gel.&#xD;
-- 10 μl DNA size Marker (M)&#xD;
-- 20 μl DNA samples</description>
-          <comments language="en">What is the DNA size Marker for?</comments>
+          <description language="fr">Déposer chaque échantillon dans les puits du gel.&#xD;
+- 10 μl du marqueur de taille "M"&#xD;
+- 20 μl d'échantillon d'ADN</description>
+          <comments language="fr">A quoi sert le marqueur de taille?</comments>
           <task_right>
             <edit_right>X</edit_right>
             <delete_right>X</delete_right>
@@ -758,8 +799,8 @@
           </task_right>
         </step>
         <step>
-          <description language="en">Carefully place the lid on the electrophoresis chamber. The lid will attach to the base in only one orientation. The red and black jacks on the lid of the horizontal electrophoresis chambers will match with the red and black jacks on the base. Plug the electrodes into the power supply, red to red and black to black.</description>
-          <comments language="en" />
+          <description language="fr">Placer avec précautions le couvercle sur la cuve. Le couvercle ne peut se fermera que dans s'il est dans le bon sens. Les embouts noir et rouge du couvercle coïncident avec les embouts noir et rouge de la cuve. Brancher les électrodes sur le générateur (rouge avec rouge, noir avec noir).</description>
+          <comments language="fr" />
           <task_right>
             <edit_right>X</edit_right>
             <delete_right>X</delete_right>
@@ -771,10 +812,10 @@
           </task_right>
         </step>
         <step>
-          <description language="en">Turn on the power and electrophorese your samples at:&#xD;
-- 1x TAE buffer: 100 V for 30 minutes.&#xD;
-- 0,25x TAE buffer: 200 V for 20 minutes</description>
-          <comments language="en" />
+          <description language="fr">Mettre en marche le générateur pour commencer l'électrophorèse: &#xD;&#xD;&#xD;&#xD;
+- Tampon TAE 1x : 100 V pendant 30 minutes.&#xD;&#xD;&#xD;&#xD;
+- Tampon 0,25x : 200 V pendant 20 minutes</description>
+          <comments language="fr" />
           <task_right>
             <edit_right>X</edit_right>
             <delete_right>X</delete_right>
@@ -787,8 +828,8 @@
         </step>
       </step>
       <step>
-        <description language="en">Visualization of DNA Fragments</description>
-        <comments language="en" />
+        <description language="fr">Visualisation des fragments d'ADN</description>
+        <comments language="fr" />
         <task_right>
           <edit_right>X</edit_right>
           <delete_right>X</delete_right>
@@ -799,8 +840,8 @@
           <repeat_right>N</repeat_right>
         </task_right>
         <step>
-          <description language="en">When the electrophoresis run is complete, turn off the power and remove the top of the chamber. Carefully remove the gel and tray from the gel box. Be careful — the gel is very slippery. Slide the gel into the staining tray.</description>
-          <comments language="en" />
+          <description language="fr">Lorsque l'électrophorèse est finie, éteindre le générateur et enlever le couvercle. Prendre délicatement le gel. Attention car le gel est très glissant. Déposer le gel dans le bac pour la coloration.</description>
+          <comments language="fr" />
           <task_right>
             <edit_right>X</edit_right>
             <delete_right>X</delete_right>
@@ -812,8 +853,8 @@
           </task_right>
         </step>
         <step>
-          <description language="en">Add 120 ml of 100x Fast Blast DNA stain into a staining tray (2 gels per tray).</description>
-          <comments language="en" />
+          <description language="fr">Ajouter 120 ml de colorant 100x dans le bac (2 gels peuvent entrer dans le même bac).</description>
+          <comments language="fr" />
           <task_right>
             <edit_right>X</edit_right>
             <delete_right>X</delete_right>
@@ -825,8 +866,8 @@
           </task_right>
         </step>
         <step>
-          <description language="en">Stain the gels for 2 minutes with gentle agitation. Save the used stain for future use.</description>
-          <comments language="en" />
+          <description language="fr">Laisser tremper le gel pendant 2 minutes en remuant délicatement. Récupérer ensuite le colorant pour un autre groupe ou pour une  uilisation future.</description>
+          <comments language="fr" />
           <task_right>
             <edit_right>X</edit_right>
             <delete_right>X</delete_right>
@@ -838,8 +879,8 @@
           </task_right>
         </step>
         <step>
-          <description language="en">Transfer the gels into a large washing container and rinse with warm (40–55°C) tap water for approximately 10 seconds.</description>
-          <comments language="en" />
+          <description language="fr">Déposer le gel dans un bac de rinçage et le rincer sous l'eau chaude du robinet (40–55°C) pendant environ 10 secondes.</description>
+          <comments language="fr" />
           <task_right>
             <edit_right>X</edit_right>
             <delete_right>X</delete_right>
@@ -851,8 +892,8 @@
           </task_right>
         </step>
         <step>
-          <description language="en">Destain by washing twice in warm tap water for 5 minutes each with gentle shaking for best results.</description>
-          <comments language="en" />
+          <description language="fr">Rincer encore 2 fois 5 min avec de l'eau chaude du robinet  en remuant doucement pour un meilleur résultat.</description>
+          <comments language="fr" />
           <task_right>
             <edit_right>X</edit_right>
             <delete_right>X</delete_right>
@@ -864,8 +905,8 @@
           </task_right>
         </step>
         <step>
-          <description language="en">Record results.</description>
-          <comments language="en" />
+          <description language="fr">Récolter les résultats en prenant une photo si possible ou sur un dessin.</description>
+          <comments language="fr" />
           <task_right>
             <edit_right>X</edit_right>
             <delete_right>X</delete_right>
@@ -883,11 +924,6 @@
         <id>406</id>
         <name language="fr">Cones pour pipette 2-200µl</name>
         <info language="fr" />
-        <type>
-          <id>TYPE_DEFAULT</id>
-          <name language="fr">Type de matériel par défaut</name>
-          <name language="en">Default material type</name>
-        </type>
       </material>
       <used>true</used>
       <comment language="fr" />
@@ -897,11 +933,6 @@
         <id>407</id>
         <name language="fr">Micropipette 2-20µl</name>
         <info language="fr" />
-        <type>
-          <id>TYPE_DEFAULT</id>
-          <name language="fr">Type de matériel par défaut</name>
-          <name language="en">Default material type</name>
-        </type>
       </material>
       <used>true</used>
       <comment language="fr" />
@@ -911,11 +942,6 @@
         <id>408</id>
         <name language="fr">Tubes à essai</name>
         <info language="fr" />
-        <type>
-          <id>TYPE_DEFAULT</id>
-          <name language="fr">Type de matériel par défaut</name>
-          <name language="en">Default material type</name>
-        </type>
       </material>
       <used>true</used>
       <comment language="fr" />
@@ -925,11 +951,6 @@
         <id>409</id>
         <name language="fr">Marqueur permanent</name>
         <info language="fr" />
-        <type>
-          <id>TYPE_DEFAULT</id>
-          <name language="fr">Type de matériel par défaut</name>
-          <name language="en">Default material type</name>
-        </type>
       </material>
       <used>true</used>
       <comment language="fr" />
@@ -939,11 +960,6 @@
         <id>410</id>
         <name language="fr">Poubelle</name>
         <info language="fr" />
-        <type>
-          <id>TYPE_DEFAULT</id>
-          <name language="fr">Type de matériel par défaut</name>
-          <name language="en">Default material type</name>
-        </type>
       </material>
       <used>true</used>
       <comment language="fr" />
@@ -953,11 +969,6 @@
         <id>411</id>
         <name language="fr">Support pour tube à essai</name>
         <info language="fr" />
-        <type>
-          <id>TYPE_DEFAULT</id>
-          <name language="fr">Type de matériel par défaut</name>
-          <name language="en">Default material type</name>
-        </type>
       </material>
       <used>true</used>
       <comment language="fr" />
@@ -967,11 +978,6 @@
         <id>412</id>
         <name language="fr">Essui-tout</name>
         <info language="fr" />
-        <type>
-          <id>TYPE_DEFAULT</id>
-          <name language="fr">Type de matériel par défaut</name>
-          <name language="en">Default material type</name>
-        </type>
       </material>
       <used>true</used>
       <comment language="fr" />
@@ -981,11 +987,6 @@
         <id>413</id>
         <name language="fr">Echantillons d'ADN</name>
         <info language="fr" />
-        <type>
-          <id>TYPE_DEFAULT</id>
-          <name language="fr">Type de matériel par défaut</name>
-          <name language="en">Default material type</name>
-        </type>
       </material>
       <used>true</used>
       <comment language="fr" />
@@ -995,11 +996,6 @@
         <id>414</id>
         <name language="fr">Mélange d'enzymes EcoRI/PstI</name>
         <info language="fr" />
-        <type>
-          <id>TYPE_DEFAULT</id>
-          <name language="fr">Type de matériel par défaut</name>
-          <name language="en">Default material type</name>
-        </type>
       </material>
       <used>true</used>
       <comment language="fr" />
@@ -1009,11 +1005,6 @@
         <id>415</id>
         <name language="fr">Bain-marie</name>
         <info language="fr" />
-        <type>
-          <id>TYPE_DEFAULT</id>
-          <name language="fr">Type de matériel par défaut</name>
-          <name language="en">Default material type</name>
-        </type>
       </material>
       <used>true</used>
       <comment language="fr" />
@@ -1023,11 +1014,6 @@
         <id>416</id>
         <name language="fr">Glace</name>
         <info language="fr" />
-        <type>
-          <id>TYPE_DEFAULT</id>
-          <name language="fr">Type de matériel par défaut</name>
-          <name language="en">Default material type</name>
-        </type>
       </material>
       <used>true</used>
       <comment language="fr" />
@@ -1037,11 +1023,6 @@
         <id>417</id>
         <name language="fr">Kit d'electrophorèse sur gel d'agarose</name>
         <info language="fr" />
-        <type>
-          <id>TYPE_DEFAULT</id>
-          <name language="fr">Type de matériel par défaut</name>
-          <name language="en">Default material type</name>
-        </type>
       </material>
       <used>true</used>
       <comment language="fr" />
@@ -1051,11 +1032,6 @@
         <id>418</id>
         <name language="fr">Gel d'agarose</name>
         <info language="fr" />
-        <type>
-          <id>TYPE_DEFAULT</id>
-          <name language="fr">Type de matériel par défaut</name>
-          <name language="en">Default material type</name>
-        </type>
       </material>
       <used>true</used>
       <comment language="fr" />
@@ -1065,11 +1041,6 @@
         <id>419</id>
         <name language="fr">Tampon TAE (0,25x ou 1x)</name>
         <info language="fr" />
-        <type>
-          <id>TYPE_DEFAULT</id>
-          <name language="fr">Type de matériel par défaut</name>
-          <name language="en">Default material type</name>
-        </type>
       </material>
       <used>true</used>
       <comment language="fr" />
@@ -1079,11 +1050,6 @@
         <id>420</id>
         <name language="fr">Colorant pour ADN (LD)</name>
         <info language="fr" />
-        <type>
-          <id>TYPE_DEFAULT</id>
-          <name language="fr">Type de matériel par défaut</name>
-          <name language="en">Default material type</name>
-        </type>
       </material>
       <used>true</used>
       <comment language="fr" />
@@ -1093,11 +1059,6 @@
         <id>421</id>
         <name language="fr">Marqueur de taille (ADN digéré par HindIII)</name>
         <info language="fr" />
-        <type>
-          <id>TYPE_DEFAULT</id>
-          <name language="fr">Type de matériel par défaut</name>
-          <name language="en">Default material type</name>
-        </type>
       </material>
       <used>true</used>
       <comment language="fr" />
@@ -1107,11 +1068,6 @@
         <id>422</id>
         <name language="fr">Bac de rinçage</name>
         <info language="fr" />
-        <type>
-          <id>TYPE_DEFAULT</id>
-          <name language="fr">Type de matériel par défaut</name>
-          <name language="en">Default material type</name>
-        </type>
       </material>
       <used>true</used>
       <comment language="fr" />
@@ -1121,11 +1077,6 @@
         <id>423</id>
         <name language="fr">Bac pour coloration du gel</name>
         <info language="fr" />
-        <type>
-          <id>TYPE_DEFAULT</id>
-          <name language="fr">Type de matériel par défaut</name>
-          <name language="en">Default material type</name>
-        </type>
       </material>
       <used>true</used>
       <comment language="fr" />
@@ -1135,11 +1086,6 @@
         <id>424</id>
         <name language="fr">Eau chaude du robinet</name>
         <info language="fr" />
-        <type>
-          <id>TYPE_DEFAULT</id>
-          <name language="fr">Type de matériel par défaut</name>
-          <name language="en">Default material type</name>
-        </type>
       </material>
       <used>true</used>
       <comment language="fr" />
@@ -1149,11 +1095,6 @@
         <id>425</id>
         <name language="fr">Générateur (100-200V / ampérage faible mA)</name>
         <info language="fr" />
-        <type>
-          <id>TYPE_DEFAULT</id>
-          <name language="fr">Type de matériel par défaut</name>
-          <name language="en">Default material type</name>
-        </type>
       </material>
       <used>true</used>
       <comment language="fr" />
@@ -1163,11 +1104,6 @@
         <id>426</id>
         <name language="fr">Colorant 100x</name>
         <info language="fr" />
-        <type>
-          <id>TYPE_DEFAULT</id>
-          <name language="fr">Type de matériel par défaut</name>
-          <name language="en">Default material type</name>
-        </type>
       </material>
       <used>true</used>
       <comment language="fr" />

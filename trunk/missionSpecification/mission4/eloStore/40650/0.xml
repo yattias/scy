@@ -1,0 +1,56 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-09-20T21:55:06.550+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1316548506550</dateCreated>
+        <dateLastModified>1316548506550</dateLastModified>
+      </customElements>
+      <format>scy/runtimesettings</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40650/0/Le+laboratoire+de+police+scientifique.runtimesettings</entry>
+      </identifier>
+      <las>Biology Design</las>
+      <missionId>forensic</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40637/0/Forensic+mission.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="fr">Le laboratoire de police scientifique</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <template>TRUE</template>
+</metadata>
+<content languages="fr" contentType="xml">
+<runtimeSettings />
+</content>
+<resources>
+</resources>
+</elo>

@@ -22,7 +22,7 @@
           <dateTime>2011-07-26T10:52:18.664+0200</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>4</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -63,34 +63,22 @@
         </identifier>
       </resource>
     </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
-  <template>TRUE</template>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAABrUlEQVR42u3Qv0rDUBTH8fsAIr6G+h5ufQQ3B2cFFwXp4uIguusgKegg6OIguNQM0iK4qB2UUtRia9H+IU1sE46eCy1pyNBNaL8/OCS/e24yfEwknxJKfTgi3yM9uX94Kox0xzke6b2oJkH/Y2rGKNDNY0tW17KSWdn5A2xKXvt6VvacvAz2Z1d34pbaFlC73imWfyyg9ttn3+47XlVanffhNNtvduJnaZN2b9yz//yfBTw8L8jM7JwsLW9bQGOMPdvYPbWARxdFmV9YtE8F1J3ecS7vLaD2k+uS3Te+XqVWr0zNWECRRmyaIz25V8B4V8B4r1bLUqm8TM2Yzdy+bOUOhqM9eZY2affGPZuk/5lMJiNBENjp9XrS7/fF8zzxfV/CMJRutyuu69qdvutT9zpRFIlG3wdP/Uaj32sGXaPfT1qMEAABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAASQAAggggARAAAEEkAAIIIAAEgABBBBAAiCAAAJIAAQQQAABJAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIEnmF5p+z125rKjQAAAAAElFTkSuQmCC</base64>
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Ecrivez votre liste de recommandations ici.\b0\par
-\par
-\par
-\li0\ri0\fi0\ul0\par
+<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;
+&#xD;&#xD;&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Ecrivez votre liste de recommandations ici.\b0\par&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;
+\li0\ri0\fi0\ul0\par&#xD;&#xD;&#xD;
 }</RichText>
 </content>
 <resources>

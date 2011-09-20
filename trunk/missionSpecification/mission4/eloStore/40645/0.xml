@@ -22,7 +22,7 @@
           <dateTime>2011-09-06T11:43:29.028+0200</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>4</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -63,40 +63,28 @@
         </identifier>
       </resource>
     </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
-  <template>TRUE</template>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACKElEQVR42u3Tz4sSYRzH8fkDIvo3qn+iU7f+hG4FIQtBV6OlS/c6bx3ChS7BdulQ+CsT1DUVwRowWdRWcltrdhex1PGTzxMOjnjYYsFY3x/4Mnyf5zuPMy8cx9c3jXUQlPQj1C/u1z4VQn0s9jzUD/2ufo6+rk05Bijz8Uh37j3UjVuPpoCeVNzUg9vXtBWNarb/8s0HvXePLaDp301rd++XBTR97vPA7p/0Ozo62Q/KO/5ia35tWS2bO+3aKs+zgE93Crpw8ZKu39z8A/g2IqU2tHV3wwI+e7Wry1eu2qsBNPOO4yj2umIBTf8i7tr9w+9tdQ+aa1MWUDqcKy/UL+4bwPneAM73nc6ems3G2pQT3X6s+9tPgjL94tqyWjZ32rXzdJ6jFWU0Gp3ZGePx+EyeaTAY/PU9FjAej9umXC5PP8GO8vm8XWs0GopEInJdV71eT8lkUt1uV/1+X8Vi0f5gpVJRLpcLDjT3mbnhcKharaZSqWT7drutdDptZ6vVajCfSCTkeZ69mjmTyWQy/Tya8n0/9LCFQkH1et3uz555lkwmY0Gz2ay9L5VKBeeZtFqt4N1m7zr/7v+alf0Dz0sABBBAAAEkAAIIIIAEQAABBJAACCCAABIAAQQQQAIggAACSAAEEEAACYAAAgggARBAAAEkAAIIIIAEQAABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAASQAAggggARAAAEEkAAI4P+Z3wvOu//36cU+AAAAAElFTkSuQmCC</base64>
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Calibri;\f3\fnil Times New Roman;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-\margl1417\margr1417\margt1417\margb1417\widowctrl
-\li0\ri0\fi0\ql\f2\fs24\i\b0\ul0\cf0\ldblquote Le minist\'e8re public veut savoir si le sang trouv\'e9 sur la sc\'e8ne de crime provient de la victime, ou de l\rquote un des suspects.\rdblquote\par
-\par
-\par
-\par
-\f3\i0\par
-\f1\cf1\par
-\par
-\par
-\par
-\li0\ri0\fi0\ul0\par
+<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Calibri;\f3\fnil Times New Roman;}&#xD;&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;
+\margl1417\margr1417\margt1417\margb1417\widowctrl&#xD;&#xD;&#xD;
+\li0\ri0\fi0\ql\f2\fs24\i\b0\ul0\cf0\ldblquote Le minist\'e8re public veut savoir si le sang trouv\'e9 sur la sc\'e8ne de crime provient de la victime, ou de l\rquote un des suspects.\rdblquote\par&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;
+\f3\i0\par&#xD;&#xD;&#xD;
+\f1\cf1\par&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;
+\li0\ri0\fi0\ul0\par&#xD;&#xD;&#xD;
 }</RichText>
 </content>
 <resources>

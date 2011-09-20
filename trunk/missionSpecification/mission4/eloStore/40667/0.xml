@@ -1,0 +1,131 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-04-28T15:04:49.429+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-07-08T16:58:35.998+0200</dateTime>
+        </date>
+      </contribute>
+      <version>1</version>
+    </lifecycle>
+    <annotation>
+      <entity>colorId</entity>
+      <colorSchemeId />
+    </annotation>
+    <technical>
+      <customElements>
+        <dateCreated>1303995889429</dateCreated>
+        <dateFirstUserSaveKey>1316556561913</dateFirstUserSaveKey>
+        <dateLastModified>1316556561913</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <educational>
+      <learningResourceType>reportFinal</learningResourceType>
+    </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType />
+    </annotation>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40667/0/Rapport+officiel.rtf</entry>
+      </identifier>
+      <las>Chimie: Espace de rédaction</las>
+      <missionId>forensic</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40652/0/Le+laboratoire+de+police+scientifique.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Official report</string>
+        <string language="fr">Rapport officiel</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/40551/0/Chemistry%3A+Official+report.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <template>true</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>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</base64>
+  </thumbnail>
+</metadata>
+<content languages="en fr" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Nom et Pr\'e9nom: \b0\par
+\par
+\b Je suis expert en :  \b0\par
+\par
+\b Affaire n\'b0: \b0 CY0347\b  \b0\par
+\par
+\b Objet: \b0 Expertise pour le Minist\'e8re public\par
+\par
+\b R\'e9sum\'e9 des faits (selon ma compr\'e9hension des \'e9l\'e9ments de l'affaire):    \b0\par
+\par
+\b Ma mission:    \b0    \par
+\par
+\b Mon mat\'e9riel chimique (mes \'e9chantillons):\par
+\b0 Avez-vous r\'e9ussi \'e0 faire l'analyse chimique des \'e9chantillons?\par
+\par
+\b Listes des \'e9tapes de l'expertse (activit\'e9s que j'ai faites, objets que j'ai cr\'e9\'e9s, ...):\b0\par
+\par
+\b Justification de la m\'e9thode, de ma technique d'analyse:\b0\par
+\par
+\b Probl\'e8mes rencontr\'e9s lors de l'expertsie (Optionnel):\b0\par
+\par
+\b Ma conclusion:\b0\par
+Avez-vous trouv\'e9 une correspondance entre l'\'e9chantillon r\'e9colt\'e9 sur le terrain et l'une des encres de r\'e9f\'e9rence?\par
+Quelle information est-ce qu'une correspondance apporte sur la culpabilit\'e9 ou non d'un suspect?\par
+\par
+\par
+\par
+\par
+\li0\ri0\fi0\ul0\par
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>
