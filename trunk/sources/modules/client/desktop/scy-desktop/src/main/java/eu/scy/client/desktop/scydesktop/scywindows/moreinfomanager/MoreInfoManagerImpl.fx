@@ -82,7 +82,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
    def uriLocalizer = new UriLocalizer();
    var runPhase = false;
    var showingMoreInfoWindow = false;
-   var instructionWindowControlBubble = bubbleManager.createBubble(instructionWindow.curtainControl, 7, "open-close", BubbleLayer.DESKTOP, BubbleKey.LAS_CURTAIN_CONTROL);
+   var instructionWindowControlBubble = bubbleManager.createBubble(instructionWindow.curtainControl, BubbleLayer.DESKTOP, BubbleKey.LAS_CURTAIN_CONTROL);
 
    init {
       runPhase = true;

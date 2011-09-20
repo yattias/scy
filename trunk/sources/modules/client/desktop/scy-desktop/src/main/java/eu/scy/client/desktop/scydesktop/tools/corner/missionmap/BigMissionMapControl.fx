@@ -126,6 +126,7 @@ public class BigMissionMapControl extends CustomNode {
 
       bigMissionMap.anchorClicked = hideBigMissionMap;
       bigMissionMap.lasInfoTooltipCreator.openElo = openElo;
+      bubbleManager.createBubble(missionMapButton, BubbleLayer.DESKTOP, BubbleKey.MISSION_MAP_CONTROL, missionMapWindow.eloIcon.windowColorScheme);
       Group {
          content: [
             missionMapButton

@@ -39,6 +39,7 @@ import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 import eu.scy.client.desktop.scydesktop.tools.DrawerUIIndicator;
 import eu.scy.client.desktop.scydesktop.tools.RuntimeSettingsRetriever;
 import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleKey;
 
 /**
  * @author sikken
@@ -246,6 +247,10 @@ public class ScyToolViewer extends CustomNode, Resizable, ScyToolFX {
    public override function getDrawerUIIndicator(): DrawerUIIndicator {
       addMessage("getDrawerUIIndicator");
       return DrawerUIIndicator.SCY_TOOL_VIEWER;
+   }
+
+   public override function getBubbleKey(): BubbleKey{
+      return BubbleKey.DRAWER_CONTROL;
    }
 
    public override function setReadOnly(readOnly: Boolean): Void {

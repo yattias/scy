@@ -24,7 +24,6 @@ import org.apache.log4j.Logger;
 /**
  * @author sikken
  */
-
 public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionLogger {
 
    def logger = Logger.getLogger(this.getClass());
@@ -39,6 +38,7 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
    def resourceBundleWrapper = new ResourceBundleWrapper(this);
 
    init {
+      showingLayer(BubbleLayer.DESKTOP);
    }
 
    public override function log(action: IAction): Void {
@@ -66,14 +66,14 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
 
    function bubbleStep(): Void {
       def topLayerId = layerManager.getTopLayer();
-      def bubbleToDisplay = if (topLayerId!=null) bubbleStore.getNextBubble(topLayerId) as AbstractBubble else null;
+      def bubbleToDisplay = if (topLayerId != null) bubbleStore.getNextBubble(topLayerId) as AbstractBubble else null;
       if (bubbleToDisplay != null) {
          showBubble(bubbleToDisplay);
-                  bubbleStore.removeBubbles(bubbleToDisplay.id);
+         bubbleStore.removeBubbles(bubbleToDisplay.id);
          noBubbleFoundCounter = 0;
       } else {
          ++noBubbleFoundCounter;
-         if (noBubbleFoundCounter < 5) {
+         if (noBubbleFoundCounter < 3) {
             println("no bubble found to display");
          }
       }
@@ -101,19 +101,53 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
    public override function showingLayer(bubbleLayer: BubbleLayer): Void {
       logger.info("showing BubbleLayer: {bubbleLayer}");
       layerManager.showLayer(bubbleLayer);
+      noBubbleFoundCounter = 0;
    }
 
    public override function hidingLayer(bubbleLayer: BubbleLayer): Void {
-      logger.info("hiding BubbleLayer: {bubbleLayer}");
       layerManager.hideLayer(bubbleLayer);
+      logger.info("hiding BubbleLayer: {bubbleLayer}, new top layer: {layerManager.getTopLayer()}");
+      noBubbleFoundCounter = 0;
    }
 
-   public override function createBubble(targetNode: Node, priority: Integer, id: String, bubbleLayer: BubbleLayer, displayKey: BubbleKey): Bubble {
-      createBubble(targetNode, priority, id, bubbleLayer, displayKey, WindowColorScheme.getWindowColorScheme(ScyColors.darkGray));
+   public override function createBubble(targetNode: Node, bubbleLayer: BubbleLayer, bubbleKey: BubbleKey): Bubble {
+      if (bubbleKey != null) {
+         createBubble(targetNode, bubbleKey.ordinal(), bubbleKey.toString(), bubbleLayer, bubbleKey, WindowColorScheme.getWindowColorScheme(ScyColors.darkGray));
+      } else {
+         null
+      }
    }
 
-   public override function createBubble(targetNode: Node, priority: Integer, id: String, bubbleLayer: BubbleLayer, displayKey: BubbleKey, windowColorScheme: WindowColorScheme): Bubble {
-      if (displayKey==null){
+   public override function createBubble(targetNode: Node, bubbleLayer: BubbleLayer, bubbleKey: BubbleKey, windowColorScheme: WindowColorScheme): Bubble {
+      if (bubbleKey != null) {
+         createBubble(targetNode, bubbleKey.ordinal(), bubbleKey.toString(), bubbleLayer, bubbleKey, windowColorScheme);
+      } else {
+         null
+      }
+   }
+
+   public override function createBubble(targetNode: Node, id: String, bubbleLayer: BubbleLayer, bubbleKey: BubbleKey): Bubble {
+      if (bubbleKey != null) {
+         createBubble(targetNode, bubbleKey.ordinal(), id, bubbleLayer, bubbleKey, WindowColorScheme.getWindowColorScheme(ScyColors.darkGray));
+      } else {
+         null
+      }
+   }
+
+   public override function createBubble(targetNode: Node, priority: Integer, id: String, bubbleLayer: BubbleLayer, bubbleKey: BubbleKey): Bubble {
+      createBubble(targetNode, priority, id, bubbleLayer, bubbleKey, WindowColorScheme.getWindowColorScheme(ScyColors.darkGray));
+   }
+
+   public override function createBubble(targetNode: Node, id: String, bubbleLayer: BubbleLayer, bubbleKey: BubbleKey, windowColorScheme: WindowColorScheme): Bubble {
+      if (bubbleKey != null) {
+         createBubble(targetNode, bubbleKey.ordinal(), id, bubbleLayer, bubbleKey, windowColorScheme);
+      } else {
+         null
+      }
+   }
+
+   public override function createBubble(targetNode: Node, priority: Integer, id: String, bubbleLayer: BubbleLayer, bubbleKey: BubbleKey, windowColorScheme: WindowColorScheme): Bubble {
+      if (bubbleKey == null) {
          logger.info("no BubbleKey defined, for {id} in layer {bubbleLayer}");
          return null;
       }
@@ -123,16 +157,15 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
                  id: id
                  layerId: bubbleLayer
                  targetNode: targetNode
-                 bubbleText: getBubbleText(displayKey)
+                 bubbleText: getBubbleText(bubbleKey)
                  windowColorScheme: windowColorScheme
               }
       bubbleStore.addBubble(bubble);
       return bubble;
    }
 
-   function getBubbleText(displayKey: BubbleKey):String{
-      resourceBundleWrapper.getString("bubbleHelp.{displayKey}")
+   function getBubbleText(bubbleKey: BubbleKey): String {
+      resourceBundleWrapper.getString("bubbleHelp.{bubbleKey}")
    }
-
 
 }

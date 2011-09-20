@@ -47,7 +47,8 @@ public class BigMissionMap extends MissionMap, Resizable {
 
    public override function create(): Node {
       missionMapNode = super.create();
-      bubbleManager.createBubble(anchorDisplays[0], 5, "anchorElo", BubbleLayer.MISSION_MAP, BubbleKey.MISSION_MAP_ANCHOR_ELO, anchorDisplays[0].las.mainAnchor.windowColorScheme);
+      bubbleManager.createBubble(anchorDisplays[0], BubbleLayer.MISSION_MAP, BubbleKey.MISSION_MAP_ANCHOR_ELO_CLICK, anchorDisplays[0].las.mainAnchor.windowColorScheme);
+      bubbleManager.createBubble(anchorDisplays[1], BubbleLayer.MISSION_MAP, BubbleKey.MISSION_MAP_ANCHOR_ELO_HOVER, anchorDisplays[1].las.mainAnchor.windowColorScheme);
       missionBackgroundImageNode = getBackgroundImageNode();
       placeNodeOn00(missionMapNode);
       if (missionBackgroundImageNode != null) {
