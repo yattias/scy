@@ -73,7 +73,7 @@
 				<ref bean="keywordsTfIdf" />
 				<ref bean="keywordsTopic" />
 				<ref bean="keywordsOntology" />
-                <ref bean="keyphrasesAgent" />
+		                <ref bean="keyphrasesAgent" />
 				<ref bean="keywords" />
 				<ref bean="keywordsDecisionMaker" />
 				<ref bean="addKeywordsToMetadataAgent" />
@@ -82,18 +82,19 @@
 				<ref bean="hypothesisEvalAgent" />
 				<!--<ref bean="userLocationAgent" /> -->
 				<ref bean="portfolioNotificator" />
-                <ref bean="feedbackNotificator" />
+		                <ref bean="feedbackNotificator" />
 				<!--<ref bean="groupFormation" />-->
-                <ref bean="groupFormation2" />
+		                <ref bean="groupFormation2" />
 				<ref bean="rooloAccessor" />
 				<ref bean="sessionAgent" />
 				<ref bean="cmEnricher" />
 				<ref bean="cmProposer" />
 				<ref bean="cmModeller" />
-                <!--<ref bean="workflowRecorder"/>-->
-                <ref bean="pga"/>
-                <ref bean="scaffoldNotificator"/>
-                <ref bean="conceptMapEvaluation" />
+                		<!--<ref bean="workflowRecorder"/>-->
+		                <ref bean="pga"/>
+		                <ref bean="scaffoldNotificator"/>
+		                <ref bean="conceptMapEvaluation" />
+                		<!--<ref bean="searchEnricher"/>-->
             </set>
         </property>
         <property name="repository">
