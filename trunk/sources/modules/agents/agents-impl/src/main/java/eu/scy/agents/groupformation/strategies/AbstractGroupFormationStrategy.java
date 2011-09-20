@@ -2,8 +2,8 @@ package eu.scy.agents.groupformation.strategies;
 
 import eu.scy.agents.groupformation.GroupFormationStrategy;
 import eu.scy.agents.groupformation.cache.GroupCache;
+import eu.scy.common.scyelo.RooloServices;
 import info.collide.sqlspaces.client.TupleSpace;
-import roolo.api.IRepository;
 
 import java.util.Set;
 
@@ -11,7 +11,7 @@ public abstract class AbstractGroupFormationStrategy implements GroupFormationSt
 
 	protected GroupCache cache;
 	protected TupleSpace commandSpace;
-    private IRepository repository;
+    private RooloServices rooloServices;
 	protected String mission;
 	protected String las;
 
@@ -98,13 +98,13 @@ public abstract class AbstractGroupFormationStrategy implements GroupFormationSt
 	}
 
     @Override
-    public void setRepository(IRepository repository) {
-        this.repository = repository;
+    public void setRooloServices(RooloServices repository) {
+        this.rooloServices = repository;
     }
 
     @Override
-    public IRepository getRepository() {
-        return repository;
+    public RooloServices getRooloServices() {
+        return rooloServices;
     }
 
 }

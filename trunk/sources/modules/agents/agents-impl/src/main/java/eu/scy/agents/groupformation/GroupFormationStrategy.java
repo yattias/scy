@@ -2,8 +2,8 @@ package eu.scy.agents.groupformation;
 
 import eu.scy.agents.groupformation.cache.Group;
 import eu.scy.agents.groupformation.cache.GroupCache;
+import eu.scy.common.scyelo.RooloServices;
 import info.collide.sqlspaces.client.TupleSpace;
-import roolo.api.IRepository;
 import roolo.elo.api.IELO;
 
 import java.util.Collection;
@@ -31,7 +31,7 @@ public interface GroupFormationStrategy {
 
     public GroupFormationStrategy makeNewEmptyInstance();
 
-    public  IRepository getRepository();
+    public RooloServices getRooloServices();
 
-    public  void setRepository(IRepository repository);
+    public  void setRooloServices(RooloServices repository);
 }
