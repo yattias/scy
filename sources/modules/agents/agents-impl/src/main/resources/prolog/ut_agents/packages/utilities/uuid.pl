@@ -24,8 +24,9 @@
 
 :- use_module(library(pce)).
 
-:- use_module(semweb(rdf_db)).
-:- use_module(utilities(list)).
+%:- use_module(semweb(rdf_db)).
+%:- use_module(utilities(list)).
+:- use_module(sqlspaces(tspl)).
 
 
 %%	uuid(-UUID:atom) is det.
@@ -33,6 +34,11 @@
 %	UUID is a unique atom.
 %
 %	Currently uses MD5 algorithm (see uuid_generate_random in the C library).
+
+uuid(Id) :-
+	tspl:uid(Id).		% Temporarily because rdf library not on SCY server
+
+end_of_file.
 
 uuid(Id) :-
 	get_time(S),
