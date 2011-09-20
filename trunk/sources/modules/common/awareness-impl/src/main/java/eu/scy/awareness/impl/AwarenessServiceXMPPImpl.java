@@ -92,10 +92,12 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
         return false;
     }
 
+    @Override
     public void setMUCConferenceExtension(String CONFERENCE_EXT) {
         this.CONFERENCE_EXT = "@" + CONFERENCE_EXT;
     }
 
+    @Override
     public String getMUCConferenceExtension() {
         return this.CONFERENCE_EXT;
     }
@@ -130,6 +132,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
                 // System.out.println("message sent for MUC: " + ELOUri);
             } catch (XMPPException e) {
                 logger.error("sendMessage: XMPPException MUC: " + e);
+                
                 e.printStackTrace();
             }
         }
@@ -227,6 +230,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
         presenceListeners.add(awarenessPresenceListener);
     }
 
+    @Override
     public void removeAwarenessPresenceListener(
             IAwarenessPresenceListener awarenessPresenceListener) {
         presenceListeners.remove(awarenessPresenceListener);
@@ -365,7 +369,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
                         IAwarenessUser aw = new AwarenessUser();
                         aw.setJid(presence.getFrom());
                         aw.setPresence(presence.getType().toString());
-
+                        aw.setStatus(presence.getStatus());
                         IAwarePresenceEvent presenceEvent = new AwarenessPresenceEvent(
                                 AwarenessServiceXMPPImpl.this, aw,
                                 "updated from awareness service", presence.getType().toString(), presence.getStatus());
@@ -420,6 +424,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
         }
     }
 
+    @Override
     public boolean hasJoinedRoom(String ELOUri, String user) throws AwarenessServiceException {
         Iterator<String> jrooms = MultiUserChat.getJoinedRooms(xmppConnection,
                 user);
@@ -434,6 +439,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
         return false;
     }
 
+    @Override
     public boolean doesRoomExist(String ELOUri) {
         RoomInfo info;
         try {
@@ -486,6 +492,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
         presenceToolListeners.add(listener);
     }
 
+    @Override
     public void updateChatTool(List<IAwarenessUser> users) {
         IChatPresenceToolEvent icpte = new ChatPresenceToolEvent(users);
         icpte.setMessage("presence tool calling with updates");
@@ -496,6 +503,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
         }
     }
 
+    @Override
     public void updatePresenceTool(List<IAwarenessUser> users) {
         logger.debug("Received something from Chattool");
         IChatPresenceToolEvent icpte = new ChatPresenceToolEvent(users);
@@ -507,6 +515,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
         }
     }
 
+    @Override
     public void destoryMUCRoom(String ELOUri) throws AwarenessServiceException {
         if (doesRoomExist(ELOUri)) {
             try {
