@@ -215,16 +215,18 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
 
     private void runGroupFormation(IAction action, GroupFormationActivation.GroupFormationInfo groupFormationInfo) throws
             TupleSpaceException {
-        Mission mission = getSession().getMission(action.getUser());
+        String user = action.getUser();
+        Mission mission = getSession().getMission(user);
         String las = action.getAttribute(LAS);
-        String language = getSession().getLanguage(action.getUser());
+        String language = getSession().getLanguage(user);
         IELO referenceElo = rooloServices.getRepository().retrieveELO(groupFormationInfo.getReferenceElo());
-        Set<String> availableUsers = getAvailableUsersInLas(mission, las, action.getUser());
+        Set<String> availableUsers = getAvailableUsersNotInGroups(mission, las, user);
         double numberOfUsersInMission = getSession().getUsersInMissionFromName(mission.getName()).size();
 
-        if ( missionGroupsCache.contains(mission, las, action.getUser()) ) {
+        if ( missionGroupsCache.contains(mission, las, user) ) {
             // user was already assigned to a group in this las
-            Group group = missionGroupsCache.getGroup(mission, las, action.getUser());
+            Group group = missionGroupsCache.getGroup(mission, las, user);
+            availableUsers = getAvailableUsersInLas(mission, las, user);
             if ( availableUsers.containsAll(group.asSet()) ) {
                 // all users present -> send form group notification
                 Set<Group> groups = new HashSet<Group>();
@@ -276,11 +278,11 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
                 groupFormationStrategy.setMaximumGroupSize(groupFormationInfo.getMaximumUsers());
                 groupFormationStrategy.setAvailableUsers(availableUsers);
                 groupFormationStrategy.setRepository(rooloServices.getRepository());
-                Collection<Group> newGroups = groupFormationStrategy.assignToExistingGroups(action.getUser(), referenceElo);
+                Collection<Group> newGroups = groupFormationStrategy.assignToExistingGroups(user, referenceElo);
                 missionGroupsCache.addGroups(mission, las, newGroups);
                 try {
                     synchronized ( lock ) {
-                        sendStudentAddedToGroupNotification(action, action.getUser(), newGroups, language);
+                        sendStudentAddedToGroupNotification(action, user, newGroups, language);
                     }
                 } catch ( TupleSpaceException e ) {
                     LOGGER.error("Could not write into Tuplespace", e);
@@ -348,12 +350,17 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
         }
     }
 
-    private Set<String> getAvailableUsersInLas(Mission mission, String las, String thisUser) throws TupleSpaceException {
+    private Set<String> getAvailableUsersNotInGroups(Mission mission, String las, String thisUser) throws TupleSpaceException {
         Set<String> availableUsers = getSession().getUsersInLas(mission.getName(), las);
         Collection<Group> groups = missionGroupsCache.getGroups(mission, las);
         for ( Group group : groups ) {
             availableUsers.removeAll(group.asSet());
         }
+        return availableUsers;
+    }
+
+    private Set<String> getAvailableUsersInLas(Mission mission, String las, String thisUser) throws TupleSpaceException {
+        Set<String> availableUsers = getSession().getUsersInLas(mission.getName(), las);
         return availableUsers;
     }
 
