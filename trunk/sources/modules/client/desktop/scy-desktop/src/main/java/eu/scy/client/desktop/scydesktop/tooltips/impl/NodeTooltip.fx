@@ -20,6 +20,7 @@ import javafx.scene.paint.Color;
 public class NodeTooltip extends CustomNode {
 
    public var content: Node;
+   public-init var arcSize = 0.0;
    public var windowColorScheme: WindowColorScheme;
    def contentBorder = 3;
    def borderWidth = 2;
@@ -30,19 +31,23 @@ public class NodeTooltip extends CustomNode {
                  blocksMouse: true;
                  content: [
                     Rectangle {
-                       x: bind content.boundsInLocal.minX - contentBorder - borderWidth
-                       y: bind content.boundsInLocal.minY - contentBorder - borderWidth
-                       width: bind content.boundsInLocal.width + 2 * contentBorder + 2 * borderWidth
-                       height: bind content.boundsInLocal.height + 2 * contentBorder + 2 * borderWidth
+                       x: bind content.boundsInLocal.minX - contentBorder - borderWidth - arcSize/2
+                       y: bind content.boundsInLocal.minY - contentBorder - borderWidth - arcSize/2
+                       width: bind content.boundsInLocal.width + 2 * contentBorder + 2 * borderWidth + arcSize
+                       height: bind content.boundsInLocal.height + 2 * contentBorder + 2 * borderWidth + arcSize
+                       arcHeight: arcSize
+                       arcWidth: arcSize
                        fill: windowColorScheme.backgroundColor;
                        stroke: windowColorScheme.mainColorLight;
                        strokeWidth: borderWidth;
                     }
                     Rectangle {
-                       x: bind content.boundsInLocal.minX - contentBorder
-                       y: bind content.boundsInLocal.minY - contentBorder
-                       width: bind content.boundsInLocal.width + 2 * contentBorder
-                       height: bind content.boundsInLocal.height + 2 * contentBorder
+                       x: bind content.boundsInLocal.minX - contentBorder - arcSize/2
+                       y: bind content.boundsInLocal.minY - contentBorder - arcSize/2
+                       width: bind content.boundsInLocal.width + 2 * contentBorder + arcSize
+                       height: bind content.boundsInLocal.height + 2 * contentBorder + arcSize
+                       arcHeight: arcSize
+                       arcWidth: arcSize
                        fill: windowColorScheme.backgroundColor;
                        stroke: windowColorScheme.mainColor;
                        strokeWidth: borderWidth;

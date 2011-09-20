@@ -16,6 +16,7 @@ public class TextBubble extends AbstractBubble {
    public override function getBubbleNode(): Node {
       TextTooltip {
          content: bubbleText
+         arcSize: 15.0
          windowColorScheme: windowColorScheme
       }
    }
