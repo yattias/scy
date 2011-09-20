@@ -199,9 +199,19 @@ public class RunUser extends AbstractRun {
         System.out.println("[" + time + "]: " + message);
         return notificationTuple;
     }
+    
 
-    public void sendNotification(String aMessage) {
-        System.out.println("Send a notification to the user: \"" + getUserName() + "\", " + aMessage);
+    public void sendMessage(String aMessage, long time) {
+        //System.out.println("Send a notification to the user: \"" + getUserName() + "\", " + aMessage);
+
+        try {
+            String messageNotificationId = createId();
+            Tuple messageNotificationTuple = createMessageNotification(messageNotificationId, this.getId(), aMessage, String.valueOf(time));
+            commandSpace.write(messageNotificationTuple);
+
+        } catch (TupleSpaceException e) {
+            ProcessGuidanceAgent.logger.info("Error in TupleSpace while load an object in roolo");
+        }
     }
 
     public boolean sendConfirmation(String aQuestion) {
@@ -223,6 +233,8 @@ public class RunUser extends AbstractRun {
         }
         return false;
     }
+    
+    
 
     public void provideGuidanceAfterComplete() {
 
@@ -237,7 +249,7 @@ public class RunUser extends AbstractRun {
             if (aTitle != null) {
                 messageNotificationTuple = createMessageNotification(messageNotificationId, this.getId(), "You have completed the activity: \"" + getFocusedELORun().getTitle() + "\". The recommanded next activity is \"" + aTitle + "\".", String.valueOf(getFocusedELORun().getFinishedTime()));
             } else {
-                messageNotificationTuple = createMessageNotification(messageNotificationId, this.getId(), "You have completed all activities.", String.valueOf(getFocusedELORun().getFinishedTime()));
+                messageNotificationTuple = createMessageNotification(messageNotificationId, this.getId(), "You have cofddfdddmpleted all activities.", String.valueOf(getFocusedELORun().getFinishedTime()));
             }
             commandSpace.write(messageNotificationTuple);
 
@@ -246,19 +258,19 @@ public class RunUser extends AbstractRun {
         }
     }
 
-    public void provideGuidance() {
-
-        if (getMissionRun().getGuidanceLevel().equalsIgnoreCase(MissionRun.HIGH)) {
-            provideGuidanceAfterComplete();
-        } else if (getMissionRun().getGuidanceLevel().equalsIgnoreCase(MissionRun.MEDIUM)) {
-
-        } else if (getMissionRun().getGuidanceLevel().equalsIgnoreCase(MissionRun.LOW)) {
-
-        } else {
-
-        }
-
-    }
+//    public void provideGuidance() {
+//
+//        if (getMissionRun().getGuidanceLevel().equalsIgnoreCase(MissionRun.HIGH)) {
+//            provideGuidanceAfterComplete();
+//        } else if (getMissionRun().getGuidanceLevel().equalsIgnoreCase(MissionRun.MEDIUM)) {
+//
+//        } else if (getMissionRun().getGuidanceLevel().equalsIgnoreCase(MissionRun.LOW)) {
+//
+//        } else {
+//
+//        }
+//
+//    }
 
     private String createId() {
         return new VMID().toString();

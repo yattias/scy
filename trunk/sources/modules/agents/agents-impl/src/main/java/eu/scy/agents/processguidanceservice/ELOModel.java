@@ -85,7 +85,11 @@ public class ELOModel extends AbstractGuidanceObject {
                 setThresholds(300, 100, 15, 9, 0.9, 0.9); // the values are set for test
             } else if (type.equalsIgnoreCase("scy/mapping")) {
                 setThresholds(5, 2, 15, 9, 0.9, 0.9); // the values are set for test
-            } // else if ()
+            } else if (type.equalsIgnoreCase("scy/pds")) {
+                setThresholds(10, 1, 15, 9, 0.9, 0.9); // the values are set for test
+            } else if (type.equalsIgnoreCase("scy/simconfig")) {
+        	setThresholds(10, 3, 15, 9, 0.9, 0.9); // the values are set for test
+            }
         } catch (XPathExpressionException e) {
             e.printStackTrace();
         } catch (DOMException e) {
@@ -372,10 +376,10 @@ public class ELOModel extends AbstractGuidanceObject {
         ELORun aELORun = aRunUser.getMissionRun().findELORunByELOModel(this);
         if (aELORun == null) {
             // the ELO has not started
-            return new String("you would better work on the ELO: \"" + this.getTitle() + "\" in the LAS: \"" + this.getLASModel().getId() + "\"");
+            return new String("\"" + this.getTitle() + "\" in the LAS: \"" + this.getLASModel().getId() + "\"");
         } else {
             if (aELORun.getActivityStatus() != ActivityStatus.COMPLETED) {
-                return new String("you would better work on the ELO: \"" + aELORun.getTitle() + "\" in the LAS: \"" + this.getLASModel().getId() + "\"");
+                return new String("\"" + aELORun.getTitle() + "\" in the LAS: \"" + this.getLASModel().getId() + "\"");
             } else {
                 return null;
             }
