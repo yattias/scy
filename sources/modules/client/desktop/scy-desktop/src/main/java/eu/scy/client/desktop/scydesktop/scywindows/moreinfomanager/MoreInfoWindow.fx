@@ -110,9 +110,9 @@ public class MoreInfoWindow extends CustomNode {
 
    public override function create(): Node {
       if (not hideCloseButton){
-         bubbleManager.createBubble(windowClose, 5, "moreInfoWindowClose", bubbleLayerId, closeBubbleKey,windowColorScheme)
+         bubbleManager.createBubble(windowClose, bubbleLayerId, closeBubbleKey,windowColorScheme)
       }
-      bubbleManager.createBubble(curtainControl, 5, "moreInfoWindowOpenClose", bubbleLayerId, openCloseBubbleKey,windowColorScheme);
+      bubbleManager.createBubble(curtainControl, bubbleLayerId, openCloseBubbleKey,windowColorScheme);
 
       Group {
          blocksMouse: true

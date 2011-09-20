@@ -20,9 +20,17 @@ public mixin class BubbleManager {
 
    public abstract function hidingLayer(bubbleLayer: BubbleLayer): Void;
 
-   public abstract function createBubble(targetNode: Node, priority: Integer, id: String, bubbleLayer: BubbleLayer, displayKey: BubbleKey): Bubble;
-   
-   public abstract function createBubble(targetNode: Node, priority: Integer, id: String, bubbleLayer: BubbleLayer, displayKey: BubbleKey, windowColorScheme: WindowColorScheme): Bubble;
+   public abstract function createBubble(targetNode: Node, bubbleLayer: BubbleLayer, bubbleKey: BubbleKey): Bubble;
+
+   public abstract function createBubble(targetNode: Node, bubbleLayer: BubbleLayer, bubbleKey: BubbleKey, windowColorScheme: WindowColorScheme): Bubble;
+
+   public abstract function createBubble(targetNode: Node, id: String, bubbleLayer: BubbleLayer, bubbleKey: BubbleKey): Bubble;
+
+   public abstract function createBubble(targetNode: Node, id: String, bubbleLayer: BubbleLayer, bubbleKey: BubbleKey, windowColorScheme: WindowColorScheme): Bubble;
+
+   public abstract function createBubble(targetNode: Node, priority: Integer, id: String, bubbleLayer: BubbleLayer, bubbleKey: BubbleKey): Bubble;
+
+   public abstract function createBubble(targetNode: Node, priority: Integer, id: String, bubbleLayer: BubbleLayer, bubbleKey: BubbleKey, windowColorScheme: WindowColorScheme): Bubble;
 
 //   public abstract function addBubble(bubble: AbstractBubble): Void;
 

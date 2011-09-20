@@ -17,6 +17,7 @@ import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
 import eu.scy.client.desktop.scydesktop.tools.RuntimeSettingsRetriever;
 import eu.scy.client.desktop.scydesktop.tools.ScyTool;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolGetter;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleKey;
 import java.awt.image.BufferedImage;
 import java.net.URI;
 import org.apache.log4j.Logger;
@@ -250,6 +251,12 @@ public class EloXmlViewer extends javax.swing.JPanel implements ScyTool, ScyTool
    @Override
    public void setReadOnly(boolean readOnly)
    {
+   }
+
+   @Override
+   public BubbleKey getBubbleKey()
+   {
+      return BubbleKey.DRAWER_CONTROL;
    }
 
 }

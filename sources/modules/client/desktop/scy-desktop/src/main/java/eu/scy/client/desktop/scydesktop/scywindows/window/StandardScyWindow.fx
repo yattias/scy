@@ -41,6 +41,7 @@ import org.apache.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleLayer;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleKey;
+
 /**
  * @author sikkenj
  */
@@ -51,41 +52,41 @@ public class StandardScyWindow extends ScyWindow {
    public override var title = "???";
    public override var eloType = "?123";
    public override var eloUri on replace oldEloUri {
-         missionModelFX.eloUriChanged(oldEloUri, eloUri);
-         titleBarBuddies.buddiesChanged();
-      };
+              missionModelFX.eloUriChanged(oldEloUri, eloUri);
+              titleBarBuddies.buddiesChanged();
+           };
    public override var width = 150 on replace oldWidth {
-         //      println("before width from {oldWidth} size: {width}*{height}, content: {contentWidth}*{contentHeight} of {eloUri}");
-         if (not isAnimating) {
-            width = limitSize(width, height).x;
-         }
-         realWidth = width;
-      //      println("after width from {oldWidth} size: {width}*{height}, content: {contentWidth}*{contentHeight} of {eloUri}");
-      };
+              //      println("before width from {oldWidth} size: {width}*{height}, content: {contentWidth}*{contentHeight} of {eloUri}");
+              if (not isAnimating) {
+                 width = limitSize(width, height).x;
+              }
+              realWidth = width;
+           //      println("after width from {oldWidth} size: {width}*{height}, content: {contentWidth}*{contentHeight} of {eloUri}");
+           };
    public override var height = 100 on replace oldHeight {
-         //      println("before height from {oldHeight} size: {width}*{height}, content: {contentWidth}*{contentHeight} of {eloUri}");
-         if (not isAnimating) {
-            if (isClosed or isMinimized) {
-               height = closedHeight;
-            } else {
-               height = limitSize(width, height).y;
-            }
-         }
-         realHeight = height;
-      //      println("after height from {oldHeight} size: {width}*{height}, content: {contentWidth}*{contentHeight} of {eloUri}");
-      };
+              //      println("before height from {oldHeight} size: {width}*{height}, content: {contentWidth}*{contentHeight} of {eloUri}");
+              if (not isAnimating) {
+                 if (isClosed or isMinimized) {
+                    height = closedHeight;
+                 } else {
+                    height = limitSize(width, height).y;
+                 }
+              }
+              realHeight = height;
+           //      println("after height from {oldHeight} size: {width}*{height}, content: {contentWidth}*{contentHeight} of {eloUri}");
+           };
    public override var widthHeightProportion = -1.0;
    public override var scyContent on replace {
-         scyContentChanged();
-      };
+              scyContentChanged();
+           };
    public override var eloIcon on replace {
-         eloIconChanged()
-      };
+              eloIconChanged()
+           };
    public override var scyToolsList = ScyToolsList {};
    public override var activated on replace { activeStateChanged() };
    public override var scyWindowAttributes on replace {
-         placeAttributes()
-      };
+              placeAttributes()
+           };
    public override var allowRotate = true;
    public override var allowResize = true;
    public override var allowDragging = true;
@@ -124,11 +125,11 @@ public class StandardScyWindow extends ScyWindow {
    var hasBeenDragged = false;
    def animationDuration = 300ms;
    public override var minimumHeight = 50 on replace {
-         minimumHeight = Math.max(minimumHeight, contentTopOffset + 2 * controlSize);
-      }
+              minimumHeight = Math.max(minimumHeight, contentTopOffset + 2 * controlSize);
+           }
    public override var minimumWidth = 120 on replace {
-         minimumWidth = Math.max(minimumWidth, 2 * borderWidth + 3 * controlSize);
-      }
+              minimumWidth = Math.max(minimumWidth, 2 * borderWidth + 3 * controlSize);
+           }
    var emptyWindow: EmptyWindow;
    var windowTitleBar: WindowTitleBarDouble;
    var resizeElement: WindowResize;
@@ -142,8 +143,8 @@ public class StandardScyWindow extends ScyWindow {
    var closedWindow: ClosedWindow;
    var hideDrawers: Boolean;
    def drawerGroup: Group = Group {
-         visible: bind not isClosed and not isMinimized and not hideDrawers;
-      };
+              visible: bind not isClosed and not isMinimized and not hideDrawers;
+           };
    var topDrawer: TopDrawer;
    var rightDrawer: RightDrawer;
    var bottomDrawer: BottomDrawer;
@@ -155,10 +156,8 @@ public class StandardScyWindow extends ScyWindow {
    public var missionModelFX: MissionModelFX;
    public var windowStyler: WindowStyler;
    var mainContentGroup: Group;
-
    var changesListeners: WindowChangesListener[]; //WindowChangesListener are stored here. youse them to gain more control over ScyWindow events.
-
-   var eloFinishedButton : TitleBarButton;
+   var eloFinishedButton: TitleBarButton;
 
    postinit {
       if (isClosed) {
@@ -199,7 +198,7 @@ public class StandardScyWindow extends ScyWindow {
    }
 
    function limitSize(w: Number, h: Number): Point2D {
-      var limittedWidth = Math.max(w,Math.max(minimumWidth,windowTitleBar.minimumWidth));
+      var limittedWidth = Math.max(w, Math.max(minimumWidth, windowTitleBar.minimumWidth));
       var limittedHeight = Math.max(h, minimumHeight);
       if (scyContent != null) {
          //         println("limitSize(): Width:  {Container.getNodeMinWidth(scyContent)} - {Container.getNodePrefWidth(scyContent)} - {Container.getNodeMaxWidth(scyContent)}");
@@ -223,14 +222,14 @@ public class StandardScyWindow extends ScyWindow {
       // now limit it to the scy desktop window size
       if (scene.width > 0) {
          limittedWidth = Math.min(limittedWidth, scene.width - deltaContentWidth);
-         limittedHeight = Math.min(limittedHeight, scene.height - deltaContentHeight+iconSize+controlSize);
+         limittedHeight = Math.min(limittedHeight, scene.height - deltaContentHeight + iconSize + controlSize);
       }
 
 //      println("limitSize({w},{h}):{limittedWidth},{limittedHeight} of {eloUri}, with: {scyContent}");
       return Point2D {
-            x: limittedWidth;
-            y: limittedHeight
-         }
+                 x: limittedWidth;
+                 y: limittedHeight
+              }
    }
 
    function activeStateChanged() {
@@ -291,7 +290,7 @@ public class StandardScyWindow extends ScyWindow {
 
    function placeAttributes() {
       var sortedScyWindowAttributes =
-         Sequences.sort(scyWindowAttributes, null) as ScyWindowAttribute[];
+              Sequences.sort(scyWindowAttributes, null) as ScyWindowAttribute[];
       var x = 0.0;
       for (scyWindowAttribute in reverse sortedScyWindowAttributes) {
          scyWindowAttribute.translateX = x;
@@ -316,9 +315,9 @@ public class StandardScyWindow extends ScyWindow {
    public override function openBoundWindow(openWidth: Number, openHeight: Number): Void {
       if (isClosed) {
          closedPosition = Point2D {
-               x: layoutX;
-               y: layoutY;
-            }
+                    x: layoutX;
+                    y: layoutY;
+                 }
       }
       checkScyContent();
       var useSize = limitSize(openWidth, openHeight);
@@ -326,27 +325,27 @@ public class StandardScyWindow extends ScyWindow {
       cacheHint = CacheHint.SCALE_AND_ROTATE;
       isAnimating = true;
       var openTimeline = Timeline {
-            keyFrames: [
-               KeyFrame {
-                  canSkip: false;
-                  time: animationDuration;
-                  values: [
-                     width => useSize.x tween Interpolator.EASEOUT,
-                     height => useSize.y tween Interpolator.EASEOUT,
-                  ]
-                  action: function() {
-                     isClosed = false;
-					 //scyToolsList.onOpened();
-                     updateRelativeBounds();
-                     cache = false;
-                     cacheHint = CacheHint.DEFAULT;
-                     isAnimating = false;
-                     eloFinishedButton.enabled = true;
-                     finishedOpeningWindow();
-                  }
-               }
-            ]
-         };
+                 keyFrames: [
+                    KeyFrame {
+                       canSkip: false;
+                       time: animationDuration;
+                       values: [
+                          width => useSize.x tween Interpolator.EASEOUT,
+                          height => useSize.y tween Interpolator.EASEOUT,
+                       ]
+                       action: function() {
+                          isClosed = false;
+                          //scyToolsList.onOpened();
+                          updateRelativeBounds();
+                          cache = false;
+                          cacheHint = CacheHint.DEFAULT;
+                          isAnimating = false;
+                          eloFinishedButton.enabled = true;
+                          finishedOpeningWindow();
+                       }
+                    }
+                 ]
+              };
       openTimeline.play();
    }
 
@@ -367,9 +366,9 @@ public class StandardScyWindow extends ScyWindow {
    public override function openWindow(posX: Number, posY: Number, openWidth: Number, openHeight: Number, rotation: Number, hideDrawersAfterOpenning: Boolean): Void {
       if (isClosed) {
          closedPosition = Point2D {
-               x: layoutX;
-               y: layoutY;
-            }
+                    x: layoutX;
+                    y: layoutY;
+                 }
          logger.info("Stored closed position of window {title} to {closedPosition.x} x {closedPosition.y}");
       }
       ProgressOverlay.startShowWorking();
@@ -386,30 +385,30 @@ public class StandardScyWindow extends ScyWindow {
          hideDrawers = isClosed;
          isClosed = false;
          var openTimeline = Timeline {
-               keyFrames: [
-                  KeyFrame {
-                     canSkip: false;
-                     time: animationDuration;
-                     values: [
-                        layoutX => useLocation.x tween Interpolator.EASEOUT,
-                        layoutY => useLocation.y tween Interpolator.EASEOUT,
-                        width => useSize.x tween Interpolator.EASEOUT,
-                        height => useSize.y tween Interpolator.EASEOUT,
-                        rotate => rotation tween Interpolator.EASEOUT
-                     ]
-                     action: function() {
-                        hideDrawers = hideDrawersAfterOpenning;
-                        //scyToolsList.onOpened();
-                        updateRelativeBounds();
-                        cache = false;
-                        cacheHint = CacheHint.DEFAULT;
-                        isAnimating = false;
-                        eloFinishedButton.enabled = true;
-                        finishedOpeningWindow();
-                     }
-                  }
-               ]
-            };
+                    keyFrames: [
+                       KeyFrame {
+                          canSkip: false;
+                          time: animationDuration;
+                          values: [
+                             layoutX => useLocation.x tween Interpolator.EASEOUT,
+                             layoutY => useLocation.y tween Interpolator.EASEOUT,
+                             width => useSize.x tween Interpolator.EASEOUT,
+                             height => useSize.y tween Interpolator.EASEOUT,
+                             rotate => rotation tween Interpolator.EASEOUT
+                          ]
+                          action: function() {
+                             hideDrawers = hideDrawersAfterOpenning;
+                             //scyToolsList.onOpened();
+                             updateRelativeBounds();
+                             cache = false;
+                             cacheHint = CacheHint.DEFAULT;
+                             isAnimating = false;
+                             eloFinishedButton.enabled = true;
+                             finishedOpeningWindow();
+                          }
+                       }
+                    ]
+                 };
          openTimeline.play();
       });
    }
@@ -426,9 +425,9 @@ public class StandardScyWindow extends ScyWindow {
       newY = Math.min(newY, scene.height - 10);
 
       return Point2D {
-            x: newX
-            y: newY
-         }
+                 x: newX
+                 y: newY
+              }
    }
 
    function checkScyContent() {
@@ -440,31 +439,31 @@ public class StandardScyWindow extends ScyWindow {
 
    function getCloseTimeline(): Timeline {
       return Timeline {
-            keyFrames: [
-               KeyFrame {
-                  time: animationDuration;
-                  values: [
-                     width => minimumWidth tween Interpolator.EASEBOTH,
-                     height => closedHeight tween Interpolator.EASEBOTH,
-                     layoutX => closedPosition.x tween Interpolator.EASEOUT,
-                     layoutY => closedPosition.y tween Interpolator.EASEOUT,
-                     rotate => 0
-                  ]
-                  action: function() {
-                     isClosed = true;
-                     hideDrawers = false;
-                     isCentered = false;
-                     if (closedAction != null) {
-                        closedAction(this);
-                     }
-                     isAnimating = false;
-                     scyToolsList.onClosed();
-                     updateRelativeBounds();
-                     reorganizeOtherMainWindows();
-                  }
-               }
-            ]
-         }
+                 keyFrames: [
+                    KeyFrame {
+                       time: animationDuration;
+                       values: [
+                          width => minimumWidth tween Interpolator.EASEBOTH,
+                          height => closedHeight tween Interpolator.EASEBOTH,
+                          layoutX => closedPosition.x tween Interpolator.EASEOUT,
+                          layoutY => closedPosition.y tween Interpolator.EASEOUT,
+                          rotate => 0
+                       ]
+                       action: function() {
+                          isClosed = true;
+                          hideDrawers = false;
+                          isCentered = false;
+                          if (closedAction != null) {
+                             closedAction(this);
+                          }
+                          isAnimating = false;
+                          scyToolsList.onClosed();
+                          updateRelativeBounds();
+                          reorganizeOtherMainWindows();
+                       }
+                    }
+                 ]
+              }
    }
 
    public override function close() {
@@ -604,15 +603,14 @@ public class StandardScyWindow extends ScyWindow {
       allowResize = false;
       allowRotate = false;
       isCentered = false;
-      if (reorganizeOtherMainWindows!=null){
+      if (reorganizeOtherMainWindows != null) {
          FX.deferAction(reorganizeOtherMainWindows);
-      }
-      else{
+      } else {
          logger.info("could not call reorganizeOtherMainWindows, because it is null");
       }
    }
 
-   public override function openFixedFullScreen(): Void{
+   public override function openFixedFullScreen(): Void {
       windowStateControls.visible = false;
       doMaximize();
    }
@@ -665,12 +663,12 @@ public class StandardScyWindow extends ScyWindow {
       if (scyCont != null)
          return scyCont;
       return Rectangle {
-            x: 0,
-            y: 0
-            width: 10,
-            height: 10
-            fill: Color.TRANSPARENT
-         };
+                 x: 0,
+                 y: 0
+                 width: 10,
+                 height: 10
+                 fill: Color.TRANSPARENT
+              };
    }
 
    function activate() {
@@ -679,7 +677,7 @@ public class StandardScyWindow extends ScyWindow {
       }
    }
 
-   public override function copyWindowColorSchemeColors(newColors: WindowColorScheme):Void {
+   public override function copyWindowColorSchemeColors(newColors: WindowColorScheme): Void {
       topDrawer.windowColorScheme.assign(windowColorScheme);
       for (drawer in leftDrawers) {
          drawer.windowColorScheme.assign(windowColorScheme);
@@ -697,14 +695,14 @@ public class StandardScyWindow extends ScyWindow {
       closedWindow.windowColorScheme.assign(windowColorScheme);
    }
 
-   function updateWindowColorScheme(node: Node): Void{
-      if (node instanceof ScyToolFX){
+   function updateWindowColorScheme(node: Node): Void {
+      if (node instanceof ScyToolFX) {
          def scyToolFX = node as ScyToolFX;
          scyToolFX.setWindowColorScheme(windowColorScheme);
       }
    }
 
-   public override function buddiesChanged(): Void{
+   public override function buddiesChanged(): Void {
       titleBarBuddies.buddiesChanged();
       closedWindowBuddies.buddiesChanged();
       closedWindow.buddiesDisplayChanged();
@@ -721,15 +719,15 @@ public class StandardScyWindow extends ScyWindow {
       }
       if (topDrawerTool != null) {
          topDrawer = TopDrawer {
-               windowColorScheme: windowColorScheme
-               tooltipManager: tooltipManager
-               content: topDrawerTool;
-               activated: bind activated;
-               activate: activate;
-               layoutX: drawerCornerOffset;
-               layoutY: 0;
-               width: bind realWidth - 2 * drawerCornerOffset - 4
-            }
+                    windowColorScheme: windowColorScheme
+                    tooltipManager: tooltipManager
+                    content: topDrawerTool;
+                    activated: bind activated;
+                    activate: activate;
+                    layoutX: drawerCornerOffset;
+                    layoutY: 0;
+                    width: bind realWidth - 2 * drawerCornerOffset - 4
+                 }
          insert topDrawer into drawerGroup.content;
       }
       scyToolsList.topDrawerTool = topDrawerTool;
@@ -746,15 +744,15 @@ public class StandardScyWindow extends ScyWindow {
       }
       if (rightDrawerTool != null) {
          rightDrawer = RightDrawer {
-               windowColorScheme: windowColorScheme
-               tooltipManager: tooltipManager
-               content: rightDrawerTool;
-               activated: bind activated;
-               activate: activate;
-               layoutX: bind realWidth;
-               layoutY: drawerCornerOffset + leftRightDrawerOffset
-               height: bind realHeight - 3 * drawerCornerOffset
-            }
+                    windowColorScheme: windowColorScheme
+                    tooltipManager: tooltipManager
+                    content: rightDrawerTool;
+                    activated: bind activated;
+                    activate: activate;
+                    layoutX: bind realWidth;
+                    layoutY: drawerCornerOffset + leftRightDrawerOffset
+                    height: bind realHeight - 3 * drawerCornerOffset
+                 }
          insert rightDrawer into drawerGroup.content;
       }
       scyToolsList.rightDrawerTool = rightDrawerTool;
@@ -772,15 +770,15 @@ public class StandardScyWindow extends ScyWindow {
       if (bottomDrawerTool != null) {
          //println("new BottomDrawer with color {drawerColor}");
          bottomDrawer = BottomDrawer {
-               windowColorScheme: windowColorScheme
-               tooltipManager: tooltipManager
-               content: bottomDrawerTool;
-               activated: bind activated;
-               activate: activate;
-               layoutX: drawerCornerOffset;
-               layoutY: bind realHeight;
-               width: bind realWidth - 2 * drawerCornerOffset
-            }
+                    windowColorScheme: windowColorScheme
+                    tooltipManager: tooltipManager
+                    content: bottomDrawerTool;
+                    activated: bind activated;
+                    activate: activate;
+                    layoutX: drawerCornerOffset;
+                    layoutY: bind realHeight;
+                    width: bind realWidth - 2 * drawerCornerOffset
+                 }
          insert bottomDrawer into drawerGroup.content;
       }
       scyToolsList.bottomDrawerTool = bottomDrawerTool;
@@ -798,21 +796,20 @@ public class StandardScyWindow extends ScyWindow {
          if (previousIndex >= 0) {
             // tool was already there
             drawer = leftDrawers[previousIndex];
-         }
-         else {
+         } else {
             // new drawer tool
             drawer = LeftDrawer {
-                  //                  visible: bind scyElo.getAssignmentUri() != null
-                  windowColorScheme: windowColorScheme
-                  tooltipManager: tooltipManager
-                  content: drawerTool;
-                  handleNumber: indexof drawerTool
-                  activated: bind activated;
-                  activate: activate;
-                  layoutX: 0;
-                  layoutY: drawerCornerOffset + leftRightDrawerOffset
-                  height: bind realHeight - 3 * drawerCornerOffset - 4
-               }
+                       //                  visible: bind scyElo.getAssignmentUri() != null
+                       windowColorScheme: windowColorScheme
+                       tooltipManager: tooltipManager
+                       content: drawerTool;
+                       handleNumber: indexof drawerTool
+                       activated: bind activated;
+                       activate: activate;
+                       layoutX: 0;
+                       layoutY: drawerCornerOffset + leftRightDrawerOffset
+                       height: bind realHeight - 3 * drawerCornerOffset - 4
+                    }
             insert drawer into drawerGroup.content;
          }
          insert drawer into newLeftDrawers;
@@ -850,8 +847,7 @@ public class StandardScyWindow extends ScyWindow {
       if (scyElo != null) {
          dragNode = windowControl.windowStyler.getScyEloIcon(scyElo);
          dragObject = scyElo.getMetadata();
-      }
-      else {
+      } else {
          dragNode = windowControl.windowStyler.getScyEloIcon(eloType);
          dragObject = this;
       }
@@ -867,147 +863,147 @@ public class StandardScyWindow extends ScyWindow {
       blocksMouse = true;
 
       emptyWindow = EmptyWindow {
-            width: bind realWidth;
-            height: bind realHeight;
-            controlSize: cornerRadius;
-            borderWidth: borderWidth;
-            windowColorScheme: windowColorScheme
-         }
+                 width: bind realWidth;
+                 height: bind realHeight;
+                 controlSize: cornerRadius;
+                 borderWidth: borderWidth;
+                 windowColorScheme: windowColorScheme
+              }
 
       contentElement = WindowContent {
-            width: bind contentWidth;
-            height: bind contentHeight;
-            windowColorScheme: windowColorScheme
-            content: bind scyContent;
-            activated: bind activated;
-            activate: activate;
-            layoutX: borderWidth / 2 + 1 + contentSideBorder;
-            layoutY: contentTopOffset;
-         }
+                 width: bind contentWidth;
+                 height: bind contentHeight;
+                 windowColorScheme: windowColorScheme
+                 content: bind scyContent;
+                 activated: bind activated;
+                 activate: activate;
+                 layoutX: borderWidth / 2 + 1 + contentSideBorder;
+                 layoutY: contentTopOffset;
+              }
 
       windowStateControls = WindowStateControls {
-            tooltipManager: tooltipManager
-            windowStyler: windowStyler
-            windowColorScheme: windowColorScheme
-            enableRotateNormal: bind rotate != 0.0
-            enableMinimize: bind allowClose and not isClosed
-            enableCenter: bind allowCenter and not isCentered
-            enableMaximize: bind allowMaximize and not isMaximized
-            rotateNormalAction: doRotateNormal
-            minimizeAction: doClose
-            centerAction: centerAction
-            maximizeAction: doMaximize
-         }
+                 tooltipManager: tooltipManager
+                 windowStyler: windowStyler
+                 windowColorScheme: windowColorScheme
+                 enableRotateNormal: bind rotate != 0.0
+                 enableMinimize: bind allowClose and not isClosed
+                 enableCenter: bind allowCenter and not isCentered
+                 enableMaximize: bind allowMaximize and not isMaximized
+                 rotateNormalAction: doRotateNormal
+                 minimizeAction: doClose
+                 centerAction: centerAction
+                 maximizeAction: doMaximize
+              }
 
-      titleBarWindowAttributes = TitleBarWindowAttributes{
-            windowColorScheme: windowColorScheme
-            scyWindowAttributes: bind scyWindowAttributes
-      }
+      titleBarWindowAttributes = TitleBarWindowAttributes {
+                 windowColorScheme: windowColorScheme
+                 scyWindowAttributes: bind scyWindowAttributes
+              }
 
       ownershipManager = OwnershipManager {
-                elo: bind scyElo
-                tbi: tbi
-                scyWindow: this
-         }
+                 elo: bind scyElo
+                 tbi: tbi
+                 scyWindow: this
+              }
 
       titleBarBuddies = TitleBarBuddies {
-            tooltipManager: tooltipManager
-            windowColorScheme: windowColorScheme
-            window: this
-            ownershipManager: ownershipManager
-            showOneIcon: false
-         }
+                 tooltipManager: tooltipManager
+                 windowColorScheme: windowColorScheme
+                 window: this
+                 ownershipManager: ownershipManager
+                 showOneIcon: false
+              }
 
       closedWindowBuddies = TitleBarBuddies {
-            tooltipManager: tooltipManager
-            windowColorScheme: windowColorScheme
-            window: this
-            ownershipManager: ownershipManager
-            showOneIcon: true
-            myName: tbi.getLoginUserName()
-         }
+                 tooltipManager: tooltipManager
+                 windowColorScheme: windowColorScheme
+                 window: this
+                 ownershipManager: ownershipManager
+                 showOneIcon: true
+                 myName: tbi.getLoginUserName()
+              }
 
       ownershipManager.update();
 
       eloFinishedButton = TitleBarButton {
-                    actionId: "elo_finished"
-                    enabled: true
-                    iconType: "Elo_finished"
-                    tooltip: ##"I am finished"
-                    action: function() {
-                        //add finished metadata to the elo
-                        scyElo.setFinished(true);
-                        tbi.getRepository().addMetadata(eloUri, scyElo.getMetadata());
-                        var action = new Action();
-                        var context = new Context();
-                        context.setEloURI(eloUri.toString());
-                        context.setTool(eloToolConfig.getContentCreatorId());
-                        context.setMission(tbi.getMissionRuntimeURI().toString());
-                        context.setSession("n/a");
-                        action.setType("elo_finished");
-                        action.setContext(context);
-                        tbi.getActionLogger().log(action);
-                        eloFinishedButton.enabled = false;
-                    }
-                };
+                 actionId: "elo_finished"
+                 enabled: true
+                 iconType: "Elo_finished"
+                 tooltip: ##"I am finished"
+                 action: function() {
+                    //add finished metadata to the elo
+                    scyElo.setFinished(true);
+                    tbi.getRepository().addMetadata(eloUri, scyElo.getMetadata());
+                    var action = new Action();
+                    var context = new Context();
+                    context.setEloURI(eloUri.toString());
+                    context.setTool(eloToolConfig.getContentCreatorId());
+                    context.setMission(tbi.getMissionRuntimeURI().toString());
+                    context.setSession("n/a");
+                    action.setType("elo_finished");
+                    action.setContext(context);
+                    tbi.getActionLogger().log(action);
+                    eloFinishedButton.enabled = false;
+                 }
+              };
 
       var globalTitleBarButtons: TitleBarButton[];
       if (Boolean.getBoolean("agenda")) {
-           insert eloFinishedButton into globalTitleBarButtons;
+         insert eloFinishedButton into globalTitleBarButtons;
       }
 
-      titleBarButtons = TitleBarButtons{
-            tooltipManager: tooltipManager
-            windowColorScheme: windowColorScheme
-            windowStyler: windowStyler
-            globalTitleBarButtons: globalTitleBarButtons
-      }
+      titleBarButtons = TitleBarButtons {
+                 tooltipManager: tooltipManager
+                 windowColorScheme: windowColorScheme
+                 windowStyler: windowStyler
+                 globalTitleBarButtons: globalTitleBarButtons
+              }
       titleBarButtonManager = titleBarButtons;
-//      scyToolsList.setTitleBarButtonManager(titleBarButtons);
+      //      scyToolsList.setTitleBarButtonManager(titleBarButtons);
 
       windowTitleBar = WindowTitleBarDouble {
-            width: bind realWidth + borderWidth
-            windowStateControls: windowStateControls
-            titleBarWindowAttributes: titleBarWindowAttributes
-            titleBarBuddies: titleBarBuddies
-            titleBarButtons: titleBarButtons
-            iconSize: iconSize
-            title: bind title;
-            activated: bind activated
-            beingDragged: bind beingDragged
-            startDragIcon: startDragIcon
-            allowDragIcon: bind allowDragging and not isMaximized
-            allowMouseOverDisplay: bind not isMaximized
-            windowColorScheme: windowColorScheme
-            layoutX: -borderWidth / 2;
-            layoutY: 0;
-         }
+                 width: bind realWidth + borderWidth
+                 windowStateControls: windowStateControls
+                 titleBarWindowAttributes: titleBarWindowAttributes
+                 titleBarBuddies: titleBarBuddies
+                 titleBarButtons: titleBarButtons
+                 iconSize: iconSize
+                 title: bind title;
+                 activated: bind activated
+                 beingDragged: bind beingDragged
+                 startDragIcon: startDragIcon
+                 allowDragIcon: bind allowDragging and not isMaximized
+                 allowMouseOverDisplay: bind not isMaximized
+                 windowColorScheme: windowColorScheme
+                 layoutX: -borderWidth / 2;
+                 layoutY: 0;
+              }
 
       resizeElement = WindowResize {
-            visible: bind (allowResize or isClosed) and not isMaximized
-            size: controlSize;
-            borderWidth: borderWidth;
-            separatorLength: separatorLength
-            windowColorScheme: windowColorScheme
-            activate: activate;
-            startResize: startResize;
-            doResize: doResize;
-            stopResize: stopResize;
-            layoutX: bind realWidth
-            layoutY: bind realHeight
-         }
+                 visible: bind (allowResize or isClosed) and not isMaximized
+                 size: controlSize;
+                 borderWidth: borderWidth;
+                 separatorLength: separatorLength
+                 windowColorScheme: windowColorScheme
+                 activate: activate;
+                 startResize: startResize;
+                 doResize: doResize;
+                 stopResize: stopResize;
+                 layoutX: bind realWidth
+                 layoutY: bind realHeight
+              }
 
       rotateElement = WindowRotate {
-            visible: bind allowRotate and not isMaximized
-            size: controlSize;
-            borderWidth: borderWidth;
-            separatorLength: separatorLength
-            windowColorScheme: windowColorScheme
-            activate: activate;
-            rotateWindow: this;
-            layoutX: 0;
-            layoutY: bind realHeight;
-         }
+                 visible: bind allowRotate and not isMaximized
+                 size: controlSize;
+                 borderWidth: borderWidth;
+                 separatorLength: separatorLength
+                 windowColorScheme: windowColorScheme
+                 activate: activate;
+                 rotateWindow: this;
+                 layoutX: 0;
+                 layoutY: bind realHeight;
+              }
 
       // show a filled rect as content for test purposes
 //      scyContent = Rectangle {
@@ -1016,79 +1012,81 @@ public class StandardScyWindow extends ScyWindow {
 //         fill: Color.color(1,.25,.25,.75)
 //      }
       def closedGroup = Group {
-            visible: bind isClosed
-            content: [
-               closedWindow = ClosedWindow {
-                     window: this
-                     windowColorScheme: windowColorScheme
-                     scyElo: bind scyElo
-                     buddiesDisplay: closedWindowBuddies
-                     startDragIcon: startDragIcon
-                     doubleClickAction: handleDoubleClick
-                     activated: bind activated
-                     activate: activate;
-                     title: bind title
-                  }
-            ]
-         }
+                 visible: bind isClosed
+                 content: [
+                    closedWindow = ClosedWindow {
+                               window: this
+                               windowColorScheme: windowColorScheme
+                               scyElo: bind scyElo
+                               buddiesDisplay: closedWindowBuddies
+                               startDragIcon: startDragIcon
+                               doubleClickAction: handleDoubleClick
+                               activated: bind activated
+                               activate: activate;
+                               title: bind title
+                            }
+                 ]
+              }
 
       def openGroup = Group {
-            visible: bind not isClosed
-            content: [
-               emptyWindow,
-               contentElement,
-               drawerGroup,
-               windowTitleBar,
-               resizeElement,
-               rotateElement,
-
-//               Group { // the scy window attributes
-//                  layoutX: iconSize + 5
-//                  layoutY: 19
-//                  content: bind scyWindowAttributes,
-//               },
-            ]
-         }
+                 visible: bind not isClosed
+                 content: [
+                    emptyWindow,
+                    contentElement,
+                    drawerGroup,
+                    windowTitleBar,
+                    resizeElement,
+                    rotateElement,
+                 //               Group { // the scy window attributes
+                 //                  layoutX: iconSize + 5
+                 //                  layoutY: 19
+                 //                  content: bind scyWindowAttributes,
+                 //               },
+                 ]
+              }
 
       eloIconChanged();
 
-      def ownersDefined = function():Boolean{
-         sizeof ownershipManager.getOwners()>0
-      }
+      def ownersDefined = function(): Boolean {
+                 sizeof ownershipManager.getOwners() > 0
+              }
 
-      var bubble = bubbleManager.createBubble(titleBarBuddies,9,"elo-buddies",BubbleLayer.DESKTOP,BubbleKey.CLOSED_ELO_BUDDIES, windowColorScheme);
+      var bubble = bubbleManager.createBubble(titleBarBuddies, "elo-buddies", BubbleLayer.DESKTOP, BubbleKey.CLOSED_ELO_BUDDIES, windowColorScheme);
       bubble.canBeUsed = ownersDefined;
-      bubble = bubbleManager.createBubble(closedWindowBuddies,8,"elo-buddies",BubbleLayer.DESKTOP,BubbleKey.OPEN_ELO_BUDDIES, windowColorScheme);
+      bubble = bubbleManager.createBubble(closedWindowBuddies, "elo-buddies", BubbleLayer.DESKTOP, BubbleKey.OPEN_ELO_BUDDIES, windowColorScheme);
       bubble.canBeUsed = ownersDefined;
+
+      bubbleManager.createBubble(closedWindow.eloIcon, BubbleLayer.DESKTOP, BubbleKey.ELO_ICON_CLOSED, windowColorScheme);
+      bubbleManager.createBubble(windowTitleBar.eloIcon, BubbleLayer.DESKTOP, BubbleKey.ELO_ICON_OPEN, windowColorScheme);
 
       return mainContentGroup = Group {
-               cursor: bind if (allowDragging and not isMaximized) Cursor.MOVE else null
-               cache: true;
-               content: [
-                  closedGroup,
-                  openGroup
-               ]
-               onMouseClicked: function(e: MouseEvent): Void {
-                  if (e.clickCount == 2) {
-                     handleDoubleClick(e);
-                  }
-               }
-               onMousePressed: function(e: MouseEvent): Void {
-                  if (allowDragging) {
-                     startDragging(e);
-                  }
-               }
-               onMouseDragged: function(e: MouseEvent): Void {
-                  if (allowDragging) {
-                     doDrag(e);
-                  }
-               }
-               onMouseReleased: function(e: MouseEvent): Void {
-                  if (allowDragging) {
-                     stopDragging(e);
-                  }
-               }
-            };
+                         cursor: bind if (allowDragging and not isMaximized) Cursor.MOVE else null
+                         cache: true;
+                         content: [
+                            closedGroup,
+                            openGroup
+                         ]
+                         onMouseClicked: function(e: MouseEvent): Void {
+                            if (e.clickCount == 2) {
+                               handleDoubleClick(e);
+                            }
+                         }
+                         onMousePressed: function(e: MouseEvent): Void {
+                            if (allowDragging) {
+                               startDragging(e);
+                            }
+                         }
+                         onMouseDragged: function(e: MouseEvent): Void {
+                            if (allowDragging) {
+                               doDrag(e);
+                            }
+                         }
+                         onMouseReleased: function(e: MouseEvent): Void {
+                            if (allowDragging) {
+                               stopDragging(e);
+                            }
+                         }
+                      };
    }
 
 }
@@ -1253,111 +1251,111 @@ function run() {
 //   //newScyWindow.openWindow(0, 150);
 //   scyDesktop.addScyWindow(newScyWindow);
    var fixedScyWindow = StandardScyWindow {
-         title: "Fixed"
-         windowColorScheme: WindowColorScheme.getWindowColorScheme(ScyColors.green)
-         height: 150;
-         //      scyContent:newGroup
-         allowClose: false;
-         allowResize: false;
-         allowRotate: false;
-         allowMinimize: false;
-         translateX: 200;
-         translateY: 40;
-         topDrawerTool: Button {
-            text: "Top"
-            action: function() {
-            }
-         }
-         rightDrawerTool: Button {
-            text: "Right"
-            action: function() {
-            }
-         }
-         bottomDrawerTool: Button {
-            text: "Bottom"
-            action: function() {
-            }
-         }
-         leftDrawerTools: Button {
-            text: "Left"
-            action: function() {
-            }
-         }
-      };
+              title: "Fixed"
+              windowColorScheme: WindowColorScheme.getWindowColorScheme(ScyColors.green)
+              height: 150;
+              //      scyContent:newGroup
+              allowClose: false;
+              allowResize: false;
+              allowRotate: false;
+              allowMinimize: false;
+              translateX: 200;
+              translateY: 40;
+              topDrawerTool: Button {
+                 text: "Top"
+                 action: function() {
+                 }
+              }
+              rightDrawerTool: Button {
+                 text: "Right"
+                 action: function() {
+                 }
+              }
+              bottomDrawerTool: Button {
+                 text: "Bottom"
+                 action: function() {
+                 }
+              }
+              leftDrawerTools: Button {
+                 text: "Left"
+                 action: function() {
+                 }
+              }
+           };
    fixedScyWindow.openWindow(100, 100);
    //   scyDesktop.addScyWindow(fixedScyWindow);
 
    var closedScyWindow = StandardScyWindow {
-         title: "Closed and very closed"
-         eloType: "M"
-         windowColorScheme: WindowColorScheme.getWindowColorScheme(ScyColors.darkGray)
-         height: 27;
-         isClosed: true
-         allowClose: true;
-         allowResize: true;
-         allowRotate: true;
-         allowMinimize: true;
-         translateX: 20;
-         translateY: 200;
-         topDrawerTool: Button {
-            text: "Top"
-            action: function() {
-            }
-         }
-         rightDrawerTool: Button {
-            text: "Right"
-            action: function() {
-            }
-         }
-         bottomDrawerTool: Button {
-            text: "Bottom"
-            action: function() {
-            }
-         }
-         leftDrawerTools: Button {
-            text: "Left"
-            action: function() {
-            }
-         }
-      };
+              title: "Closed and very closed"
+              eloType: "M"
+              windowColorScheme: WindowColorScheme.getWindowColorScheme(ScyColors.darkGray)
+              height: 27;
+              isClosed: true
+              allowClose: true;
+              allowResize: true;
+              allowRotate: true;
+              allowMinimize: true;
+              translateX: 20;
+              translateY: 200;
+              topDrawerTool: Button {
+                 text: "Top"
+                 action: function() {
+                 }
+              }
+              rightDrawerTool: Button {
+                 text: "Right"
+                 action: function() {
+                 }
+              }
+              bottomDrawerTool: Button {
+                 text: "Bottom"
+                 action: function() {
+                 }
+              }
+              leftDrawerTools: Button {
+                 text: "Left"
+                 action: function() {
+                 }
+              }
+           };
    closedScyWindow.openWindow(100, 150);
    //   scyDesktop.addScyWindow(closedScyWindow);
 
    var eloWindow = StandardScyWindow {
-         title: bind "elo window";
-         windowColorScheme: WindowColorScheme.getWindowColorScheme(ScyColors.pink)
-         allowClose: true;
-         allowMinimize: true;
-         allowResize: false;
-         allowRotate: true;
-         //setScyContent:setEloContent;
-         translateX: 200
-         translateY: 200
-         scyWindowAttributes: [
-            TestAttribute {
-            }
-         ]
-      //      topDrawerTool:Button {
-      //            text: "Top"
-      //            action: function() {
-      //            }
-      //         }
-      //      rightDrawerTool:Button {
-      //            text: "Right"
-      //            action: function() {
-      //            }
-      //         }
-      //      bottomDrawerTool:Button {
-      //            text: "Bottom"
-      //            action: function() {
-      //           }
-      //         }
-      //      leftDrawerTool:Button {
-      //            text: "Left"
-      //            action: function() {
-      //            }
-      //         }
-      }
+              title: bind "elo window";
+              windowColorScheme: WindowColorScheme.getWindowColorScheme(ScyColors.pink)
+              allowClose: true;
+              allowMinimize: true;
+              allowResize: false;
+              allowRotate: true;
+              //setScyContent:setEloContent;
+              translateX: 200
+              translateY: 200
+              scyWindowAttributes: [
+                 TestAttribute {
+                 }
+              ]
+           //      topDrawerTool:Button {
+           //            text: "Top"
+           //            action: function() {
+           //            }
+           //         }
+           //      rightDrawerTool:Button {
+           //            text: "Right"
+           //            action: function() {
+           //            }
+           //         }
+           //      bottomDrawerTool:Button {
+           //            text: "Bottom"
+           //            action: function() {
+           //           }
+           //         }
+           //      leftDrawerTool:Button {
+           //            text: "Left"
+           //            action: function() {
+           //            }
+           //         }
+           }
    //   scyDesktop.addScyWindow(eloWindow);
 
    var stage: Stage;
@@ -1367,19 +1365,19 @@ function run() {
    });
 
    stage = Stage {
-         title: "Scy window test"
-         width: 400
-         height: 600
-         scene: Scene {
-            content: [
-               fixedScyWindow,
-               eloWindow,
-               closedScyWindow
-            //            scyDesktop.scyWindows
-            //				whiteboardNode,
-            //				drawingWindow2
-            //				drawingWindow3
-            ]
-         }
-      }
+              title: "Scy window test"
+              width: 400
+              height: 600
+              scene: Scene {
+                 content: [
+                    fixedScyWindow,
+                    eloWindow,
+                    closedScyWindow
+                 //            scyDesktop.scyWindows
+                 //				whiteboardNode,
+                 //				drawingWindow2
+                 //				drawingWindow3
+                 ]
+              }
+           }
 }

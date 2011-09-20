@@ -4,6 +4,7 @@
  */
 package eu.scy.client.desktop.scydesktop.tools;
 
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleKey;
 import java.awt.image.BufferedImage;
 import java.net.URI;
 
@@ -143,6 +144,15 @@ public interface ScyTool
     * @returns the DrawerUIIndicator
     */
    public DrawerUIIndicator getDrawerUIIndicator();
+
+   /**
+    * this method returns the DrawerUIIndicator to specify indicator of the drawer GUI
+    *
+    * a null value, means no specific indicator is desired
+    *
+    * @returns the DrawerUIIndicator
+    */
+   public BubbleKey getBubbleKey();
 
    /**
     * Set the read only mode.

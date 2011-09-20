@@ -9,6 +9,7 @@ import java.net.URI;
 import java.lang.IllegalStateException;
 import java.awt.image.BufferedImage;
 import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleKey;
 
 /**
  * @author sikken
@@ -89,6 +90,10 @@ public mixin class ScyToolFX extends ScyTool {
    }
 
    public override function getDrawerUIIndicator(): DrawerUIIndicator{
+      return null;
+   }
+
+   public override function getBubbleKey(): BubbleKey{
       return null;
    }
 

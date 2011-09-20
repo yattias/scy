@@ -27,6 +27,8 @@ import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
 import eu.scy.client.desktop.scydesktop.scywindows.window.OpenDrawerControl;
 import eu.scy.client.desktop.scydesktop.scywindows.window.WindowResize;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolGetter;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleManager;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleLayer;
 
 /**
  * @author sikkenj
@@ -36,6 +38,7 @@ public abstract class Drawer extends CustomNode {
 
    public var windowColorScheme: WindowColorScheme;
    public var tooltipManager: TooltipManager;
+   public var bubbleManager: BubbleManager;
    public var borderSize = 2.0;
    public var closedSize = 20.0;
    public var content: Node;
@@ -180,6 +183,10 @@ public abstract class Drawer extends CustomNode {
             contentLabel = getLanguageValue("drawer.{drawerUIIndicator.toString().toLowerCase()}.label",contentLabel);
          }
 //         println("content: {content}, drawerUIIndicator:{drawerUIIndicator}, controlLetter: {controlLetter}, contentLabel: {contentLabel}");
+         def bubbleKey = scyTool.getBubbleKey();
+         if (bubbleKey!=null){
+            bubbleManager.createBubble(openCloseControl,BubbleLayer.DESKTOP,bubbleKey, windowColorScheme);
+         }
       }
 //      else{
 //         println("content is not a ScyTool: {content}");
