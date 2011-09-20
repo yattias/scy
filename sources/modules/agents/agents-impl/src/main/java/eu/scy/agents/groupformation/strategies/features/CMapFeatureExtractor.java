@@ -1,6 +1,21 @@
 package eu.scy.agents.groupformation.strategies.features;
 
+import de.fhg.iais.kd.tm.elo.CmapImporter;
+import de.fhg.iais.kd.tm.graphmatching.editdistance.EditCostFunction;
+import de.fhg.iais.kd.tm.graphmatching.editdistance.EditDistanceApproximator;
+import de.fhg.iais.kd.tm.graphmatching.graph.Edge;
+import de.fhg.iais.kd.tm.graphmatching.graph.Graph;
+import de.fhg.iais.kd.tm.graphmatching.graph.Vertex;
+import eu.scy.common.scyelo.RooloServices;
 import info.collide.sqlspaces.client.TupleSpace;
+import org.jaxen.JaxenException;
+import org.jdom.JDOMException;
+import roolo.elo.api.IContent;
+import roolo.elo.api.IELO;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import roolo.search.ISearchResult;
+import roolo.search.MetadataQueryComponent;
+import roolo.search.Query;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -11,27 +26,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.jaxen.JaxenException;
-import org.jdom.JDOMException;
-
-import roolo.api.IRepository;
-import roolo.elo.api.IContent;
-import roolo.elo.api.IELO;
-import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-import roolo.search.ISearchResult;
-import roolo.search.MetadataQueryComponent;
-import roolo.search.Query;
-import de.fhg.iais.kd.tm.elo.CmapImporter;
-import de.fhg.iais.kd.tm.graphmatching.editdistance.EditCostFunction;
-import de.fhg.iais.kd.tm.graphmatching.editdistance.EditDistanceApproximator;
-import de.fhg.iais.kd.tm.graphmatching.graph.Edge;
-import de.fhg.iais.kd.tm.graphmatching.graph.Graph;
-import de.fhg.iais.kd.tm.graphmatching.graph.Vertex;
-
 public class CMapFeatureExtractor implements FeatureExtractor {
 
 	private TupleSpace commandSpace;
-	private IRepository repository;
+	private RooloServices repository;
 	
     private IELO retrieveEloFromRepository(String user){
         MetadataQueryComponent mcq = new MetadataQueryComponent(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId(),"scy/mapping");
@@ -39,8 +37,8 @@ public class CMapFeatureExtractor implements FeatureExtractor {
         HashSet <String> allowedUsers = new HashSet <String>();
         allowedUsers.add(user);
         q.setIncludedUsers(allowedUsers);
-        List<ISearchResult> res = repository.search(q);
-        IELO elo = repository.retrieveELO(res.get(0).getUri());
+        List<ISearchResult> res = repository.getRepository().search(q);
+        IELO elo = repository.getRepository().retrieveELO(res.get(0).getUri());
         return elo;
     }
 
@@ -138,7 +136,7 @@ public class CMapFeatureExtractor implements FeatureExtractor {
 	}
 
     @Override
-    public void setRepository(IRepository repository) {
+    public void setRepository(RooloServices repository) {
         this.repository = repository;      
     }
 
