@@ -1,11 +1,11 @@
 package eu.scy.agents.impl;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
@@ -76,19 +76,19 @@ public class PrologAgent extends AbstractForeignAgent {
                 file = file.substring(0, file.lastIndexOf('!'));
                 ZipFile zf = new ZipFile(file);
                 Enumeration<? extends ZipEntry> entries = zf.entries();
-                HashMap<String, String> prologSources = new HashMap<String, String>();
+                HashMap<String, byte[]> prologSources = new HashMap<String, byte[]>();
                 while (entries.hasMoreElements()) {
                     ZipEntry zipEntry = entries.nextElement();
                     if (zipEntry.getName().startsWith(PROLOG_SRC_DIR) && !zipEntry.isDirectory()) {
                         String sourceFileName = zipEntry.getName();
                         sourceFileName = sourceFileName.substring(PROLOG_SRC_DIR.length() + 1);
                         InputStream is = zf.getInputStream(zipEntry);
-                        StringWriter sw = new StringWriter();
+                        ByteArrayOutputStream  baos = new ByteArrayOutputStream();
                         while (is.available() > 0) {
-                            sw.append((char) is.read());
+                            baos.write(is.read());
                         }
                         is.close();
-                        prologSources.put(sourceFileName, sw.toString());
+                        prologSources.put(sourceFileName, baos.toByteArray());
                     }
                 }
                 File prologTmpDir = new File(System.getProperty("java.io.tmpdir") + File.separator + PROLOG_SRC_DIR);
@@ -98,9 +98,9 @@ public class PrologAgent extends AbstractForeignAgent {
                     File tmp = new File(prologTmpDir.getAbsolutePath() + File.separator + fileName);
                     tmp.deleteOnExit();
                     tmp.getParentFile().mkdirs();
-                    FileWriter fw = new FileWriter(tmp);
-                    fw.write(prologSources.get(fileName));
-                    fw.close();
+                    FileOutputStream fos = new FileOutputStream(tmp);
+                    fos.write(prologSources.get(fileName));
+                    fos.close();
                 }
                 // System.out.println("Prologdir is " + prologTmpDir);
                 return prologTmpDir;
