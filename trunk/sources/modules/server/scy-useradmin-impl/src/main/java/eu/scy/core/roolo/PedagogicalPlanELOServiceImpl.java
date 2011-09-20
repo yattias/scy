@@ -9,6 +9,7 @@ import eu.scy.core.model.transfer.PedagogicalPlanTransfer;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -51,6 +52,10 @@ public class PedagogicalPlanELOServiceImpl extends BaseELOServiceImpl implements
 
         PedagogicalPlanTransfer pedagogicalPlan = getPedagogicalPlanForMission(missionSpecificationElo);
         if (pedagogicalPlan != null) {
+
+            pedagogicalPlan.getAssessmentSetup().setSpecificLearningGoals(new LinkedList());
+            pedagogicalPlan.getAssessmentSetup().setGeneralLearningGoals(new LinkedList());
+
 
             if (pedagogicalPlan.getMissionPlan().getLasTransfers() == null || pedagogicalPlan.getMissionPlan().getLasTransfers().size() == 0) {
 
