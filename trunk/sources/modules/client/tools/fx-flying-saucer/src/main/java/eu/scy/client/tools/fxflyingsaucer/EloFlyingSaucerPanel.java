@@ -32,6 +32,7 @@ import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.client.desktop.scydesktop.tools.DrawerUIIndicator;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleKey;
 
 /**
  *
@@ -55,12 +56,14 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel implements ScyTool
    private UriLocalizer uriLocalizer = new UriLocalizer();
    private UrlSource urlSource;
    private DrawerUIIndicator drawerUIIndicator = null;
+   private BubbleKey bubbleKey = null;
 
-   public EloFlyingSaucerPanel(UrlSource urlSource, DrawerUIIndicator drawerUIIndicator)
+   public EloFlyingSaucerPanel(UrlSource urlSource, DrawerUIIndicator drawerUIIndicator, BubbleKey bubbleKey)
    {
       super(!(UrlSource.ASSIGNMENT == urlSource || UrlSource.RESOURCES == urlSource));
       this.urlSource = urlSource;
       this.drawerUIIndicator = drawerUIIndicator;
+      this.bubbleKey = bubbleKey;
       if (UrlSource.ASSIGNMENT == urlSource || UrlSource.RESOURCES == urlSource)
       {
          Dimension preferredSize = new Dimension(200, getPreferredSize().height);
@@ -136,6 +139,12 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel implements ScyTool
    @Override
    public DrawerUIIndicator getDrawerUIIndicator(){
       return drawerUIIndicator;
+   }
+
+   @Override
+   public BubbleKey getBubbleKey()
+   {
+      return bubbleKey;
    }
 
    public void setHomeElo(URI uri)
