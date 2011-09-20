@@ -472,7 +472,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
     public void setStatus(String status) throws AwarenessServiceException {
         Presence presence = getRoster().getPresence(xmppConnection.getUser());
         presence.setStatus(status);
-
+        //XXX will this be processed? Maybe there is need for sending a new packet
     }
 
     @Override

@@ -13,18 +13,22 @@ public class AwarenessUser implements IAwarenessUser {
     private String nickName;
     private String mode;
 
+    @Override
     public void setStatus(String status) {
         this.status = status;
     }
 
+    @Override
     public String getStatus() {
         return status;
     }
 
+    @Override
     public String getPresence() {
         return presence;
     }
 
+    @Override
     public void setPresence(String presence) {
         this.presence = presence;
     }

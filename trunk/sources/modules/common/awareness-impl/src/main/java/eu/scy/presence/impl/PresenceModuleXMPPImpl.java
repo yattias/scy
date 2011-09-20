@@ -249,12 +249,13 @@ public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener,
     
     @Override
     public void getPresence(String user) throws PresenceModuleException {
+        //XXX why not return the presence?
         this.xmppConnection.getRoster().getPresence(user);
     }
     
     @Override
     public void getStatus(String arg0) throws PresenceModuleException {
-        
+        //XXX why not implement this?
     }
     
     
