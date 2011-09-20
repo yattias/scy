@@ -59,7 +59,7 @@
                                             <strong>Created by</strong>
                                         </td>
                                         <td>
-                                            ${createdBy}
+                                            ${elo.createdBy}
                                         </td>
                                     </tr>
                                     <tr>
@@ -67,7 +67,7 @@
                                             <strong>Date</strong>
                                         </td>
                                         <td>
-                                            ${lastModified}
+                                            ${elo.lastModified}
                                         </td>
                                     </tr>
                                 </table>

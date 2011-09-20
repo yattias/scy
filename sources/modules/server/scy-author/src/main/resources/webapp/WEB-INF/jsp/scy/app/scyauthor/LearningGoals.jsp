@@ -4,54 +4,6 @@
     </div>
 </div>
 
-<table>
-    <tr>
-        <td>
-            <a href="javascript:openPage('learningGoalsConfiguration', 'LearningGoals.html?action=addLearningGoalsOnly&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));">
-                <c:if test="${pedagogicalPlan.assessmentSetup.useOnlyLearningGoals}">
-                    <img src="/webapp/themes/scy/default/images/checked_radio.png" alt=""  />
-                </c:if>
-                <c:if test="${!pedagogicalPlan.assessmentSetup.useOnlyLearningGoals}">
-                    <img src="/webapp/themes/scy/default/images/unchecked_radio.png" alt=""  />
-                </c:if>
-            </a>
-        </td>
-        <td>
-            Add only learning goals
-        </td>
-
-    </tr>
-    <tr>
-        <td>
-            <a href="javascript:openPage('learningGoalsConfiguration', 'LearningGoals.html?action=addScorableLearningGoals&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));">
-                <c:if test="${pedagogicalPlan.assessmentSetup.useScorableLearningGoals}">
-                        <img src="/webapp/themes/scy/default/images/checked_radio.png" alt=""  />
-                    </c:if>
-                    <c:if test="${!pedagogicalPlan.assessmentSetup.useScorableLearningGoals}">
-                        <img src="/webapp/themes/scy/default/images/unchecked_radio.png" alt=""  />
-                    </c:if>
-                </a>
-        </td>
-        <td>
-            Add scorable learning goals
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <a href="javascript:openPage('learningGoalsConfiguration', 'LearningGoals.html?action=addLearningGoalsWithCriteria&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));">
-            <c:if test="${pedagogicalPlan.assessmentSetup.useLearningGoalsWithCriteria}">
-                    <img src="/webapp/themes/scy/default/images/checked_radio.png" alt=""  />
-                </c:if>
-                <c:if test="${!pedagogicalPlan.assessmentSetup.useLearningGoalsWithCriteria}">
-                    <img src="/webapp/themes/scy/default/images/unchecked_radio.png" alt=""  />
-                </c:if>
-            </a>
-        </td>
-        <td>
-            Add learning goals with criteria
-        </td>
-    </tr>
-</table>
 <br/>
 <h2><spring:message code="GENERAL_LEARNING_GOALS"/><button id="buttonOne" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconHelp" showLabel="false" type="button">
     <script type="dojo/method" event="onClick" args="evt">
@@ -151,7 +103,7 @@
 
     </c:when>
 </c:choose>
-<a href="javascript:openPage('learningGoalsConfiguration', 'LearningGoals.html?action=addGeneralLearningGoal&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));"><spring:message code="ADD_SPECIFIC_LEARNING_GOAL"/> </a>        <br/>
+<a href="javascript:openPage('learningGoalsConfiguration', 'LearningGoals.html?action=addGeneralLearningGoal&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));"><spring:message code="ADD_GENERAL_LEARNING_GOAL"/> </a>        <br/>
 <br/>
 <h2><spring:message code="SPECIFIC_LEARNING_GOALS"/> </h2>
 
@@ -246,8 +198,41 @@
 
     </c:when>
 </c:choose>
-<a href="javascript:openPage('learningGoalsConfiguration', 'LearningGoals.html?action=addSpecificLearningGoal&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));"><spring:message code="ADD_GENERAL_LEARNING_GOAL"/> </a>        <br/>
+<a href="javascript:openPage('learningGoalsConfiguration', 'LearningGoals.html?action=addSpecificLearningGoal&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));"><spring:message code="ADD_SPECIFIC_LEARNING_GOAL"/> </a>        <br/>
 
+
+<table>
+    <tr>
+        <td>
+            <a href="javascript:openPage('learningGoalsConfiguration', 'LearningGoals.html?action=addScorableLearningGoals&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));">
+                <c:if test="${pedagogicalPlan.assessmentSetup.useScorableLearningGoals}">
+                        <img src="/webapp/themes/scy/default/images/checked_radio.png" alt=""  />
+                    </c:if>
+                    <c:if test="${!pedagogicalPlan.assessmentSetup.useScorableLearningGoals}">
+                        <img src="/webapp/themes/scy/default/images/unchecked_radio.png" alt=""  />
+                    </c:if>
+                </a>
+        </td>
+        <td>
+            Add scorable learning goals
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="javascript:openPage('learningGoalsConfiguration', 'LearningGoals.html?action=addLearningGoalsWithCriteria&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));">
+            <c:if test="${pedagogicalPlan.assessmentSetup.useLearningGoalsWithCriteria}">
+                    <img src="/webapp/themes/scy/default/images/checked_radio.png" alt=""  />
+                </c:if>
+                <c:if test="${!pedagogicalPlan.assessmentSetup.useLearningGoalsWithCriteria}">
+                    <img src="/webapp/themes/scy/default/images/unchecked_radio.png" alt=""  />
+                </c:if>
+            </a>
+        </td>
+        <td>
+            Add learning goals with criteria
+        </td>
+    </tr>
+</table>
 
 
 
