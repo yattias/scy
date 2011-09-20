@@ -91,7 +91,7 @@
 				<ref bean="cmProposer" />
 				<ref bean="cmModeller" />
                 		<!--<ref bean="workflowRecorder"/>-->
-		                <ref bean="pga"/>
+		                <!--<ref bean="pga"/>-->
 		                <ref bean="scaffoldNotificator"/>
 		                <ref bean="conceptMapEvaluation" />
                 		<!--<ref bean="searchEnricher"/>-->
