@@ -21,6 +21,8 @@ import eu.scy.client.desktop.scydesktop.remotecontrol.impl.AddBuddyCommand;
 import eu.scy.client.desktop.scydesktop.remotecontrol.impl.RemoveAllBuddiesCommand;
 import eu.scy.client.desktop.scydesktop.remotecontrol.impl.AgendaNotificationCommand;
 import eu.scy.client.desktop.scydesktop.remotecontrol.impl.ScaffoldLevelCommand;
+import eu.scy.client.desktop.scydesktop.remotecontrol.impl.SetStatusCommand;
+import eu.scy.client.desktop.scydesktop.remotecontrol.impl.FilterUsersByStatusCommand;
 import eu.scy.client.desktop.scydesktop.remotecontrol.impl.SearchProposalCommand;
 
 
@@ -34,7 +36,7 @@ public class RemoteCommandRegistryFX extends INotifiable {
     public def remoteCommandRegistry: RemoteCommandRegistry = RemoteCommandRegistry.getInstance();
 
     function createBasicRegistry() {
-		def scaffoldLevelCommand = ScaffoldLevelCommand { scyDesktop: scyDesktop };
+	def scaffoldLevelCommand = ScaffoldLevelCommand { scyDesktop: scyDesktop };
         def collaborationRequestCommand = CollaborationRequestCommand { scyDesktop: scyDesktop  };
         def collaborationResponseCommand = CollaborationResponseCommand { scyDesktop: scyDesktop };
         def eloShowCommand = EloShowCommand { scyDesktop: scyDesktop };
@@ -46,8 +48,10 @@ public class RemoteCommandRegistryFX extends INotifiable {
         def addBuddyCommand = AddBuddyCommand { scyDesktop: scyDesktop };
         def removeAllBuddiesCommand = RemoveAllBuddiesCommand { scyDesktop: scyDesktop };
         def agendaNotificationCommand = AgendaNotificationCommand { scyDesktop: scyDesktop };
+        def setStatusCommand = new SetStatusCommand(scyDesktop.config.getToolBrokerAPI());
+        def filterUsersByStatusCommand = FilterUsersByStatusCommand { scyDesktop: scyDesktop };
         def searchProposalCommand = SearchProposalCommand { scyDesktop: scyDesktop };
-        remoteCommandRegistry.registerRemoteCommands(scaffoldLevelCommand, collaborationRequestCommand, collaborationResponseCommand, eloShowCommand, messageDialogShowCommand, optionDialogShowCommand, eloAssessmentFinishedCommand,feedbackAskedCommand,feedbackGivenCommand,addBuddyCommand,removeAllBuddiesCommand, agendaNotificationCommand, searchProposalCommand);
+        remoteCommandRegistry.registerRemoteCommands(scaffoldLevelCommand, collaborationRequestCommand, collaborationResponseCommand, eloShowCommand, messageDialogShowCommand, optionDialogShowCommand, eloAssessmentFinishedCommand,feedbackAskedCommand,feedbackGivenCommand,addBuddyCommand,removeAllBuddiesCommand, agendaNotificationCommand, setStatusCommand, filterUsersByStatusCommand, searchProposalCommand);
         }
 
    postinit{
