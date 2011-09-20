@@ -18,6 +18,7 @@ import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 public class TextTooltip extends CustomNode {
 
    public var content: String;
+   public-init var arcSize = 0.0;
    public var windowColorScheme: WindowColorScheme;
 
    public override function create(): Node {
@@ -30,6 +31,7 @@ public class TextTooltip extends CustomNode {
               };
       NodeTooltip{
          content: text
+         arcSize: arcSize
          windowColorScheme: windowColorScheme
       }
    }

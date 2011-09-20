@@ -168,7 +168,6 @@ public class EloManagement extends CustomNode {
       if (showCreateBlankElo) {
          scyDesktop.bubbleManager.createBubble(searcher, BubbleLayer.DESKTOP, BubbleKey.NEW_BLANK_ELO, searcher.eloIcon.windowColorScheme);
       }
-//      scyDesktop.bubbleManager.showingLayer(BubbleLayer.DESKTOP);
    }
 
    var eloTemplateUris: URI[];
