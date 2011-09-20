@@ -491,7 +491,6 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
     String createUserListString(String userToNotify, Group group) {
         StringBuilder message = new StringBuilder();
         int i = 0;
-        group.remove(userToNotify);
         for ( String user : group ) {
             if ( user.equals(userToNotify) ) {
                 i++;
