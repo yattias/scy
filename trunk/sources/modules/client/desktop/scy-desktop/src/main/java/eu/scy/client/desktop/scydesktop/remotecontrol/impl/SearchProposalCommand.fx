@@ -27,7 +27,7 @@ public class SearchProposalCommand extends ScyDesktopRemoteCommand {
 
         var suggestions: HistoryEntry[] = [];
 
-        for (i in [1..sizeof proposals]) {
+        for (i in [0..sizeof proposals - 1]) {
             insert HistoryEntry {
                 nrOfResults: Integer.parseInt(counts[i]);
                 query: proposals[i];
