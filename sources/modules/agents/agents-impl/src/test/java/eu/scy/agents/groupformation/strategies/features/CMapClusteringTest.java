@@ -14,6 +14,7 @@ import roolo.elo.api.IELO;
 import eu.scy.agents.groupformation.strategies.algorithms.Cluster;
 import eu.scy.agents.groupformation.strategies.algorithms.FeatureVector;
 import eu.scy.agents.groupformation.strategies.algorithms.KMeansAlgorithm;
+import eu.scy.agents.impl.AgentRooloServiceImpl;
 
 public class CMapClusteringTest extends AbstractFeatureExtractorTest {
 
@@ -25,9 +26,11 @@ public class CMapClusteringTest extends AbstractFeatureExtractorTest {
 
 	@Before
 	public void setup() throws Exception {
-
 		this.clusterAlgorithm = new KMeansAlgorithm(this.numberOfClusters);
 		this.extractor = new CMapFeatureExtractor();
+		AgentRooloServiceImpl agentRooloService = new AgentRooloServiceImpl(repository);
+        agentRooloService.setMetadataTypeManager(typeManager);
+        this.extractor.setRepository(agentRooloService); 
 		this.referenceElo = this.loadElo("/eco_reference_concept_map.scymapper.xml", "scy/mapping", "cmap");
 		this.elo1 = this.loadElo("/ecoExpertMaps/expertMap1.scymapper.xml", "scy/mapping", "cmap");
 		this.elo2 = this.loadElo("/ecoExpertMaps/expertMap1b.scymapper.xml", "scy/mapping", "cmap");
