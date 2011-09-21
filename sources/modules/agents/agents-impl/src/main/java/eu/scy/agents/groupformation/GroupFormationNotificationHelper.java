@@ -72,7 +72,8 @@ class GroupFormationNotificationHelper {
         return new VMID().toString();
     }
 
-    public void sendStudentAddedToGroupNotification(IAction action, String newUser, Collection<Group> newGroups, String language) {
+    public void sendStudentAddedToGroupNotification(IAction action, String newUser, Collection<Group> newGroups,
+                                                    String language, String las) {
 
         ResourceBundle messages = ResourceBundle.getBundle("agent_messages", new Locale(language));
 
@@ -84,14 +85,13 @@ class GroupFormationNotificationHelper {
             } else {
                 newGroup = group;
                 for ( String user : group ) {
+                    String messageNotificationId = createId();
+                    buddifyGroup(action, group, user, messageNotificationId);
+
                     if ( !user.equals(newUser) ) {
                         // buddify newUser to group
                         try {
-
                             String id = createId();
-                            Tuple buddifyNotification = createBuddifyNotificationTuple(action, id, user, newUser);
-                            notificationSpace.write(buddifyNotification);
-
                             // inform other users that somebody entered their group
                             StringBuilder addUserToGroupMessage = new StringBuilder();
                             addUserToGroupMessage.append(messages.getString("GF_ADD_USER_TO_GROUP"));
@@ -107,7 +107,17 @@ class GroupFormationNotificationHelper {
                         } catch ( TupleSpaceException e ) {
                             LOGGER.error("Could not write into Tuplespace", e);
                         }
+                    } else {
+                        // set the status for every user to the lasId
+                        setStatus(action, las, user);
+
+                        // enable filtering on the lasid
+                        enableFiltering(action, las, user, true);
+
+                        // send message about proposed collaboration to user
+                        sendCollaborationMessage(action, messages, group, user, messageNotificationId);
                     }
+
                 }
             }
         }
