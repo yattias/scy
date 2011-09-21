@@ -322,6 +322,12 @@
 				<version-name>-ut3</version-name>
 			</properties>
 		</profile>
+		<profile>
+			<id>CUSTOM</id>
+			<properties>
+				<version-name>-custom</version-name>
+			</properties>
+		</profile>
 	</profiles>
 	<dependencyManagement>
 		<dependencies>
