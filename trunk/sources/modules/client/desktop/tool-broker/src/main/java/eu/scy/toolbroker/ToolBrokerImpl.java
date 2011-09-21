@@ -220,7 +220,8 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 		
 		// ContextService
 		contextService = (IContextService) context.getBean("contextservice");
-                contextService.setUsername(userName);
+                contextService.setUsername(org.jivesoftware.smack.util.StringUtils.parseBareAddress(connection.getUser()));
+
                 
 		// SessionManager (Up-to-date?)
 		sessionManager = (SessionManager) context.getBean("sessionManager");
