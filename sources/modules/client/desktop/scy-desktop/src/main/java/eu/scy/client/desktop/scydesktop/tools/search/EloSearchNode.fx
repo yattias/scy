@@ -170,7 +170,7 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
       eloFactory = toolBrokerAPI.getELOFactory();
       repository = toolBrokerAPI.getRepository();
       scySearchResultXmlUtils = new ScySearchResultXmlUtils(toolBrokerAPI);
-      queryContentUserName = toolBrokerAPI.getLoginUserName();
+      queryContentUserName = toolBrokerAPI.getContextService().getUsername();
       queryContextMissionSpecificationUri = toolBrokerAPI.getMissionSpecificationURI();
    }
 
