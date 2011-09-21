@@ -94,7 +94,7 @@
 		                <!--<ref bean="pga"/>-->
 		                <ref bean="scaffoldNotificator"/>
 		                <ref bean="conceptMapEvaluation" />
-                		<!--<ref bean="searchEnricher"/>-->
+                		<ref bean="searchEnricher"/>
             </set>
         </property>
         <property name="repository">
