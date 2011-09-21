@@ -106,7 +106,12 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
         this.eloUri = eloUri;
         def feedbackElo = findFeedbackElo(eloUri);
         if (feedbackElo != null) {
-            setFeedbackAsked(getQuestionDisplay(feedbackElo));
+            if (feedbackElo.getContent().getXmlString()!=null){
+               setFeedbackAsked(getQuestionDisplay(feedbackElo));
+            } else {
+               logger.warn("unexpected null for feedbackElo.getContent().getXmlString(), eloUri: {eloUri}");
+               setFeedbackNotAsked();
+            }
         } else {
             setFeedbackNotAsked();
         }
