@@ -285,7 +285,7 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
         missionGroupsCache.addGroups(mission, las, newGroups);
 
         synchronized ( lock ) {
-            notificationHelper.sendStudentAddedToGroupNotification(action, user, newGroups, language);
+            notificationHelper.sendStudentAddedToGroupNotification(action, user, newGroups, language, las);
         }
     }
 
