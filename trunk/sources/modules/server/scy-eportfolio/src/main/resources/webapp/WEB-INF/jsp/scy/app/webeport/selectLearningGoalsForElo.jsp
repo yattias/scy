@@ -1,5 +1,4 @@
 <%@ include file="common-taglibs.jsp" %>
-<h2><spring:message code="SELECT_LEARNING_GOAL"/></h2>
 <c:choose>
     <c:when test="${fn:length(learningGoals) > 0}">
         <c:if test="${pedagogicalPlan.assessmentSetup.useOnlyLearningGoals}">

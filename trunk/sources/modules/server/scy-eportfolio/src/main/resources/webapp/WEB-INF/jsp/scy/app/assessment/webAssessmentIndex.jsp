@@ -126,7 +126,7 @@
 
         <div style="border:4px solid #7e2b32;border-bottom-left-radius:40px;width:786px;height:95%;padding:4px;" class="brownBorders">
                     <!--img src="/webapp/themes/scy/default/images/feedback_header.png" alt="" class="greenBackgrounds" /-->
-                    <div class="assessmentHeader" >Assess ELO</div>
+                    <div class="assessmentHeader" >Assess Portfolio for ${portfolioOwner}</div>
                     
                 <div dojoType="dojox.layout.ContentPane" style="width:100%;height:90%;" id="eportfolioPane" parseOnLoad="true" executeScripts="true">
                    <div dojoType="dojox.widget.FisheyeList"
