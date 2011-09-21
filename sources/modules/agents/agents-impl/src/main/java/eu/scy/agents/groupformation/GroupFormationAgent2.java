@@ -260,9 +260,12 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
             groupFormationStrategy.setRooloServices(rooloServices);
 
             Collection<Group> formedGroups = groupFormationStrategy.formGroup(referenceElo);
+            for(Group group : formedGroups) {
+                group.setId(notificationHelper.createId());
+            }
             missionGroupsCache.addGroups(mission, las, formedGroups);
             synchronized ( lock ) {
-                notificationHelper.sendGroupNotification(action, formedGroups, language, las);
+                notificationHelper.sendGroupNotification(action, formedGroups, language);
             }
         }
     }
@@ -285,7 +288,7 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
         missionGroupsCache.addGroups(mission, las, newGroups);
 
         synchronized ( lock ) {
-            notificationHelper.sendStudentAddedToGroupNotification(action, user, newGroups, language, las);
+            notificationHelper.sendStudentAddedToGroupNotification(action, user, newGroups, language);
         }
     }
 
@@ -301,7 +304,7 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
             // all users present -> send form group notification
             Set<Group> groups = new HashSet<Group>();
             groups.add(group);
-            notificationHelper.sendGroupNotification(action, groups, language, las);
+            notificationHelper.sendGroupNotification(action, groups, language);
         } else {
             // not all present -> send "wait for group" notification
             notificationHelper.sendWaitForExistingGroupNotification(action, language, group);
