@@ -45,59 +45,60 @@
 
        
 
+        <c:if test="${fn:contains(portfolio.portfolioStatus, 'PORTFOLIO_STATUS_NOT_SUBMITTED')}">
+            <c:choose>
+                <c:when test="${fn:length(pedagogicalPlan.assessmentSetup.reflectionTabs) > 0}">
+                    <form action="storeReflectionsOnMission.html" id="storeReflectionsOnMission" style="display:block;height:50%;">
+                    <div dojoType="dijit.layout.TabContainer" style="height:100%;background-color:transparent;">
 
-        <c:choose>
-            <c:when test="${fn:length(pedagogicalPlan.assessmentSetup.reflectionTabs) > 0}">
-                <form action="storeReflectionsOnMission.html" id="storeReflectionsOnMission" style="display:block;height:50%;">
-                <div dojoType="dijit.layout.TabContainer" style="height:100%;background-color:transparent;">
-
-                        <c:forEach var="tab" items="${pedagogicalPlan.assessmentSetup.reflectionTabs}">
-                            <div dojoType="dojox.layout.ContentPane" style="background-color:transparent;" title="${tab.title}">
-                                <table>
-                                    <tr>
-                                <td width="30%" style="text-align:right; vertical-align:top;">
-                                    <strong>${tab.question}</strong>
-                                </td>
-                                <td style="text-align:left;">
-                                    <c:if test="${fn:contains(tab.type, 'text')}">
-                                        <textarea rows="4" cols="30" name="${tab.id}" style="width:100%;" onkeyup="checkTextAreasAndEnableSubmit('storeReflectionsOnMission')"></textarea>
-                                    </c:if>
-                                    <c:if test="${fn:contains(tab.type, 'slider')}">
-                                        <input name="${tab.id}" type="text" id="${tab.id}" value="1" style="display:none;"/>
-                                        <div id="horizontalSlider" dojoType="dijit.form.HorizontalSlider" value="1" minimum="1" maximum="4" discreteValues="1" intermediateChanges="false" showButtons="false" style="width:90%;margin-top:5px;" onChange="document.getElementById('${tab.id}').value = Math.round(this.value);">
-                                            <ol dojoType="dijit.form.HorizontalRuleLabels" container="topDecoration" style="height:1.5em;font-size:75%;color:gray;">
-                                                <li style="margin-bottom:5px;"><img src="/webapp/themes/scy/default/images/smiley_1.png" alt=""  /></li>
-                                                <li style="margin-bottom:5px;"><img src="/webapp/themes/scy/default/images/smiley_2.png" alt=""  /></li>
-                                                <li style="margin-bottom:5px;"><img src="/webapp/themes/scy/default/images/smiley_3.png" alt=""  /></li>
-                                                <li style="margin-bottom:5px;"><img src="/webapp/themes/scy/default/images/smiley_4.png" alt=""  /></li>
-                                            </ol>
-                                            <div dojoType="dijit.form.HorizontalRule" container="bottomDecoration" count="4" style="height:5px;">
-                                                <ol dojoType="dijit.form.HorizontalRuleLabels" container="bottomDecoration" style="height:1em;font-size:75%;color:gray;"></ol>
+                            <c:forEach var="tab" items="${pedagogicalPlan.assessmentSetup.reflectionTabs}">
+                                <div dojoType="dojox.layout.ContentPane" style="background-color:transparent;" title="${tab.title}">
+                                    <table>
+                                        <tr>
+                                    <td width="30%" style="text-align:right; vertical-align:top;">
+                                        <strong>${tab.question}</strong>
+                                    </td>
+                                    <td style="text-align:left;">
+                                        <c:if test="${fn:contains(tab.type, 'text')}">
+                                            <textarea rows="4" cols="30" name="${tab.id}" style="width:100%;" onkeyup="checkTextAreasAndEnableSubmit('storeReflectionsOnMission')"></textarea>
+                                        </c:if>
+                                        <c:if test="${fn:contains(tab.type, 'slider')}">
+                                            <input name="${tab.id}" type="text" id="${tab.id}" value="1" style="display:none;"/>
+                                            <div id="horizontalSlider" dojoType="dijit.form.HorizontalSlider" value="1" minimum="1" maximum="4" discreteValues="1" intermediateChanges="false" showButtons="false" style="width:90%;margin-top:5px;" onChange="document.getElementById('${tab.id}').value = Math.round(this.value);">
+                                                <ol dojoType="dijit.form.HorizontalRuleLabels" container="topDecoration" style="height:1.5em;font-size:75%;color:gray;">
+                                                    <li style="margin-bottom:5px;"><img src="/webapp/themes/scy/default/images/smiley_1.png" alt=""  /></li>
+                                                    <li style="margin-bottom:5px;"><img src="/webapp/themes/scy/default/images/smiley_2.png" alt=""  /></li>
+                                                    <li style="margin-bottom:5px;"><img src="/webapp/themes/scy/default/images/smiley_3.png" alt=""  /></li>
+                                                    <li style="margin-bottom:5px;"><img src="/webapp/themes/scy/default/images/smiley_4.png" alt=""  /></li>
+                                                </ol>
+                                                <div dojoType="dijit.form.HorizontalRule" container="bottomDecoration" count="4" style="height:5px;">
+                                                    <ol dojoType="dijit.form.HorizontalRuleLabels" container="bottomDecoration" style="height:1em;font-size:75%;color:gray;"></ol>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </c:if>
-                                </td>
-                            </tr>
-                                    </table>
-                                </div>
-                        </c:forEach>
+                                        </c:if>
+                                    </td>
+                                </tr>
+                                        </table>
+                                    </div>
+                            </c:forEach>
 
 
 
 
-                    </div>
-                    <table style="width:100%;">
-                    <tr>
-                        <td style="text-align:center;">
-                            <input type="hidden" value="${missionRuntimeURI}" name="missionRuntimeURI"/>
-                            <input type="submit" value="<spring:message code="SUBMIT_PORTFOLIO"/>" id="submitEport" disabled="true"/>
-                        </td>
-                    </tr>
-                    </table>
-                   </form>
+                        </div>
+                        <table style="width:100%;">
+                        <tr>
+                            <td style="text-align:center;">
+                                <input type="hidden" value="${missionRuntimeURI}" name="missionRuntimeURI"/>
+                                <input type="submit" value="<spring:message code="SUBMIT_PORTFOLIO"/>" id="submitEport" disabled="true"/>
+                            </td>
+                        </tr>
+                        </table>
+                       </form>
 
-            </c:when>
-        </c:choose>
+                </c:when>
+            </c:choose>
+            </c:if>
         </div>
         <!--/div-->
         

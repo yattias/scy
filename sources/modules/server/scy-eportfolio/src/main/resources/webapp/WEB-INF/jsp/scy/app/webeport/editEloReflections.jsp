@@ -91,7 +91,7 @@
                        <td>
                            <span id="generalLEarningGoalsLabel">${fn:length(selectedGeneralLearningGoalWithScores)} <spring:message code="SELECTED_GENERAL_LEARNING_GOALS"/></span>
                            <c:if test="${portfolioLocked == false}">
-                               <input type="button" id="generalLearningGoalsSelectorButton" onclick="loadDialog('/webapp/app/webeport/selectLearningGoalsForElo.html?eloURI=' + encodeURIComponent('${elo.uri}') + '&lgType=general&missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${anchorEloURI}'), '<spring:message code="SELECT_LEARNING_GOAL"></spring:message>');" value="<spring:message code="SELECT_LEARNING_GOAL"></spring:message>">
+                               <input type="button" id="generalLearningGoalsSelectorButton" onclick="loadDialog('/webapp/app/webeport/selectLearningGoalsForElo.html?eloURI=' + encodeURIComponent('${elo.uri}') + '&lgType=general&missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${anchorEloURI}'), '<spring:message code="SELECT_ACHIVEMENT_LEVEL"></spring:message>');" value="<spring:message code="SELECT_LEARNING_GOAL"></spring:message>">
                             </c:if>
 
                         <div id="generalLearningGoalsToolTip" dojoType="dijit.Tooltip" connectId="generalLEarningGoalsLabel,generalLearningGoalsSelectorButton" position="below">
@@ -205,7 +205,7 @@
                 <c:if test="${portfolioLocked == false}">
 
                     <span id="specialLEarningGoalsLabel">${fn:length(selectedSpecificLearningGoalWithScores)} <spring:message code="SELECTED_SPECIFIC_LEARNING_GOALS"/></span>
-                    <input type="button" id="specialLearningGoalsSelectorButton" onclick="loadDialog('/webapp/app/webeport/selectLearningGoalsForElo.html?eloURI=' + encodeURIComponent('${elo.uri}') + '&lgType=specific&missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${anchorEloURI}'), '<spring:message code="SELECT_LEARNING_GOAL"></spring:message>');" value="<spring:message code="SELECT_LEARNING_GOAL"></spring:message>">
+                    <input type="button" id="specialLearningGoalsSelectorButton" onclick="loadDialog('/webapp/app/webeport/selectLearningGoalsForElo.html?eloURI=' + encodeURIComponent('${elo.uri}') + '&lgType=specific&missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${anchorEloURI}'), '<spring:message code="SELECT_ACHIVEMENT_LEVEL"></spring:message>');" value="<spring:message code="SELECT_LEARNING_GOAL"></spring:message>">
                         </c:if>
                         <div id="specificLearningGoalsToolTip" dojoType="dijit.Tooltip" connectId="specialLEarningGoalsLabel,specialLearningGoalsSelectorButton" position="below">
 

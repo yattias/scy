@@ -2,6 +2,8 @@ package eu.scy.server.assessment;
 
 import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.core.XMLTransferObjectService;
+import eu.scy.core.model.StudentUserDetails;
+import eu.scy.core.model.User;
 import eu.scy.core.model.transfer.EloAnchorEloPair;
 import eu.scy.core.model.transfer.Portfolio;
 import eu.scy.core.model.transfer.TransferElo;
@@ -50,8 +52,19 @@ public class WebAssessmentIndex extends BaseController {
 
         }
 
+        String userName = portfolio.getOwner();
+        String portfolioOwner = "";
+        if(userName != null) {
+            User user = getUserService().getUser(userName);
+            StudentUserDetails studentUserDetails = (StudentUserDetails) user.getUserDetails();
+            if(studentUserDetails != null) {
+                portfolioOwner = studentUserDetails.getFirstName() +  " " + studentUserDetails.getLastName();               
+            }
+        }
+
         modelAndView.addObject("elos", elos);
         modelAndView.addObject("missionRuntimeURI", getEncodedUri(missionRuntimeElo.getUri().toString()));
+        modelAndView.addObject("portfolioOwner", portfolioOwner);
 
     }
 

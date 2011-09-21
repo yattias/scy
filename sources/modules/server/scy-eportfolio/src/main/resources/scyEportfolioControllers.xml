@@ -282,7 +282,7 @@
         <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
         <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
         <property name="transferObjectMapService" ref="transferObjectMapService"/>
-        <!--property name="runtimeELOService" ref="runtimeELOService"/-->
+        <property name="userService" ref="userService"/>
 	</bean>
 
     <bean id="assessEloController" class="eu.scy.server.assessment.AssessElo">

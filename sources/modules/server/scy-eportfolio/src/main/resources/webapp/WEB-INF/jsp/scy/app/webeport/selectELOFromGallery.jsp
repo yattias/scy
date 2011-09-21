@@ -55,7 +55,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <strong>Author</strong>
+                                    <strong>Created by</strong>
                                 </td>
                                 <td>
                                     ${elo.authors}
