@@ -59,7 +59,16 @@ public class StoreMissionReflection extends BaseController {
         portfolioElo.getContent().setXmlString(getXmlTransferObjectService().getToObjectXStream().toXML(portfolio));
         portfolioElo.updateElo();
 
-        getActionLoggerService().logActionForRuntime("portfolio_assessed", portfolio.getOwner(), "scy_author", missionRuntimeURI.toString());
+        String host = request.getServerName();
+        if(host.equals("localhost") || host.equals("127.0.0.1")) {
+            host = "scy.collide.info";
+        }
+
+        String username = portfolio.getOwner() + "@" + host;
+        logger.info("USERNAME: " + username);
+
+
+        getActionLoggerService().logActionForRuntime("portfolio_assessed", username, "scy_author", missionRuntimeURI.toString());
 
     }
 
