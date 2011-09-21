@@ -25,7 +25,7 @@ import java.util.List;
  * Time: 05:52:53
  * To change this template use File | Settings | File Templates.
  */
-public class LearningGoalsController extends BaseController{
+public class LearningGoalsController extends BaseController {
 
     private MissionELOService missionELOService;
     private PedagogicalPlanELOService pedagogicalPlanELOService;
@@ -42,9 +42,9 @@ public class LearningGoalsController extends BaseController{
         PedagogicalPlanTransfer pedagogicalPlanTransfer = getPedagogicalPlanELOService().getPedagogicalPlanForMission(missionSpecificationElo);
 
         if (action != null) {
-            if (action.equals("addGeneralLearningGoal")){
+            if (action.equals("addGeneralLearningGoal")) {
                 addGeneralLearningGoal(missionSpecificationElo, pedagogicalPlanTransfer);
-            } else if (action.equals("addSpecificLearningGoal")){
+            } else if (action.equals("addSpecificLearningGoal")) {
                 addSpecificLearningGoal(missionSpecificationElo, pedagogicalPlanTransfer);
             } else if (action.equals("addCriteriaToGeneralLearningGoal")) {
                 LearningGoal learningGoal = getLearningGoal(pedagogicalPlanTransfer, request);
@@ -61,6 +61,10 @@ public class LearningGoalsController extends BaseController{
                 setScorableLearningGoals(missionSpecificationElo, pedagogicalPlanTransfer, request);
             } else if (action.equals("addLearningGoalsWithCriteria")) {
                 setUseLearningGoalsWithCriteria(missionSpecificationElo, pedagogicalPlanTransfer, request);
+            } else if (action.equals("deleteLearningGoal")) {
+                deleteLearningGoal(missionSpecificationElo, pedagogicalPlanTransfer, request);
+            } else if (action.equals("deleteCriteria")) {
+                deleteCriteria(missionSpecificationElo, pedagogicalPlanTransfer, request);
             }
 
         }
@@ -70,11 +74,30 @@ public class LearningGoalsController extends BaseController{
         modelAndView.addObject("missionSpecificationEloURI", getEncodedUri(request.getParameter(ELO_URI)));
     }
 
+    private void deleteCriteria(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer, HttpServletRequest request) {
+        String criteriaId = request.getParameter("criteriaId");
+        pedagogicalPlanTransfer.removeCriteria(criteriaId);
+        ScyElo pedagogicalPlanElo = getPedagogicalPlanEloForMission(missionSpecificationElo);
+        pedagogicalPlanElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(pedagogicalPlanTransfer));
+        pedagogicalPlanElo.updateElo();
+    }
+
+    private void deleteLearningGoal(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer, HttpServletRequest request) {
+        String learningGoalId = request.getParameter("learningGoalId");
+        if (learningGoalId != null) {
+            pedagogicalPlanTransfer.removeLearningGoal(learningGoalId);
+            ScyElo pedagogicalPlanElo = getPedagogicalPlanEloForMission(missionSpecificationElo);
+            pedagogicalPlanElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(pedagogicalPlanTransfer));
+            pedagogicalPlanElo.updateElo();
+
+        }
+    }
+
     private void setUseLearningGoalsWithCriteria(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer, HttpServletRequest request) {
-        if(pedagogicalPlanTransfer.getAssessmentSetup().getUseLearningGoalsWithCriteria() != null) {
+        if (pedagogicalPlanTransfer.getAssessmentSetup().getUseLearningGoalsWithCriteria() != null) {
             pedagogicalPlanTransfer.getAssessmentSetup().setUseLearningGoalsWithCriteria(!pedagogicalPlanTransfer.getAssessmentSetup().getUseLearningGoalsWithCriteria());
         } else {
-            pedagogicalPlanTransfer.getAssessmentSetup().setUseLearningGoalsWithCriteria(true);    
+            pedagogicalPlanTransfer.getAssessmentSetup().setUseLearningGoalsWithCriteria(true);
         }
 
         ScyElo pedagogicalPlanElo = getPedagogicalPlanEloForMission(missionSpecificationElo);
@@ -85,7 +108,7 @@ public class LearningGoalsController extends BaseController{
 
     private void setScorableLearningGoals(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer, HttpServletRequest request) {
         logger.info("Setting learning add goals only to pedagogical plan!");
-        if(pedagogicalPlanTransfer.getAssessmentSetup().getUseScorableLearningGoals() != null) {
+        if (pedagogicalPlanTransfer.getAssessmentSetup().getUseScorableLearningGoals() != null) {
             pedagogicalPlanTransfer.getAssessmentSetup().setUseScorableLearningGoals(!pedagogicalPlanTransfer.getAssessmentSetup().getUseScorableLearningGoals());
         } else {
             pedagogicalPlanTransfer.getAssessmentSetup().setUseScorableLearningGoals(true);
@@ -99,10 +122,10 @@ public class LearningGoalsController extends BaseController{
 
     private void setLearningGoalsOnly(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer, HttpServletRequest request) {
         logger.info("Setting learning add goals only to pedagogical plan!");
-        if(pedagogicalPlanTransfer.getAssessmentSetup().getUseOnlyLearningGoals() != null) {
+        if (pedagogicalPlanTransfer.getAssessmentSetup().getUseOnlyLearningGoals() != null) {
             pedagogicalPlanTransfer.getAssessmentSetup().setUseOnlyLearningGoals(!pedagogicalPlanTransfer.getAssessmentSetup().getUseOnlyLearningGoals());
         } else {
-            pedagogicalPlanTransfer.getAssessmentSetup().setUseOnlyLearningGoals(true);    
+            pedagogicalPlanTransfer.getAssessmentSetup().setUseOnlyLearningGoals(true);
         }
 
         ScyElo pedagogicalPlanElo = getPedagogicalPlanEloForMission(missionSpecificationElo);
@@ -114,12 +137,12 @@ public class LearningGoalsController extends BaseController{
         String criteriaId = request.getParameter("criteriaId");
         for (int i = 0; i < learningGoal.getLearningGoalCriterias().size(); i++) {
             LearningGoalCriterium criterium = learningGoal.getLearningGoalCriterias().get(i);
-            if(criterium.getId().equals(criteriaId)) criterium.setLevel(request.getParameter("level"));
+            if (criterium.getId().equals(criteriaId)) criterium.setLevel(request.getParameter("level"));
         }
         ScyElo pedagogicalPlanElo = getPedagogicalPlanEloForMission(missionSpecificationElo);
         pedagogicalPlanElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(pedagogicalPlanTransfer));
         pedagogicalPlanElo.updateElo();
-        
+
     }
 
     private void addCriteriaToLearningGoals(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer, LearningGoal learningGoal) {
@@ -129,7 +152,7 @@ public class LearningGoalsController extends BaseController{
         ScyElo pedagogicalPlanElo = getPedagogicalPlanEloForMission(missionSpecificationElo);
         pedagogicalPlanElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(pedagogicalPlanTransfer));
         pedagogicalPlanElo.updateElo();
-        
+
     }
 
     private LearningGoal getLearningGoal(PedagogicalPlanTransfer pedagogicalPlanTransfer, HttpServletRequest request) {
@@ -142,7 +165,7 @@ public class LearningGoalsController extends BaseController{
         allGoals.addAll(specificLearningGoals);
         for (int i = 0; i < allGoals.size(); i++) {
             LearningGoal learningGoal = allGoals.get(i);
-            if(learningGoal.getId().equals(learningGoalId)) return learningGoal;
+            if (learningGoal.getId().equals(learningGoalId)) return learningGoal;
         }
 
         logger.warn("DID NOT FIND LEARNING GOAL : " + learningGoalId);
@@ -175,7 +198,6 @@ public class LearningGoalsController extends BaseController{
             logger.info("PEDAGOGICAL PLAN TRANSFER IS NULL!!");
         }
     }
-
 
 
     private ScyElo getPedagogicalPlanEloForMission(MissionSpecificationElo missionSpecificationElo) {

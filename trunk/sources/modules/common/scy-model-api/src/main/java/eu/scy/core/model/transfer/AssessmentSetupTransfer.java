@@ -223,4 +223,51 @@ public class AssessmentSetupTransfer extends BaseXMLTransfer{
     public void addTeacherQuestiontoMission(TeacherQuestionToMission teacherQuestionToMission) {
         getTeacherQuestionsToMission().add(teacherQuestionToMission);
     }
+
+    public void removeLearningGoal(String learningGoalId) {
+        LearningGoal learningGoalToBeRemoved = null;
+        for (int i = 0; i < generalLearningGoals.size(); i++) {
+            LearningGoal o = (LearningGoal) generalLearningGoals.get(i);
+            if(o.getId().equals(learningGoalId)) learningGoalToBeRemoved = o;
+        }
+        if(learningGoalToBeRemoved != null) {
+            generalLearningGoals.remove(learningGoalToBeRemoved);
+            return;
+        }
+
+        for (int i = 0; i < specificLearningGoals.size(); i++) {
+            LearningGoal learningGoal = (LearningGoal) specificLearningGoals.get(i);
+            if(learningGoal.getId().equals(learningGoalId)) learningGoalToBeRemoved = learningGoal;
+        }
+        if(learningGoalToBeRemoved != null) {
+            specificLearningGoals.remove(learningGoalToBeRemoved);
+        }
+    }
+
+    public void removeCriteria(String criteriaId) {
+        LearningGoalCriterium criteriaToBeRemoved = null;
+        for (int i = 0; i < generalLearningGoals.size(); i++) {
+            LearningGoal o = (LearningGoal) generalLearningGoals.get(i);
+            for (int j = 0; j < o.getLearningGoalCriterias().size(); j++) {
+                LearningGoalCriterium learningGoalCriterium = o.getLearningGoalCriterias().get(j);
+                if(learningGoalCriterium.getId().equals(criteriaId)) criteriaToBeRemoved = learningGoalCriterium;
+            }
+            if(criteriaToBeRemoved != null) {
+                o.getLearningGoalCriterias().remove(criteriaToBeRemoved);
+                return;
+            }
+        }
+        for (int i = 0; i < specificLearningGoals.size(); i++) {
+            LearningGoal o = (LearningGoal) specificLearningGoals.get(i);
+            for (int j = 0; j < o.getLearningGoalCriterias().size(); j++) {
+                LearningGoalCriterium learningGoalCriterium = o.getLearningGoalCriterias().get(j);
+                if(learningGoalCriterium.getId().equals(criteriaId)) criteriaToBeRemoved = learningGoalCriterium;
+            }
+            if(criteriaToBeRemoved != null) {
+                o.getLearningGoalCriterias().remove(criteriaToBeRemoved);
+                return;
+            }
+        }
+
+    }
 }

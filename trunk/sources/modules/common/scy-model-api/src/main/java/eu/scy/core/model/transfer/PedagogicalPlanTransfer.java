@@ -116,4 +116,11 @@ public class PedagogicalPlanTransfer extends BaseXMLTransfer {
         this.trimSearchResultsInEportfolioToContainElosWithEqualTechnicalFormat = trimSearchResultsInEportfolioToContainElosWithEqualTechnicalFormat;
     }
 
+    public void removeLearningGoal(String learningGoalId) {
+        getAssessmentSetup().removeLearningGoal(learningGoalId);
+    }
+
+    public void removeCriteria(String criteriaId) {
+        getAssessmentSetup().removeCriteria(criteriaId);
+    }
 }
