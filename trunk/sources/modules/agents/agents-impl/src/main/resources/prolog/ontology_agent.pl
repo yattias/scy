@@ -212,11 +212,13 @@ label_lookup(OntName, OntLabel, Language, OntTerm, Category) :-
 	prdf(OntTerm, label, Label),
 	lookup(OntName, OntTerm, Category).
 
+% (<ID>:String, "onto":String, "surrounding":String, <OntName>:String, <OntLabel>:String, <Language>:String) -> (<ID>:String, <OntTerm>:String, <Surrounding>:String)
 surrounding(OntName, Label, Language, Surrounding) :-
 	ont_connect(_, OntName, _),
 	label_lookup(OntName, Label, Language, Term, Category),
 	expand(Term, Category, SurroundingTerms),
-	findall(L, (member(STerm, SurroundingTerms), prdf(STerm, label, SLabel), sub_string(SLabel, _, _, 0, Language), trim_label(SLabel, L)), Surrounding). 
+	setof(L, (member(STerm, SurroundingTerms), prdf(STerm, label, SLabel), sub_string(SLabel, _, _, 0, Language), trim_label(SLabel, L)), Surrounding). 
+surrounding(_, _, _, []).
 
 expand(Term, individual, Surrounding) :-
 	findall(Parent, prdf(Term, type, Parent), Parents),
