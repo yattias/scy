@@ -1,4 +1,40 @@
 <%@ include file="common-taglibs.jsp" %>
+
+<table>
+    <tr>
+        <td>
+            <a href="javascript:openPage('learningGoalsConfiguration', 'LearningGoals.html?action=addScorableLearningGoals&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));">
+                <c:if test="${pedagogicalPlan.assessmentSetup.useScorableLearningGoals}">
+                        <img src="/webapp/themes/scy/default/images/checked_radio.png" alt=""  />
+                    </c:if>
+                    <c:if test="${!pedagogicalPlan.assessmentSetup.useScorableLearningGoals}">
+                        <img src="/webapp/themes/scy/default/images/unchecked_radio.png" alt=""  />
+                    </c:if>
+                </a>
+        </td>
+        <td>
+            Add scorable learning goals
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="javascript:openPage('learningGoalsConfiguration', 'LearningGoals.html?action=addLearningGoalsWithCriteria&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));">
+            <c:if test="${pedagogicalPlan.assessmentSetup.useLearningGoalsWithCriteria}">
+                    <img src="/webapp/themes/scy/default/images/checked_radio.png" alt=""  />
+                </c:if>
+                <c:if test="${!pedagogicalPlan.assessmentSetup.useLearningGoalsWithCriteria}">
+                    <img src="/webapp/themes/scy/default/images/unchecked_radio.png" alt=""  />
+                </c:if>
+            </a>
+        </td>
+        <td>
+            Add learning goals with criteria
+        </td>
+    </tr>
+</table>
+
+
+
 <div id="dialogOne" dojoType="dijit.Dialog" title="<spring:message code="HELP"/> ">
     <spring:message code="HELP_TEXT_LEARNING_GOALS"/>
     </div>
@@ -27,8 +63,13 @@
                         <td>
                             <i><strong><s:ajaxTransferObjectTextField transferObjectServiceCollection="${transferObjectServiceCollection}" transferObject="${learningGoal}" transferEloURI="${pedagogicalPlan.pedagogicalPlanURI}" id="${learningGoal.id}" property="goal"/></strong></i>
                         </td>
-                        <td align="left">
+                        <td align="left" width="3%">
                             <s:ajaxTransferObjectCheckBox transferObjectServiceCollection="${transferObjectServiceCollection}" transferObject="${learningGoal}" transferEloURI="${pedagogicalPlan.pedagogicalPlanURI}" id="${learningGoal.id}" property="use"/>
+                        </td>
+                        <td width="3%">
+                            <a href="javascript:openPage('learningGoalsConfiguration', 'LearningGoals.html?action=deleteLearningGoal&learningGoalId=${learningGoal.id}&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));">
+                                <img src="/webapp/themes/scy/default/images/trash.png" alt="delete"/>
+                            </a>
                         </td>
                     </tr>
                 </table>
@@ -41,6 +82,7 @@
                                         <td width="7%"><strong><spring:message code="LOW"/></strong></td>
                                         <td width="7%"><strong><spring:message code="MEDIUM"/></strong></td>
                                         <td width="7%"><strong><spring:message code="HIGH"/></strong></td>
+                                        <td width="3%"></td>
                                     </tr>
                                     <c:forEach var="criteria" items="${learningGoal.learningGoalCriterias}">
                                         <tr  class="${oddEven.oddEven}">
@@ -82,6 +124,12 @@
                                                         </c:if>
                                                     </a>
                                                 </center>
+                                            </td>
+                                            <td>
+                                                <a href="javascript:openPage('learningGoalsConfiguration', 'LearningGoals.html?action=deleteCriteria&criteriaId=${criteria.id}&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));">
+                                                    <img src="/webapp/themes/scy/default/images/trash.png" alt="delete"/>
+                                                </a>
+
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -122,9 +170,15 @@
                         <td>
                             <i><strong><s:ajaxTransferObjectTextField transferObjectServiceCollection="${transferObjectServiceCollection}" transferObject="${learningGoal}" transferEloURI="${pedagogicalPlan.pedagogicalPlanURI}" id="${learningGoal.id}" property="goal"/></strong></i>
                         </td>
-                        <td align="left">
+                        <td align="left" width="3%">
                             <s:ajaxTransferObjectCheckBox transferObjectServiceCollection="${transferObjectServiceCollection}" transferObject="${learningGoal}" transferEloURI="${pedagogicalPlan.pedagogicalPlanURI}" id="${learningGoal.id}" property="use"/>
                         </td>
+                        <td width="3%">
+                            <a href="javascript:openPage('learningGoalsConfiguration', 'LearningGoals.html?action=deleteLearningGoal&learningGoalId=${learningGoal.id}&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));">
+                                <img src="/webapp/themes/scy/default/images/trash.png" alt="delete"/>
+                            </a>
+                        </td>
+
                     </tr>
                 </table>
                     <c:if test="${pedagogicalPlan.assessmentSetup.useLearningGoalsWithCriteria}">
@@ -136,6 +190,7 @@
                                         <td width="7%"><strong><spring:message code="LOW"/></strong></td>
                                         <td width="7%"><strong><spring:message code="MEDIUM"/></strong></td>
                                         <td width="7%"><strong><spring:message code="HIGH"/></strong></td>
+                                        <td width="3%"></td>
                                     </tr>
                                     <c:forEach var="criteria" items="${learningGoal.learningGoalCriterias}">
                                         <tr  class="${oddEven.oddEven}">
@@ -178,6 +233,11 @@
                                                     </a>
                                                 </center>
                                             </td>
+                                            <td>
+                                                <a href="javascript:openPage('learningGoalsConfiguration', 'LearningGoals.html?action=deleteCriteria&criteriaId=${criteria.id}&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));">
+                                                    <img src="/webapp/themes/scy/default/images/trash.png" alt="delete"/>
+                                                </a>
+                                            </td>
                                         </tr>
                                     </c:forEach>
                                 </table>
@@ -201,38 +261,6 @@
 <a href="javascript:openPage('learningGoalsConfiguration', 'LearningGoals.html?action=addSpecificLearningGoal&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));"><spring:message code="ADD_SPECIFIC_LEARNING_GOAL"/> </a>        <br/>
 
 
-<table>
-    <tr>
-        <td>
-            <a href="javascript:openPage('learningGoalsConfiguration', 'LearningGoals.html?action=addScorableLearningGoals&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));">
-                <c:if test="${pedagogicalPlan.assessmentSetup.useScorableLearningGoals}">
-                        <img src="/webapp/themes/scy/default/images/checked_radio.png" alt=""  />
-                    </c:if>
-                    <c:if test="${!pedagogicalPlan.assessmentSetup.useScorableLearningGoals}">
-                        <img src="/webapp/themes/scy/default/images/unchecked_radio.png" alt=""  />
-                    </c:if>
-                </a>
-        </td>
-        <td>
-            Add scorable learning goals
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <a href="javascript:openPage('learningGoalsConfiguration', 'LearningGoals.html?action=addLearningGoalsWithCriteria&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));">
-            <c:if test="${pedagogicalPlan.assessmentSetup.useLearningGoalsWithCriteria}">
-                    <img src="/webapp/themes/scy/default/images/checked_radio.png" alt=""  />
-                </c:if>
-                <c:if test="${!pedagogicalPlan.assessmentSetup.useLearningGoalsWithCriteria}">
-                    <img src="/webapp/themes/scy/default/images/unchecked_radio.png" alt=""  />
-                </c:if>
-            </a>
-        </td>
-        <td>
-            Add learning goals with criteria
-        </td>
-    </tr>
-</table>
 
 
 
