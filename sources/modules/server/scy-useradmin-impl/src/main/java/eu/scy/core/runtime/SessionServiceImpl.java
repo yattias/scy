@@ -60,7 +60,7 @@ public class SessionServiceImpl extends BaseELOServiceImpl implements SessionSer
         List<UserActivityInfo> userActivityInfoList = new LinkedList<UserActivityInfo>();
 
         try {
-            Tuple missionTemplate = new Tuple(MISSION, String.class, String.valueOf(missionSpecificationElo.getUri()), String.class);
+            Tuple missionTemplate = new Tuple(MISSION, String.class, String.valueOf(missionSpecificationElo.getUri()), String.class, String.class, String.class);
 
             Tuple[] missionTuples = getTupleSpace().readAll(missionTemplate);
             String missionString = "";
@@ -257,7 +257,7 @@ public class SessionServiceImpl extends BaseELOServiceImpl implements SessionSer
     @Override
     public List<LasActivityInfo> getActiveLasses(MissionSpecificationElo missionSpecificationElo) {
         PedagogicalPlanTransfer pedagogicalPlan = getPedagogicalPlanForMission(missionSpecificationElo);
-        Tuple lasTemplate = new Tuple(LAS, String.class, missionSpecificationElo.getTitle(), String.class);
+        Tuple lasTemplate = new Tuple(LAS, String.class, missionSpecificationElo.getUri().toString(), String.class);
         List<LasActivityInfo> returnList = new LinkedList<LasActivityInfo>();
         try {
             Tuple[] lasTuples = getTupleSpace().readAll(lasTemplate);
@@ -306,7 +306,7 @@ public class SessionServiceImpl extends BaseELOServiceImpl implements SessionSer
     }
 
     private void addActiveUsers(LasActivityInfo lasActivityInfo, MissionSpecificationElo missionSpecificationElo) {
-        Tuple lasTemplate = new Tuple(LAS, String.class, missionSpecificationElo.getTitle(), lasActivityInfo.getLasName());
+        Tuple lasTemplate = new Tuple(LAS, String.class, missionSpecificationElo.getUri().toString(), lasActivityInfo.getLasName());
         try {
             Tuple[] lasTuples = getTupleSpace().readAll(lasTemplate);
             for (int i = 0; i < lasTuples.length; i++) {

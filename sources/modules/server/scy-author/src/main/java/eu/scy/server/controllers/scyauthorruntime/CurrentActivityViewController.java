@@ -44,7 +44,7 @@ public class CurrentActivityViewController extends BaseController {
         MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(uri, getMissionELOService());
 
         PedagogicalPlanTransfer pedagogicalPlanTransfer = getPedagogicalPlanELOService().getPedagogicalPlanForMission(missionSpecificationElo);
-        List <TransferElo> obligatoryElos = missionELOService.getObligatoryAnchorELOs(missionSpecificationElo, pedagogicalPlanTransfer);
+        List <TransferElo> obligatoryElos = getObligatoryAnchorElos(request, missionSpecificationElo, pedagogicalPlanTransfer);//missionELOService.getObligatoryAnchorELOs(missionSpecificationElo, pedagogicalPlanTransfer);
 
         List<UserActivityInfo> userActivityInfo = getSessionService().getCurrentStudentActivity(missionSpecificationElo);
         modelAndView.addObject("userActivityList", userActivityInfo);

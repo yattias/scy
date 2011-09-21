@@ -71,7 +71,7 @@ public class ConfigureAssessmentController extends BaseController {
 
             }
 
-            List <TransferElo> anchorElos = getMissionELOService().getObligatoryAnchorELOs(missionSpecificationElo, pedagogicalPlanTransfer);
+            List <TransferElo> anchorElos = getObligatoryAnchorElos(request, missionSpecificationElo, pedagogicalPlanTransfer);//getMissionELOService().getObligatoryAnchorELOs(missionSpecificationElo, pedagogicalPlanTransfer);
             List <AnchorEloReflectionQuestionTransporter> anchorEloReflectionQuestionTransporters = new LinkedList<AnchorEloReflectionQuestionTransporter>();
             List <AnchorEloReflectionQuestionFOrTeacherTransporter> anchorEloReflectionQuestionFOrTeacherTransporters = new LinkedList<AnchorEloReflectionQuestionFOrTeacherTransporter>();
 
