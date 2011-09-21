@@ -72,9 +72,7 @@ class GroupFormationNotificationHelper {
         return new VMID().toString();
     }
 
-    public void sendStudentAddedToGroupNotification(IAction action, String newUser, Collection<Group> newGroups,
-                                                    String language, String las) {
-
+    public void sendStudentAddedToGroupNotification(IAction action, String newUser, Collection<Group> newGroups, String language) {
         ResourceBundle messages = ResourceBundle.getBundle("agent_messages", new Locale(language));
 
         Group newGroup = null;
@@ -89,14 +87,13 @@ class GroupFormationNotificationHelper {
                     buddifyGroup(action, group, user, messageNotificationId);
 
                     if ( !user.equals(newUser) ) {
-                        // buddify newUser to group
                         try {
-                            String id = createId();
                             // inform other users that somebody entered their group
+                            String id = createId();
                             StringBuilder addUserToGroupMessage = new StringBuilder();
                             addUserToGroupMessage.append(messages.getString("GF_ADD_USER_TO_GROUP"));
                             addUserToGroupMessage.append(" ");
-                            addUserToGroupMessage.append(newUser);
+                            addUserToGroupMessage.append(sanitizeName(newUser));
 
                             Tuple messageNotificationTuple = createMessageNotificationTuple(action, id, addUserToGroupMessage.toString(),
                                     user);
@@ -108,11 +105,11 @@ class GroupFormationNotificationHelper {
                             LOGGER.error("Could not write into Tuplespace", e);
                         }
                     } else {
-                        // set the status for every user to the lasId
-                        setStatus(action, las, user);
+                        // set the status for every user to the groupId
+                        setStatus(action, group.getId(), user);
 
-                        // enable filtering on the lasid
-                        enableFiltering(action, las, user, true);
+                        // enable filtering on the groupId
+                        enableFiltering(action, group.getId(), user, true);
 
                         // send message about proposed collaboration to user
                         sendCollaborationMessage(action, messages, group, user, messageNotificationId);
@@ -162,17 +159,16 @@ class GroupFormationNotificationHelper {
         }
     }
 
-    public void sendGroupNotification(IAction action, Collection<Group> formedGroups, String language,
-                                      String las) {
+    public void sendGroupNotification(IAction action, Collection<Group> formedGroups, String language) {
         ResourceBundle messages = ResourceBundle.getBundle("agent_messages", new Locale(language));
 
         for ( Group group : formedGroups ) {
             for ( String user : group ) {
-                // set the status for every user to the lasId
-                setStatus(action, las, user);
+                // set the status for every user to the groupId
+                setStatus(action, group.getId(), user);
 
-                // enable filtering on the lasid
-                enableFiltering(action, las, user, true);
+                // enable filtering on the groupId
+                enableFiltering(action, group.getId(), user, true);
 
                 String messageNotificationId = createId();
 
@@ -223,7 +219,7 @@ class GroupFormationNotificationHelper {
         }
     }
 
-    public void enableFiltering(IAction action, String las, String user, boolean filterEnabled) {
+    public void enableFiltering(IAction action, String groupid, String user, boolean filterEnabled) {
         String notificationId = createId();
         Tuple notificationTuple = new Tuple();
         notificationTuple.add(AgentProtocol.NOTIFICATION);
@@ -235,7 +231,7 @@ class GroupFormationNotificationHelper {
         notificationTuple.add(action.getContext(ContextConstants.session));
         notificationTuple.add("type=filter_users");
         notificationTuple.add("filter=" + Boolean.toString(filterEnabled));
-        notificationTuple.add("groupd-id=" + las);
+        notificationTuple.add("groupd-id=" + groupid);
         try {
             notificationSpace.write(notificationTuple);
         } catch ( TupleSpaceException e ) {
@@ -244,7 +240,7 @@ class GroupFormationNotificationHelper {
 
     }
 
-    public void setStatus(IAction action, String las, String user) {
+    public void setStatus(IAction action, String status, String user) {
         String notificationId = createId();
         Tuple notificationTuple = new Tuple();
         notificationTuple.add(AgentProtocol.NOTIFICATION);
@@ -255,7 +251,7 @@ class GroupFormationNotificationHelper {
         notificationTuple.add(action.getContext(ContextConstants.mission));
         notificationTuple.add(action.getContext(ContextConstants.session));
         notificationTuple.add("type=set_status");
-        notificationTuple.add("status=" + las);
+        notificationTuple.add("status=" + status);
         try {
             notificationSpace.write(notificationTuple);
             waitForNotificationProcessedAction(notificationId, "group all buddies for " + user + " notification " + "was not " +

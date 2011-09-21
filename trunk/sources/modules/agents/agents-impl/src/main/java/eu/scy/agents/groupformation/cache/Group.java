@@ -12,6 +12,7 @@ public class Group implements Iterable<String> {
 
     private Set<String> group;
     private Object data;
+    private String id;
 
     public Group() {
         group = new LinkedHashSet<String>();
@@ -67,5 +68,13 @@ public class Group implements Iterable<String> {
 
     public Object getData() {
         return data;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
