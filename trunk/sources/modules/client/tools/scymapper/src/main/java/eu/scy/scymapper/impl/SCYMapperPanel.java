@@ -121,7 +121,12 @@ public class SCYMapperPanel extends JPanel implements INotifiable {
     public void setToolBroker(ToolBrokerAPI tbi, String username) {
         toolBroker = tbi;
         if (toolBroker != null) {
-            actionLogger = new ConceptMapActionLogger(toolBroker.getActionLogger(), getConceptMap().getDiagram(), username, toolBroker.getMissionRuntimeURI().toString());
+			if (toolBroker.getMissionRuntimeURI()!=null) {
+				actionLogger = new ConceptMapActionLogger(toolBroker.getActionLogger(), getConceptMap().getDiagram(), username, toolBroker.getMissionRuntimeURI().toString());
+			} else {
+				// in author mode, the mission runtime uri may be null
+				actionLogger = new ConceptMapActionLogger(toolBroker.getActionLogger(), getConceptMap().getDiagram(), username, "n/a");
+			}
         }
     }
 
