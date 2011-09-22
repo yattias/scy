@@ -31,11 +31,18 @@ public class AgendaNotificationCommand extends ScyDesktopRemoteCommand {
         if (timestamp == null or timestamp == "") {
             timestamp = "0";
         }
+        def remove = notification.getFirstProperty("remove");
         def state = notification.getFirstProperty("state");
         def elouri = notification.getFirstProperty("elouri");
         logger.debug("agenda_notify: {timestamp}-{text}-{state}-{elouri}");
         def agenda = scyDesktop.moreInfoManager.agendaNode;
-        if (state != null) {
+        if (remove != null) {
+            if (remove == "one") {
+                agenda.removeLogEntry(elouri);
+            } else if (remove == "all") {
+                agenda.removeAllLogEntries();
+            }
+        } else if (state != null) {
             agenda.addLogEntry(Long.parseLong(timestamp), text, AgendaEntryState.valueOf(state), elouri);
         } else {
             agenda.addMessageEntry(Long.parseLong(timestamp), text);
