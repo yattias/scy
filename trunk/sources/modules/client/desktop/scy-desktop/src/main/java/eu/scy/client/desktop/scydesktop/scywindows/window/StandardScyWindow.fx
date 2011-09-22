@@ -1056,8 +1056,8 @@ public class StandardScyWindow extends ScyWindow {
       bubble = bubbleManager.createBubble(closedWindowBuddies, "elo-buddies", BubbleLayer.DESKTOP, BubbleKey.OPEN_ELO_BUDDIES, windowColorScheme);
       bubble.canBeUsed = ownersDefined;
 
-      bubbleManager.createBubble(closedWindow.eloIcon, BubbleLayer.DESKTOP, BubbleKey.ELO_ICON_CLOSED, windowColorScheme);
-      bubbleManager.createBubble(windowTitleBar.eloIcon, BubbleLayer.DESKTOP, BubbleKey.ELO_ICON_OPEN, windowColorScheme);
+//      bubbleManager.createBubble(closedWindow.eloIcon, BubbleLayer.DESKTOP, BubbleKey.ELO_ICON_CLOSED, windowColorScheme);
+//      bubbleManager.createBubble(windowTitleBar.eloIcon, BubbleLayer.DESKTOP, BubbleKey.ELO_ICON_OPEN, windowColorScheme);
 
       return mainContentGroup = Group {
                          cursor: bind if (allowDragging and not isMaximized) Cursor.MOVE else null

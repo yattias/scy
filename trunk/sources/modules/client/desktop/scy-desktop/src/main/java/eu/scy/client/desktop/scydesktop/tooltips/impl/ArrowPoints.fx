@@ -4,8 +4,8 @@
  */
 package eu.scy.client.desktop.scydesktop.tooltips.impl;
 
-import javafx.geometry.Rectangle2D;
 import javafx.geometry.Point2D;
+import javafx.geometry.Bounds;
 
 /**
  * @author SikkenJ
@@ -14,7 +14,7 @@ public class ArrowPoints {
 
    public-init var arrowBaseOffset = 12.0;
    public-init var borderWidth = 2.0;
-   public-init var baseRect: Rectangle2D on replace { calculatePoints() };
+   public-init var baseRect: Bounds on replace { calculatePoints() };
    public var arrowPoint: Point2D on replace { calculatePoints() };
    public var arrowPosition = ArrowPosition.TOP_LEFT on replace { calculatePoints() };
    public-read var backgroundPoint1: Point2D;
@@ -27,19 +27,20 @@ public class ArrowPoints {
    function calculatePoints() {
       calculateBackgroundPoints();
       calculateLinePoints();
-      printPoints()
+//      printPoints()
    }
 
    function printPoints() {
-      println("baseRect: {baseRect}");
-      println("arrowPoint: {arrowPoint}");
-      println("arrowPosition: {arrowPosition}");
-      println("backgroundPoint1: {backgroundPoint1}");
-      println("backgroundPoint2: {backgroundPoint2}");
-      println("backgroundPoint3: {backgroundPoint3}");
-      println("linePoint1: {linePoint1}");
-      println("linePoint2: {linePoint2}");
-      println("linePoint3: {linePoint3}");
+      println("ArrowPoints:");
+      println("- baseRect: {baseRect}");
+      println("- arrowPoint: {arrowPoint}");
+      println("- arrowPosition: {arrowPosition}");
+      println("- backgroundPoint1: {backgroundPoint1}");
+      println("- backgroundPoint2: {backgroundPoint2}");
+      println("- backgroundPoint3: {backgroundPoint3}");
+      println("- linePoint1: {linePoint1}");
+      println("- linePoint2: {linePoint2}");
+      println("- linePoint3: {linePoint3}");
    }
 
    function calculateBackgroundPoints() {

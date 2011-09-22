@@ -42,7 +42,7 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
    }
 
    public override function log(action: IAction): Void {
-      println("actionLogged");
+//      println("actionLogged");
       bubbleManagerTimer.userDidSomething();
    }
 
@@ -74,17 +74,18 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
       } else {
          ++noBubbleFoundCounter;
          if (noBubbleFoundCounter < 3) {
-            println("no bubble found to display");
+            logger.info("no bubble found to display");
          }
       }
    }
 
    function showBubble(bubble: AbstractBubble): Void {
-      println("display bubble: {bubble}");
-      def bubbleNode = bubble.getBubbleNode();
-      TooltipShower {
+      logger.info("display bubble: {bubble}");
+      def bubbleNode = bubble.getBubbleContent();
+      BubbleShower {
          tooltipGroup: SimpleTooltipManager.tooltipGroup
-         tooltipNode: bubbleNode
+         bubbleContent: bubbleNode
+         windowColorScheme: bubble.windowColorScheme
          sourceNode: bubble.targetNode
       //         startAppearingTime: startAppearingTime
       //         fullAppearingTime: fullAppearingTime
