@@ -1,0 +1,86 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-04-22T14:28:27.512+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-07-26T11:02:10.125+0200</dateTime>
+        </date>
+      </contribute>
+      <version>2</version>
+    </lifecycle>
+    <annotation>
+      <entity>colorId</entity>
+      <colorSchemeId />
+    </annotation>
+    <technical>
+      <customElements>
+        <dateCreated>1303475307512</dateCreated>
+        <dateFirstUserSaveKey>1316696222932</dateFirstUserSaveKey>
+        <dateLastModified>1316696222932</dateLastModified>
+      </customElements>
+      <format>scy/formauthor</format>
+    </technical>
+    <educational>
+      <learningResourceType>dataset</learningResourceType>
+    </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType />
+    </annotation>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40675/0/Photo+de+mes+r%C3%A9sultats.scyformauthor</entry>
+      </identifier>
+      <las>Biologie: Espace d'expérimentation</las>
+      <missionId>forensic</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40652/0/Le+laboratoire+de+police+scientifique.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Picture of my results</string>
+        <string language="fr">Photo de mes résultats</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <template>true</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAAA+CAYAAAC875yHAAACp0lEQVR42u2YT2saURTFA/1I6hdwk70UuhIUjYvuAoIVVy1FpEoWXbjTBGwVbaoxialWtDFa/2AgiYFaRLtooRQCRaJojeht3wWHQSct2kU77TlwuM/39D75cXwzzhr90Pr6Ok2nU2q326SkcDhMkLLWgOA3Afr9fnI6nWQymXjCarWCChIIgAAIgBAA/lGAnU4H/oUZYLPZpJnPz89J/lr4deMV12q1urD28WrC9fj4mJ4XPlP325W09u5rjWsmk+HaarWkNSFRU6kUPX15SQ9jHWledQnc39+nmev1Otf+gzuUTCZ5fO/xXa6FQkF632xt8OER13Q6TeF4hpKf7ktrwbdvuO7t7XEVmq29/3LJNRqNUvBZgp74X/AazkCZJpMJ9Xo9dr/fX/A/dQbWajXS6/Vks9l4slwuc3W5XEs1u7m5IY1Gw4BEYovFIhkMBh7L3Wg0aHNzk66vr2lnZ4d/5hsbGzQej8nn86kL4OHhIc376OhoJct7RCIRCgQC7GAwuGClfeV7i7FqElipVDiB8v/B3W536WazBA4GA06a1+slnU63kMCLiwuy2+2KCRQ9VJXAbDZL887lcitZ3iMej1MoFLrVSvvK9xZj1SRQnHkigRaLhSc9Hg9tb29TIpFY6iycJXA4HHLSTk9PyWg0LiRQ3C45HA4pgeIqrtoEnpyc0LxLpdJKlvcQZ5i4TbnNSvvK9xZj1SRQfGGRQLPZzJMiJeIiILS1tUWxWIzcbjfl83k+v36WQK1WS6PRiHscHBzQ7u7uQgLPzs441UoJFJ9VVQLFrcbfajxMwNMYCAABEAABEAJAAARAAIQAEAABEAAhAARAAARACAABEAABEAJAAARAAARACAABEAABEAJAAARAAIQAEAABEAAhAARAAPw/9B19rQDg0Ti5EwAAAABJRU5ErkJggg==</base64>
+  </thumbnail>
+</metadata>
+<content languages="en fr" contentType="xml">
+<form description="" title="Photo de mes résultats" version="0"><field cardinality="0" title="Photo" type="IMAGE"/><field cardinality="1" title="Date" type="DATE"/><field cardinality="1" title="Nom du groupe" type="TEXT"/><field cardinality="1" title="Temps de migration" type="TIME"/></form>
+</content>
+<resources>
+</resources>
+</elo>

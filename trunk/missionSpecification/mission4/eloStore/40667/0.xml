@@ -22,7 +22,7 @@
           <dateTime>2011-07-08T16:58:35.998+0200</dateTime>
         </date>
       </contribute>
-      <version>1</version>
+      <version>2</version>
     </lifecycle>
     <annotation>
       <entity>colorId</entity>
@@ -71,19 +71,7 @@
         </identifier>
       </resource>
     </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
   <template>true</template>
   <thumbnail>
     <mime>png</mime>
@@ -91,39 +79,39 @@
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Nom et Pr\'e9nom: \b0\par
-\par
-\b Je suis expert en :  \b0\par
-\par
-\b Affaire n\'b0: \b0 CY0347\b  \b0\par
-\par
-\b Objet: \b0 Expertise pour le Minist\'e8re public\par
-\par
-\b R\'e9sum\'e9 des faits (selon ma compr\'e9hension des \'e9l\'e9ments de l'affaire):    \b0\par
-\par
-\b Ma mission:    \b0    \par
-\par
-\b Mon mat\'e9riel chimique (mes \'e9chantillons):\par
-\b0 Avez-vous r\'e9ussi \'e0 faire l'analyse chimique des \'e9chantillons?\par
-\par
-\b Listes des \'e9tapes de l'expertse (activit\'e9s que j'ai faites, objets que j'ai cr\'e9\'e9s, ...):\b0\par
-\par
-\b Justification de la m\'e9thode, de ma technique d'analyse:\b0\par
-\par
-\b Probl\'e8mes rencontr\'e9s lors de l'expertsie (Optionnel):\b0\par
-\par
-\b Ma conclusion:\b0\par
-Avez-vous trouv\'e9 une correspondance entre l'\'e9chantillon r\'e9colt\'e9 sur le terrain et l'une des encres de r\'e9f\'e9rence?\par
-Quelle information est-ce qu'une correspondance apporte sur la culpabilit\'e9 ou non d'un suspect?\par
-\par
-\par
-\par
-\par
-\li0\ri0\fi0\ul0\par
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Nom et Pr\'e9nom: \b0\par&#xD;
+\par&#xD;
+\b Je suis expert en :  \b0\par&#xD;
+\par&#xD;
+\b Affaire n\'b0: \b0 CY0347\b  \b0\par&#xD;
+\par&#xD;
+\b Objet: \b0 Expertise pour le Minist\'e8re public\par&#xD;
+\par&#xD;
+\b R\'e9sum\'e9 des faits (selon ma compr\'e9hension des \'e9l\'e9ments de l'affaire):    \b0\par&#xD;
+\par&#xD;
+\b Ma mission:    \b0    \par&#xD;
+\par&#xD;
+\b Mon mat\'e9riel chimique (mes \'e9chantillons):\par&#xD;
+\b0 Avez-vous r\'e9ussi \'e0 faire l'analyse chimique des \'e9chantillons?\par&#xD;
+\par&#xD;
+\b Listes des \'e9tapes de l'expertse (activit\'e9s que j'ai faites, objets que j'ai cr\'e9\'e9s, ...):\b0\par&#xD;
+\par&#xD;
+\b Justification de la m\'e9thode, de ma technique d'analyse:\b0\par&#xD;
+\par&#xD;
+\b Probl\'e8mes rencontr\'e9s lors de l'expertsie (Optionnel):\b0\par&#xD;
+\par&#xD;
+\b Ma conclusion:\b0\par&#xD;
+Avez-vous trouv\'e9 une correspondance entre l'\'e9chantillon r\'e9colt\'e9 sur le terrain et l'une des encres de r\'e9f\'e9rence?\par&#xD;
+Quelle information est-ce qu'une correspondance apporte sur la culpabilit\'e9 ou non d'un suspect?\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+\li0\ri0\fi0\ul0\par&#xD;
 }</RichText>
 </content>
 <resources>

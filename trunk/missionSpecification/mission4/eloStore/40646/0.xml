@@ -22,7 +22,7 @@
           <dateTime>2011-07-26T10:56:59.466+0200</dateTime>
         </date>
       </contribute>
-      <version>5</version>
+      <version>6</version>
     </lifecycle>
     <annotation>
       <entity>colorId</entity>
@@ -770,8 +770,8 @@
         </step>
         <step>
           <description language="fr">Remplir la cuve avec le tampon TAE de façon à recouvrir le gel. Utiliser environ 275 ml de tampon.</description>
-          <comments language="fr">Il y a 2 options d'utilisation du tampon TAE:&#xD;
-1. Le tampon TAE 1x&#xD;
+          <comments language="fr">Il y a 2 options d'utilisation du tampon TAE:&#xD;&#xD;
+1. Le tampon TAE 1x&#xD;&#xD;
 2. Le tampon TAE 0,25x</comments>
           <task_right>
             <edit_right>X</edit_right>
@@ -784,8 +784,8 @@
           </task_right>
         </step>
         <step>
-          <description language="fr">Déposer chaque échantillon dans les puits du gel.&#xD;
-- 10 μl du marqueur de taille "M"&#xD;
+          <description language="fr">Déposer chaque échantillon dans les puits du gel.&#xD;&#xD;
+- 10 μl du marqueur de taille "M"&#xD;&#xD;
 - 20 μl d'échantillon d'ADN</description>
           <comments language="fr">A quoi sert le marqueur de taille?</comments>
           <task_right>
@@ -812,8 +812,8 @@
           </task_right>
         </step>
         <step>
-          <description language="fr">Mettre en marche le générateur pour commencer l'électrophorèse: &#xD;&#xD;&#xD;&#xD;
-- Tampon TAE 1x : 100 V pendant 30 minutes.&#xD;&#xD;&#xD;&#xD;
+          <description language="fr">Mettre en marche le générateur pour commencer l'électrophorèse: &#xD;&#xD;&#xD;&#xD;&#xD;
+- Tampon TAE 1x : 100 V pendant 30 minutes.&#xD;&#xD;&#xD;&#xD;&#xD;
 - Tampon 0,25x : 200 V pendant 20 minutes</description>
           <comments language="fr" />
           <task_right>

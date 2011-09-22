@@ -59,6 +59,18 @@
         <string language="fr">Carte conceptuelle des analyses chimiques</string>
       </title>
     </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_forked_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/40674/0/Carte+conceptuelle+des+analyses+chimiques.scymapping</entry>
+        </identifier>
+      </resource>
+    </relation>
   </lom>
   <template>true</template>
   <thumbnail>

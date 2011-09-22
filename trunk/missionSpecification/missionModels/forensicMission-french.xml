@@ -306,7 +306,7 @@
             </bean>
 			<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="chimConceptMap"/>
-               <property name="uri" value="roolo://memory/40544/0/Concept+Map+for+chemical+analysis.scymapping"/>
+               <property name="uri" value="roolo://memory/40674/0/Carte+conceptuelle+des+analyses+chimiques.scymapping"/>
                <property name="iconType" value="Concept_map3"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Information/chimTargetDescription.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Information/Assignments/A_chimConceptMap.html"/>
@@ -322,7 +322,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="bioChoiceTechnique"/>
-               <property name="uri" value="roolo://memory/40624/0/Choice+of+techniques.scymapping"/>
+               <property name="uri" value="roolo://memory/40673/0/Choix+des+techniques.scymapping"/>
                <property name="iconType" value="research_question"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/TargetDescription.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/Assignments/A_bioChoiceTechnique.html"/>
@@ -405,7 +405,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="bioPictureData"/>
-               <property name="uri" value="roolo://memory/40578/0/Picture+of+my+results.scyformauthor"/>
+               <property name="uri" value="roolo://memory/40675/0/Photo+de+mes+r%C3%A9sultats.scyformauthor"/>
 			   <property name="iconType" value="concept_map2"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/targetDescription.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/Assignments/A_bioRepresentationData.html"/>
@@ -438,7 +438,7 @@
             </bean>
 			<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="chimRepresentationData"/>
-               <property name="uri" value="roolo://memory/40617/0/Picture+of+my+results.scyformauthor"/>
+               <property name="uri" value="roolo://memory/40676/0/Photo+de+mes+r%C3%A9sultats.scyformauthor"/>
 			   <property name="iconType" value="concept_map2"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/targetDescription.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/Assignments/A_chimRepresentationData.html"/>

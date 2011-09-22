@@ -22,7 +22,7 @@
           <dateTime>2011-09-06T11:52:13.720+0200</dateTime>
         </date>
       </contribute>
-      <version>1</version>
+      <version>3</version>
     </lifecycle>
     <annotation>
       <entity>colorId</entity>
@@ -31,8 +31,8 @@
     <technical>
       <customElements>
         <dateCreated>1303994140125</dateCreated>
-        <dateFirstUserSaveKey>1316555743933</dateFirstUserSaveKey>
-        <dateLastModified>1316555743933</dateLastModified>
+        <dateFirstUserSaveKey>1316695363501</dateFirstUserSaveKey>
+        <dateLastModified>1316695363501</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
@@ -62,18 +62,6 @@
     <relation>
       <kind>
         <source>LOMv1.0</source>
-        <value>is_fork_of</value>
-      </kind>
-      <resource>
-        <identifier>
-          <catalog>memory</catalog>
-          <entry>roolo://memory/40615/0/Goal+of+the+analysis.rtf</entry>
-        </identifier>
-      </resource>
-    </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
         <value>is_version_of</value>
       </kind>
       <resource>
@@ -87,7 +75,7 @@
   <template>true</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAC2ElEQVR42u3U3UtTcRgH8HPTP+EfsD8g9KZddBMp+BKiIqHSXVlatBtpXQ0dUVBdJHTRWFcmGKmJ0OsGu8my8iWH+DZf4JjbdNp0JQjHffP34Dnu5Cktu5Dx/cLD73d+53l2ts/YtNjcKIBVW6XWZvedqQoEAg7nGcfedwNhx/MtI5FXpU3HhhFd3MZYTiVXpmFgGYjesWpodFIA137A1gukpXcinrXqfHMbBt4rQPvrqr7vm0t5VQL4+vMS7j7qgaZpePXp6x7gwA1crj4pqwm4uLKJS00eNDc1Sa8JqPaqbj/sQt01/y5gFi8Gdbz8uCj3VN/qNx1r6X+v4zavzcwOI/h8EDUXrqLuYgsCPR/2AN804sGVU7IOfZkSwKmFFTx5O4ng05D0moBq/ywyK2vD9Vu7gJDrs+fqZFV9ieRCXtUO4AjONHhxuqbFKhPwhHbTqpGxCQGsbmyz9ZqAuWe++0EB9N17bDtXfbo+l1elZXf+2Lf/ogykDtW3ZSw7nsdi0zs1c4Q6XvMamCNFAHVd33djfX39wOH6+vrf3stms457p+tfMz8/73huGMYfn3PY5M7kfobOzk7rvlkHzWu5YN3d3djY2MD4+Di8Xq+cx+NxdHR0yD6VSslaW1sLt9stM+Fw2PYFZDIZVFVVyb6yshLFxcWyLy8vR1FREfr6+mTvcrms+dLSUplRzzYTDAaRTqdlvrW1FRUVFSgsLJT53C+9t7dXXkvF4/HIquZUEokEysrK0N7ejmQyKe/f5/MhFArJTCQSsfpU/H6/DSoajcpaUFAg71WVcikpKZHz/v5+/oT/y0+YISABCUhAhoAEJCABGQISkIAEZAhIQAISkCEgAQlIQIaABCQgARkCEpCABGQISEACEpAhIAEJSECGgAQkIAEJyBCQgAQkIENAAhKQgAwBCUhAAjIEJCABCcgQkIAEJCBDQAISkIAMAQlIQAIyDvkJ/6KdY5d8KvwAAAAASUVORK5CYII=</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAADUElEQVR42u3Yy0sbURgF8PkTCl248YELUVvwgUvdqYhIVq5UcOFGV0qNLWqzKVGpBqkpKKi0QlBpUbGFWqHixrYoaiQUm7po0fQRopWq0Zj4iKd+VzIkwdJQpJZ6Dlxmvnvv3Ln5MYmMWhDfcYwNvQFbEXX0+PsP8xH14KAtoj4MriNw5LkyTRMgvDPj84tbiL/edAq4jRnnDmqM9/BgcEYBvj6tx17Z8WbFqwClljkLqwcKUOq5j341vutzY2f3m962vV9VC+87r503L9a+y1zvDPBtHabuGxB/7bYC1DQNj57N447lqQJ8/HwB6TduqqMAypjMGXzpUIBSP5leUeObP75gfcN1ZdoZIDbD2nZEHT0ugOG1AIbXbvcqXK5PV6Zpd4esMA091JvU0X3ntfPmxdr3P62nnT42sFgs2N/fh9/vx+HhIUIJBoPw+XwIBAKqlvPfRa6RFBYW6n2h6+rr69Vxb28P1dXVyMnJwdHRkT7v4OBAjcl8OUpOTk70cdmfzImO7C80X46hNjExoc/p7e3V1wp9RllP7i/3s9vtOD4+1tdYXFxELNF+NRC+8X8pF7EveWAuKhoYAl4qoMFgQHZ2tirKy8sxNjaGvLw8rK2twWQynf5VdSM5ORnLy8vIyspCc3MzkpKS1PylpSVsbW3B6XSiuLgYKSkpSE1NVWukpaXF9JvJJ5BfYYaABCQgARkCEpCABGT+6FWutrZW74iLi0NfX586l6PNZkNlZSXMZjM6OzvR39+PiooKNZ6QkICMjAz9OklpaSlGR0fR09OD1tZWjIyMoK6uDnNzc2p8dnYWRqNRrT08PIz29nZkZmaq10RJUVERHA6HOp+enkZ+fj4GBgZQU1ODgoICuFwupKeno62tDYmJiWp9Wa+kpATd3d2YnJxER0cHWlpa1D7LysrUWuPj48jNzdVfWaempuD1etV9q6qqVH9jYyOsViu6urrUevJfm6amJjQ0NKh7ymfweDzqlVUsZG98AvkVJiABCcgQkIAEJCBDQAISkIAMAQlIQAIyBCQgAQnIEJCABCQgQ0ACEpCADAEJSEACMgQkIAEJyBCQgAQkIENAAhKQgARkCEhAAhKQISABCUhAhoAEJCABGQL+tfwEc8g3MPhrbU4AAAAASUVORK5CYII=</base64>
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
@@ -97,7 +85,16 @@
 
 \li0\ri0\fi0\f1\fs24\i\b0\ul0\cf1\ldblquote Le minist\'e8re public veut savoir si l'encre de la lettre anonyme correspond \'e0 l'encre de l'un des stylos collect\'e9s."\par
 \par
+\i0\b Reformulation (50 mots maximum):\par
+\par
+\par
+\par
+\par
+\par
+Pourquoi la chromatographie sur couche mince (CCM) est-elle la bonne technique pour r\'e9pondre \'e0 la demande du Minist\'e8re public?\i\b0\par
+\par
 \i0\par
+\par
 \par
 \par
 \par
