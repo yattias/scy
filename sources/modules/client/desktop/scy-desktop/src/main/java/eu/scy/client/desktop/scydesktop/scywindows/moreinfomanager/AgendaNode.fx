@@ -215,6 +215,16 @@ public class AgendaNode extends CustomNode, Resizable {
         insert Separator {} after messageEntries[0];
     }
 
+    public function removeLogEntry(elouri: String) {
+        var logEntry = entryUrlMap.remove(elouri) as Node;
+        delete logEntry from logEntries;
+    }
+
+    public function removeAllLogEntries() {
+        entryUrlMap.clear();
+        delete logEntries;
+    }
+
     public function addLogEntry(timestamp: Long, text: String, state: AgendaEntryState, elouri: String) {
         var logEntry = HBox {
                     spacing: 10
