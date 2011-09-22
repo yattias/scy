@@ -12,6 +12,6 @@ package eu.scy.client.tools.fxformauthor;
 public interface ILoadXML {
     public void loadXML(String xml);
     public String getXML();
-
+    public String getDescription();
     public void setTitle(String title);
 }

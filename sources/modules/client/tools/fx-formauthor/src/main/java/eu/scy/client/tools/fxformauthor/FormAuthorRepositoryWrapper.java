@@ -45,6 +45,7 @@ public class FormAuthorRepositoryWrapper {
     private IMetadataKey technicalFormatKey;
     private IMetadataKey dateCreatedKey;
     private IMetadataKey authorKey;
+    private IMetadataKey descriptionKey;
     
     private String docName = untitledDocName;
     private ILoadXML target;
@@ -74,15 +75,11 @@ public class FormAuthorRepositoryWrapper {
     public void setMetadataTypeManager(IMetadataTypeManager metadataTypeManager) {
         this.metadataTypeManager = metadataTypeManager;
         identifierKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId());
-        logger.info("retrieved key " + identifierKey.getId());
         titleKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
-        logger.info("retrieved key " + titleKey.getId());
         technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
-        logger.info("retrieved key " + technicalFormatKey.getId());
         dateCreatedKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.DATE_CREATED.getId());
-        logger.info("retrieved key " + dateCreatedKey.getId());
         authorKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId());
-        logger.info("retrieved key " + authorKey.getId());
+        descriptionKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.DESCRIPTION.getId());
     }
 
     public void loadFormAction()
@@ -164,6 +161,7 @@ public class FormAuthorRepositoryWrapper {
             elo.getMetadata().getMetadataValueContainer(titleKey).setValue(docName);
             elo.getMetadata().getMetadataValueContainer(titleKey).setValue(docName, Locale.GERMANY);
             elo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue("scy/formauthor");
+            elo.getMetadata().getMetadataValueContainer(descriptionKey).setValue(target.getDescription(), Locale.ENGLISH);
             elo.getMetadata().getMetadataValueContainer(dateCreatedKey).setValue(
             new Long(System.currentTimeMillis()));
             elo.getMetadata().getMetadataValueContainer(authorKey).setValue(

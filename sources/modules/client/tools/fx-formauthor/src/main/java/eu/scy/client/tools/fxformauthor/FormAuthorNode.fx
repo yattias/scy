@@ -103,6 +103,11 @@ public class FormAuthorNode extends CustomNode, Resizable, ScyToolFX, ILoadXML, 
         formList.createFromString(xml);
     }
 
+    override function getDescription() : String {
+        return formList.description;
+    }
+
+
     override function getXML():String {
         return formList.getXMLString();
     }

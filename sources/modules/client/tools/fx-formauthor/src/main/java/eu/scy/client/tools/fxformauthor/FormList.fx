@@ -207,7 +207,7 @@ public class FormList extends CustomNode {
     //content array
     var elements: ArrayList = new ArrayList();
     var title: String = "";
-    var description: String = "";
+    public var description: String = "";
     var version: Integer = 0;
 
     public function showElementEvents(eventNode: FormElementEvents): Void {
