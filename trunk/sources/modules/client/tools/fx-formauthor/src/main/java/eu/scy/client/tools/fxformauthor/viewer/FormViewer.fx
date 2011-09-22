@@ -258,6 +258,10 @@ public class FormViewer extends CustomNode, Resizable, ILoadXML, ScyToolFX {
         //return formList.getXMLString();
     }
 
+    override function getDescription() : String {
+        return "";
+    }
+
     public var windowTitle:String;
 
     override function setTitle(title:String):Void {
