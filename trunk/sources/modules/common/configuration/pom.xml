@@ -342,6 +342,44 @@
                 <roolo.port>80</roolo.port>
             </properties>
         </profile>
+         <profile>
+            <id>CUSTOM</id>
+            <properties>
+                <version-name>-custom</version-name>
+                <serverfilter.db.username>${custom.serverfilter.db.username}</serverfilter.db.username>
+                <serverfilter.db.password>${custom.serverfilter.db.password}</serverfilter.db.password>
+                <serverfilter.db.url>${custom.serverfilter.db.url}</serverfilter.db.url>
+                <serverfilter.db.host>${custom.serverfilter.db.host}</serverfilter.db.host>
+
+                <client.servername>${custom.client.servername}</client.servername>
+                <client.httpPort>${custom.client.httpPort}</client.httpPort>
+                <client.contextPath>${custom.client.contextPath}</client.contextPath>
+
+                <sqlspaces.server.host>${custom.sqlspaces.server.host}</sqlspaces.server.host>
+                <sqlspaces.server.port>${custom.sqlspaces.server.port}</sqlspaces.server.port>
+
+                <openfire.host>${custom.openfire.host}</openfire.host>
+                <openfire.conference>${custom.openfire.conference}</openfire.conference>
+                <openfire.client.port>${custom.openfire.client.port}</openfire.client.port>
+                <openfire.externalcomponent.port>${custom.openfire.externalcomponent.port}</openfire.externalcomponent.port>
+                <openfire.externalcomponent.secretkey>${custom.openfire.externalcomponent.secretkey}</openfire.externalcomponent.secretkey>
+                <openfire.http-host>${custom.openfire.http-host}</openfire.http-host>
+                <openfire.client.http-port>${custom.openfire.client.http-port}</openfire.client.http-port>
+                <scyhub.name>${custom.scyhub.name}</scyhub.name>
+
+                <filestreamer.server>${custom.filestreamer.server}</filestreamer.server>
+                <filestreamer.context>${custom.filestreamer.context}</filestreamer.context>
+                <filestreamer.port>${custom.filestreamer.port}</filestreamer.port>
+
+                <auth.cr.server>${custom.auth.cr.server}</auth.cr.server>
+                <auth.cr.context>${custom.auth.cr.context}</auth.cr.context>
+                <auth.cr.port>${custom.auth.cr.port}</auth.cr.port>
+
+                <roolo.server>${custom.roolo.server}</roolo.server>
+                <roolo.context>${custom.roolo.context}</roolo.context>
+                <roolo.port>${custom.roolo.port}</roolo.port>
+            </properties>
+        </profile>
     </profiles>
     <dependencies>
         <dependency>
