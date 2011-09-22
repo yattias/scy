@@ -69,6 +69,8 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
 	private ModelVariable feedbackVariable = null;
 	private final ResourceBundleWrapper bundle;
 	private JButton selectVariablesButton;
+	private JButton addDataButton;
+	private JButton clearDataButton;
 
 	public enum SCAFFOLD {
 
@@ -161,14 +163,34 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
 		return this.mode;
 	}
 
+	public boolean hasFeedback() {
+		return feedbackVariable != null;
+	}
+
 	public void setMode(MODE newMode) {
 		this.mode = newMode;
 		switch (this.mode) {
 			case explore_only:
-				this.setVisible(false);
+				if (feedbackVariable == null) {
+					this.setVisible(false);
+				} else {
+					this.setVisible(true);
+					this.selectVariablesButton.setVisible(false);
+					this.addDataButton.setVisible(false);
+					this.clearDataButton.setVisible(false);
+					pane.setVisible(false);
+				}
 				break;
 			case explore_simple_data:
-				this.setVisible(false);
+				if (feedbackVariable == null) {
+					this.setVisible(false);
+				} else {
+					this.setVisible(true);
+					this.selectVariablesButton.setVisible(false);
+					this.addDataButton.setVisible(false);
+					this.clearDataButton.setVisible(false);
+					pane.setVisible(false);
+				}
 				break;
 			case collect_simple_data:
 				this.setVisible(true);
@@ -190,18 +212,18 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
 		selectVariablesButton.setActionCommand("configure");
 		selectVariablesButton.addActionListener(this);
 		buttonPanel.add(selectVariablesButton);
-		JButton button = new JButton(getBundleString("DATACOLLECTOR_ADD_DATAPOINT"));
-		button.setActionCommand("adddata");
-		button.addActionListener(this);
-		buttonPanel.add(button);
+		addDataButton = new JButton(getBundleString("DATACOLLECTOR_ADD_DATAPOINT"));
+		addDataButton.setActionCommand("adddata");
+		addDataButton.addActionListener(this);
+		buttonPanel.add(addDataButton);
 		checkbox = new JCheckBox(getBundleString("DATACOLLECTOR_ADD_DATAPOINTS_CONT"));
 		checkbox.setSelected(false);
 		// removing the "add continiously" checkbox for the time being
 		//buttonPanel.add(checkbox);
-		button = new JButton(getBundleString("DATACOLLECTOR_CLEAR_DATASET"));
-		button.setActionCommand("cleardata");
-		button.addActionListener(this);
-		buttonPanel.add(button);
+		clearDataButton = new JButton(getBundleString("DATACOLLECTOR_CLEAR_DATASET"));
+		clearDataButton.setActionCommand("cleardata");
+		clearDataButton.addActionListener(this);
+		buttonPanel.add(clearDataButton);
 		
 		if (feedbackVariable != null) {
 			feedbackButton = new JButton(getBundleString("DATACOLLECTOR_FEEDBACK"));
