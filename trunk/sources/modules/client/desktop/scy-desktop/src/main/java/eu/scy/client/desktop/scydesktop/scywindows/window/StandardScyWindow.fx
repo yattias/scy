@@ -948,9 +948,7 @@ public class StandardScyWindow extends ScyWindow {
               };
 
       var globalTitleBarButtons: TitleBarButton[];
-      if (Boolean.getBoolean("agenda")) {
-         insert eloFinishedButton into globalTitleBarButtons;
-      }
+      insert eloFinishedButton into globalTitleBarButtons;
 
       titleBarButtons = TitleBarButtons {
                  tooltipManager: tooltipManager
