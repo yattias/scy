@@ -16,9 +16,10 @@ import javafx.scene.text.Font;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Polyline;
 import javafx.geometry.Point2D;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.shape.StrokeLineJoin;
 import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
+import javafx.geometry.Bounds;
+import javafx.geometry.BoundingBox;
 
 /**
  * @author SikkenJ
@@ -41,20 +42,41 @@ public class NodeBubble extends CustomNode {
    def backgroundY = content.boundsInLocal.minY - contentBorder - borderWidth - arcSize / 2;
    def backgroundWidth = content.boundsInLocal.width + 2 * contentBorder + 2 * borderWidth + arcSize;
    def backgroundHeight = content.boundsInLocal.height + 2 * contentBorder + 2 * borderWidth + arcSize;
-   def backgroundRect = Rectangle2D {
+   public def positionBounds:Bounds = BoundingBox {
               minX: content.boundsInLocal.minX - contentBorder - borderWidth - arcSize / 2
               minY: content.boundsInLocal.minY - contentBorder - borderWidth - arcSize / 2
               width: content.boundsInLocal.width + 2 * contentBorder + 2 * borderWidth + arcSize
               height: content.boundsInLocal.height + 2 * contentBorder + 2 * borderWidth + arcSize
            }
-   def arrowPoints = ArrowPoints {
-              baseRect: backgroundRect
-              arrowPosition: bind arrowPosition
-              arrowPoint: bind arrowPoint
-              borderWidth: borderWidth
+   def arrowBackground = Polygon {
+              fill: windowColorScheme.backgroundColor
+              stroke: windowColorScheme.mainColorLight;
+              strokeWidth: borderWidth;
+              strokeLineJoin: StrokeLineJoin.ROUND
+           }
+   def arrowLine = Polyline {
+              strokeWidth: borderWidth
+              stroke: windowColorScheme.mainColor
+              strokeLineJoin: StrokeLineJoin.ROUND
            }
 
+   public function updateShape(): Void {
+      def arrowPoints = ArrowPoints {
+                 baseRect: positionBounds
+                 arrowPosition: arrowPosition
+                 arrowPoint: sceneToLocal(arrowPoint)
+                 borderWidth: borderWidth
+              }
+      arrowBackground.points = [arrowPoints.backgroundPoint1.x, arrowPoints.backgroundPoint1.y,
+                 arrowPoints.backgroundPoint2.x, arrowPoints.backgroundPoint2.y,
+                 arrowPoints.backgroundPoint3.x, arrowPoints.backgroundPoint3.y];
+      arrowLine.points = [arrowPoints.linePoint1.x, arrowPoints.linePoint1.y,
+                 arrowPoints.linePoint2.x, arrowPoints.linePoint2.y,
+                 arrowPoints.linePoint3.x, arrowPoints.linePoint3.y];
+   }
+
    public override function create(): Node {
+      updateShape();
       return Group {
                  cache: true
                  blocksMouse: true;
@@ -81,23 +103,8 @@ public class NodeBubble extends CustomNode {
                        stroke: windowColorScheme.mainColor;
                        strokeWidth: borderWidth;
                     }
-                    Polygon {
-                       points: [arrowPoints.backgroundPoint1.x, arrowPoints.backgroundPoint1.y,
-                          arrowPoints.backgroundPoint2.x, arrowPoints.backgroundPoint2.y,
-                          arrowPoints.backgroundPoint3.x, arrowPoints.backgroundPoint3.y]
-                       fill: windowColorScheme.backgroundColor
-                       stroke: windowColorScheme.mainColorLight;
-                       strokeWidth: borderWidth;
-                       strokeLineJoin: StrokeLineJoin.ROUND
-                    }
-                    Polyline {
-                       points: [arrowPoints.linePoint1.x, arrowPoints.linePoint1.y,
-                          arrowPoints.linePoint2.x, arrowPoints.linePoint2.y,
-                          arrowPoints.linePoint3.x, arrowPoints.linePoint3.y]
-                       strokeWidth: borderWidth
-                       stroke: windowColorScheme.mainColor
-                       strokeLineJoin: StrokeLineJoin.ROUND
-                    }
+                    arrowBackground,
+                    arrowLine,
                     //                    Rectangle {
                     //                       x: bind backgroundX
                     //                       y: bind backgroundY

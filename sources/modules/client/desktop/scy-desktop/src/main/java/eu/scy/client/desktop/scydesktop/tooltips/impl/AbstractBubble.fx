@@ -59,6 +59,13 @@ public class AbstractBubble extends Bubble, JavaBubble {
       }
    }
 
+   public function getBubbleContent(): Node {
+      TextTooltip {
+         content: id
+         windowColorScheme: windowColorScheme
+      }
+   }
+
    public override function startBubbleling(): Void {
 
    }

@@ -166,7 +166,7 @@ public class EloManagement extends CustomNode {
       scyDesktop.bubbleManager.createBubble(searcher, BubbleLayer.DESKTOP, BubbleKey.SEARCH_CLICK, searcher.eloIcon.windowColorScheme);
       scyDesktop.bubbleManager.createBubble(searcher, BubbleLayer.DESKTOP, BubbleKey.SEARCH_DRAG, searcher.eloIcon.windowColorScheme);
       if (showCreateBlankElo) {
-         scyDesktop.bubbleManager.createBubble(searcher, BubbleLayer.DESKTOP, BubbleKey.NEW_BLANK_ELO, searcher.eloIcon.windowColorScheme);
+         scyDesktop.bubbleManager.createBubble(createBlankEloButton, BubbleLayer.DESKTOP, BubbleKey.NEW_BLANK_ELO, searcher.eloIcon.windowColorScheme);
       }
    }
 

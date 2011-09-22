@@ -101,7 +101,7 @@ public class Initializer {
    public-init var useBigMissionMap = true;
    public-init var showOnlyStartedMissions = false;
    public-init var globalReadOnlyMode = false;
-   public-init var showHelpBubbles = false;
+   public-init var showHelpBubbles = true;
    public-read var languages: String[];
    public-read var localLoggingDirectory: File = null;
    public-read var toolBrokerLogin: ToolBrokerLogin;
