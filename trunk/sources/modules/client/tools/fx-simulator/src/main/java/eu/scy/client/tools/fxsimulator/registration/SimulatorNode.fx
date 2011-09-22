@@ -425,11 +425,20 @@ public class SimulatorNode
 			// datasets cannot be stored
 			//saveDatasetButton.visible = false;
 			saveAsDatasetTitleBarButton.enabled = false;
+			if (dataCollector.hasFeedback()) {
+				split.setDividerLocation(0.98);
+				split.setResizeWeight(0.98);
+			}
+
 		} else if (newMode.equals(MODE.explore_simple_data)) {
 			// only simulation is visible
 			// saving a dataset = saving one row of selected variables
 			//saveDatasetButton.visible = true;
 			saveAsDatasetTitleBarButton.enabled = true;
+			if (dataCollector.hasFeedback()) {
+				split.setDividerLocation(0.98);
+				split.setResizeWeight(0.98);
+			}
 		} else if (newMode.equals(MODE.collect_simple_data)) {
 			// datacollector is visible, but not "select variables button"
 			// uses pre-defined set of relevant variables
