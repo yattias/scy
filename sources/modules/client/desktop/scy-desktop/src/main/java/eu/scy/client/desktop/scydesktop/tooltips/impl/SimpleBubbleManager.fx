@@ -82,11 +82,16 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
    function showBubble(bubble: AbstractBubble): Void {
       logger.info("display bubble: {bubble}");
       def bubbleNode = bubble.getBubbleContent();
+      var targetNode = bubble.getTargetNode();
+      if (targetNode==null){
+         targetNode = bubble.targetNode
+      }
+
       BubbleShower {
          tooltipGroup: SimpleTooltipManager.tooltipGroup
          bubbleContent: bubbleNode
          windowColorScheme: bubble.windowColorScheme
-         sourceNode: bubble.targetNode
+         sourceNode: targetNode
       //         startAppearingTime: startAppearingTime
       //         fullAppearingTime: fullAppearingTime
       //         startDisappearingTime: startDisappearingTime

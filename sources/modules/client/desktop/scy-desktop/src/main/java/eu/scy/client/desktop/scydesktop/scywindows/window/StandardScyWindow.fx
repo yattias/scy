@@ -1054,8 +1054,21 @@ public class StandardScyWindow extends ScyWindow {
       bubble = bubbleManager.createBubble(closedWindowBuddies, "elo-buddies", BubbleLayer.DESKTOP, BubbleKey.OPEN_ELO_BUDDIES, windowColorScheme);
       bubble.canBeUsed = ownersDefined;
 
-//      bubbleManager.createBubble(closedWindow.eloIcon, BubbleLayer.DESKTOP, BubbleKey.ELO_ICON_CLOSED, windowColorScheme);
-//      bubbleManager.createBubble(windowTitleBar.eloIcon, BubbleLayer.DESKTOP, BubbleKey.ELO_ICON_OPEN, windowColorScheme);
+      bubble = bubbleManager.createBubble(closedWindow.eloIcon, BubbleLayer.DESKTOP, BubbleKey.ELO_ICON_CLOSED, windowColorScheme);
+      bubble.getTargetNode = function():Node{
+         closedWindow.eloIcon
+      }
+      bubble.canBeUsed = function():Boolean{
+         isClosed
+      }
+
+      bubble = bubbleManager.createBubble(windowTitleBar.eloIcon, BubbleLayer.DESKTOP, BubbleKey.ELO_ICON_OPEN, windowColorScheme);
+      bubble.getTargetNode = function():Node{
+         windowTitleBar.eloIcon
+      }
+      bubble.canBeUsed = function():Boolean{
+         not isClosed
+      }
 
       return mainContentGroup = Group {
                          cursor: bind if (allowDragging and not isMaximized) Cursor.MOVE else null

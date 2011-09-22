@@ -11,6 +11,7 @@ package eu.scy.client.desktop.scydesktop.tooltips;
  */
 public enum BubbleLayer {
    DESKTOP,
+   DIALOG,
    LAS_CURTAIN,
    MISSION_MAP,
    MISSION_MAP_CURTAIN
