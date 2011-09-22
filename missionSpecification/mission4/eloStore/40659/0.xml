@@ -22,7 +22,7 @@
           <dateTime>2011-07-08T16:59:21.019+0200</dateTime>
         </date>
       </contribute>
-      <version>2</version>
+      <version>3</version>
     </lifecycle>
     <annotation>
       <entity>colorId</entity>
@@ -79,36 +79,36 @@
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
-&#xD;
-\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Nom et Pr\'e9nom:\b0  \par&#xD;
-\par&#xD;
-\b Je suis expert en:\b0  \b  \b0\par&#xD;
-\par&#xD;
-\b Cas n\'b0:\b0  \b  \b0 CY0347\par&#xD;
-\par&#xD;
-\b Objet:\b0  Expertise pour le Minist\'e8re public\par&#xD;
-\par&#xD;
-\b R\'e9sum\'e9 des faits (selon ma compr\'e9hension des \'e9l\'e9ments de l'affaire): \b0  \b   \b0\par&#xD;
-\par&#xD;
-\b Ma mission: \b0       \b\par&#xD;
-\par&#xD;
-Mon mat\'e9riel biologique (mes \'e9chantillons):\par&#xD;
-\b0 Est-ce que les \'e9chantillons de la sc\'e8ne de crime contenaient du mat\'e9riel biologique?\b\par&#xD;
-\b0 Avez-vous r\'e9ussi \'e0 faire les profiles ADN \'e0 partir des \'e9chantillons?\b\par&#xD;
-\b0\par&#xD;
-\b Description des \'e9tapes de l'expertsie (Activit\'e9s que j'ai faites, objets que j'ai cr\'e9\'e9...):\b0\par&#xD;
-\par&#xD;
-\b Justification de ma m\'e9thode, de mes techniques d'analyse:\par&#xD;
-\par&#xD;
-Probl\'e8mes rencontr\'e9s lors de la mission (optionnel):\b0\par&#xD;
-\par&#xD;
-\b Ma conclusion:\par&#xD;
-\b0 Avez-vous trouv\'e9 une correspondance entre l'\'e9chantillon de la sc\'e8ne de crime et l'un des \'e9chantillons de r\'e9f\'e9rence?\par&#xD;
-Quelle information est-ce qu'une correspondance apporte sur la culpabilit\'e9 ou non d'un suspect?\par&#xD;
-Quelle est la fr\'e9quence du profil correspondant dans la population mondiale? (Optionnel)\ul0\par&#xD;
+<RichText>{\rtf1\ansi&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;
+&#xD;&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Nom et Pr\'e9nom:\b0  \par&#xD;&#xD;
+\par&#xD;&#xD;
+\b Je suis expert en:\b0  \b  \b0\par&#xD;&#xD;
+\par&#xD;&#xD;
+\b Cas n\'b0:\b0  \b  \b0 CY0347\par&#xD;&#xD;
+\par&#xD;&#xD;
+\b Objet:\b0  Expertise pour le Minist\'e8re public\par&#xD;&#xD;
+\par&#xD;&#xD;
+\b R\'e9sum\'e9 des faits (selon ma compr\'e9hension des \'e9l\'e9ments de l'affaire): \b0  \b   \b0\par&#xD;&#xD;
+\par&#xD;&#xD;
+\b Ma mission: \b0       \b\par&#xD;&#xD;
+\par&#xD;&#xD;
+Mon mat\'e9riel biologique (mes \'e9chantillons):\par&#xD;&#xD;
+\b0 Est-ce que les \'e9chantillons de la sc\'e8ne de crime contenaient du mat\'e9riel biologique?\b\par&#xD;&#xD;
+\b0 Avez-vous r\'e9ussi \'e0 faire les profiles ADN \'e0 partir des \'e9chantillons?\b\par&#xD;&#xD;
+\b0\par&#xD;&#xD;
+\b Description des \'e9tapes de l'expertsie (Activit\'e9s que j'ai faites, objets que j'ai cr\'e9\'e9...):\b0\par&#xD;&#xD;
+\par&#xD;&#xD;
+\b Justification de ma m\'e9thode, de mes techniques d'analyse:\par&#xD;&#xD;
+\par&#xD;&#xD;
+Probl\'e8mes rencontr\'e9s lors de la mission (optionnel):\b0\par&#xD;&#xD;
+\par&#xD;&#xD;
+\b Ma conclusion:\par&#xD;&#xD;
+\b0 Avez-vous trouv\'e9 une correspondance entre l'\'e9chantillon de la sc\'e8ne de crime et l'un des \'e9chantillons de r\'e9f\'e9rence?\par&#xD;&#xD;
+Quelle information est-ce qu'une correspondance apporte sur la culpabilit\'e9 ou non d'un suspect?\par&#xD;&#xD;
+Quelle est la fr\'e9quence du profil correspondant dans la population mondiale? (Optionnel)\ul0\par&#xD;&#xD;
 }</RichText>
 </content>
 <resources>

@@ -22,7 +22,7 @@
           <dateTime>2011-07-08T14:58:19.019+0200</dateTime>
         </date>
       </contribute>
-      <version>1</version>
+      <version>2</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -63,19 +63,7 @@
         </identifier>
       </resource>
     </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
   <template>true</template>
   <thumbnail>
     <mime>png</mime>
@@ -83,19 +71,19 @@
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 R\'e9digez la conclusion de votre exp\'e9rience ici.\par
-\b0\par
-\b\par
-\par
-\par
-\b0\par
-\par
-\par
-\li0\ri0\fi0\ul0\par
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 R\'e9digez la conclusion de votre exp\'e9rience ici.\par&#xD;
+\b0\par&#xD;
+\b\par&#xD;
+\par&#xD;
+\par&#xD;
+\b0\par&#xD;
+\par&#xD;
+\par&#xD;
+\li0\ri0\fi0\ul0\par&#xD;
 }</RichText>
 </content>
 <resources>

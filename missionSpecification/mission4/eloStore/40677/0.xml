@@ -9,26 +9,34 @@
         </role>
         <entity>rachel</entity>
         <date>
-          <dateTime>2011-09-21T24:13:38.332+0200</dateTime>
+          <dateTime>2011-09-22T15:02:04.546+0200</dateTime>
         </date>
       </contribute>
-      <version>15</version>
+      <version>2</version>
     </lifecycle>
+    <annotation>
+      <entity>colorId</entity>
+      <colorSchemeId />
+    </annotation>
     <technical>
       <customElements>
-        <dateCreated>1316556818332</dateCreated>
-        <dateFirstUserSaveKey>1316556929514</dateFirstUserSaveKey>
-        <dateLastModified>1316696233737</dateLastModified>
+        <dateCreated>1316696524547</dateCreated>
+        <dateFirstUserSaveKey>1316696657310</dateFirstUserSaveKey>
+        <dateLastModified>1316696657310</dateLastModified>
       </customElements>
       <format>scy/missionmapmodel</format>
     </technical>
     <educational>
       <learningResourceType>conversation</learningResourceType>
     </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType />
+    </annotation>
     <general>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/40668/0/Le+laboratoire+de+police+scientifique.scymissionmapmodel</entry>
+        <entry>roolo://memory/40677/0/Le+laboratoire+de+police+scientifique.scymissionmapmodel</entry>
       </identifier>
       <las>Chimie: Espace d'expérimentation</las>
       <missionId>forensic</missionId>
@@ -50,15 +58,18 @@
       </resource>
     </relation>
   </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
   <template>TRUE</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>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</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAAA6CAYAAAAnft6RAAAFL0lEQVR42u1b2UtVXxTu30lBUESxB2d8sgdfRPRByQE1EbUyHDLNogfnWZBUHEhDcNZEHFNxekgMFcs5hxxzSlNzxbf67cPJyq7JTxvWB5dz9r77nHvvd/fZa61vrX2FTuDVq1ckMBxXTnY8e/ZMWDkPgQq7u7vCzk/Q1dX1YwIFP0dnZ6dhBB4fH5OZmZkwdgKvX7/+QmBgYCBtbm5yZ3d3N338+JFWVlbo2rVr1N/fT97e3hQfH09jY2MUHBzMbQHR1NTUFwK9vLwoNjaWO/v6+ujTp09MFHB4eMhHCwsL2traop2dHW4/fPiQSa2treV2QUEBHxsbG7UPANFHR0daG9cAlZWVlJyczOd5eXn8am5upvz8fG3G7+3t8fns7CzdvHmTz+fn5+n58+fk6+vL97p16xZFRkZq9+/o6KDe3l4+x3e9MALxI/U/VJ17enoymfpHGRgfH5fppycQz7LgHAQKhMDLJXB5eVnYOO8MTExMpOLiYpqcnNQGwL0xMTFht0ZZZGdnZ2ppaWF3BxZwbW1NCATa2tooIiLiqwFzc3Pk7+8vU+2sa+Dw8LCwI0ZECPyzCGxvb+fwaX19XZj5FQIbGho45nzx4gVZW1tTeHg49xsZGfExLCyMampqtIvd3d3p7du32pqJuHh0dJTbsNqIWRHzAvfv3yc7Ozs+R39dXR3/Ybg+Li6OKioqyMPDg9+PiYlhS6+Az5+YmCBbW1vt3hivvtO9e/fY+LW2tlJQUBAlJCRcDoGIbzH7oqKitIAcMDY2JgcHB3r//j1FR0fT48eP+YVxt2/flhmo79ATJxAjIgT+0QQq7U9gIIGwmK6urpo2CDlfxb/T09N8HBkZYYUYWFxcZFUYFlIB19vb22vWEsIsQkQAwmxJSQmFhoZyGzH06uoqGyT0A1VVVWRjY0MvX76k/f19VrtxnZWVFb8fEBDw+xJ4cHDAsS8AsQAugZubGxMHl8PS0pLevHlDubm5MvVOe4TT0tJOvQjJJkX0xsaGECjzSAj8fQh0dHT8ZtBFpAf/CgKbmpqop6eH41QASXTB6YB6/9UMBIEI9re3tyk7O5vMzc3ZH0QbgPFQCXgYGwT+AAQBuB7KvYGqg/vAgiPwx7jS0lL+x4CioiI++vn5UWpqKqcShoaGWIxAkh0uzIcPHzQ3SgkN6enpmvFCUh1wcXHhY3V1NYshN27c0H6PSvpfyAzEzINfdvfuXXrw4AH3Xb16lUxNTbm8IyUlhckEEXpfDsjIyGDFRVUewCVKSkri93E9/qmsrCwWH5CsV2MePXrErhH8u5CQEO2LlZeXs/Kj1B1FHl5QX6AUwZ3KyclhApG7yczM5D8LBT+4N+57584dcnJy+t/qen5qRPRVCQKxwkLgb02g3upinQPq6+vFjTGUQJU8ByCVw/ph0cZijFJWAIsyLOfAwAC3UVOoZHt5hP+zjKi9Q3203h0QyBooBAqBfzuBWP8Qhi0sLHD7e5I+apRhbBBqYSws9MzMjBCoByR1kCM4A4GosH/37h3HlgJZAy+XQKyFP4LaI6IH1sN/Fd/ogQJ5hC+PQBiSwsJCPvfx8dFiYkj9AgMIRPkaVGMouFClFcrKynidUxI6jlB+r1+/LgSerNJHwaPsgzvHGqh2SCJBo/D06VODb3haCkBVM+hlM0BJZYDa8KM2OyJHA6ikFmpnvucBqPobMSJihf9hApeWlmhwcJA3Xwt+gUCoMHBZUKH/5MkT2a10VgJRYI4EOqoAsKUAM1JwOpDE/wxngNH32NESvwAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
 <content languages="fr" contentType="xml">
 <missionModel>
-  <activeLas>Chimie: Espace d'expérimentation</activeLas>
+  <activeLas>Biologie: Espace d'information</activeLas>
   <missionMapBackgroundImageUri />
   <missionMapInstructionUri>http://www.scy-lab.eu/content/en/mission4/missionMapInstruction.html</missionMapInstructionUri>
   <missionMapButtonIconType />
@@ -181,7 +192,7 @@
       </mainAnchor>
       <intermediateAnchors>
         <intermediateAnchor>
-          <eloUri>roolo://memory/40617/0/Picture+of+my+results.scyformauthor</eloUri>
+          <eloUri>roolo://memory/40676/0/Photo+de+mes+r%C3%A9sultats.scyformauthor</eloUri>
           <id>chimRepresentationData</id>
           <iconType>concept_map2</iconType>
           <loElos />
@@ -502,50 +513,7 @@
       <nextLasses />
     </las>
   </lasses>
-  <windowStatesXmls>
-    <windowStatesXml id="Chimie: Espace de rédaction">
-      <windowstates>
-        <window uri="roolo://memory/40550/0/Chemistry%3A+Organized+data.scypds" layoutX="128.0" layoutY="125.0" relativeLayoutCenterX="0.146875" relativeLayoutCenterY="0.19038461" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" />
-        <window uri="roolo://memory/40667/0/Rapport+officiel.rtf" layoutX="1032.0" layoutY="10.0" relativeLayoutCenterX="0.853125" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
-        <window uri="roolo://memory/40666/0/Conclusion+de+mon+exp%C3%A9rience.rtf" layoutX="128.0" layoutY="10.0" relativeLayoutCenterX="0.146875" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" />
-      </windowstates>
-    </windowStatesXml>
-    <windowStatesXml id="Chimie: Espace d'orientation">
-      <windowstates>
-        <window uri="roolo://memory/40665/0/But+de+l%27analyse.rtf" layoutX="1392.0" layoutY="10.0" relativeLayoutCenterX="0.8642857" relativeLayoutCenterY="0.032524273" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.071428575" relativeHeight="0.04563107" />
-      </windowstates>
-    </windowStatesXml>
-    <windowStatesXml id="Chimie: Espace d'information">
-      <windowstates>
-        <window uri="roolo://memory/40674/0/Carte+conceptuelle+des+analyses+chimiques.scymapping" layoutX="288.0" layoutY="46.199997" relativeLayoutCenterX="0.51160717" relativeLayoutCenterY="0.41014564" width="1143.0" height="752.5" rotation="0.0" relativeWidth="0.68035716" relativeHeight="0.73058254" />
-      </windowstates>
-    </windowStatesXml>
-    <windowStatesXml id="Biologie: Espace d'information">
-      <windowstates>
-        <window uri="roolo://memory/40644/0/Examen+de+la+sc%C3%A8ne+de+crime.rtf" layoutX="1032.0" layoutY="10.0" relativeLayoutCenterX="0.853125" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
-      </windowstates>
-    </windowStatesXml>
-    <windowStatesXml id="Biologie: Espace d'orientation">
-      <windowstates>
-        <window uri="roolo://memory/40645/0/But+de+l%27analyse.rtf" layoutX="449.5" layoutY="10.0" relativeLayoutCenterX="0.3032738" relativeLayoutCenterY="0.032524273" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.071428575" relativeHeight="0.04563107" />
-        <window uri="roolo://memory/40673/0/Choix+des+techniques.scymapping" layoutX="118.39862" layoutY="9.052704" relativeLayoutCenterX="0.10618965" relativeLayoutCenterY="0.031604566" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.071428575" relativeHeight="0.04563107" />
-      </windowstates>
-    </windowStatesXml>
-    <windowStatesXml id="Chimie: Espace d'expérimentation">
-      <windowstates>
-        <window uri="roolo://memory/40616/0/Experimental+procedure.scyxproc" layoutX="168.0" layoutY="10.0" relativeLayoutCenterX="0.13571429" relativeLayoutCenterY="0.032524273" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" />
-        <window uri="roolo://memory/40617/0/Picture+of+my+results.scyformauthor" layoutX="780.0" layoutY="10.0" relativeLayoutCenterX="0.5595238" relativeLayoutCenterY="0.032524273" width="320.0" height="47.0" rotation="0.0" relativeWidth="0.1904762" relativeHeight="0.04563107" />
-        <window uri="roolo://memory/40548/0/Chemistry%3A+Annotated+data.scydraw" layoutX="1392.0" layoutY="10.0" relativeLayoutCenterX="0.8642857" relativeLayoutCenterY="0.032524273" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" />
-      </windowstates>
-    </windowStatesXml>
-    <windowStatesXml id="Biologie: Espace d'expérimentation">
-      <windowstates>
-        <window uri="roolo://memory/40577/0/Results+of+my+experiment.scydraw" layoutX="1392.0" layoutY="10.0" relativeLayoutCenterX="0.8642857" relativeLayoutCenterY="0.032524273" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" />
-        <window uri="roolo://memory/40675/0/Photo+de+mes+r%C3%A9sultats.scyformauthor" layoutX="780.0" layoutY="10.0" relativeLayoutCenterX="0.5595238" relativeLayoutCenterY="0.032524273" width="320.0" height="47.0" rotation="0.0" relativeWidth="0.1904762" relativeHeight="0.04563107" />
-        <window uri="roolo://memory/40646/0/Protocole+exp%C3%A9rimental.scyxproc" layoutX="168.0" layoutY="10.0" relativeLayoutCenterX="0.13571429" relativeLayoutCenterY="0.032524273" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" />
-      </windowstates>
-    </windowStatesXml>
-  </windowStatesXmls>
+  <windowStatesXmls />
 </missionModel>
 </content>
 <resources>

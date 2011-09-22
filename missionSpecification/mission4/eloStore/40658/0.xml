@@ -22,7 +22,7 @@
           <dateTime>2011-07-26T11:03:57.802+0200</dateTime>
         </date>
       </contribute>
-      <version>2</version>
+      <version>3</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -71,13 +71,13 @@
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
-&#xD;
-\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Il y a une correspondance entre l'\'e9chantillon de la sc\'e8ne de crime et:\par&#xD;
-\par&#xD;
-\b0\ul0\par&#xD;
+<RichText>{\rtf1\ansi&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;
+&#xD;&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Il y a une correspondance entre l'\'e9chantillon de la sc\'e8ne de crime et:\par&#xD;&#xD;
+\par&#xD;&#xD;
+\b0\ul0\par&#xD;&#xD;
 }</RichText>
 </content>
 <resources>
