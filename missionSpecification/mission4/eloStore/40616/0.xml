@@ -236,7 +236,7 @@
       <manipulation />
       <code>TEST</code>
       <is_free_action>true</is_free_action>
-      <is_task>true</is_task>
+      <is_task>false</is_task>
       <is_task_repeat>false</is_task_repeat>
       <hypothesis_mode>M</hypothesis_mode>
       <principle_mode>M</principle_mode>
@@ -245,7 +245,7 @@
       <strategy_ref>
         <code>S4</code>
       </strategy_ref>
-      <is_task_draw>false</is_task_draw>
+      <is_task_draw>true</is_task_draw>
     </initial_proc>
   </mission>
   <learner_proc>
