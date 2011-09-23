@@ -229,35 +229,43 @@ public class ELORun extends AbstractRun {
 
     private void handleStartEvent(RunUser aUser, long time) {
 
-        ELOModel[] aModelList = getELOModel().getNotStartedDependedELOs(aUser.getMissionRun());
+	setActivityStatus(ELORun.ActivityStatus.ACTIVATED);
+	aUser.sendMessageNotification("You start to working on the ELO titled \"" + this.getTitle() + "\".", time);
+        aUser.sendStatusNotification(this, 0);
+        updateELOTuple(aUser);
+	
+	ELOModel[] aModelList = getELOModel().getNotStartedDependedELOs(aUser.getMissionRun());
         ELORun[] aRunList = getELOModel().getIncompletedDependedELORuns(aUser.getMissionRun());
 
         if ((aModelList.length > 0) || (aRunList.length > 0)) {
-            boolean answer = aUser.sendConfirmation("Are you sure that you start to working on the \"" + this.getTitle() + "\"");
-            if (answer) {
-                setActivityStatus(ELORun.ActivityStatus.ACTIVATED);
-
+            
+            //boolean answer = aUser.sendConfirmation("Are you sure that you start to working on the \"" + this.getTitle() + "\"");
+            //if (answer) {
+                
                 if (aModelList.length > 0) {
-                    String message = new String("This ELO depends on the ELO");
+                    String message = new String(" This ELO depends on the ELO");
                     if (aModelList.length == 1) {
-                        message += ": \"" + aModelList[0].getTitle() + "\" in the las: \"" + aModelList[0].getLASModel().getId() + "\", which you have not started. You would better complete that activity before doing this activity.";
+                        message += ": \"" + aModelList[0].getTitle() + "\" in the las: \"" + aModelList[0].getLASModel().getId();
                     } else if (aModelList.length == 2) {
                         message += "s: \"" + aModelList[0].getTitle() + "\" in the las: \"" + aModelList[0].getLASModel().getId() + "\" ";
-                        message += "and \"" + aModelList[1].getTitle() + "\" in the las: \"" + aModelList[1].getLASModel().getId() + "\", which you have not started. You would better complete that two activities before doing this activity.";
+                        message += "and \"" + aModelList[1].getTitle() + "\" in the las: \"" + aModelList[1].getLASModel().getId();
 
                     } else if (aModelList.length > 2) {
                         message += "s: \"";
                         for (int i = 0; i < aModelList.length - 1; i++) {
                             message += aModelList[i].getTitle() + "\" in the las: \"" + aModelList[i].getLASModel().getId() + "\", ";
                         }
-                        message += "and \"" + aModelList[aModelList.length - 1].getTitle() + "\" in the las: \"" + aModelList[aModelList.length - 1].getLASModel().getId() + "\", which you have not started. You would better complete that activities before doing this activity.";
+                        message += "and \"" + aModelList[aModelList.length - 1].getTitle() + "\" in the las: \"" + aModelList[aModelList.length - 1].getLASModel().getId();
                     }
-                    aUser.sendMessage(message, time);
+                    message += "\", which you have not started. You would better complete that activities before doing this activity.";
+                    aUser.sendMessageNotification(message, time);
                 }
 
                 if (aRunList.length > 0) {
-                    String message = new String("This ELO depends on the following ELO" + (aRunList.length > 1 ? "s " : " ") + ", which you might have not finished.");
-                    aUser.sendMessage(message, time);
+                    /*
+                    String message = new String("This ELO depends on the ELO" + (aRunList.length > 1 ? "s " : " ") + ", which you might have not finished.");
+                    aUser.sendMessageNotification(message, time);
+                    
                     int count = 0;
                     for (int i = 0; i < aRunList.length; i++) {
                         answer = aUser.sendConfirmation("Are you sure that you have finished \"" + aRunList[i].getTitle() + "\" in the las: \"" + aRunList[i].getELOModel().getLASModel().getId() + "\"");
@@ -268,31 +276,97 @@ public class ELORun extends AbstractRun {
                             aRunList[i].setAmountOfChangeWork(0);
                             aRunList[i].updateELOTuple(aUser);
                             count++;
+                            
                         }
                     }
-                    if (count < aRunList.length) {
-                        aUser.sendMessage("You would better work on the uncompleted activities before doing this activity.", time);
-                    }
+                    if (count > 0) {aUser.sendMessageNotification("You would better work on the uncompleted activities before doing this activity.", time);
                 }
                 updateELOTuple(aUser);
             }
+        }*/
+                    
+                    String message = new String("You start to working on the ELO titled \"" + this.getTitle() + "\". This ELO depends on the ELO");
+                    if (aRunList.length == 1) {
+                	aRunList[0].setActivityStatus(ELORun.ActivityStatus.NEED2CHECK);
+                        aRunList[0].setChangeTime(0);
+                        aRunList[0].setAmountOfChangeWork(0);
+                        aRunList[0].updateELOTuple(aUser);
+                        aUser.sendStatusNotification(aRunList[0], 0);
+                        message += ": \"" + aRunList[0].getTitle() ;
+                    } else if (aRunList.length == 2) {
+                	aRunList[0].setActivityStatus(ELORun.ActivityStatus.NEED2CHECK);
+                        aRunList[0].setChangeTime(0);
+                        aRunList[0].setAmountOfChangeWork(0);
+                        aRunList[0].updateELOTuple(aUser);
+                        aUser.sendStatusNotification(aRunList[0], 0);
+                        message += "s: \"" + aRunList[0].getTitle() + "\" ";
+                	aRunList[1].setActivityStatus(ELORun.ActivityStatus.NEED2CHECK);
+                        aRunList[1].setChangeTime(0);
+                        aRunList[1].setAmountOfChangeWork(0);
+                        aRunList[1].updateELOTuple(aUser);
+                        aUser.sendStatusNotification(aRunList[1], 0);
+                        message += "and \"" + aRunList[1].getTitle() ;
+
+                    } else if (aRunList.length > 2) {
+                        message += "s: \"";
+                        for (int i = 0; i < aRunList.length - 1; i++) {
+                            aRunList[i].setActivityStatus(ELORun.ActivityStatus.NEED2CHECK);
+                            aRunList[i].setChangeTime(0);
+                            aRunList[i].setAmountOfChangeWork(0);
+                            aRunList[i].updateELOTuple(aUser);
+                            aUser.sendStatusNotification(aRunList[i], 0);
+
+                            message += aRunList[i].getTitle() + "\", ";
+                        }
+                        message += "and \"" + aRunList[aRunList.length - 1].getTitle();
+                    }
+                    message +=  "\", which haven't finished. You would better complete before doing this activity.";
+                    aUser.sendMessageNotification(message, time);
+                }
+                
+            //}
         }
     }
 
     private void handleModifyEvent(RunUser aUser, long time) {
+        setActivityStatus(ELORun.ActivityStatus.ACTIVATED);
+        aUser.sendMessageNotification("You have modified the ELO titled \"" + this.getTitle() + "\".", time);
+        aUser.sendStatusNotification(this, 0);
+
         ELORun[] aRunList = getELOModel().getInfluencedCompletedELORuns(aUser.getMissionRun());
         if (aRunList.length > 0) {
-            String prompt = "Do you want to modify this finished ELO? Such a change may influence on the";
+            String message = " Such a change may influence on the";
             if (aRunList.length == 1) {
-                prompt += " ELO: \"" + aRunList[aRunList.length - 1].getTitle() + "\".";
+        	aRunList[0].setActivityStatus(ELORun.ActivityStatus.NEED2CHECK);
+                aRunList[0].setChangeTime(0);
+                aRunList[0].setAmountOfChangeWork(0);
+                aRunList[0].updateELOTuple(aUser);
+                aUser.sendStatusNotification(aRunList[0], time);
+
+                message += " ELO titled \"" + aRunList[aRunList.length - 1].getTitle() + "\"";
             } else {
-                prompt += " following ELOs: ";
+                message += " ELOs: ";
+                int last = aRunList.length - 1;
                 for (int i = 0; i < aRunList.length - 1; i++) {
-                    prompt += "\"" + aRunList[i].getTitle() + "\", ";
+                    aRunList[i].setActivityStatus(ELORun.ActivityStatus.NEED2CHECK);
+                    aRunList[i].setChangeTime(0);
+                    aRunList[i].setAmountOfChangeWork(0);
+                    aRunList[i].updateELOTuple(aUser);
+                    aUser.sendStatusNotification(aRunList[i], time);
+
+                    message += "\"" + aRunList[i].getTitle() + "\", ";
                 }
-                prompt += "and \"" + aRunList[aRunList.length - 1].getTitle() + "\".";
+                aRunList[last].setActivityStatus(ELORun.ActivityStatus.NEED2CHECK);
+                aRunList[last].setChangeTime(0);
+                aRunList[last].setAmountOfChangeWork(0);
+                aRunList[last].updateELOTuple(aUser);
+                aUser.sendStatusNotification(aRunList[last], time);
+
+                message += "and \"" + aRunList[last].getTitle() + "\"";
             }
-            aUser.sendMessage(prompt, time);
+            message +=  "\". Please chech whether the influenced ELO needs modifing accordingly.";
+            aUser.sendMessageNotification(message, time);
+
             /*
              * boolean answer = aUser.sendConfirmation(prompt, aTime);
  
@@ -306,7 +380,7 @@ public class ELORun extends AbstractRun {
                 setActivityStatus(ActivityStatus.ACTIVATED);
                 updateELOTuple(aUser);
             }
-                        */
+             */
         }
     }
 

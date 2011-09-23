@@ -166,7 +166,7 @@ public class RunUser extends AbstractRun {
         }
     }
 
-    private Tuple createAgendaNotification(String notificationId, String user, String message, ActivityStatus status, String time, String elo_uri) {
+    private Tuple createAgendaNotification(String notificationId, String user, String title, ActivityStatus status, String time, String elo_uri) {
         Tuple notificationTuple = new Tuple();
         notificationTuple.add(AgentProtocol.NOTIFICATION); // 1
         notificationTuple.add(notificationId); // 2
@@ -176,11 +176,11 @@ public class RunUser extends AbstractRun {
         notificationTuple.add("mission"); // 6
         notificationTuple.add("session"); // 7
         notificationTuple.add("type=agenda_notify"); // 8
-        notificationTuple.add("text=" + message); // 9
+        notificationTuple.add("text=" + title); // 9
         notificationTuple.add("timestamp=" + time); // 10
         notificationTuple.add("state=" + status); // 11
         notificationTuple.add("elouri=" + elo_uri); // 12
-        System.out.println("Status=" + status + " Activity=" + message + " Time=" + time);
+        System.out.println("Status=" + status + " Activity=" + title + " Time=" + time);
         return notificationTuple;
     }
 
@@ -200,8 +200,19 @@ public class RunUser extends AbstractRun {
         return notificationTuple;
     }
     
+    public void sendStatusNotification(ELORun anELORun, long time) {
+        try {
+            String statusNotificationId = createId();
+            Tuple statusNotificationTuple = createAgendaNotification(
+        	    statusNotificationId, this.getId(), anELORun.getTitle(), anELORun.getActivityStatus(), String.valueOf(time), anELORun.getId());
+            commandSpace.write(statusNotificationTuple);
 
-    public void sendMessage(String aMessage, long time) {
+        } catch (TupleSpaceException e) {
+            ProcessGuidanceAgent.logger.info("Error in TupleSpace while load an object in roolo");
+        }
+    }
+
+    public void sendMessageNotification(String aMessage, long time) {
         //System.out.println("Send a notification to the user: \"" + getUserName() + "\", " + aMessage);
 
         try {
