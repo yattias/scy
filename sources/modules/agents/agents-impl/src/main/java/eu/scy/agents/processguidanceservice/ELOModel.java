@@ -84,11 +84,21 @@ public class ELOModel extends AbstractGuidanceObject {
             if (type.equalsIgnoreCase("scy/rtf")) {
                 setThresholds(300, 100, 15, 9, 0.9, 0.9); // the values are set for test
             } else if (type.equalsIgnoreCase("scy/mapping")) {
-                setThresholds(5, 2, 15, 9, 0.9, 0.9); // the values are set for test
+                setThresholds(10, 2, 15, 9, 0.9, 0.9); // the values are set for test
             } else if (type.equalsIgnoreCase("scy/pds")) {
-                setThresholds(10, 1, 15, 9, 0.9, 0.9); // the values are set for test
+                setThresholds(10, 2, 15, 9, 0.9, 0.9); // the values are set for test
             } else if (type.equalsIgnoreCase("scy/simconfig")) {
-        	setThresholds(10, 3, 15, 9, 0.9, 0.9); // the values are set for test
+        	setThresholds(10, 2, 15, 9, 0.9, 0.9); // the values are set for test
+            } else if (type.equalsIgnoreCase("scy/resultcard")) {
+                setThresholds(10, 2, 15, 9, 0.9, 0.9); // the values are set for test
+            /*
+            } else if (type.equalsIgnoreCase("scy/model")) {
+                setThresholds(5, 2, 15, 9, 0.9, 0.9); // the values are set for test
+            } else if (type.equalsIgnoreCase("scy/drawing")) {
+                setThresholds(5, 2, 15, 9, 0.9, 0.9); // the values are set for test
+            } else if (type.equalsIgnoreCase("scy/xproc")) {
+                setThresholds(5, 2, 15, 9, 0.9, 0.9); // the values are set for test
+            */
             }
         } catch (XPathExpressionException e) {
             e.printStackTrace();
@@ -390,6 +400,7 @@ public class ELOModel extends AbstractGuidanceObject {
         String aTitle = null;
         // check the SuccedingELOs and their ancestors
         ELOModel[] succedingELOModels = (getSuccedingELOs());
+        /*
         for (int i = 0; i < succedingELOModels.length; i++) {
             ELOModel aSuccedingELOModel = succedingELOModels[i];
             aTitle = aSuccedingELOModel.getAnUnfinishedAncestor(aRunUser);
@@ -397,9 +408,25 @@ public class ELOModel extends AbstractGuidanceObject {
                 return aTitle;
             }
         }
+        
         // check descendants further
+         * 
+         */
         for (int i = 0; i < succedingELOModels.length; i++) {
             ELOModel aSuccedingELOModel = succedingELOModels[i];
+            ELORun aELORun = aRunUser.getMissionRun().findELORunByELOModel(aSuccedingELOModel);
+            if (aELORun == null) {
+                // the ELO has not started
+                return new String(aSuccedingELOModel.getTitle());
+            } else {
+                if (aELORun.getActivityStatus() != ActivityStatus.COMPLETED) {
+                    return new String(aELORun.getTitle());
+                } 
+            }
+        }
+
+        for (int i = 0; i < succedingELOModels.length; i++) {
+            ELOModel aSuccedingELOModel = succedingELOModels[i];            
             aTitle = aSuccedingELOModel.getAnUnfinishedDescendant(aRunUser);
             if (aTitle != null) {
                 return aTitle;

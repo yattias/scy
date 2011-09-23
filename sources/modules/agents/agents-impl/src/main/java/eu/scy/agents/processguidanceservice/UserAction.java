@@ -39,6 +39,8 @@ public class UserAction {
     
     public static final String ACTION_VALUE_CHANGED = "value_changed";// not defined in ActionConstants
 
+    public static final String ACTION_RESULT_BINDER_VALUE_CHANGED = "result_binder_value_changed";// not defined in ActionConstants
+
     // public static final String ACTION_LAS_CHANGED = "las_changed";
 
     private String action;

@@ -108,7 +108,7 @@ public class ProcessGuidanceAgent extends AbstractThreadedAgent {
 	String elo_uri = action.getContext(ContextConstants.eloURI);
 	ELORun aELORun = aRunUser.getMissionRun().findELORunByURI(elo_uri);
 	if (aELORun != null) {
-	    aELORun.handleContentDecreased(aRunUser, action.getAttribute("text").length(), action.getTimeInMillis());
+	    aELORun.handleContentDecreased(aRunUser, /*action.getAttribute("text").length()*/ 1, action.getTimeInMillis());
 	    aRunUser.getActionHistory().addAction(new UserAction(UserAction.ACTION_TEXT_DELETED, aELORun, action.getTimeInMillis()));
 	}
     }
@@ -130,6 +130,16 @@ public class ProcessGuidanceAgent extends AbstractThreadedAgent {
 	if (aELORun != null) {
 	    aELORun.handleDataEdited(aRunUser, action.getTimeInMillis());
 	    aRunUser.getActionHistory().addAction(new UserAction(UserAction.ACTION_VALUE_CHANGED, aELORun, action.getTimeInMillis()));
+	}
+    }
+    
+    private void handleResultBinderValueChanged(Action action) {
+	RunUser aRunUser = users.get(action.getUser());
+	String elo_uri = action.getContext(ContextConstants.eloURI);
+	ELORun aELORun = aRunUser.getMissionRun().findELORunByURI(elo_uri);
+	if (aELORun != null) {
+	    aELORun.handleDataEdited(aRunUser, action.getTimeInMillis());
+	    aRunUser.getActionHistory().addAction(new UserAction(UserAction.ACTION_RESULT_BINDER_VALUE_CHANGED, aELORun, action.getTimeInMillis()));
 	}
     }
 
@@ -179,11 +189,13 @@ public class ProcessGuidanceAgent extends AbstractThreadedAgent {
 	ELORun aELORun = aRunUser.getMissionRun().findELORunByURI(elo_uri);
 	if (aELORun == null) {
 	    aELORun = new ELORun(getCommandSpace(), guidanceSpace, elo_uri);
-	    aELORun.buildELORun(aRunUser, elo_uri);
+	    aELORun.buildELORun(aRunUser, elo_uri);	    
 
 	    if (aELORun.getELOModel() != null) {
 		// a planned elo
 		aRunUser.getMissionRun().addELORun(aELORun);
+		aRunUser.sendMessageNotification("You opened the ELO titled \"" + aELORun.getTitle() + "\".", action.getTimeInMillis());
+		aRunUser.sendStatusNotification(aELORun, 0);
 		aRunUser.getActionHistory().addAction(new UserAction(UserAction.ACTION_TOOL_STARTED, aELORun, action.getTimeInMillis()));
 	    } else {
 		// an unplanned elo, ignore
@@ -233,7 +245,7 @@ public class ProcessGuidanceAgent extends AbstractThreadedAgent {
 	    aELORun.setId(elo_uri);
 	    if (!code1.equalsIgnoreCase(code2)) {
 		// save as a fork
-		aELORun.handleCompleteEvent(aRunUser, action.getTimeInMillis());
+		//aELORun.handleCompleteEvent(aRunUser, action.getTimeInMillis());
 		aELORun.renameELORun(elo_uri);
 	    }
 	    aELORun.updateELOTuple(aRunUser);
@@ -255,9 +267,11 @@ public class ProcessGuidanceAgent extends AbstractThreadedAgent {
 	RunUser aRunUser = users.get(action.getUser());
 	String elo_uri = action.getContext(ContextConstants.eloURI);
 	ELORun aELORun = aRunUser.findOpenedELORunByURI(elo_uri);
-	if ((aELORun != null) && (elo_uri.equalsIgnoreCase(aRunUser.getFocusedELORun().getId()))) {
-	    aRunUser.setFocusedELORun(null);
-	    aRunUser.getActionHistory().addAction(new UserAction(UserAction.ACTION_TOOL_LOST_FOCUS, aELORun, action.getTimeInMillis()));
+	if ((aELORun != null) && (elo_uri != null) && (aRunUser.getFocusedELORun()!= null)) {
+	    if (elo_uri.equalsIgnoreCase(aRunUser.getFocusedELORun().getId())) {
+		aRunUser.setFocusedELORun(null);
+		aRunUser.getActionHistory().addAction(new UserAction(UserAction.ACTION_TOOL_LOST_FOCUS, aELORun, action.getTimeInMillis()));
+	    }
 	}
     }
 
@@ -318,10 +332,10 @@ public class ProcessGuidanceAgent extends AbstractThreadedAgent {
 	public void call(Command cmd, int seqnum, Tuple afterTuple, Tuple beforeTuple) {
 
 	    Action action = (Action) ActionTupleTransformer.getActionFromTuple(afterTuple);
-
+/*
 	    if (!action.getUser().equalsIgnoreCase("studentm@scy.collide.info"))
 		return;
-
+*/
 	    System.out.println(action.toString());
 	    String actionType = action.getType();
 	    if (actionType.equals("text_inserted")) {
@@ -332,6 +346,8 @@ public class ProcessGuidanceAgent extends AbstractThreadedAgent {
 		handleDataEdited(action);
 	    } else if (actionType.equals("value_changed")) {
 		handleValueChanged(action);
+	    } else if (actionType.equals("result_binder_value_changed")) {
+		handleResultBinderValueChanged(action);		
 	    } else if (actionType.equals("tool_got_focus")) {
 		handleToolGotFocus(action);
 	    } else if (actionType.equals("tool_lost_focus")) {
