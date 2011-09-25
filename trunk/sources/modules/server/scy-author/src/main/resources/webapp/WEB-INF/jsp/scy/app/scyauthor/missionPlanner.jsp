@@ -3,6 +3,10 @@
 <p>
     <spring:message code="TEACHER_INTRO_TO_PEDAGOGICAL_PLAN_TAB"/>
 </p>
+<br/>
+<p>
+    <spring:message code="TEACHER_INTRO_TO_PEDAGOGICAL_PLAN_TAB_2"/>
+</p>
 
 <c:choose>
     <c:when test="${fn:length(pedagogicalPlan.missionPlan.lasTransfers) > 0}">
@@ -23,7 +27,7 @@
             </tr>
 
             <c:forEach var="las" items="${pedagogicalPlan.missionPlan.lasTransfers}">
-                <tr>
+                <tr class="${oddEven.oddEven}">
                     <td>
                         ${las.anchorElo.name} <!--(Legg inn beskrivelse fra hoover her) Denne skal aapne opp en dialog-->
                     </td>
@@ -43,7 +47,9 @@
     </c:when>
 </c:choose>
 
-<a href="missionPlanner.html?eloURI=${eloURI}&action=reinitializePedagogicalPlan">Reinitialize plan</a>
-<!--a href="missionPlanner.html?eloURI=${eloURI}&action=deleteFeedback">DeleteFeedback</a-->
+<!--sec:authorize ifAllGranted="ROLE_AUTHOR">
+    <a href="missionPlanner.html?eloURI=${eloURI}&action=reinitializePedagogicalPlan">Reinitialize plan</a>
+</sec:authorize-->
+
 
 
