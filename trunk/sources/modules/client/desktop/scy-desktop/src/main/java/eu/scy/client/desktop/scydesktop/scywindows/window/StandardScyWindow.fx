@@ -721,6 +721,7 @@ public class StandardScyWindow extends ScyWindow {
          topDrawer = TopDrawer {
                     windowColorScheme: windowColorScheme
                     tooltipManager: tooltipManager
+                    bubbleManager: bubbleManager
                     content: topDrawerTool;
                     activated: bind activated;
                     activate: activate;
@@ -746,6 +747,7 @@ public class StandardScyWindow extends ScyWindow {
          rightDrawer = RightDrawer {
                     windowColorScheme: windowColorScheme
                     tooltipManager: tooltipManager
+                    bubbleManager: bubbleManager
                     content: rightDrawerTool;
                     activated: bind activated;
                     activate: activate;
@@ -772,6 +774,7 @@ public class StandardScyWindow extends ScyWindow {
          bottomDrawer = BottomDrawer {
                     windowColorScheme: windowColorScheme
                     tooltipManager: tooltipManager
+                    bubbleManager: bubbleManager
                     content: bottomDrawerTool;
                     activated: bind activated;
                     activate: activate;
@@ -802,6 +805,7 @@ public class StandardScyWindow extends ScyWindow {
                        //                  visible: bind scyElo.getAssignmentUri() != null
                        windowColorScheme: windowColorScheme
                        tooltipManager: tooltipManager
+                       bubbleManager: bubbleManager
                        content: drawerTool;
                        handleNumber: indexof drawerTool
                        activated: bind activated;

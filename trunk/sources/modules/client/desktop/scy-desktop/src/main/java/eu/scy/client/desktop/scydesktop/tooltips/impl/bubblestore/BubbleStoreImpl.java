@@ -40,6 +40,10 @@ public class BubbleStoreImpl
       {
          BubbleLayerStore bubbleLayer = getBubbleLayer(bubble.getLayerId());
          bubbleLayer.addBubble(bubble);
+         logger.info("storing bubble: " + bubble);
+      }
+      else{
+         logger.info("ignoring bubble: " + bubble);
       }
    }
 
