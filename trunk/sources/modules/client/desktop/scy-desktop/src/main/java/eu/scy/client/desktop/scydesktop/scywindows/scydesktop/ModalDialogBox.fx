@@ -33,7 +33,7 @@ public class ModalDialogBox extends CustomNode {
    public var eloIcon: EloIcon;
    public var windowColorScheme: WindowColorScheme;
    public var closeAction: function(): Void;
-   public-read var dialogWindow: ScyWindow;
+   public-init var dialogWindow: ScyWindow;
 
    postinit {
       FX.deferAction(place);
@@ -44,21 +44,23 @@ public class ModalDialogBox extends CustomNode {
          windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
       }
 
-      dialogWindow = StandardScyWindow {
-            scyContent: content;
-            title: title
-            eloIcon: eloIcon;
-            windowColorScheme: windowColorScheme
-            closedAction: function(window: ScyWindow) {
-               close();
-            }
-            allowMinimize: false
-            allowClose: false
-            allowResize: content instanceof Resizable
-            allowCenter: false
-            allowMaximize: false
-            activated: true
-            opacity: 0
+      if (dialogWindow == null) {
+         dialogWindow = StandardScyWindow {
+                    scyContent: content;
+                    title: title
+                    eloIcon: eloIcon;
+                    windowColorScheme: windowColorScheme
+                    closedAction: function(window: ScyWindow) {
+                       close();
+                    }
+                    allowMinimize: false
+                    allowClose: false
+                    allowResize: content instanceof Resizable
+                    allowCenter: false
+                    allowMaximize: false
+                    activated: true
+                    opacity: 0
+                 }
       }
       dialogWindow.open();
       dialogWindow
@@ -78,20 +80,24 @@ public class ModalDialogBox extends CustomNode {
    }
 
    function center(): Void {
-       // this is clearly a quick hack to wait manually for the window to redender itself, so
-       // that we have the final dialogWindow.layoutBounds that we can take to calculate the
-       // correct center position (if someone has a better idea, please remove and make it right)
-       // the hack is: wait 500 ms in the background to have the UI thread free to render
-       // then content then show it, i.e., make opacity = 1
-       XFX.runActionInBackgroundAndCallBack(function() { Thread.sleep(500); return null }, function(o): Void {
-           dialogWindow.layoutX = scene.width / 2 - dialogWindow.layoutBounds.width / 2;
-           dialogWindow.layoutY = scene.height / 2 - dialogWindow.layoutBounds.height / 2;
-           def finalDialogWindow = dialogWindow;
-           Timeline {
-               keyFrames: [
-                   at (500ms) {finalDialogWindow.opacity => 1 tween Interpolator.LINEAR}
-               ];
-           }.playFromStart();
-       });
+      // this is clearly a quick hack to wait manually for the window to redender itself, so
+      // that we have the final dialogWindow.layoutBounds that we can take to calculate the
+      // correct center position (if someone has a better idea, please remove and make it right)
+      // the hack is: wait 500 ms in the background to have the UI thread free to render
+      // then content then show it, i.e., make opacity = 1
+      XFX.runActionInBackgroundAndCallBack(function() {
+         Thread.sleep(500);
+         return null
+      }, function(o): Void {
+         dialogWindow.layoutX = scene.width / 2 - dialogWindow.layoutBounds.width / 2;
+         dialogWindow.layoutY = scene.height / 2 - dialogWindow.layoutBounds.height / 2;
+         def finalDialogWindow = dialogWindow;
+         Timeline {
+            keyFrames: [
+               at (500ms) {finalDialogWindow.opacity => 1 tween Interpolator.LINEAR}
+            ];
+         }.playFromStart();
+      });
    }
+
 }

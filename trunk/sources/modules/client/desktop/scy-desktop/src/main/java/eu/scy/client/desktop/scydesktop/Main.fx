@@ -52,6 +52,7 @@ var initializer = Initializer{
    missionMapPositionScale:1.0
    showOnlyStartedMissions:false
    showHelpBubbles:true
+   showQuitConfirmation:false
 //   eloImagesPath:"file:/D:/projects/scy/code/scy-trunk/sources/modules/client/desktop/scy-desktop/eloImages/"
 //   eloImagesPath:"file:eloImages/"
 // special setting for profiling, as profiling seems to run the app without any parameters

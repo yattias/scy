@@ -69,6 +69,8 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
    public var scyDesktop: ScyDesktop;
    public var querySelecterFactory: QuerySelecterFactory;
    public var eloOpenedAction: function(: ScyWindow): Void;
+   public var savedAction: function(: ScyWindow): Void;
+   public var switchedToEloBasedAction: function(: ScyWindow): Void;
    def minimumWidth = 600;
    def minimumHeight = 400;
    def queryLabel = Label {
@@ -489,6 +491,7 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
 
    function openElo(): Void {
       def newWindow = scyDesktop.scyWindowControl.addOtherScyWindow(selectedSearchResult.getScyElo().getUri());
+      scyDesktop.scyWindowControl.makeMainScyWindow(newWindow);
       eloOpenedAction(newWindow)
    }
 
@@ -505,6 +508,7 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
          baseEloIcon = null;
       } else {
          baseEloIcon = windowStyler.getScyEloIcon(scyElo);
+         switchedToEloBasedAction(window)
       }
    //      for (querySelecterDisplay in querySelecterDisplays) {
    //         querySelecterDisplay.querySelecter.setBasedOnElo(baseElo)
@@ -633,6 +637,7 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
    }
 
    override public function eloSaved(elo: IELO): Void {
+      savedAction(window)
    }
 
 }

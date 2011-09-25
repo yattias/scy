@@ -53,6 +53,10 @@ public class WindowManagerImpl extends WindowManager {
 
     public override function removeScyWindow(scyWindow: ScyWindow) {
         logger.info("removeScyWindow({scyWindow.eloUri})");
+        if (activeWindow == scyWindow){
+           activeWindow = null;
+           setDeactiveWindowState(scyWindow)
+        }
         var index = Sequences.indexOf(scyWindows.content, scyWindow);
         if (index >= 0) {
             delete  scyWindows.content[index];
@@ -105,6 +109,10 @@ public class WindowManagerImpl extends WindowManager {
         return for (window in scyWindows.content) {
                     window as ScyWindow;
                 }
+    }
+
+    public override function hasWindow(scyWindow:ScyWindow): Boolean {
+       desktopContainsWindow(scyWindow);
     }
 
     function desktopContainsWindow(scyWindow: ScyWindow): Boolean {

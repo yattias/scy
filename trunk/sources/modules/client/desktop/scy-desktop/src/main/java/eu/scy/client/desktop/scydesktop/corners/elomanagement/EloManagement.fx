@@ -41,6 +41,7 @@ import eu.scy.client.desktop.scydesktop.tools.search.ScySearchResult;
 import eu.scy.client.desktop.scydesktop.tools.search.ScySearchResultTitleComparator;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleLayer;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleKey;
+import eu.scy.client.desktop.desktoputils.XFX;
 
 /**
  * @author sikken
@@ -263,6 +264,7 @@ public class EloManagement extends CustomNode {
             var title = scyDesktop.newTitleGenerator.generateNewTitleFromType(eloType);
             var scyWindow = scyWindowControl.addOtherScyWindow(eloType);
             scyWindow.title = title;
+            scyWindowControl.makeMainScyWindow(scyWindow);
          }
       }
       createNewElo.modalDialogBox.close();
@@ -316,39 +318,25 @@ public class EloManagement extends CustomNode {
       }
    }
 
+   var searchWrapper: SearchWrapper;
+
    function textQuerySearchAction(): Void {
-      startSearchAction(null)
+      if (searchWrapper == null or searchWrapper.isSaved or searchWrapper.isEloBased) {
+         searchWrapper = SearchWrapper {
+                    scyWindowControl: scyWindowControl
+                 }
+      } else {
+         scyWindowControl.addOtherScyWindow(searchWrapper.searchWindow);
+      }
+
+      scyWindowControl.makeMainScyWindow(searchWrapper.searchWindow);
    }
 
    function eloBasedSearchAction(scyElo: ScyElo): Void {
-      startSearchAction(scyElo)
-   }
-
-   function startSearchAction(scyElo: ScyElo): Void {
-      FX.deferAction(function(): Void {
-         searcher.turnedOn = true;
-      });
-      eloSearchNode = scyDesktop.scyToolFactory.createNewScyToolNode("search", "scy/search", null, null, false) as EloSearchNode;
-      def eloIcon = windowStyler.getScyEloIcon(ImageWindowStyler.generalSearch);
-      def windowColorScheme = windowStyler.getWindowColorScheme(ImageWindowStyler.generalSearch);
-
-      def dialogWindow = createModalDialogForContent(windowColorScheme, eloIcon, ##"Search", eloSearchNode);
-      eloSearchNode.window = dialogWindow.dialogWindow;
-      eloSearchNode.cancelAction = function(): Void {
-                 dialogWindow.dialogWindow.close();
-                 eloSearchNode = null;
-                 searcher.turnedOn = false;
+      def eloBasedSearchWrapper = SearchWrapper {
+                 scyWindowControl: scyWindowControl
+                 baseElo: scyElo
               }
-      eloSearchNode.eloOpenedAction = function(newWindow: ScyWindow) {
-                 dialogWindow.dialogWindow.close();
-                 eloSearchNode = null;
-                 searcher.turnedOn = false;
-              }
-      if (scyElo != null) {
-         eloSearchNode.searchBasedOnElo(scyElo);
-      }
-      eloSearchNode.initialize(true);
-      eloSearchNode.newElo();
+      scyWindowControl.makeMainScyWindow(eloBasedSearchWrapper.searchWindow);
    }
-
 }
