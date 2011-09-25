@@ -160,6 +160,11 @@ if ("undefined" == typeof(scylighter)) {
             req.servicePath = servicePath;
             return req;
         },
+        logString: function(msg) {
+            var consoleService = Components.classes["@mozilla.org/consoleservice;1"]
+                                 .getService(Components.interfaces.nsIConsoleService);
+            consoleService.logStringMessage(msg);
+        },
 
         sendRequest: function(req){
             var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService);
@@ -188,7 +193,6 @@ if ("undefined" == typeof(scylighter)) {
         },
 
         serverChallengeRequest: function(authCallback){
-
             var sc;
             var cc = new Date().getTime();
             var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService);
@@ -256,6 +260,7 @@ if ("undefined" == typeof(scylighter)) {
                             if(sr==expectedSr){
                                 authCallback();
                             } else {
+                            scylighter.logString("auth Failed!");
                                 alertString = scylighter.strings.getString("authFailed");
                                 window.alert(alertString);
                             }
@@ -265,8 +270,10 @@ if ("undefined" == typeof(scylighter)) {
                             window.alert(alertString);
                         }
                     } else {
+                        //here!
                 }
                 }catch (e) {
+                    scylighter.logString("Exception e:"+e);
                     alertString = top.window.document.getElementById("scylighter-strings").getString("noServerResponse");
                     window.alert(alertString);
                 }
@@ -926,12 +933,12 @@ if ("undefined" == typeof(scylighter)) {
 
             //username and password will be received from the preferences
             var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService);
-            prefs = prefs.getBranch("extensions.scylighter.");
-            var username = prefs.getCharPref("username");
-            var password = prefs.getCharPref("password");
-            var defaultaddress = prefs.getCharPref("defaultaddress");
-            var usedefaultaddress = prefs.getBoolPref("usedefaultaddress");
-            var address = prefs.getCharPref("address");
+            var scylighterprefs = prefs.getBranch("extensions.scylighter.");
+            var username = scylighterprefs.getCharPref("username");
+            var password = scylighterprefs.getCharPref("password");
+            var defaultaddress = scylighterprefs.getCharPref("defaultaddress");
+            var usedefaultaddress = scylighterprefs.getBoolPref("usedefaultaddress");
+            var address = scylighterprefs.getCharPref("address");
             if ((username=="username" && password=="password")||(username=="")||(password=="")){
                 window.alert(top.window.document.getElementById("scylighter-strings").getString("setUpLoginData"));
                 this.openPreferences();
@@ -944,7 +951,9 @@ if ("undefined" == typeof(scylighter)) {
                 //                var htmlDoc = window.content.document.documentElement.innerHTML;
 
                 // extract language and country:
-                var lang =  general.useragent.locale;
+                //var lang =  prefs.getBranch("general.useragent.").getCharPref("locale");
+                
+                var lang =  prefs.getBranch("general.useragent.").getCharPref("locale");
                 var languageCode = "en";
                 var countryCode = null;
                 if (lang !=null){

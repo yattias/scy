@@ -121,7 +121,7 @@ if ("undefined" == typeof(scylighterOverlay)) {
             // see http://kb.mozillazine.org/Adding_items_to_menus
             document.getElementById("context-scylighter").hidden = gContextMenu.onImage;
             document.getElementById("context-descylighter").hidden = gContextMenu.onImage;
-        },
+        }
     };
 
     window.addEventListener("load", function(e) {
