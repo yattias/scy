@@ -19,7 +19,7 @@ public class SearchWrapper {
    public-read var isSaved = false;
    public-read var isEloBased = false;
    public-read var searchWindow: ScyWindow;
-   var searchNode: EloSearchNode;
+   public-read var searchNode: EloSearchNode;
 
    init {
       createSearchWindow();
@@ -43,7 +43,7 @@ public class SearchWrapper {
       if (searchWindow == null) {
          return
       }
-      def searchNode = searchWindow.scyContent as EloSearchNode;
+      searchNode = searchWindow.scyContent as EloSearchNode;
       if (searchNode == null) {
          FX.deferAction(setupEloSearchNode);
       } else {

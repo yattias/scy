@@ -61,7 +61,6 @@ public class EloManagement extends CustomNode {
    public var windowStyler: WindowStyler;
    public var buttonSize = -1.0;
    public var buttonActionScheme = -1;
-   public var eloSearchNode: EloSearchNode;
    def showCreateBlankElo = scyDesktop.initializer.authorMode;
    def authorKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR);
    def creatorKey = metadataTypeManager.getMetadataKey(ScyRooloMetadataKeyIds.CREATOR);
@@ -72,6 +71,7 @@ public class EloManagement extends CustomNode {
    var searcher: Searcher;
    var createBlankEloButton: EloIconButton;
    var archiver: Archiver;
+   public-read var searchWrapper: SearchWrapper;
 
    init {
       if (eloFactory == null) {
@@ -317,8 +317,6 @@ public class EloManagement extends CustomNode {
          }
       }
    }
-
-   var searchWrapper: SearchWrapper;
 
    function textQuerySearchAction(): Void {
       if (searchWrapper == null or searchWrapper.isSaved or searchWrapper.isEloBased) {
