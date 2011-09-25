@@ -214,12 +214,12 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent {
         if (config.get(MAXIMAL_REPLACE_NUMBER) != null) {
             this.maxReplaceNumber = (Integer) config.get(MAXIMAL_REPLACE_NUMBER);
         } else {
-            this.maxReplaceNumber = 5;
+            this.maxReplaceNumber = 10;
         }
         if (config.get(INFIMUM_GOOD_SEARCH_INVERVAL) != null) {
             this.infGoodSearchInverval = (Integer) config.get(INFIMUM_GOOD_SEARCH_INVERVAL);
         } else {
-            this.infGoodSearchInverval = 5;
+            this.infGoodSearchInverval = 10;
         }
         if (config.get(SUPREMUM_GOOD_SEARCH_INVERVAL) != null) {
             this.supGoodSearchInterval = (Integer) config.get(SUPREMUM_GOOD_SEARCH_INVERVAL);
@@ -247,12 +247,12 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent {
         if (config.get(EXTRACT_KEYWORD_TERM_NUMBER_TO_TEST) != null) {
             this.numberOfTermsToTest = (Integer) config.get(EXTRACT_KEYWORD_TERM_NUMBER_TO_TEST);
         } else {
-            this.numberOfTermsToTest = 5;
+            this.numberOfTermsToTest = 10;
         }
         if (config.get(MAX_ONTOLOGY_KEYWORDS) != null) {
             this.maxOntologyKeywordNumber = (Integer) config.get(MAX_ONTOLOGY_KEYWORDS);
         } else {
-            this.maxOntologyKeywordNumber = 5;
+            this.maxOntologyKeywordNumber = 10;
         }
         for (String lang : Locale.getISOLanguages()) {
             try {
@@ -564,7 +564,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent {
                 } else {
                     last = luceneQuery;
                     List<ISearchResult> result = getHits(commandSpace, luceneQuery);
-                    if (result != null) {
+                    if (result != null && result.size() > referenceResults.size()) {
                         ranking.add(luceneQuery, result);
                         // System.out.println("Added new query by AND -> OR replacement: " +
                         // luceneQuery);
@@ -580,7 +580,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent {
             if (language != null) {
                 // Add new keywords extracted from the search results.
                 if (referenceResults.size() > 0) {
-                    boolean resultsReceived = extractAndTestKeywords(ranking, items, query, language, OPERATOR_OR);
+                    boolean resultsReceived = extractAndTestKeywords(ranking, items, query, language, OPERATOR_OR, referenceResults.size());
                     if (!resultsReceived) {
                         // RooloAccessorAgent down, so stop
                         return ranking;
@@ -591,7 +591,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent {
                     logger.info("Could not extract keywords, because no search results available for extraction.");
                 }
 
-                extractAndTestOntologyKeywords(ranking, getMission(user), items, language, query, OPERATOR_OR);
+                extractAndTestOntologyKeywords(ranking, getMission(user), items, language, query, OPERATOR_OR, referenceResults.size());
             } else {
                 // System.out.println("Could not extract keywords, because no language information available.");
                 logger.info("Could not extract keywords, because no language information available.");
@@ -620,19 +620,23 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent {
      * @throws TupleSpaceException
      *             the tuple space exception
      */
-    private boolean extractAndTestKeywords(SearchResultRanking ranking, Set<String> items, Query query, String language, String operator) throws TupleSpaceException {
+    private boolean extractAndTestKeywords(SearchResultRanking ranking, Set<String> items, Query query, String language, String operator, int referenceResultCount) throws TupleSpaceException {
         List<TermEntry> termList = extractKeywordsFromSearchResults(items, language, ranking.getReferenceResults());
 
         String userQuery = query.toLuceneString();
         for (int i = 0; i < Math.min(this.numberOfTermsToTest, termList.size()); i++) {
-//            String queryWithNewKeyword = userQuery + " " + operator + " " + DEFAULT_FIELD + ":\"" + termList.get(i).getTerm() + "\"";
-            String queryWithNewKeyword = userQuery + " " + operator + " " + "\"" + termList.get(i).getTerm() + "\"";
+            // String queryWithNewKeyword = userQuery + " " + operator + " " + DEFAULT_FIELD + ":\""
+            // + termList.get(i).getTerm() + "\"";
+            String term = removeBadChars(termList.get(i).getTerm());
+            String queryWithNewKeyword = userQuery + " " + operator + " " + "\"" + term + "\"";
             List<ISearchResult> result = getHits(commandSpace, queryWithNewKeyword);
             if (result != null) {
-                ranking.add(queryWithNewKeyword, result);
-                // System.out.println("Added new query by keyword extension: " +
-                // queryWithNewKeyword);
-                logger.debug("Added new query by keyword extension: " + queryWithNewKeyword);
+                if (result.size() > referenceResultCount) {
+                    ranking.add(queryWithNewKeyword, result);
+                    // System.out.println("Added new query by keyword extension: " +
+                    // queryWithNewKeyword);
+                    logger.debug("Added new query by keyword extension: " + queryWithNewKeyword);
+                }
             } else {
                 // RooloAccessorAgent down, so stop
                 return false;
@@ -641,7 +645,11 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent {
         return true;
     }
 
-    private boolean extractAndTestOntologyKeywords(SearchResultRanking ranking, String mission, Set<String> items, String language, Query query, String operator) throws TupleSpaceException {
+    private String removeBadChars(String term) {
+        return term.replaceAll("\\(|\\)", "");
+    }
+
+    private boolean extractAndTestOntologyKeywords(SearchResultRanking ranking, String mission, Set<String> items, String language, Query query, String operator, int referenceResultCount) throws TupleSpaceException {
         List<String> keywords = new ArrayList<String>();
 
         // Collect keywords
@@ -660,14 +668,17 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent {
         // Test words
         String userQuery = query.toLuceneString();
         for (String keyword : keywords) {
-//            String queryWithNewKeyword = userQuery + " " + operator + " " + DEFAULT_FIELD + ":\"" + keyword + "\"";
+            // String queryWithNewKeyword = userQuery + " " + operator + " " + DEFAULT_FIELD + ":\""
+            // + keyword + "\"";
             String queryWithNewKeyword = userQuery + " " + operator + " " + "\"" + keyword + "\"";
             List<ISearchResult> result = getHits(commandSpace, queryWithNewKeyword);
             if (result != null) {
-                ranking.add(queryWithNewKeyword, result);
-                // System.out.println("Added new query by AND -> OR replacement: " +
-                // queryWithNewKeyword);
-                logger.debug("Added new query by AND -> OR replacement: " + queryWithNewKeyword);
+                if (result.size() > referenceResultCount) {
+                    ranking.add(queryWithNewKeyword, result);
+                    // System.out.println("Added new query by AND -> OR replacement: " +
+                    // queryWithNewKeyword);
+                    logger.debug("Added new query by AND -> OR replacement: " + queryWithNewKeyword);
+                }
             } else {
                 // RooloAccessorAgent down, so stop
                 return false;
@@ -697,7 +708,9 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent {
         try {
             String id = new VMID().toString();
             Tuple requestTuple = new Tuple(id, ONTOLOGY_AGENT_NAME, ONTOLOGY_AGENT_COMMAND, Mission.getForName(mission).getNamespace(), word, language);
-            System.out.println("ASK ONTO FOR '" + word + "' in " + language + " (" + id + ")");// XXX remove me
+            System.out.println("ASK ONTO FOR '" + word + "' in " + language + " (" + id + ")");// XXX
+                                                                                               // remove
+                                                                                               // me
             this.commandSpace.write(requestTuple);
             Tuple responseTuple = this.commandSpace.waitToTake(new Tuple(id, "response", String.class), ONTOLOGY_AGENT_TIMEOUT);
 
@@ -893,7 +906,14 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent {
             }
 
             if (language != null) {
-                boolean resultsReceived = extractAndTestKeywords(ranking, items, query, language, OPERATOR_AND);
+                boolean resultsReceived = extractAndTestKeywords(ranking, items, query, language, OPERATOR_AND, 0); // XXX
+                                                                                                                    // interpret
+                                                                                                                    // 0
+                                                                                                                    // as
+                                                                                                                    // max,
+                                                                                                                    // not
+                                                                                                                    // as
+                                                                                                                    // min
                 if (!resultsReceived) {
                     // RooloAccessorAgent down, so stop
                     return ranking;
@@ -928,7 +948,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent {
             for (int j = 0; j < array.length; j++) {
                 if (i != j) {
                     s = s + "\"" + array[j] + "\" ";
-//                    s = s + DEFAULT_FIELD + ":\"" + array[j] + "\" ";
+                    // s = s + DEFAULT_FIELD + ":\"" + array[j] + "\" ";
                 }
             }
             itemsets[i] = s.trim();
