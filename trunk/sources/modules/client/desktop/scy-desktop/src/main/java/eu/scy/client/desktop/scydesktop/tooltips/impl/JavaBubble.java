@@ -4,6 +4,8 @@
  */
 package eu.scy.client.desktop.scydesktop.tooltips.impl;
 
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleLayer;
+
 /**
  *
  * @author sikken
@@ -13,7 +15,7 @@ public interface JavaBubble
 
    public String getId();
 
-   public Object getLayerId();
+   public BubbleLayer getLayerId();
 
    public Integer getPriority();
 

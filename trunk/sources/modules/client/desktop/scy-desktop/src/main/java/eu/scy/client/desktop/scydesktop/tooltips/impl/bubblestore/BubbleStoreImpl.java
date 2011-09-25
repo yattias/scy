@@ -2,25 +2,28 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package eu.scy.client.desktop.scydesktop.tooltips.impl.bubblestore;
 
 import eu.scy.client.desktop.scydesktop.tooltips.impl.JavaBubble;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleLayer;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import org.apache.log4j.Logger;
 
 /**
  *
  * @author SikkenJ
  */
-public class BubbleStoreImpl {
+public class BubbleStoreImpl
+{
+
    private final static Logger logger = Logger.getLogger(BubbleStoreImpl.class);
-
    private Map<Object, BubbleLayerStore> bubbleLayerMap = new HashMap<Object, BubbleLayerStore>();
+   private Set<String> displayedBubbleIds = new HashSet<String>();
 
-   private BubbleLayerStore getBubbleLayer(Object layerId)
+   private BubbleLayerStore getBubbleLayer(BubbleLayer layerId)
    {
       BubbleLayerStore bubbleLayer = bubbleLayerMap.get(layerId);
       if (bubbleLayer == null)
@@ -33,8 +36,11 @@ public class BubbleStoreImpl {
 
    public void addBubble(JavaBubble bubble)
    {
-      BubbleLayerStore bubbleLayer = getBubbleLayer(bubble.getLayerId());
-      bubbleLayer.addBubble(bubble);
+      if (!displayedBubbleIds.contains(bubble.getId()))
+      {
+         BubbleLayerStore bubbleLayer = getBubbleLayer(bubble.getLayerId());
+         bubbleLayer.addBubble(bubble);
+      }
    }
 
    public void removeBubble(JavaBubble bubble)
@@ -45,7 +51,9 @@ public class BubbleStoreImpl {
 
    public void removeBubbles(String id)
    {
-      for (BubbleLayerStore bubbleLayer: bubbleLayerMap.values()){
+      displayedBubbleIds.add(id);
+      for (BubbleLayerStore bubbleLayer : bubbleLayerMap.values())
+      {
          bubbleLayer.removeBubbles(id);
       }
    }
@@ -55,5 +63,4 @@ public class BubbleStoreImpl {
       BubbleLayerStore bubbleLayer = getBubbleLayer(layerId);
       return bubbleLayer.getNextBubble();
    }
-
 }
