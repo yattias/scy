@@ -68,6 +68,7 @@ public class FeedbackEloSearchResultFilter implements Comparator {
 
     private int compareOnMostViewed(TransferElo first, TransferElo last) {
         Integer firstShown = new Integer(first.getFeedbackEloTransfer().getShown());
+        if(last.getFeedbackEloTransfer().getShown() == null || last.getFeedbackEloTransfer().getShown() == "") return -1;
         Integer lastShown = new Integer(last.getFeedbackEloTransfer().getShown());
         if(firstShown > lastShown) return -1;
         else if(firstShown == lastShown) return 0;

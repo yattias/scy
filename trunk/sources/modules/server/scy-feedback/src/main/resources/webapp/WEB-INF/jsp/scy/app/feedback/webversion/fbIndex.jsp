@@ -32,6 +32,8 @@
             .feedbackEloContainer{
                 border:2px solid #ff9933;
                 margin:2px;
+                box-shadow: 10px 10px 5px #888;
+                border-radius:5px;
                 /*background-color:#cc6600;*/
             }
 
@@ -49,6 +51,7 @@
 
             .feedbackEloContainer .eloInfoContainer{
                 padding:2px;
+                background-color:#eeeeee;
             }
 
             .soria .dijitAccordionTitle {
@@ -98,6 +101,7 @@
 
             </div>
             <div>
+                <br/>
                 <form action="fbIndex.html" id="filterForm">
                     <strong>Show:</strong>
                     <select name="criteria" onChange="document.getElementById('filterForm').submit();">
@@ -214,7 +218,8 @@
                         <option>Tool</option>
                     </select>
                     <input type="submit" value="search"/>
-                    <br/><h2>Click on an ELO to give feedback</h2>
+                    <br/>
+                    <br/>
                     <input type="hidden" name="eloURI" value="${eloURI}">
 
                 </form>
@@ -222,18 +227,18 @@
             <c:choose>
                 <c:when test="${fn:length(elos) > 0}">
                         <c:forEach var="elo" items="${elos}">
-                            <div dojoType="dojox.layout.ContentPane" class="feedbackEloContainer greenBackgrounds greenBorders" style="width:30%;height:246px;float:left;">
-                                <div class="thumbContainer lightGreenBackgrounds">
-                                    <a href="/webapp/app/feedback/webversion/ViewFeedbackForElo.html?eloURI=${elo.uri}" style="color:#ffffff;">
+                            <div dojoType="dojox.layout.ContentPane" class="feedbackEloContainer greenBorders" style="width:30%;margin-right:15px;height:230px;float:left;background-color:#eeeeee;">
+                                <div class="thumbContainer" style="background-color:#eeeeee;" >
+                                    <a href="/webapp/app/feedback/webversion/ViewFeedbackForElo.html?eloURI=${elo.uri}" style="color:#23409e;">
                                         <img src="${elo.thumbnail}" />
                                     </a>
                                 </div>
                                 <div class="eloInfoContainer">
-                                <p><strong><a href="/webapp/app/feedback/webversion/ViewFeedbackForElo.html?eloURI=${elo.uri}" style="color:#ffffff;">${elo.myname}</a></strong></p>
+                                <p><strong><a href="/webapp/app/feedback/webversion/ViewFeedbackForElo.html?eloURI=${elo.uri}" style="color:#23409e;">${elo.myname}</a></strong></p>
                                 <p>Category: ${elo.catname}</p>
-                                <p>By: <a href="fbIndex.html?eloURI=${eloURI}&user=${elo.createdBy}">${elo.createdBy}</a></p>
+                                <p>By: <a href="fbIndex.html?eloURI=${eloURI}&user=${elo.createdBy}" style="color:#23409e;">${elo.createdBy}</a></p>
                                 <p>Date: ${elo.createdDate}</p>
-                                <p>Shown: ${elo.feedbackEloTransfer.shown}<br/> / Score: ${elo.feedbackEloTransfer.score}</p>
+                                <p>Shown: ${elo.feedbackEloTransfer.shown}<br/>Average Score: ${elo.feedbackEloTransfer.averageScore}</p>
 
                                 </div>
                             </div>
