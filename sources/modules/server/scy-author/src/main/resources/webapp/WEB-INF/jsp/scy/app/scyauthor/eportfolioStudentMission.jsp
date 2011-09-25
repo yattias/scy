@@ -10,6 +10,9 @@
     <p>
         <spring:message code="STUDENT_MISSION_HELP"/>
     </p>
+    <p>
+        <spring:message code="STUDENT_MISSION_HELP_2"/>
+    </p>
     <c:choose>
         <c:when test="${fn:length(pedagogicalPlan.assessmentSetup.reflectionTabs) > 0}">
             <table>
