@@ -470,7 +470,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 				}
 			});
 		}
-                setUserPresence(false);
+                getAwarenessService().setUserPresence(false);
 		return connection;
 	}
 
@@ -571,6 +571,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
    @Override
    public void setMissionSpecificationURI(URI missionSpecificationURI) {
        this.missionSpecificationURI = missionSpecificationURI;
+       contextService.setMissionSpecificationURI(missionSpecificationURI.toString());
    }
 
    @Deprecated
@@ -593,13 +594,5 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
     public IContextService getContextService() {
         return contextService;
     }
-
-    @Override
-    public void setUserPresence(boolean available) {
-        if (connection != null && connection.isConnected()) {
-            Presence presence = new Presence(Presence.Type.available);
-            presence.setMode(available ? Presence.Mode.available : Presence.Mode.away);
-            connection.sendPacket(presence);
-        }
-    }
+    
 }
