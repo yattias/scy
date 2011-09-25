@@ -53,6 +53,8 @@ public mixin class WindowManager {
 
    public abstract function removeAllScyWindows():Void;
 
+   public abstract function hasWindow(scyWindow:ScyWindow): Boolean;
+
 //   public function checkVisibilityScyWindows(showIt: function(ScyWindow):Boolean){
 //   }
 

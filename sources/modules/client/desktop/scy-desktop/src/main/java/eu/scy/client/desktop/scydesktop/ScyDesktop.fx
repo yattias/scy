@@ -215,9 +215,9 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
               windowManager: windows;
            };
    public def bubbleManager: BubbleManager = SimpleBubbleManager {
-         tbi: missionRunConfigs.tbi
-         activateBubbleManager: initializer.showHelpBubbles
-      };
+              tbi: missionRunConfigs.tbi
+              activateBubbleManager: initializer.showHelpBubbles
+           };
    public var scyToolFactory: ScyToolFactory;
    var windowPositioner: WindowPositioner;
    public-read var scyWindowControl: ScyWindowControl;
@@ -229,7 +229,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
    public-read var bottomLeftCorner: Corner;
    public-read var lowDebugGroup = Group {};
    public-read var highDebugGroup = Group {};
-   public-read var contactlist : ContactList;
+   public-read var contactlist: ContactList;
    var missionRuntimeSettingsManager: RuntimeSettingsManager;
    def cornerToolEffect: Effect = null;
 //    def cornerToolEffect = DropShadow {
@@ -651,14 +651,14 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
    }
 
    public function uninstallCollaborationTools(window: ScyWindow): Void {
-       window.mucId = null;
-       window.isCollaborative = false;
-       if (window.scyContent instanceof CollaborationStartable) {
-            (window.scyContent as CollaborationStartable).stopCollaboration();
-       }
-       if (window.rightDrawerTool instanceof CollaborationStartable) {
-            (window.rightDrawerTool as CollaborationStartable).stopCollaboration();
-       }
+      window.mucId = null;
+      window.isCollaborative = false;
+      if (window.scyContent instanceof CollaborationStartable) {
+         (window.scyContent as CollaborationStartable).stopCollaboration();
+      }
+      if (window.rightDrawerTool instanceof CollaborationStartable) {
+         (window.rightDrawerTool as CollaborationStartable).stopCollaboration();
+      }
       window.scyElo.setMucId(null);
       var metadata: IMetadata = window.tbi.getELOFactory().createMetadata();
       var mucIdKey = window.tbi.getMetaDataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MUC_ID);
@@ -666,8 +666,6 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       mvc.setValue(null);
       window.rightDrawerTool = null;
    }
-
-
 
    public function installCollaborationTools(window: ScyWindow, mucId: String): Void {
       window.mucId = mucId;
@@ -788,7 +786,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                  window: window;
               }
       var functionalRoles: EloFunctionalRole[];
-      if (eloConfig.getEloFunctionalRoles() != null and eloConfig.getEloFunctionalRoles().size()>0) {
+      if (eloConfig.getEloFunctionalRoles() != null and eloConfig.getEloFunctionalRoles().size() > 0) {
          functionalRoles = for (object in eloConfig.getEloFunctionalRoles()) {
                     object as EloFunctionalRole
                  }
@@ -892,8 +890,12 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             windowsShutdownMessage = "\n\n{##"One or more products strongly suggest NOT to quit."}";
          }
          showingQuitDialog = true;
-         def dialogMessage = "{##"Are you sure you want to quit SCY-Lab?\nEverything will be saved."}{windowsShutdownMessage}";
-         DialogBox.showOptionDialog(LogoEloIcon{},DialogType.YES_NO_DIALOG,dialogMessage, ##"Confirm quit",300,true,true, saveAndCloseEverything, doNotShutdown, null);
+         if (initializer.showQuitConfirmation) {
+            def dialogMessage = "{##"Are you sure you want to quit SCY-Lab?\nEverything will be saved."}{windowsShutdownMessage}";
+            DialogBox.showOptionDialog(LogoEloIcon {}, DialogType.YES_NO_DIALOG, dialogMessage, ##"Confirm quit", 300, true, true, saveAndCloseEverything, doNotShutdown, null);
+         } else {
+            saveAndCloseEverything()
+         }
       } else {
          saveAndCloseEverything();
       }

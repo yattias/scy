@@ -143,7 +143,7 @@ public class StandardScyWindow extends ScyWindow {
    var closedWindow: ClosedWindow;
    var hideDrawers: Boolean;
    def drawerGroup: Group = Group {
-              visible: bind not isClosed and not isMinimized and not hideDrawers;
+              visible: bind not isClosed and not isMinimized and not hideDrawers and allowDrawers;
            };
    var topDrawer: TopDrawer;
    var rightDrawer: RightDrawer;

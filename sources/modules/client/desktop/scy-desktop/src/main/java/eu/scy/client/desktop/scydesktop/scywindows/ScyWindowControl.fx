@@ -56,6 +56,8 @@ public mixin class ScyWindowControl {
    
    public abstract function addOtherScyWindow(eloType:String): ScyWindow;
 
+   public abstract function addOtherScyWindow(window:ScyWindow): ScyWindow;
+
    public abstract function addOtherCollaborativeScyWindow(eloUri:URI, mucid: String): ScyWindow;
 
    public abstract function removeOtherScyWindow(eloUri:URI): Void;

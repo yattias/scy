@@ -128,6 +128,14 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       return scyWindow;
    }
 
+   public override function addOtherScyWindow(scyWindow: ScyWindow): ScyWindow {
+      if (not windowManager.hasWindow(scyWindow)) {
+         windowManager.addScyWindow(scyWindow);
+         windowPositioner.placeOtherWindow(scyWindow);
+      }
+      return scyWindow;
+   }
+
    override public function makeMainScyWindow(eloUri: URI): Void {
       var window = findScyWindow(eloUri);
       if (window == null) {
@@ -136,11 +144,13 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       }
       windowPositioner.makeMainWindow(window);
       windowPositioner.positionWindows();
+      windowManager.activateScyWindow(window);
    }
 
    override public function makeMainScyWindow(window: ScyWindow): Void {
       windowPositioner.makeMainWindow(window);
       windowPositioner.positionWindows();
+      windowManager.activateScyWindow(window);
    }
 
    function activeLasChanged(oldActiveLas: LasFX) {
@@ -149,7 +159,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       if (oldActiveLas != null) {
          // store window state of the old active las
          def windowPositionsState = windowPositioner.getWindowPositionsState();
-         if (windowPositionsState!=null){
+         if (windowPositionsState != null) {
             windowPositionStates.put(oldActiveLas.id, windowPositionsState);
          }
          missionModel.setWindowStatesXml(oldActiveLas.id, windowPositionsState.getXml());
