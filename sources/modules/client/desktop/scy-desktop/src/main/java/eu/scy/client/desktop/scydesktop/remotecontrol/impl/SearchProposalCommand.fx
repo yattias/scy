@@ -36,7 +36,7 @@ public class SearchProposalCommand extends ScyDesktopRemoteCommand {
 
         }
 
-        scyDesktop.eloManagement.eloSearchNode.setSuggestions(suggestions);
+        scyDesktop.eloManagement.searchWrapper.searchNode.setSuggestions(suggestions);
     }
 
 }
