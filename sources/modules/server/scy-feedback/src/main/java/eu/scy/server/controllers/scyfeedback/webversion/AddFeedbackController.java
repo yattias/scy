@@ -56,6 +56,7 @@ public class AddFeedbackController extends BaseController {
         feedbackTransfer.setEvalu(score);
         feedbackTransfer.setCalendarDate(simpleDateFormat.format(now));
         feedbackTransfer.setCalendarTime(timeFormat.format(now));
+
         
         feedbackEloTransfer.addFeedback(feedbackTransfer);
         feedbackElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(feedbackEloTransfer));
@@ -75,6 +76,7 @@ public class AddFeedbackController extends BaseController {
 
         modelAndView.addObject("username", getCurrentUser(request));
         modelAndView.addObject("feedbackItem", feedbackTransfer);
+        modelAndView.addObject("feedbackEloUri", getEncodedUri(feedbackElo.getUri().toString()));
 
     }
 
