@@ -31,7 +31,7 @@ public class FeedbackEloSearchResultFilter implements Comparator {
     public int compare(Object o1, Object o2) {
         TransferElo first = (TransferElo) o1;
         TransferElo last = (TransferElo) o2;
-        if(feedbackEloSearchFilter.getCriteria() != null) {
+        if(feedbackEloSearchFilter != null && feedbackEloSearchFilter.getCriteria() != null) {
             if(feedbackEloSearchFilter.getCriteria().equals("NEWEST")){
                 return compareOnDate(first, last);
             } else if(feedbackEloSearchFilter.getCriteria().equals("MOST_VIEWED")) {
@@ -96,6 +96,7 @@ public class FeedbackEloSearchResultFilter implements Comparator {
     }
 
     public List<TransferElo> filter(List<TransferElo> eloList) {
+        if(feedbackEloSearchFilter == null) return eloList;
         if(feedbackEloSearchFilter.getOwner() == null ||(feedbackEloSearchFilter.getOwner() != null &&  feedbackEloSearchFilter.getOwner().equalsIgnoreCase("ALL"))) return eloList;
         List <TransferElo> rList = new LinkedList<TransferElo>();
         for (int i = 0; i < eloList.size(); i++) {

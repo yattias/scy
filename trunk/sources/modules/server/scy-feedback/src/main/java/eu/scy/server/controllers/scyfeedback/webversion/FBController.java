@@ -1,6 +1,7 @@
 package eu.scy.server.controllers.scyfeedback.webversion;
 
 import eu.scy.common.mission.MissionRuntimeElo;
+import eu.scy.core.model.User;
 import eu.scy.core.model.transfer.TransferElo;
 import eu.scy.core.roolo.FeedbackEloSearchFilter;
 import eu.scy.core.roolo.MissionELOService;
@@ -10,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -33,6 +35,8 @@ public class FBController extends BaseController {
         String anchorElo = request.getParameter("anchorElo");
         String user = request.getParameter("user");
 
+        if(criteria == null) criteria = "NEWEST";
+
         FeedbackEloSearchFilter filter = getMissionELOService().createFeedbackEloSearchFilter();
         if(user != null && user.equalsIgnoreCase("MINE")) user = getCurrentUserName(request);
         filter.setCriteria(criteria);
@@ -42,9 +46,33 @@ public class FBController extends BaseController {
         List<TransferElo> elos = getMissionELOService().getElosForFeedback(missionRuntimeElo, getCurrentUserName(request), filter);
         logger.info("ELOS: " + elos.size());
 
+        if(user == null) user = "ALL";
+        if(user.equals(getCurrentUserName(request))) user = "MINE";
+
+        List<TransferElo> allElos = getMissionELOService().getElosForFeedback(missionRuntimeElo, getCurrentUserName(request), null);
+        List<String> allUserNames = new LinkedList<String>();
+        for (int i = 0; i < allElos.size(); i++) {
+            TransferElo transferElo = allElos.get(i);
+            if(!allUserNames.contains(transferElo.getCreatedBy())) {
+                allUserNames.add(transferElo.getCreatedBy());
+            }
+        }
+
+        List <User> users = new LinkedList<User>();
+        for (int i = 0; i < allUserNames.size(); i++) {
+            String s = allUserNames.get(i);
+            User uzz = getUserService().getUser(s);
+            users.add(uzz);
+        }
+
+
+
         modelAndView.addObject("elos", elos);
         modelAndView.addObject("anchorElos", getMissionELOService().getAnchorELOs(getMissionELOService().getMissionSpecificationELOForRuntume(missionRuntimeElo)));
         modelAndView.addObject(ELO_URI, getEncodedUri(runtimeURI.toString()));
+        modelAndView.addObject("criteria", criteria);
+        modelAndView.addObject("uzer", user);
+        modelAndView.addObject("uzers", users);
     }
 
     public MissionELOService getMissionELOService() {

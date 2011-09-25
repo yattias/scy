@@ -27,5 +27,8 @@
                 </c:forEach>
         </table>
     </c:when>
+    <c:when test="${fn:length(lasActivityList) == 0}">
+        <spring:message code="NO_STUDENTS_CURRENTLY_LOGGED_ON"/>
+    </c:when>
 </c:choose>
 
