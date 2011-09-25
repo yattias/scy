@@ -1,5 +1,16 @@
 <%@ include file="common-taglibs.jsp" %>
 
+<p>
+    <spring:message code="HELP_TEXT_LEARNING_GOALS"/>
+</p>
+
+<br/>
+<p>
+    <spring:message code="HELP_TEXT_LEARNING_GOALS_2"/>
+</p>
+
+.
+
 <table>
     <tr>
         <td>
@@ -33,26 +44,13 @@
     </tr>
 </table>
 
-
-
-<div id="dialogOne" dojoType="dijit.Dialog" title="<spring:message code="HELP"/> ">
-    <spring:message code="HELP_TEXT_LEARNING_GOALS"/>
-    </div>
-</div>
-
 <br/>
-<h2><spring:message code="GENERAL_LEARNING_GOALS"/><button id="buttonOne" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconHelp" showLabel="false" type="button">
-    <script type="dojo/method" event="onClick" args="evt">
-        // Show the Dialog:
-        dijit.byId("dialogOne").show();
-    </script>
-</button>
-</h2>
-
+<h2><spring:message code="GENERAL_LEARNING_GOALS"/> </h2>
 
 <c:choose>
-
-
+    <c:when test="${fn:length(pedagogicalPlan.assessmentSetup.generalLearningGoals) == 0}">
+        <i><spring:message code="NO_GENERAL_LEARNING_GOALS_ADDED"/></i>
+    </c:when>
     <c:when test="${fn:length(pedagogicalPlan.assessmentSetup.generalLearningGoals) > 0}">
             <c:forEach var="learningGoal" items="${pedagogicalPlan.assessmentSetup.generalLearningGoals}">
                 <table>
@@ -158,6 +156,9 @@
 
 
 <c:choose>
+    <c:when test="${fn:length(pedagogicalPlan.assessmentSetup.specificLearningGoals) == 0}">
+        <i><spring:message code="NO_SPECIFIC_LEARNING_GOALS_ADDED"/></i>
+    </c:when>
 
 
     <c:when test="${fn:length(pedagogicalPlan.assessmentSetup.specificLearningGoals) > 0}">
