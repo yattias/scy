@@ -172,4 +172,8 @@ public class DummyAwarenessService implements IAwarenessService {
     @Override
     public void inviteUserToChat(String room, String user) {
     }
+
+    @Override
+    public void setUserPresence(boolean available) {
+    }
 }
