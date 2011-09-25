@@ -67,6 +67,10 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
     private Connection xmppConnection;
     private ArrayList<IAwarenessInvitationListener> invitationListeners = new ArrayList<IAwarenessInvitationListener>();
 
+    private boolean isAvailable;
+
+    private String status;
+
     public AwarenessServiceXMPPImpl() {
     }
 
@@ -470,9 +474,23 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 
     @Override
     public void setStatus(String status) throws AwarenessServiceException {
-        Presence presence = getRoster().getPresence(xmppConnection.getUser());
-        presence.setStatus(status);
-        //XXX will this be processed? Maybe there is need for sending a new packet
+        this.status = status;
+        updatePresence();
+    }
+
+    @Override
+    public void setUserPresence(boolean available) {
+        this.isAvailable = available;
+        updatePresence();
+    }
+    
+    private void updatePresence() {
+        if (xmppConnection != null && xmppConnection.isConnected()) {
+            Presence presence = new Presence(Presence.Type.available);
+            presence.setMode(isAvailable ? Presence.Mode.available : Presence.Mode.away);
+            presence.setStatus(status);
+            xmppConnection.sendPacket(presence);
+        }
     }
 
     @Override

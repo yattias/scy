@@ -112,20 +112,13 @@ public interface ToolBrokerAPI extends RooloServices {
      * 
      * @param connectionListener listener to be removed.
      */
-	public void removeConnectionListener(ConnectionListener connectionListener);
+    public void removeConnectionListener(ConnectionListener connectionListener);
 
-	/**
-	 * Adds the connection lister if not added yet.
-	 * 
-	 * @param connectionListener listener to be added.
-	 */
-	public void addConnectionListener(ConnectionListener connectionListener);
-
-        /**
-         * Sets the presence of the logged in user to available or unavailable.
-         *
-         * @param available if true the user will be available
-         */
-        public void setUserPresence(boolean available);
+    /**
+     * Adds the connection lister if not added yet.
+     *
+     * @param connectionListener listener to be added.
+     */
+    public void addConnectionListener(ConnectionListener connectionListener);
 
 }

@@ -64,6 +64,13 @@ public interface IAwarenessService {
      * @throws AwarenessServiceException
      */
     public void setStatus(String status) throws AwarenessServiceException;
+
+    /**
+     * Sets the presence of the logged in user to available or unavailable.
+     *
+     * @param available if true the user will be available
+     */
+    public void setUserPresence(boolean available);
     
     /**
      * adds a presence listener
