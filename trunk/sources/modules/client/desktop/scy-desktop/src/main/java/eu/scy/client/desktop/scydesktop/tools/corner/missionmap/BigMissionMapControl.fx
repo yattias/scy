@@ -65,7 +65,7 @@ public class BigMissionMapControl extends CustomNode {
    def sceneHeight = bind scene.height on replace { sceneSizeChanged() };
    def relativeWindowScreenBoder = 0.0;
    var bigMissionMapVisible = false on replace {
-              scyDesktop.config.getToolBrokerAPI().setUserPresence(not bigMissionMapVisible);
+              scyDesktop.config.getToolBrokerAPI().getAwarenessService().setUserPresence(not bigMissionMapVisible);
            };
    var initPhase = true;
    var deferLoadTimerCount = 5;
