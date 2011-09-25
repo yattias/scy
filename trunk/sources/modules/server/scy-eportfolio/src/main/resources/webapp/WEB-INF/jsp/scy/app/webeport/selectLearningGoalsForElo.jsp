@@ -1,4 +1,5 @@
 <%@ include file="common-taglibs.jsp" %>
+<div id="selectLearningGoal">
 <c:choose>
     <c:when test="${fn:length(learningGoals) > 0}">
         <c:if test="${pedagogicalPlan.assessmentSetup.useOnlyLearningGoals}">
@@ -10,7 +11,7 @@
 
             </table>
             <c:forEach var="learningGoal" items="${learningGoals}">
-                <tr class="${oddEven.oddEven}">
+                <tr  class="${oddEven.oddEven}_eport">
                     <td align="left">
                         <a href=/webapp/app/webeport/editEloReflections.html?eloURI=${eloURI}&missionRuntimeURI=${missionRuntimeURI}&anchorEloURI=${anchorEloURI}&action=addLearningGoal&learningGoalId=${learningGoal.id}&lgType=${learningGoalType}>
                             <img src="/webapp/themes/scy/default/images/green.png" alt="<spring:message code="HIGH"/>"/> ${learningGoal.goal}
@@ -36,7 +37,10 @@
                 <c:forEach var="learningGoal" items="${learningGoals}">
                     <tr>
                         <td align="left">
-                            ${learningGoal.goal}
+                            <a href="javascript:openPage('selectLearningGoal', 'selectLearningGoalsForElo.html?action=selectLearningGoal&learningGoalId=${learningGoal.id}&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));">
+                                ${learningGoal.goal}
+                            </a>
+
                         </td>
                         <td>
                             <a href=/webapp/app/webeport/editEloReflections.html?eloURI=${eloURI}&missionRuntimeURI=${missionRuntimeURI}&anchorEloURI=${anchorEloURI}&action=addLearningGoal&learningGoalId=${learningGoal.id}&level=LOW&lgType=${learningGoalType}>
@@ -69,7 +73,9 @@
             </p>
             <ul>
                 <c:forEach var="learningGoal" items="${learningGoals}">
-                    <strong><li>${learningGoal.goal}</li></strong>
+                    <a href="javascript:openPage('selectLearningGoal', 'selectLearningGoalsForElo.html?action=selectLearningGoal&learningGoalId=${learningGoal.id}&eloURI=' + encodeURIComponent('${eloURI}'));">
+                        <strong><li>${learningGoal.goal}</li></strong>
+                    </a>
                         <c:choose>
                             <c:when test="${fn:length(learningGoal.learningGoalCriterias) > 0}">
                                 <table width="100%">
@@ -110,3 +116,4 @@
 
     </c:when>
 </c:choose>
+</div>
