@@ -881,6 +881,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
    var showingQuitDialog = false;
 
    function scyDesktopShutdownAction(): Void {
+      bubbleManager.pauze();
       if (preventShutdown) {
          if (showingQuitDialog) {
             // we are asking for quit now, don't show a second dialog
@@ -893,7 +894,12 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
          }
          showingQuitDialog = true;
          if (initializer.showQuitConfirmation) {
-            def dialogMessage = "{##"Are you sure you want to quit SCY-Lab?\nEverything will be saved."}{windowsShutdownMessage}";
+            var allSavedMessage = "";
+            if (not initializer.globalReadOnlyMode){
+               allSavedMessage = ##"\nEverything will be saved.";
+            }
+            def dialogMessage = "{##"Are you sure you want to quit SCY-Lab?"}{allSavedMessage}{windowsShutdownMessage}";
+
             DialogBox.showOptionDialog(LogoEloIcon {}, DialogType.YES_NO_DIALOG, dialogMessage, ##"Confirm quit", 300, true, true, saveAndCloseEverything, doNotShutdown, null);
          } else {
             saveAndCloseEverything()
@@ -920,6 +926,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
 
    function doNotShutdown(): Void {
       showingQuitDialog = false;
+      bubbleManager.resume();
    }
 
    function saveAndCloseEverything(): Void {

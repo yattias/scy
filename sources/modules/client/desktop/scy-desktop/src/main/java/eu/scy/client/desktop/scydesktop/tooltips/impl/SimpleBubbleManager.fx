@@ -36,7 +36,7 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
    def bubbleManagerTimer = new BubbleManagerTimer(this);
    def layerManager = new BubbleLayerManager();
    def resourceBundleWrapper = new ResourceBundleWrapper(this);
-   var pauzing = false;
+   var pauzeCount = 0;
 
    init {
       showingLayer(BubbleLayer.DESKTOP);
@@ -62,15 +62,20 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
    }
 
    public override function pauze(): Void {
-      pauzing = true
+      pauzeCount++
    }
 
    public override function resume(): Void {
-      pauzing = false
+      pauzeCount--;
+      if (pauzeCount<0){
+         logger.warn("trying to decrease pauzeCount below 0");
+         pauzeCount = 0;
+      }
+
    }
 
    override function showNextBubble(): Void {
-      if (not pauzing) {
+      if (pauzeCount<=0) {
          FX.deferAction(bubbleStep);
       }
    }
