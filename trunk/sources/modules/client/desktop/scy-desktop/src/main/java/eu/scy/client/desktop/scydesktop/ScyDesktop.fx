@@ -108,6 +108,7 @@ import eu.scy.client.desktop.desktoputils.art.javafx.LogoEloIcon;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.DialogType;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleManager;
 import eu.scy.client.desktop.scydesktop.tooltips.impl.SimpleBubbleManager;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
 
 /**
  * @author sikkenj
@@ -270,6 +271,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
          RedirectSystemStreams.redirect(config.getLoggingDirectory());
       }
       DialogBox.windowStyler = windowStyler;
+      ModalDialogBox.bubbleManager = bubbleManager;
       scyWindowControl.missionModel = missionModelFX;
       FX.deferAction(initialWindowPositioning);
       FX.deferAction(initMouseBlocker);

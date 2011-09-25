@@ -20,10 +20,13 @@ import eu.scy.client.desktop.desktoputils.XFX;
 import java.lang.Thread;
 import javafx.animation.Timeline;
 import javafx.animation.Interpolator;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleManager;
 
 /**
  * @author sikken
  */
+
+public var bubbleManager:BubbleManager;
 // place your code here
 public class ModalDialogBox extends CustomNode {
 
@@ -40,6 +43,7 @@ public class ModalDialogBox extends CustomNode {
    }
 
    public override function create(): Node {
+      bubbleManager.pauze();
       if (windowColorScheme == null) {
          windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
       }
@@ -63,10 +67,11 @@ public class ModalDialogBox extends CustomNode {
                  }
       }
       dialogWindow.open();
-      dialogWindow
+      dialogWindow;
    }
 
    public function close(): Void {
+      bubbleManager.resume();
       ModalDialogLayer.removeModalDialog(this);
       closeAction();
    }

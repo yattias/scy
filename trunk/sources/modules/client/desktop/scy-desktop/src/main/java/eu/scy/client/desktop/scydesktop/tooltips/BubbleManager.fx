@@ -14,6 +14,10 @@ public mixin class BubbleManager {
 
    public abstract function start():Void;
 
+   public abstract function pauze():Void;
+
+   public abstract function resume():Void;
+
 //   public abstract function registerNode(sourceNode: Node, bubbleCreator: TooltipCreator, priority: Integer, id: String, layerId: String): Void;
 
    public abstract function showingLayer(bubbleLayer: BubbleLayer): Void;

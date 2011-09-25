@@ -36,13 +36,14 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
    def bubbleManagerTimer = new BubbleManagerTimer(this);
    def layerManager = new BubbleLayerManager();
    def resourceBundleWrapper = new ResourceBundleWrapper(this);
+   var pauzing = false;
 
    init {
       showingLayer(BubbleLayer.DESKTOP);
    }
 
    public override function log(action: IAction): Void {
-//      println("actionLogged");
+      //      println("actionLogged");
       bubbleManagerTimer.userDidSomething();
    }
 
@@ -60,8 +61,18 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
       }
    }
 
+   public override function pauze(): Void {
+      pauzing = true
+   }
+
+   public override function resume(): Void {
+      pauzing = false
+   }
+
    override function showNextBubble(): Void {
-      FX.deferAction(bubbleStep);
+      if (not pauzing) {
+         FX.deferAction(bubbleStep);
+      }
    }
 
    function bubbleStep(): Void {
@@ -83,7 +94,7 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
       logger.info("display bubble: {bubble}");
       def bubbleNode = bubble.getBubbleContent();
       var targetNode = bubble.getTargetNode();
-      if (targetNode==null){
+      if (targetNode == null) {
          targetNode = bubble.targetNode
       }
 
