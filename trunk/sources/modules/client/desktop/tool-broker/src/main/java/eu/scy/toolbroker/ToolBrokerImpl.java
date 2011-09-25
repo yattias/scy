@@ -470,7 +470,9 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 				}
 			});
 		}
-                getAwarenessService().setUserPresence(false);
+                Presence presence = new Presence(Presence.Type.available);
+                presence.setMode(Presence.Mode.away);
+                connection.sendPacket(presence);
 		return connection;
 	}
 
