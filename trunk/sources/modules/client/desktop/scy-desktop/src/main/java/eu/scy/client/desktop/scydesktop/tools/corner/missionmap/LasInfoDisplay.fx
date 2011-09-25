@@ -61,26 +61,27 @@ public class LasInfoDisplay extends CustomNode {
    var lastModifiedElosList: ListView;
    def selectedLastModifiedElo = bind lastModifiedElosList.selectedItem as ScyElo on replace { lastModifiedEloSelected() }
    def uriLocalizer = new UriLocalizer();
+   def showOnlyAnchorElos = true;
 
    public override function create(): Node {
       def progressDisplay: Node = ProgressDisplay {
-            fillColor: windowColorScheme.mainColorLight
-            borderColor: windowColorScheme.mainColor
-            progress: Math.random()
-         }
+                 fillColor: windowColorScheme.mainColorLight
+                 borderColor: windowColorScheme.mainColor
+                 progress: Math.random()
+              }
       var thumbnail: Node;
       def thumbnailImage = las.mainAnchor.scyElo.getThumbnail();
       if (thumbnailImage != null) {
          thumbnail = ImageView {
-               fitWidth: ArtSource.thumbnailWidth
-               fitHeight: ArtSource.thumbnailHeight
-               preserveRatio: true
-               image: SwingUtils.toFXImage(thumbnailImage)
-            }
+                    fitWidth: ArtSource.thumbnailWidth
+                    fitHeight: ArtSource.thumbnailHeight
+                    preserveRatio: true
+                    image: SwingUtils.toFXImage(thumbnailImage)
+                 }
       } else {
          thumbnail = NoThumbnailView {
-               windowColorScheme: windowColorScheme
-            }
+                    windowColorScheme: windowColorScheme
+                 }
       }
       VBox {
          spacing: spacing
@@ -154,13 +155,13 @@ public class LasInfoDisplay extends CustomNode {
                text: ##"My ELO list (last modified):"
             }
             lastModifiedElosList = ListView {
-                  layoutInfo: LayoutInfo {
-                     height: 100
-                  }
-                  cellFactory: simpleScyEloCellFactory
-                  items: getLastModifiedElos()
-               //                  items: ['first ideas <2 hours ago>', 'last ideas <yesterday>', "CO2 concept map"]
-               }
+                       layoutInfo: LayoutInfo {
+                          height: 100
+                       }
+                       cellFactory: simpleScyEloCellFactory
+                       items: getLastModifiedElos()
+                    //                  items: ['first ideas <2 hours ago>', 'last ideas <yesterday>', "CO2 concept map"]
+                    }
          ]
       }
    }
@@ -173,13 +174,11 @@ public class LasInfoDisplay extends CustomNode {
       }
       var reader: BufferedReader;
       try {
-         reader = new BufferedReader(new InputStreamReader(localizedUri.toURL().openStream(),"UTF-8"));
-      }
-      catch (e: FileNotFoundException) {
+         reader = new BufferedReader(new InputStreamReader(localizedUri.toURL().openStream(), "UTF-8"));
+      } catch (e: FileNotFoundException) {
          logger.warn("cannot find text file: {localizedUri}");
          return "cannot find text file:\n{localizedUri}";
-      }
-      catch (e: Exception) {
+      } catch (e: Exception) {
          logger.warn("failed to open text file: {localizedUri}, {e.getMessage()}");
          return "failed to open text file:\n{localizedUri},\n{e.getMessage()}";
       }
@@ -193,16 +192,13 @@ public class LasInfoDisplay extends CustomNode {
             }
             builder.append(line);
          }
-      }
-      catch (e: Exception) {
+      } catch (e: Exception) {
          logger.warn("error reading content of uri: {localizedUri}", e);
          builder.append("\n\nError reading from {localizedUri}, {e.getMessage()}");
-      }
-      finally {
+      } finally {
          try {
             reader.close();
-         }
-         catch (e: Exception) {
+         } catch (e: Exception) {
             logger.warn("failed to close stream to uri {localizedUri}");
          }
       }
@@ -224,10 +220,12 @@ public class LasInfoDisplay extends CustomNode {
                insert intermediate.scyElo into scyElos;
             }
          }
-         for (eloUri in las.otherEloUris) {
-            def scyElo = ScyElo.loadMetadata(eloUri, tbi);
-            if (scyElo.getDateFirstUserSave() != null) {
-               insert scyElo into scyElos;
+         if (not showOnlyAnchorElos) {
+            for (eloUri in las.otherEloUris) {
+               def scyElo = ScyElo.loadMetadata(eloUri, tbi);
+               if (scyElo.getDateFirstUserSave() != null) {
+                  insert scyElo into scyElos;
+               }
             }
          }
          scyElos = Sequences.sort(scyElos, new ScyEloLastModifiedComparator()) as ScyElo[];
@@ -239,10 +237,10 @@ public class LasInfoDisplay extends CustomNode {
    public function simpleScyEloCellFactory(): ListCell {
       var listCell: ListCell;
       listCell = ListCell {
-            node: LastModifiedScyEloCellView {
-               scyElo: bind listCell.item as ScyElo
-            }
-         }
+                 node: LastModifiedScyEloCellView {
+                    scyElo: bind listCell.item as ScyElo
+                 }
+              }
    }
 
    function lastModifiedEloSelected() {
@@ -256,18 +254,18 @@ public class LasInfoDisplay extends CustomNode {
 
 function run() {
    def las1 = LasFX {
-         mainAnchor: MissionAnchorFX {
-            title: "las/anchor title"
-         }
-         instructionUri: new URI("http://www.scy-lab.eu/content/en/mission1/startPage/Welcome.html")
-      }
+              mainAnchor: MissionAnchorFX {
+                 title: "las/anchor title"
+              }
+              instructionUri: new URI("http://www.scy-lab.eu/content/en/mission1/startPage/Welcome.html")
+           }
 
    def las2 = LasFX {
-         mainAnchor: MissionAnchorFX {
-            title: "las/anchor title"
-         }
-         instructionUri: null
-      }
+              mainAnchor: MissionAnchorFX {
+                 title: "las/anchor title"
+              }
+              instructionUri: null
+           }
 
    def styleSheet = "{__DIR__}../../../scy-desktop.css";
    def styleSheetFile = new File(styleSheet);
