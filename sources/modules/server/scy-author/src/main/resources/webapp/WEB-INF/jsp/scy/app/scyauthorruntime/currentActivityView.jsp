@@ -41,7 +41,7 @@
         </table>
     </c:when>
     <c:when test="${fn:length(userActivityList) == 0}">
-        No students currently active        
+        <spring:message code="NO_STUDENTS_CURRENTLY_LOGGED_ON"/>        
     </c:when>
 </c:choose>
 

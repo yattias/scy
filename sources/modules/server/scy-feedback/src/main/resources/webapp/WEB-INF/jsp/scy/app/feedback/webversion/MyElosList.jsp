@@ -23,12 +23,12 @@
     </select>
     <strong>Person:</strong>
     <select>
-        <option>Mine</option>
-        <option>All</option>
+        <option><spring:message code="ALL"/></option>
+        <!--option>All</option>
         <option>Users</option>
         <option>From</option>
         <option>Authoring</option>
-        <option>Tool</option>
+        <option>Tool</option-->
     </select>
      <br/><h2>Click on an ELO to give feedback</h2>
 </div>
