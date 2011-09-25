@@ -60,6 +60,9 @@ public class SearchResultRanking {
 		Result result = new Result(query, results, lengthQuality, similarityQuality, relevanceQuality);
 		int index = this.ranking.size();
 		for (int i = 0; i < this.ranking.size(); i++) {
+		        if (this.ranking.get(i).getQuery().equals(query)) {
+		            return; // already in the list
+		        }
 			if (result.compareTo(this.ranking.get(i)) >= 0) {
 				index = i;
 				break;
