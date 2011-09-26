@@ -35,6 +35,7 @@
         <property name="mappings">
             <value>
                 /app/eportfolio/EPortfolioIndex.html=eportfolioIndexController
+                /app/eportfolio/dnaIndex.html=dnaIndexController
                 /app/eportfolio/xml/toolURLProvider.html=toolURLProvider
                 /app/eportfolio/xml/currentMissionProgressOverview.html=currentMissionProgressOverview
                 /app/eportfolio/xml/eportfolioELOSearch.html=eportfolioELOSearchController
@@ -81,6 +82,13 @@
         <property name="userService" ref="userService"/>
         <property name="missionELOService" ref="missionELOService"/>
         <property name="runtimeELOService" ref="runtimeELOService"/> 
+	</bean>
+
+    <bean id="dnaIndexController" class="eu.scy.server.eportfolio.DNAIndex">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="userService" ref="userService"/>
+        <property name="missionELOService" ref="missionELOService"/>
 	</bean>
 
     <bean id="assessmentIndexController" class="eu.scy.server.assessment.AssessmentIndex">
