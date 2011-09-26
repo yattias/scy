@@ -35,7 +35,7 @@
                     <td><strong><spring:message code="HIGH"/></strong></td>
                 </tr>
                 <c:forEach var="learningGoal" items="${learningGoals}">
-                    <tr>
+                    <tr class="${oddEven.oddEven}_eport">
                         <td align="left">
                             <a href="javascript:openPage('selectLearningGoal', 'selectLearningGoalsForElo.html?action=selectLearningGoal&learningGoalId=${learningGoal.id}&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));">
                                 ${learningGoal.goal}
@@ -80,7 +80,7 @@
                             <c:when test="${fn:length(learningGoal.learningGoalCriterias) > 0}">
                                 <table width="100%">
                                     <c:forEach var="criteria" items="${learningGoal.learningGoalCriterias}">
-                                        <tr align="left"  class="${oddEven.oddEven}">
+                                        <tr align="left"  class="${oddEven.oddEven}_eport">
                                             <td align="left" width="3%">
 
                                                 <c:if test="${criteria.level =='LOW'}">
