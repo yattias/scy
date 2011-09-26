@@ -20,6 +20,8 @@ import eu.scy.client.desktop.scydesktop.tooltips.BubbleLayer;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleKey;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import org.apache.log4j.Logger;
+import com.sun.javafx.tk.swing.WindowStage;
+import javafx.scene.Scene;
 
 /**
  * @author sikken
@@ -29,6 +31,7 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
    def logger = Logger.getLogger(this.getClass());
    public-init var tbi: ToolBrokerAPI;
    public-init var activateBubbleManager = true;
+   public-init var scene: Scene;
    def timeStep = 1s;
    def bubbleStore = new BubbleStoreImpl();
 //   var activeLayerId: Object;
@@ -71,11 +74,16 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
          logger.warn("trying to decrease pauzeCount below 0");
          pauzeCount = 0;
       }
+   }
 
+   function isScyLabActive():Boolean{
+      var window = (scene.stage.get$Stage$impl_peer() as WindowStage).window;
+//      println("window.isActive(): {window.isActive()}, window.isFocused(): {window.isFocused()}");
+      return window.isActive();
    }
 
    override function showNextBubble(): Void {
-      if (pauzeCount<=0) {
+      if (pauzeCount<=0 and isScyLabActive()) {
          FX.deferAction(bubbleStep);
       }
    }
