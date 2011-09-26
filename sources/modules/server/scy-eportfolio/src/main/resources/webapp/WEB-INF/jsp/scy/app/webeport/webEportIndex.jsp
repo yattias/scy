@@ -237,7 +237,7 @@ function renderHtmlLabel(item){
 		itemMaxWidth="150" itemMaxHeight="150"
 		orientation="horizontal"
 		effectUnits="2"
-		itemPadding="10"
+		itemPadding="5"
 		attachEdge="top"
 		labelEdge="bottom"
 		id="fisheye1"
