@@ -36,7 +36,7 @@
 			<!-- JavaScript enabled so display the flashContent div in case it is not replaced with a swf object. -->
 			swfobject.createCSS("#flashContent", "display:block;text-align:left;");
         </script>
-        <div id="flashContent">
+        <div id="flashContent" align="center">
         	<p>
 	        	To view this page ensure that Adobe Flash Player version
 				10.0.0 or greater is installed.
