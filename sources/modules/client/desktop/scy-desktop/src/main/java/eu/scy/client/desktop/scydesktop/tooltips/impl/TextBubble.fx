@@ -26,7 +26,7 @@ public class TextBubble extends AbstractBubble {
    public override function getBubbleContent(): Node {
       Text {
          font: Font {
-            size: 12
+            size: 14
          }
          x: 0, y: 0
          content: bubbleText
