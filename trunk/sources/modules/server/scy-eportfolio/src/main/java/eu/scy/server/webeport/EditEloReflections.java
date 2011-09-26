@@ -52,6 +52,9 @@ public class EditEloReflections extends BaseController {
         }
 
         URI anchorEloURI = getURI(request.getParameter("anchorEloURI"));
+        if(anchorEloURI == null) {
+            anchorEloURI = missionRuntimeElo.getMissionRuntimeModel().getAnchorEloUriForElo(elo.getUri());
+        }
         ScyElo anchorElo = null;
 
 
@@ -60,7 +63,9 @@ public class EditEloReflections extends BaseController {
         List<TransferElo> obligatoryAnchorElos = getObligatoryAnchorElos(request, missionSpecificationElo, pedagogicalPlanTransfer);//getMissionELOService().getObligatoryAnchorELOs(missionSpecificationElo, pedagogicalPlanTransfer);
 
         boolean anchorEloObligatory = false;
+
         anchorElo = ScyElo.loadLastVersionElo(anchorEloURI, getMissionELOService());
+
         TransferElo anchorEloForAddedElo = new TransferElo(anchorElo);
 
         for (int i = 0; i < obligatoryAnchorElos.size(); i++) {
