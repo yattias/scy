@@ -38,15 +38,15 @@ public class AnchorLink extends CustomNode {
                   strokeWidth: strokeWidth
                   stroke: color
                },
-//               if (bidirectional){
-//                  [
-//                     createArrow(arrowHeight, false),
-//                     createArrow(arrowHeight, true)
-//                  ]
-//               }
-//               else{
-//                  createArrow(0.0, false)
-//               }
+               if (bidirectional){
+                  [
+                     createArrow(arrowHeight, false),
+                     createArrow(arrowHeight, true)
+                  ]
+               }
+               else{
+                  createArrow(0.0, false)
+               }
             ]
          };
    }
