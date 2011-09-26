@@ -29,6 +29,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.window.WindowResize;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolGetter;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleManager;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleLayer;
+import eu.scy.client.desktop.scydesktop.tools.DrawerUIIndicator;
 
 /**
  * @author sikkenj
@@ -45,35 +46,35 @@ public abstract class Drawer extends CustomNode {
    public var activated = false; // TODO, make only changeable from (sub) package
    public var activate: function(): Void;
    public var handleNumber = 0;
-   public var otherDrawers:Drawer[];
+   public var otherDrawers: Drawer[];
    public var controlLetter = "";
    var contentLabel = ##"drawer";
    def sideContentBorder = 5.0;
    def topContentBorder = 5.0;
    def bottomContentBorder = 5.0;
-   protected def handleOffset = topContentBorder + 2 + handleNumber*(closedSize+3*borderSize+0);
+   protected def handleOffset = topContentBorder + 2 + handleNumber * (closedSize + 3 * borderSize + 0);
    protected var horizontal = true;
    protected def resizeControlSize = 10.0;
    protected def closeControlSize = 10.0;
    protected var opened = false on replace {
-         // only do the animated stuff, when the creation is completed
-         if (drawerCreated) {
-            openCloseDrawer();
-         } else {
-            if (opened) {
-               contentContainer.content = contentGroup;
-            } else {
-               delete  contentContainer.content;
-            }
-            positionControlElements();
-         }
-      };
+              // only do the animated stuff, when the creation is completed
+              if (drawerCreated) {
+                 openCloseDrawer();
+              } else {
+                 if (opened) {
+                    contentContainer.content = contentGroup;
+                 } else {
+                    delete  contentContainer.content;
+                 }
+                 positionControlElements();
+              }
+           };
    protected var width = 50.0 on replace {
-         sizeChanged()
-      };
+              sizeChanged()
+           };
    protected var height = 50.0 on replace {
-         sizeChanged()
-      };
+              sizeChanged()
+           };
    protected var absoluteMinimumWidth = closeControlSize + resizeControlSize;
    protected var absoluteMinimumHeight = closeControlSize + resizeControlSize;
    protected var resizeXFactor = 1.0;
@@ -95,26 +96,27 @@ public abstract class Drawer extends CustomNode {
    def widthOverhead = 2 * sideContentBorder + borderSize + 1;
    protected def clipSize = 1000000.0;
    protected def clipRect = Rectangle {
-         x: 0
-         y: 0
-         width: clipSize
-         height: clipSize
-      }
+              x: 0
+              y: 0
+              width: clipSize
+              height: clipSize
+           }
    def drawerGroup = Group {
-      }
+           }
    def contentContainer = Group {
-      }
+           }
    def contentGroup = Group {
-      }
+           }
    var clipRectColor = Color.TRANSPARENT;
    var drawerCreated = false;
    def resourceBundleWrapper = new ResourceBundleWrapper(this);
    def openLabel = ##"open";
    def closeLabel = ##"close";
+   var initialOpen = false;
 
-   function getLanguageValue(key: String, default: String): String{
+   function getLanguageValue(key: String, default: String): String {
       def value = resourceBundleWrapper.getString(key);
-      if (value!=key){
+      if (value != key) {
          return value;
       }
       return default
@@ -133,18 +135,36 @@ public abstract class Drawer extends CustomNode {
       positionControlElements();
       adjustClipRect();
       contentGroup.content = [
-            border,
-            contentElement,
-            resizeControl
-         ];
+                 border,
+                 contentElement,
+                 resizeControl
+              ];
       if (opened) {
          contentContainer.content = contentGroup;
       }
       drawerGroup.content = [
-            contentContainer,
-            openCloseControl
-         ];
+                 contentContainer,
+                 openCloseControl
+              ];
       drawerCreated = true;
+      if (initialOpen) {
+         Timeline {
+            repeatCount: 1
+            keyFrames: [
+               KeyFrame {
+                  time: 1s
+                  action: function(): Void {
+                     opened = true
+                  }
+               }
+            ];
+         }.play();
+
+//         FX.deferAction(function(): Void {
+//            opened = true
+//         });
+      }
+
       Group {
          clip: clipRect
          content: [
@@ -169,38 +189,38 @@ public abstract class Drawer extends CustomNode {
    }
 
    function createElements(): Void {
-      var scyTool:ScyTool = null;
-      if (content instanceof ScyToolGetter){
+      var scyTool: ScyTool = null;
+      if (content instanceof ScyToolGetter) {
          scyTool = (content as ScyToolGetter).getScyTool();
-      }
-      else if (content instanceof ScyTool){
+      } else if (content instanceof ScyTool) {
          scyTool = (content as ScyTool)
       }
-      if (scyTool!=null){
+      if (scyTool != null) {
          def drawerUIIndicator = scyTool.getDrawerUIIndicator();
-         if (drawerUIIndicator!=null){
-            controlLetter = getLanguageValue("drawer.{drawerUIIndicator.toString().toLowerCase()}.letter",controlLetter);
-            contentLabel = getLanguageValue("drawer.{drawerUIIndicator.toString().toLowerCase()}.label",contentLabel);
+         if (drawerUIIndicator != null) {
+            controlLetter = getLanguageValue("drawer.{drawerUIIndicator.toString().toLowerCase()}.letter", controlLetter);
+            contentLabel = getLanguageValue("drawer.{drawerUIIndicator.toString().toLowerCase()}.label", contentLabel);
+            initialOpen = drawerUIIndicator == DrawerUIIndicator.ASSIGNMENT;
          }
-//         println("content: {content}, drawerUIIndicator:{drawerUIIndicator}, controlLetter: {controlLetter}, contentLabel: {contentLabel}");
+//         println("content: {content}, drawerUIIndicator:{drawerUIIndicator}, controlLetter: {controlLetter}, contentLabel: {contentLabel}, initialOpen: {initialOpen}");
          def bubbleKey = scyTool.getBubbleKey();
-         if (bubbleKey!=null){
-            bubbleManager.createBubble(openCloseControl,BubbleLayer.DESKTOP,bubbleKey, windowColorScheme);
+         if (bubbleKey != null) {
+            bubbleManager.createBubble(openCloseControl, BubbleLayer.DESKTOP, bubbleKey, windowColorScheme);
          }
       }
-//      else{
-//         println("content is not a ScyTool: {content}");
-//      }
+      //      else{
+      //         println("content is not a ScyTool: {content}");
+      //      }
 
       openCloseControl = OpenDrawerControl {
-            tooltipManager: tooltipManager
-            windowColorScheme: windowColorScheme
-            controlLetter:controlLetter
-            size: closedSize
-            onMouseClicked: function(e: MouseEvent): Void {
-               opened = not opened;
-            }
-         }
+                 tooltipManager: tooltipManager
+                 windowColorScheme: windowColorScheme
+                 controlLetter: controlLetter
+                 size: closedSize
+                 onMouseClicked: function(e: MouseEvent): Void {
+                    opened = not opened;
+                 }
+              }
       setOpenCloseDrawerTooltip();
       if (content instanceof Parent) {
          (content as Parent).layout();
@@ -224,39 +244,38 @@ public abstract class Drawer extends CustomNode {
          resizeAllowed = false;
       }
       border = Rectangle {
-            x: 0, y: 0
-            width: bind width, height: bind height
-            fill: bind windowColorScheme.backgroundColor
-            strokeWidth: borderSize
-            stroke: bind windowColorScheme.mainColor;
-         }
+                 x: 0, y: 0
+                 width: bind width, height: bind height
+                 fill: bind windowColorScheme.backgroundColor
+                 strokeWidth: borderSize
+                 stroke: bind windowColorScheme.mainColor;
+              }
       contentElement = WindowContent {
-            windowColorScheme: windowColorScheme
-            width: bind width - widthOverhead - 1
-            height: bind height - heightOverhead - 1
-            content: bind content;
-            activated: bind activated;
-            activate: activate
-            layoutX: sideContentBorder + borderSize / 2 + 1;
-            layoutY: topContentBorder + borderSize / 2 + 1;
-         }
+                 windowColorScheme: windowColorScheme
+                 width: bind width - widthOverhead - 1
+                 height: bind height - heightOverhead - 1
+                 content: bind content;
+                 activated: bind activated;
+                 activate: activate
+                 layoutX: sideContentBorder + borderSize / 2 + 1;
+                 layoutY: topContentBorder + borderSize / 2 + 1;
+              }
       if (resizeAllowed) {
          resizeControl = WindowResize {
-               size: resizeControlSize;
-               windowColorScheme: windowColorScheme
-               activate: activate
-               startResize: startResize;
-               doResize: doResize;
-               stopResize: stopResize;
-            }
+                    size: resizeControlSize;
+                    windowColorScheme: windowColorScheme
+                    activate: activate
+                    startResize: startResize;
+                    doResize: doResize;
+                    stopResize: stopResize;
+                 }
       }
    }
 
-   function setOpenCloseDrawerTooltip():Void{
-      if (opened){
+   function setOpenCloseDrawerTooltip(): Void {
+      if (opened) {
          openCloseControl.tooltip = "{closeLabel} {contentLabel}";
-      }
-      else{
+      } else {
          openCloseControl.tooltip = "{openLabel} {contentLabel}";
       }
    }
@@ -267,8 +286,8 @@ public abstract class Drawer extends CustomNode {
       var animationInterpolation = Interpolator.EASEBOTH;
       if (opened) {
          this.toBack();
-         for (otherDrawer in otherDrawers){
-            if (otherDrawer!=this){
+         for (otherDrawer in otherDrawers) {
+            if (otherDrawer != this) {
                otherDrawer.opened = false;
             }
          }
@@ -282,7 +301,7 @@ public abstract class Drawer extends CustomNode {
             keyFrames: [
                KeyFrame {
                   time: 20ms
-                  action:function():Void{
+                  action: function(): Void {
                      contentElement.resizeTheContent();
                   }
                }
@@ -311,8 +330,7 @@ public abstract class Drawer extends CustomNode {
                }
             ]
          }.play();
-      }
-      else {
+      } else {
          openFactor = 1;
          Timeline {
             repeatCount: 1
@@ -364,7 +382,7 @@ public abstract class Drawer extends CustomNode {
       desiredHeight = Math.max(desiredHeight, absoluteMinimumHeight);
       if (content instanceof Resizable) {
          var resizableContent = content as Resizable;
-//         println("drawer content width limits {resizableContent.getMinWidth()} - {resizableContent.getMaxWidth()}");
+         //         println("drawer content width limits {resizableContent.getMinWidth()} - {resizableContent.getMaxWidth()}");
          desiredWidth = Math.max(desiredWidth, resizableContent.getMinWidth());
          desiredHeight = Math.max(desiredHeight, resizableContent.getMinHeight());
          desiredWidth = Math.min(desiredWidth, resizableContent.getMaxWidth());
