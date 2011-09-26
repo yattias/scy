@@ -12,9 +12,9 @@ public class ScaffoldManager {
 	private static ScaffoldManager scaffoldManager;
 	private int scaffoldLevel;
 	private List<IScaffoldChangeListener> listeners;
-	public static final int SCAFFOLD_OFF = 1;
-	public static final int SCAFFOLD_MEDIUM = 2;
-	public static final int SCAFFOLD_HIGH = 3;
+	public static final int SCAFFOLD_OFF = 0;
+	public static final int SCAFFOLD_MEDIUM = 1;
+	public static final int SCAFFOLD_HIGH = 2;
 
 	//singleton pattern
 	private ScaffoldManager() {
