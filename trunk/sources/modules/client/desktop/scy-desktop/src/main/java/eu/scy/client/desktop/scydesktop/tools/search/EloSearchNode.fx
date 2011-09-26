@@ -115,7 +115,7 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
            //              }
 
            }
-   def suggestionsAndHistoryNode = SuggestionsAndHistoryNode {
+   def suggestionsAndHistoryNode:SuggestionsAndHistoryNode = SuggestionsAndHistoryNode {
               entrySelected: historySelected
            }
    def baseEloInfo = ExtendedScyEloDisplayNode {
@@ -314,7 +314,7 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
       }
    }
 
-   function createQuerySelecterDisplays(querySelecters: List) {
+   function createQuerySelecterDisplays(querySelecters: List): Void {
       querySelecterDisplays =
               for (querySelecterObject in querySelecters) {
                  def querySelecter = querySelecterObject as QuerySelecter;
@@ -368,7 +368,7 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
       doSearch();
    }
 
-   function setSelecterFilters(query: IQuery) {
+   function setSelecterFilters(query: IQuery): Void {
       for (querySelecterDisplay in querySelecterDisplays) {
          querySelecterDisplay.setFilterOptions(query)
       }
@@ -462,10 +462,9 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
       showSearchResult(searchResults);
    }
 
-   public function setSuggestions(suggestions: HistoryEntry[]) {
-       suggestionsAndHistoryNode.setSuggestions(suggestions);
+   public function setSuggestions(suggestions: HistoryEntry[]): Void {
+      suggestionsAndHistoryNode.setSuggestions(suggestions);
    }
-
 
    override function showSearchResult(results: Object[]): Void {
       super.showSearchResult(results);
@@ -482,11 +481,19 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
       }
    }
 
-   function addEloIconsToSearchResults(scySearchResults: ScySearchResult[]) {
+   function addEloIconsToSearchResults(scySearchResults: ScySearchResult[]): Void {
       for (scySearchResult in scySearchResults) {
          def eloIcon: EloIcon = windowStyler.getScyEloIcon(scySearchResult.getScyElo());
          scySearchResult.setEloIcon(eloIcon);
       }
+   }
+
+   public function getHistory(): HistoryEntry[] {
+      suggestionsAndHistoryNode.getHistory();
+   }
+
+   public function setHistory(history: HistoryEntry[]): Void {
+      suggestionsAndHistoryNode.setHistory(history);
    }
 
    function openElo(): Void {
@@ -515,7 +522,7 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
    //      }
    }
 
-   function doLoadElo(eloUri: URI) {
+   function doLoadElo(eloUri: URI): Void {
       logger.info("Trying to load elo {eloUri}");
       var newScyElo = ScyElo.loadElo(eloUri, toolBrokerAPI);
       if (newScyElo != null) {
@@ -524,11 +531,11 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
       }
    }
 
-   function doSaveElo() {
+   function doSaveElo(): Void {
       eloSaver.eloUpdate(getElo().getElo(), this);
    }
 
-   function doSaveAsElo() {
+   function doSaveAsElo(): Void {
       eloSaver.eloSaveAs(getElo().getElo(), this);
    }
 
@@ -569,7 +576,7 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
       return root
    }
 
-   function loadEloContent(xmlString: String) {
+   function loadEloContent(xmlString: String): Void {
       def root = jdomStringConversion.stringToXml(xmlString);
       querySelecterUsage = JDomConversionUtils.getEnumValue(QuerySelecterUsage.class, root, querySelecterUsageTagName);
       advancedSearch = JDomConversionUtils.getBooleanValue(root, advancedSearchTagName);
