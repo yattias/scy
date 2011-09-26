@@ -320,8 +320,10 @@ public class EloManagement extends CustomNode {
 
    function textQuerySearchAction(): Void {
       if (searchWrapper == null or searchWrapper.isSaved or searchWrapper.isEloBased) {
+         def history = searchWrapper.searchNode.getHistory();
          searchWrapper = SearchWrapper {
                     scyWindowControl: scyWindowControl
+                    history: history
                  }
       } else {
          scyWindowControl.addOtherScyWindow(searchWrapper.searchWindow);

@@ -8,6 +8,7 @@ import eu.scy.common.scyelo.ScyElo;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.tools.search.EloSearchNode;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowControl;
+import eu.scy.client.desktop.scydesktop.tools.search.HistoryEntry;
 
 /**
  * @author SikkenJ
@@ -16,10 +17,12 @@ public class SearchWrapper {
 
    public-init var scyWindowControl: ScyWindowControl;
    public-init var baseElo: ScyElo;
+   public-init var history: HistoryEntry[];
    public-read var isSaved = false;
    public-read var isEloBased = false;
    public-read var searchWindow: ScyWindow;
    public-read var searchNode: EloSearchNode;
+
 
    init {
       createSearchWindow();
@@ -50,7 +53,10 @@ public class SearchWrapper {
          if (baseElo != null) {
             searchNode.searchBasedOnElo(baseElo);
             isEloBased = true;
+         } else {
+            searchNode.setHistory(history);
          }
+
          searchNode.savedAction = function(window: ScyWindow): Void {
                      isSaved = true;
                     searchWindow = null;

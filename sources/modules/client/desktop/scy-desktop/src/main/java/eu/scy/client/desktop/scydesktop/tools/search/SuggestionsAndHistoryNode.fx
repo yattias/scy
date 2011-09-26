@@ -41,6 +41,15 @@ public class SuggestionsAndHistoryNode extends CustomNode {
       }
    }
 
+   public function getHistory():HistoryEntry[]{
+      history
+   }
+
+   public function setHistory(history:HistoryEntry[]):Void{
+      this.history = history;
+      rebuildChoices()
+   }
+
    function selectionChanged() {
       FX.deferAction(function():Void{
             choiceBox.select(0);
