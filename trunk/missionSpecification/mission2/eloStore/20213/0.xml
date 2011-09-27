@@ -1,0 +1,59 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>margus</entity>
+        <date>
+          <dateTime>2011-09-27T17:00:53.477+0300</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1317132053477</dateCreated>
+        <dateLastModified>1317132053477</dateLastModified>
+      </customElements>
+      <format>scy/templateelos</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20213/0/ECO+mission.scytemplateelos</entry>
+      </identifier>
+      <las />
+      <missionId>eco</missionId>
+      <title>
+        <string language="en">ECO mission</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <template>TRUE</template>
+</metadata>
+<content languages="en" contentType="xml">
+<templateElosEloUris>
+  <templateElosEloUri>roolo://memory/20179/0/Empty+form.scyformauthor</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/20111/0/Empty_experimental_procedure.scyxproc</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/20112/0/Empty_plain_text.text</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/20109/0/Empty_concept_map.scymapping</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/20113/0/Empty_rich_text.rtf</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/20110/0/Empty_dataset.dataset</templateElosEloUri>
+</templateElosEloUris>
+</content>
+<resources>
+</resources>
+</elo>

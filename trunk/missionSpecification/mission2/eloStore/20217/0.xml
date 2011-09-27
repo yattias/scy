@@ -1,0 +1,721 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>margus</entity>
+        <date>
+          <dateTime>2011-09-27T17:02:02.607+0300</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1317132122607</dateCreated>
+        <dateLastModified>1317132122607</dateLastModified>
+      </customElements>
+      <format>scy/missionmapmodel</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20217/0/%C3%96koloogiamissioon.scymissionmapmodel</entry>
+      </identifier>
+      <las />
+      <missionId>eco</missionId>
+      <title>
+        <string language="et">Ökoloogiamissioon</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <template>TRUE</template>
+</metadata>
+<content languages="et" contentType="xml">
+<missionModel>
+  <activeLas>conceptualisatsionConceptMap</activeLas>
+  <missionMapBackgroundImageUri>http://www.scy-lab.eu/content/en/mission2/ecoBackground.fxz</missionMapBackgroundImageUri>
+  <missionMapInstructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_challenge.html</missionMapInstructionUri>
+  <missionMapButtonIconType />
+  <loElos>
+    <eloUri>roolo://memory/20006/0/Glossary.url</eloUri>
+  </loElos>
+  <lasses>
+    <las>
+      <id>conceptualisatsionConceptMap</id>
+      <xPos>-40.0</xPos>
+      <yPos>-20.0</yPos>
+      <toolTip>Concept Map</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_conceptmap.html</instructionUri>
+      <lasType>CONCEPTUALISATION</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/20095/0/Concept+map+eco+mission</eloUri>
+        <id>conceptMap</id>
+        <iconType>Concept_map3</iconType>
+        <loElos />
+        <inputAnchors />
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/conceptmap.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_conceptmap.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_conceptmap.html</resourcesUri>
+        <helpUri />
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses />
+    </las>
+    <las>
+      <id>reportingVideo</id>
+      <xPos>20.0</xPos>
+      <yPos>-20.0</yPos>
+      <toolTip>Video report</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_videoreport.html</instructionUri>
+      <lasType>REPORTING</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/20159/0/Video+report.scyyoutuber</eloUri>
+        <id>videoReport</id>
+        <iconType>Video</iconType>
+        <loElos />
+        <inputAnchors />
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/videoreport.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_video.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_videoreport.html</resourcesUri>
+        <helpUri />
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses />
+    </las>
+    <las>
+      <id>orientation_B1</id>
+      <xPos>85.0</xPos>
+      <yPos>-110.0</yPos>
+      <toolTip>Hypotheses</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_hypotheses_b1.html</instructionUri>
+      <lasType>ORIENTATION</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/20051/0/Hypotheses+nutrients.rtf</eloUri>
+        <id>hypothesisB1</id>
+        <iconType>Hypothese2</iconType>
+        <loElos />
+        <inputAnchors />
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/b1lasori.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_hypothesis_b1.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_orientation_b1.html</resourcesUri>
+        <helpUri />
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/20202/0/Probleemi+s%C3%B5nastamine+-+primaarproduktsioon.rtf</eloUri>
+          <id>problemB1</id>
+          <iconType>Idea</iconType>
+          <loElos />
+          <inputAnchors />
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/b1lasori.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_problemf_b1.html</assignmentUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_orientation_b1.html</resourcesUri>
+          <helpUri />
+          <colorScheme />
+          <dependingOnMissionAnchorIds />
+        </intermediateAnchor>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/20049/0/Research+questions+nutrients.rtf</eloUri>
+          <id>questionB1</id>
+          <iconType>Research_question</iconType>
+          <loElos />
+          <inputAnchors />
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/b1lasori.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_questions_b1.html</assignmentUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_orientation_b1.html</resourcesUri>
+          <helpUri />
+          <colorScheme />
+          <dependingOnMissionAnchorIds />
+        </intermediateAnchor>
+      </intermediateAnchors>
+      <nextLasses />
+    </las>
+    <las>
+      <id>orientation_B2</id>
+      <xPos>85.0</xPos>
+      <yPos>80.0</yPos>
+      <toolTip>Hypotheses</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_hypotheses_b2.html</instructionUri>
+      <lasType>ORIENTATION</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/20028/0/Hypotheses+light.rtf</eloUri>
+        <id>hypothesisB2</id>
+        <iconType>Hypothese2</iconType>
+        <loElos />
+        <inputAnchors />
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/b2lasori.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_hypothesis_b2.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_orientation_b2.html</resourcesUri>
+        <helpUri />
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/20024/0/Problem+formulation+light.rtf</eloUri>
+          <id>problemB2</id>
+          <iconType>Idea</iconType>
+          <loElos />
+          <inputAnchors />
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/b2lasori.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_problemf_b2.html</assignmentUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_orientation_b2.html</resourcesUri>
+          <helpUri />
+          <colorScheme />
+          <dependingOnMissionAnchorIds />
+        </intermediateAnchor>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/20026/0/Research+questions+light.rtf</eloUri>
+          <id>questionB2</id>
+          <iconType>Research_question</iconType>
+          <loElos />
+          <inputAnchors />
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/b2lasori.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_questions_b2.html</assignmentUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_orientation_b2.html</resourcesUri>
+          <helpUri />
+          <colorScheme />
+          <dependingOnMissionAnchorIds />
+        </intermediateAnchor>
+      </intermediateAnchors>
+      <nextLasses />
+    </las>
+    <las>
+      <id>orientation_B3</id>
+      <xPos>-105.0</xPos>
+      <yPos>80.0</yPos>
+      <toolTip>Hypotheses</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_hypotheses_b3.html</instructionUri>
+      <lasType>ORIENTATION</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/20099/0/Hypotheses+trophic+levels.rtf</eloUri>
+        <id>hypothesisB3</id>
+        <iconType>Hypothese2</iconType>
+        <loElos />
+        <inputAnchors />
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/b3lasori.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_hypothesis_b3.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_orientation_b3.html</resourcesUri>
+        <helpUri />
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/20016/0/Problem+formulation+trophic+levels.rtf</eloUri>
+          <id>problemB3</id>
+          <iconType>Idea</iconType>
+          <loElos />
+          <inputAnchors />
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/b3lasori.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_problemf_b3.html</assignmentUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_orientation_b3.html</resourcesUri>
+          <helpUri />
+          <colorScheme />
+          <dependingOnMissionAnchorIds />
+        </intermediateAnchor>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/20097/0/Research+questions+trophic+levels.rtf</eloUri>
+          <id>questionB3</id>
+          <iconType>Research_question</iconType>
+          <loElos />
+          <inputAnchors />
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/b3lasori.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_questions_b3.html</assignmentUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_orientation_b3.html</resourcesUri>
+          <helpUri />
+          <colorScheme />
+          <dependingOnMissionAnchorIds />
+        </intermediateAnchor>
+      </intermediateAnchors>
+      <nextLasses />
+    </las>
+    <las>
+      <id>orientation_C1</id>
+      <xPos>-105.0</xPos>
+      <yPos>-110.0</yPos>
+      <toolTip>Hypotheses</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_hypotheses_c1.html</instructionUri>
+      <lasType>ORIENTATION</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/20040/0/Hypotheses+pH.rtf</eloUri>
+        <id>hypothesisC1</id>
+        <iconType>Hypothese2</iconType>
+        <loElos />
+        <inputAnchors />
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/c1lasori.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_hypothesis_c1.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_orientation_c1.html</resourcesUri>
+        <helpUri />
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/20036/0/Problem+formulation+pH.rtf</eloUri>
+          <id>problemC1</id>
+          <iconType>Idea</iconType>
+          <loElos />
+          <inputAnchors />
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/c1lasori.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_problemf_c1.html</assignmentUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_orientation_c1.html</resourcesUri>
+          <helpUri />
+          <colorScheme />
+          <dependingOnMissionAnchorIds />
+        </intermediateAnchor>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/20038/0/Research+questions+pH.rtf</eloUri>
+          <id>questionC1</id>
+          <iconType>Research_question</iconType>
+          <loElos />
+          <inputAnchors />
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/c1lasori.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_questions_c1.html</assignmentUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_orientation_c1.html</resourcesUri>
+          <helpUri />
+          <colorScheme />
+          <dependingOnMissionAnchorIds />
+        </intermediateAnchor>
+      </intermediateAnchors>
+      <nextLasses />
+    </las>
+    <las>
+      <id>experiment_B1</id>
+      <xPos>165.0</xPos>
+      <yPos>-190.0</yPos>
+      <toolTip>Experiment</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_inferences_b1.html</instructionUri>
+      <lasType>EXPERIMENT</lasType>
+      <loElos>
+        <eloUri>roolo://memory/20181/0/Introductory+model+for+scydynamics.scymodel</eloUri>
+      </loElos>
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/20103/0/Inferences+nutrients.rtf</eloUri>
+        <id>inferencesB1</id>
+        <iconType>Model</iconType>
+        <loElos />
+        <inputAnchors>
+          <anchor>roolo://memory/20051/0/Hypotheses+nutrients.rtf</anchor>
+        </inputAnchors>
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/b1lasexp.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_inferences_b1.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_experiment_b1.html</resourcesUri>
+        <helpUri />
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/20108/0/Nutrients+Experimental+procedure.scyxproc</eloUri>
+          <id>experimentalProcedureB1</id>
+          <iconType>Exp_design</iconType>
+          <loElos />
+          <inputAnchors />
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/b1lasexp.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_copex_b1.html</assignmentUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_experiment_copex_b1.html</resourcesUri>
+          <helpUri />
+          <colorScheme />
+          <dependingOnMissionAnchorIds />
+        </intermediateAnchor>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/20087/0/Nutrients+SCYDynamics+model.scymodel</eloUri>
+          <id>scydynamicsB1</id>
+          <iconType>Model</iconType>
+          <loElos />
+          <inputAnchors />
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/b1lasexp.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_scydynamics_b1.html</assignmentUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_experiment_b1.html</resourcesUri>
+          <helpUri />
+          <colorScheme />
+          <dependingOnMissionAnchorIds />
+        </intermediateAnchor>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/20102/0/Nutrients+Data+from+experiments.scypds</eloUri>
+          <id>datasetB1</id>
+          <iconType>Data</iconType>
+          <loElos />
+          <inputAnchors />
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/b1lasexp.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_fitex_b1.html</assignmentUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_experiment_b1.html</resourcesUri>
+          <helpUri />
+          <colorScheme />
+          <dependingOnMissionAnchorIds />
+        </intermediateAnchor>
+      </intermediateAnchors>
+      <nextLasses />
+    </las>
+    <las>
+      <id>experiment_B2</id>
+      <xPos>165.0</xPos>
+      <yPos>165.0</yPos>
+      <toolTip>Experiment</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_inferences_b2.html</instructionUri>
+      <lasType>EXPERIMENT</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/20062/0/Inferences+light.rtf</eloUri>
+        <id>inferencesB2</id>
+        <iconType>Model</iconType>
+        <loElos />
+        <inputAnchors>
+          <anchor>roolo://memory/20028/0/Hypotheses+light.rtf</anchor>
+        </inputAnchors>
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/b2lasexp.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_inferences_b2.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_experiment_b2.html</resourcesUri>
+        <helpUri />
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/20063/0/Light+Experimental+procedure.scyxproc</eloUri>
+          <id>experimentalProcedureB2</id>
+          <iconType>Exp_design</iconType>
+          <loElos />
+          <inputAnchors />
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/b2lasexp.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_copex_b2.html</assignmentUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_experiment_copex_b2.html</resourcesUri>
+          <helpUri />
+          <colorScheme />
+          <dependingOnMissionAnchorIds />
+        </intermediateAnchor>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/20069/0/Light+Data+from+experiments.scypds</eloUri>
+          <id>datasetB2</id>
+          <iconType>Data</iconType>
+          <loElos />
+          <inputAnchors />
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/b2lasexp.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_fitex_b2.html</assignmentUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_experiment_b2.html</resourcesUri>
+          <helpUri />
+          <colorScheme />
+          <dependingOnMissionAnchorIds />
+        </intermediateAnchor>
+      </intermediateAnchors>
+      <nextLasses />
+    </las>
+    <las>
+      <id>experiment_B3</id>
+      <xPos>-185.0</xPos>
+      <yPos>160.0</yPos>
+      <toolTip>Experiment</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_inferences_b3.html</instructionUri>
+      <lasType>EXPERIMENT</lasType>
+      <loElos>
+        <eloUri>roolo://memory/20181/0/Introductory+model+for+scydynamics.scymodel</eloUri>
+      </loElos>
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/20071/0/Inferences+trophic+levels.rtf</eloUri>
+        <id>inferencesB3</id>
+        <iconType>Model</iconType>
+        <loElos />
+        <inputAnchors>
+          <anchor>roolo://memory/20099/0/Hypotheses+trophic+levels.rtf</anchor>
+        </inputAnchors>
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/b3lasexp.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_inferences_b3.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_experiment_b3.html</resourcesUri>
+        <helpUri />
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/20203/0/Katseplaan+-+troofilised+tasemed.scyxproc</eloUri>
+          <id>experimentalProcedureB3</id>
+          <iconType>Exp_design</iconType>
+          <loElos />
+          <inputAnchors />
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/b3lasexp.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_copex_b3.html</assignmentUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_experiment_copex_b3.html</resourcesUri>
+          <helpUri />
+          <colorScheme />
+          <dependingOnMissionAnchorIds />
+        </intermediateAnchor>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/20088/0/Trophic+levels+SCYDynamics+model.scymodel</eloUri>
+          <id>scydynamicsB3</id>
+          <iconType>Model</iconType>
+          <loElos />
+          <inputAnchors />
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/b3lasexp.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_scydynamics_b3.html</assignmentUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_experiment_b3.html</resourcesUri>
+          <helpUri />
+          <colorScheme />
+          <dependingOnMissionAnchorIds />
+        </intermediateAnchor>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/20077/0/Trophic+levels+Data+from+experiments.scypds</eloUri>
+          <id>datasetB3</id>
+          <iconType>Data</iconType>
+          <loElos />
+          <inputAnchors />
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/b3lasexp.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_fitex_b3.html</assignmentUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_experiment_b3.html</resourcesUri>
+          <helpUri />
+          <colorScheme />
+          <dependingOnMissionAnchorIds />
+        </intermediateAnchor>
+      </intermediateAnchors>
+      <nextLasses />
+    </las>
+    <las>
+      <id>experiment_C1</id>
+      <xPos>-185.0</xPos>
+      <yPos>-190.0</yPos>
+      <toolTip>Experiment</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_inferences_c1.html</instructionUri>
+      <lasType>EXPERIMENT</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/20079/0/Inferences+pH.rtf</eloUri>
+        <id>inferencesC1</id>
+        <iconType>Model</iconType>
+        <loElos />
+        <inputAnchors>
+          <anchor>roolo://memory/20040/0/Hypotheses+pH.rtf</anchor>
+        </inputAnchors>
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/c1lasexp.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_inferences_c1.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_experiment_c1.html</resourcesUri>
+        <helpUri />
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/20080/0/pH+Experimental+procedure.scyxproc</eloUri>
+          <id>experimentalProcedureC1</id>
+          <iconType>Exp_design</iconType>
+          <loElos />
+          <inputAnchors />
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/c1lasexp.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_copex_c1.html</assignmentUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_experiment_copex_c1.html</resourcesUri>
+          <helpUri />
+          <colorScheme />
+          <dependingOnMissionAnchorIds />
+        </intermediateAnchor>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/20085/0/pH+Data+from+experiments.scypds</eloUri>
+          <id>datasetC1</id>
+          <iconType>Data</iconType>
+          <loElos />
+          <inputAnchors />
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/c1lasexp.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_fitex_c1.html</assignmentUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_experiment_c1.html</resourcesUri>
+          <helpUri />
+          <colorScheme />
+          <dependingOnMissionAnchorIds />
+        </intermediateAnchor>
+      </intermediateAnchors>
+      <nextLasses />
+    </las>
+    <las>
+      <id>design_B1</id>
+      <xPos>245.0</xPos>
+      <yPos>-270.0</yPos>
+      <toolTip>Problem solution</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_solution_b1.html</instructionUri>
+      <lasType>DESIGN</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/20053/0/Problem+solution+nutrients.rtf</eloUri>
+        <id>solutionB1</id>
+        <iconType>Conclusion</iconType>
+        <loElos />
+        <inputAnchors>
+          <anchor>roolo://memory/20103/0/Inferences+nutrients.rtf</anchor>
+        </inputAnchors>
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/b1lasdes.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_solution_b1.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_design_b1.html</resourcesUri>
+        <helpUri />
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses />
+    </las>
+    <las>
+      <id>design_B2</id>
+      <xPos>245.0</xPos>
+      <yPos>245.0</yPos>
+      <toolTip>Problem solution</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_solution_b2.html</instructionUri>
+      <lasType>DESIGN</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/20054/0/Problem+solution+light.rtf</eloUri>
+        <id>solutionB2</id>
+        <iconType>Conclusion</iconType>
+        <loElos />
+        <inputAnchors>
+          <anchor>roolo://memory/20062/0/Inferences+light.rtf</anchor>
+        </inputAnchors>
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/b2lasdes.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_solution_b2.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_design_b2.html</resourcesUri>
+        <helpUri />
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses />
+    </las>
+    <las>
+      <id>design_B3</id>
+      <xPos>-265.0</xPos>
+      <yPos>240.0</yPos>
+      <toolTip>Problem solution</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_solution_b3.html</instructionUri>
+      <lasType>DESIGN</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/20055/0/Problem+solution+trophic+levels.rtf</eloUri>
+        <id>solutionB3</id>
+        <iconType>Conclusion</iconType>
+        <loElos />
+        <inputAnchors>
+          <anchor>roolo://memory/20071/0/Inferences+trophic+levels.rtf</anchor>
+        </inputAnchors>
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/b3lasdes.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_solution_b3.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_design_b3.html</resourcesUri>
+        <helpUri />
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses />
+    </las>
+    <las>
+      <id>design_C1</id>
+      <xPos>-265.0</xPos>
+      <yPos>-270.0</yPos>
+      <toolTip>Problem solution</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_solution_c1.html</instructionUri>
+      <lasType>DESIGN</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/20056/0/Problem+solution+pH.rtf</eloUri>
+        <id>solutionC1</id>
+        <iconType>Conclusion</iconType>
+        <loElos />
+        <inputAnchors>
+          <anchor>roolo://memory/20079/0/Inferences+pH.rtf</anchor>
+        </inputAnchors>
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/c1lasdes.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_solution_c1.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_design_c1.html</resourcesUri>
+        <helpUri />
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses />
+    </las>
+  </lasses>
+  <windowStatesXmls />
+</missionModel>
+</content>
+<resources>
+</resources>
+</elo>

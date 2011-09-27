@@ -1,0 +1,81 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>margus</entity>
+        <date>
+          <dateTime>2011-09-27T17:02:46.009+0300</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>margus</entity>
+        <date>
+          <dateTime>2011-09-27T17:02:46.009+0300</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1317132166009</dateCreated>
+        <dateFirstUserSaveKey>1317132166009</dateFirstUserSaveKey>
+        <dateLastModified>1317132166009</dateLastModified>
+      </customElements>
+      <format>scy/missionspecification</format>
+    </technical>
+    <educational>
+      <learningResourceType>documentDesign</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20222/0/%C3%96koloogiamissioon.scymissionspecification</entry>
+      </identifier>
+      <las />
+      <missionId>eco</missionId>
+      <title>
+        <string language="et">Ökoloogiamissioon</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAAA9CAYAAAA6e+4pAAAHcklEQVR42u2a109VXRDF/TtMePBNn0zUYEns2CLWgCYW7MZYomIHxQYmxhaj2DH23guoEVGDFey9IjawC/Y65jfJnJyLfJ9IE717JXov5+x7ypy118yafSqJQ4lQif969OghN27c0A1z5syRcePG6fdr167JhQsXvMHx8fEyduxYOXPmjIucP4B79+6V58+f/7QzLS1NNm3a5KL0qwA6lFEAFy9eHPD33bt3XcQKC2BeXp68efNGTp8+LfPmzZPk5GRp3LixHD16VFJTU+XIkSOyZMkSmTBhgmrk1atX5fHjx7rv9evXLoDFBcnk69ev8v37d/13586d3z7G+/fvVX8vXrwoN2/elLNnz8rHjx9137179/TT9uXk5Mi3b9/kw4cPFS+ArVu3lpiYGNmxY4ecOnVKWfnq1Svdxw1yo2DRokXK1pcvX0rDhg3l8+fPelP840bbt28vc+fOlXXr1km/fv00sJ07d5bhw4freMOoUaNkw4YNsmvXLmnXrp3k5+fL/fv3ZefOnd7+ffv2KcufPHmizOd6WrRooQHmegYMGCCzZs3SoHM99erVkzFjxuj1MZ4xjOUc5cZA07mTJ08W+SBfvnzRT4Lo/5vgGvzf/ewCBPmvnsLPnj2TESNGeAw7ePCgtG3bVnr37i179uzRG/z06ZNMmTJFZs6cGXCAFy9e6OfmzZsDti9YsEC6d++u358+fSrVqlVTZjD9IiIiJDExUfdRZ9pDg8GujAnGJIILGTRokG6AcWjYjBkzlC2mH9HR0aova9asUX1ctmyZbq9Zs6Z3MHQIoYdJZG1LEmjU7t27A8R/y5YtqrWGpUuXihX1U6dO9WbD/v37laWmwTZTDh8+rNc6ffp0/ZsK4u3bt1K7dm291mHDhul1Ogb+DQw8duyY2rZt27bpUyUDLly4UCZNmqSDyIyrVq2SAwcOeD80ZsIqmAlg5blz5/Q7zIBVMAc7iAaSNbt06aKZ88GDB7J169bgqwP/5oxZZgHMyspStnXt2lUSEhICMiwdGOvUUJOB69eve2PatGmjrB06dKhcvnxZOzhXrlyRuLg4Wb58uY6h2KYubNmypWZngKsBOBoYavqYmZnplUScb8iQIbp/9erVUrduXdXAd+/e6ZimTZt6GsgsIsujobD9jzLQsew3A5iRkaEZETdgzmP+/Ply69YtL7s2a9ZMRo8erd4XZjEWKwez2E6WhWkgKSlJmcA2MiNA73Aa/6wXdqwrQQDxmmjZ2rVrVfO2b9+uWoMeRkZGSkhIiNZW+Fz24VD8/hLrxnZA3Yb+oXFsO3/+vOpXlSpVZP369d5vYDlZm2yMDpr9Q9+oJc1KwnaaFPhqqwF52PhovDvuiHOiy2FhYbqvVq1aqummlRUqC5MkSgqb6qUBK7D/KANDQ0Pl0KFDXu23cuVKzazUhbYfFsEEPCy+t1evXvrEL126pAHBKwMYgT5yLOpDXETVqlW9viGZkmO7fqBDYAA3btyoPTt0hlU5/GyrVq20BwfDYJv16fCx48eP1+k8ePBgF0ADYu5QzAD27NlTBg4cqNV93759te4zwWebAf3r0KGDfo+KipLJkyd7SYGsSAcY3eN7/fr1NaPCVmuoNmjQQD+pD0eOHCn9+/eXjh07au0YGxurFYHBdBTQXaHeZBygImDWWJ1KlQCaN28uTZo0kerVq0t4eLh6bzBt2jQ5ceKE+vPSLNm8ANJA9QNrhuAXFdxsRYI1QsqNgbm5uQF9PWo01jDQPlbq6A+y5jB79mxvHLUXGojHRTfxwODhw4ee16UO5EHQlf6npzALO/8Hm0pFAQ3UoNNAnEG3bt2ULegXgDUwCF9MdwR/a7Ucmom3peZDm/C66Jytg9CRRm/69OmjOkenhg5zdnZ2wAVwHFyG6arViHRtqDHRXH6PY6ErQ3fGmI4ePnr0SM/J+XEvHItzUSkwjalX0VtqWiqI9PR0r1tep04d1XCuH6DB1tkxTf8jdWBxmwa2jFravvxX8mHr2iViIE6ENw5gDUxCA/GhPE2evvlcnjRZk2nK6h1gfQLgpens4FoAx4AhMMlYA2MtOfE7dBQm4YVhDTOB7jh+m4xuemzrG5yTm7VeY0pKimZ9WGi1KsArc2zG4tvJ2Kwp02HijQu/1LAexNsXvJGxYsUKPWeZ9QNpXxlsHbiw3/mnasHjUSYV54kXXFv+r2MU9kYZZZD/d4WN4X5IgCW2cnRkCkOjRo1+mhrmgUGNGjUqhMEv9ySCUNPOp9j0dzloqVMP0hhF1zp16qR0pzhlmhUMljmZ8lhO/KeaCQWnclBaOWvZU06gEdSFZEW+o2dYJ0oSxNZa/1Y/YuXYx4I4S5/+RaegZaDVSgXhfynIwRdAM90sLtmL5Rj7ypUra9qnTY+Ns8ao/7UMF8AiwDzwxIkTvW0F39QK2gBS2MKy48eP60L17du3dQqTga31RCPBShcKXjSPNhevppXGOklQZ2E3hR1cAF0AXQBdAB1cAF0AXQBdAB1cAF0AXQBdAB1cAF0AXQBdAB1cAMs8gA4lww+vSVkCAEMBoQAAAABJRU5ErkJggg==</base64>
+  </thumbnail>
+</metadata>
+<content languages="et" contentType="xml">
+<missionSpeicification>
+  <missionMapModelEloUri>roolo://memory/20217/0/%C3%96koloogiamissioon.scymissionmapmodel</missionMapModelEloUri>
+  <eloToolConfigsEloUri>roolo://memory/20218/0/%C3%96koloogiamissioon.scyelotoolconfiguration</eloToolConfigsEloUri>
+  <templateElosEloUri>roolo://memory/20219/0/%C3%96koloogiamissioon.scytemplateelos</templateElosEloUri>
+  <runtimeSettingsEloUri>roolo://memory/20220/0/%C3%96koloogiamissioon.runtimesettings</runtimeSettingsEloUri>
+  <agentModelsEloUri />
+  <pedagogicalPlanSettingsEloUri>roolo://memory/20221/0/%C3%96koloogiamissioon.scy</pedagogicalPlanSettingsEloUri>
+  <colorSchemesEloUri>roolo://memory/20010/0/colorschemes1.colorschemes</colorSchemesEloUri>
+  <missionDescriptionUri>http://www.scy-lab.eu/content/en/mission2/las_description_challenge.html</missionDescriptionUri>
+  <missionId>eco</missionId>
+  <xhtmlVersionId />
+</missionSpeicification>
+</content>
+<resources>
+</resources>
+</elo>

@@ -1,0 +1,81 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>margus</entity>
+        <date>
+          <dateTime>2011-09-27T17:01:28.929+0300</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>margus</entity>
+        <date>
+          <dateTime>2011-09-27T17:01:28.929+0300</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1317132088929</dateCreated>
+        <dateFirstUserSaveKey>1317132088928</dateFirstUserSaveKey>
+        <dateLastModified>1317132088929</dateLastModified>
+      </customElements>
+      <format>scy/missionspecification</format>
+    </technical>
+    <educational>
+      <learningResourceType>documentDesign</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20216/0/ECO+mission.scymissionspecification</entry>
+      </identifier>
+      <las />
+      <missionId>eco</missionId>
+      <title>
+        <string language="en">ECO mission</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>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</base64>
+  </thumbnail>
+</metadata>
+<content languages="en" contentType="xml">
+<missionSpeicification>
+  <missionMapModelEloUri>roolo://memory/20211/0/ECO+mission.scymissionmapmodel</missionMapModelEloUri>
+  <eloToolConfigsEloUri>roolo://memory/20212/0/ECO+mission.scyelotoolconfiguration</eloToolConfigsEloUri>
+  <templateElosEloUri>roolo://memory/20213/0/ECO+mission.scytemplateelos</templateElosEloUri>
+  <runtimeSettingsEloUri>roolo://memory/20214/0/ECO+mission.runtimesettings</runtimeSettingsEloUri>
+  <agentModelsEloUri />
+  <pedagogicalPlanSettingsEloUri>roolo://memory/20215/0/ECO+mission.scy</pedagogicalPlanSettingsEloUri>
+  <colorSchemesEloUri>roolo://memory/20010/0/colorschemes1.colorschemes</colorSchemesEloUri>
+  <missionDescriptionUri>http://www.scy-lab.eu/content/en/mission2/las_description_challenge.html</missionDescriptionUri>
+  <missionId>eco</missionId>
+  <xhtmlVersionId />
+</missionSpeicification>
+</content>
+<resources>
+</resources>
+</elo>

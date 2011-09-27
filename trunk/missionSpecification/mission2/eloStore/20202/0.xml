@@ -12,7 +12,7 @@
           <dateTime>2011-09-27T11:53:44.940+0300</dateTime>
         </date>
       </contribute>
-      <version>7</version>
+      <version>8</version>
     </lifecycle>
     <annotation>
       <entity>colorId</entity>
@@ -53,35 +53,23 @@
       <entity>icon</entity>
       <iconType>Idea</iconType>
     </annotation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
-  <template>TRUE</template>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAADnElEQVR42u2VTUhUURTH38IJvzaCShLqQhDJhYtoE9LehSBBm9yYRWCUIShKoOQoLUKpiFBwBJ2BxmnGoildSKZoWYZoxtAXOSNqjBOjPjW/P07vnvFdfaUR1KKJ/x8O59z/ue/ed3/vDqNYLE1ENLNPqFos7NtztTsOeGaG1janD+wNvHx2QG+R1rcCYRlKU1MTbWmwltZIxrIWREEt5mh1nQw9i+MpOZ1ttElfDb6I+aVJBrhJgZ96Yv7zF0+1NTcMfkgqLa/6OZZWjPlf9xRxA7e1A/S9m6fCS1fp1ecV6n8/v3Mz5ujt+BL3Tp25QCWV9VRe305OVwig8I9lZVKz/bFWq6R+m5AARU94+edLuN4FuM7+yBRxfu1dZYDqwlRYhhL6Cav0oPcjKYpCR7OOa/UneQP730xx70aji/Nls1XeQDE+mX2Cmu+5uZ7bA1CMDx9JpScD41zvAtxkT+zV936ROl76eP/gzERYxg7AeWq4/5wanS9k1m+gu9cjfRGF5Q3yBgo/IsJEEaZDVHLtjuEG6vP12AW4Lb2brV1keTjIAP2B8bAMBvjB66HcwirKPVsZylroAE9fNEtP9POvXJcAeb7+jJYXV77IPxHDelrWAd5tdRjWyz1XyQAnp7xhGcojt4tcGhBXe9tu1mvXPl77r72N7cCB85wu+77Pig/i9X0OhfeH/I97yu0nNrqlxd4M7/c9haA/kgRYV1dHPT09ZDKZeFxaWsp5cHCQoqKiuO7o6OCckZHBOTMzk72xsTEe+/1+Kisr4zonJ4dGR0fJ7XbL9WZnZ7kWWezT2dlJxcXFvK9Yo6WlhftiDZ/PR9HR0TxOTk6WL6y/X01NDee0tDRSVZUcDgePh4aGqKioiILBIP/TC1ksFs4VFRXs62f7qwDF4bu7u2l4eJjHXV1dnAsKCigxMZHr6upqqq2tpfT0dPmyYl5cXByP4+PjaXp6muu8vDzDRmJeamoq1zExMXLNqqoqMpvNFBkZSUlJSexZrVZeU59jt9vlOiMjI/LDCmVnZ1NsbKz8iCkpKbyX2CMhIYE9m83G2ePxGM72VwFCAAiAAAiAEAACIAACIASAAAiAAAgBIAACIABCAAiAAAiAEAACIAACIASAAAiAAAgBIAACIABCAAiAAAiAEAACIAACIABCAAiAAAiAEAACIAACIASAAAiAAAgBIAACIABCAAiAAAiAEAACIAACIASAAAiA/5++A+Ih10c/yfZcAAAAAElFTkSuQmCC</base64>
   </thumbnail>
 </metadata>
 <content languages="et" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Palun kirjuta siia peamine situatsioonist tulenev probleem.\par
-\f1\cf1\par
-\par
-\par
-\li0\ri0\fi0\ul0\par
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Palun kirjuta siia peamine situatsioonist tulenev probleem.\par&#xD;
+\f1\cf1\par&#xD;
+\par&#xD;
+\par&#xD;
+\li0\ri0\fi0\ul0\par&#xD;
 }</RichText>
 </content>
 <resources>
