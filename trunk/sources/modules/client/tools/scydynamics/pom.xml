@@ -37,6 +37,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>eu.scy.client.desktop</groupId>
+			<artifactId>tool-broker</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+
+		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>data-sync-api</artifactId>
 			<version>${pom.version}</version>
@@ -112,7 +118,7 @@
 		<dependency>
 			<groupId>nl.utwente</groupId>
 			<artifactId>simquestviewer</artifactId>
-			<version>2.2.0</version>
+			<version>2.3.0</version>
 		</dependency>
 		
 		<!--<dependency> <groupId>nl.utwente</groupId> <artifactId>colab.resources</artifactId> 
