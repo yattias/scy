@@ -219,6 +219,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
               tbi: missionRunConfigs.tbi
               activateBubbleManager: initializer.showHelpBubbles
               scene: scene
+              windowManager:windows
            };
    public var scyToolFactory: ScyToolFactory;
    var windowPositioner: WindowPositioner;
