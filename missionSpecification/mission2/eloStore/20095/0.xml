@@ -7,17 +7,18 @@
           <source>LOMv1.0</source>
           <value>author</value>
         </role>
-        <entity>lars</entity>
+        <entity>margus</entity>
         <date>
-          <dateTime>2011-01-21T15:52:15.399+0100</dateTime>
+          <dateTime>2011-09-27T15:20:58.214+0300</dateTime>
         </date>
       </contribute>
-      <version>17</version>
+      <version>25</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1294842684379</dateCreated>
-        <dateLastModified>1295621535400</dateLastModified>
+        <dateFirstUserSaveKey>1317126058214</dateFirstUserSaveKey>
+        <dateLastModified>1317126058214</dateLastModified>
       </customElements>
       <format>scy/mapping</format>
     </technical>
@@ -33,9 +34,15 @@
         <catalog>memory</catalog>
         <entry>roolo://memory/20095/0/Concept+map+eco+mission</entry>
       </identifier>
-      <las />
+      <las>conceptualisatsionConceptMap</las>
+      <missionId>eco</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20200/0/ECO+mission.scymissionspecification</entry>
+      </missionRunning>
       <title>
         <string language="en">Concept map</string>
+        <string language="et">Mõistekaart</string>
       </title>
     </general>
     <relation>
@@ -69,7 +76,7 @@
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAAeElEQVR42u3QMQEAAAwCIPuX1hDbCRFIOYkCgQIFCkSgQIECEShQoEAEChQoEIECBQpEoECBAhEoUKBABAoUKBCBAgUKRKBAgQIRKFCgQIEIFChQIAIFChSIQIECBSJQoECBCBQoUCACBQoUiECBAgUiUKBAgQj8M5Hzoc7Xq3ytAAAAAElFTkSuQmCC</base64>
   </thumbnail>
 </metadata>
-<content languageIndependent="true" contentType="xml">
+<content languages="en et" contentType="xml">
 <eu.scy.scymapper.impl.model.DefaultConceptMap>
   <name>Untitled</name>
   <diagram class="eu.scy.scymapper.impl.DiagramModel">

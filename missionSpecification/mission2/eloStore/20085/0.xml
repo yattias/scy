@@ -22,7 +22,7 @@
           <dateTime>2011-06-09T15:15:28.906+0300</dateTime>
         </date>
       </contribute>
-      <version>17</version>
+      <version>24</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -59,20 +59,8 @@
       <entity>icon</entity>
       <iconType>scy/dataset</iconType>
     </annotation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
-  <template>TRUE</template>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>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</base64>

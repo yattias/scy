@@ -12,7 +12,7 @@
           <dateTime>2011-09-27T11:52:01.093+0300</dateTime>
         </date>
       </contribute>
-      <version>17</version>
+      <version>24</version>
     </lifecycle>
     <annotation>
       <entity>colorId</entity>
@@ -65,33 +65,21 @@
         </identifier>
       </resource>
     </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
-  <template>false</template>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAADKElEQVR42u3V30tTYRgH8HPhuvBOr5LAwMu68CK6ieg/8MKgm4nQL4ZEMSZIIzfIgi6CfhGR4HaxynJuKpldGCSipssLs4jNcm1mottQ5q+5s7nt2znv3NHJBkE3Tr5feHze87znnMHHd0yy2ToALBeoqFLrBffc7q4izywjkQoV3RufGCqyt45kOlySJXUogOn4ImJJIJaA6FtKIR5U/oQgp7Kz3L6tewgu5yukNn/lPaP2tYhPAKY2/Pl7Sqn3j41/BNJy3vtEkvPYkpdExeL5/aDPJPUEZuRFjHjXcPn6LXj8cYz61nYAw/j2Oyb2zusNMFkf4ObDXg1QnZ+qPQn7m3fKehWrEW8WcNMv9tRZw1WTWGuAiIv5lwWIPhmQge15rK4vlGQJQCSW0Dv8A5Ik4UTtaWX9UzuBo18XxN79drfoN+6+0ADV63Nnz8D+ul+so2GvdgLV66PHjmNgfE6sdwETYqZ+1ohvA+8nguIELq+UZmmAz7vH0O76pPXcCewf/q7N1bpsbtcA1XlZmQ5luiMw3X6adwJz9+dqFzCpzR45PsDW91mcwKXwXEmWZLN3YMY7ibpLVqUsO92qAV64dkebqfsNxnsaYN1Fy55nLNhYmcn+iMjBfe+zaIDP7J1576u7YhWAfxYCJVnS274uuHuccPc6d3tu3VNgJnpXgVm2b2fCRd/n6u4s+D6X0gNBf7YC+/oBn0lPBl7isVJ7O2f/PpPA/FcEoMPhgNOpfI0CAeh0OkQiEbE5OzuLwcFBsW5paRHd5/Ohra1NrNV7ZVlGTU0NbDabmFksFgSDQRgMBng8HkxPTyMajaK+vh5TU1Noamo6fIBqmpubRTcajSgvL9duaG1tFT0UColuMplgNpvFuqqqSvTctZpMJoPKykpUV1eLa71ej3Q6Lf45FRUVaGxsPJyADAEJSEACMgQkIAEJyBCQgAQkIENAAhKQgAwBCUhAAjIEJCABCcgQkIAEJCBDQAISkIAMAQlIQAIyBCQgAQlIQIaABCQgARkCEpCABGQISEACEpAhIAEJSECGgAQkIAEZAhKQgARkCEhAAh6+/AVXQBj0brXAnwAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
 <content languages="en" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here your hypotheses.\par
-\f1\cf1\par
-\li0\ri0\fi0\ul0\par
+<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}&#xD;&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;
+&#xD;&#xD;&#xD;
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here your hypotheses.\par&#xD;&#xD;&#xD;
+\f1\cf1\par&#xD;&#xD;&#xD;
+\li0\ri0\fi0\ul0\par&#xD;&#xD;&#xD;
 }</RichText>
 </content>
 <resources>

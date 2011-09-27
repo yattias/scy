@@ -12,7 +12,7 @@
           <dateTime>2011-09-27T12:00:34.380+0300</dateTime>
         </date>
       </contribute>
-      <version>16</version>
+      <version>23</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -49,33 +49,21 @@
       <entity>icon</entity>
       <iconType>Conclusion</iconType>
     </annotation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
-  <template>TRUE</template>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAD7ElEQVR42u2VTUhcZxSGL+goiBs3WuyioDsLZlG6KSII4qZZFVfNKqZ0UUQdQRh/2hQiXVRNxEIa0KmMYjP+0NROKzjUEo1NrQXbEmlajaOJKXFkJh1/cq2Oztt7znhvNDWbNgsH3hcO7/ed8/3d5353xuju6UE0jn9FLAFsAifWBodHTsxLrG3vPrf23fTtE/Nb1j7hJ3spGUZ3dzdiuwcw9wBzF+o7VkSs+OsA2Isnc3a9dygI/9Aw1nf2j80RX4luK8CwuZ/MHwkZ/+3UNOKJxLH1RPKyHm2ah/HkGT/dOUNu4MbeAaZ+20BVdRNm7u3g1t0NRA8B3rm/rbW33n4X7vc74Lk84gCU/GtnXoX3esBqx7Ac2UoCPKxJ7tw7bm3bAC1Wmv/5YdJnQ38rwIfRWEqGAtyMJ/DFzT9gGAaKzrxutRecG3jrl1WtfXxtRL3mks8BKP3Skjfg/fwrbTsAzWTtpZdfwde3V7RtAxRJTvaauruFb35YVoAPwpGUjEOAwKdD07g2/L3j9g0M3Lzj5CUueK46ACWfnu5CuisD7g8/wXL06Q20x9txFKCdu+ILoufGjwpw5c9HKRkK8Kff7+Ps+Yt48/wH6hI2wMr3Ljk5qZ+r/cgBKH17jvhqzFSAj60XcnQ9cRvglc9uHFvv7IWLCjD0YDUlwxj5chR+61/1RUXYjD+3dt0Cf2LNyt8LhZKx9Iyf8pzR/GsIjP8eBqj/JQXo8/kwODiIkHUlXS4X1tfXtbi4uIjx8XFtNzQ0qC8tLWFychJra2soKipyFiorK0MsFtP5UuuxfltF7e3tME0TXV1dqK2txdjYmI6JRCLIyMjQMX6/H729vdrOzMxUb2pqUm9pacH+/r7uPz8/r3PkfGlpaXoOkZxd1isuLtZ+RUWFekFBATo6OjA3N6f9xsZGfUbZT1RYWKhndrvd2q+pqcHMzEwSjJG8W62trep1dXW6r4wRlZeXPwUoqq+vV5eHzMrKcsA0NzerCxRRdXU1vF6vtkdHR51x4XBYH7SyslL7/f396qWlpc4YeciJiQnk5eUhOzsbJSUlmpe2vACRnQsEAuqJREK9r68PVVVVyM3N1fPZ40QLCwu6Rmdnp/aDwaB6fn6+ek5OjvrAwIDuY9dlDZlnXxiPx+OsKfuI2tranLPLvrOzs8f24Cf8Ij5higAJkAAJkCJAAiRAAqQIkAAJkAApAiRAAiRAigAJkAAJkCJAAiRAAqQIkAAJkAApAiRAAiRAigAJkAAJkCJAAiRAAiRAigAJkAAJkCJAAiRAAqQIkAAJkAApAiRAAiRAigAJkAAJkCJAAiRAAqQIkABPqf4Be8LGnUarGHgAAAAASUVORK5CYII=</base64>
   </thumbnail>
 </metadata>
 <content languages="en" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here what is the solution to the problem you have defined in the beginning of your work.\par
-\f1\cf1\par
-\li0\ri0\fi0\ul0\par
+<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}&#xD;&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;
+&#xD;&#xD;&#xD;
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here what is the solution to the problem you have defined in the beginning of your work.\par&#xD;&#xD;&#xD;
+\f1\cf1\par&#xD;&#xD;&#xD;
+\li0\ri0\fi0\ul0\par&#xD;&#xD;&#xD;
 }</RichText>
 </content>
 <resources>

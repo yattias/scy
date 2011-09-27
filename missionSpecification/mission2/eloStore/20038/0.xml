@@ -12,7 +12,7 @@
           <dateTime>2011-09-27T12:02:15.785+0300</dateTime>
         </date>
       </contribute>
-      <version>16</version>
+      <version>23</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -49,33 +49,21 @@
       <entity>icon</entity>
       <iconType>Research_question</iconType>
     </annotation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
-  <template>TRUE</template>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAADPUlEQVR42u3V30tTYRgH8HPhuvBOBE1Cuq8LL7KbMQL/AG+CbvIqF11EMSaIkjhTISSQyoiETWQFzbWzInMXjhHiz+qmCGmVOkUXblNxR5tOnT6d95nnzNUWQTcuvl94eN7zvOfs4GevTHI47ES0lqPiam3k3JO97jzPrNFOKpJ3b3LqTZ69TdrdjxZkSXa7nfZVrMQO6bWlFtGqWuuU3KWsPYc7QB7PAKUoljUXpSSWGDBF0d/2xP3jEwH1M/ey5unEaSu5zJXYzu7HfSaJE3ig/gGjnxWqv3GL3s5u01hQOTwZ6/RpIcF7Fy9fI2trNzV1e8kjpwHF/FzVWepzvVbXcYr/WNQBxZ6Y1V218joDuMvzD2Hi/j6UZMD4RrggS0r/C8fpxchXkiSJzlSdV9ff9BM49jHMe3d7Ze43O57oJ1BcXzAZqe/ZIK/XjwCK65OnTtPQ5AKvM4Apnol3jQY3yTc1z+9fXVssyDoEVOjx83Hq9UzoXTuBgyPT+lxUfdNj/QSKeVGRgYoMJ8h6+2HWCdTu1yoDeKDP7jn95Hj5jgGXowsFWQz4JTRNtfU2qr3Smu5qaYCXrnfoM7FfZ7mjA/L92jNq39z+rv+IZH2e2jXAR0531ufVmlsZcCkcKsiSXg3KJKsgsncg07W1nGPm/fNs7yCa9z6P7Mr5rPhCQvOz6Qr90o/5THow9JTuq3W0Y/b3M4mQfwoDOp1Ocrvd6rEMkcFgoFgsxpszMzM0PDzM68bGRu7BYJDa29t5Le5NJpNkNBpJURQqLy/neU9PD83NzVF1dTV1dnbyL66IzWbTnxPvqKys5Gufz0f9/f3U1tZGgUCAurq6CgtQpKGhgbvFYqHi4mL9hpaWFu6RSIS71Wql5uZmXldUVHAX16WlpQwuYjabqaSkhEwmE1dZWRnPvV4vd7En3uFyufja7/dTTU0Nr8UXsrKyUniACAABCEAAIgAEIAABiAAQgAAEIAJAAAIQgAgAAQhAACIABCAAAYgAEIAABCACQAACEIAIAAEIQAAiAAQgAAEIQASAAAQgABEAAhCAAEQACEAAAhABIAABCEAEgAAEIAARAAIQgABEAAhAAP5/+QmblgEF3+SkXgAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
 <content languages="en" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here your research questions.\par
-\f1\cf1\par
-\li0\ri0\fi0\ul0\par
+<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}&#xD;&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;
+&#xD;&#xD;&#xD;
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here your research questions.\par&#xD;&#xD;&#xD;
+\f1\cf1\par&#xD;&#xD;&#xD;
+\li0\ri0\fi0\ul0\par&#xD;&#xD;&#xD;
 }</RichText>
 </content>
 <resources>

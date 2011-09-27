@@ -9,10 +9,10 @@
         </role>
         <entity>jakob</entity>
         <date>
-          <dateTime>2010-12-09T14:26:53.790+0100</dateTime>
+          <dateTime>2010-12-09T15:26:53.790+0200</dateTime>
         </date>
       </contribute>
-      <version>6</version>
+      <version>13</version>
     </lifecycle>
     <technical>
       <customElements>
