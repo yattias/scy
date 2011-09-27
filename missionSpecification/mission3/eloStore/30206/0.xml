@@ -419,8 +419,8 @@
     </las>
     <las>
       <id>reflection1</id>
-      <xPos>-100.0</xPos>
-      <yPos>40.0</yPos>
+      <xPos>-105.0</xPos>
+      <yPos>45.0</yPos>
       <toolTip>tip_LAS_H</toolTip>
       <title />
       <instructionUri>http://www.scy-lab.eu/content/en/mission3/curtain_REFLECTION1.html</instructionUri>
@@ -449,7 +449,7 @@
     </las>
     <las>
       <id>reflection2</id>
-      <xPos>-100.0</xPos>
+      <xPos>-105.0</xPos>
       <yPos>-40.0</yPos>
       <toolTip>tip_LAS_I</toolTip>
       <title />
@@ -600,7 +600,7 @@
     </las>
     <las>
       <id>build</id>
-      <xPos>-60.0</xPos>
+      <xPos>-75.0</xPos>
       <yPos>5.0</yPos>
       <toolTip>tip_LAS_K</toolTip>
       <title />

@@ -204,8 +204,8 @@
 				  
 				  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="reflection1"/>
-                     <property name="xPosition" value="-100"/>
-                     <property name="yPosition" value="40"/>
+                     <property name="xPosition" value="-105"/>
+                     <property name="yPosition" value="45"/>
                      <property name="tooltip" value="tip_LAS_H"/>
                      <property name="lasType" value="REFLECTION"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/curtain_REFLECTION1.html"/>
@@ -226,7 +226,7 @@
 
 				  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="reflection2"/>
-                     <property name="xPosition" value="-100"/>
+                     <property name="xPosition" value="-105"/>
                      <property name="yPosition" value="-40"/>
                      <property name="tooltip" value="tip_LAS_I"/>
                      <property name="lasType" value="REFLECTION"/>
@@ -277,7 +277,7 @@
 				  
 				  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="build"/>
-                     <property name="xPosition" value="-60"/>
+                     <property name="xPosition" value="-75"/>
                      <property name="yPosition" value="5"/>
                      <property name="tooltip" value="tip_LAS_K"/>
                      <property name="lasType" value="CONSTRUCTION"/>
