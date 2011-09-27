@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.CustomNode;
 import javafx.scene.layout.Resizable;
 import java.awt.Dimension;
+import sqv.ModelVariable;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import roolo.api.IRepository;
@@ -345,6 +346,10 @@ public class SimulatorNode
 			logger.info("elo loaded");
 			eloSimconfig = newElo;
 			FX.deferAction(function() {
+				// bruteforce interface update
+				for (variable in simquestViewer.getDataServer().getVariables("n/a")) {
+					(variable as ModelVariable).set();
+				}
 		       simquestViewer.getInterface().updateVariables();
 			});
         }
@@ -411,8 +416,12 @@ public class SimulatorNode
 			switchSwingDisplayComponent(info);
 		}
 		FX.deferAction(function() {
+				// bruteforce interface update
+				for (variable in simquestViewer.getDataServer().getVariables("n/a")) {
+					(variable as ModelVariable).set();
+				}
 		       simquestViewer.getInterface().updateVariables();
-		});
+			});
 	}
 
 	function setMode(newMode: MODE): Void {
