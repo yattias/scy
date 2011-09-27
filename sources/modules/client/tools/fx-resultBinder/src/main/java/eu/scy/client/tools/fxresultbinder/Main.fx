@@ -14,8 +14,8 @@ import eu.scy.client.tools.fxresultbinder.registration.ResultBinderToolCreatorFX
 import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCreator;
 import eu.scy.client.desktop.scydesktop.Initializer;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
-import eu.scy.client.desktop.scydesktop.corners.elomanagement.EloManagement;
 import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
+import eu.scy.client.desktop.scydesktop.tools.search.EloSearchCreator;
 
 /**
  * @author Marjolaine
@@ -23,9 +23,12 @@ import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
 var initializer = Initializer {
            scyDesktopConfigFile: "config/scyDesktopResultBinderTestConfig.xml"
            authorMode:true
+           storeElosOnDisk:false
+           showQuitConfirmation:false
         }
 
 function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
+   def searchId = "search";
    def scyResultCardId = "resultcard";
 
    var scyDesktopCreator = ScyDesktopCreator {
@@ -37,15 +40,12 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ResultBinderToolCreatorFX{}, scyResultCardId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new EloXmlViewerCreator(), "xmlViewer");
 
+   def eloSearchCreator = EloSearchCreator{};
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(eloSearchCreator, searchId);
+
    var scyDesktop = scyDesktopCreator.createScyDesktop();
 
-   scyDesktop.bottomLeftCornerTool = EloManagement {
-      scyDesktop: scyDesktop;
-      repository: scyDesktopCreator.config.getRepository();
-      metadataTypeManager:scyDesktopCreator.config.getMetadataTypeManager();
-      titleKey: scyDesktopCreator.config.getTitleKey();
-      technicalFormatKey: scyDesktopCreator.config.getTechnicalFormatKey();
-   }
+   eloSearchCreator.scyDesktop = scyDesktop;
 
    return scyDesktop;
 }
