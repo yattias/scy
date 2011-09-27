@@ -1,0 +1,52 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>margus</entity>
+        <date>
+          <dateTime>2011-09-27T17:00:53.484+0300</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1317132053484</dateCreated>
+        <dateLastModified>1317132053484</dateLastModified>
+      </customElements>
+      <format>scy/pedagogicalplansettings</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20215/0/ECO+mission.scy</entry>
+      </identifier>
+      <las />
+      <missionId>eco</missionId>
+      <title>
+        <string language="en">ECO mission</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <template>TRUE</template>
+</metadata>
+<content languageIndependent="true">
+
+</content>
+<resources>
+</resources>
+</elo>
