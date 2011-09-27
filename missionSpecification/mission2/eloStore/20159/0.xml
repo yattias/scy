@@ -9,7 +9,7 @@
         </role>
         <entity>arle</entity>
         <date>
-          <dateTime>2011-02-22T18:28:01.593+0100</dateTime>
+          <dateTime>2011-02-22T19:28:01.593+0200</dateTime>
         </date>
       </contribute>
       <version>16</version>
@@ -38,6 +38,18 @@
         <string language="en">Video report</string>
       </title>
     </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_forked_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20201/0/Video+report.scyyoutuber</entry>
+        </identifier>
+      </resource>
+    </relation>
   </lom>
   <template>true</template>
   <thumbnail>
