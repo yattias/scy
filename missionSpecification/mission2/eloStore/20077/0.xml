@@ -7,17 +7,18 @@
           <source>LOMv1.0</source>
           <value>author</value>
         </role>
-        <entity>arle</entity>
+        <entity>margus</entity>
         <date>
-          <dateTime>2011-02-22T17:39:45.421+0100</dateTime>
+          <dateTime>2011-09-27T11:59:53.998+0300</dateTime>
         </date>
       </contribute>
-      <version>15</version>
+      <version>16</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1266920430747</dateCreated>
-        <dateLastModified>1298392785421</dateLastModified>
+        <dateFirstUserSaveKey>1317113993998</dateFirstUserSaveKey>
+        <dateLastModified>1317113993998</dateLastModified>
       </customElements>
       <format>scy/pds</format>
     </technical>
@@ -32,8 +33,13 @@
       <las>experiment_B3</las>
       <structure>dataset</structure>
       <mission>ecoMission</mission>
+      <missionId>eco</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20200/0/ECO+mission.scymissionspecification</entry>
+      </missionRunning>
       <title>
-        <string language="en">Data from experiments</string>
+        <string language="en">Data from experiments - trophic levels</string>
       </title>
     </general>
     <educational>
@@ -43,14 +49,26 @@
       <entity>icon</entity>
       <iconType>scy/dataset</iconType>
     </annotation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
   </lom>
-  <template>true</template>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <template>TRUE</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>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</base64>
+    <base64>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</base64>
   </thumbnail>
 </metadata>
-<content languageIndependent="true" contentType="xml">
+<content languages="en" contentType="xml">
 <processDataset>
   <dataset>
     <header language="en">
@@ -128,14 +146,17 @@
     <name>Dataset</name>
     <processed_hedaer>
       <column>0</column>
+      <data_alignment>4</data_alignment>
       <scientific_notation>false</scientific_notation>
     </processed_hedaer>
     <processed_hedaer>
       <column>1</column>
+      <data_alignment>4</data_alignment>
       <scientific_notation>false</scientific_notation>
     </processed_hedaer>
     <processed_hedaer>
       <column>2</column>
+      <data_alignment>4</data_alignment>
       <scientific_notation>false</scientific_notation>
     </processed_hedaer>
   </processed_dataset>
