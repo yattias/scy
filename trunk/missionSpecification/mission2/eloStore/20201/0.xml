@@ -7,17 +7,28 @@
           <source>LOMv1.0</source>
           <value>author</value>
         </role>
-        <entity>arle</entity>
+        <entity>margus</entity>
         <date>
-          <dateTime>2011-02-22T19:28:01.593+0200</dateTime>
+          <dateTime>2011-09-27T12:25:52.156+0300</dateTime>
         </date>
       </contribute>
-      <version>23</version>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>margus</entity>
+        <date>
+          <dateTime>2011-09-27T12:25:52.156+0300</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1293025047522</dateCreated>
-        <dateLastModified>1298395681593</dateLastModified>
+        <dateFirstUserSaveKey>1317115552156</dateFirstUserSaveKey>
+        <dateLastModified>1317115552156</dateLastModified>
       </customElements>
       <format>scy/youtuber</format>
     </technical>
@@ -31,9 +42,14 @@
     <general>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/20159/0/Video+report.scyyoutuber</entry>
+        <entry>roolo://memory/20201/0/Video+report.scyyoutuber</entry>
       </identifier>
       <las>reportingVideo</las>
+      <missionId>eco</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20200/0/ECO+mission.scymissionspecification</entry>
+      </missionRunning>
       <title>
         <string language="en">Video report</string>
       </title>
@@ -41,24 +57,36 @@
     <relation>
       <kind>
         <source>LOMv1.0</source>
-        <value>is_forked_by</value>
+        <value>is_fork_of</value>
       </kind>
       <resource>
         <identifier>
           <catalog>memory</catalog>
-          <entry>roolo://memory/20201/0/Video+report.scyyoutuber</entry>
+          <entry>roolo://memory/20159/0/Video+report.scyyoutuber</entry>
         </identifier>
       </resource>
     </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
   </lom>
-  <template>true</template>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <template>TRUE</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABNCAYAAAAxWePoAAACCklEQVR42u3STWsTURjF8Wz9AIpfw40Lv4LgQqF2Z0UFF1poEF1JFSolqUqgVbIRMo2Cm1iTIAnMLDKEvKAuEhKQIpRMmhDcJFIhsZRwdC7mQsGduoj8DxzIfXjmDvwykdFopCAIbDudjv09HA4VplarHdvZD/btXr/fNzsXtuqqVCqm1WrVdHYOezJ5qPF4bJ4L2w3v6QbqdgM7GwwGmrdEms2mGo2GWq2W7kSjiq6syHU9Mwsbptfr2fPbr+90123q2uuFYzs7L18ol8uZvqps6nFuVdPp1M5Oxz6rXq/bZ575ccXdLQ2/fbezTCYzf4C+7yts+MWkG0e6nfmkR/EHZlYqlcxSu93WbC/WLOv8ZllP3kTtLIzz/Kkcx/nZbV3f+air2/c1mUx+zRydWt+1+2HvfSjqYjKn950jO0ulUvMHWCwWzRdSKBS0unxLC7EzWoydNbN8Pm+WPM+zX9IV55KWkzd00zlnztls1uw8XN9QIpEwPTgc2RfMZifW9syfNLtnaaMsf++Ldg9kZ+l0ev4A/+Zli97ve9nVf5uICIAAAgggARBAAAEkAAIIIIAEQAABBJAACCCAABIAAQQQQAIggAACSAAEEEAACYAAAgggARBAAAEkAAIIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAASQAAggggATAfwNI/iw/APxLM0wZSPhsAAAAAElFTkSuQmCC</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABHCAYAAACQwsCOAAAAbklEQVR42u3QMQEAAAwCIPuX1gS79kIEUl6iQKBAgQIRKFCgQAQKFCgQgQIFCkSgQIECEShQoEAEChQoEIECBQpEoECBAhEoUKBABAoUKFAgAgUKFIhAgQIFIlCgQIEIFChQIAIFChSIQIECBXIYA0hsaR8mv2EAAAAASUVORK5CYII=</base64>
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<youtuber />
+<youtuber/>
 </content>
 <resources>
 <resource languageIndependent="true" contentType="binary" name="thumbnail" technicalFormat="scy/png">

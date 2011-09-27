@@ -1,0 +1,59 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>margus</entity>
+        <date>
+          <dateTime>2011-09-27T16:11:20.443+0300</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1317129080443</dateCreated>
+        <dateLastModified>1317129080443</dateLastModified>
+      </customElements>
+      <format>scy/templateelos</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20206/0/%C3%96koloogiamissioon.scytemplateelos</entry>
+      </identifier>
+      <las />
+      <missionId>eco</missionId>
+      <title>
+        <string language="et">Ökoloogiamissioon</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <template>TRUE</template>
+</metadata>
+<content languages="et" contentType="xml">
+<templateElosEloUris>
+  <templateElosEloUri>roolo://memory/20179/0/Empty+form.scyformauthor</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/20111/0/Empty_experimental_procedure.scyxproc</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/20112/0/Empty_plain_text.text</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/20109/0/Empty_concept_map.scymapping</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/20113/0/Empty_rich_text.rtf</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/20110/0/Empty_dataset.dataset</templateElosEloUri>
+</templateElosEloUris>
+</content>
+<resources>
+</resources>
+</elo>
