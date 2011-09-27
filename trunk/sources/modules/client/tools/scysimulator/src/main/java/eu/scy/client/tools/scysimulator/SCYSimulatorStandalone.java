@@ -4,13 +4,17 @@ import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.User;
 import java.awt.BorderLayout;
+import java.awt.EventQueue;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.logging.Level;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+
+import sqv.ModelVariable;
 import sqv.SimQuestViewer;
+import sqv.widgets.DynamicWidget;
 import eu.scy.notification.api.INotifiable;
 import eu.scy.notification.api.INotification;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
@@ -29,22 +33,29 @@ public class SCYSimulatorStandalone implements INotifiable {
 	private JFrame mainFrame;
 	private DataCollector dataCollector;
 
-	public SCYSimulatorStandalone() throws URISyntaxException, InterruptedException, TupleSpaceException {
+	public SCYSimulatorStandalone(String[] args) throws URISyntaxException, InterruptedException, TupleSpaceException {
 		SimQuestViewer simquestViewer = new SimQuestViewer(true);
 
-		// URI fileUri = new
-		// URI("http://www.scy-lab.eu/sqzx/RotatingPendulum.sqzx");
-		// URI fileUri = new URI("http://www.scy-lab.eu/sqzx/balance.sqzx");
-		 //URI fileUri = new URI("http://www.scy-lab.eu/sqzx/co2_house.sqzx");
-		//URI fileUri = new URI("http://www.scy-lab.eu/sqzx/pizzagr.sqzx");
-		// URI fileUri = new URI("http://alephnull.de/co2_house.sqzx");
-
-		// FileName fileName = new
-		//FileName fileName = new FileName("D:/projects/scy/sqzx/co2-converter/co2_converter.sqzx");
-		//FileName("D:/projects/scy/sqzx/pizza/PizzaSimulation/pizza.sqx");
-		// URI fileUri = new URI("file:lib/sqzx/pizza.sqzx");
-		FileName fileName = new FileName("D:/projects/scy/sqzx/pizza/pizzagr/pizzagr.sqx");
-		URI fileUri = fileName.toURI();
+		URI fileUri;
+		if (args.length == 0) {
+			// no argument has been given, take the balance simulation (or something else)
+			// as a fallback
+			fileUri = new URI("http://www.scy-lab.eu/sqzx/balance.sqzx");
+			//fileUri = new URI("http://www.scy-lab.eu/sqzx/co2_house.sqzx");
+			//fileUri = new URI("http://www.scy-lab.eu/sqzx/pizza.sqzx");
+			//fileUri = new URI("http://www.scy-lab.eu/sqzx/glucose.sqzx");
+			//fileUri = new URI("http://www.scy-lab.eu/sqzx/RotatingPendulum.sqzx");
+		} else {
+			if (args[0].toLowerCase().startsWith("http://")) {
+				fileUri = new URI(args[0]);
+			} else {
+				FileName fileName = new FileName(args[0]);
+				//FileName fileName = new FileName("D:/projects/scy/sqzx/co2-converter/co2_converter.sqzx");
+				//FileName fileName = new FileName("D:/projects/scy/sqzx/glucose/glucose.sqx");
+				//FileName fileName = new FileName("D:/projects/scy/sqzx/pizza/feedback/pizza/pizza.sqx");
+				fileUri = fileName.toURI();	
+			}
+		}
 
 		LOGGER.log(Level.INFO, "trying to load: {0}", fileUri.toString());
 		simquestViewer.setFile(fileUri);
@@ -88,7 +99,7 @@ public class SCYSimulatorStandalone implements INotifiable {
 		mainFrame.setSize(800, 650);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setVisible(true);
-		simquestViewer.getInterface().updateVariables();
+		
 		// addJXLayer(simquestPanel, mainFrame);
 		// String userName = dataCollector.getLogger().getUserName();
 		// String toolName = dataCollector.getLogger().getToolName();
@@ -97,15 +108,30 @@ public class SCYSimulatorStandalone implements INotifiable {
 		// toolAliveSpace = new TupleSpace(new User(userName),
 		// "scy.collide.info", 2525, "toolAliveSpace");
 		// startAliveThread(toolAliveSpace, userName, toolName);
+		EventQueue.invokeLater(new InterfaceUpdater(simquestViewer));
 	}
 
 	public static void main(String[] args) throws URISyntaxException, InterruptedException, TupleSpaceException {
-		new SCYSimulatorStandalone();
+		new SCYSimulatorStandalone(args);
 	}
 
 	@Override
 	public boolean processNotification(INotification notification) {
 		return dataCollector.processNotification(notification);
 	}
+	
+	private final class InterfaceUpdater implements Runnable {
+	    private SimQuestViewer simquestViewer;
+		public InterfaceUpdater(SimQuestViewer simquestViewer) {
+	    	this.simquestViewer = simquestViewer;
+	    }
+		public void run(){
+			// bruteforce interface update
+			for (ModelVariable variable: simquestViewer.getDataServer().getVariables("n/a")) {
+				variable.set();
+			}
+			simquestViewer.getInterface().updateVariables();
+	    }
+	  }
 
 }
