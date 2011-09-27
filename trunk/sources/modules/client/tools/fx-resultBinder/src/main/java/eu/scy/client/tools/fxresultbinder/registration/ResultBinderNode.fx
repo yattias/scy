@@ -178,11 +178,11 @@ public class ResultBinderNode extends CustomNode, Resizable, ScyToolFX, EloSaver
 
 
    public override function getMinHeight() : Number{
-      return 350;
+      return 545;
    }
 
    public override function getMinWidth() : Number{
-      return 550;
+      return 715;
    }
 
    public function getBundleString(key:String) : String{

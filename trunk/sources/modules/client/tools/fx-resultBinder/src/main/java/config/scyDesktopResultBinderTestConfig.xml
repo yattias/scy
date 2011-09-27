@@ -15,6 +15,13 @@
                <property name="contentCreatorId" value="resultcard"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
             </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/search"/>
+               <property name="display" value="Search for elos"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="search"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+            </bean>
          </list>
       </property>
    </bean>
