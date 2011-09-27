@@ -7,17 +7,22 @@
           <source>LOMv1.0</source>
           <value>author</value>
         </role>
-        <entity>arle</entity>
+        <entity>margus</entity>
         <date>
-          <dateTime>2011-02-22T16:09:07.656+0100</dateTime>
+          <dateTime>2011-09-27T11:52:01.093+0300</dateTime>
         </date>
       </contribute>
-      <version>15</version>
+      <version>17</version>
     </lifecycle>
+    <annotation>
+      <entity>colorId</entity>
+      <colorSchemeId />
+    </annotation>
     <technical>
       <customElements>
         <dateCreated>1266853263318</dateCreated>
-        <dateLastModified>1298387347656</dateLastModified>
+        <dateFirstUserSaveKey>1317113581406</dateFirstUserSaveKey>
+        <dateLastModified>1317113581406</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
@@ -32,8 +37,13 @@
       <las>orientation_B1</las>
       <structure>plainText</structure>
       <mission>ecoMission</mission>
+      <missionId>eco</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20200/0/ECO+mission.scymissionspecification</entry>
+      </missionRunning>
       <title>
-        <string language="en">Hypotheses</string>
+        <string language="en">Hypotheses - primary production</string>
       </title>
     </general>
     <educational>
@@ -55,20 +65,33 @@
         </identifier>
       </resource>
     </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
   </lom>
-  <template>true</template>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <template>false</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAD3klEQVR42u3d30tTYRgH8HkjCEHRTbf+Bf4FgRB1UxZdeNOtCF4oeKOUEGViDLUyAhON7IdEFxIT0xIkJAgzK1a2Ubn542yi+6Fu023OzbOnPe86x/14z7JcN/J94MvZ+z7nfc/24cyjV5r6+voomUwWzNzcHKmqikhiYsCNjQ3y+XzSrK+vk8vlIj6vv78/Kzw3Pj5OOzs70uSer63JPMrment7pWs5PT09eetz95ElFosZvs+DZN+AfA6/zkwoFKSJiQkKBAJ5iUajxJW7hsN7RSIRw57NZpNej+eGh4cNewxl1OMPy++p2MkCDG34SFFWaWuLpIB27y613f1GN7pn6fItO13rGhCA3Hv71UWKP0zb4YAYh0IhAagmiT44o1nRAFNdaY8BE/FYes4RIatb1XsMGE69Qe18m4f0ngaYu2cwGBDX29zcLHp0wFDAT1Mf/eJDn236QVefrucBvrEup7pJCqaAy8+8ouu3H+uAAyPv6Htq+UXzO/0u4NpNCY6+V6ikpIRMJpN4vQeY7p08dY7Gpt16jwHVRFyMJ20BOnPhkt4TgOEtMX45tZS1pwbIY22ew4D8YblX7GQA+si1naQrliQdOa3QiYqpPMBn45+po3+WlhZcVHH+Fd2480QHtFgsNDk5SZ2dnfodzZXYVenRyCfxgdruPRev9wCJjh47rs9rPQZMqgkxLi8vp8cZPQaMhMNifG9wImudBqjN3bw/JI7B3z9W/H5/0aMDboXSd19kM0bT75304vV8HmDHg1Hqejimp617UAf0rgXoi2OFfipeMV5ZWRH7xRO7Yl1mMgFlPQbkr7esx4DRSFja0wBze3wHrq2t0erqatHzVw8RWfgpLNtYURQBZLSOAY162kNEFu0hIosGKIvX6yW321306ICFMj8/TwsLC4ZZXFyUptCa/5FC1zR6jweNaXl52fDu0+LxeMjhcCCSmAh1oMoD5D/d/qX+dd2hAGxpaRGDuro6ceTHM1dVVZU4VlZWiu+7Vo2NjeJYXV2t4w0NDYl97HY7lZaWivmysrL0RUz5N3p7e/vhAYzH49Ta2ip+2eQym80Cxel0irF2rKmp0RfW1taS1WrN23BmZkYcGxoaqLm5OatXX19PTU1Nh+puxc9AAAIQgABEARCAAAQgCoAABCAAUQAEIAABiAIgAAEIQBQAAQhAAKIACEAAAhAFQAACEIAoAAIQgABEARCAAAQgCoAABCAAAYgCIAABCEAUAAEIQACiAAhAAAIQBUAAAhCAKAACEICHH1D27y/U38md+9N5aoFz/7TP365X97l3oXXqPvdRC+z9C+jXLmIgrL5nAAAAAElFTkSuQmCC</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAADKElEQVR42u3V30tTYRgH8HPhuvBOr5LAwMu68CK6ieg/8MKgm4nQL4ZEMSZIIzfIgi6CfhGR4HaxynJuKpldGCSipssLs4jNcm1mottQ5q+5s7nt2znv3NHJBkE3Tr5feHze87znnMHHd0yy2ToALBeoqFLrBffc7q4izywjkQoV3RufGCqyt45kOlySJXUogOn4ImJJIJaA6FtKIR5U/oQgp7Kz3L6tewgu5yukNn/lPaP2tYhPAKY2/Pl7Sqn3j41/BNJy3vtEkvPYkpdExeL5/aDPJPUEZuRFjHjXcPn6LXj8cYz61nYAw/j2Oyb2zusNMFkf4ObDXg1QnZ+qPQn7m3fKehWrEW8WcNMv9tRZw1WTWGuAiIv5lwWIPhmQge15rK4vlGQJQCSW0Dv8A5Ik4UTtaWX9UzuBo18XxN79drfoN+6+0ADV63Nnz8D+ul+so2GvdgLV66PHjmNgfE6sdwETYqZ+1ohvA+8nguIELq+UZmmAz7vH0O76pPXcCewf/q7N1bpsbtcA1XlZmQ5luiMw3X6adwJz9+dqFzCpzR45PsDW91mcwKXwXEmWZLN3YMY7ibpLVqUsO92qAV64dkebqfsNxnsaYN1Fy55nLNhYmcn+iMjBfe+zaIDP7J1576u7YhWAfxYCJVnS274uuHuccPc6d3tu3VNgJnpXgVm2b2fCRd/n6u4s+D6X0gNBf7YC+/oBn0lPBl7isVJ7O2f/PpPA/FcEoMPhgNOpfI0CAeh0OkQiEbE5OzuLwcFBsW5paRHd5/Ohra1NrNV7ZVlGTU0NbDabmFksFgSDQRgMBng8HkxPTyMajaK+vh5TU1Noamo6fIBqmpubRTcajSgvL9duaG1tFT0UColuMplgNpvFuqqqSvTctZpMJoPKykpUV1eLa71ej3Q6Lf45FRUVaGxsPJyADAEJSEACMgQkIAEJyBCQgAQkIENAAhKQgAwBCUhAAjIEJCABCcgQkIAEJCBDQAISkIAMAQlIQAIyBCQgAQlIQIaABCQgARkCEpCABGQISEACEpAhIAEJSECGgAQkIAEZAhKQgARkCEhAAh6+/AVXQBj0brXAnwAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
-<content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here your hypotheses.\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\li0\ri0\fi0\f1\ul0\cf1\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+<content languages="en" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here your hypotheses.\par
+\f1\cf1\par
+\li0\ri0\fi0\ul0\par
 }</RichText>
 </content>
 <resources>

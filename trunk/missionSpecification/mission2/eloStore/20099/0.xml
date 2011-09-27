@@ -7,17 +7,18 @@
           <source>LOMv1.0</source>
           <value>author</value>
         </role>
-        <entity>arle</entity>
+        <entity>margus</entity>
         <date>
-          <dateTime>2011-02-22T17:39:51.546+0100</dateTime>
+          <dateTime>2011-09-27T11:59:30.375+0300</dateTime>
         </date>
       </contribute>
-      <version>17</version>
+      <version>18</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1266853263318</dateCreated>
-        <dateLastModified>1298392791546</dateLastModified>
+        <dateFirstUserSaveKey>1317113970375</dateFirstUserSaveKey>
+        <dateLastModified>1317113970375</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
@@ -29,11 +30,16 @@
         <catalog>memory</catalog>
         <entry>roolo://memory/20099/0/Hypotheses+trophic+levels.rtf</entry>
       </identifier>
-      <las>experiment_B3</las>
+      <las>orientation_B3</las>
       <structure>plainText</structure>
       <mission>ecoMission</mission>
+      <missionId>eco</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20200/0/ECO+mission.scymissionspecification</entry>
+      </missionRunning>
       <title>
-        <string language="en">Hypotheses</string>
+        <string language="en">Hypotheses - trophic levels</string>
       </title>
     </general>
     <educational>
@@ -43,21 +49,34 @@
       <entity>icon</entity>
       <iconType>Hypothese2</iconType>
     </annotation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
   </lom>
-  <template>true</template>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <template>TRUE</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAD3klEQVR42u3d30tTYRgH8HkjCEHRTbf+Bf4FgRB1UxZdeNOtCF4oeKOUEGViDLUyAhON7IdEFxIT0xIkJAgzK1a2Ubn542yi+6Fu023OzbOnPe86x/14z7JcN/J94MvZ+z7nfc/24cyjV5r6+voomUwWzNzcHKmqikhiYsCNjQ3y+XzSrK+vk8vlIj6vv78/Kzw3Pj5OOzs70uSer63JPMrment7pWs5PT09eetz95ElFosZvs+DZN+AfA6/zkwoFKSJiQkKBAJ5iUajxJW7hsN7RSIRw57NZpNej+eGh4cNewxl1OMPy++p2MkCDG34SFFWaWuLpIB27y613f1GN7pn6fItO13rGhCA3Hv71UWKP0zb4YAYh0IhAagmiT44o1nRAFNdaY8BE/FYes4RIatb1XsMGE69Qe18m4f0ngaYu2cwGBDX29zcLHp0wFDAT1Mf/eJDn236QVefrucBvrEup7pJCqaAy8+8ouu3H+uAAyPv6Htq+UXzO/0u4NpNCY6+V6ikpIRMJpN4vQeY7p08dY7Gpt16jwHVRFyMJ20BOnPhkt4TgOEtMX45tZS1pwbIY22ew4D8YblX7GQA+si1naQrliQdOa3QiYqpPMBn45+po3+WlhZcVHH+Fd2480QHtFgsNDk5SZ2dnfodzZXYVenRyCfxgdruPRev9wCJjh47rs9rPQZMqgkxLi8vp8cZPQaMhMNifG9wImudBqjN3bw/JI7B3z9W/H5/0aMDboXSd19kM0bT75304vV8HmDHg1Hqejimp617UAf0rgXoi2OFfipeMV5ZWRH7xRO7Yl1mMgFlPQbkr7esx4DRSFja0wBze3wHrq2t0erqatHzVw8RWfgpLNtYURQBZLSOAY162kNEFu0hIosGKIvX6yW321306ICFMj8/TwsLC4ZZXFyUptCa/5FC1zR6jweNaXl52fDu0+LxeMjhcCCSmAh1oMoD5D/d/qX+dd2hAGxpaRGDuro6ceTHM1dVVZU4VlZWiu+7Vo2NjeJYXV2t4w0NDYl97HY7lZaWivmysrL0RUz5N3p7e/vhAYzH49Ta2ip+2eQym80Cxel0irF2rKmp0RfW1taS1WrN23BmZkYcGxoaqLm5OatXX19PTU1Nh+puxc9AAAIQgABEARCAAAQgCoAABCAAUQAEIAABiAIgAAEIQBQAAQhAAKIACEAAAhAFQAACEIAoAAIQgABEARCAAAQgCoAABCAAAYgCIAABCEAUAAEIQACiAAhAAAIQBUAAAhCAKAACEICHH1D27y/U38md+9N5aoFz/7TP365X97l3oXXqPvdRC+z9C+jXLmIgrL5nAAAAAElFTkSuQmCC</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAADPUlEQVR42u3VzUtUYRQG8LtwWrjTVRIYuKyFi2gT0X/gwqDNiFAWIlHICJLkCFnQIqgWEYkzUgZj+YGafdoiTM3MhVnEjDnjjJrpNBnj4Nd1dObpvmeca2MWQRtHngOH897zvveKv3uGqzkdDmAlAOgTm1Xl2hQQm07tbazbWpp+6yXrasS7/fOM9UDvi22fh/hXRBfG0zI1h6MesZUZLEWBpVVIXTZS/rnVSejriV5y39nyCq3NLqwvjqfco2ok5BHA9QVf6p6R6nx/zzPjpegpz5OITmE57JNc2lJ3ek9TExjXZ9DrjqDk3EUM+lbQ54kkAKOT+Di5JHvHraWw1VzHhRvtaG1JAKr+ofyDaHjw2FjPYz7kTgAu+mRP9YrO2GQtgK+fqzcj/ffGcKs65Ndl2ufnfIn8vqXu8J4BWG9M2izaez5D0zQcyD9srMfMCez7MC171+rapJ6/ct+cQHV97OgRNDR1yTr8zW1OoLreu28/ngxMyNqcQKxKT/2tXs8Cnr4NyATOBX1pmZrT6RDAOy39qGt9Y9bkBHb1fDL7Kkuq6swJVP2MDAsyLHtgu3QrZQKT55O5OYFRs3ez8SWcHe9kAmenvWmZAjjqHkLBqRoj7Ru1xgQ8cfay2VP7ReVXTcCCk/Zf7rFj4cdo4iOiB7Y8z24C3m5wpTyv4HSNAH6Z9KZlao86HhpfVZd8WTdrcu3aptf0196a8fP90zn109/uXvVC/ONjaZnaQOc9DHTeRWpl7197Ghj/FQLY2NiI5uZm+P1+WCwWhEIh2fR6veju7pZ1ZWWlVI/Hg9raWlmrs7quIy8vD06nU3p2ux2BQAClpaUYHBzEyMgIwuEwCgsLMTw8jLKyst0HqKKiokJqeXk5MjMzzQPV1dVSg8GgVJvNhqqqKlnn5ORITV6riMfjyM7ORm5urlxbrVbEYjF5OVlZWSguLt6dgAwCEpCABGQQkIAEJCCDgAQkIAEZBCQgAQnIICABCUhABgEJSEACMghIQAISkEFAAhKQgAwCEpCABGQQkIAEJCABGQQkIAEJyCAgAQlIQAYBCUhAAjIISEACEpBBQAISkIAMAhKQgARkEJCABNx98ROsyhNz0Euo7QAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
-<content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;&#xD;&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}&#xD;&#xD;&#xD;&#xD;&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;&#xD;&#xD;
-&#xD;&#xD;&#xD;&#xD;&#xD;
-\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here your hypotheses.\par&#xD;&#xD;&#xD;&#xD;&#xD;
-\f1\cf1\par&#xD;&#xD;&#xD;&#xD;&#xD;
-\li0\ri0\fi0\ul0\par&#xD;&#xD;&#xD;&#xD;&#xD;
+<content languages="en" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here your hypotheses.\par
+\f1\cf1\par
+\par
+\li0\ri0\fi0\ul0\par
 }</RichText>
 </content>
 <resources>

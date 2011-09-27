@@ -7,17 +7,18 @@
           <source>LOMv1.0</source>
           <value>author</value>
         </role>
-        <entity>arle</entity>
+        <entity>margus</entity>
         <date>
-          <dateTime>2011-02-22T16:09:48.250+0100</dateTime>
+          <dateTime>2011-09-27T11:59:21.273+0300</dateTime>
         </date>
       </contribute>
-      <version>15</version>
+      <version>16</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1266852935874</dateCreated>
-        <dateLastModified>1298387388250</dateLastModified>
+        <dateFirstUserSaveKey>1317113961273</dateFirstUserSaveKey>
+        <dateLastModified>1317113961273</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
@@ -32,8 +33,13 @@
       <las>orientation_B3</las>
       <structure>plainText</structure>
       <mission>ecoMission</mission>
+      <missionId>eco</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20200/0/ECO+mission.scymissionspecification</entry>
+      </missionRunning>
       <title>
-        <string language="en">Research questions</string>
+        <string language="en">Research questions - trophic levels</string>
       </title>
     </general>
     <educational>
@@ -43,20 +49,33 @@
       <entity>icon</entity>
       <iconType>Research_question</iconType>
     </annotation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
   </lom>
-  <template>true</template>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <template>TRUE</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAEDElEQVR42u2dzUtbaRTGIy5EKEzpplv3Qv+CAaG0m44dZuFmtn4grtwMtEJRK1Sp/RoKVnSYtjOlzGIsSpu2ggxSKbbFDpnppLQ1UXsTUZOoSTRJY+LNmZyj720+3psqpouW54GH9+O859z7/rg3995VHENDQ5TJZEp6dnaWTNOENXYwwPX1dQoGg1qvra2Rz+cjXjc8PJxnnhsfH6etrS2tC9ernNxWNzc4OKjNZQ8MDBTlF9bROZlM2p7nQbxngLyG+7mORiM0MTFB4XC4yIlEgliFOWyuFY/HbWNut1t7PJ4bGxuzjTEouxhvls+p3M4DGF0PkmEs0+YmaQG+DmxTz8//0flrr+jM5dfUeemmAOTYk399ZIRi9CEWlnE0GhWAZobohTeRZwUwG9XGGGA6ldyZ88TJ5TetGAOMZU9QrXevkBVTAAtrRiJhOd7GxkbZbQGMhkM0PROSTZ/66S2d+32tCOBfrsVsNEORLOCak4+o68ptC+DN+0/pTTb9h76n1lXA2s4SdD4zqKKighwOh/Q/AtyJfXv8O3r43G/FGKCZTsl40h2mk9//aMUEYGxTxg+m3+fVVAB5rObZDJA3y7FyOwdgkHwfMnR2NEOHThh09Nh0EcC743/TxeFX9H7eR8dOP6LzV3+zAI6OjtLk5CT19/dbVzQrvW3SrfsvZUM91/+Q/keARN8cPmLNqxgDzJhpGdfU1NDtnBgDjMdiMr5+ZyIvTwFUcxdu/CltZPdnJRQKld0WwM3oztUX30jS82deuvd4rgjgxV+cdOnXh5Z7rt2xAAZWw/SPZ4neGQEZLy0tSb1Uelvycp0LUBdjgHx762IMMBGPaWMKYGGMr8DV1VVaXl4uu/f1ENGZn8K6woZhCCC7PAZoF1MPEZ3VQ0RnBVDnQCBAfr+/7LYAlvLc3BzNz8/bemFhQetSOZ/DpY5pd44HtWNxcdH26lNeWVkhj8cDa+wg6EAqAsifbtA+AXZ0dMigtbVVWn48s+rr66Wtq6uT+12pvb1d2oaGBgv6yMiI9KuqqnZeX9JpaeVlM/sKw2u4lYPutpWVlTQzMyP9qakpqq2tlc84Vm9v75cDMJVKUXd3t2yW1dfXJxv2er0yVm1jY6OV2NzcTC6XK69YW1ub1OCP7K6uLmppaZFvUKXOzk6pW11dLflKXLepqSmvltPp/DJvYQgAARAAARACQAAEQACEABAAARAAIQAEQAAEQAgAARAAARACQAAEQACEABAAARAAIQAEQAAEQACEABAAARAAIQAEQAAEQAgAARAAARACQAAEQACEABAAARAAIQAEQAAEQAgAARAAARACQAAEwK8OoO7vL8xdF859ap1ZYu2n6uw339xj7VJ55h7rmCVq/w9poBx3gSATYgAAAABJRU5ErkJggg==</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAADPUlEQVR42u3V30tTYRgH8HPhuvBOBE1Cuq8LL7KbMQL/AG+CbvIqF11EMSaIkjhTISSQyoiETWQFzbWzInMXjhHiz+qmCGmVOkUXblNxR5tOnT6d95nnzNUWQTcuvl94eN7zvOfs4GevTHI47ES0lqPiam3k3JO97jzPrNFOKpJ3b3LqTZ69TdrdjxZkSXa7nfZVrMQO6bWlFtGqWuuU3KWsPYc7QB7PAKUoljUXpSSWGDBF0d/2xP3jEwH1M/ey5unEaSu5zJXYzu7HfSaJE3ig/gGjnxWqv3GL3s5u01hQOTwZ6/RpIcF7Fy9fI2trNzV1e8kjpwHF/FzVWepzvVbXcYr/WNQBxZ6Y1V218joDuMvzD2Hi/j6UZMD4RrggS0r/C8fpxchXkiSJzlSdV9ff9BM49jHMe3d7Ze43O57oJ1BcXzAZqe/ZIK/XjwCK65OnTtPQ5AKvM4Apnol3jQY3yTc1z+9fXVssyDoEVOjx83Hq9UzoXTuBgyPT+lxUfdNj/QSKeVGRgYoMJ8h6+2HWCdTu1yoDeKDP7jn95Hj5jgGXowsFWQz4JTRNtfU2qr3Smu5qaYCXrnfoM7FfZ7mjA/L92jNq39z+rv+IZH2e2jXAR0531ufVmlsZcCkcKsiSXg3KJKsgsncg07W1nGPm/fNs7yCa9z6P7Mr5rPhCQvOz6Qr90o/5THow9JTuq3W0Y/b3M4mQfwoDOp1Ocrvd6rEMkcFgoFgsxpszMzM0PDzM68bGRu7BYJDa29t5Le5NJpNkNBpJURQqLy/neU9PD83NzVF1dTV1dnbyL66IzWbTnxPvqKys5Gufz0f9/f3U1tZGgUCAurq6CgtQpKGhgbvFYqHi4mL9hpaWFu6RSIS71Wql5uZmXldUVHAX16WlpQwuYjabqaSkhEwmE1dZWRnPvV4vd7En3uFyufja7/dTTU0Nr8UXsrKyUniACAABCEAAIgAEIAABiAAQgAAEIAJAAAIQgAgAAQhAACIABCAAAYgAEIAABCACQAACEIAIAAEIQAAiAAQgAAEIQASAAAQgABEAAhCAAEQACEAAAhABIAABCEAEgAAEIAARAAIQgABEAAhAAP5/+QmblgEF3+SkXgAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
-<content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;&#xD;&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}&#xD;&#xD;&#xD;&#xD;&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;&#xD;&#xD;
-&#xD;&#xD;&#xD;&#xD;&#xD;
-\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here your research questions.\par&#xD;&#xD;&#xD;&#xD;&#xD;
-\li0\ri0\fi0\f1\ul0\cf1\par&#xD;&#xD;&#xD;&#xD;&#xD;
+<content languages="en" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here your research questions.\par
+\f1\cf1\par
+\li0\ri0\fi0\ul0\par
 }</RichText>
 </content>
 <resources>

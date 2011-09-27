@@ -7,17 +7,17 @@
           <source>LOMv1.0</source>
           <value>author</value>
         </role>
-        <entity>jakob</entity>
+        <entity>margus</entity>
         <date>
-          <dateTime>2011-09-19T10:53:35.706+0200</dateTime>
+          <dateTime>2011-09-27T11:47:54.327+0300</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>13</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1316422415706</dateCreated>
-        <dateLastModified>1316422415706</dateLastModified>
+        <dateLastModified>1317114230200</dateLastModified>
       </customElements>
       <format>scy/missionmapmodel</format>
     </technical>
@@ -26,8 +26,12 @@
         <catalog>memory</catalog>
         <entry>roolo://memory/20195/0/ECO+mission.scymissionmapmodel</entry>
       </identifier>
-      <las />
+      <las>design_C1</las>
       <missionId>eco</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20200/0/ECO+mission.scymissionspecification</entry>
+      </missionRunning>
       <title>
         <string language="en">ECO mission</string>
       </title>
@@ -46,7 +50,7 @@
 </metadata>
 <content languages="en" contentType="xml">
 <missionModel>
-  <activeLas>conceptualisatsionConceptMap</activeLas>
+  <activeLas>design_C1</activeLas>
   <missionMapBackgroundImageUri>http://www.scy-lab.eu/content/en/mission2/ecoBackground.fxz</missionMapBackgroundImageUri>
   <missionMapInstructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_challenge.html</missionMapInstructionUri>
   <missionMapButtonIconType />
@@ -713,7 +717,106 @@
       <nextLasses />
     </las>
   </lasses>
-  <windowStatesXmls />
+  <windowStatesXmls>
+    <windowStatesXml id="experiment_B1">
+      <windowstates>
+        <window uri="roolo://memory/20181/0/Introductory+model+for+scydynamics.scymodel" layoutX="608.6667" layoutY="459.4" relativeLayoutCenterX="0.6633598" relativeLayoutCenterY="0.7294562" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" />
+        <window uri="roolo://memory/20102/0/Nutrients+Data+from+experiments.scypds" layoutX="560.2001" layoutY="10.0" relativeLayoutCenterX="0.6152778" relativeLayoutCenterY="0.050604228" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20108/0/Nutrients+Experimental+procedure.scyxproc" layoutX="327.80002" layoutY="10.0" relativeLayoutCenterX="0.38472223" relativeLayoutCenterY="0.050604228" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20087/0/Nutrients+SCYDynamics+model.scymodel" layoutX="444.00003" layoutY="10.0" relativeLayoutCenterX="0.50000006" relativeLayoutCenterY="0.050604228" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20103/0/Inferences+nutrients.rtf" layoutX="787.2" layoutY="10.0" relativeLayoutCenterX="0.8404762" relativeLayoutCenterY="0.050604228" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20051/0/Hypotheses+nutrients.rtf" layoutX="100.8" layoutY="10.0" relativeLayoutCenterX="0.15952381" relativeLayoutCenterY="0.050604228" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20006/0/Glossary.url" layoutX="444.0" layoutY="459.4" relativeLayoutCenterX="0.5" relativeLayoutCenterY="0.7294562" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+      </windowstates>
+    </windowStatesXml>
+    <windowStatesXml id="design_B3">
+      <windowstates>
+        <window uri="roolo://memory/20055/0/Problem+solution+trophic+levels.rtf" layoutX="787.2" layoutY="10.0" relativeLayoutCenterX="0.8404762" relativeLayoutCenterY="0.050604228" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20071/0/Inferences+trophic+levels.rtf" layoutX="443.2" layoutY="141.0" relativeLayoutCenterX="0.49920636" relativeLayoutCenterY="0.24848942" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20006/0/Glossary.url" layoutX="444.0" layoutY="459.4" relativeLayoutCenterX="0.5" relativeLayoutCenterY="0.7294562" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+      </windowstates>
+    </windowStatesXml>
+    <windowStatesXml id="orientation_C1">
+      <windowstates>
+        <window uri="roolo://memory/20036/0/Problem+formulation+pH.rtf" layoutX="366.53336" layoutY="10.0" relativeLayoutCenterX="0.42314819" relativeLayoutCenterY="0.050604228" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20038/0/Research+questions+pH.rtf" layoutX="521.4667" layoutY="10.0" relativeLayoutCenterX="0.57685184" relativeLayoutCenterY="0.050604228" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20006/0/Glossary.url" layoutX="444.0" layoutY="459.4" relativeLayoutCenterX="0.5" relativeLayoutCenterY="0.7294562" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20040/0/Hypotheses+pH.rtf" layoutX="787.2" layoutY="10.0" relativeLayoutCenterX="0.8404762" relativeLayoutCenterY="0.050604228" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+      </windowstates>
+    </windowStatesXml>
+    <windowStatesXml id="experiment_B3">
+      <windowstates>
+        <window uri="roolo://memory/20181/0/Introductory+model+for+scydynamics.scymodel" layoutX="608.6667" layoutY="459.4" relativeLayoutCenterX="Infinity" relativeLayoutCenterY="Infinity" width="120.0" height="47.0" rotation="0.0" relativeWidth="Infinity" relativeHeight="Infinity" />
+        <window uri="roolo://memory/20077/0/Trophic+levels+Data+from+experiments.scypds" layoutX="521.4667" layoutY="10.0" relativeLayoutCenterX="0.57685184" relativeLayoutCenterY="0.050604228" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20071/0/Inferences+trophic+levels.rtf" layoutX="787.2" layoutY="10.0" relativeLayoutCenterX="0.8404762" relativeLayoutCenterY="0.050604228" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20099/0/Hypotheses+trophic+levels.rtf" layoutX="100.8" layoutY="10.0" relativeLayoutCenterX="0.15952381" relativeLayoutCenterY="0.050604228" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20088/0/Trophic+levels+SCYDynamics+model.scymodel" layoutX="366.53336" layoutY="10.0" relativeLayoutCenterX="0.42314819" relativeLayoutCenterY="0.050604228" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20006/0/Glossary.url" layoutX="444.0" layoutY="459.4" relativeLayoutCenterX="0.5" relativeLayoutCenterY="0.7294562" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+      </windowstates>
+    </windowStatesXml>
+    <windowStatesXml id="design_B2">
+      <windowstates>
+        <window uri="roolo://memory/20054/0/Problem+solution+light.rtf" layoutX="787.2" layoutY="10.0" relativeLayoutCenterX="0.8404762" relativeLayoutCenterY="0.050604228" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20062/0/Inferences+light.rtf" layoutX="100.8" layoutY="10.0" relativeLayoutCenterX="0.15952381" relativeLayoutCenterY="0.050604228" width="120.0" height="47.0" rotation="0.0" relativeWidth="Infinity" relativeHeight="Infinity" />
+        <window uri="roolo://memory/20006/0/Glossary.url" layoutX="444.0" layoutY="459.4" relativeLayoutCenterX="0.5" relativeLayoutCenterY="0.7294562" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+      </windowstates>
+    </windowStatesXml>
+    <windowStatesXml id="experiment_B2">
+      <windowstates>
+        <window uri="roolo://memory/20069/0/Light+Data+from+experiments.scypds" layoutX="521.4667" layoutY="10.0" relativeLayoutCenterX="0.57685184" relativeLayoutCenterY="0.050604228" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20063/0/Light+Experimental+procedure.scyxproc" layoutX="366.53336" layoutY="10.0" relativeLayoutCenterX="0.42314819" relativeLayoutCenterY="0.050604228" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20062/0/Inferences+light.rtf" layoutX="787.2" layoutY="10.0" relativeLayoutCenterX="0.8404762" relativeLayoutCenterY="0.050604228" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20006/0/Glossary.url" layoutX="444.0" layoutY="459.4" relativeLayoutCenterX="0.5" relativeLayoutCenterY="0.7294562" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20028/0/Hypotheses+light.rtf" layoutX="100.8" layoutY="10.0" relativeLayoutCenterX="0.15952381" relativeLayoutCenterY="0.050604228" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+      </windowstates>
+    </windowStatesXml>
+    <windowStatesXml id="design_B1">
+      <windowstates>
+        <window uri="roolo://memory/20053/0/Problem+solution+nutrients.rtf" layoutX="787.2" layoutY="10.0" relativeLayoutCenterX="0.8404762" relativeLayoutCenterY="0.050604228" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20103/0/Inferences+nutrients.rtf" layoutX="553.2" layoutY="116.0" relativeLayoutCenterX="0.60833335" relativeLayoutCenterY="0.21072507" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20006/0/Glossary.url" layoutX="444.0" layoutY="459.4" relativeLayoutCenterX="0.5" relativeLayoutCenterY="0.7294562" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+      </windowstates>
+    </windowStatesXml>
+    <windowStatesXml id="experiment_C1">
+      <windowstates>
+        <window uri="roolo://memory/20079/0/Inferences+pH.rtf" layoutX="649.2" layoutY="239.0" relativeLayoutCenterX="0.70357144" relativeLayoutCenterY="0.39652568" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20085/0/pH+Data+from+experiments.scypds" layoutX="521.4667" layoutY="10.0" relativeLayoutCenterX="0.57685184" relativeLayoutCenterY="0.050604228" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20006/0/Glossary.url" layoutX="444.0" layoutY="459.4" relativeLayoutCenterX="0.5" relativeLayoutCenterY="0.7294562" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20080/0/pH+Experimental+procedure.scyxproc" layoutX="366.53336" layoutY="10.0" relativeLayoutCenterX="0.42314819" relativeLayoutCenterY="0.050604228" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20040/0/Hypotheses+pH.rtf" layoutX="787.2" layoutY="10.0" relativeLayoutCenterX="0.8404762" relativeLayoutCenterY="0.050604228" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+      </windowstates>
+    </windowStatesXml>
+    <windowStatesXml id="orientation_B3">
+      <windowstates>
+        <window uri="roolo://memory/20016/0/Problem+formulation+trophic+levels.rtf" layoutX="366.53336" layoutY="10.0" relativeLayoutCenterX="0.42314819" relativeLayoutCenterY="0.050604228" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20099/0/Hypotheses+trophic+levels.rtf" layoutX="787.2" layoutY="10.0" relativeLayoutCenterX="0.8404762" relativeLayoutCenterY="0.050604228" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20006/0/Glossary.url" layoutX="444.0" layoutY="459.4" relativeLayoutCenterX="0.5" relativeLayoutCenterY="0.7294562" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20097/0/Research+questions+trophic+levels.rtf" layoutX="521.4667" layoutY="10.0" relativeLayoutCenterX="0.57685184" relativeLayoutCenterY="0.050604228" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+      </windowstates>
+    </windowStatesXml>
+    <windowStatesXml id="orientation_B2">
+      <windowstates>
+        <window uri="roolo://memory/20024/0/Problem+formulation+light.rtf" layoutX="366.53336" layoutY="10.0" relativeLayoutCenterX="0.42314819" relativeLayoutCenterY="0.050604228" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20026/0/Research+questions+light.rtf" layoutX="521.4667" layoutY="10.0" relativeLayoutCenterX="0.57685184" relativeLayoutCenterY="0.050604228" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20006/0/Glossary.url" layoutX="444.0" layoutY="459.4" relativeLayoutCenterX="0.5" relativeLayoutCenterY="0.7294562" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20028/0/Hypotheses+light.rtf" layoutX="787.2" layoutY="10.0" relativeLayoutCenterX="0.8404762" relativeLayoutCenterY="0.050604228" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+      </windowstates>
+    </windowStatesXml>
+    <windowStatesXml id="conceptualisatsionConceptMap">
+      <windowstates>
+        <window uri="roolo://memory/20095/0/Concept+map+eco+mission" layoutX="787.2" layoutY="10.0" relativeLayoutCenterX="0.8404762" relativeLayoutCenterY="0.050604228" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20006/0/Glossary.url" layoutX="444.0" layoutY="459.4" relativeLayoutCenterX="0.5" relativeLayoutCenterY="0.7294562" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+      </windowstates>
+    </windowStatesXml>
+    <windowStatesXml id="orientation_B1">
+      <windowstates>
+        <window uri="roolo://memory/20047/0/Problem+formulation+nutrients.rtf" layoutX="366.53336" layoutY="10.0" relativeLayoutCenterX="0.42314819" relativeLayoutCenterY="0.050604228" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20049/0/Research+questions+nutrients.rtf" layoutX="521.4667" layoutY="10.0" relativeLayoutCenterX="0.57685184" relativeLayoutCenterY="0.050604228" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20051/0/Hypotheses+nutrients.rtf" layoutX="787.2" layoutY="10.0" relativeLayoutCenterX="0.8404762" relativeLayoutCenterY="0.050604228" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+        <window uri="roolo://memory/20006/0/Glossary.url" layoutX="444.0" layoutY="459.4" relativeLayoutCenterX="0.5" relativeLayoutCenterY="0.7294562" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07099698" />
+      </windowstates>
+    </windowStatesXml>
+  </windowStatesXmls>
 </missionModel>
 </content>
 <resources>

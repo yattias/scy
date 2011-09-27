@@ -7,17 +7,18 @@
           <source>LOMv1.0</source>
           <value>author</value>
         </role>
-        <entity>arle</entity>
+        <entity>margus</entity>
         <date>
-          <dateTime>2011-02-22T17:40:08.531+0100</dateTime>
+          <dateTime>2011-09-27T12:00:34.380+0300</dateTime>
         </date>
       </contribute>
-      <version>15</version>
+      <version>16</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1266853263318</dateCreated>
-        <dateLastModified>1298392808531</dateLastModified>
+        <dateFirstUserSaveKey>1317114034380</dateFirstUserSaveKey>
+        <dateLastModified>1317114034380</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
@@ -32,8 +33,13 @@
       <las>design_B3</las>
       <structure>plainText</structure>
       <mission>ecoMission</mission>
+      <missionId>eco</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20200/0/ECO+mission.scymissionspecification</entry>
+      </missionRunning>
       <title>
-        <string language="en">Problem solution</string>
+        <string language="en">Problem solution - trophic levels</string>
       </title>
     </general>
     <educational>
@@ -43,20 +49,33 @@
       <entity>icon</entity>
       <iconType>Conclusion</iconType>
     </annotation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
   </lom>
-  <template>true</template>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <template>TRUE</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAEpklEQVR42u2dz0tjVxTHI7gstriwW926mL+gINTOprWlGxd1I6joQjdCoSqlddSio9YpA1a0OE0dSpUi/uhkKkiRojhTbB07daz15yQRNYkao4mjMS+nOUffm/y4L2YwhS6+X/hy373nnnPv+/iSm7fS0tvbS+FwOKlXVlZI0zRYYQsDPDg4ILfbrfT+/j45HA7ieX19fTHmsYmJCTo7O1M6fr6eE92qxnp6epS57O7u7oT8+Doqn56emu7zOk4ZIM/h62j7fIc0OTlJXq83wScnJ8SKz2FzrUAgYBpbXFxUrsdjo6OjpjEGZRbjm+U9pdsxAH0HbrLbd+j4mJQAn7lC1PTVX3TrzlP6pPMZfdZxTwBy7Nc/HWT3+OmF3yt9n88nALUw0W9rJzHWAUaiyhgDPA+eXoytBuiJUzNiDNAf2aA+f3GXjJgOML7m4aFX1js6Okq7DYA+r4dm5zxy0+9+vEyfDuwnAPzlyVYkGqbDCODcmw/p8y+tBsB74zP0dyT9w9YZ4ylghSIEHzyyU0ZGBlksFrl+CfAi9tbb75HtsdOIMUDtPCj9qUUv3fzgIyMmAP3H0v9p9nlMTR0g9/VxNgPkm+VYuh0F0E2OF2GqGwnTa+/Y6c0bswkAv5/4g273PaXnGw668f5DutX1nQFwZGSEpqamqL293XiiWechjb4d/11uqOnuD3L9EiDR629kG+N6jAGGtXPp5+bmkjUqxgADfr/0796fjMnTAepjX3z9o7SHl18rHo8n7TYAHvsunr7A0Sk9frRGwz+vJwC8/c0D6ui3GW66c98A6Nrz0sLqNv1jd0l/e3tb6gXPQ5IX7WiAqhgD5I+3KsYATwJ+ZUwHGB/jJ3Bvb492dnbS7lc6RFTmU1hV2G63CyCzPAZoFtMPEZX1Q0RlHaDKLpeLnE5n2m0ATOb19XXa2Ngw9ebmptLJcv4LJ1vTbI/XtWVra8v06dO9u7tLq6ursMIWgq6lBID86paK4uelmpeqktVL51r8OnZVPZ5jtr4ArK+vl05VVZW0fDyzioqKpC0oKJDPu666ujqan5+nrq4u6Y+Pj0ubnZ0tbU5OzkVxiyWmZfkjP0FY/LssMzOT5ubmjE3l5+fLa1xxcTEtLS1RaWmpuKOjgwoLC2Xe2NgYDQ0N0fT0tPTlY3RZv6GhQa5VQKxWK4VCIcrLy5N+VlaWtCUlJdLW1NRI29jYKOsPDAzQ8PCwkb+2tmZct7W1ySHIa8nKwWBQEvmmWK2trbIJPUlvy8rKYjY1MzMjG1heXpY+/1TgvNraWuVfq7q6Wl6pWJWVlaZ/cYYUrebmZqNWf3+/vOXwKV9eXi5rtrS0JH2C+N70fH2Pg4ODsgduWTabTeqxGN7CwoKR39nZKedARUXF1R9h6JrfgRAAAiAAAiAEgAAIgAAIASAAAiAAQgAIgAAIgBAAAiAAAiAEgAAIgAAIASAAAiAAQgAIgAAIgAAIASAAAiAAQgAIgAAIgBAAAiAAAiAEgAAIgAAIASAAAiAAQgAIgAAIgBAAAiAAAiAEgAD4/wOo+vcX2qXjx66apyWZe1WdV83XUqydLE9LsY6WpPa/nCnq+pxmgb0AAAAASUVORK5CYII=</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAD7ElEQVR42u2VTUhcZxSGL+goiBs3WuyioDsLZlG6KSII4qZZFVfNKqZ0UUQdQRh/2hQiXVRNxEIa0KmMYjP+0NROKzjUEo1NrQXbEmlajaOJKXFkJh1/cq2Oztt7znhvNDWbNgsH3hcO7/ed8/3d5353xuju6UE0jn9FLAFsAifWBodHTsxLrG3vPrf23fTtE/Nb1j7hJ3spGUZ3dzdiuwcw9wBzF+o7VkSs+OsA2Isnc3a9dygI/9Aw1nf2j80RX4luK8CwuZ/MHwkZ/+3UNOKJxLH1RPKyHm2ah/HkGT/dOUNu4MbeAaZ+20BVdRNm7u3g1t0NRA8B3rm/rbW33n4X7vc74Lk84gCU/GtnXoX3esBqx7Ac2UoCPKxJ7tw7bm3bAC1Wmv/5YdJnQ38rwIfRWEqGAtyMJ/DFzT9gGAaKzrxutRecG3jrl1WtfXxtRL3mks8BKP3Skjfg/fwrbTsAzWTtpZdfwde3V7RtAxRJTvaauruFb35YVoAPwpGUjEOAwKdD07g2/L3j9g0M3Lzj5CUueK46ACWfnu5CuisD7g8/wXL06Q20x9txFKCdu+ILoufGjwpw5c9HKRkK8Kff7+Ps+Yt48/wH6hI2wMr3Ljk5qZ+r/cgBKH17jvhqzFSAj60XcnQ9cRvglc9uHFvv7IWLCjD0YDUlwxj5chR+61/1RUXYjD+3dt0Cf2LNyt8LhZKx9Iyf8pzR/GsIjP8eBqj/JQXo8/kwODiIkHUlXS4X1tfXtbi4uIjx8XFtNzQ0qC8tLWFychJra2soKipyFiorK0MsFtP5UuuxfltF7e3tME0TXV1dqK2txdjYmI6JRCLIyMjQMX6/H729vdrOzMxUb2pqUm9pacH+/r7uPz8/r3PkfGlpaXoOkZxd1isuLtZ+RUWFekFBATo6OjA3N6f9xsZGfUbZT1RYWKhndrvd2q+pqcHMzEwSjJG8W62trep1dXW6r4wRlZeXPwUoqq+vV5eHzMrKcsA0NzerCxRRdXU1vF6vtkdHR51x4XBYH7SyslL7/f396qWlpc4YeciJiQnk5eUhOzsbJSUlmpe2vACRnQsEAuqJREK9r68PVVVVyM3N1fPZ40QLCwu6Rmdnp/aDwaB6fn6+ek5OjvrAwIDuY9dlDZlnXxiPx+OsKfuI2tranLPLvrOzs8f24Cf8Ij5higAJkAAJkCJAAiRAAqQIkAAJkAApAiRAAiRAigAJkAAJkCJAAiRAAqQIkAAJkAApAiRAAiRAigAJkAAJkCJAAiRAAiRAigAJkAAJkCJAAiRAAqQIkAAJkAApAiRAAiRAigAJkAAJkCJAAiRAAqQIkABPqf4Be8LGnUarGHgAAAAASUVORK5CYII=</base64>
   </thumbnail>
 </metadata>
-<content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;&#xD;&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}&#xD;&#xD;&#xD;&#xD;&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;&#xD;&#xD;
-&#xD;&#xD;&#xD;&#xD;&#xD;
-\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here what is the solution to the problem you have defined in the beginning of your work.\par&#xD;&#xD;&#xD;&#xD;&#xD;
-\li0\ri0\fi0\f1\ul0\cf1\par&#xD;&#xD;&#xD;&#xD;&#xD;
+<content languages="en" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here what is the solution to the problem you have defined in the beginning of your work.\par
+\f1\cf1\par
+\li0\ri0\fi0\ul0\par
 }</RichText>
 </content>
 <resources>

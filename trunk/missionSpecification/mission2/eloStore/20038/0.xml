@@ -7,17 +7,18 @@
           <source>LOMv1.0</source>
           <value>author</value>
         </role>
-        <entity>arle</entity>
+        <entity>margus</entity>
         <date>
-          <dateTime>2011-02-22T15:32:09.140+0100</dateTime>
+          <dateTime>2011-09-27T12:02:15.785+0300</dateTime>
         </date>
       </contribute>
-      <version>15</version>
+      <version>16</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1266853263318</dateCreated>
-        <dateLastModified>1298385129140</dateLastModified>
+        <dateFirstUserSaveKey>1317114135785</dateFirstUserSaveKey>
+        <dateLastModified>1317114135785</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
@@ -32,8 +33,13 @@
       <las>orientation_C1</las>
       <structure>plainText</structure>
       <mission>ecoMission</mission>
+      <missionId>eco</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20200/0/ECO+mission.scymissionspecification</entry>
+      </missionRunning>
       <title>
-        <string language="en">Research questions</string>
+        <string language="en">Research questions - pH</string>
       </title>
     </general>
     <educational>
@@ -43,20 +49,33 @@
       <entity>icon</entity>
       <iconType>Research_question</iconType>
     </annotation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
   </lom>
-  <template>true</template>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <template>TRUE</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACMUlEQVR42u3Vv6tSYRzHcUfBwclR5yBo0/4Aob2hweHaEC05BC3B7QTVFt3u5FJBEVig4YVaGi7VcIMCIcihhou6OOS5aZ7j6VzTo998vqT5AyouBBnvD3x8zvM85zzDi3MwFASBtNvtlZp1+vuGzI9t2wvtdDraKab/1ZPRaCTD4VA7GAzEZB68UCgszJfPcF1HKpXKwj3FYnHlGd/316oK6LsHsrP7SezWQFqtn4B7+4fy2RE5tXFV+v2+nL79Rjy/r3smr97bcsm6paMB9PqBvJxc39h+MDvj9UdXThw/Jpe3niigudfcY0YDKONAnu3t61q3+2XS7lpVAQ97B3L9xeR1PFlfeAPP3P8mG9u2pDObCpjP5yWXy80A7+28lbMXNnU0gB3Hl3MXr+l8esbj3Q/y6Pk7OX/ljgKaPWvroY4K+OOcm3efKuDy1/Cv95efsNdztb1Jy+WylEqlWU2m+6YGsDc3Xz7D1ADOzw2g6zgLzzSbzbVqSCE8b6X1ep3+QRWQHD2hbDarF5ZlSTQalVQqJZlMRtLptK43Gg1JJpN6nUgkZg/GYjGJx+MSiUR0XqvV9JUOh8NSrVZ1zfxz//eAf/Pw8XgMIAEQQAABJAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAgggARBAAAEkAAIIIIAEQAABBJAACCCAABIAAQQQQAIggAACSAAEEEAACYAAAgggARBAAAEkAAIIIIAAEgABBBBAcrR8Bw3V+AnR1924AAAAAElFTkSuQmCC</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAADPUlEQVR42u3V30tTYRgH8HPhuvBOBE1Cuq8LL7KbMQL/AG+CbvIqF11EMSaIkjhTISSQyoiETWQFzbWzInMXjhHiz+qmCGmVOkUXblNxR5tOnT6d95nnzNUWQTcuvl94eN7zvOfs4GevTHI47ES0lqPiam3k3JO97jzPrNFOKpJ3b3LqTZ69TdrdjxZkSXa7nfZVrMQO6bWlFtGqWuuU3KWsPYc7QB7PAKUoljUXpSSWGDBF0d/2xP3jEwH1M/ey5unEaSu5zJXYzu7HfSaJE3ig/gGjnxWqv3GL3s5u01hQOTwZ6/RpIcF7Fy9fI2trNzV1e8kjpwHF/FzVWepzvVbXcYr/WNQBxZ6Y1V218joDuMvzD2Hi/j6UZMD4RrggS0r/C8fpxchXkiSJzlSdV9ff9BM49jHMe3d7Ze43O57oJ1BcXzAZqe/ZIK/XjwCK65OnTtPQ5AKvM4Apnol3jQY3yTc1z+9fXVssyDoEVOjx83Hq9UzoXTuBgyPT+lxUfdNj/QSKeVGRgYoMJ8h6+2HWCdTu1yoDeKDP7jn95Hj5jgGXowsFWQz4JTRNtfU2qr3Smu5qaYCXrnfoM7FfZ7mjA/L92jNq39z+rv+IZH2e2jXAR0531ufVmlsZcCkcKsiSXg3KJKsgsncg07W1nGPm/fNs7yCa9z6P7Mr5rPhCQvOz6Qr90o/5THow9JTuq3W0Y/b3M4mQfwoDOp1Ocrvd6rEMkcFgoFgsxpszMzM0PDzM68bGRu7BYJDa29t5Le5NJpNkNBpJURQqLy/neU9PD83NzVF1dTV1dnbyL66IzWbTnxPvqKys5Gufz0f9/f3U1tZGgUCAurq6CgtQpKGhgbvFYqHi4mL9hpaWFu6RSIS71Wql5uZmXldUVHAX16WlpQwuYjabqaSkhEwmE1dZWRnPvV4vd7En3uFyufja7/dTTU0Nr8UXsrKyUniACAABCEAAIgAEIAABiAAQgAAEIAJAAAIQgAgAAQhAACIABCAAAYgAEIAABCACQAACEIAIAAEIQAAiAAQgAAEIQASAAAQgABEAAhCAAEQACEAAAhABIAABCEAEgAAEIAARAAIQgABEAAhAAP5/+QmblgEF3+SkXgAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
-<content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;&#xD;&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}&#xD;&#xD;&#xD;&#xD;&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;&#xD;&#xD;
-&#xD;&#xD;&#xD;&#xD;&#xD;
-\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here your research questions.\par&#xD;&#xD;&#xD;&#xD;&#xD;
-\li0\ri0\fi0\f1\ul0\cf1\par&#xD;&#xD;&#xD;&#xD;&#xD;
+<content languages="en" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here your research questions.\par
+\f1\cf1\par
+\li0\ri0\fi0\ul0\par
 }</RichText>
 </content>
 <resources>
