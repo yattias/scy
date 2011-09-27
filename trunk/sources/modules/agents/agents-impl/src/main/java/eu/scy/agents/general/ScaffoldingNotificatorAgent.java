@@ -79,7 +79,10 @@ public class ScaffoldingNotificatorAgent extends AbstractThreadedAgent {
             Set<String> usersInMission = getSession().getUsersInMissionFromName(mission);
 
             for (String user : usersInMission) {
-                sendScaffoldLevelNotification(agentParameter.getParameterValue(), mission, user);
+                Object parameterValue = agentParameter.getParameterValue();
+                if (parameterValue != null) {
+                    sendScaffoldLevelNotification(parameterValue, mission, user);
+                }
             }
         }
 
