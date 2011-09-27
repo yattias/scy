@@ -720,6 +720,7 @@ public class StandardScyWindow extends ScyWindow {
       if (topDrawerTool != null) {
          topDrawer = TopDrawer {
                     windowColorScheme: windowColorScheme
+                    window: this
                     tooltipManager: tooltipManager
                     bubbleManager: bubbleManager
                     content: topDrawerTool;
@@ -746,6 +747,7 @@ public class StandardScyWindow extends ScyWindow {
       if (rightDrawerTool != null) {
          rightDrawer = RightDrawer {
                     windowColorScheme: windowColorScheme
+                    window: this
                     tooltipManager: tooltipManager
                     bubbleManager: bubbleManager
                     content: rightDrawerTool;
@@ -773,6 +775,7 @@ public class StandardScyWindow extends ScyWindow {
          //println("new BottomDrawer with color {drawerColor}");
          bottomDrawer = BottomDrawer {
                     windowColorScheme: windowColorScheme
+                    window: this
                     tooltipManager: tooltipManager
                     bubbleManager: bubbleManager
                     content: bottomDrawerTool;
@@ -802,8 +805,8 @@ public class StandardScyWindow extends ScyWindow {
          } else {
             // new drawer tool
             drawer = LeftDrawer {
-                       //                  visible: bind scyElo.getAssignmentUri() != null
                        windowColorScheme: windowColorScheme
+                       window: this
                        tooltipManager: tooltipManager
                        bubbleManager: bubbleManager
                        content: drawerTool;
@@ -1053,12 +1056,12 @@ public class StandardScyWindow extends ScyWindow {
                  sizeof ownershipManager.getOwners() > 0
               }
 
-      var bubble = bubbleManager.createBubble(titleBarBuddies, "elo-buddies", BubbleLayer.DESKTOP, BubbleKey.CLOSED_ELO_BUDDIES, windowColorScheme);
+      var bubble = bubbleManager.createBubble(titleBarBuddies, "elo-buddies", BubbleLayer.DESKTOP, BubbleKey.CLOSED_ELO_BUDDIES, this);
       bubble.canBeUsed = ownersDefined;
-      bubble = bubbleManager.createBubble(closedWindowBuddies, "elo-buddies", BubbleLayer.DESKTOP, BubbleKey.OPEN_ELO_BUDDIES, windowColorScheme);
+      bubble = bubbleManager.createBubble(closedWindowBuddies, "elo-buddies", BubbleLayer.DESKTOP, BubbleKey.OPEN_ELO_BUDDIES, this);
       bubble.canBeUsed = ownersDefined;
 
-      bubble = bubbleManager.createBubble(closedWindow.eloIcon, BubbleLayer.DESKTOP, BubbleKey.ELO_ICON_CLOSED, windowColorScheme);
+      bubble = bubbleManager.createBubble(closedWindow.eloIcon, BubbleLayer.DESKTOP, BubbleKey.ELO_ICON_CLOSED, this);
       bubble.getTargetNode = function():Node{
          closedWindow.eloIcon
       }
@@ -1066,7 +1069,7 @@ public class StandardScyWindow extends ScyWindow {
          isClosed
       }
 
-      bubble = bubbleManager.createBubble(windowTitleBar.eloIcon, BubbleLayer.DESKTOP, BubbleKey.ELO_ICON_OPEN, windowColorScheme);
+      bubble = bubbleManager.createBubble(windowTitleBar.eloIcon, BubbleLayer.DESKTOP, BubbleKey.ELO_ICON_OPEN, this);
       bubble.getTargetNode = function():Node{
          windowTitleBar.eloIcon
       }

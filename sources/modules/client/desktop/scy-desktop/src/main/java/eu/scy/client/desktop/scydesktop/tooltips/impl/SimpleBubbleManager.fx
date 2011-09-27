@@ -22,6 +22,9 @@ import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import org.apache.log4j.Logger;
 import com.sun.javafx.tk.swing.WindowStage;
 import javafx.scene.Scene;
+import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
+import eu.scy.client.desktop.scydesktop.scywindows.WindowManager;
+import java.lang.IllegalArgumentException;
 
 /**
  * @author sikken
@@ -32,6 +35,7 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
    public-init var tbi: ToolBrokerAPI;
    public-init var activateBubbleManager = true;
    public-init var scene: Scene;
+   public-init var windowManager: WindowManager;
    def timeStep = 1s;
    def bubbleStore = new BubbleStoreImpl();
 //   var activeLayerId: Object;
@@ -39,10 +43,12 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
    def bubbleManagerTimer = new BubbleManagerTimer(this);
    def layerManager = new BubbleLayerManager();
    def resourceBundleWrapper = new ResourceBundleWrapper(this);
+   var debugBubbleKey:BubbleKey = null;
    var pauzeCount = 0;
 
    init {
       showingLayer(BubbleLayer.DESKTOP);
+//      debugBubbleKey = BubbleKey.DRAWER_CONTROL;
    }
 
    public override function log(action: IAction): Void {
@@ -65,25 +71,24 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
    }
 
    public override function pauze(): Void {
-      pauzeCount++
-   }
+      pauzeCount++ }
 
    public override function resume(): Void {
       pauzeCount--;
-      if (pauzeCount<0){
+      if (pauzeCount < 0) {
          logger.warn("trying to decrease pauzeCount below 0");
          pauzeCount = 0;
       }
    }
 
-   function isScyLabActive():Boolean{
+   function isScyLabActive(): Boolean {
       var window = (scene.stage.get$Stage$impl_peer() as WindowStage).window;
-//      println("window.isActive(): {window.isActive()}, window.isFocused(): {window.isFocused()}");
+      //      println("window.isActive(): {window.isActive()}, window.isFocused(): {window.isFocused()}");
       return window.isActive();
    }
 
    override function showNextBubble(): Void {
-      if (pauzeCount<=0 and isScyLabActive()) {
+      if (pauzeCount <= 0 and isScyLabActive()) {
          FX.deferAction(bubbleStep);
       }
    }
@@ -93,7 +98,9 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
       def bubbleToDisplay = if (topLayerId != null) bubbleStore.getNextBubble(topLayerId) as AbstractBubble else null;
       if (bubbleToDisplay != null) {
          showBubble(bubbleToDisplay);
-         bubbleStore.removeBubbles(bubbleToDisplay.id);
+         if (debugBubbleKey==null){
+            bubbleStore.removeBubbles(bubbleToDisplay.id);
+         }
          noBubbleFoundCounter = 0;
       } else {
          ++noBubbleFoundCounter;
@@ -156,6 +163,14 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
       }
    }
 
+   public override function createBubble(targetNode: Node, bubbleLayer: BubbleLayer, bubbleKey: BubbleKey, window: ScyWindow): Bubble {
+      if (bubbleKey != null) {
+         createBubble(targetNode, bubbleKey.ordinal(), bubbleKey.toString(), bubbleLayer, bubbleKey, window.windowColorScheme, window);
+      } else {
+         null
+      }
+   }
+
    public override function createBubble(targetNode: Node, id: String, bubbleLayer: BubbleLayer, bubbleKey: BubbleKey): Bubble {
       if (bubbleKey != null) {
          createBubble(targetNode, bubbleKey.ordinal(), id, bubbleLayer, bubbleKey, WindowColorScheme.getWindowColorScheme(ScyColors.darkGray));
@@ -176,19 +191,55 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
       }
    }
 
-   public override function createBubble(targetNode: Node, priority: Integer, id: String, bubbleLayer: BubbleLayer, bubbleKey: BubbleKey, windowColorScheme: WindowColorScheme): Bubble {
+   public override function createBubble(targetNode: Node, id: String, bubbleLayer: BubbleLayer, bubbleKey: BubbleKey, window: ScyWindow): Bubble {
+      if (bubbleKey != null) {
+         createBubble(targetNode, bubbleKey.ordinal(), id, bubbleLayer, bubbleKey, window.windowColorScheme, window);
+      } else {
+         null
+      }
+   }
+
+   public override function createBubble(targetNode: Node, priority: Integer, id: String, bubbleLayer: BubbleLayer,
+           bubbleKey: BubbleKey, windowColorScheme: WindowColorScheme): Bubble {
+      if (bubbleKey != null) {
+         createBubble(targetNode, priority, id, bubbleLayer, bubbleKey, windowColorScheme, null);
+      } else {
+         null
+      }
+   }
+
+   public override function createBubble(targetNode: Node, priority: Integer, id: String, bubbleLayer: BubbleLayer,
+           bubbleKey: BubbleKey, window: ScyWindow): Bubble {
+      if (bubbleKey != null) {
+         createBubble(targetNode, priority, id, bubbleLayer, bubbleKey, null, window);
+      } else {
+         null
+      }
+   }
+
+   function createBubble(targetNode: Node, priority: Integer, id: String, bubbleLayer: BubbleLayer,
+           bubbleKey: BubbleKey, windowColorScheme: WindowColorScheme, window: ScyWindow): Bubble {
       if (bubbleKey == null) {
-         logger.info("no BubbleKey defined, for {id} in layer {bubbleLayer}");
-         return null;
+         throw new IllegalArgumentException("the bubbleKey must be set");
+      }
+      if (targetNode==null){
+         throw new IllegalArgumentException("the targetNode must be set");
+      }
+
+      var usePriority = priority;
+      if (debugBubbleKey!=null and bubbleKey==debugBubbleKey){
+         usePriority = 9999
       }
 
       def bubble = TextBubble {
-                 priority: priority
+                 priority: usePriority
                  id: id
                  layerId: bubbleLayer
                  targetNode: targetNode
                  bubbleText: getBubbleText(bubbleKey)
                  windowColorScheme: windowColorScheme
+                 window: window
+                 bubbleManagerCheckFunction:bubbleManagerCheckFunction
               }
       bubbleStore.addBubble(bubble);
       return bubble;
@@ -196,6 +247,15 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
 
    function getBubbleText(bubbleKey: BubbleKey): String {
       resourceBundleWrapper.getString("bubbleHelp.{bubbleKey}")
+   }
+
+   function bubbleManagerCheckFunction(bubble: AbstractBubble):Boolean{
+      if (bubble.window!=null){
+         if (not windowManager.hasWindow(bubble.window)){
+            return false;
+         }
+      }
+      return true
    }
 
 }

@@ -33,6 +33,9 @@ public class NodeBubble extends CustomNode {
    public var arrowPosition = ArrowPosition.TOP_LEFT;
    public var arrowPoint: Point2D;
    public var windowColorScheme: WindowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
+   def backgroundColor = windowColorScheme.backgroundColor;
+   def mainBorderColor = windowColorScheme.thirdColor;
+   def lightBorderColor = windowColorScheme.thirdColorLight;
    def contentBorder = 3.0;
    def borderWidth = 2.0;
 //   def backgroundX = bind content.boundsInLocal.minX - contentBorder - borderWidth - arcSize / 2;
@@ -50,19 +53,19 @@ public class NodeBubble extends CustomNode {
               height: content.boundsInLocal.height + 2 * contentBorder + 2 * borderWidth + arcSize
            }
    def arrowBackground = Polygon {
-              fill: windowColorScheme.backgroundColor
+              fill: backgroundColor
            //              stroke: windowColorScheme.mainColorLight;
            //              strokeWidth: borderWidth;
            //              strokeLineJoin: StrokeLineJoin.ROUND
            }
    def arrowBackgroundBorder = Polyline {
               strokeWidth: borderWidth
-              stroke: windowColorScheme.mainColorLight
+              stroke: lightBorderColor
               strokeLineJoin: StrokeLineJoin.ROUND
            }
    def arrowLine = Polyline {
               strokeWidth: borderWidth
-              stroke: windowColorScheme.mainColor
+              stroke: mainBorderColor
               strokeLineJoin: StrokeLineJoin.ROUND
            }
 
@@ -97,8 +100,8 @@ public class NodeBubble extends CustomNode {
                        height: bind backgroundHeight
                        arcHeight: arcSize
                        arcWidth: arcSize
-                       fill: windowColorScheme.backgroundColor;
-                       stroke: windowColorScheme.mainColorLight;
+                       fill: backgroundColor;
+                       stroke: lightBorderColor;
                        strokeWidth: borderWidth;
                     }
                     Rectangle {
@@ -109,7 +112,7 @@ public class NodeBubble extends CustomNode {
                        arcHeight: arcSize
                        arcWidth: arcSize
                        fill: null;
-                       stroke: windowColorScheme.mainColor;
+                       stroke: mainBorderColor;
                        strokeWidth: borderWidth;
                     }
                     arrowBackground,

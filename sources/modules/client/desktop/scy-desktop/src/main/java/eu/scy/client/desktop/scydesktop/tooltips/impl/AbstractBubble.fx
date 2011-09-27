@@ -7,6 +7,7 @@ package eu.scy.client.desktop.scydesktop.tooltips.impl;
 import eu.scy.client.desktop.scydesktop.tooltips.Bubble;
 import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleLayer;
+import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
 /**
  * @author sikken
@@ -17,9 +18,11 @@ public class AbstractBubble extends Bubble, JavaBubble {
    public-init var layerId: BubbleLayer;
    public-init var priority: Integer;
    public-init var targetNode: Node;
+   public-init var window: ScyWindow;
+   public-init var bubbleManagerCheckFunction: function(:AbstractBubble): Boolean;
 
    public override function toString(): String {
-      "id={id},priority={priority},layerId={layerId}"
+      "id={id},priority={priority},layerId={layerId},window={window.eloUri}"
    }
 
    public override function getId(): String {
@@ -46,6 +49,11 @@ public class AbstractBubble extends Bubble, JavaBubble {
    }
 
    public override function canBeUsedNow(): Boolean {
+      if (bubbleManagerCheckFunction!=null){
+         if (not bubbleManagerCheckFunction(this)){
+            return false;
+         }
+      }
       if (canBeUsed != null) {
          return canBeUsed()
       }
