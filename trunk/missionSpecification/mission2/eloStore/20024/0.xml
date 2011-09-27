@@ -12,7 +12,7 @@
           <dateTime>2011-09-27T11:56:44.664+0300</dateTime>
         </date>
       </contribute>
-      <version>23</version>
+      <version>25</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -57,13 +57,13 @@
   </thumbnail>
 </metadata>
 <content languages="en" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}&#xD;&#xD;&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;
-&#xD;&#xD;&#xD;
-\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here what is the main problem of this situation.\par&#xD;&#xD;&#xD;
-\f1\cf1\par&#xD;&#xD;&#xD;
-\li0\ri0\fi0\ul0\par&#xD;&#xD;&#xD;
+<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}&#xD;&#xD;&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;&#xD;
+&#xD;&#xD;&#xD;&#xD;
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here what is the main problem of this situation.\par&#xD;&#xD;&#xD;&#xD;
+\f1\cf1\par&#xD;&#xD;&#xD;&#xD;
+\li0\ri0\fi0\ul0\par&#xD;&#xD;&#xD;&#xD;
 }</RichText>
 </content>
 <resources>

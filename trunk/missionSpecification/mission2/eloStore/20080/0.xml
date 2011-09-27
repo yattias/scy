@@ -22,7 +22,7 @@
           <dateTime>2011-06-09T15:15:28.968+0300</dateTime>
         </date>
       </contribute>
-      <version>18</version>
+      <version>20</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -384,7 +384,7 @@
       <material>
         <id>320</id>
         <name language="en">Sulphuric acid solutions</name>
-        <info language="en">Solution A - 0,0001M&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+        <info language="en">Solution A - 0,0001M&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
 Solution B - 0,01 M</info>
       </material>
       <used>false</used>
