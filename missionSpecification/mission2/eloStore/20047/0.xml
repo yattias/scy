@@ -12,7 +12,7 @@
           <dateTime>2011-09-27T11:53:44.940+0300</dateTime>
         </date>
       </contribute>
-      <version>16</version>
+      <version>18</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -62,20 +62,20 @@
       </resource>
     </relation>
   </lom>
-  <template>TRUE</template>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAADnUlEQVR42u3V30tUaRgH8HPhdCH+AUEXXXinSBfRTUogeOlVeFXeZLkXIf4CUVaEpYuQIHRJaMwZcVayprRQd1l1RdR+l1Qsy1YzzpnSqWbURq1xHG3qu+d93PPqlEawEM3y/cLD857nPefM+JkXNDpcHXiLmc9qBSEk8GrbPW9fz7ZzVQvJwI5743eGt52v4TWiH4JpWUZHxwXEEEZ8DbpWrVrGC2s+i7V1pOx1esdw+WoPFhFMmasKrTwTwCjMz/bU/WO3fkfS+lm2zlXUjzWfMDdq9ZP+nc8MdQJXrBMw+fcyyip+xN3pVdx4smydjA3AP5+vyN7hIz+gpuksGs5eg7d3A1DN9+/LhfvSoLVewmzsKd78C6j21OzoiRpZ24CwANX8UQjS75sJAQy/DaRlWYAXrD8gjGvjz2AYBnL2HbDWPn0CbzwOyd4ZZ6/0ylO/6BOorg8VHIS7Z0DWCtA+gep69569+PX2c1lvAq7JTH3W5JN3+O1OUABfvgmkZckJjCOC81duwnn1lu72CRwY/0vPVZXVO/UJVPOMDAcyHLtQ89M5hLacQPt+uzYB3+tZi2cEruv3BHAmMp2WZbgswIfmAxSXNaH4WNNGt8oGLDl5Ss/U/tGq0xpQ7j+2ufd61SeA76xnU95ndRvwZ09PyvuKjzcJYDDkT8sy+ga8AqL+s+pur3u3mfV9eRb9aO543+Xeizs8exGBoF9q2kzt3/vMGH3kxB8PndjaOfv6mQHmP0UAPR4PvF4vTNOEw+HA3NycbPr9fgwPD8u6rq5OeiAQwMTEBMLhMHJycvSLCgsLsbS0JM+rPZfLJfPS0lJEo1Hk5+fLdVFRkfTq6moMDQ3p96rreDyO9vZ2+Hw+ZGdny7y+vl5/hj3Lzc3F6OgompubZa1if5fKykoMDg6ivLz82wGq1NbWSq+qqkJmZqa+obGxUbpCUamoqIDb7ZZ1f3+/vi8SiSCZTKKkpESuu7u7pS8uLkpva2uTPjIyIr2zs1PWXV1dcr2wsCA9FotJLygokL6+vi69paVFz6amppBIJDA/P4/W1lZkZWXp79LQ0IC8vDz5XPXDfTNAhoAEJCABGQISkIAEZAhIQAISkCEgAQlIQIaABCQgARkCEpCABGQISEACEpAhIAEJSECGgAQkIAEZAhKQgAQkIENAAhKQgAwBCUhAAjIEJCABCcgQkIAEJCBDQAISkIAMAQlIQAIyBCQgAf9/+Qf+8vIQUppVngAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
 <content languages="en" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
-&#xD;
-\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here what is the main problem of this situation.\par&#xD;
-\f1\cf1\par&#xD;
-\li0\ri0\fi0\ul0\par&#xD;
+<RichText>{\rtf1\ansi&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;
+&#xD;&#xD;
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here what is the main problem of this situation.\par&#xD;&#xD;
+\f1\cf1\par&#xD;&#xD;
+\li0\ri0\fi0\ul0\par&#xD;&#xD;
 }</RichText>
 </content>
 <resources>
