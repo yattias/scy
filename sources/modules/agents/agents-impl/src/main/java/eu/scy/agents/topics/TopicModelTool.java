@@ -29,42 +29,40 @@ public class TopicModelTool {
 	public Preprocessor preprocessor;
 
 	public TopicModelTool() {
-		preprocessor = new Preprocessor();
+		this.preprocessor = new Preprocessor();
 	}
 
-	public void createTopicModel(Reader[] files, String language,
-			String mission, int numberOfTopics) {
+	public void createTopicModel(Reader[] files, String language, String mission, int numberOfTopics) {
 
-		topicModelName = createTopicModelName(language, mission);
+		this.topicModelName = this.createTopicModelName(language, mission, numberOfTopics);
 
-		String[] documents = readDocuments(files);
+		String[] documents = this.readDocuments(files);
 
-		String[][] tokenizedDocuments = preprocessDocuments(documents, language);
+		String[][] tokenizedDocuments = this.preprocessDocuments(documents, language);
 
-		InstanceList instanceList = createInstanceList(tokenizedDocuments);
+		InstanceList instanceList = this.createInstanceList(tokenizedDocuments);
 
-		learnTopicModel(numberOfTopics, instanceList);
+		this.learnTopicModel(numberOfTopics, instanceList);
 	}
 
 	private String[][] preprocessDocuments(String[] documents, String language) {
 		String[][] tokenizedDocuments = new String[documents.length][];
 		for (int i = 0; i < documents.length; i++) {
 			String doc = documents[i];
-			String[] newTokens = preprocessor.preprocessDocument(doc);
-			tokenizedDocuments[i] = preprocessor.removeStopwords(newTokens,
-					language);
+			String[] newTokens = this.preprocessor.preprocessDocument(doc);
+			tokenizedDocuments[i] = this.preprocessor.removeStopwords(newTokens, language);
 		}
 		return tokenizedDocuments;
 	}
 
 	private void learnTopicModel(int numberOfTopics, InstanceList instanceList) {
-		topicModel = new ParallelTopicModel(numberOfTopics);
-		topicModel.addInstances(instanceList);
-		topicModel.setNumIterations(2000);
-		topicModel.setBurninPeriod(1500);
-		topicModel.setTopicDisplay(0, 0);
+		this.topicModel = new ParallelTopicModel(numberOfTopics);
+		this.topicModel.addInstances(instanceList);
+		this.topicModel.setNumIterations(2000);
+		this.topicModel.setBurninPeriod(1500);
+		this.topicModel.setTopicDisplay(0, 0);
 		try {
-			topicModel.estimate();
+			this.topicModel.estimate();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -75,8 +73,7 @@ public class TopicModelTool {
 		InstanceList instanceList = new InstanceList(pipe);
 
 		for (int i = 0; i < documents.length; i++) {
-			Instance instance = preprocessor.createInstanceFromTokens("" + i,
-					documents[i]);
+			Instance instance = this.preprocessor.createInstanceFromTokens("" + i, documents[i]);
 			instanceList.addThruPipe(instance);
 		}
 		return instanceList;
@@ -96,19 +93,18 @@ public class TopicModelTool {
 	}
 
 	public ParallelTopicModel getTopicModel() {
-		return topicModel;
+		return this.topicModel;
 	}
 
 	public String getName() {
-		return topicModelName;
+		return this.topicModelName;
 	}
 
-	private String createTopicModelName(String language, String mission) {
-		return mission + "_" + language + TOPIC_MODEL_NAME_SUFFIX;
+	private String createTopicModelName(String language, String mission, int numberOfTopics) {
+		return mission + "_" + language + "_" + numberOfTopics + TOPIC_MODEL_NAME_SUFFIX;
 	}
 
-	private static String convertInputStreamToString(Reader r)
-			throws IOException {
+	private static String convertInputStreamToString(Reader r) throws IOException {
 		if (r != null) {
 			StringBuilder sb = new StringBuilder();
 			String line;
@@ -127,13 +123,21 @@ public class TopicModelTool {
 		}
 	}
 
+	/*
+	 * usage: TopicModelTool /mission3/en/texts en pizza 15 src/test/resources/models
+	 */
 	public static void main(String[] args) throws IOException {
+		String inputDir = args[0];
+		String contentList = inputDir + "/content.lst";
+		String language = args[1];
+		String missionName = args[2];
+		int numberOfTopics = new Integer(args[3]);
+		String modelDir = args[4];
 		// InputStream in =
 		// TopicModelTool.class.getResourceAsStream("/mission1_texts/English/content.lst");
 		// InputStream in =
 		// TopicModelTool.class.getResourceAsStream("/mission2_texts/English/content.lst");
-		InputStream in = TopicModelTool.class
-				.getResourceAsStream("/mission3/en/texts/content.lst");
+		InputStream in = TopicModelTool.class.getResourceAsStream(contentList);
 		// .getResourceAsStream("/mission1_texts/Estonian/content.lst");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 		String line = "";
@@ -144,9 +148,7 @@ public class TopicModelTool {
 			// + line.trim())));
 			// TopicModelTool.class.getResourceAsStream("/mission2_texts/English/"
 			// + line.trim())));
-					TopicModelTool.class
-							.getResourceAsStream("/mission3/en/texts/"
-									+ line.trim())));
+					TopicModelTool.class.getResourceAsStream(inputDir + "/" + line.trim())));
 			// .getResourceAsStream("/mission1_texts/Estonian/"
 			// + line.trim())));
 		}
@@ -156,13 +158,11 @@ public class TopicModelTool {
 		// "en", "co2", 15);
 		// topicModelTool.createTopicModel(inputStreams.toArray(new Reader[0]),
 		// "en", "eco", 15);
-		topicModelTool.createTopicModel(inputStreams.toArray(new Reader[0]),
-				"en", "pizza", 15);
+		topicModelTool.createTopicModel(inputStreams.toArray(new Reader[0]), language, missionName, numberOfTopics);
 
 		// topicModelTool.upload("scy.collide.info", 2525, topicModelTool
 		// .getName(), topicModelTool.getTopicModel());
-		File file = new File("src/test/resources/models",
-				topicModelTool.getName());
+		File file = new File(modelDir, topicModelTool.getName());
 		// System.out.println(file.getAbsolutePath());
 		topicModelTool.getTopicModel().write(file);
 
@@ -170,9 +170,9 @@ public class TopicModelTool {
 		// FileWriter("topWords.en.co2.15.txt"));
 		// BufferedWriter writer = new BufferedWriter(new
 		// FileWriter("topWords.en.eco.15.txt"));
-		BufferedWriter writer = new BufferedWriter(new FileWriter(
-				"topWords.en.pizza.15.txt"));
-		Object[][] topWords = topicModelTool.getTopicModel().getTopWords(1000);
+		BufferedWriter writer = new BufferedWriter(new FileWriter(modelDir + "/topWords." + language + "."
+				+ missionName + "." + numberOfTopics + ".txt"));
+		Object[][] topWords = topicModelTool.getTopicModel().getTopWords(100);
 		for (Object[] topWordsTopic : topWords) {
 			for (Object topWord : topWordsTopic) {
 				writer.write(topWord.toString());
