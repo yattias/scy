@@ -51,7 +51,7 @@
 <content languages="en" contentType="xml">
 <missionModel>
   <activeLas>Biology Design</activeLas>
-  <missionMapBackgroundImageUri />
+  <missionMapBackgroundImageUri>http://www.scy-lab.eu/content/en/mission4/forensicMissionMapBackgound.fxz</missionMapBackgroundImageUri>
   <missionMapInstructionUri>http://www.scy-lab.eu/content/en/mission4/missionMapInstruction.html</missionMapInstructionUri>
   <missionMapButtonIconType />
   <loElos />

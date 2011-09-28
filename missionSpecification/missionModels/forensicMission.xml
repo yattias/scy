@@ -22,7 +22,7 @@
       <property name="basicMissionMap">
          <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionMap">
 
-		 	<!--<property name="missionMapBackgroundImageUri" value="http://www.scy-lab.eu/content/en/mission4/loupe.png"/>-->
+		 	<property name="missionMapBackgroundImageUri" value="http://www.scy-lab.eu/content/en/mission4/forensicMissionMapBackgound.fxz"/>
 			<property name="missionMapInstructionUri" value="http://www.scy-lab.eu/content/en/mission4/missionMapInstruction.html"/>
             <property name="initialLasId" value="Biology Information"/>
             <property name="loEloUris">
