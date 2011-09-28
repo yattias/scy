@@ -30,14 +30,13 @@ public class UrlInspector {
     private static Logger log = Logger.getLogger("UrlInspector.class");
 
     public Object instpectRequest(HttpServletRequest request, HttpServletResponse httpServletResponse) {
-        log.info(request.getQueryString());
+        log.fine(request.getQueryString());
         Enumeration parameterNames = request.getParameterNames();
         Map parameterMap = request.getParameterMap();
         while (parameterNames.hasMoreElements()) {
             Object o = parameterNames.nextElement();
             Object[] v = (Object[]) parameterMap.get(o);
             String value = Arrays.deepToString(v);
-            System.out.println("--[" + o + "]-- [" + value + "]");
         }
 
         String modelString = request.getParameter("model");
@@ -58,7 +57,6 @@ public class UrlInspector {
         }
 
         String eloURI = request.getParameter("eloURI");
-        log.info("URI: " + eloURI);
         if (eloURI != null && eloURI.length() > 0) {
             try {
                 String uri = URLDecoder.decode(eloURI, "UTF-8");
