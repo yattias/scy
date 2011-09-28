@@ -32,6 +32,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.plaf.metal.MetalLookAndFeel;
 
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
@@ -184,7 +185,7 @@ public class SCYMapperStandalone extends JFrame {
 //        }
 
 		try {
-			UIManager.setLookAndFeel(new WindowsLookAndFeel());
+			UIManager.setLookAndFeel(new MetalLookAndFeel());
 		} catch (Exception e) {
 			System.err.println("Can't set look & feel:" + e);
 		}

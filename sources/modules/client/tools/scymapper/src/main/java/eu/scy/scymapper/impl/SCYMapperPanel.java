@@ -26,6 +26,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
@@ -279,14 +280,14 @@ public class SCYMapperPanel extends JPanel implements INotifiable {
         cmapPanel.setBackground(Color.WHITE);
         conceptDiagramView = cmapPanel.getDiagramView();
 
-        toolBar = createToolbar(conceptMap, conceptDiagramView);
-        JPanel palettePane = new PalettePane(conceptMap, configuration, cmapPanel);
-        topToolBarPanel.add(toolBar);
+//        toolBar = createToolbar(conceptMap, conceptDiagramView);
+        JToolBar palettePane = new PalettePane(conceptMap, configuration, cmapPanel);
+//        topToolBarPanel.add(toolBar);
         // topToolBarPanel.add(palettePane);
 
         createKeywordSuggestionPanel();
 
-        add(BorderLayout.NORTH, topToolBarPanel);
+//        add(BorderLayout.NORTH, topToolBarPanel);
         add(BorderLayout.WEST, palettePane);
         add(BorderLayout.CENTER, cmapPanel);
         add(BorderLayout.EAST, suggestionPanel);

@@ -1,5 +1,38 @@
 package eu.scy.scymapper.impl.ui.palette;
 
+import java.awt.AlphaComposite;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.MediaTracker;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.Toolkit;
+import java.awt.Transparency;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.net.URL;
+import java.util.List;
+
+import javax.swing.BoxLayout;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JToggleButton;
+import javax.swing.JToolBar;
+
+import org.apache.log4j.Logger;
+
 import eu.scy.scymapper.api.IConceptMap;
 import eu.scy.scymapper.api.ILinkFactory;
 import eu.scy.scymapper.api.INodeFactory;
@@ -14,18 +47,14 @@ import eu.scy.scymapper.impl.ui.ConceptMapPanel;
 import eu.scy.scymapper.impl.ui.diagram.LinkView;
 import eu.scy.scymapper.impl.ui.diagram.modes.ConnectMode;
 import eu.scy.scymapper.impl.ui.diagram.modes.DragMode;
-import org.apache.log4j.Logger;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.util.List;
+import eu.scy.scymapper.impl.ui.toolbar.BackgroundColorButton;
+import eu.scy.scymapper.impl.ui.toolbar.ForegroundColorButton;
+import eu.scy.scymapper.impl.ui.toolbar.RemoveConceptButton;
 
 /**
  * User: Bjoerge Naess Date: 03.sep.2009 Time: 13:24:59
  */
-public class PalettePane extends JPanel {
+public class PalettePane extends JToolBar {
 
     private final static Logger logger = Logger.getLogger(PalettePane.class);
 
@@ -41,10 +70,14 @@ public class PalettePane extends JPanel {
 
     private List<INodeFactory> connectorFactories;
 
+    private IConceptMap conceptMap;
+
     // private FillStyleCheckbox opaqueCheckbox;
     // private volatile NodeColorChooserPanel nodeColorChooser;
 
     public PalettePane(IConceptMap conceptMap, ISCYMapperToolConfiguration conf, ConceptMapPanel conceptMapPanel) {
+        this.setFloatable(false);
+        this.conceptMap = conceptMap;
         this.conceptMapPanel = conceptMapPanel;
         this.linkFactories = conf.getLinkFactories();
         this.nodeFactories = conf.getNodeFactories();
@@ -53,12 +86,17 @@ public class PalettePane extends JPanel {
     }
 
     private void initComponents() {
-        // setLayout(new MigLayout("wrap, center", "[grow,fill]"));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         createNodeButtons();
         createConnectorButtons();
         createLinkButtons();
+
+        addSeparator();
+        addSeparator();
+        add(new BackgroundColorButton(conceptMapPanel.getDiagramView(), conceptMap.getDiagramSelectionModel()));
+        addSeparator();
+        add(new RemoveConceptButton(conceptMap, conceptMapPanel.getDiagramView()));
 
         // add(nodeStylePanel);
         JScrollPane nodeScrollPane = new JScrollPane(this);
@@ -158,13 +196,28 @@ public class PalettePane extends JPanel {
         }
     }
 
+    public static ImageIcon getImageIcon(URL url) {
+        // DEBUGLOGGER.info("loading "+url);
+        if (url != null) {
+            ImageIcon image = new ImageIcon(url);
+            while (image.getImageLoadStatus() != MediaTracker.COMPLETE) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ex) {}
+            }
+            return image;
+        } else {
+            return null;
+        }
+    }
+
     private void createNodeButtons() {
 
         for (final INodeFactory nodeFactory : nodeFactories) {
 
             final JToggleButton button = new JToggleButton(nodeFactory.getIcon());
+            button.setFocusPainted(false);
             button.setHorizontalAlignment(JButton.CENTER);
-
             button.addActionListener(new ActionListener() {
 
                 @Override
@@ -201,6 +254,7 @@ public class PalettePane extends JPanel {
             });
             add(button);
         }
+
     }
 
     private AlphaComposite makeComposite(float alpha) {
