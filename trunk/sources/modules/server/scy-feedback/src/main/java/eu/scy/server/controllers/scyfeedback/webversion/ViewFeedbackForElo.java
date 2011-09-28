@@ -122,6 +122,7 @@ public class ViewFeedbackForElo extends BaseController {
 
             
             modelAndView.addObject("feedbackElo", feedbackEloTransfer);
+            modelAndView.addObject(ELO_URI, getEncodedUri(request.getParameter(ELO_URI)));
             
 
         } catch (Exception e) {
