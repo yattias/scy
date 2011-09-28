@@ -75,6 +75,10 @@ public class ConfigureAssessmentController extends BaseController {
                     setTeacherQuestionType(missionSpecificationElo, pedagogicalPlanTransfer, anchorEloURI, request);
                 } else if(action.equals("setTeacherQuestionTypeToSlider")) {
                     setTeacherQuestionType(missionSpecificationElo, pedagogicalPlanTransfer, anchorEloURI, request);
+                } else if(action.equals("setReflectionQuestionToText")) {
+                    setReflectionQuestion(missionSpecificationElo, pedagogicalPlanTransfer, anchorEloURI, request);
+                } else if(action.equals("setReflectionQuestionToSlider")) {
+                    setReflectionQuestion(missionSpecificationElo, pedagogicalPlanTransfer, anchorEloURI, request);
                 }
 
             }
@@ -114,6 +118,23 @@ public class ConfigureAssessmentController extends BaseController {
             e.printStackTrace();
         }
 
+    }
+
+    private void setReflectionQuestion(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer, String anchorEloURI, HttpServletRequest request) {
+        String reflectionQuestionId = request.getParameter("reflectionQuestion");
+        String aURI = getEncodedUri(anchorEloURI);
+        String type = "text";
+        if(request.getParameter("action").equals("setReflectionQuestionToSlider")) type = "slider";
+        List reflectionQuestionsForAnchorElo = pedagogicalPlanTransfer.getAssessmentSetup().getReflectionQuestionsForAnchorElo(aURI);
+        for (int i = 0; i < reflectionQuestionsForAnchorElo.size(); i++) {
+            ReflectionQuestion reflectionQuestion = (ReflectionQuestion) reflectionQuestionsForAnchorElo.get(i);
+            if(reflectionQuestion.getId().equals(reflectionQuestionId)) reflectionQuestion.setType(type);
+        }
+
+        ScyElo pedagogicalPlanElo = getPedagogicalPlanEloForMission(missionSpecificationElo);
+        pedagogicalPlanElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(pedagogicalPlanTransfer));
+        pedagogicalPlanElo.updateElo();
+        
     }
 
     private void setTeacherQuestionType(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer, String anchorEloURI, HttpServletRequest request) {
