@@ -104,12 +104,48 @@
 
                 <br/>
                 <strong>${transferElo.myname}</strong><br/>
-                By: ${transferElo.createdBy}<br/>
-                Entered: ${transferElo.createdDate} <br/>
-                Viewed: ${feedbackElo.shown}<br/>
-                Total Score: ${feedbackElo.score}<br/>
-                Average score: <img src="/webapp/themes/scy/default/images/smiley_${feedbackElo.averageScore}.png" alt=""  /><br/>
-                
+                <table style="border:white">
+                    <tr>
+                        <td width="30%">
+                            By:
+                        </td>
+                        <td>
+                            ${transferElo.createdBy}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Entered:
+                        </td>
+                        <td>
+                            ${transferElo.createdDate}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Viewed:
+                        </td>
+                        <td>
+                            ${feedbackElo.shown}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Total Score:
+                        </td>
+                        <td>
+                            ${feedbackElo.score}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Average score:
+                        </td>
+                        <td>
+                            <img src="/webapp/themes/scy/default/images/smiley_${feedbackElo.averageScore}.png" alt=""  />
+                        </td>
+                    </tr>
+                </table>
 
         </div>
         <div dojoType="dojox.layout.ContentPane" style="width:50%;float:left;" executeScripts="true" parseOnLoad="true">
