@@ -29,9 +29,6 @@ import java.util.Map;
 public class SessionAgent extends AbstractRequestAgent {
 
     private static final int SESSION_TUPLE_EXPIRATION = AgentProtocol.HOUR * 4;
-    private static final String MISSION_NAME = "missionName";
-    private static final String MISSION_ID = "missionId";
-    private static final String MISSION_SPECIFICATION = "missionSpecification";
 
     public static final String NAME = SessionAgent.class.getName();
 
@@ -41,16 +38,16 @@ public class SessionAgent extends AbstractRequestAgent {
 
     public SessionAgent(Map<String, Object> params) {
         super(NAME, params);
-        if ( params.containsKey(AgentProtocol.TS_HOST) ) {
+        if (params.containsKey(AgentProtocol.TS_HOST)) {
             host = (String) params.get(AgentProtocol.TS_HOST);
         }
-        if ( params.containsKey(AgentProtocol.TS_PORT) ) {
+        if (params.containsKey(AgentProtocol.TS_PORT)) {
             port = (Integer) params.get(AgentProtocol.TS_PORT);
         }
         try {
             actionTupleListenerId = getActionSpace().eventRegister(
                     Command.WRITE, getActivationTuple(), this, true);
-        } catch ( TupleSpaceException e ) {
+        } catch (TupleSpaceException e) {
             e.printStackTrace();
         }
     }
@@ -64,11 +61,11 @@ public class SessionAgent extends AbstractRequestAgent {
     @Override
     protected void doRun() throws TupleSpaceException, AgentLifecycleException,
             InterruptedException {
-        while ( status == Status.Running ) {
+        while (status == Status.Running) {
             sendAliveUpdate();
             try {
                 Thread.sleep(AgentProtocol.ALIVE_INTERVAL / 3);
-            } catch ( InterruptedException e ) {
+            } catch (InterruptedException e) {
                 throw new AgentLifecycleException(e.getMessage(), e);
             }
         }
@@ -92,21 +89,21 @@ public class SessionAgent extends AbstractRequestAgent {
     @Override
     public void call(Command command, int seq, Tuple activationTuple,
                      Tuple beforeTuple) {
-        if ( seq == actionTupleListenerId ) {
+        if (seq == actionTupleListenerId) {
             IAction action = ActionTupleTransformer
                     .getActionFromTuple(activationTuple);
             String type = action.getType();
-            if ( type.equals(ActionConstants.ACTION_TOOL_OPENED) ) {
+            if (type.equals(ActionConstants.ACTION_TOOL_OPENED)) {
                 handleToolOpened(action);
-            } else if ( type.equals(ActionConstants.ACTION_TOOL_CLOSED) ) {
+            } else if (type.equals(ActionConstants.ACTION_TOOL_CLOSED)) {
                 handleToolClosed(action);
-            } else if ( type.equals(ActionConstants.ACTION_LAS_CHANGED) ) {
+            } else if (type.equals(ActionConstants.ACTION_LAS_CHANGED)) {
                 handleLasChanged(action);
-            } else if ( type.equals(ActionConstants.ACTION_LOG_IN) ) {
+            } else if (type.equals(ActionConstants.ACTION_LOG_IN)) {
                 handleLogin(action);
-            } else if ( type.equals(ActionConstants.ACTION_LOG_OUT) ) {
+            } else if (type.equals(ActionConstants.ACTION_LOG_OUT)) {
                 handleLogout(action);
-            } else if ( type.equals(ActionConstants.ACTION_ELO_SAVED) ) {
+            } else if (type.equals(ActionConstants.ACTION_ELO_SAVED)) {
                 updateToolOpened(action);
             }
         } else {
@@ -120,11 +117,11 @@ public class SessionAgent extends AbstractRequestAgent {
         String oldEloUri = action.getAttribute(ActionConstants.OLD_ELO_URI);
         String newEloUri = action.getAttribute(ActionConstants.ELO_URI);
 
-        if ( oldEloUri == null ) {
+        if (oldEloUri == null) {
             LOGGER.warn("elo_saved action does not contain oldUri: " + action);
             return;
         }
-        if ( newEloUri == null ) {
+        if (newEloUri == null) {
             LOGGER.warn("elo_saved action does not contain newUri: " + action);
             return;
         }
@@ -132,13 +129,13 @@ public class SessionAgent extends AbstractRequestAgent {
             Tuple[] tuples = getSessionSpace().readAll(
                     new Tuple(Session.TOOL, action.getUser(), action
                             .getContext(ContextConstants.tool), oldEloUri));
-            for ( Tuple tuple : tuples ) {
+            for (Tuple tuple : tuples) {
                 Tuple toolTuple = new Tuple(Session.TOOL, action.getUser(),
                         action.getContext(ContextConstants.tool), newEloUri);
                 toolTuple.setExpiration(SESSION_TUPLE_EXPIRATION);
                 getSessionSpace().update(tuple.getTupleID(), toolTuple);
             }
-        } catch ( TupleSpaceException e ) {
+        } catch (TupleSpaceException e) {
             e.printStackTrace();
         }
     }
@@ -147,7 +144,7 @@ public class SessionAgent extends AbstractRequestAgent {
     private void handleLogout(IAction action) {
         try {
             cleanSession(action);
-        } catch ( TupleSpaceException e ) {
+        } catch (TupleSpaceException e) {
             LOGGER.warn("", e);
         }
     }
@@ -166,7 +163,7 @@ public class SessionAgent extends AbstractRequestAgent {
         try {
             cleanSession(action);
             String language = action.getAttribute(Session.LANGUAGE);
-            if ( language != null ) {
+            if (language != null) {
                 Tuple languageTuple = new Tuple(Session.LANGUAGE, user,
                         language);
                 languageTuple.setExpiration(SESSION_TUPLE_EXPIRATION);
@@ -174,26 +171,26 @@ public class SessionAgent extends AbstractRequestAgent {
             } else {
                 LOGGER.warn("language is null");
             }
-            String missionSpecification = action.getAttribute(MISSION_SPECIFICATION);
-            if ( missionSpecification == null ) {
+            String missionSpecification = action.getAttribute(ActionConstants.MISSION_SPECIFICATION);
+            if (missionSpecification == null) {
                 LOGGER.warn("missionspecification is null");
             }
             String missionRuntime = action.getContext(ContextConstants.mission);
-            if ( missionRuntime == null ) {
+            if (missionRuntime == null) {
                 LOGGER.warn("missionspecification is null");
             }
-            String missionName = action.getAttribute(MISSION_NAME);
-            if ( missionName == null ) {
+            String missionName = action.getAttribute(ActionConstants.MISSION_NAME);
+            if (missionName == null) {
                 LOGGER.warn("missionName is null");
             }
-            String missionId = action.getAttribute(MISSION_ID);
-            if ( missionId == null ) {
+            String missionId = action.getAttribute(ActionConstants.MISSION_ID);
+            if (missionId == null) {
                 LOGGER.warn("missionName is null");
             }
             Tuple missionTuple = new Tuple(Session.MISSION, user, missionSpecification, missionName, missionRuntime, missionId);
             missionTuple.setExpiration(SESSION_TUPLE_EXPIRATION);
             getSessionSpace().write(missionTuple);
-        } catch ( TupleSpaceException e ) {
+        } catch (TupleSpaceException e) {
             LOGGER.warn("", e);
         }
     }
@@ -214,7 +211,7 @@ public class SessionAgent extends AbstractRequestAgent {
                     missionSpec, action.getAttribute(ActionConstants.LAS));
             lasTuple.setExpiration(SESSION_TUPLE_EXPIRATION);
             getSessionSpace().write(lasTuple);
-        } catch ( TupleSpaceException e ) {
+        } catch (TupleSpaceException e) {
             LOGGER.warn("", e);
         }
         sendNotification(action);
@@ -236,7 +233,7 @@ public class SessionAgent extends AbstractRequestAgent {
         notification.add("newLas=" + action.getAttribute(ActionConstants.LAS));
         try {
             getCommandSpace().write(notification);
-        } catch ( TupleSpaceException e ) {
+        } catch (TupleSpaceException e) {
             e.printStackTrace();
         }
     }
@@ -248,7 +245,7 @@ public class SessionAgent extends AbstractRequestAgent {
                             .getContext(ContextConstants.tool), action
                             .getContext(ContextConstants.eloURI)));
             updateTuples(action);
-        } catch ( TupleSpaceException e ) {
+        } catch (TupleSpaceException e) {
             LOGGER.warn("", e);
         }
     }
@@ -261,7 +258,7 @@ public class SessionAgent extends AbstractRequestAgent {
                     action.getContext(ContextConstants.eloURI));
             toolTuple.setExpiration(SESSION_TUPLE_EXPIRATION);
             getSessionSpace().write(toolTuple);
-        } catch ( TupleSpaceException e ) {
+        } catch (TupleSpaceException e) {
             LOGGER.warn("", e);
         }
     }
@@ -269,7 +266,7 @@ public class SessionAgent extends AbstractRequestAgent {
     private void updateTuples(IAction action) throws TupleSpaceException {
         Tuple[] languageTuples = getSessionSpace().readAll(
                 new Tuple(String.class, action.getUser(), String.class));
-        for ( Tuple languageTuple : languageTuples ) {
+        for (Tuple languageTuple : languageTuples) {
             languageTuple.setExpiration(SESSION_TUPLE_EXPIRATION);
             getSessionSpace().update(languageTuple.getTupleID(), languageTuple);
         }
@@ -277,7 +274,7 @@ public class SessionAgent extends AbstractRequestAgent {
         Tuple[] tuples = getSessionSpace().readAll(
                 new Tuple(String.class, action.getUser(), String.class,
                         String.class));
-        for ( Tuple tuple : tuples ) {
+        for (Tuple tuple : tuples) {
             tuple.setExpiration(SESSION_TUPLE_EXPIRATION);
             getSessionSpace().update(tuple.getTupleID(), tuple);
         }
