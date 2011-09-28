@@ -176,8 +176,8 @@ public class WhiteboardPanel extends javax.swing.JPanel implements MouseMotionLi
       addWhiteboardAction(new FreehandAction(this, "Free"));
       addWhiteboardAction(new SimpleTextAction(this, "Text"));
       addWhiteboardAction(new InsertImageAction(this, "Insert image"));
-      addWhiteboardAction(new TagPointerAction(this, "Tag"));
-      addWhiteboardAction(new InfoAction(this, "Info"));
+//      addWhiteboardAction(new TagPointerAction(this, "Tag"));
+//      addWhiteboardAction(new InfoAction(this, "Info"));
       addWhiteboardAction(new PenSizeSelector(this, stateSize));
       addWhiteboardAction(new LineColorSelector(this, stateSize));
       addWhiteboardAction(new FillColorSelector(this, stateSize));
