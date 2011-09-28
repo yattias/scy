@@ -124,7 +124,7 @@
                                                     <strong><spring:message code="LEVEL"/></strong>
                                                 </td>
                                             </c:if>
-                                            <td width="3%" style="background-color:#333333;color:#ffffff;">&nbsp;</td>
+                                            <!--td width="3%" style="background-color:#333333;color:#ffffff;">&nbsp;</td-->
                                         </tr>
 
                                         <c:forEach var="generalLearningGoalWithScore" items="${selectedGeneralLearningGoalWithScores}">
@@ -170,14 +170,14 @@
                                                         </c:if>
                                                     </td>
                                                 </c:if>
-                                                <td>
+                                                <!--td>
                                                     <center>
                                                         <a href="javascript:if(confirm('Do you really want to delete this?')){ location.href='editEloReflections.html?anchorEloURI='  + encodeURIComponent('${anchorEloURI}') + '&amp;eloURI='  + encodeURIComponent('${eloURI}') + '&amp;missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;generalLearningGoalWithScoreId=${generalLearningGoalWithScore.id}&amp;action=delete';}">
                                                             <img src="/webapp/themes/scy/default/images/trash.png" alt="delete"/>
                                                         </a>
                                                         
                                                     </center>
-                                                </td>
+                                                </td-->
 
 
                                             </tr>
@@ -238,7 +238,7 @@
                                                     <strong><spring:message code="LEVEL"/></strong>
                                                 </td>
                                             </c:if>
-                                            <td width="3%" style="background-color:#333333;color:#ffffff;"></td>
+                                            <!--td width="3%" style="background-color:#333333;color:#ffffff;"></td-->
                                         </tr>
 
                                         <c:forEach var="generalLearningGoalWithScore" items="${selectedSpecificLearningGoalWithScores}">
@@ -284,13 +284,13 @@
                                                         </c:if>
                                                     </td>
                                                 </c:if>
-                                                <td>
+                                                <!--td>
                                                     <center>
                                                         <a href="javascript:if(confirm('Do you really want to delete this?')){ location.href='editEloReflections.html?anchorEloURI='  + encodeURIComponent('${anchorEloURI}') + '&amp;eloURI='  + encodeURIComponent('${eloURI}') + '&amp;missionRuntimeURI=' + encodeURIComponent('${missionRuntimeURI}') + '&amp;generalLearningGoalWithScoreId=${generalLearningGoalWithScore.id}&amp;action=delete';}">
                                                             <img src="/webapp/themes/scy/default/images/trash.png" alt="delete"/>
                                                         </a>
                                                     </center>
-                                                </td>
+                                                </td-->
 
 
                                             </tr>
