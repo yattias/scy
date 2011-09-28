@@ -15,7 +15,7 @@
 		<property name="nodeFactories">
 			<list>
 				<bean class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
-					<property name="name" value=""/>
+					<property name="name" value="roundRectangle"/>
 					<property name="width" value="120"/>
 					<property name="height" value="46"/>
 					<property name="nodeShape">
@@ -44,9 +44,9 @@
 						<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
 						</bean>
 					</property>
-				</bean-->
+				</bean--><!--
 				<bean class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
-					<property name="name" value=""/>
+					<property name="name" value="diamond"/>
 					<property name="nodeShape">
 						<bean class="eu.scy.scymapper.impl.shapes.nodes.Diamond">
 						</bean>
@@ -56,8 +56,8 @@
 						</bean>
 					</property>
 				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
-					<property name="name" value=""/>
+				--><bean class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
+					<property name="name" value="hexagon"/>
 					<property name="nodeShape">
 						<bean class="eu.scy.scymapper.impl.shapes.nodes.Hexagon">
 						</bean>
@@ -68,7 +68,7 @@
 					</property>
 				</bean>
 				<bean class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
-					<property name="name" value=""/>
+					<property name="name" value="ellipse"/>
 					<property name="nodeShape">
 						<bean class="eu.scy.scymapper.impl.shapes.nodes.Ellipse">
 						</bean>
@@ -99,11 +99,11 @@
 		</property>
 		<property name="linkFactories">
 			<list>
-				<bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
+				<!--<bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
 					<property name="label" value=""/>
 					<property name="linkShape" ref="arrow"/>
 				</bean>
-				<!--bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
+				--><!--bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
 					<property name="label" value=""/>
 					<property name="linkShape" ref="quadCurvedArrow"/>
 				</bean-->
@@ -111,11 +111,11 @@
 					<property name="label" value=""/>
 					<property name="linkShape" ref="cubicCurvedArrow"/>
 				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
+				<!--<bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
 					<property name="label" value=""/>
 					<property name="linkShape" ref="bidirectional_arrow"/>
 				</bean>
-				<!--bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
+				--><!--bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
 					<property name="label" value=""/>
 					<property name="linkShape" ref="quadCurvedBiDirArrow"/>
 				</bean-->
@@ -123,11 +123,11 @@
 					<property name="label" value=""/>
 					<property name="linkShape" ref="cubicCurvedBiDirArrow"/>
 				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
+				<!--<bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
 					<property name="label" value=""/>
 					<property name="linkShape" ref="line"/>
 				</bean>
-				<!--bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
+				--><!--bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
 					<property name="label" value=""/>
 					<property name="linkShape" ref="quadCurvedLine"/>
 				</bean-->

@@ -4,6 +4,7 @@ import eu.scy.scymapper.api.diagram.model.INodeModel;
 
 import javax.swing.*;
 
+
 /**
  * Created by IntelliJ IDEA.
  * User: Bjorge Naess
