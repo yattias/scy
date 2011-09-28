@@ -238,6 +238,17 @@ public class Portfolio extends BaseXMLTransfer {
 
     public void addSelectedGeneralLearningGoalWithScore(SelectedLearningGoalWithScore selectedLearningGoalWithScore) {
         if(getSelectedGeneralLearningGoalWithScores() == null) setSelectedGeneralLearningGoalWithScores(new LinkedList<SelectedLearningGoalWithScore>());
+
+        String learningGoalId = selectedLearningGoalWithScore.getLearningGoalId();
+        SelectedLearningGoalWithScore existingSelectedLearningGoalWithScore = null;
+        for (int i = 0; i < getSelectedGeneralLearningGoalWithScores().size(); i++) {
+            SelectedLearningGoalWithScore learningGoalWithScore = getSelectedGeneralLearningGoalWithScores().get(i);
+            if(learningGoalWithScore.getLearningGoalId().equals(learningGoalId)) existingSelectedLearningGoalWithScore = learningGoalWithScore;
+        }
+
+        if(existingSelectedLearningGoalWithScore != null) getSelectedGeneralLearningGoalWithScores().remove(existingSelectedLearningGoalWithScore);
+
+
         getSelectedGeneralLearningGoalWithScores().add(selectedLearningGoalWithScore);
     }
 
@@ -262,6 +273,18 @@ public class Portfolio extends BaseXMLTransfer {
 
     public void addSelectedSpecificLearningGoalWithScore(SelectedLearningGoalWithScore selectedLearningGoalWithScore) {
         if(getSelectedSpecificLearningGoalWithScores() == null) setSelectedSpecificLearningGoalWithScores(new LinkedList<SelectedLearningGoalWithScore>());
+
+        String learningGoalId = selectedLearningGoalWithScore.getLearningGoalId();
+        SelectedLearningGoalWithScore existingSelectedLearningGoalWithScore = null;
+        for (int i = 0; i < getSelectedSpecificLearningGoalWithScores().size(); i++) {
+            SelectedLearningGoalWithScore learningGoalWithScore = getSelectedSpecificLearningGoalWithScores().get(i);
+            if(learningGoalWithScore.getLearningGoalId().equals(learningGoalId)) existingSelectedLearningGoalWithScore = learningGoalWithScore;
+        }
+
+        if(existingSelectedLearningGoalWithScore != null) getSelectedSpecificLearningGoalWithScores().remove(existingSelectedLearningGoalWithScore);
+        
+
+
         getSelectedSpecificLearningGoalWithScores().add(selectedLearningGoalWithScore);
     }
 
