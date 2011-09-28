@@ -147,11 +147,9 @@ public class EditEloReflections extends BaseController {
             }
 
 
-            boolean showWarningNoGeneralLearningGoalsAdded = false;
-            boolean showWarningNoSpecificLearningGoalsAdded = false;
+            boolean noLearningGoalsHaveBeenAdded = false;
 
-            if (selectedGeneralLearningGoalWithScores.size() == 0) showWarningNoGeneralLearningGoalsAdded = true;
-            if (selectedSpecificLearningGoalWithScores.size() == 0) showWarningNoSpecificLearningGoalsAdded = true;
+            if ((selectedSpecificLearningGoalWithScores.size() + selectedGeneralLearningGoalWithScores.size()) == 0) noLearningGoalsHaveBeenAdded = true;
 
             modelAndView.addObject("missionRuntimeURI", getEncodedUri(missionRuntimeElo.getUri().toString()));
             modelAndView.addObject(ELO_URI, getEncodedUri(eloURI.toString()));
@@ -165,8 +163,7 @@ public class EditEloReflections extends BaseController {
             } else {
                 modelAndView.addObject("portfolioLocked", false);
             }
-            modelAndView.addObject("showWarningNoGeneralLearningGoalsAdded", showWarningNoGeneralLearningGoalsAdded);
-            modelAndView.addObject("showWarningNoSpecificLearningGoalsAdded", showWarningNoSpecificLearningGoalsAdded);
+            modelAndView.addObject("noLearningGoalsHaveBeenAdded", noLearningGoalsHaveBeenAdded);
             modelAndView.addObject("showWarning", showWarning);
             modelAndView.addObject("warningText", warningText);
             modelAndView.addObject("eloCanBeAddedToPortfolio", eloCanBeAddedToPortfolio);

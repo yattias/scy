@@ -71,7 +71,7 @@
                 </td>
             </tr>
         </c:if>
-        <c:if test="${showWarningNoSpecificLearningGoalsAdded}">
+        <c:if test="${noLearningGoalsHaveBeenAdded}">
 
                 <tr>
                     <td width="100%" colspan="2">
