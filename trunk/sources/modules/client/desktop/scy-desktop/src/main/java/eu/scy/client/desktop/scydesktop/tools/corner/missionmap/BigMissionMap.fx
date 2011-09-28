@@ -42,13 +42,20 @@ public class BigMissionMap extends MissionMap, Resizable {
 
    init {
       tooltipManager = SemiPermanentTooltipManager {
-         }
+              }
    }
 
    public override function create(): Node {
       missionMapNode = super.create();
-      bubbleManager.createBubble(anchorDisplays[0], BubbleLayer.MISSION_MAP, BubbleKey.MISSION_MAP_ANCHOR_ELO_CLICK, anchorDisplays[0].las.mainAnchor.windowColorScheme);
-      bubbleManager.createBubble(anchorDisplays[1], BubbleLayer.MISSION_MAP, BubbleKey.MISSION_MAP_ANCHOR_ELO_HOVER, anchorDisplays[1].las.mainAnchor.windowColorScheme);
+      if (anchorDisplays[0] != null) {
+         bubbleManager.createBubble(anchorDisplays[0], BubbleLayer.MISSION_MAP, BubbleKey.MISSION_MAP_ANCHOR_ELO_MAP, anchorDisplays[0].las.mainAnchor.windowColorScheme);
+      }
+      if (anchorDisplays[1] != null) {
+         bubbleManager.createBubble(anchorDisplays[1], BubbleLayer.MISSION_MAP, BubbleKey.MISSION_MAP_ANCHOR_ELO_CLICK, anchorDisplays[0].las.mainAnchor.windowColorScheme);
+      }
+      if (anchorDisplays[2] != null) {
+         bubbleManager.createBubble(anchorDisplays[2], BubbleLayer.MISSION_MAP, BubbleKey.MISSION_MAP_ANCHOR_ELO_HOVER, anchorDisplays[1].las.mainAnchor.windowColorScheme);
+      }
       missionBackgroundImageNode = getBackgroundImageNode();
       placeNodeOn00(missionMapNode);
       if (missionBackgroundImageNode != null) {
@@ -59,15 +66,15 @@ public class BigMissionMap extends MissionMap, Resizable {
       Group {
          content: [
             backgroundGroup = Group {
-                  content: [
-                     missionBackgroundImageNode,
-                  ]
-               }
+                       content: [
+                          missionBackgroundImageNode,
+                       ]
+                    }
             missionMapGroup = Group {
-                  content: [
-                     missionMapNode
-                  ]
-               }
+                       content: [
+                          missionMapNode
+                       ]
+                    }
          ]
          onMouseClicked: function(e: MouseEvent): Void {
             tooltipManager.removeTooltip();
@@ -78,11 +85,11 @@ public class BigMissionMap extends MissionMap, Resizable {
    function getBackgroundImageNode(): Node {
       if (missionModel.missionMapBackgroundImageUri != null and missionModel.missionMapBackgroundImageUri.toString().length() > 0) {
          def missionMapBackgroundImageNode = FXDNode {
-               url: uriLocalizer.localizeUriWithChecking(missionModel.missionMapBackgroundImageUri.toString())
-               backgroundLoading: false
-            }
+                    url: uriLocalizer.localizeUriWithChecking(missionModel.missionMapBackgroundImageUri.toString())
+                    backgroundLoading: false
+                 }
          def node = missionMapBackgroundImageNode.getNode(missionBackgroundImageName);
-         if (node==null){
+         if (node == null) {
             logger.warn("Could not find node named {missionBackgroundImageName} in {missionModel.missionMapBackgroundImageUri}");
             return null;
          }
@@ -93,12 +100,12 @@ public class BigMissionMap extends MissionMap, Resizable {
    }
 
    function placeNodeOn00(node: Node) {
-//      println(" before : layoutBounds :{node.layoutBounds}");
-//      println(" before : boundsInLocal:{node.boundsInLocal}");
+      //      println(" before : layoutBounds :{node.layoutBounds}");
+      //      println(" before : boundsInLocal:{node.boundsInLocal}");
       node.translateX = -node.layoutBounds.minX;
       node.translateY = -node.layoutBounds.minY;
-//      println(" after  : layoutBounds :{node.layoutBounds}");
-//      println(" after  : boundsInLocal:{node.boundsInLocal}");
+   //      println(" after  : layoutBounds :{node.layoutBounds}");
+   //      println(" after  : boundsInLocal:{node.boundsInLocal}");
    }
 
    package function adjustSize() {
@@ -127,10 +134,9 @@ public class BigMissionMap extends MissionMap, Resizable {
    }
 
    function centerGroup(group: Group) {
-       group.layoutX = width/2-group.layoutBounds.width/2;
-       group.layoutY = height/2-group.layoutBounds.height/2;
+      group.layoutX = width / 2 - group.layoutBounds.width / 2;
+      group.layoutY = height / 2 - group.layoutBounds.height / 2;
    }
-
 
    override function getPrefWidth(width: Number): Number {
       missionMapNode.layoutBounds.width * scale
@@ -152,6 +158,5 @@ public class BigMissionMap extends MissionMap, Resizable {
          });
       });
    }
-
 
 }
