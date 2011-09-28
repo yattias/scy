@@ -1,3 +1,4 @@
+"\nEverything will be saved."="\nEverything will be saved."
 "Accept"="Accept"
 "Accept?"="Accept?"
 "Advanced search"="Advanced search"
@@ -5,7 +6,7 @@
 "and"="and"
 "and others"="and others"
 "Are you sure you want to quit SCY-Lab?"="Are you sure you want to quit SCY-Lab?"
-"\nEverything will be saved."="\nEverything will be saved."
+"Are you sure you want to quit SCY-Lab?\nEverything will be saved."=""
 "Assignment"="Assignment"
 "Author"="Auteur"
 "Author(s)"="Author(s)"
