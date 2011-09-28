@@ -32,6 +32,7 @@ import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleManager;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleLayer;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleKey;
+import eu.scy.client.desktop.scydesktop.tooltips.Bubble;
 
 /**
  * @author SikkenJ
@@ -39,7 +40,7 @@ import eu.scy.client.desktop.scydesktop.tooltips.BubbleKey;
 public class MoreInfoWindow extends CustomNode {
 
    def iconSize = 40.0;
-   public var windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
+   public var windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray) on replace {windowColorSchemeChanged()};
    public var tooltipManager: TooltipManager;
    public var bubbleManager: BubbleManager;
    public var width = 300.0;
@@ -107,12 +108,19 @@ public class MoreInfoWindow extends CustomNode {
               layoutX: borderWidth + borderLineWidth / 2.0;
               layoutY: topBorderWidth + borderLineWidth / 2.0;
            }
+   var closeButtonBubble: Bubble;
+   var openCloseControlButton: Bubble;
+
+   function windowColorSchemeChanged():Void{
+      closeButtonBubble.windowColorScheme = windowColorScheme;
+      openCloseControlButton.windowColorScheme = windowColorScheme;
+   }
 
    public override function create(): Node {
       if (not hideCloseButton){
-         bubbleManager.createBubble(windowClose, bubbleLayerId, closeBubbleKey,windowColorScheme)
+         closeButtonBubble = bubbleManager.createBubble(windowClose, bubbleLayerId, closeBubbleKey,windowColorScheme)
       }
-      bubbleManager.createBubble(curtainControl, bubbleLayerId, openCloseBubbleKey,windowColorScheme);
+      openCloseControlButton = bubbleManager.createBubble(curtainControl, bubbleLayerId, openCloseBubbleKey,windowColorScheme);
 
       Group {
          blocksMouse: true
