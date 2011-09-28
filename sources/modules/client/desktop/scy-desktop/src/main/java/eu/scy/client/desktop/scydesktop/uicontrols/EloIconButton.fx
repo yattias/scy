@@ -30,11 +30,12 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import org.apache.log4j.Logger;
+import eu.scy.client.desktop.scydesktop.draganddrop.DropTarget2;
 
 /**
  * @author SikkenJ
  */
-public class EloIconButton extends CustomNode, TooltipCreator {
+public class EloIconButton extends CustomNode, TooltipCreator, DropTarget2 {
 
    def logger = Logger.getLogger(this.getClass());
    var originalWindowColorScheme = WindowColorScheme {};
@@ -344,6 +345,17 @@ public class EloIconButton extends CustomNode, TooltipCreator {
       }
       return null;
    }
+
+   // for DND stuff
+   public override function dropEntered(object : Object, canAccept :  Boolean) : Void {}
+
+   public override function dropLeft(object : Object) {}
+
+   public override function canAcceptDrop(object :  Object) : Boolean {
+       return false;
+   }
+
+   public override function acceptDrop(object : Object) {}
 
 }
 
