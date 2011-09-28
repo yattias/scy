@@ -22,18 +22,18 @@ public class AgentParameterAPIImpl implements AgentParameterAPI {
     private static final String TS_USER = "AgentParameterSetterImpl";
     private TupleSpace tupleSpace;
 
-    public AgentParameterAPIImpl() {
+    public AgentParameterAPIImpl() throws TupleSpaceException {
         this(Configuration.getInstance().getSQLSpacesServerHost(),
                 Configuration.getInstance().getSQLSpacesServerPort());
     }
 
-    public AgentParameterAPIImpl(String tsHost, int tsPort) {
-        try {
-            tupleSpace = new TupleSpace(new User(TS_USER), tsHost, tsPort,
-                    true, false, AgentProtocol.COMMAND_SPACE_NAME);
-        } catch ( TupleSpaceException e ) {
-            e.printStackTrace();
-        }
+    public AgentParameterAPIImpl(String tsHost, int tsPort) throws TupleSpaceException {
+        this(new TupleSpace(new User(TS_USER), tsHost, tsPort,
+                true, false, AgentProtocol.COMMAND_SPACE_NAME));
+    }
+
+    public AgentParameterAPIImpl(TupleSpace tupleSpace) {
+        this.tupleSpace = tupleSpace;
     }
 
     private <T> Tuple createSetParameterTupleTemplate(String agentName,
@@ -41,13 +41,13 @@ public class AgentParameterAPIImpl implements AgentParameterAPI {
         Tuple setParameterTuple = AgentProtocol
                 .getParameterSetTupleTemplate();
         setParameterTuple.getField(1).setValue(agentName);
-        if ( mission == null ) {
+        if (mission == null) {
             setParameterTuple.getField(2).setValue(NA);
         } else {
 
             setParameterTuple.getField(2).setValue(mission);
         }
-        if ( user == null ) {
+        if (user == null) {
             setParameterTuple.getField(3).setValue(NA);
         } else {
             setParameterTuple.getField(3).setValue(user);
@@ -63,12 +63,12 @@ public class AgentParameterAPIImpl implements AgentParameterAPI {
         Tuple getParameterTuple = AgentProtocol
                 .getParameterGetQueryTupleTemplate();
         getParameterTuple.getField(2).setValue(agentName);
-        if ( mission == null ) {
+        if (mission == null) {
             getParameterTuple.getField(3).setValue(NA);
         } else {
             getParameterTuple.getField(3).setValue(mission);
         }
-        if ( user == null ) {
+        if (user == null) {
             getParameterTuple.getField(4).setValue(NA);
         } else {
             getParameterTuple.getField(4).setValue(user);
@@ -88,11 +88,11 @@ public class AgentParameterAPIImpl implements AgentParameterAPI {
             Tuple getParameterResponse = tupleSpace.waitToRead(AgentProtocol
                     .getParameterGetResponseTupleTemplate(agentName),
                     AgentProtocol.MINUTE);
-            if ( getParameterResponse == null ) {
+            if (getParameterResponse == null) {
                 return null;
             }
             return (T) getParameterResponse.getField(6).getValue();
-        } catch ( TupleSpaceException e ) {
+        } catch (TupleSpaceException e) {
             e.printStackTrace();
         }
         return null;
@@ -112,7 +112,7 @@ public class AgentParameterAPIImpl implements AgentParameterAPI {
                     agentName, parameter.getMission(), parameter.getUser(),
                     parameter.getParameterName(), parameter.getParameterValue());
             tupleSpace.write(setParameterTuple);
-        } catch ( TupleSpaceException e ) {
+        } catch (TupleSpaceException e) {
             e.printStackTrace();
             throw new RuntimeException("Couldn't set parameter"
                     + parameter.getParameterName() + " for " + agentName, e);
@@ -132,12 +132,12 @@ public class AgentParameterAPIImpl implements AgentParameterAPI {
             Tuple responseTuple = tupleSpace.waitToRead(responseTupleFormat,
                     2 * AgentProtocol.MINUTE);
             List<String> parameterNames = new ArrayList<String>();
-            for ( int i = 4; i < responseTuple.getNumberOfFields(); i++ ) {
+            for (int i = 4; i < responseTuple.getNumberOfFields(); i++) {
                 parameterNames.add((String) responseTuple.getField(i)
                         .getValue());
             }
             return parameterNames;
-        } catch ( TupleSpaceException e ) {
+        } catch (TupleSpaceException e) {
             e.printStackTrace();
         }
         return Collections.emptyList();

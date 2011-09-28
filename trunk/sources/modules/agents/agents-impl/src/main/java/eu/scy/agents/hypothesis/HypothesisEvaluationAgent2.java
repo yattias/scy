@@ -5,10 +5,14 @@ import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Features;
 import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
 import de.fhg.iais.kd.tm.obwious.operator.Operator;
 import de.fhg.iais.kd.tm.obwious.type.Container;
+import eu.scy.actionlogging.ActionTupleTransformer;
+import eu.scy.actionlogging.api.ContextConstants;
+import eu.scy.actionlogging.api.IAction;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IRepositoryAgent;
 import eu.scy.agents.hypothesis.workflow.EvalHypothesisWorkflow;
 import eu.scy.agents.impl.AbstractELOSavedAgent;
+import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.AgentRooloServiceImpl;
 import eu.scy.agents.impl.EloTypes;
@@ -20,6 +24,7 @@ import eu.scy.agents.keywords.OntologyKeywordsAgent;
 import eu.scy.agents.util.Utilities;
 import eu.scy.common.scyelo.EloFunctionalRole;
 import eu.scy.common.scyelo.ScyElo;
+import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import org.apache.log4j.Logger;
@@ -66,6 +71,7 @@ public class HypothesisEvaluationAgent2 extends AbstractELOSavedAgent implements
     private AgentRooloServiceImpl rooloServices;
     private ModelStorage modelStorage;
     private static final String FIXED_KEYWORDS_MODEL = "fixedKeywordModel";
+    private int eloFinishedListener;
 
     public HypothesisEvaluationAgent2(Map<String, Object> map) {
         super(NAME, (String) map.get(AgentProtocol.PARAM_AGENT_ID),
@@ -73,6 +79,13 @@ public class HypothesisEvaluationAgent2 extends AbstractELOSavedAgent implements
                 .get(AgentProtocol.TS_PORT));
         rooloServices = new AgentRooloServiceImpl();
         modelStorage = new ModelStorage(getCommandSpace());
+        try {
+            eloFinishedListener = getActionSpace().eventRegister(Command.WRITE,
+                    new Tuple(ActionConstants.ACTION, String.class, Long.class, ActionConstants.ELO_FINISHED,
+                            Field.createWildCardField()), this, true);
+        } catch (TupleSpaceException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -105,6 +118,31 @@ public class HypothesisEvaluationAgent2 extends AbstractELOSavedAgent implements
     }
 
     @Override
+    public void call(Command command, int seq, Tuple afterTuple, Tuple beforeTuple) {
+        if (seq != eloFinishedListener) {
+            logger.debug("Callback passed to Superclass.");
+            super.call(command, seq, afterTuple, beforeTuple);
+            return;
+        }
+        IAction action = ActionTupleTransformer.getActionFromTuple(afterTuple);
+        String user = action.getUser();
+        String tool = action.getContext(ContextConstants.tool);
+        String session = action.getContext(ContextConstants.session);
+        String eloUri = action.getContext(ContextConstants.eloURI);
+
+        int scaffoldLevel = getScaffoldLevel(user);
+        try {
+            if (scaffoldLevel == AgentProtocol.SCAFFOLD_LEVEL_MEDIUM) {
+                runHypothesisChecking(user, tool, session, eloUri);
+            }
+        } catch (IOException e) {
+            logger.error(e);
+        } catch (TupleSpaceException e) {
+            logger.error(e);
+        }
+    }
+
+    @Override
     public void processELOSavedAction(String actionId, String user,
                                       long timeInMillis, String tool, String mission, String session,
                                       String eloUri, String eloType) {
@@ -112,66 +150,84 @@ public class HypothesisEvaluationAgent2 extends AbstractELOSavedAgent implements
             if (eloType == null) {
                 logger.warn(eloUri + " has no type");
             }
-            mission = getSession().getMission(user).getName();
-            String language = getSession().getLanguage(user);
-
-            if (eloUri == null) {
-                logger.warn("The eloUri in the elo_saved action was null. Hypothesis agent could not run.");
-                return;
+            int scaffoldLevel = getScaffoldLevel(user);
+            if (scaffoldLevel == AgentProtocol.SCAFFOLD_LEVEL_HIGH) {
+                runHypothesisChecking(user, tool, session, eloUri);
             }
-            ScyElo elo = ScyElo.loadElo(URI.create(eloUri), rooloServices);
-
-
-            if (!isCorrectEloType(elo)) {
-                return;
-            }
-
-            String text = "";
-            if (isRichtextElo(elo)) {
-                text = getRichtextEloText(elo.getElo());
-            } else {
-                text = Utilities.getEloText(elo.getElo(), SCYED_XPATH, logger);
-            }
-
-
-            Set<String> keywords = getSimpleKeywords(mission, language);
-            if (keywords.isEmpty()) {
-                keywords = getComplexKeywords(text, mission, language);
-            }
-
-            // make OBWIOUS document and process in workflow:
-            Document document = Utilities.convertTextToDocument(text);
-            ArrayList<String> kwList = new ArrayList<String>(keywords);
-            document.setFeature(Features.WORDS, kwList);
-            Operator cmpHistogramOp = new EvalHypothesisWorkflow()
-                    .getOperator("Main");
-            cmpHistogramOp.setInputParameter(ObjectIdentifiers.DOCUMENT,
-                    document);
-            Container result = cmpHistogramOp.run();
-            Document docResult = (Document) result
-                    .get(ObjectIdentifiers.DOCUMENT);
-            HashMap<Integer, Integer> hist = docResult
-                    .getFeature(KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM);
-
-            // addSentenceHistogramToMetadata(elo, hist);
-
-            // write HashMap histogram as a ByteArray object
-            ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
-            ObjectOutputStream out = new ObjectOutputStream(bytesOut);
-            out.writeObject(hist);
-            // write a tuple with Byte version of histogram to trigger the
-            // HypothesisEvaluation decision
-            // maker
-            Tuple activateDecisionMakerTuple = new Tuple(EVAL, user, mission,
-                    session, tool, eloUri, bytesOut.toByteArray());
-            getCommandSpace().write(activateDecisionMakerTuple);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e);
         } catch (TupleSpaceException e) {
-            e.printStackTrace();
+            logger.error(e);
+        }
+    }
+
+    private int getScaffoldLevel(String user) {
+        String missionName = getSession().getMission(user).getName();
+        String scaffoldLevelAsString = (String) configuration.getParameter(missionName, AgentProtocol.GLOBAL_SCAFFOLDING_LEVEL);
+        if (scaffoldLevelAsString == null) {
+            logger.warn("Scaffold level not set assuming 1");
+            scaffoldLevelAsString = "1";
+        }
+        return Integer.parseInt(scaffoldLevelAsString);
+    }
+
+    private void runHypothesisChecking(String user, String tool, String session, String eloUri) throws IOException, TupleSpaceException {
+        String language = getSession().getLanguage(user);
+        String mission = getSession().getMission(user).getName();
+
+        if (eloUri == null) {
+            logger.warn("The eloUri in the elo_saved action was null. Hypothesis agent could not run.");
+            return;
+        }
+        ScyElo elo = ScyElo.loadElo(URI.create(eloUri), rooloServices);
+        if (!isCorrectEloType(elo)) {
+            return;
         }
 
+        String text = getText(elo);
+        Set<String> keywords = getSimpleKeywords(mission, language);
+        if (keywords.isEmpty()) {
+            keywords = getComplexKeywords(text, mission, language);
+        }
+
+        // make OBWIOUS document and process in workflow:
+        Document document = Utilities.convertTextToDocument(text);
+        ArrayList<String> kwList = new ArrayList<String>(keywords);
+        document.setFeature(Features.WORDS, kwList);
+        Operator cmpHistogramOp = new EvalHypothesisWorkflow()
+                .getOperator("Main");
+        cmpHistogramOp.setInputParameter(ObjectIdentifiers.DOCUMENT,
+                document);
+        Container result = cmpHistogramOp.run();
+        Document docResult = (Document) result
+                .get(ObjectIdentifiers.DOCUMENT);
+        HashMap<Integer, Integer> hist = docResult
+                .getFeature(KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM);
+
+        // addSentenceHistogramToMetadata(elo, hist);
+
+        // write HashMap histogram as a ByteArray object
+        ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
+        ObjectOutputStream out = new ObjectOutputStream(bytesOut);
+        out.writeObject(hist);
+        // write a tuple with Byte version of histogram to trigger the
+        // HypothesisEvaluation decision
+        // maker
+        Tuple activateDecisionMakerTuple = new Tuple(EVAL, user, mission,
+                session, tool, eloUri, bytesOut.toByteArray());
+        getCommandSpace().write(activateDecisionMakerTuple);
     }
+
+    private String getText(ScyElo elo) {
+        String text = "";
+        if (isRichtextElo(elo)) {
+            text = getRichtextEloText(elo.getElo());
+        } else {
+            text = Utilities.getEloText(elo.getElo(), SCYED_XPATH, logger);
+        }
+        return text;
+    }
+
 
     private Set<String> getComplexKeywords(String text, String missionName, String language) {
         Set<String> topicKeywords = callKeywordsAgent(
