@@ -114,6 +114,11 @@ public class HypothesisEvaluationAgent2 extends AbstractELOSavedAgent implements
             }
             mission = getSession().getMission(user).getName();
             String language = getSession().getLanguage(user);
+
+            if (eloUri == null) {
+                logger.warn("The eloUri in the elo_saved action was null. Hypothesis agent could not run.");
+                return;
+            }
             ScyElo elo = ScyElo.loadElo(URI.create(eloUri), rooloServices);
 
 
