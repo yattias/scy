@@ -17,16 +17,37 @@
                          <c:when test="${fn:length(transporter.teacherQuestionToElos) > 0}">
                               <table>
                                 <tr>
-                                    <th><spring:message code="QUESTION_TITLE"/> </th>
-                                    <th><spring:message code="QUESTION"/> </th>
-                                    <th width="7%"><spring:message code="INPUT_TYPE"/> </th>
-                                    <th></th>
+                                    <th width="40%"><spring:message code="QUESTION_TITLE"/> </th>
+                                    <th width="40%"><spring:message code="QUESTION"/> </th>
+                                    <th>Text</th>
+                                    <th>Slider</th>
                                 </tr>
                                 <c:forEach var="teacherQuestionToElo" items="${transporter.teacherQuestionToElos}">
                                     <tr class="${oddEven.oddEven}">
                                         <td><s:ajaxTransferObjectTextField transferObjectServiceCollection="${transferObjectServiceCollection}" transferObject="${teacherQuestionToElo}" transferEloURI="${pedagogicalPlan.pedagogicalPlanURI}" id="${teacherQuestionToElo.id}" property="questionTitle"/></td>
                                         <td><s:ajaxTransferObjectTextField transferObjectServiceCollection="${transferObjectServiceCollection}" transferObject="${teacherQuestionToElo}" transferEloURI="${pedagogicalPlan.pedagogicalPlanURI}" id="${teacherQuestionToElo.id}" property="question"/></td>
-                                        <td><s:ajaxTransferObjectTextField transferObjectServiceCollection="${transferObjectServiceCollection}" transferObject="${teacherQuestionToElo}" transferEloURI="${pedagogicalPlan.pedagogicalPlanURI}" id="${teacherQuestionToElo.id}" property="questionType"/></td>
+                                        <td>
+                                            <a href="javascript:openPage('addReflectionQuestionOnEloForTeacher', 'eportfolioTeacherElo.html?action=setTeacherQuestionToEloToText&teacherQuestionToElo=${teacherQuestionToElo.id}&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${transporter.anchorElo.uri}'));">
+                                                <c:if test="${teacherQuestionToElo.questionType == 'text'}">
+                                                     <img src="/webapp/themes/scy/default/images/checked_radio.png" alt=""  />
+                                                 </c:if>
+                                                 <c:if test="${teacherQuestionToElo.questionType == 'slider'}">
+                                                     <img src="/webapp/themes/scy/default/images/unchecked_radio.png" alt=""  />
+                                                 </c:if>
+
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="javascript:openPage('addReflectionQuestionOnEloForTeacher', 'eportfolioTeacherElo.html?action=setTeacherQuestionToEloToSlider&teacherQuestionToElo=${teacherQuestionToElo.id}&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${transporter.anchorElo.uri}'));">
+                                                <c:if test="${teacherQuestionToElo.questionType == 'slider'}">
+                                                     <img src="/webapp/themes/scy/default/images/checked_radio.png" alt=""  />
+                                                 </c:if>
+                                                 <c:if test="${teacherQuestionToElo.questionType == 'text'}">
+                                                     <img src="/webapp/themes/scy/default/images/unchecked_radio.png" alt=""  />
+                                                 </c:if>
+
+                                            </a>
+                                        </td>
                                         <td width="3%">
                                             <!--a href="javascript:openPage('addReflectionQuestionOnMission', 'eportfolioStudentElo.html?action=removeReflectionQuestion&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${transporter.anchorElo.uri}') + '&amp;reflectionQuestionId=${reflectionQuestion.id}');">
                                                 <img src="/webapp/themes/scy/default/images/trash.png" alt="delete"/>
