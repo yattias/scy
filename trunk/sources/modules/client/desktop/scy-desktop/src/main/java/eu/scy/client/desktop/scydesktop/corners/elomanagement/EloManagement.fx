@@ -143,6 +143,7 @@ public class EloManagement extends CustomNode {
                  tooltip: ##"create new blank ELO"
               }
       scyDesktop.dragAndDropManager.addDropTaget(archiver);
+      scyDesktop.dragAndDropManager.addDropTaget(newFromEloTemplateButton);
       scyDesktop.dragAndDropManager.addDropTaget(searcher);
       createBubbles();
       VBox {
