@@ -69,6 +69,7 @@ public class EditorToolbar extends JToolBar implements ActionListener {
 		JToggleButton button = new JToggleButton(Util.getImageIcon(icon));
 		button.setActionCommand(cmd+"");
 		button.setToolTipText(tooltip);
+		button.setFocusPainted(false);
 		button.addActionListener(this);
 		button.setSelected(false);
 		buttonMap.put(cmd+"", button);
@@ -79,6 +80,7 @@ public class EditorToolbar extends JToolBar implements ActionListener {
 		JButton button = new JButton(Util.getImageIcon(icon));
 		button.setActionCommand(cmd+"");
 		button.setToolTipText(tooltip);
+		button.setFocusPainted(false);
 		button.addActionListener(actionListener);
 		return button;
 	}

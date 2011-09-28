@@ -24,7 +24,7 @@ public class EditorTab extends JPanel implements ChangeListener {
         this.setLayout(new BorderLayout());
         editorPanel = new EditorPanel();
         toolbar = new EditorToolbar(listener, bundle);
-        filetoolbar = new FileToolbar(editor);
+        filetoolbar = new FileToolbar(editor, bundle);
         this.add(toolbar, BorderLayout.WEST);
         if (editor.getProperties().get("show.filetoolbar").equals("true")) {
             this.add(filetoolbar, BorderLayout.NORTH);

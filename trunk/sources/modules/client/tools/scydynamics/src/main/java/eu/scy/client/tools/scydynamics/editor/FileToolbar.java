@@ -27,6 +27,7 @@ import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
 import colab.um.xml.model.JxmModel;
+import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import eu.scy.elo.contenttype.dataset.DataSet;
 import eu.scy.elo.contenttype.dataset.DataSetColumn;
 import eu.scy.elo.contenttype.dataset.DataSetRow;
@@ -44,19 +45,21 @@ public class FileToolbar extends JToolBar implements ActionListener {
 	private FileFilter csvFileFilter;
 	private FileFilter xmlFileFilter;
 	private JComboBox modeBox;
+	private ResourceBundleWrapper bundle;
 
-	public FileToolbar(ModelEditor editor) {
+	public FileToolbar(ModelEditor editor, ResourceBundleWrapper newBundle) {
 		super(JToolBar.HORIZONTAL);
+		this.bundle = newBundle;
 		this.editor = editor;
 		this.csvFileFilter = new CSVFileFilter();
 		this.xmlFileFilter = new XMLFileFilter();
 		setFloatable(false);
-		add(Util.createJButton("new", "new", "editorNew", this));
-		add(Util.createJButton("open", "open", "editorOpen", this));
-		add(Util.createJButton("save", "save", "editorSave", this));
-		add(Util.createJButton("save as", "saveas", "editorSave", this));
+		add(Util.createJButton(bundle.getString("EDITOR_NEW"), "new", "editorNew", this));
+		add(Util.createJButton(bundle.getString("EDITOR_OPEN"), "open", "editorOpen", this));
+		add(Util.createJButton(bundle.getString("EDITOR_SAVE"), "save", "editorSave", this));
+		add(Util.createJButton(bundle.getString("EDITOR_SAVEAS"), "saveas", "editorSave", this));
 		this.addSeparator();
-		add(Util.createJButton("save as dataset", "saveasdataset", "editorSave", this));
+		add(Util.createJButton(bundle.getString("EDITOR_SAVEAS_DATASET"), "saveasdataset", "editorSave", this));
 		this.addSeparator();
 		// testing the modes
 		modeBox = new JComboBox(ModelEditor.Mode.values());
