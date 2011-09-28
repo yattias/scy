@@ -23,6 +23,10 @@ public class OpenEloInScyLabDialog extends BaseController {
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
         ScyElo elo = ScyElo.loadLastVersionElo(getURI(request.getParameter(ELO_URI)), getMissionELOService());
 
+        String snippetURL = "/webapp/scy-lab.jnlp?singleEloUri=" + getEncodedUri(request.getParameter(ELO_URI));
+        modelAndView.addObject("snippetURL" , snippetURL);
+
+
         TransferElo transferElo = new TransferElo(elo);
         modelAndView.addObject("elo", transferElo);
     }

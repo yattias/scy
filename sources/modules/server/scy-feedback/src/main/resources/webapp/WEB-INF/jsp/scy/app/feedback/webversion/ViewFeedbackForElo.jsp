@@ -98,7 +98,7 @@
         <tr>
             <td style="width:50%;"-->
         <div dojoType="dojox.layout.ContentPane" style="width:50%;float:left;" executeScripts="true" parseOnLoad="true">
-                <a href="javascript:loadDialog('/webapp/components/openEloInScyLabDialog.html?eloURI=${transferElo.uri}', '${transferElo.myname}');">
+                <a href="javascript:loadDialog('/webapp/components/openEloInScyLabDialog.html?eloURI=' + encodeURIComponent('${eloURI}') , '${transferElo.myname}');">
                     <img src="${transferElo.thumbnail}" alt="" style="border:0;"/>
                 </a>
 
@@ -161,7 +161,7 @@
                     <!--s:ajaxELOSlider sliderValues="${feedbackLevels}" defaultValue="${scaffoldingLevel}" eloURI="${transferElo.uri}" property="globalMissionScaffoldingLevel" rooloServices="${rooloServices}"/-->
                     <input type="text" name="score" id="score" value="1" style="display:none;"/>
                     Quality:
-    <div id="horizontalSlider" dojoType="dijit.form.HorizontalSlider" value="1" minimum="1" maximum="4" discreteValues="1" intermediateChanges="false" showButtons="false" style="width:90%;margin-top:5px;" onChange="document.getElementById('score').value = Math.round(this.value);">
+    <div id="horizontalSlider" dojoType="dijit.form.HorizontalSlider" value="1" minimum="1" maximum="4" discreteValues="4" intermediateChanges="false" showButtons="false" style="width:90%;margin-top:5px;" onChange="document.getElementById('score').value = Math.round(this.value);">
         <ol dojoType="dijit.form.HorizontalRuleLabels" container="topDecoration" style="height:1.5em;font-size:75%;color:gray;">
             <li style="margin-bottom:5px;"><img src="/webapp/themes/scy/default/images/smiley_1.png" alt=""  /></li>
             <li style="margin-bottom:5px;"><img src="/webapp/themes/scy/default/images/smiley_2.png" alt=""  /></li>
