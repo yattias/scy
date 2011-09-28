@@ -25,7 +25,9 @@ public final class ActionConstants {
 	public static final String ELO_URI = "elo_uri";
 	public static final String ACTION_TOOL_MINIMIZED = "tool_minimized";
 
-	private ActionConstants() {
+    public static final String MISSION_NAME = "missionName";
+
+    private ActionConstants() {
 		// construction not allowed
 	}
 
