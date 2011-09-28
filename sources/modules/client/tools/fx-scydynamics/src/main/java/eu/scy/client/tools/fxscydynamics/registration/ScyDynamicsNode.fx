@@ -42,10 +42,15 @@ import org.jdom.input.SAXBuilder;
 import java.io.StringReader;
 import eu.scy.client.desktop.scydesktop.scywindows.scaffold.IScaffoldChangeListener;
 import eu.scy.client.desktop.scydesktop.scywindows.scaffold.ScaffoldManager;
+import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactFrame;
+import eu.scy.collaboration.api.CollaborationStartable;
+import eu.scy.client.common.datasync.ISyncSession;
 
-public class ScyDynamicsNode extends IScaffoldChangeListener, CustomNode, Resizable, ScyToolFX, EloSaverCallBack {
+public class ScyDynamicsNode extends CollaborationStartable, IScaffoldChangeListener, CustomNode, Resizable, ScyToolFX, EloSaverCallBack {
 
-	var infoDialog: SCYDynamicsInfoDialog;
+
+ var previousMode;
+ var infoDialog: SCYDynamicsInfoDialog;
 	def logger = Logger.getLogger(this.getClass());
 	def scyDynamicsType = "scy/model";
 	def datasetType = "scy/dataset";
@@ -65,6 +70,7 @@ public class ScyDynamicsNode extends IScaffoldChangeListener, CustomNode, Resiza
 	var eloModel: IELO;
 	var eloDataset: IELO;
 	def spacing = 5.0;
+	var collaborative: Boolean = false;
 	def saveTitleBarButton = TitleBarButton {
 				actionId: "save"
 				iconType: "save"
@@ -92,10 +98,58 @@ public class ScyDynamicsNode extends IScaffoldChangeListener, CustomNode, Resiza
 		actionLogger = toolBrokerAPI.getActionLogger();
 		technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
 		keywordsKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.KEYWORDS);
-		modelEditor.setActionLogger(toolBrokerAPI.getActionLogger(), toolBrokerAPI.getLoginUserName(), toolBrokerAPI.getMissionRuntimeURI().toString());
-		println("caffold level {ScaffoldManager.getInstance().getScaffoldLevel()}");
+		modelEditor.setToolBroker(toolBrokerAPI);
+		previousMode = modelEditor.getMode();
+		//modelEditor.setActionLogger(toolBrokerAPI.getActionLogger(), toolBrokerAPI.getLoginUserName(), toolBrokerAPI.getMissionRuntimeURI().toString());
+		logger.debug("scaffold level {ScaffoldManager.getInstance().getScaffoldLevel()}");
 		this.scaffoldLevelChanged(ScaffoldManager.getInstance().getScaffoldLevel());
 	}
+
+	public override function canAcceptDrop(object: Object): Boolean {
+        // not ready for usage yet
+		return false;
+		
+//		logger.debug("canAcceptDrop of {object.getClass()}");
+//        if (object instanceof ContactFrame) {
+//            var c: ContactFrame = object as ContactFrame;
+//            if (not scyWindow.ownershipManager.isOwner(c.contact.name)) {
+//                return true;
+//            }
+//        }
+//        return false;
+    }
+
+    public override function acceptDrop(object: Object): Void {
+		// not ready for usage yet
+
+//        logger.debug("acceptDrop of {object.getClass()}");
+//        var c: ContactFrame = object as ContactFrame;
+//        logger.debug("acceptDrop user: {c.contact.name}");
+//        scyWindow.ownershipManager.addPendingOwner(c.contact.name);
+//        scyWindow.windowManager.scyDesktop.config.getToolBrokerAPI().proposeCollaborationWith("{c.contact.awarenessUser.getJid()}", scyWindow.eloUri.toString(), scyWindow.mucId);
+//        logger.debug("scyDesktop: {scyWindow.windowManager.scyDesktop}");
+    }
+
+	public override function startCollaboration(mucid: String) {
+        if (not collaborative) {
+            collaborative = true;
+            FX.deferAction(function(): Void {
+                def session : ISyncSession = modelEditor.joinSession(mucid);
+                session.addCollaboratorStatusListener(scyWindow.ownershipManager);
+                session.refreshOnlineCollaborators();
+                logger.debug("joined session, mucid: {mucid}");
+            });
+        }
+    }
+
+    public override function stopCollaboration() : Void {
+        if (collaborative) {
+            collaborative = false;
+            FX.deferAction(function(): Void {
+                modelEditor.leaveSession();
+            });
+        }
+    }
 
 	public override function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
 		if (windowContent) {
@@ -149,6 +203,7 @@ public class ScyDynamicsNode extends IScaffoldChangeListener, CustomNode, Resiza
 			var builder = new SAXBuilder();
 			var doc = builder.build(new StringReader(newElo.getContent().getXmlString()));
 			modelEditor.setModel(doc.getRootElement());
+			previousMode = modelEditor.getMode();
 			logger.info("elo loaded");
 			eloModel = newElo;
 		}
@@ -267,8 +322,21 @@ public class ScyDynamicsNode extends IScaffoldChangeListener, CustomNode, Resiza
 		return 300;
 	}
 
+	public override function setReadOnly(newReadOnly: Boolean): Void {
+		if (newReadOnly != readOnly) {
+			(super as ScyToolFX).setReadOnly(newReadOnly);
+			if (readOnly) {
+				previousMode = modelEditor.getMode();
+				modelEditor.setMode(ModelEditor.Mode.CLEAR_BOX);
+			} else {
+				modelEditor.setMode(previousMode);
+			}
+		}
+    }
+
 	public override function scaffoldLevelChanged(newLevel: java.lang.Integer): Void {
 		logger.info("setting scaffold to {newLevel}");
+		//println("*** ScyDynamicsNode.scaffoldLevelChanged to {newLevel}");
 		if (newLevel == ScaffoldManager.SCAFFOLD_OFF) {
 			modelEditor.setMode(ModelEditor.Mode.QUANTITATIVE_MODELLING);
 		} else if (newLevel == ScaffoldManager.SCAFFOLD_MEDIUM) {
@@ -276,7 +344,6 @@ public class ScyDynamicsNode extends IScaffoldChangeListener, CustomNode, Resiza
 		} else if (newLevel == ScaffoldManager.SCAFFOLD_HIGH) {
 			modelEditor.setMode(ModelEditor.Mode.CLEAR_BOX);
 		}
-
 	}
 
 }

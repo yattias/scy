@@ -39,7 +39,11 @@ import colab.um.tools.JTools;
 import colab.um.xml.model.JxmModel;
 import eu.scy.actionlogging.DevNullActionLogger;
 import eu.scy.actionlogging.api.IActionLogger;
+import eu.scy.client.common.datasync.DataSyncException;
+import eu.scy.client.common.datasync.ISyncListener;
+import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
+import eu.scy.client.tools.scydynamics.collaboration.ModelSyncControl;
 import eu.scy.client.tools.scydynamics.domain.Domain;
 import eu.scy.client.tools.scydynamics.listeners.EditorActionListener;
 import eu.scy.client.tools.scydynamics.listeners.EditorMouseListener;
@@ -48,7 +52,9 @@ import eu.scy.client.tools.scydynamics.logging.ModellingLogger;
 import eu.scy.client.tools.scydynamics.logging.ModellingSQLSpacesLogger;
 import eu.scy.client.tools.scydynamics.model.Model;
 import eu.scy.client.tools.scydynamics.model.ModelUtils;
+import eu.scy.common.datasync.ISyncObject;
 import eu.scy.elo.contenttype.dataset.DataSet;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 @SuppressWarnings("serial")
 public class ModelEditor extends JPanel implements AdjustmentListener {
@@ -91,7 +97,8 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	private SimulationPanel graphTab;
 	private TableTab tableTab;
 	private final ResourceBundleWrapper bundle;
-	// private ModelSyncControl modelSyncControl;
+	private ModelSyncControl modelSyncControl = null;
+	private ToolBrokerAPI toolBroker;
 	private Domain domain;
 	//private ModellingSQLSpacesLogger sqlspacesLogger;
 
@@ -116,6 +123,74 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		setNewModel();
 		setMode(properties.getProperty("editor.mode", "quantitative_modelling"));
 	}
+
+	public void setToolBroker(ToolBrokerAPI tbi) {
+        toolBroker = tbi;
+        if (toolBroker != null) {
+			actionLogger = new ModellingLogger(toolBroker.getActionLogger(), toolBroker.getLoginUserName(), toolBroker.getMissionRuntimeURI().toString());
+		}
+    }
+
+	public void joinSession_(ISyncSession session) {
+		System.out.println("***** ModelEditor.joinSession(isyncsession) called.");
+		DEBUGLOGGER.info("joining session: " + session);
+		modelSyncControl = new ModelSyncControl(this);
+		modelSyncControl.setSession(session, true);
+//        DataSyncDiagramController diagramController = new DataSyncDiagramController(conceptMap.getDiagram(), session);
+//        diagramController.setSession(currentSession, true);
+//        conceptDiagramView.setController(diagramController);
+//        conceptDiagramView.setElementControllerFactory(new DataSyncElementControllerFactory(session));
+    }
+
+	public void leaveSession() {
+		DEBUGLOGGER.info("leaving session");
+		modelSyncControl.getSession().leaveSession();
+		modelSyncControl = null;
+//        DiagramController dc = new DiagramController(conceptMap.getDiagram(), conceptMap.getDiagram().getSelectionModel());
+//        currentSession.leaveSession();
+//        currentSession = null;
+//        conceptDiagramView.setController(dc);
+//        conceptDiagramView.setElementControllerFactory(new DefaultElementControllerFactory());
+    }
+
+	public ISyncSession joinSession(String sessId) {
+		System.out.println("***** ModelEditor.joinSession(string) called.");
+		DEBUGLOGGER.info("joining session: " + sessId);
+       return joinSession(sessId, true);
+    }
+
+	private ISyncListener dummySyncListener = new ISyncListener() {
+
+        @Override
+        public void syncObjectAdded(ISyncObject iSyncObject) {}
+
+        @Override
+        public void syncObjectChanged(ISyncObject iSyncObject) {}
+
+        @Override
+        public void syncObjectRemoved(ISyncObject iSyncObject) {}
+    };
+
+	 public ISyncSession joinSession(String sessId, boolean writeCurrentStateToServer) {
+        System.out.println("***** ModelEditor.joinSession(string, boolean) called.");
+
+		 ISyncSession currentSession = null;
+		 if (sessId != null) {
+            try {
+                //DataSyncDiagramController diagramController = new DataSyncDiagramController(conceptMap.getDiagram());
+				modelSyncControl = new ModelSyncControl(this);
+				currentSession = toolBroker.getDataSyncService().joinSession(sessId, dummySyncListener, "scy-dynamics");
+                //currentSession = toolBroker.getDataSyncService().joinSession(sessId, modelSyncControl, "scy-dynamics");
+                modelSyncControl.setSession(currentSession, writeCurrentStateToServer);
+				//diagramController.setSession(currentSession, writeCurrentStateToServer);
+                //conceptDiagramView.setController(diagramController);
+                //conceptDiagramView.setElementControllerFactory(new DataSyncElementControllerFactory(currentSession));
+            } catch (DataSyncException e) {
+                e.printStackTrace();
+            }
+        }
+        return currentSession;
+    }
 
 	public Domain getDomain() {
 		return domain;
@@ -143,6 +218,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	}
 
 	public void setMode(Mode newMode) {
+		System.out.println("ModelEditor: setting mode from "+this.mode+" to "+newMode);
 		if (newMode != this.mode) {
 			this.mode = newMode;
 			switch (mode) {
@@ -173,13 +249,13 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		return this.mode;
 	}
 
-	// public ModelSyncControl getModelSyncControl() {
-	// return this.modelSyncControl;
-	// }
+	public ModelSyncControl getModelSyncControl() {
+		return this.modelSyncControl;
+	}
 
-	// public boolean isSynchronized() {
-	// return this.modelSyncControl != null;
-	// }
+	public boolean isSynchronized() {
+		return this.modelSyncControl != null;
+	}
 
 	public DataSet getDataSet() {
 		return tableTab.getDataSet();
@@ -799,21 +875,27 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		if (model == null || name == null) {
 			return;
 		}
-		JdObject o = model.getObjectOfName(name);
-		if (o == null) {
+		deleteFigure(model.getObjectOfName(name), bEvent);	
+	}
+
+	public void deleteFigure(JdObject object, boolean bEvent) {
+		if (model == null || object == null) {
 			return;
 		}
 		// aEditorVT.sendLogEvent(JvtEditorLogs.LOG_DELETE_OBJECT,o); // log
 		// delete object
-		model.removeObjectAndRelations(o);
+		model.removeObjectAndRelations(object);
 		clearSelectedObjects();
 		setModelChanged();
 		checkModel();
+		if (isSynchronized()) {
+			System.out.println("ModelEditor.deleteFigure called for "+object.getID());
+			getModelSyncControl().removeObject(object);
+        }
 		// if (bEvent)
 		// sendVisualToolEvent("DeleteFigure", name);
 	}
-
-	// ---------------------------------------------------------------------------
+	
 	public void setFigureProperties(String oldName, Hashtable<String, Object> h) {
 		if (model == null || oldName == null) {
 			return;
