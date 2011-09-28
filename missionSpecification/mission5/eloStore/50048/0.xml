@@ -57,7 +57,7 @@
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<simconfig simulationname="Blood Glucose level" simulationuri="http://www.scy-lab.eu/sqzx/glucose.sqzx" mode="collect_simple_data">
+<simconfig simulationname="Blood Glucose level" simulationuri="http://www.scy-lab.eu/sqzx/glucose.sqzx" mode="explore_only">
   <variable name="InsulineConcentration" value="0.0" />
   <variable name="InsulineDecayRate" value="0.1" />
   <variable name="GlucoseConcentration_dot" value="0.15899999999998876" />
