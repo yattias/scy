@@ -218,6 +218,7 @@ public class PalettePane extends JToolBar {
             final JToggleButton button = new JToggleButton(nodeFactory.getIcon());
             button.setFocusPainted(false);
             button.setHorizontalAlignment(JButton.CENTER);
+
             button.addActionListener(new ActionListener() {
 
                 @Override
