@@ -225,6 +225,9 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
       if (targetNode==null){
          throw new IllegalArgumentException("the targetNode must be set");
       }
+//      if (windowColorScheme==null){
+//         throw new IllegalArgumentException("the windowColorScheme must be set");
+//      }
 
       var usePriority = priority;
       if (debugBubbleKey!=null and bubbleKey==debugBubbleKey){
