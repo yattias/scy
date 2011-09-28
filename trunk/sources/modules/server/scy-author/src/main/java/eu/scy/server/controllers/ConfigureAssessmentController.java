@@ -67,6 +67,10 @@ public class ConfigureAssessmentController extends BaseController {
                     addTeacherQuestionToMission(missionSpecificationElo, pedagogicalPlanTransfer, anchorEloURI, request);
                 } else if(action.equals("addRubricToMission")) {
                     addRubricToMission(missionSpecificationElo, pedagogicalPlanTransfer, anchorEloURI, request);
+                } else if(action.equals("setInputTypeToSlider")) {
+                    setInputTypeForTab(missionSpecificationElo, pedagogicalPlanTransfer, anchorEloURI, request);
+                } else if(action.equals("setInputTypeToText")) {
+                    setInputTypeForTab(missionSpecificationElo, pedagogicalPlanTransfer, anchorEloURI, request);
                 }
 
             }
@@ -106,6 +110,24 @@ public class ConfigureAssessmentController extends BaseController {
             e.printStackTrace();
         }
 
+    }
+
+    private void setInputTypeForTab(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer, String anchorEloURI, HttpServletRequest request) {
+        String tabId = request.getParameter("reflectionTabId");
+        String action = request.getParameter("action");
+        String type = "text";
+        if(action.equals("setInputTypeToSlider")) type = "slider";
+
+        List <Tab> reflectionQuestions = pedagogicalPlanTransfer.getAssessmentSetup().getReflectionTabs();
+        for (int i = 0; i < reflectionQuestions.size(); i++) {
+            Tab tab = reflectionQuestions.get(i);
+            if(tab.getId().equals(tabId)) tab.setType(type);
+        }
+
+        ScyElo pedagogicalPlanElo = getPedagogicalPlanEloForMission(missionSpecificationElo);
+        pedagogicalPlanElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(pedagogicalPlanTransfer));
+        pedagogicalPlanElo.updateElo();
+        
     }
 
     private void addRubricToMission(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer, String anchorEloURI, HttpServletRequest request) {
