@@ -176,16 +176,6 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements
 
     }
 
-    //    private String getScyEdText(IELO elo) {
-    //        Element scyEdElement = getContentAsXML(elo);
-    //        if(scyEdElement == null) {
-    //            return "";
-    //        }
-    //        Element learnerProcElement = scyEdElement.getChild("learner_proc");
-    //        if(learnerProcElement)
-    //        Element hypothesisElement = learnerProcElement.getChild("proc_hypothesis").getChild("hypothesis");
-    //    }
-
     private String getRichtextEloText(IELO elo) {
         Element rootElement = getContentAsXML(elo);
         if (rootElement == null) {
