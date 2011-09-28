@@ -70,7 +70,7 @@ public class VariableDialogListener implements ActionListener, MouseListener {
 			variableDialog.setFigureProperty("label", newName);
 			if (variableDialog.getEditor().getDomain()!= null && !newName.equals(oldName)) {
 				// domain exists & label has been changed
-				System.out.println("newName: "+newName);
+				//System.out.println("newName: "+newName);
 				List<String> proposedNames = variableDialog.getEditor().getDomain().proposeNames(newName);
 				if (proposedNames.isEmpty()) {
 					String message = "The label of this object could not be identified.\n" +
@@ -80,7 +80,7 @@ public class VariableDialogListener implements ActionListener, MouseListener {
 						closeDialog = false;
 					}
 				} else {
-					System.out.println("proposedNames: "+proposedNames);
+					//System.out.println("proposedNames: "+proposedNames);
 					String message = "The label of this object could not be fully identified.\n" +
 							"Would you like to use one of the following ones?\n\n";
 					String s = (String)JOptionPane.showInputDialog(
@@ -88,7 +88,7 @@ public class VariableDialogListener implements ActionListener, MouseListener {
 							null,
 							proposedNames.toArray(),
 							proposedNames.get(0));
-					System.out.println("choice: "+s);
+					//System.out.println("choice: "+s);
 					if (s != null) {
 						newName = s;
 						variableDialog.setFigureProperty("label", newName);
@@ -97,7 +97,7 @@ public class VariableDialogListener implements ActionListener, MouseListener {
 			}
 
 			String express = getExpression();
-			System.out.println("expression: "+express);
+			//System.out.println("expression: "+express);
 			variableDialog.setFigureProperty("expr", express);
 
 			String unit = variableDialog.getUnit();
