@@ -11,7 +11,6 @@ import java.util.Enumeration;
 import colab.um.draw.JdAux;
 import colab.um.draw.JdConst;
 import colab.um.draw.JdDataset;
-import colab.um.draw.JdEditor;
 import colab.um.draw.JdFigure;
 import colab.um.draw.JdFlow;
 import colab.um.draw.JdHandle;
@@ -73,8 +72,7 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
                     actionCreateNode(new JdDataset(model.getFreeName(JdFigure.DATASET), x, y), x, y);
                     break;
                 case EditorToolbar.FLOW:
-                    actionCreateLink(new JdFlow(model.getFreeName(JdFigure.FLOW)),
-                            x, y);
+                    actionCreateLink(new JdFlow(model.getFreeName(JdFigure.FLOW)), x, y);
                     break;
                 case EditorToolbar.RELATION:
                     actionCreateLink(new JdRelation(model.getFreeName(JdFigure.RELATION), true), x, y);
@@ -205,13 +203,17 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
             editor.selectObject(aNode, false);
             editor.getEditorToolbar().toCursorAction();
             editor.getActionLogger().logAddAction(aNode, editor.getModelXML());
-//            if (editor.isSynchronized()) {
-//            	editor.getModelSyncControl().addNode(aNode);
-//            }
+            if (editor.isSynchronized()) {
+            	editor.getModelSyncControl().addNode(aNode);
+            }
         }
     }
 
     private void actionCreateLink(JdLink aLink, int x, int y) {
+    	if (editor.getMode()==Mode.BLACK_BOX || editor.getMode()==Mode.CLEAR_BOX) {
+    		// editing the model is not allowed -> return!
+    		return;
+    	}
         fStart = model.getSmallFigureAt(x, y);
         if (validateLinkFig1(aLink, fStart)) { // can link start on object?
             editor.saveModel();
@@ -522,6 +524,9 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
                     fLink.setFigure2(fOver);
                     editor.getEditorToolbar().toCursorAction();
                     editor.getActionLogger().logAddAction(fLink, editor.getModelXML());
+                    if (editor.isSynchronized()) {
+                    	editor.getModelSyncControl().addLink(fLink);
+                    }
                 } else {
                     model.removeObjectAndRelations(fLink);
                 }

@@ -44,6 +44,7 @@ import eu.scy.client.tools.scydynamics.editor.ModelEditor;
 import eu.scy.client.tools.scydynamics.logging.IModellingLogger;
 
 public class Model {
+	@SuppressWarnings("unused")
 	private final static Logger DEBUGLOGGER = Logger.getLogger(Model.class.getName());
 	private Hashtable<String,JdObject> objs = new Hashtable<String,JdObject>(); // key(String)=object name, value(JdObject)=the object
 	private Color bColor = Color.white;
@@ -142,6 +143,18 @@ public class Model {
 
 	public JdObject getObjectOfName(String s) {
 		return getObjectOfName(objs,s);
+	}
+	
+	public JdObject getObjectOfId(String id) {
+		if (id == null) {
+			return null;
+		}
+		for (JdObject object: objs.values()) {
+			if (object.getID().equals(id)) {
+				return object;
+			}
+		}
+		return null;
 	}
 
 	public void renameObjectKey(String oldName, String newName) {
