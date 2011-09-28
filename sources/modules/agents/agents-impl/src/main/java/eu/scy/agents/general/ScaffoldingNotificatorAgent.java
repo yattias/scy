@@ -1,7 +1,6 @@
 package eu.scy.agents.general;
 
 import eu.scy.actionlogging.ActionTupleTransformer;
-import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.parameter.AgentParameter;
@@ -75,7 +74,6 @@ public class ScaffoldingNotificatorAgent extends AbstractThreadedAgent {
     protected void parametersChanged(AgentParameter agentParameter) {
         if (AgentProtocol.GLOBAL_SCAFFOLDING_LEVEL.equals(agentParameter.getParameterName())) {
             String mission = agentParameter.getMission();
-//            Set<String> usersInMission = getSession().getUsersInMissionFromRuntime(mission);
             Set<String> usersInMission = getSession().getUsersInMissionFromName(mission);
 
             for (String user : usersInMission) {
@@ -85,8 +83,6 @@ public class ScaffoldingNotificatorAgent extends AbstractThreadedAgent {
                 }
             }
         }
-
-
     }
 
     private <T> void sendScaffoldLevelNotification(T parameterValue, String mission, String user) {
@@ -118,7 +114,8 @@ public class ScaffoldingNotificatorAgent extends AbstractThreadedAgent {
 
         IAction action = ActionTupleTransformer.getActionFromTuple(afterTuple);
 
+        String missionName = action.getAttribute(ActionConstants.MISSION_NAME);
         sendScaffoldLevelNotification(configuration.getParameter(AgentProtocol.GLOBAL_SCAFFOLDING_LEVEL),
-                action.getContext(ContextConstants.mission), action.getUser());
+                missionName, action.getUser());
     }
 }
