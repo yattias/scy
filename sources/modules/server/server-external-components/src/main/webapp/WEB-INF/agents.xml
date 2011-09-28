@@ -137,7 +137,7 @@
 
     <bean id="hypothesisEvalAgent" class="eu.scy.agents.impl.AgentStartConfiguration">
         <constructor-arg index="0"
-                         value="eu.scy.agents.hypothesis.HypothesisEvaluationAgent"/>
+                         value="eu.scy.agents.hypothesis.HypothesisEvaluationAgent2"/>
         <constructor-arg index="1">
             <map/>
         </constructor-arg>

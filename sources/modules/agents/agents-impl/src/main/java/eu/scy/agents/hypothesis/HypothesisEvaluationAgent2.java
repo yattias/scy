@@ -13,7 +13,10 @@ import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.AgentRooloServiceImpl;
 import eu.scy.agents.impl.EloTypes;
 import eu.scy.agents.impl.ModelStorage;
+import eu.scy.agents.keywords.ExtractKeyphrasesAgent;
+import eu.scy.agents.keywords.ExtractTopicModelKeywordsAgent;
 import eu.scy.agents.keywords.KeywordConstants;
+import eu.scy.agents.keywords.OntologyKeywordsAgent;
 import eu.scy.agents.util.Utilities;
 import eu.scy.common.scyelo.EloFunctionalRole;
 import eu.scy.common.scyelo.ScyElo;
@@ -33,11 +36,14 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.StringReader;
 import java.net.URI;
+import java.rmi.dgc.VMID;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 /**
  * @author Jörg Kindermann
@@ -123,7 +129,10 @@ public class HypothesisEvaluationAgent2 extends AbstractELOSavedAgent implements
             }
 
 
-            Set<String> keywords = getKeywordModel(mission, language);
+            Set<String> keywords = getSimpleKeywords(mission, language);
+            if (keywords.isEmpty()) {
+                keywords = getComplexKeywords(text, mission, language);
+            }
 
             // make OBWIOUS document and process in workflow:
             Document document = Utilities.convertTextToDocument(text);
@@ -159,7 +168,29 @@ public class HypothesisEvaluationAgent2 extends AbstractELOSavedAgent implements
 
     }
 
-    private Set<String> getKeywordModel(String missionName, String language) {
+    private Set<String> getComplexKeywords(String text, String missionName, String language) {
+        Set<String> topicKeywords = callKeywordsAgent(
+                ExtractTopicModelKeywordsAgent.EXTRACT_TOPIC_MODEL_KEYWORDS,
+                text, missionName, language, AgentProtocol.SECOND * 30);
+        logger.debug("found in tm keywords: " + topicKeywords);
+        Set<String> ontologyKeywords = callKeywordsAgent(
+                OntologyKeywordsAgent.EXTRACT_ONTOLOGY_KEYWORDS, text,
+                missionName, language, AgentProtocol.SECOND * 10);
+        logger.debug("found in ont keywords: " + ontologyKeywords);
+        Set<String> keyPharses = callKeywordsAgent(
+                ExtractKeyphrasesAgent.EXTRACT_KEYPHRASES, text, missionName, language,
+                AgentProtocol.SECOND * 30);
+        logger.debug("found in keyphrases: " + keyPharses);
+
+        Set<String> keywords = new HashSet<String>();
+        keywords.addAll(topicKeywords);
+        keywords.addAll(ontologyKeywords);
+        keywords.addAll(keyPharses);
+        logger.info("found keywords: " + keywords);
+        return keywords;
+    }
+
+    private Set<String> getSimpleKeywords(String missionName, String language) {
         Set<String> keywords = modelStorage.get(missionName, language, FIXED_KEYWORDS_MODEL);
         if (keywords == null) {
             logger.fatal("Fixd keywords are not present for mission " + missionName
@@ -230,5 +261,29 @@ public class HypothesisEvaluationAgent2 extends AbstractELOSavedAgent implements
         rooloServices.setRepository(rep);
     }
 
+    private Set<String> callKeywordsAgent(String agent, String text,
+                                          String mission, String language, int waitTime) {
+        String queryId = new VMID().toString();
+        Set<String> result = new HashSet<String>();
+        try {
+            getCommandSpace().write(
+                    new Tuple(agent, AgentProtocol.QUERY, queryId, text,
+                            mission, language));
+            Tuple response = getCommandSpace().waitToTake(
+                    new Tuple(agent, AgentProtocol.RESPONSE, queryId,
+                            String.class), waitTime);
+            if (response == null) {
+                return result;
+            }
+            String keywordString = (String) response.getField(3).getValue();
+            StringTokenizer tokenizer = new StringTokenizer(keywordString, ";");
+            while (tokenizer.hasMoreTokens()) {
+                result.add(tokenizer.nextToken());
+            }
+        } catch (TupleSpaceException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 
 }
