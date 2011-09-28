@@ -19,7 +19,8 @@
                 <tr>
                     <th width="20%">Title</th>
                     <th>Question</th>
-                    <th>Type</th>
+                    <th>Text input</th>
+                    <th>Slider input</th>
                     <th></th>
                 </tr>
                 <c:forEach var="reflectionTab" items="${pedagogicalPlan.assessmentSetup.reflectionTabs}">
@@ -31,7 +32,25 @@
                             <s:ajaxTransferObjectTextField transferObjectServiceCollection="${transferObjectServiceCollection}" transferObject="${reflectionTab}" transferEloURI="${pedagogicalPlan.pedagogicalPlanURI}" id="${reflectionTab.id}" property="question"/>
                         </td>
                         <td>
-                            ${reflectionTab.type}
+                            <a href="javascript:openPage(document.getElementById('mission-student').parentNode.id, 'eportfolioStudentMission.html?action=setInputTypeToText&reflectionTabId=${reflectionTab.id}&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));">
+                                <c:if test="${reflectionTab.type == 'text'}">
+                                        <img src="/webapp/themes/scy/default/images/checked_radio.png" alt=""  />
+                                    </c:if>
+                                    <c:if test="${reflectionTab.type == 'slider'}">
+                                        <img src="/webapp/themes/scy/default/images/unchecked_radio.png" alt=""  />
+                                    </c:if>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="javascript:openPage(document.getElementById('mission-student').parentNode.id, 'eportfolioStudentMission.html?action=setInputTypeToSlider&reflectionTabId=${reflectionTab.id}&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));">
+                                    <c:if test="${reflectionTab.type == 'slider'}">
+                                        <img src="/webapp/themes/scy/default/images/checked_radio.png" alt=""  />
+                                    </c:if>
+                                    <c:if test="${reflectionTab.type == 'text'}">
+                                        <img src="/webapp/themes/scy/default/images/unchecked_radio.png" alt=""  />
+                                    </c:if>
+
+                            </a>
                         </td>
                         <td>
                             <img src="/webapp/themes/scy/default/images/trash.png" alt="delete"/>
