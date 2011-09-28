@@ -13,6 +13,7 @@ import java.io.File;
 import eu.scy.common.mission.MissionEloType;
 import eu.scy.common.scyelo.ScyElo;
 import java.util.Locale;
+import eu.scy.common.mission.MissionSpecificationElo;
 
 /**
  * @author sikken
@@ -87,6 +88,10 @@ public class MissionSpecificationEditor extends EloXmlEditor {
       scyElo.setTitle(suggestedTitle, if (language!=null) language else Locale.getDefault());
       scyElo.setTemplate(true);
       scyElo.setMissionId(missionId);
+   }
+
+   function updateMissionSpecification(missionSpecElo: MissionSpecificationElo, springConfigFileImporter: SpringConfigFileImporter):Void{
+
    }
 
    override protected function validateXml(xml: String): String {

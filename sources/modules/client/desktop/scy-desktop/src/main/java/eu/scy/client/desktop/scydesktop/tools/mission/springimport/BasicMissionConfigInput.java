@@ -31,6 +31,7 @@ import java.util.Map;
 import java.util.Set;
 import org.apache.log4j.Logger;
 import roolo.elo.api.IMetadata;
+import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.exceptions.ELODoesNotExistException;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 
@@ -57,12 +58,14 @@ public class BasicMissionConfigInput implements MissionConfigInput
    private Locale language;
    private IMetadata templateTrueMetadata;
    private List<RuntimeSetting> runtimeSettings = new ArrayList<RuntimeSetting>();
+   private IMetadataKey templateKey;
 
    public void parseEloConfigs(ToolBrokerAPI tbi)
    {
       this.tbi = tbi;
       templateTrueMetadata = tbi.getELOFactory().createMetadata();
-      templateTrueMetadata.getMetadataValueContainer(tbi.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TEMPLATE)).setValue(Boolean.TRUE.toString());
+      templateKey = tbi.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TEMPLATE);
+      templateTrueMetadata.getMetadataValueContainer(templateKey).setValue(Boolean.TRUE.toString());
       Set<URI> templateEloUriSet = new HashSet<URI>();
       for (URI uri : templateEloUris)
       {
@@ -92,7 +95,12 @@ public class BasicMissionConfigInput implements MissionConfigInput
       {
          try
          {
-            tbi.getRepository().addMetadata(eloUri, templateTrueMetadata);
+            IMetadata metadata = tbi.getRepository().retrieveMetadata(eloUri);
+            Object templateValue = metadata.getMetadataValueContainer(templateKey).getValue();
+            if (!Boolean.TRUE.toString().equals(templateValue))
+            {
+               tbi.getRepository().addMetadata(eloUri, templateTrueMetadata);
+            }
          }
          catch (ELODoesNotExistException e)
          {
