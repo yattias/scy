@@ -203,6 +203,22 @@ public class EditEloReflections extends BaseController {
         }
     }
 
+    private boolean checkIfLearningGoalIsAlreadyAdded(String learningGoalId, Portfolio portfolio) {
+        List <SelectedLearningGoalWithScore> selectedLearningGoalWithScores = portfolio.getSelectedSpecificLearningGoalWithScores();
+        for (int i = 0; i < selectedLearningGoalWithScores.size(); i++) {
+            SelectedLearningGoalWithScore selectedLearningGoalWithScore = selectedLearningGoalWithScores.get(i);
+            if(selectedLearningGoalWithScore.getLearningGoalId().equals(learningGoalId)) return true;
+        }
+
+        selectedLearningGoalWithScores = portfolio.getSelectedGeneralLearningGoalWithScores();
+        for (int i = 0; i < selectedLearningGoalWithScores.size(); i++) {
+            SelectedLearningGoalWithScore selectedLearningGoalWithScore = selectedLearningGoalWithScores.get(i);
+            if(selectedLearningGoalWithScore.getLearningGoalId().equals(learningGoalId)) return true;
+        }
+
+        return false;
+    }
+
     private void dispatchAction(HttpServletRequest request, MissionRuntimeElo missionRuntimeElo, TransferElo transferElo) {
         String action = request.getParameter("action");
         String type = request.getParameter("lgType");
@@ -362,6 +378,7 @@ public class EditEloReflections extends BaseController {
     }
 
     private void addGeneralLearningGoal(HttpServletRequest request, MissionRuntimeElo missionRuntimeElo, TransferElo transferElo) {
+        Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo, getCurrentUserName(request));
         String level = request.getParameter("level");
         String criteriaId = request.getParameter("criteriaId");
         LearningGoalCriterium learningGoalCriterium = null;
@@ -372,6 +389,9 @@ public class EditEloReflections extends BaseController {
 
         SelectedLearningGoalWithScore selectedLearningGoalWithScore = new SelectedLearningGoalWithScore();
         String learningGoalId = request.getParameter("learningGoalId");
+
+
+
 
         selectedLearningGoalWithScore.setLearningGoalId(learningGoalId);
         selectedLearningGoalWithScore.setEloURI(transferElo.getUri());
@@ -383,8 +403,10 @@ public class EditEloReflections extends BaseController {
         }
 
 
-        Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo, getCurrentUserName(request));
+
         portfolio.addSelectedGeneralLearningGoalWithScore(selectedLearningGoalWithScore);
+        
+
 
         ScyElo portfolioElo = ScyElo.loadLastVersionElo(missionRuntimeElo.getTypedContent().getEPortfolioEloUri(), getMissionELOService());
         portfolioElo.getContent().setXmlString(getXmlTransferObjectService().getToObjectXStream().toXML(portfolio));
@@ -392,6 +414,7 @@ public class EditEloReflections extends BaseController {
     }
 
     private void addSpecificLearningGoal(HttpServletRequest request, MissionRuntimeElo missionRuntimeElo, TransferElo transferElo) {
+        Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo, getCurrentUserName(request));
         String level = request.getParameter("level");
         String criteriaId = request.getParameter("criteriaId");
         LearningGoalCriterium learningGoalCriterium = null;
@@ -402,6 +425,8 @@ public class EditEloReflections extends BaseController {
 
         SelectedLearningGoalWithScore selectedLearningGoalWithScore = new SelectedLearningGoalWithScore();
         String learningGoalId = request.getParameter("learningGoalId");
+
+
 
 
         selectedLearningGoalWithScore.setLearningGoalId(learningGoalId);
@@ -415,8 +440,9 @@ public class EditEloReflections extends BaseController {
         }
 
 
-        Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo, getCurrentUserName(request));
+
         portfolio.addSelectedSpecificLearningGoalWithScore(selectedLearningGoalWithScore);
+
 
         ScyElo portfolioElo = ScyElo.loadLastVersionElo(missionRuntimeElo.getTypedContent().getEPortfolioEloUri(), getMissionELOService());
         portfolioElo.getContent().setXmlString(getXmlTransferObjectService().getToObjectXStream().toXML(portfolio));
