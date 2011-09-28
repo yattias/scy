@@ -114,8 +114,12 @@ public class ScaffoldingNotificatorAgent extends AbstractThreadedAgent {
 
         IAction action = ActionTupleTransformer.getActionFromTuple(afterTuple);
 
+        String missionSpec = action.getAttribute(ActionConstants.MISSION_SPECIFICATION);
         String missionName = action.getAttribute(ActionConstants.MISSION_NAME);
-        sendScaffoldLevelNotification(configuration.getParameter(AgentProtocol.GLOBAL_SCAFFOLDING_LEVEL),
-                missionName, action.getUser());
+        Object parameter = configuration.getParameter(missionName, AgentProtocol.GLOBAL_SCAFFOLDING_LEVEL);
+        if (parameter == null) {
+            parameter = Integer.valueOf(1);
+        }
+        sendScaffoldLevelNotification(parameter, missionSpec, action.getUser());
     }
 }

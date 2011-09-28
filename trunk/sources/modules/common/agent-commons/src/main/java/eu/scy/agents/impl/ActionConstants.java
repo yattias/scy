@@ -26,6 +26,8 @@ public final class ActionConstants {
 	public static final String ACTION_TOOL_MINIMIZED = "tool_minimized";
 
     public static final String MISSION_NAME = "missionName";
+    public static final String MISSION_ID = "missionId";
+    public static final String MISSION_SPECIFICATION = "missionSpecification";
 
     private ActionConstants() {
 		// construction not allowed
