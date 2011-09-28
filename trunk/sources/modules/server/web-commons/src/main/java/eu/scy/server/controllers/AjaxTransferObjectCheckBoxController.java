@@ -27,6 +27,8 @@ public class AjaxTransferObjectCheckBoxController extends AbstractController {
     private MissionELOService missionELOService;
     private TransferObjectMapService transferObjectMapService;
 
+    public static final String OBLIGATORY_ANCHOR_ELOS_SESSION_PARAMETER = "OBLIGATORY_ANCHOR_ELOS_SESSION_PARAMETER";
+
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -41,16 +43,16 @@ public class AjaxTransferObjectCheckBoxController extends AbstractController {
 
         ScyElo scyElo = ScyElo.loadLastVersionElo(uri, getMissionELOService());
         BaseXMLTransfer rootTransferObject = (BaseXMLTransfer) getXmlTransferObjectService().getObject(scyElo.getContent().getXmlString());
-
-        logger.info("ID: " + id + " URI: " + transferEloURI + " property:" + property);
-
         BaseXMLTransfer transfer = (BaseXMLTransfer) getTransferObjectMapService().getObjectWithId(rootTransferObject, id);
-        logger.info("Got " + transfer.getId() + " " + transfer.getClass().getName());
-
         executeSetter(transfer, property, value);
 
         scyElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(rootTransferObject));
         scyElo.updateElo();
+
+        if(property.indexOf("bligatory") > 0) {
+            logger.info("RESETTING THE ANCHOR ELOS IN THE SESSION");
+            request.getSession().removeAttribute(OBLIGATORY_ANCHOR_ELOS_SESSION_PARAMETER);
+        }
 
         ModelAndView modelAndView = new ModelAndView();
         return modelAndView;
@@ -67,8 +69,6 @@ public class AjaxTransferObjectCheckBoxController extends AbstractController {
             property = firstLetter + property.substring(1, property.length());
 
             Method method = transferObject.getClass().getMethod("set" + property, Boolean.class);
-            logger.info("METHOD IS: " + method + " method name: " + method.getName());
-
             method.invoke(transferObject, booleanValue);
             return;
         } catch (Exception e) {

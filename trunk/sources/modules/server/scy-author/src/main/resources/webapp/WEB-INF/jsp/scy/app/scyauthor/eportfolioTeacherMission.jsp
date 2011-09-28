@@ -16,14 +16,17 @@
         <c:when test="${fn:length(teacherQuestionsToMission) > 0}">
             <table>
                 <tr>
-                    <th>
+                    <th width="40%">
                         <spring:message code="QUESTION_TITLE"/>
                     </th>
-                    <th>
+                    <th width="40%">
                         <spring:message code="QUESTION"/>
                     </th>
                     <th>
-                        <spring:message code="QUESTION_TYPE"/>
+                        Text
+                    </th>
+                    <th>
+                        Slider
                     </th>
                 </tr>
                 <c:forEach var="teacherQuestion" items="${teacherQuestionsToMission}">
@@ -35,7 +38,26 @@
                             <s:ajaxTransferObjectTextField transferObjectServiceCollection="${transferObjectServiceCollection}" transferObject="${teacherQuestion}" transferEloURI="${pedagogicalPlan.pedagogicalPlanURI}" id="${teacherQuestion.id}" property="question"/>
                         </td>
                         <td>
-                            <s:ajaxTransferObjectTextField transferObjectServiceCollection="${transferObjectServiceCollection}" transferObject="${teacherQuestion}" transferEloURI="${pedagogicalPlan.pedagogicalPlanURI}" id="${teacherQuestion.id}" property="questionType"/>
+                            <a href="javascript:openPage(document.getElementById('teacherQuestionsForMission').parentNode.id, 'eportfolioTeacherMission.html?action=setTeacherQuestionTypeToText&teacherQuestion=${teacherQuestion.id}&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));">
+                                <c:if test="${teacherQuestion.questionType == 'text'}">
+                                    <img src="/webapp/themes/scy/default/images/checked_radio.png" alt=""  />
+                                </c:if>
+                                <c:if test="${teacherQuestion.questionType == 'slider'}">
+                                    <img src="/webapp/themes/scy/default/images/unchecked_radio.png" alt=""  />
+                                </c:if>
+
+                            </a>
+                        </td>
+                        <td>
+                            <a href="javascript:openPage(document.getElementById('teacherQuestionsForMission').parentNode.id, 'eportfolioTeacherMission.html?action=setTeacherQuestionTypeToSlider&teacherQuestion=${teacherQuestion.id}&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));">
+                                <c:if test="${teacherQuestion.questionType == 'slider'}">
+                                    <img src="/webapp/themes/scy/default/images/checked_radio.png" alt=""  />
+                                </c:if>
+                                <c:if test="${teacherQuestion.questionType == 'text'}">
+                                    <img src="/webapp/themes/scy/default/images/unchecked_radio.png" alt=""  />
+                                </c:if>
+
+                            </a>
                         </td>
                     </tr>
                </c:forEach>
