@@ -29,6 +29,7 @@ import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import eu.scy.common.datasync.ISyncObject;
 import eu.scy.common.datasync.SyncObject;
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
@@ -182,6 +183,7 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
             } else {
                 rtfEditor.read(bis, textPane.getDocument(), 0);
             }
+            textPane.setCaretPosition(0);
             oldText = getPlainText();
         } catch (IOException ex) {
             showError("setTextError", ex);
@@ -205,6 +207,7 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
             textPane.setText("");
             textPane.getDocument().insertString(0, text, null);
             oldText = text;
+            textPane.setCaretPosition(0);
         } catch (BadLocationException ex) {
             showError("setTextError", ex);
         }
@@ -218,6 +221,7 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
         textPane.getDocument().putProperty(Document.StreamDescriptionProperty, null);
         try {
             textPane.setPage(url);
+            textPane.setCaretPosition(0);
             oldText = getPlainText();
         } catch (IOException ex) {
             showError("setTextError", ex);
@@ -547,28 +551,34 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
         synchronized(this) {
             if (syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID) == null ||
                 !syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID).equals(uuid.toString())) {
-                String text = syncObject.getProperty(SYNC_TEXT);
-                String position = syncObject.getProperty(SYNC_POSITION_START);
+                final String text = syncObject.getProperty(SYNC_TEXT);
+                final String position = syncObject.getProperty(SYNC_POSITION_START);
                 logger.debug("received inserted text '" + text + "' at position '" + position + "'.");
                 syncing = true;
-                try {
-                    textPane.removeCaretListener(this);
-                    textPane.setEditable(false);
-                    SimpleAttributeSet attributes = new SimpleAttributeSet();
-                    attributes.addAttributes(textPane.getStyledDocument().getCharacterElement(Integer.parseInt(position)).getAttributes());
-                    // no colors said Wouter, because then must implement
-                    // such behaviour also in other tools
-                    // StyleConstants.setForeground(attributes, Color.black);
-                    // if (!syncObject.getCreator().substring(0, syncObject.getCreator().indexOf('@')).equals(user))
-                    //    StyleConstants.setForeground(attributes, Color.blue);
-                    textPane.getStyledDocument().insertString(Integer.parseInt(position), text, attributes);
-                    oldText = getPlainText();
-                } catch (Exception e) {
-                    logger.error("Error adding symbol",e);
-                } finally {
-                    textPane.setEditable(true);
-                    textPane.addCaretListener(this);
-                }
+                final CaretListener caretListener = this;
+                EventQueue.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            textPane.removeCaretListener(caretListener);
+                            textPane.setEditable(false);
+                            SimpleAttributeSet attributes = new SimpleAttributeSet();
+                            attributes.addAttributes(textPane.getStyledDocument().getCharacterElement(Integer.parseInt(position)).getAttributes());
+                            // no colors said Wouter, because then must implement
+                            // such behaviour also in other tools
+                            // StyleConstants.setForeground(attributes, Color.black);
+                            // if (!syncObject.getCreator().substring(0, syncObject.getCreator().indexOf('@')).equals(user))
+                            //    StyleConstants.setForeground(attributes, Color.blue);
+                            textPane.getStyledDocument().insertString(Integer.parseInt(position), text, attributes);
+                            oldText = getPlainText();
+                        } catch (Exception e) {
+                            logger.error("Error adding symbol", e);
+                        } finally {
+                            textPane.setEditable(true);
+                            textPane.addCaretListener(caretListener);
+                        }
+                    }
+                });
             }
         }
     }
@@ -581,51 +591,57 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
         synchronized(this) {
             if (syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID) == null ||
                 !syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID).equals(uuid.toString())) {
-                String format = syncObject.getProperty(SYNC_FORMAT);
-                String text = syncObject.getProperty(SYNC_TEXT);
-                String position = syncObject.getProperty(SYNC_POSITION_START);
-                String length = syncObject.getProperty(SYNC_LENGTH);
+                final String format = syncObject.getProperty(SYNC_FORMAT);
+                final String text = syncObject.getProperty(SYNC_TEXT);
+                final String position = syncObject.getProperty(SYNC_POSITION_START);
+                final String length = syncObject.getProperty(SYNC_LENGTH);
                 logger.debug("received format change action '" + format + "', text '" + text + "' at position '" + position + "'.");
                 syncing = true;
-                try {
-                    textPane.removeCaretListener(this);
-                    textPane.setEditable(false);
-                    AttributeSet attributeSet = textPane.getStyledDocument().getCharacterElement(Integer.parseInt(position)).getAttributes();
-                    SimpleAttributeSet attributes = new SimpleAttributeSet();
-                    if (format.equals(RtfFormatToolbar.BOLD_ACTION))
-                        StyleConstants.setBold(attributes, !Boolean.parseBoolean(attributeSet.getAttribute(StyleConstants.Bold).toString()));
-                    if (format.equals(RtfFormatToolbar.ITALIC_ACTION))
-                        StyleConstants.setItalic(attributes, !Boolean.parseBoolean(attributeSet.getAttribute(StyleConstants.Italic).toString()));
-                    if (format.equals(RtfFormatToolbar.UNDERLINE_ACTION)) {
-                        boolean underlineValue = false;
-                        if (attributeSet.getAttribute(StyleConstants.Underline)!=null)
-                            underlineValue = Boolean.parseBoolean(attributeSet.getAttribute(StyleConstants.Underline).toString());
-                        StyleConstants.setUnderline(attributes, !underlineValue);
+                final CaretListener caretListener = this;
+                EventQueue.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            textPane.removeCaretListener(caretListener);
+                            textPane.setEditable(false);
+                            AttributeSet attributeSet = textPane.getStyledDocument().getCharacterElement(Integer.parseInt(position)).getAttributes();
+                            SimpleAttributeSet attributes = new SimpleAttributeSet();
+                            if (format.equals(RtfFormatToolbar.BOLD_ACTION))
+                                StyleConstants.setBold(attributes, !Boolean.parseBoolean(attributeSet.getAttribute(StyleConstants.Bold).toString()));
+                            if (format.equals(RtfFormatToolbar.ITALIC_ACTION))
+                                StyleConstants.setItalic(attributes, !Boolean.parseBoolean(attributeSet.getAttribute(StyleConstants.Italic).toString()));
+                            if (format.equals(RtfFormatToolbar.UNDERLINE_ACTION)) {
+                                boolean underlineValue = false;
+                                if (attributeSet.getAttribute(StyleConstants.Underline)!=null)
+                                    underlineValue = Boolean.parseBoolean(attributeSet.getAttribute(StyleConstants.Underline).toString());
+                                StyleConstants.setUnderline(attributes, !underlineValue);
+                            }
+                            if (format.equals(RtfFormatToolbar.SUPERSCRIPT_ACTION)) {
+                                boolean superscriptValue = false;
+                                if (attributeSet.getAttribute(StyleConstants.Superscript)!=null)
+                                    superscriptValue = Boolean.parseBoolean(attributeSet.getAttribute(StyleConstants.Superscript).toString());
+                                StyleConstants.setSuperscript(attributes, !superscriptValue);
+                                if (!superscriptValue)
+                                    StyleConstants.setSubscript(attributes, false);
+                            }
+                            if (format.equals(RtfFormatToolbar.SUBSCRIPT_ACTION)) {
+                                boolean subscriptValue = false;
+                                if (attributeSet.getAttribute(StyleConstants.Subscript)!=null)
+                                    subscriptValue = Boolean.parseBoolean(attributeSet.getAttribute(StyleConstants.Subscript).toString());
+                                StyleConstants.setSubscript(attributes, !subscriptValue);
+                                if (!subscriptValue)
+                                    StyleConstants.setSuperscript(attributes, false);
+                            }
+                            textPane.getStyledDocument().setCharacterAttributes(Integer.parseInt(position),Integer.parseInt(length),attributes,false);
+                            updateIcons(textPane.getCaretPosition());
+                        } catch (Exception e) {
+                            logger.error("Error formatting text",e);
+                        } finally {
+                            textPane.setEditable(true);
+                            textPane.addCaretListener(caretListener);
+                        }
                     }
-                    if (format.equals(RtfFormatToolbar.SUPERSCRIPT_ACTION)) {
-                        boolean superscriptValue = false;
-                        if (attributeSet.getAttribute(StyleConstants.Superscript)!=null)
-                            superscriptValue = Boolean.parseBoolean(attributeSet.getAttribute(StyleConstants.Superscript).toString());
-                        StyleConstants.setSuperscript(attributes, !superscriptValue);
-                        if (!superscriptValue)
-                            StyleConstants.setSubscript(attributes, false);
-                    }
-                    if (format.equals(RtfFormatToolbar.SUBSCRIPT_ACTION)) {
-                        boolean subscriptValue = false;
-                        if (attributeSet.getAttribute(StyleConstants.Subscript)!=null)
-                            subscriptValue = Boolean.parseBoolean(attributeSet.getAttribute(StyleConstants.Subscript).toString());
-                        StyleConstants.setSubscript(attributes, !subscriptValue);
-                        if (!subscriptValue)
-                            StyleConstants.setSuperscript(attributes, false);
-                    }
-                    textPane.getStyledDocument().setCharacterAttributes(Integer.parseInt(position),Integer.parseInt(length),attributes,false);
-                    updateIcons(textPane.getCaretPosition());
-                } catch (Exception e) {
-                    logger.error("Error formatting text",e);
-                } finally {
-                    textPane.setEditable(true);
-                    textPane.addCaretListener(this);
-                }
+                });
             }
         }
     }
@@ -638,22 +654,28 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
         synchronized(this) {
             if (syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID) == null ||
                 !syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID).equals(uuid.toString())) {
-                String text = syncObject.getProperty(SYNC_TEXT);
-                String position = syncObject.getProperty(SYNC_POSITION_START);
-                String length = syncObject.getProperty(SYNC_LENGTH);
+                final String text = syncObject.getProperty(SYNC_TEXT);
+                final String position = syncObject.getProperty(SYNC_POSITION_START);
+                final String length = syncObject.getProperty(SYNC_LENGTH);
                 logger.debug("received deleted text '" + text + "' at position '" + position + "', length='" + length + ".");
                 syncing = true;
-                try {
-                    textPane.removeCaretListener(this);
-                    textPane.setEditable(false);
-                    textPane.getStyledDocument().remove(Integer.parseInt(position), Integer.parseInt(length));
-                    oldText = getPlainText();
-                } catch (Exception e) {
-                    logger.error("Error deleting text",e);
-                } finally {
-                    textPane.setEditable(true);
-                    textPane.addCaretListener(this);
-                }
+                final CaretListener caretListener = this;
+                EventQueue.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            textPane.removeCaretListener(caretListener);
+                            textPane.setEditable(false);
+                            textPane.getStyledDocument().remove(Integer.parseInt(position), Integer.parseInt(length));
+                            oldText = getPlainText();
+                        } catch (Exception e) {
+                            logger.error("Error deleting text",e);
+                        } finally {
+                            textPane.setEditable(true);
+                            textPane.addCaretListener(caretListener);
+                        }
+                    }
+                });
             }
         }
     }
