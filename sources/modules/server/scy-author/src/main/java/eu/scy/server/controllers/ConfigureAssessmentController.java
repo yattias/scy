@@ -71,6 +71,10 @@ public class ConfigureAssessmentController extends BaseController {
                     setInputTypeForTab(missionSpecificationElo, pedagogicalPlanTransfer, anchorEloURI, request);
                 } else if(action.equals("setInputTypeToText")) {
                     setInputTypeForTab(missionSpecificationElo, pedagogicalPlanTransfer, anchorEloURI, request);
+                } else if(action.equals("setTeacherQuestionTypeToText")) {
+                    setTeacherQuestionType(missionSpecificationElo, pedagogicalPlanTransfer, anchorEloURI, request);
+                } else if(action.equals("setTeacherQuestionTypeToSlider")) {
+                    setTeacherQuestionType(missionSpecificationElo, pedagogicalPlanTransfer, anchorEloURI, request);
                 }
 
             }
@@ -109,6 +113,22 @@ public class ConfigureAssessmentController extends BaseController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+    }
+
+    private void setTeacherQuestionType(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer, String anchorEloURI, HttpServletRequest request) {
+        String teacherQuestionId = request.getParameter("teacherQuestion");
+        String type = "text";
+        if(request.getParameter("action").equals("setTeacherQuestionTypeToSlider")) type = "slider";
+        List<TeacherQuestionToMission> teacherQuestionToMissions = pedagogicalPlanTransfer.getAssessmentSetup().getTeacherQuestionsToMission();
+        for (int i = 0; i < teacherQuestionToMissions.size(); i++) {
+            TeacherQuestionToMission teacherQuestionToMission = teacherQuestionToMissions.get(i);
+            if(teacherQuestionToMission.getId().equals(teacherQuestionId)) teacherQuestionToMission.setQuestionType(type);
+        }
+
+        ScyElo pedagogicalPlanElo = getPedagogicalPlanEloForMission(missionSpecificationElo);
+        pedagogicalPlanElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(pedagogicalPlanTransfer));
+        pedagogicalPlanElo.updateElo();
 
     }
 
