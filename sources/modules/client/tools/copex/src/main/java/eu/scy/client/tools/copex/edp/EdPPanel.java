@@ -149,10 +149,8 @@ public class EdPPanel extends JPanel implements ActionMenuEvent {
         setLayout(new BorderLayout());
         setSize(CopexPanel.PANEL_WIDTH, CopexPanel.PANEL_HEIGHT);
         initCopex();
-        if (!scyMode) {
             setMenuBar();
             updateMenu();
-        }
         addComponentListener(new java.awt.event.ComponentAdapter() {
 
             public void componentResized(java.awt.event.ComponentEvent evt) {
@@ -229,7 +227,9 @@ public class EdPPanel extends JPanel implements ActionMenuEvent {
             menuBar.add(getMenuItemPrint());
         menuBar.add(getMenuItemHelp());
         menuBar.setBounds(0, 0, this.getWidth(), menuBar.getHeight());
-        this.add(menuBar, BorderLayout.NORTH);
+        if (!scyMode){
+            this.add(menuBar, BorderLayout.NORTH);
+        }
     }
 
     private JSeparator getSep1() {
@@ -524,9 +524,6 @@ public class EdPPanel extends JPanel implements ActionMenuEvent {
      * update menu
      */
     public void updateMenu() {
-        if (scyMode){
-            return;
-        }
         if (proc == null) {
             // no activ proc => disabled menu
             if (menuItemSave != null)
@@ -1315,6 +1312,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent {
     /* returns the point to display the dialog */
     public Point getLocationDialog() {
         try {
+
             return new Point((int) this.getLocationOnScreen().getX() + (this.getWidth() / 3), (int) this.getLocationOnScreen().getY() + this.menuBar.getHeight());
         } catch (IllegalComponentStateException e) {
             return new Point(100, 100);
@@ -1360,6 +1358,9 @@ public class EdPPanel extends JPanel implements ActionMenuEvent {
 
     /* returns the experimental procedure ELO */
     public Element getExperimentalProcedure() {
+        copexTree.setSelectionRow(0);
+        copexTree.setSelectionRow(1);
+        copexTree.setSelectionRow(0);
         if (proc != null)
             return this.controller.getExperimentalProcedure(proc);
         return null;
