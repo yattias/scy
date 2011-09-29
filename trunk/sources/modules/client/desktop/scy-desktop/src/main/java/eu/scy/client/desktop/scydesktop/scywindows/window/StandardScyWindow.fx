@@ -948,6 +948,7 @@ public class StandardScyWindow extends ScyWindow {
                  iconType: "Elo_finished"
                  tooltip: ##"I am finished"
                  action: function() {
+                    missionModelFX.showWebNews(eloUri);
                     //add finished metadata to the elo
                     scyElo.setFinished(true);
                     tbi.getRepository().addMetadata(eloUri, scyElo.getMetadata());
