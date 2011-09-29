@@ -34,11 +34,18 @@ public class FBController extends BaseController {
         String criteria = request.getParameter("criteria");
         String anchorElo = request.getParameter("anchorElo");
         String user = request.getParameter("user");
+        String action = request.getParameter("action");
 
         if(criteria == null) criteria = "NEWEST";
 
         FeedbackEloSearchFilter filter = getMissionELOService().createFeedbackEloSearchFilter();
         if(user != null && user.equalsIgnoreCase("MINE")) user = getCurrentUserName(request);
+        if(action != null && action.equals("get")) {
+            //A request has been sent from SCYLab, the student wants to view feedback given to his elos'
+            user = getCurrentUserName(request);
+        } else {
+            action = "give";
+        }
         filter.setCriteria(criteria);
         filter.setCategory(anchorElo);
         filter.setOwner(user);
@@ -79,6 +86,7 @@ public class FBController extends BaseController {
         modelAndView.addObject("uzers", users);
         modelAndView.addObject("allEloNames", allEloNames);
         modelAndView.addObject("anchorElo", anchorElo);
+        modelAndView.addObject("action", action);
     }
 
     public MissionELOService getMissionELOService() {

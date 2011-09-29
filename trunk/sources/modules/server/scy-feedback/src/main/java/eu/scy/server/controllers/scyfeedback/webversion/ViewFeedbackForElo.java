@@ -67,10 +67,10 @@ public class ViewFeedbackForElo extends BaseController {
         URI uri = getURI(request.getParameter(ELO_URI));
         ScyElo scyElo = ScyElo.loadLastVersionElo(uri, getMissionELOService());
         setScyElo(scyElo);
-        logger.info("REQUEST: " + request.getQueryString());
         setOriginatingPage(request.getParameter(ORIGINATING_PAGE));
-        logger.info("ORIGINATING PAGE: " + getOriginatingPage());
         modelAndView.addObject("eloURI", getEncodedUri(request.getParameter(ELO_URI)));
+        String action = request.getParameter("action");
+        if(action == null) action = "give";
 
         TransferElo transferElo = getMissionELOService().getTransferElo(scyElo);
         try {
@@ -122,6 +122,7 @@ public class ViewFeedbackForElo extends BaseController {
 
             
             modelAndView.addObject("feedbackElo", feedbackEloTransfer);
+            modelAndView.addObject("action", action);
             modelAndView.addObject(ELO_URI, getEncodedUri(request.getParameter(ELO_URI)));
             
 
