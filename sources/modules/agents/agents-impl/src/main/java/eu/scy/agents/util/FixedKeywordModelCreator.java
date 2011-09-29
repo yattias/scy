@@ -27,6 +27,7 @@ public class FixedKeywordModelCreator {
         }
 
         Scanner scanner = new Scanner(new FileInputStream(args[0]));
+        scanner.useDelimiter("\n");
         Set<String> keywordSet = new HashSet<String>();
         while (scanner.hasNext()) {
             String keyword = scanner.next();
@@ -54,10 +55,10 @@ public class FixedKeywordModelCreator {
         Set<String> keywordsIn = (Set<String>) in.readObject();
         in.close();
 
-        //        System.out.println("Test:");
-        //        for (String keyword : keywordsIn) {
-        //            System.out.println(keyword);
-        //        }
+        System.out.println("Test:");
+        for (String keyword : keywordsIn) {
+            System.out.println(keyword);
+        }
     }
 
     private static boolean checkArguments(String[] args) {
