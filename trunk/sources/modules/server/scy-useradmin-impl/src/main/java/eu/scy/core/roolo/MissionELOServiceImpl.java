@@ -358,15 +358,18 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
             ScyElo feedbackElo = ScyElo.loadLastVersionElo(searchResult.getUri(), this);
             URI uri = feedbackElo.getFeedbackOnEloUri();
             ScyElo commentedOn = ScyElo.loadLastVersionElo(uri, this);
+            if (commentedOn.getMissionSpecificationEloUri().equals(missionRuntimeElo.getMissionSpecificationElo())) {
+                FeedbackEloTransfer feedbackEloTransfer = (FeedbackEloTransfer) getXmlTransferObjectService().getObject(feedbackElo.getContent().getXmlString());
 
-            FeedbackEloTransfer feedbackEloTransfer = (FeedbackEloTransfer) getXmlTransferObjectService().getObject(feedbackElo.getContent().getXmlString());
-
-            TransferElo transferElo = new TransferElo(commentedOn);
-            transferElo.setFeedbackEloTransfer(feedbackEloTransfer);
-            if (!transferElo.getCreatedBy().trim().equals(username)) {
-                transferElo.setFeedbackELO(feedbackElo);
+                TransferElo transferElo = new TransferElo(commentedOn);
+                transferElo.setFeedbackEloTransfer(feedbackEloTransfer);
+                if (!transferElo.getCreatedBy().trim().equals(username)) {
+                    transferElo.setFeedbackELO(feedbackElo);
+                }
+                returnList.add(transferElo);
             }
-            returnList.add(transferElo);
+
+
         }
 
         FeedbackEloSearchResultFilter filter = new FeedbackEloSearchResultFilter();
@@ -457,7 +460,7 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
     }
 
     private boolean getHasUserContributedWithFeedbackOnElo(FeedbackEloTransfer feedbackEloTransfer, String currentUserName) {
-        if(feedbackEloTransfer == null) return false;
+        if (feedbackEloTransfer == null) return false;
         List<FeedbackTransfer> feedbackTransfers = feedbackEloTransfer.getFeedbacks();
         for (int i = 0; i < feedbackTransfers.size(); i++) {
             FeedbackTransfer feedbackTransfer = feedbackTransfers.get(i);
