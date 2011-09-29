@@ -1,11 +1,6 @@
 package eu.scy.server.taglibs;
 
-import eu.scy.common.scyelo.ScyElo;
-import eu.scy.core.model.ScyBase;
-
 import javax.servlet.jsp.JspException;
-import java.lang.reflect.Method;
-import java.net.URI;
 import java.util.List;
 
 /**
@@ -27,7 +22,7 @@ public class AjaxELOSlider extends BaseAjaxELOComponent{
                     "minimum=\"0\" maximum=\"" + (sliderValues.size()-1) + "\" discreteValues=\"" + sliderValues.size() + "\" intermediateChanges=\"true\"\n" +
                     "showButtons=\"false\" style=\"width:400px;\" onChange=\"updateAjaxSlider('" + id + "', this);\">\n" +
                     "    <ol dojoType=\"dijit.form.HorizontalRuleLabels\" container=\"topDecoration\"\n" +
-                    "    style=\"height:1.5em;font-size:75%;color:gray;\">");
+                    "    style=\"height:25px;font-size:75%;color:gray;\">");
             for (int i = 0; i < sliderValues.size(); i++) {
                 Object o = sliderValues.get(i);
                 pageContext.getOut().write("<li>" + o.toString() + "</li>");

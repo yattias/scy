@@ -171,11 +171,11 @@
                     <input type="text" name="score" id="score" value="1" style="display:none;"/>
                     Quality:
     <div id="horizontalSlider" dojoType="dijit.form.HorizontalSlider" value="1" minimum="1" maximum="4" discreteValues="4" intermediateChanges="false" showButtons="false" style="width:90%;margin-top:5px;" onChange="document.getElementById('score').value = Math.round(this.value);">
-        <ol dojoType="dijit.form.HorizontalRuleLabels" container="topDecoration" style="height:1.5em;font-size:75%;color:gray;">
-            <li style="margin-bottom:5px;"><img src="/webapp/themes/scy/default/images/smiley_1.png" alt=""  /></li>
-            <li style="margin-bottom:5px;"><img src="/webapp/themes/scy/default/images/smiley_2.png" alt=""  /></li>
-            <li style="margin-bottom:5px;"><img src="/webapp/themes/scy/default/images/smiley_3.png" alt=""  /></li>
-            <li style="margin-bottom:5px;"><img src="/webapp/themes/scy/default/images/smiley_4.png" alt=""  /></li>
+        <ol dojoType="dijit.form.HorizontalRuleLabels" container="topDecoration" style="height:25px;font-size:75%;color:gray;">
+            <li style="margin-bottom:5px;"><img src="/webapp/themes/scy/default/images/smiley_1_slider.png" alt=""  /></li>
+            <li style="margin-bottom:5px;"><img src="/webapp/themes/scy/default/images/smiley_2_slider.png" alt=""  /></li>
+            <li style="margin-bottom:5px;"><img src="/webapp/themes/scy/default/images/smiley_3_slider.png" alt=""  /></li>
+            <li style="margin-bottom:5px;"><img src="/webapp/themes/scy/default/images/smiley_4_slider.png" alt=""  /></li>
         </ol>
         <div dojoType="dijit.form.HorizontalRule" container="bottomDecoration" count="4" style="height:5px;">
             <ol dojoType="dijit.form.HorizontalRuleLabels" container="bottomDecoration" style="height:1em;font-size:75%;color:gray;"></ol>
