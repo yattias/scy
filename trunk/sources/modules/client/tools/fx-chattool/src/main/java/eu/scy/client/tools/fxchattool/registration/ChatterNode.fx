@@ -2,8 +2,8 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package eu.scy.client.tools.fxchattool.registration;
+
 import javafx.scene.CustomNode;
 import javafx.scene.Node;
 import javafx.scene.layout.Resizable;
@@ -32,92 +32,83 @@ import eu.scy.client.desktop.scydesktop.tools.DrawerUIIndicator;
 /**
  * @author pg
  */
-
 public class ChatterNode extends CustomNode, Resizable, ScyToolFX, IChat {
 
     public-init var chatController: ChatController;
     public-init var scyWindow: ScyWindow;
-    
-    var sv:ScrollView;
-    var messageBox:TextBox;
-    var content:VBox;
-    var chatLines:VBox = VBox {
-        spacing: 3
-    }
-
+    var sv: ScrollView;
+    var messageBox: TextBox;
+    var content: VBox;
+    var chatLines: VBox = VBox {
+                spacing: 3
+            }
     var lastTime: String;
 
-    public override function create() : Node {
-        def drawerDescription = Text {
-            font: Font.font("Verdana", FontWeight.BOLD, 12);
-            fill: scyWindow.windowColorScheme.mainColor
-            content: "Group Chat"
-        }
-
+    public override function create(): Node {
         sv = ScrollView {
-            node: bind chatLines;
-            style: "-fx-background-color: white; -fx-border-color: grey;"
-            vbarPolicy: ScrollBarPolicy.ALWAYS;
-            hbarPolicy: ScrollBarPolicy.AS_NEEDED;
-            layoutInfo: LayoutInfo {
-                hfill: true
-                vfill: true
-                hgrow: Priority.ALWAYS
-                vgrow: Priority.ALWAYS
-            }
-        }
-        messageBox = TextBox {
-            selectOnFocus: true;
-            action:function():Void {
-                if (messageBox.text.trim().length() != 0) {
-                    sendMessage();
+                    node: bind chatLines;
+                    style: "-fx-background-color: white; -fx-border-color: grey;"
+                    vbarPolicy: ScrollBarPolicy.ALWAYS;
+                    hbarPolicy: ScrollBarPolicy.NEVER;
+                    layoutInfo: LayoutInfo {
+                        hfill: true
+                        vfill: true
+                        hgrow: Priority.ALWAYS
+                        vgrow: Priority.ALWAYS
+                    }
                 }
-            }
-            layoutInfo: LayoutInfo {
-                hfill: true
-                hgrow: Priority.ALWAYS
-            }
-        }
-        content = VBox {
-            managed: false;
-            spacing: 5.0;
-            padding: Insets{
-              top: 5
-              right: 5
-              bottom: 5
-              left: 5
-            }
-            nodeHPos: HPos.CENTER
-            content: [drawerDescription,
-                sv,
-                HBox {
-                    spacing: 2.0;
-                    content: [
-                        messageBox,
-                        Button {
-                            text: "Send"
-                            action:function():Void {
-                                if (messageBox.text.trim().length() != 0) {
-                                    sendMessage();
-                                }
-                            }
+        messageBox = TextBox {
+                    selectOnFocus: true;
+                    action: function(): Void {
+                        if (messageBox.text.trim().length() != 0) {
+                            sendMessage();
                         }
-                    ]
+                    }
                     layoutInfo: LayoutInfo {
                         hfill: true
                         hgrow: Priority.ALWAYS
                     }
                 }
-            ]
-        }
+        content = VBox {
+                    managed: false;
+                    spacing: 5.0;
+                    padding: Insets {
+                        top: 5
+                        right: 5
+                        bottom: 5
+                        left: 5
+                    }
+                    nodeHPos: HPos.CENTER
+                    content: [
+                        sv,
+                        HBox {
+                            spacing: 2.0;
+                            content: [
+                                messageBox,
+                                Button {
+                                    text: "Send"
+                                    action: function(): Void {
+                                        if (messageBox.text.trim().length() != 0) {
+                                            sendMessage();
+                                        }
+                                    }
+                                }
+                            ]
+                            layoutInfo: LayoutInfo {
+                                hfill: true
+                                hgrow: Priority.ALWAYS
+                            }
+                        }
+                    ]
+                }
         return content;
     }
 
-    override function getPrefWidth(height:Number):Number {
+    override function getPrefWidth(height: Number): Number {
         return 200;
     }
 
-    override function getPrefHeight(width:Number):Number {
+    override function getPrefHeight(width: Number): Number {
         return 418;
     }
 
@@ -125,48 +116,69 @@ public class ChatterNode extends CustomNode, Resizable, ScyToolFX, IChat {
         sizeChanged();
     }
 
-    public override function getDrawerUIIndicator(): DrawerUIIndicator{
-       return DrawerUIIndicator.CHAT;
+    public override function getDrawerUIIndicator(): DrawerUIIndicator {
+        return DrawerUIIndicator.CHAT;
     }
 
     function sizeChanged(): Void {
-      Container.resizeNode(content, width, height);
+        Container.resizeNode(content, width, height);
     }
 
     public override var width on replace { sizeChanged() };
-
     public override var height on replace { sizeChanged() };
 
-    function sendMessage():Void {
+    function sendMessage(): Void {
         chatController.sendMessage(messageBox.text);
         messageBox.text = "";
     }
 
-    public override function addMessage(time:String, name:String, text:String):Void {
-        if (not time.equalsIgnoreCase(lastTime)) {
-            insert TimeLine {
-                time: time
+    public override function addMessage(time: String, name: String, text: String): Void {
+        addMessage(time, name, text, false);
+    }
+
+    public function addMessage(time: String, name: String, text: String, isSystemMessage: Boolean): Void {
+        if (not time.equalsIgnoreCase(lastTime) and not isSystemMessage) {
+            insert SystemLine {
+                text: time
                 layoutWidth: bind content.layoutBounds.width
                 layoutInfo: LayoutInfo {
                     hfill: true
                     vgrow: Priority.ALWAYS
                 }
-
             } into chatLines.content;
             lastTime = time;
         }
-        var color:Color;
+        if (isSystemMessage) {
+            if (not name.equalsIgnoreCase(chatController.getCurrentUser())) {
+                insert SystemLine {
+                    text: text
+                    layoutWidth: bind content.layoutBounds.width
+                    layoutInfo: LayoutInfo {
+                        hfill: true
+                        vgrow: Priority.ALWAYS
+                    }
+                } into chatLines.content;
+            }
+            return;
+        }
+
+        var color: Color;
         if (name.equalsIgnoreCase(chatController.getCurrentUser())) {
-           color = scyWindow.windowColorScheme.mainColor;
+            color = scyWindow.windowColorScheme.mainColor;
         } else {
-           color = scyWindow.windowColorScheme.secondColor;
+            color = scyWindow.windowColorScheme.secondColor;
         }
 
         insert ChatLine {
             name: name
-            text:text
-            color:color
+            text: text
+            color: color
             textLineWidth: bind content.layoutBounds.width
+            isSystemMessage: isSystemMessage;
+            layoutInfo: LayoutInfo {
+                hfill: false
+                vgrow: Priority.NEVER
+            }
         } into chatLines.content;
         sv.vvalue = sv.vmax;
     }

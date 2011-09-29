@@ -27,12 +27,14 @@ public class ChatLine extends CustomNode {
     public-init var text:String;
     public-init var color:Color;
     public var textLineWidth:Number;
+    public-init var isSystemMessage: Boolean;
 
-    var wrappingWidth:Number;
-
+    var nameText:Text;
+    var wrappingWidth:Number = bind textLineWidth - nameText.layoutBounds.width - 10 - 10 - 12 - 18; // scrollbar, insets, spacing, box
+    
     public override function create() : Node {
 
-       var nameText:Text = Text {
+       nameText = Text {
             content: bind "{name}";
             font: Font {
                 embolden: true;
@@ -50,20 +52,17 @@ public class ChatLine extends CustomNode {
             wrappingWidth: bind wrappingWidth
         }
 
-        wrappingWidth = textLineWidth - nameText.layoutBounds.width - 10 - 10 - 12 - 18; // scrollbar, insets, spacing, box
-
         var line: HBox = HBox {
             spacing: 4.0;
             content: [//timeText,
-                nameText,
                 Panel {
                     content: [
                         Polyline {
                             points: bind [0, 8,
                                 10, 3,
                                 10, 0,
-                                textText.layoutBounds.width + 16, 0,
-                                textText.layoutBounds.width + 16, textText.layoutBounds.height + 5,
+                                textText.layoutBounds.width + 15, 0,
+                                textText.layoutBounds.width + 15, textText.layoutBounds.height + 5,
                                 16, textText.layoutBounds.height + 5]
                             strokeWidth: 2.0
                             stroke: color
@@ -96,10 +95,11 @@ public class ChatLine extends CustomNode {
                 }
             ]
         }
+        if (not isSystemMessage) {
+            insert nameText before line.content[0];
+        }
+
         return line;
     }
 
-    postinit {
-        //check for replace -> smileys
-    }
 }
