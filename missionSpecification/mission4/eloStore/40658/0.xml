@@ -22,13 +22,13 @@
           <dateTime>2011-07-26T11:03:57.802+0200</dateTime>
         </date>
       </contribute>
-      <version>3</version>
+      <version>5</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1303476073709</dateCreated>
-        <dateFirstUserSaveKey>1316553862133</dateFirstUserSaveKey>
-        <dateLastModified>1316553862133</dateLastModified>
+        <dateFirstUserSaveKey>1317299894413</dateFirstUserSaveKey>
+        <dateLastModified>1317299894413</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
@@ -40,44 +40,45 @@
         <catalog>memory</catalog>
         <entry>roolo://memory/40658/0/Conclusion+de+mon+exp%C3%A9rience.rtf</entry>
       </identifier>
-      <las>Espace d'analyse</las>
+      <las>Biologie: Espace d'analyse</las>
       <missionId>forensic</missionId>
       <missionRunning>
         <catalog>memory</catalog>
         <entry>roolo://memory/40652/0/Le+laboratoire+de+police+scientifique.scymissionspecification</entry>
       </missionRunning>
       <title>
-        <string language="en">Conclusion of the experiment</string>
-        <string language="fr">Conclusion de mon expérience</string>
+        <string language="en">Biology: Conclusion of the experiment</string>
+        <string language="fr">Biologie: Conclusion de l'expérience</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_fork_of</value>
-      </kind>
-      <resource>
-        <identifier>
-          <catalog>memory</catalog>
-          <entry>roolo://memory/40100/0/Conclusion+of+the+experiment.rtf</entry>
-        </identifier>
-      </resource>
-    </relation>
   </lom>
   <template>true</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACvUlEQVR42u3Uz0vTYRwH8O9/4dGDFw/qyR2lRNZAkE4aMUK8LOYM6bBAopmHQpcMT4JN2RBDipAg6AcqNBjl8md1WE1njenc1kpl5C5r73w+sS9+cVjkIBnvN3x4nu9nn+f5bq/DtOW1TaS+wVCfot+P9VR5vd5jvd0sSs7Ozr8u2d9O5iuqtKWVDXzY+on3Ryoc+YpEGobewmpCAHcPCoZ+Zg8yG94p6NVuv4u5+TdAwXiHmosnDiqqBPDlUgLD92egaRpeLG7rgGrfd2dU1iLgduYHrjquo8fhkH4RUO1VDY4+xKXuwd+Ah3kWiuP52y35TM3F4ruHtXeKOlvntcWVKCaehNDeeQ1W2w14ZxZ0wE7HTfieLksvtLYjgJFYGg9mP2Li0Zz0i4Bq//hVVNbLPW4dUD1fuGiVVc19/pKqqNKWVqMwX+nD+Q6n1LnDKgIWe6rehTMC2NF92zBbBDw6e+ueXwBdwz5DX81FN+MVVVqpP/oTK/N3c4l0vmQ/EtnA+vq/11k7r4E5VQQwn88bmoVCoewvstls+r6rq+vE2VQqZXiuqqqStba29o/vyWaz/wewrq4OY2Nj8gVCoRD8fj+am5tlyOVyYWpqSj/U1tYGk8mEgYEBTE9Py/nW1lbU19ejqalJZgKBAKxWq9yhAHp7e6XvdrsF0OfzYX9/H7FYDA0NDaipqUF/f78OqO5NJpPyXF1djZaWFgF0Op3weDzSHx8fh8ViQWNjIyYnJxEMBpHL5TA0NAS73S53qt8zMjICs9msv7/sgAwBCUhAAjIEJCABCcgQkIAEJCBDQAISkIAMAQlIQAIyBCQgAQnIEJCABCQgQ0ACEpCADAEJSEACMgQkIAEJSECGgAQkIAEZAhKQgARkCEhAAhKQISABCUhAhoAEJCABGQISkIAEZAhIQAISkCFg+fML6SOCaUGvugUAAAAASUVORK5CYII=</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAC8klEQVR42u3aPUxTURgG4OvC4uDckRAGoAM/IyEyuREnMdLBxVDksjgoJaZGBgWtCwsJaQQT4qARB0iskb8SA4JQWjVALVyUlP6AVQilHVrsK+eQXm1oDEhMSPu+yZdz7nfPucOTezucVHF5VrHxHRn1WftxqCfKbrcf6m1FkXXt8OhU1n4gvJdTpczNryDpeQB8+l1Lvm8IbgIf13/qNe0OSsCteCqjH9mGXLsUSul16fp9jIy+A1KZzxDr/MF4TtUB4FsLFEXBubMFwJRFB3w9G0DbvW45pgEDkRjM6g20qKrspwHFXFRn9zNcbu48ANzPqxk/HO/X5T2xbs2/tV/bJ6jTtV+ZndeQdDSh91YtYkPXgDdNOuBV9Tb6hlywv5zGjCckAX1rm3g67MXj5yOynwYU8xdOTY5XWh7qgOL6wkWTHMW6L183cqqUObeGgjNtGZUGrK2/qdeHpYgErG++q/fO71ca8M+1VtsTCXjnUV9GX6zTVv05VUq2H/q/VuRo64Kbe1n7Pt8Klpf/vU7bfgXMiSIBHQ6H3kgmk0fenEqlsLi4KOdGozF/ASsrK+FyuTA+Po5YLIZwOAyn0wmTyYSamhqYzWZ0dHTom+rq6uD1ejE5OSn3VVRUoKqqCoFAADs7O/kHyBCQgAQkIENAAhKQgAwBCUhAAjLHAhwbG/svDx8cHDzUW1hY0OeapuXOGyiOpURKS0tRVFSErq4ueV1cXCzHxsZGJBIJtLe3Y2JiQh5fqaqKwsJCeb+kpESOu7u7cuzv79f3RqNRVFdXy2dbLBZ55lheXg632y3vizk/Yf4GMgQkIAEJyBCQgAQkIENAAhKQgMwxAD0ejxzj8TgaGhpgMBjQ09ODsrIyDAwM6Gd3NptNHneJI6jW1lZYrdZj/SUur9/AUCjEV46fMAEJSECGgAQkIAEZAhKQgAQkIENAAhKQgAwBCUhAAjIEJCABCcgQkIAEJCBDQAISkIAMAQlIQAIyBCQgAXMyvwBV73vKv36kpwAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;
-&#xD;&#xD;
-\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Il y a une correspondance entre l'\'e9chantillon de la sc\'e8ne de crime et:\par&#xD;&#xD;
-\par&#xD;&#xD;
-\b0\ul0\par&#xD;&#xD;
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Analyse des r\'e9sultats:\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+Comparaison avec les autres r\'e9sultats:\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+Conclusion globale:\par&#xD;
+\par&#xD;
+\b0\par&#xD;
+\li0\ri0\fi0\ul0\par&#xD;
 }</RichText>
 </content>
 <resources>

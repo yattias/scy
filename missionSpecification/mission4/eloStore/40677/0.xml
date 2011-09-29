@@ -12,7 +12,7 @@
           <dateTime>2011-09-22T15:02:04.546+0200</dateTime>
         </date>
       </contribute>
-      <version>2</version>
+      <version>16</version>
     </lifecycle>
     <annotation>
       <entity>colorId</entity>
@@ -22,7 +22,7 @@
       <customElements>
         <dateCreated>1316696524547</dateCreated>
         <dateFirstUserSaveKey>1316696657310</dateFirstUserSaveKey>
-        <dateLastModified>1316696657310</dateLastModified>
+        <dateLastModified>1317302012204</dateLastModified>
       </customElements>
       <format>scy/missionmapmodel</format>
     </technical>
@@ -38,7 +38,7 @@
         <catalog>memory</catalog>
         <entry>roolo://memory/40677/0/Le+laboratoire+de+police+scientifique.scymissionmapmodel</entry>
       </identifier>
-      <las>Chimie: Espace d'expérimentation</las>
+      <las>Biologie: Espace d'information</las>
       <missionId>forensic</missionId>
       <missionRunning>
         <catalog>memory</catalog>
@@ -58,9 +58,6 @@
       </resource>
     </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
   <template>TRUE</template>
   <thumbnail>
     <mime>png</mime>
@@ -96,6 +93,7 @@
         <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Information/Assignments/A_chimConceptMap.html</assignmentUri>
         <resourcesUri />
         <helpUri />
+        <webNewsUri />
         <colorScheme />
         <dependingOnMissionAnchorIds />
       </mainAnchor>
@@ -125,6 +123,7 @@
         <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/Assignments/A_chimGoalAnalysis.html</assignmentUri>
         <resourcesUri />
         <helpUri />
+        <webNewsUri />
         <colorScheme />
         <dependingOnMissionAnchorIds />
       </mainAnchor>
@@ -156,6 +155,7 @@
         <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Design/Assignments/A_chimExperimentalProcedure.html</assignmentUri>
         <resourcesUri>http://www.scy-lab.eu/content/en/mission4/LAS_Design/Resources/R_chimExperimentalProcedure.html</resourcesUri>
         <helpUri />
+        <webNewsUri />
         <colorScheme />
         <dependingOnMissionAnchorIds />
       </mainAnchor>
@@ -187,6 +187,7 @@
         <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/Assignments/A_chimAnnotatedData.html</assignmentUri>
         <resourcesUri />
         <helpUri />
+        <webNewsUri />
         <colorScheme />
         <dependingOnMissionAnchorIds />
       </mainAnchor>
@@ -202,6 +203,7 @@
           <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/Assignments/A_chimRepresentationData.html</assignmentUri>
           <resourcesUri />
           <helpUri />
+          <webNewsUri />
           <colorScheme />
           <dependingOnMissionAnchorIds />
         </intermediateAnchor>
@@ -233,6 +235,7 @@
         <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/Assignments/A_chimExperimentConclusion.html</assignmentUri>
         <resourcesUri />
         <helpUri />
+        <webNewsUri />
         <colorScheme />
         <dependingOnMissionAnchorIds />
       </mainAnchor>
@@ -248,6 +251,7 @@
           <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/Assignments/A_chimOrganizedData.html</assignmentUri>
           <resourcesUri />
           <helpUri />
+          <webNewsUri />
           <colorScheme />
           <dependingOnMissionAnchorIds />
         </intermediateAnchor>
@@ -280,6 +284,7 @@
         <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Reporting/Assignments/A_chimReport.html</assignmentUri>
         <resourcesUri />
         <helpUri />
+        <webNewsUri />
         <colorScheme />
         <dependingOnMissionAnchorIds />
       </mainAnchor>
@@ -307,6 +312,7 @@
         <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Information/Assignments/A_conceptMap.html</assignmentUri>
         <resourcesUri>http://www.scy-lab.eu/content/en/mission4/LAS_Information/Resources/R_conceptMap.html</resourcesUri>
         <helpUri />
+        <webNewsUri />
         <colorScheme />
         <dependingOnMissionAnchorIds />
       </mainAnchor>
@@ -336,6 +342,7 @@
         <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/Assignments/A_bioChoiceTechnique.html</assignmentUri>
         <resourcesUri />
         <helpUri />
+        <webNewsUri />
         <colorScheme />
         <dependingOnMissionAnchorIds />
       </mainAnchor>
@@ -351,6 +358,7 @@
           <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/Assignments/A_bioGoalAnalysis.html</assignmentUri>
           <resourcesUri />
           <helpUri />
+          <webNewsUri />
           <colorScheme />
           <dependingOnMissionAnchorIds />
         </intermediateAnchor>
@@ -383,6 +391,7 @@
         <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Design/Assignments/A_bioExperimentalProcedure.html</assignmentUri>
         <resourcesUri>http://www.scy-lab.eu/content/en/mission4/LAS_Design/Resources/R_bioExperimentalProcedure.html</resourcesUri>
         <helpUri />
+        <webNewsUri />
         <colorScheme />
         <dependingOnMissionAnchorIds />
       </mainAnchor>
@@ -414,6 +423,7 @@
         <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/Assignments/A_bioAnnotatedData.html</assignmentUri>
         <resourcesUri />
         <helpUri />
+        <webNewsUri />
         <colorScheme />
         <dependingOnMissionAnchorIds />
       </mainAnchor>
@@ -429,6 +439,7 @@
           <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/Assignments/A_bioRepresentationData.html</assignmentUri>
           <resourcesUri />
           <helpUri />
+          <webNewsUri />
           <colorScheme />
           <dependingOnMissionAnchorIds />
         </intermediateAnchor>
@@ -460,6 +471,7 @@
         <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/Assignments/A_bioExperimentConclusion.html</assignmentUri>
         <resourcesUri />
         <helpUri />
+        <webNewsUri />
         <colorScheme />
         <dependingOnMissionAnchorIds />
       </mainAnchor>
@@ -475,6 +487,7 @@
           <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/Assignments/A_Probabilities.html</assignmentUri>
           <resourcesUri />
           <helpUri />
+          <webNewsUri />
           <colorScheme />
           <dependingOnMissionAnchorIds />
         </intermediateAnchor>
@@ -506,6 +519,7 @@
         <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Reporting/Assignments/A_bioReport.html</assignmentUri>
         <resourcesUri />
         <helpUri />
+        <webNewsUri />
         <colorScheme />
         <dependingOnMissionAnchorIds />
       </mainAnchor>
@@ -513,7 +527,76 @@
       <nextLasses />
     </las>
   </lasses>
-  <windowStatesXmls />
+  <windowStatesXmls>
+    <windowStatesXml id="Chimie: Espace de rédaction">
+      <windowstates>
+        <window uri="roolo://memory/40550/0/Chemistry%3A+Organized+data.scypds" layoutX="168.0" layoutY="125.0" relativeLayoutCenterX="0.178125" relativeLayoutCenterY="0.19038461" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+        <window uri="roolo://memory/40667/0/Rapport+officiel.rtf" layoutX="992.0" layoutY="10.0" relativeLayoutCenterX="0.821875" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+        <window uri="roolo://memory/40666/0/Conclusion+de+mon+exp%C3%A9rience.rtf" layoutX="168.0" layoutY="10.0" relativeLayoutCenterX="0.178125" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+      </windowstates>
+    </windowStatesXml>
+    <windowStatesXml id="Biologie: Espace de rédaction">
+      <windowstates>
+        <window uri="roolo://memory/40659/0/Raport+officiel.rtf" layoutX="1032.0" layoutY="10.0" relativeLayoutCenterX="0.853125" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+        <window uri="roolo://memory/40658/0/Conclusion+de+mon+exp%C3%A9rience.rtf" layoutX="415.0" layoutY="307.0" relativeLayoutCenterX="0.37109375" relativeLayoutCenterY="0.42371795" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+      </windowstates>
+    </windowStatesXml>
+    <windowStatesXml id="Chimie: Espace d'orientation">
+      <windowstates>
+        <window uri="roolo://memory/40665/0/But+de+l%27analyse.rtf" layoutX="1032.0" layoutY="10.0" relativeLayoutCenterX="0.853125" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+      </windowstates>
+    </windowStatesXml>
+    <windowStatesXml id="Chimie: Espace d'information">
+      <windowstates>
+        <window uri="roolo://memory/40674/0/Carte+conceptuelle+des+analyses+chimiques.scymapping" layoutX="1032.0" layoutY="10.0" relativeLayoutCenterX="0.853125" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+      </windowstates>
+    </windowStatesXml>
+    <windowStatesXml id="Chimie: Espace de conception">
+      <windowstates>
+        <window uri="roolo://memory/40616/0/Experimental+procedure.scyxproc" layoutX="1032.0" layoutY="10.0" relativeLayoutCenterX="0.853125" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+        <window uri="roolo://memory/40665/0/But+de+l%27analyse.rtf" layoutX="433.0" layoutY="161.0" relativeLayoutCenterX="0.38515624" relativeLayoutCenterY="0.23653845" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+      </windowstates>
+    </windowStatesXml>
+    <windowStatesXml id="Biologie: Espace d'information">
+      <windowstates>
+        <window uri="roolo://memory/40644/0/Examen+de+la+sc%C3%A8ne+de+crime.rtf" layoutX="1015.8096" layoutY="10.0" relativeLayoutCenterX="0.8404762" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+      </windowstates>
+    </windowStatesXml>
+    <windowStatesXml id="Biologie: Espace de conception">
+      <windowstates>
+        <window uri="roolo://memory/40645/0/But+de+l%27analyse.rtf" layoutX="128.0" layoutY="10.0" relativeLayoutCenterX="0.146875" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+        <window uri="roolo://memory/40673/0/Choix+des+techniques.scymapping" layoutX="461.0" layoutY="323.0" relativeLayoutCenterX="0.40703124" relativeLayoutCenterY="0.44423077" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+        <window uri="roolo://memory/40646/0/Protocole+exp%C3%A9rimental.scyxproc" layoutX="1032.0" layoutY="10.0" relativeLayoutCenterX="0.853125" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+      </windowstates>
+    </windowStatesXml>
+    <windowStatesXml id="Biologie: Espace d'orientation">
+      <windowstates>
+        <window uri="roolo://memory/40645/0/But+de+l%27analyse.rtf" layoutX="128.0" layoutY="10.0" relativeLayoutCenterX="0.146875" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+        <window uri="roolo://memory/40673/0/Choix+des+techniques.scymapping" layoutX="188.0" layoutY="125.0" relativeLayoutCenterX="0.19375" relativeLayoutCenterY="0.19038461" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+      </windowstates>
+    </windowStatesXml>
+    <windowStatesXml id="Chimie: Espace d'expérimentation">
+      <windowstates>
+        <window uri="roolo://memory/40676/0/Photo+de+mes+r%C3%A9sultats.scyformauthor" layoutX="580.0" layoutY="10.0" relativeLayoutCenterX="0.5" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" />
+        <window uri="roolo://memory/40616/0/Experimental+procedure.scyxproc" layoutX="347.0" layoutY="237.0" relativeLayoutCenterX="0.31796876" relativeLayoutCenterY="0.33397436" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+        <window uri="roolo://memory/40548/0/Chemistry%3A+Annotated+data.scydraw" layoutX="1032.0" layoutY="10.0" relativeLayoutCenterX="0.853125" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+      </windowstates>
+    </windowStatesXml>
+    <windowStatesXml id="Biologie: Espace d'expérimentation">
+      <windowstates>
+        <window uri="roolo://memory/40577/0/Results+of+my+experiment.scydraw" layoutX="787.2" layoutY="10.0" relativeLayoutCenterX="0.661875" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+        <window uri="roolo://memory/40675/0/Photo+de+mes+r%C3%A9sultats.scyformauthor" layoutX="444.00003" layoutY="10.0" relativeLayoutCenterX="0.39375" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+        <window uri="roolo://memory/40646/0/Protocole+exp%C3%A9rimental.scyxproc" layoutX="100.8" layoutY="10.0" relativeLayoutCenterX="0.125625" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+      </windowstates>
+    </windowStatesXml>
+    <windowStatesXml id="Biologie: Espace d'analyse">
+      <windowstates>
+        <window uri="roolo://memory/40658/0/Conclusion+de+mon+exp%C3%A9rience.rtf" layoutX="1032.0" layoutY="10.0" relativeLayoutCenterX="0.853125" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+        <window uri="roolo://memory/40577/0/Results+of+my+experiment.scydraw" layoutX="460.2" layoutY="352.0" relativeLayoutCenterX="0.40640625" relativeLayoutCenterY="0.48141026" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+        <window uri="roolo://memory/40011/0/Probabilities.scypds" layoutX="580.0" layoutY="10.0" relativeLayoutCenterX="0.5" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" />
+      </windowstates>
+    </windowStatesXml>
+  </windowStatesXmls>
 </missionModel>
 </content>
 <resources>

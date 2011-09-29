@@ -22,33 +22,41 @@
           <dateTime>2011-07-08T14:53:44.362+0200</dateTime>
         </date>
       </contribute>
-      <version>18</version>
+      <version>21</version>
     </lifecycle>
+    <annotation>
+      <entity>colorId</entity>
+      <colorSchemeId />
+    </annotation>
     <technical>
       <customElements>
         <dateCreated>1303994951892</dateCreated>
-        <dateFirstUserSaveKey>1317209792437</dateFirstUserSaveKey>
-        <dateLastModified>1317209792438</dateLastModified>
+        <dateFirstUserSaveKey>1317300616313</dateFirstUserSaveKey>
+        <dateLastModified>1317300616313</dateLastModified>
       </customElements>
       <format>scy/drawing</format>
     </technical>
     <educational>
       <learningResourceType>drawingDesign</learningResourceType>
     </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType />
+    </annotation>
     <general>
       <identifier>
         <catalog>memory</catalog>
         <entry>roolo://memory/40548/0/Chemistry%3A+Annotated+data.scydraw</entry>
       </identifier>
-      <las>Chemistry Experiment</las>
+      <las>Chimie: Espace d'expérimentation</las>
       <missionId>forensic</missionId>
       <missionRunning>
         <catalog>memory</catalog>
-        <entry>roolo://memory/40637/0/Forensic+mission.scymissionspecification</entry>
+        <entry>roolo://memory/40652/0/Le+laboratoire+de+police+scientifique.scymissionspecification</entry>
       </missionRunning>
       <title>
         <string language="en">Chemistry: Results of the experiment</string>
-        <string language="fr">Chimie: Resultats de mon expérience</string>
+        <string language="fr">Chimie: Résultats de l'expérience</string>
       </title>
     </general>
   </lom>
