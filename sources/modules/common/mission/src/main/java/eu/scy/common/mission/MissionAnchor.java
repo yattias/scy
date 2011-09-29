@@ -21,6 +21,7 @@ public interface MissionAnchor
    public URI getAssignmentUri();
    public URI getResourcesUri();
    public URI getHelpUri();
+   public URI getWebNewsUri();
    public String getIconType();
    public ColorSchemeId getColorSchemeId();
 
