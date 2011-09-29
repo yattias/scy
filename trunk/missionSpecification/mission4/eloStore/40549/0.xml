@@ -22,13 +22,13 @@
           <dateTime>2011-07-08T14:58:19.019+0200</dateTime>
         </date>
       </contribute>
-      <version>16</version>
+      <version>19</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1303995497619</dateCreated>
-        <dateFirstUserSaveKey>1310129899019</dateFirstUserSaveKey>
-        <dateLastModified>1310129899019</dateLastModified>
+        <dateFirstUserSaveKey>1317209853580</dateFirstUserSaveKey>
+        <dateLastModified>1317209853580</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
@@ -40,15 +40,15 @@
         <catalog>memory</catalog>
         <entry>roolo://memory/40549/0/Chemistry%3A+Conclusion+of+the+experiment.rtf</entry>
       </identifier>
-      <las>Analysis_Chim</las>
+      <las>Chemistry Analysis</las>
       <missionId>forensic</missionId>
       <missionRunning>
         <catalog>memory</catalog>
-        <entry>roolo://memory/40608/0/Forensic+mission.scymissionspecification</entry>
+        <entry>roolo://memory/40637/0/Forensic+mission.scymissionspecification</entry>
       </missionRunning>
       <title>
-        <string language="en">Conclusion of the experiment</string>
-        <string language="fr">Conclusion de mon expérience</string>
+        <string language="en">Chemistry: Conclusion of the experiment</string>
+        <string language="fr">Chimie: Conclusion de mon expérience</string>
       </title>
     </general>
     <relation>
@@ -67,19 +67,20 @@
   <template>true</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAABwklEQVR42u3TPUtCYRjG8ecDRLQ5OlerH6Ktj9AUNNfQ1CA0NjS2FBQGLVEtDUFDL4MoQVM5WGa+pWYv5gupxzvup46pOJRLmP8LLjz3uZ/nDD/QZPIi6dx388+dc/c+GLrumDe3Ah1zKutI8qE+NDUKdHb1KnPzfpmeXZb8i8ipzgt+Wd0+EXe/e3Qh55GiBdRZz4Rj7xZQ52C0aveJdFnuU2+txpNF2/Z3vdrr3E/f/eX3LOD6fkhGRsdkambJAhpj7LvFlR0LuHEQlvGJSfurgLrTM4HDSwuo885xxO7jiSeJxXNDUwuYLXz1USxgay58/oXbZwVsnxWwfb6NpSV6Ex+amrW9O6H91/h8PslkMtJoNKRSqYjH4xHHccRNuVyWarUqpVLJPus5ba1Wa+31np5xnzX669ad9Y7Wve9+w+v12n29XpdBi2k2m7++5N7p5273NwY9RgiAAAIIIAEQQAABJAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCAABIAAQQQQAIggAACSAAEEEAACYAAAgggARBAAAEkAAIIIIAEQAAB/If5AKKC3oFecygLAAAAAElFTkSuQmCC</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACnklEQVR42u3Uz2uScRwH8Oe/cJ696GHDw3YuQRN36bSFjPCWNNehQ8KIoouy1bx6yP0IpEEZIwj6wdzwZFtzm9XBcnM1nK6Z9giS7LB85/cbz8NkEqsFibzf8Ob5Ph8/zyO8BJX19A4OKmjpx9y3EzPRSCRyYqbW0HZ3cSnZdl74ctRVVVIb23i/9wPvjjWT/YpiCS2zlc2iBFTrjZZ5uQq5m9lv6B26GkR86TXQaH2H2MsX611VCfgqVcTU/QUoioKXawUdUJzHA2F51QAL5e/w+q5jzOeTcw1QnEUnwo9waXTiF2Azz1fzePFmT34m9nbzarPVM7SznlfWNnKYebqKIc81jFzxI7KwogN6fDcx92xdzlbT+xIwu1vCw8UPmHkcl3MNUJyfJHLy6h67qwOK+wsXR+RV7H36fNBVVVKbOTguj+P88A3Zc81qgNpM9G2mLAGHR++07GqAx3dv3XsgAW9PzbXMxV5uJ99VVdr90f+25dPtFUtHbefZ7Da2tv6+nfa8AuZMUaLRKKxWK6anp1GtVv/4BfV6/dS7ZrMZjUZDVuQ031er1TobUDuk02n09PQgFovpH5pMJlgsFni9XiQSCYkVCATgdDoxMDAAu90Ov9+P2dlZ/Rnxg4iEQiHYbDYEg0F573A4JKCqqqhUKujv74fRaITb7cb8/LzcSSaTWF5els95PB64XC4MDg7CYDAgHo/j8PAQk5OTcre3txfhcFie+/r6/j8gQ0ACEpCADAEJSEACMgQkIAEJyBCQgAQkIENAAhKQgAwBCUhAAjIEJCABCcgQkIAEJCBDQAISkIAMAQlIQAISkCEgAQlIQIaABCQgARkCEpCABGQISEACEpAhIAEJSECGgAQkIAEZAhKQgARkCPhv8xM/IJAHh2hrXAAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Write the conclusion of your chemical experiment here.\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\b0\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\li0\ri0\fi0\ul0\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Write the conclusion of your chemical experiment here.\par&#xD;
+\par&#xD;
+\b0\par&#xD;
+\par&#xD;
+\par&#xD;
+\li0\ri0\fi0\ul0\par&#xD;
 }</RichText>
 </content>
 <resources>

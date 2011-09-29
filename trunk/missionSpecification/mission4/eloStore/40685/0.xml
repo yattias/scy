@@ -1,0 +1,68 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-09-27T18:03:35.075+0200</dateTime>
+        </date>
+      </contribute>
+      <version>1</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1317139415075</dateCreated>
+        <dateFirstUserSaveKey>1317139557108</dateFirstUserSaveKey>
+        <dateLastModified>1317139557108</dateLastModified>
+      </customElements>
+      <format>scy/runtimesettings</format>
+    </technical>
+    <educational>
+      <learningResourceType>conversation</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40685/0/Forensic+mission.runtimesettings</entry>
+      </identifier>
+      <las>Biology Information</las>
+      <missionId>forensic</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40637/0/Forensic+mission.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Forensic mission</string>
+        <string language="fr">Le laboratoire de police scientifique</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAAA9CAYAAAA6e+4pAAAA3ElEQVR42u3TMWqEQBSA4b3pXkN7ez2HjSjY2NgLgtos3sFGrOWFWEhgCSlCUn1/MTO8meqDeYR+1eNzeT6fsa7rNcjzPNI0vc6v1yvmeb4fZ1kWSZLEOI7kvgK2bRvbtr1d9n0fZVlS+glQfwTYNM19XpaF1neA+75HURTX4DiOG6yu66iqKs7zjGmarn0Yhuu+6zp6vjBAgAABCiBAgAAFECBAgAIIECBAAQQIEKAAAgQIUAABAgQogAABAhRAgAABCiBAgAAFECBAgAIIECBAgAIIECBAAfz/PgAPwuQNzBmxGwAAAABJRU5ErkJggg==</base64>
+  </thumbnail>
+</metadata>
+<content languages="en fr" contentType="xml">
+<runtimeSettings />
+</content>
+<resources>
+</resources>
+</elo>

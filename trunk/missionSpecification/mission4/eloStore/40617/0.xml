@@ -22,33 +22,33 @@
           <dateTime>2011-07-08T14:52:26.120+0200</dateTime>
         </date>
       </contribute>
-      <version>11</version>
+      <version>13</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1310129546120</dateCreated>
-        <dateFirstUserSaveKey>1310129546120</dateFirstUserSaveKey>
-        <dateLastModified>1310129546120</dateLastModified>
+        <dateFirstUserSaveKey>1317209751057</dateFirstUserSaveKey>
+        <dateLastModified>1317209751057</dateLastModified>
       </customElements>
       <format>scy/formauthor</format>
     </technical>
     <educational>
-      <learningResourceType />
+      <learningResourceType>dataset</learningResourceType>
     </educational>
     <general>
       <identifier>
         <catalog>memory</catalog>
         <entry>roolo://memory/40617/0/Picture+of+my+results.scyformauthor</entry>
       </identifier>
-      <las>Experiment_Chim</las>
+      <las>Chemistry Experiment</las>
       <missionId>forensic</missionId>
       <missionRunning>
         <catalog>memory</catalog>
-        <entry>roolo://memory/40608/0/Forensic+mission.scymissionspecification</entry>
+        <entry>roolo://memory/40637/0/Forensic+mission.scymissionspecification</entry>
       </missionRunning>
       <title>
-        <string language="en">Picture of my results</string>
-        <string language="fr">Photo de mes résultats</string>
+        <string language="en">Chemistry: Picture of the results</string>
+        <string language="fr">Chimie: Photo des résultats</string>
       </title>
     </general>
     <relation>
@@ -63,15 +63,27 @@
         </identifier>
       </resource>
     </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
   </lom>
-  <template>true</template>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <template>TRUE</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAAA+CAYAAAC875yHAAABPklEQVR42u3UMUuEcBjH8YNenG8gaHVw6hXkWDQ1NjjeVIHFlQqStqRDYLjIHZwheENBBAfRENGSz+UD/gkaKhoi+P7g4ac+Th/+/EfyHsuypOs6IT/PCIJfAnqeJ67rim3b+sFxHFQ4gQACCCAB8E8B27ZlvhgFrOtahqmqSj6+93MxPdcuiuLT7nb5pp1lmRzm9/L0ujS7+eO1dpqm2k3TmF2fvuM4lv3JTLaPW/P9353AKIpkmLIstZ+31iQMQ33e2F3XzvPc/DfsXhY72kmSyNFpKuHdptmNry61gyDQ7jPsbh5m2r7vy/jgTPa8E91xB3IHEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAASQAAggggARAAAEEkAAIIIAAEgABBBBAAAmAAAIIIAEQQAABJAACCCCA5JtZAR7w35E4XUfrAAAAAElFTkSuQmCC</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAAA+CAYAAAC875yHAAACFklEQVR42u3Yv2saYRgHcHfd/A/6h4g4KIhDMYNDoJCp4iB0EP+EZDISIcNRC8lS6ZDFKUu9GKskKMSoSbg7h+LPdChSQ3UQvu095Q7PDglJSpLy/cLL+97DPRx8fF+H1+Xz+ZDL5cDcLy5rMZvN7GIwGEQ0GoWiKAiHw1KbTqcyj0YjxONxJBIJJJNJeZeAzMMA3W43XK4/loFAAKFQyLEjGe5AAhKQgAwBCUhAAjIrgLquY3mYWa31+32Zz7WmzL1eD4ZhyNrQDUdf56qLzYOvsh4MBr/f07F7eL30bMhQGjuOvmKxCE3T7PesmjkPh0PpOb8wcNbW7L5nAVgqlbBYLPBJfQ9zbcaqfXnzStatVkvm7dMtmcvlsszmOKmcOvp6Bxu4/PBa1s1mE0fqZxye3aBWKaFWq0ld7e/j7c47R9/aR8NeNxoNHB9VsK7sybfq9brUf95M8P3bD7uPR/h//g+cTCZylB5rrMY8rncZt2X5G36//+kAvV6vXfR4PBiPx8hkMvKcSqXQbrcf/LFsNivXY+aPk06n5TpMVVVEIhFUq9W/RrfbxXw+t6/M8vk8YrGY3F9ax9i8WrPypICr6XQ6/3QHFgqFO40XswMZAhKQgARkCEhAAhKQISABCUhAhoAEJCABGQISkIAEZAhIQAISkCEgAQlIQIaABCQgARkCEpCABGQISEACEpCADAEJ+ELzC9LTosdNYSwrAAAAAElFTkSuQmCC</base64>
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
-<form description="" title="" version="0" />
+<form description="" title="Picture of the TLC plates" version="0"><field cardinality="1" title="Picture" type="IMAGE"/></form>
 </content>
 <resources>
 </resources>

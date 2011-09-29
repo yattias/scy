@@ -22,13 +22,13 @@
           <dateTime>2011-09-06T11:43:29.028+0200</dateTime>
         </date>
       </contribute>
-      <version>21</version>
+      <version>24</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1303474699613</dateCreated>
-        <dateFirstUserSaveKey>1315302209028</dateFirstUserSaveKey>
-        <dateLastModified>1315302209028</dateLastModified>
+        <dateFirstUserSaveKey>1317208880813</dateFirstUserSaveKey>
+        <dateLastModified>1317208880813</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
@@ -44,11 +44,11 @@
       <missionId>forensic</missionId>
       <missionRunning>
         <catalog>memory</catalog>
-        <entry>roolo://memory/40630/0/Forensic+mission.scymissionspecification</entry>
+        <entry>roolo://memory/40637/0/Forensic+mission.scymissionspecification</entry>
       </missionRunning>
       <title>
-        <string language="en">Goal of the analysis</string>
-        <string language="fr">But de l'analyse</string>
+        <string language="en">Biology: Goal of the analysis</string>
+        <string language="fr">Biologie: But de l'analyse</string>
       </title>
     </general>
     <relation>
@@ -67,21 +67,22 @@
   <template>true</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACHUlEQVR42u3ST4tSURjH8fsCInob1fto10to16J1QZuCmE2bFlH7WoQDtQhq0yJQ8Cb+D1TwzyIRyVGvSd2ZMc1Sf815wIuK0EADxfj9wcPxec65x8tHvbm+aKZBVNK3tX5zv1rPr/Wx2Iu1/uc80I9f/Z0pzwF9qB3q1u09Xb/58AQwlO/6O3t6HPO13H/9/qNSjSMDdL07U2hNDdD12U8T2z/+3tXh8UFU4VHHanW2rbadO+3sX95ngM/e5HXh4iVdu/HAAD3Ps9ndR68M8Pnbgi5fuWqrA3R77kzsXckAXf8y3rD94dfPCgbtnSkDlIYrFa71m/sOcLV3gKt9t9tSu93cmfLu7T/R/f2nUbl+c7attp077ew83efpDLJYLP54Zjab6X/LeDz+6zsiwNFopGKxqGQyqTAMVS6X1Wg0ooOud8lkMid/3bZ97vV6qtfryufzNp/P5zYfDAbK5XIKgsBWl1qtZmuhULC11WoplUrZ97q4ZzudjhKJRPSMe59lstmsrc1mU6VSyd6x3+8rnU7b3Pd9W6vVquLxuCqVivXL1b3LdDq1e4bDoSaTyZn8CJ4IgAACCCABEEAAASQAAggggARAAAEEkAAIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAASQAAggggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAATyH+Q0rdL/0GdOBcwAAAABJRU5ErkJggg==</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACp0lEQVR42u3W32tSYRgH8PM/7Hb/xXbvGOHNLrppF3EYu3BU4JJCGYwEHauIUd65i8S6EC+KGKHgkgoCaTWrFVZUTodxbLkfrkE5cJz5zfdJDzvkxdYghvt+4eF9fXzO6+EDR9UKK+8AVG21uVX8q6cqEol06P/sOPt84WnHft2sdFVp+cIS3pf3kNtXaxt5mFi39fKlDwK4VYOtD2zL7KfvDavOjk9j4YUCtJ+r5n7trHZVCWD69Spu3p6Dpml49OqbBaj2k9dmZc1//SiA5Y0dnHdfxrjbLf02oNqrujF7D7rnaguwgdSigflsWd5Tc9UfBra2/72O2/XacnEJ0YeLGB69CP3cBCJzLy3AUfcV3E2+kd5yC/BLaQPxx58Rvf9E+m1AtX/wrCjryKXrLUDIa+dpXVY1V1krdVU1Ad/i1MgkHMMTVrUB9/eMSl4Az1yYtvXbgPt7wVBUAIO37tj6as4wVrqqtEbzi33vEGVi80BzdXO9Y79QyDdr+Qh1vK7XwBwpBwJsNBqH6p9IwGq1Cr/fj1gshkAgIL2enh5rsFarydrb2yur1+tFJpP580PR/G7s7++Hw+GwHR6PxxEKheTcwcFB9PX1YWxsDENDQ5iZmUE0GkU6nZbZXC6Hqakp6LpuO2N3dxepVEr26px2TNO09j6fD06nU/bFYlHO9ng8tnPq9TrczX8O6vPVvEowGMTAwIDcj8vlQjablX4ikZBVOYTDYbkvlWQyabveMAw+wv/lEWYISEACEpAhIAEJSECGgAQkIAEZAhKQgARkCEhAAhKQgAwBCUhAAjIEJCABCcgQkIAEJCBDQAISkIAMAQlIQAIyBCQgAQnIEJCABCQgQ0ACEpCADAEJSEACMgQkIAEJSEASEJCABCQgQ0ACEvBE5jcoQqQHubn+dwAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Calibri;\f3\fnil Times New Roman;}&#xD;&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;
-\margl1417\margr1417\margt1417\margb1417\widowctrl&#xD;&#xD;
-\li0\ri0\fi0\ql\f2\fs24\i\b0\ul0\cf0 "I want to know whether the blood found at the crime scene has come from the victim, or any of the suspects."\par&#xD;&#xD;
-\par&#xD;&#xD;
-\f3\i0\par&#xD;&#xD;
-\f1\cf1\par&#xD;&#xD;
-\par&#xD;&#xD;
-\par&#xD;&#xD;
-\li0\ri0\fi0\ul0\par&#xD;&#xD;
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Calibri;\f3\fnil Times New Roman;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+\margl1417\margr1417\margt1417\margb1417\widowctrl&#xD;
+\li0\ri0\fi0\ql\f2\fs24\i\b0\ul0\cf0 "I want to know whether the blood found at the crime scene has come from the victim, or any of the suspects."\par&#xD;
+\par&#xD;
+\f3\i0\par&#xD;
+\f1\cf1\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+\li0\ri0\fi0\ul0\par&#xD;
 }</RichText>
 </content>
 <resources>

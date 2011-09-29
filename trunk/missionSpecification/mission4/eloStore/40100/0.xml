@@ -22,13 +22,13 @@
           <dateTime>2011-07-26T11:03:57.802+0200</dateTime>
         </date>
       </contribute>
-      <version>21</version>
+      <version>25</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1303476073709</dateCreated>
-        <dateFirstUserSaveKey>1311671037802</dateFirstUserSaveKey>
-        <dateLastModified>1311671037802</dateLastModified>
+        <dateFirstUserSaveKey>1317284663337</dateFirstUserSaveKey>
+        <dateLastModified>1317284663337</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
@@ -44,11 +44,11 @@
       <missionId>forensic</missionId>
       <missionRunning>
         <catalog>memory</catalog>
-        <entry>roolo://memory/40630/0/Forensic+mission.scymissionspecification</entry>
+        <entry>roolo://memory/40637/0/Forensic+mission.scymissionspecification</entry>
       </missionRunning>
       <title>
-        <string language="en">Conclusion of the experiment</string>
-        <string language="fr">Conclusion de mon expérience</string>
+        <string language="en">Biology: Conclusion of the experiment</string>
+        <string language="fr">Biologie: Conclusion de mon expérience</string>
       </title>
     </general>
     <relation>
@@ -63,21 +63,47 @@
         </identifier>
       </resource>
     </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
   </lom>
-  <template>true</template>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <template>TRUE</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAABt0lEQVR42u3Tv0qCYRTH8ecCItq9gupG2rqEpqC5hqYGobEhnFoKCgOXqJaGoKFsECVoKofKzLLU7I+pKfJ66pzSXqMhgoj0+4PDw+85jy/0gdx1QSSb/5jCfWf/vI/Fjzv68kq4o1/lPLm8afTMOAWKHj3KxGRQRsdnpfAgsqd9Kijzq7vS2q9tH8h+smSA2vVNIlU3QO2xk2fbZ7IVubh6ak/6smTjv/tqvnr33bu//J4BLm7Epa9/QEbGZgzQOWd303MRA1zaTMjg0LCdCqg7fRPeOjRA7ZGdpO3TmTtJpfM9MwaYK77PrRhguxff/oX9XQH9XQH9/SyVlZPTdM+MW1g/F+bn4+Q1oVBIqtWqtFKr1aRSqdipCQQC4o/2RqPR3rfSbDbtO3rW63W7K5fL9i3teupef6tvNHrneZ7817jPF60/7DcTjUalW+KEAAgggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAgggARBAAAEkAAIIIIAEQAABBJAACCCAABIAAQQQQAIggAACSAAEEMAuzAsuit/mQDFsXwAAAABJRU5ErkJggg==</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAECUlEQVR42u3aXUhbZxwG8HOz7WoMxi62FXWi3kyh4oWCOO3NqDAw2+XcCGxR2IYXFcTNOAntmDIES+ekc6Zrb2RQ0X5p64zb1JZmLNJmOIo2TZqapiYx1sQs086PZ3nfQ06SfqXpbhp8Hvjznvd/3nOCP5MIr0cxm83w30WiVtTx7hoQDCXmydXf3/9AL37tuVHLw8+Je0bw0Ncan5iB17+dlaUMDJjxvfkaqvYatXqr1IjAqvoD/vMvEL2XqMbPuyXgnUBqX1QoogLe9j94Tqxfjt1zB6n9y1cXcGF8Cp6lDXjurKvj4+r+NU9yTfLaTNeneS1lIPYOPGpeAP76Gh/q9gKzJsBu0gAvz4cxcy2EffvfxZETo3jno4MaoOjvefUVNB84II/Xoiqg16+eE/VZyyE5xgH9oXuw3dyE3auu+eGUTQLeur2WlZUAvNiCs93vyRHWFg3w7EUHTs/cwE/jdoxMLaBW36EBivnLL72Ig4e+ksfJgGKeX/QmzlxyyuM44C1fCPt17+O551/A8G/z6D4+IQHdiytZWTHAYzHA68B5Q6ImPkYg9t3kCwLHRqw4evKSVm9/YNQAT4zaoSiKrOPnrmLt78RHOPkaUWK9+KXM3/Sl9NsPD0lAl9uXlaWYY4AjZ9x4/Y0BrV6LVfwdaPjiCPTNh7UyfvOjBqhv7kk5txJSAcUfn+S+WBd/B35i/Dal/+mX30lAp8uTlaVYfvkdF36eyah+nfrjkeeu/OnO+H6iHDeccDic6vi4cqSZp7s20/VpXkuxO8JgPX0pYP5XJODQ0BDy8/MRCARQWlqKnp4eGAwGNDU1YXNzEzU1NXC5XKivr5cXlZeXo7a2FsPDw9DpdLJXV1cHi8Ui+7sOUKSxsRHLy8tobW3VTnZ1dWFjYwODg4Nyvrq6Kse2tjat53Q6JXxnZ6ecz83N7U5AhoAEJCABGQISkIAEZAhIQAISkCEgAQm4ewDFxqmIx+ORu9BiXFxc1Obb29sIh8NyjRij0ag8Xl9fl2tycnLQ3t6u3aOwsBANDQ1yLq71er1wu93yXiI+n0+Oubm5sre0tJTdgGIrX6CUlZVBr9ejt7cXNptNbucXFRXBZDJhbGwMwWAQJSUl2g0qKytlv6CgAB0dHbI3OzuL4uJiucs9OTmJ6elp2ReoFRUViEQiqKqqwtbWloQXEf8K2NnZ4UeY34EMAQlIQAIyBCQgAQnIEJCABCQgQ0ACPtuA9z+WK3aOmQwAxU5yX1+f3FUWzzqLh8njO8XV1dVyzMvLk6NYI2K1WuVD5vE5P8JPkWzcgud3IAEJyBCQgAQkIENAAhKQgAQkAQEJSEACMgQkIAEJyBCQgAQkIENAAhKQgAwBCUhAAjLp8h+puex9ytDuBwAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;&#xD;&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;&#xD;&#xD;&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;&#xD;&#xD;
-&#xD;&#xD;&#xD;&#xD;&#xD;
-\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 There is a match between crima scene sample and:\b0\par&#xD;&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;&#xD;
-\li0\ri0\fi0\ul0\par&#xD;&#xD;&#xD;&#xD;&#xD;
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Analysis of results:\par
+\par
+\par
+\par
+\par
+\par
+Comparaison with other results:\par
+\par
+\par
+\par
+\par
+\par
+Final conclusion:\b0\par
+\par
+\par
+\par
+\li0\ri0\fi0\ul0\par
 }</RichText>
 </content>
 <resources>

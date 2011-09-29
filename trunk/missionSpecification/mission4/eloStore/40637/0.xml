@@ -7,9 +7,9 @@
           <source>LOMv1.0</source>
           <value>author</value>
         </role>
-        <entity>jakob</entity>
+        <entity>rachel</entity>
         <date>
-          <dateTime>2011-09-09T16:27:34.670+0200</dateTime>
+          <dateTime>2011-09-27T18:08:03.623+0200</dateTime>
         </date>
       </contribute>
       <contribute>
@@ -22,13 +22,13 @@
           <dateTime>2011-09-09T16:27:34.670+0200</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>2</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1315578454670</dateCreated>
-        <dateFirstUserSaveKey>1315578454670</dateFirstUserSaveKey>
-        <dateLastModified>1315578454670</dateLastModified>
+        <dateFirstUserSaveKey>1317283210788</dateFirstUserSaveKey>
+        <dateLastModified>1317283210788</dateLastModified>
       </customElements>
       <format>scy/missionspecification</format>
     </technical>
@@ -40,10 +40,15 @@
         <catalog>memory</catalog>
         <entry>roolo://memory/40637/0/Forensic+mission.scymissionspecification</entry>
       </identifier>
-      <las />
+      <las>Biology Design</las>
       <missionId>forensic</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40637/0/Forensic+mission.scymissionspecification</entry>
+      </missionRunning>
       <title>
         <string language="en">Forensic mission</string>
+        <string language="fr">Le laboratoire de police scientifique</string>
       </title>
     </general>
     <relation>
@@ -56,20 +61,23 @@
       </resource>
     </relation>
   </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
   <template>TRUE</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAAA+CAYAAAC875yHAAABSUlEQVR42u3UvaqCYACH8S7Ee/AygtxUsG4gCAyErsFA0DEIvISWhiKQBsHWqCmoxcnJG3AI/ofzDnEOcT6gMx2eZ9D3Qxx+8L490Uv13h/n81nX69Us9Pt9nU4nM75cLtrv94+PPc9TVVUajUbIfQTc7Xbquu5pc7VaKc9zlH4CpD8AvN/vnzaSJHmMB4PBtz8py/JprW3bL78visK8syz7P4C3201xHGu5XOpwOGi9Xms2m8l1Xdm2rcVioTRNzVHfbreaTqfyfV9hGJq5ZVmaTCbmX/P5XEEQqK5rM3ccR5vNRlEUmft2OBwaxPF4rOPxqKZpOMLcgQQggAACSAACCCCABCCAAAJIAAIIIIAEIIAAAkgAAggggAQggAACSAACCCCABCCAAAIIIAQAAggggAQggAACSAACCCCABCCAAAJIvwSk13oD/ym9SbCFf5gAAAAASUVORK5CYII=</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAAA5CAYAAACh6qw/AAAErElEQVR42u1Y2SuuXRQ/f4wLJOWGS9wguRAJkaGMCXFFIjJeGEMkyUwZMyeFZMwsY5F5zDyP6/RbtZ/et+9V5zvOeb/zddbv4n32+zx772c/v73W+q21v5HgS/iGH0dHR/5ja2tLLi4uND4+TkNDQ3wvKSmJrzMzM8LWZwQKfgGBk5OTBjt0d3fT5eUlt09OToSxf2OBHx8fwtCPENjc3KzdGBgYIH9/f3J3dydfX18qLS2lgoICWllZoampKVpbW6OzszOysLCgtLQ0HpORkUGpqancLioqIisrK4qPj9eeV1ZWUmhoKCUnJ9Pr6ytlZmZSTU0NmZqa6i1mcXGRPDw8KC8vj/9vbW3R1dUVz5+Tk8P3np6e+BodHc3vMTMzo6WlJb15cnNzKTw8nNvDw8MUExND5+fnVFFRwd9lZ2dHJiYm1N/fT1lZWdxvbGzsaxZ4enpqsMPt7e2XduhXWvHz87PB9n+5Jo3AxsZGvlZXV2vETU9P09zcHM3OztLo6CgtLCzws/f3d1peXqaGhgaqr6/XJsP/l5cXthrs+MPDA99va2vjuZqamrgP0NXVRbW1tXRwcKBZFsYcHR2xJdbV1WmWCGDs4eEhrwUZAt5TVVXFlgxCsCbg+PiYjUHNC8Dy4DWdnZ38XvT9zGB+mkAQMTExwcSBtJKSEs0Fgf39fT0zLy8vp7KyMv4AtNV4WAZcIzIykl02PT2doqKieIyrq6tG9NvbG3+sLiBWmA9h4+LigknCx4MorAfE6sLe3l5rI7TAbZ2dnZkklXYlJCT8Y9xfkcaAwP+NiMC04ToI9kB7e7vmzsXFxTQyMkL5+fkcgFdXVzWxUID7xcbGagE+MTGRLQlWCcuAwMAKISwI6rA+S0tLMjc315J4ACLl5eVFvb29tLe3x++EBeta/O7uLrsyxAhjw8LC6O7uTvOWnZ0dvQ+EK0OE+vr6aH5+ngVECZIk0n9SHhgUFCRs/CyB29vb1NPTwzegVgDczFAagYAMt4DCwo0gGABcA7V0S0uL3pjs7GwWFIiAAgK7ck0ArgoXh1KrzURNjhwtODiYRQeqrODk5ETX19ccErCG+/t7Fg2IX2trKzk4OPAVeWRKSgrFxcXxujc2NrjiQn8IjdFcGItV6Qti2I/kVVBQNQ7tzzbld1Q7eC/I1IVKqYyiwthVBZVffQaVPxqzFFQb8hnUmo1RijKBISEhrKB4IUq5gIAAfojEFoCirq+vU2BgILupUmL0UwcNcFMk0CjFkC/qJrIKg4OD5OPjoyWxsGaMx4bBzZCoI0wUFhZqeRwUGRkCknGUk1B7zA2Xh2KrJPvx8VFzc6gsMgGEI5ShAOZ0c3Pj8KCKBZSB+GYovo2NjVbKigobW0Q8PT3ZChDYsQN+fn78EFcU/rAKFOywkM3NTbYA7DhgbW3Nh64I2IZi3F+TxuBkQ8Hb21sv8OJ0QyAu/PsI7Ojo4ACPczMEduSEOCNE4IXKIsADERERdHNzI6yJBQqBQqAQKBAChUAhUAgUAoUCIVAIFAKFQIEQKAQKgUKgQAgUAoVAIVAgBAqBQqAQKBAChUAhUAgUCIFCoBAoBAqEQCHwT8V3Vsmwa8dOijYAAAAASUVORK5CYII=</base64>
   </thumbnail>
 </metadata>
-<content languages="en" contentType="xml">
+<content languages="en fr" contentType="xml">
 <missionSpeicification>
-  <missionMapModelEloUri>roolo://memory/40632/0/Forensic+mission.scymissionmapmodel</missionMapModelEloUri>
-  <eloToolConfigsEloUri>roolo://memory/40633/0/Forensic+mission.scyelotoolconfiguration</eloToolConfigsEloUri>
-  <templateElosEloUri>roolo://memory/40634/0/Forensic+mission.scytemplateelos</templateElosEloUri>
-  <runtimeSettingsEloUri>roolo://memory/40635/0/Forensic+mission.runtimesettings</runtimeSettingsEloUri>
+  <missionMapModelEloUri>roolo://memory/40687/0/Forensic+mission.scymissionmapmodel</missionMapModelEloUri>
+  <eloToolConfigsEloUri>roolo://memory/40688/0/Forensic+mission.scyelotoolconfiguration</eloToolConfigsEloUri>
+  <templateElosEloUri>roolo://memory/40689/0/Forensic+mission.scytemplateelos</templateElosEloUri>
+  <runtimeSettingsEloUri>roolo://memory/40690/0/Forensic+mission.runtimesettings</runtimeSettingsEloUri>
   <agentModelsEloUri />
-  <pedagogicalPlanSettingsEloUri>roolo://memory/40636/0/Forensic+mission.scy</pedagogicalPlanSettingsEloUri>
+  <pedagogicalPlanSettingsEloUri>roolo://memory/40691/0/Forensic+mission.scy</pedagogicalPlanSettingsEloUri>
   <colorSchemesEloUri>roolo://memory/40036/0/Color+schemes+Mission4.colorschemes</colorSchemesEloUri>
   <missionDescriptionUri>http://www.scy-lab.eu/content/en/mission4/missionMapInstruction.html</missionDescriptionUri>
   <missionId>forensic</missionId>
