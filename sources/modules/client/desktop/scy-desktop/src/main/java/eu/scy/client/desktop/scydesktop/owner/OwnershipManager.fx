@@ -9,6 +9,7 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.Contribute;
 import javafx.util.Sequences;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
+import roolo.elo.api.IMetadataKey;
 
 /**
  * @author weinbrenner
@@ -21,7 +22,7 @@ public class OwnershipManager extends CollaboratorStatusListener {
             };
     public var scyWindow: ScyWindow;
     var owners: Contact[];
-    var authorKey;
+    var authorKey : IMetadataKey;
 
     // workaround for not ordered receiption of joined and wentOnline events
     var buddyOnlineYetNotJoined: String[];
