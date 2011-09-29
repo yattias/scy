@@ -22,7 +22,7 @@
       <property name="basicMissionMap">
          <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionMap">
 
-		 	<!--<property name="missionMapBackgroundImageUri" value="http://www.scy-lab.eu/content/en/mission4/loupe.png"/>-->
+		 	<property name="missionMapBackgroundImageUri" value="http://www.scy-lab.eu/content/en/mission4/forensicMissionMapBackgound.fxz"/>
 			<property name="missionMapInstructionUri" value="http://www.scy-lab.eu/content/en/mission4/missionMapInstruction.html"/>
             <property name="initialLasId" value="Biologie: Espace d'information"/>
             <property name="loEloUris">
@@ -295,6 +295,7 @@
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Information/bioTargetDescription.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Information/Assignments/A_conceptMap.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Information/Resources/R_conceptMap.html"/>
+               <property name="webNewsUri" value="http://www.scy-lab.eu/content/en/mission4/webnews/webnews1.html"/>
                <property name="inputMissionAnchorIds">
                   <list>
                   </list>
@@ -327,6 +328,7 @@
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/TargetDescription.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/Assignments/A_bioChoiceTechnique.html"/>
                <!--<property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/Resources/R_bioChoiceTechnique.html"/>-->
+               <property name="webNewsUri" value="http://www.scy-lab.eu/content/en/mission4/webnews/webnews2.html"/>
                <property name="inputMissionAnchorIds">
                   <list>
                   </list>
@@ -375,6 +377,7 @@
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Design/targetDescription.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Design/Assignments/A_bioExperimentalProcedure.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Design/Resources/R_bioExperimentalProcedure.html"/>
+               <property name="webNewsUri" value="http://www.scy-lab.eu/content/en/mission4/webnews/webnews3.html"/>
                <property name="inputMissionAnchorIds">
                   <list>
 				  	<value>bioGoalAnalysis</value>
@@ -542,6 +545,7 @@
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Reporting/targetDescription.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Reporting/Assignments/A_bioReport.html"/>
                <!--<property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Reporting/Resources/R_bioReport.html"/>-->
+               <property name="webNewsUri" value="http://www.scy-lab.eu/content/en/mission4/webnews/webnews4.html"/>
                <property name="inputMissionAnchorIds">
                   <list>
 				  	<value>bioExperimentConclusion</value>
