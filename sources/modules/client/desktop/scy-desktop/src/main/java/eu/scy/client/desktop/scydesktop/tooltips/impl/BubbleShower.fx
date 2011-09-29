@@ -57,7 +57,7 @@ public class BubbleShower {
                     values: bubbleNode.opacity => 0.0;
                     action: function() {
                        insert bubbleNode into tooltipGroup.content;
-                       FX.deferAction(positionTooltip);
+                       FX.deferAction(startPositioning);
                     }
                  }
                  KeyFrame {
@@ -73,10 +73,13 @@ public class BubbleShower {
                     values: bubbleNode.opacity => 0.0 tween Interpolator.EASEBOTH;
                     action: function() {
                        delete bubbleNode from tooltipGroup.content;
+                       showingBubble = false;
                     }
                  }
               ]
            }
+   var showingBubble = false;
+   def positionChanged = sourceNode.boundsInParent on replace { sourceNodeMoved(); }
 
    init {
       bubbleNode.cache = true;
@@ -93,6 +96,18 @@ public class BubbleShower {
       } else if (timeline.time < startDisappearingTime) {
          timeline.time = startDisappearingTime
       }
+   }
+
+   function sourceNodeMoved(): Void {
+      println("sourceNodeMoved: {showingBubble}");
+      if (showingBubble) {
+         positionTooltip()
+      }
+   }
+
+   function startPositioning(): Void {
+      showingBubble = true;
+      sourceNodeMoved();
    }
 
    function positionTooltip(): Void {
