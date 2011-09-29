@@ -35,6 +35,7 @@ import eu.scy.notification.api.INotification;
 import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.collaboration.api.CollaborationStartable;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactFrame;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.DialogBox;
 
 /**
  * @author kaido
@@ -241,7 +242,6 @@ public class RichTextEditorScyNode extends INotifiable, RichTextEditorNode, ScyT
             var messageFromAgent = notification.getFirstProperty("message");
             if (not messageFromAgent.equals(""))
                 DialogBox.showMessageDialog(messageFromAgent, "Hypothesis checker", null, null, null);
-                //javafx.stage.Alert.inform(messageFromAgent);
             return true;
         } else {
             return false;
