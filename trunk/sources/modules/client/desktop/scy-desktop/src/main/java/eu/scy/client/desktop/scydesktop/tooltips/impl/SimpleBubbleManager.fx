@@ -43,12 +43,12 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
    def bubbleManagerTimer = new BubbleManagerTimer(this);
    def layerManager = new BubbleLayerManager();
    def resourceBundleWrapper = new ResourceBundleWrapper(this);
-   var debugBubbleKey:BubbleKey = null;
+   var debugBubbleKey: BubbleKey = null;
    var pauzeCount = 0;
 
    init {
       showingLayer(BubbleLayer.DESKTOP);
-//      debugBubbleKey = BubbleKey.DRAWER_CONTROL;
+   //      debugBubbleKey = BubbleKey.DRAWER_CONTROL;
    }
 
    public override function log(action: IAction): Void {
@@ -98,7 +98,7 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
       def bubbleToDisplay = if (topLayerId != null) bubbleStore.getNextBubble(topLayerId) as AbstractBubble else null;
       if (bubbleToDisplay != null) {
          showBubble(bubbleToDisplay);
-         if (debugBubbleKey==null){
+         if (debugBubbleKey == null) {
             bubbleStore.removeBubbles(bubbleToDisplay.id);
          }
          noBubbleFoundCounter = 0;
@@ -222,15 +222,15 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
       if (bubbleKey == null) {
          throw new IllegalArgumentException("the bubbleKey must be set");
       }
-      if (targetNode==null){
+      if (targetNode == null) {
          throw new IllegalArgumentException("the targetNode must be set");
       }
-//      if (windowColorScheme==null){
-//         throw new IllegalArgumentException("the windowColorScheme must be set");
-//      }
+      //      if (windowColorScheme==null){
+      //         throw new IllegalArgumentException("the windowColorScheme must be set");
+      //      }
 
       var usePriority = priority;
-      if (debugBubbleKey!=null and bubbleKey==debugBubbleKey){
+      if (debugBubbleKey != null and bubbleKey == debugBubbleKey) {
          usePriority = 9999
       }
 
@@ -242,7 +242,7 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
                  bubbleText: getBubbleText(bubbleKey)
                  windowColorScheme: windowColorScheme
                  window: window
-                 bubbleManagerCheckFunction:bubbleManagerCheckFunction
+                 bubbleManagerCheckFunction: bubbleManagerCheckFunction
               }
       bubbleStore.addBubble(bubble);
       return bubble;
@@ -252,10 +252,26 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
       resourceBundleWrapper.getString("bubbleHelp.{bubbleKey}")
    }
 
-   function bubbleManagerCheckFunction(bubble: AbstractBubble):Boolean{
-      if (bubble.window!=null){
-         if (not windowManager.hasWindow(bubble.window)){
+   function bubbleManagerCheckFunction(bubble: AbstractBubble): Boolean {
+      if (bubble.window != null) {
+         // bubble is for a winodw/elo
+         if (not windowManager.hasWindow(bubble.window)) {
             return false;
+         }
+         if (bubble.window!=windowManager.activeWindow){
+            if (windowManager.activeWindow.isMaximized) {
+               // an other window is full screen
+               return false
+            }
+            if (not windowManager.activeWindow.isClosed){
+               // an other window is open
+               return false
+            }
+         }
+      } else {
+         if (windowManager.activeWindow.isMaximized) {
+            // an other window is full screen
+            return false
          }
       }
       return true
