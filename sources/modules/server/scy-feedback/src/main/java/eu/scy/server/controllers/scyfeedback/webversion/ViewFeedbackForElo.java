@@ -72,6 +72,8 @@ public class ViewFeedbackForElo extends BaseController {
         String action = request.getParameter("action");
         if(action == null) action = "give";
 
+        String missionRuntimeURI = getEncodedUri(request.getParameter("missionRuntimeURI"));
+
         TransferElo transferElo = getMissionELOService().getTransferElo(scyElo);
         try {
             if(transferElo == null) {
@@ -124,7 +126,8 @@ public class ViewFeedbackForElo extends BaseController {
             modelAndView.addObject("feedbackElo", feedbackEloTransfer);
             modelAndView.addObject("action", action);
             modelAndView.addObject(ELO_URI, getEncodedUri(request.getParameter(ELO_URI)));
-            
+            modelAndView.addObject("missionRuntimeURI", missionRuntimeURI);
+
 
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
