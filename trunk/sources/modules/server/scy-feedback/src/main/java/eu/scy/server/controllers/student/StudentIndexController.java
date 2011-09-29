@@ -3,6 +3,7 @@ package eu.scy.server.controllers.student;
 import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.core.XMLTransferObjectService;
+import eu.scy.core.model.User;
 import eu.scy.core.model.transfer.NewestElos;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.server.controllers.BaseController;
@@ -11,8 +12,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.Locale;
@@ -68,7 +73,37 @@ public class StudentIndexController extends BaseController {
         modelAndView.addObject("missionSpecificationTransporter", getMissionELOService().getWebSafeTransporter(missionRuntimeElo));
         modelAndView.addObject("numberOfFeedbacksToMyElos", myElosWithFeedback.getElos().size());
         modelAndView.addObject("elosWhereIHaveProvidedFeedback", elosWhereIHaveProvidedFeedback.getElos().size());
+
+        String xdescriptionURI = String.valueOf(missionSpecificationElo.getTypedContent().getMissionDescriptionUri());
+        xdescriptionURI = localizeDescriptionURI(descriptionURI.toString(), request.getLocale().getCountry());
+
+        String content = "";
+        try {
+            URL u = new URL(xdescriptionURI);
+            URLConnection connection = u.openConnection();
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                content = content + inputLine;
+            }
+            content = content.replaceAll("'", "");
+
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+
+        modelAndView.addObject("content", content);
     }
+
+    private String localizeDescriptionURI(String descriptionURI, String locale) {
+        final String contentString = "content/";
+        String firstPart = descriptionURI.substring(0, descriptionURI.indexOf(contentString) + contentString.length());
+        String lastPart = descriptionURI.substring(firstPart.length(), descriptionURI.length());
+        lastPart = lastPart.substring(lastPart.indexOf("/"), lastPart.length());
+        lastPart = locale + lastPart;
+        return firstPart + lastPart;
+    }
+
 
     public MissionELOService getMissionELOService() {
         return missionELOService;
