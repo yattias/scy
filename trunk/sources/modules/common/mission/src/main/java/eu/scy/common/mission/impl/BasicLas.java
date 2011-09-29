@@ -24,6 +24,7 @@ public class BasicLas implements Las
    private LasType lasType;
    private String toolTip;
    private String title;
+   private MissionAnchor initialMissionAnchorToOpen;
    
    private MissionAnchor selectedMissionAnchor;
 
@@ -181,6 +182,17 @@ public class BasicLas implements Las
    public void setSelectedMissionAnchor(MissionAnchor selectedMissionAnchor)
    {
       this.selectedMissionAnchor = selectedMissionAnchor;
+   }
+
+   @Override
+   public MissionAnchor getInitialMissionAnchorToOpen()
+   {
+      return initialMissionAnchorToOpen;
+   }
+
+   public void setInitialMissionAnchorToOpen(MissionAnchor initialMissionAnchorToOpen)
+   {
+      this.initialMissionAnchorToOpen = initialMissionAnchorToOpen;
    }
    
 }

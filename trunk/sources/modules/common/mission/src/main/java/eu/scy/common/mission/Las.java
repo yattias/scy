@@ -20,6 +20,7 @@ public interface Las
    public LasType getLasType();
    public String getToolTip();
    public String getTitle();
+   public MissionAnchor getInitialMissionAnchorToOpen();
    
    public MissionAnchor getSelectedMissionAnchor();
    public void setSelectedMissionAnchor(MissionAnchor missionAnchor);
