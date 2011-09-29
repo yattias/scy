@@ -45,19 +45,27 @@ import javax.swing.text.rtf.RTFEditorKit;
 
 /**
  * swing panel for copex
+ *
  * @author Marjolaine
  */
-public class ScyCopexPanel extends JPanel implements ActionCopex, ISyncListener{
+public class ScyCopexPanel extends JPanel implements ActionCopex, ISyncListener {
+
     private CopexPanel copex;
+
     private ToolBrokerAPI tbi;
+
     private String session_name = "n/a";
+
     private IActionLogger actionLogger;
+
     private String eloUri = "n/a";
+
     private final Logger logger;
 
     private String toolName;
 
     private CopexNotificationManager copexNotificationManager;
+
     private ResourceBundleWrapper bundle;
 
     private ISyncSession session = null;
@@ -71,63 +79,64 @@ public class ScyCopexPanel extends JPanel implements ActionCopex, ISyncListener{
         this.bundle = new ResourceBundleWrapper(this);
     }
 
-    public void initCopex(){
+    public void initCopex() {
         // i18n
         Locale locale = Locale.getDefault();
-        //locale = new Locale("en", "GB");
-        //locale = new Locale("fr", "FR");
+        // locale = new Locale("en", "GB");
+        // locale = new Locale("fr", "FR");
         copex = new CopexPanel(true, locale);
-        setPreferredSize(new Dimension(550,350));
+        setPreferredSize(new Dimension(550, 350));
         copex.addActionCopex(this);
         this.add(this.copex, BorderLayout.CENTER);
-        //copex.loadData();
+        // copex.loadData();
     }
 
-    public void setEloUri(String eloUri){
+    public void setEloUri(String eloUri) {
         this.eloUri = eloUri;
     }
-
 
     public void setTBI(ToolBrokerAPI tbi) {
         this.tbi = tbi;
     }
-    
+
     /* initialization action logger */
-    public void initActionLogger(){
-        if(tbi != null){
+    public void initActionLogger() {
+        if (tbi != null) {
             actionLogger = tbi.getActionLogger();
-            //actionLogger = new SystemOutActionLogger();
-        }
-        else{
+            // actionLogger = new SystemOutActionLogger();
+        } else {
             actionLogger = new DevNullActionLogger();
         }
     }
 
     /* load ELO into copex */
-    public void loadELO(String xmlContent){
+    public void loadELO(String xmlContent) {
         this.copex.loadELO(new JDomStringConversion().stringToXml(xmlContent));
     }
 
-    public void newElo(){
+    public void newElo() {
         this.copex.newELO();
     }
 
-    /* returns  the experimental proc ELO*/
-    public Element getExperimentalProcedure(){
+    /* returns the experimental proc ELO */
+    public Element getExperimentalProcedure() {
         return this.copex.getXProc();
     }
 
     @Override
     public void loadHelpProc(LearnerProcedure helpProc) {
-        
+
     }
 
-    public void exportToPdf(){
-       copex.exportToPdf();
+    public void exportToPdf() {
+        copex.exportToPdf();
     }
 
-    /* logs a user action
+    /*
+     * logs a user action
+     *
      * @param type type of the action (action_added, ...)
+     *
      * @param attribute list of the attribute of the action (position in the tree, name of the action...)
      */
     @Override
@@ -135,144 +144,144 @@ public class ScyCopexPanel extends JPanel implements ActionCopex, ISyncListener{
         // action
         IAction action = new Action();
         action.setType(type);
-        if(tbi != null){
+        if (tbi != null) {
             action.setUser(tbi.getLoginUserName());
             action.addContext(ContextConstants.tool, this.toolName);
             // generic way now
-            //action.addContext(ContextConstants.mission, tbi.getMissionSpecificationURI().toString());
+            // action.addContext(ContextConstants.mission, tbi.getMissionSpecificationURI().toString());
             action.addContext(ContextConstants.session, session_name);
             action.addContext(ContextConstants.eloURI, eloUri);
         }
-        for(Iterator<CopexProperty> p = attribute.iterator();p.hasNext();){
+        for (Iterator<CopexProperty> p = attribute.iterator(); p.hasNext();) {
             CopexProperty property = p.next();
-            if(property.getSubElement() == null) {
+            if (property.getSubElement() == null) {
                 action.addAttribute(property.getName(), property.getValue());
             } else {
                 action.addAttribute(property.getName(), property.getValue());
-                action.addAttribute(property.getName()+"_sub", property.getSubElement().getValue());
+                action.addAttribute(property.getName() + "_sub", property.getSubElement().getValue());
             }
         }
         // log action
-        if(actionLogger != null)
+        if (actionLogger != null)
             actionLogger.log(action);
     }
 
     /* returns the interface panel for the thumbnail */
-    public Container getInterfacePanel(){
+    public Container getInterfacePanel() {
         return copex.getInterfacePanel();
     }
 
-    public Dimension getRealSize(){
+    public Dimension getRealSize() {
         return copex.getInterfacePanel().getSize();
     }
 
-    /* received an agent notification*/
+    /* received an agent notification */
     public boolean processNotification(INotification notification) {
         return this.copexNotificationManager.processNotification(notification);
     }
 
-    public String getNotification(){
+    public String getNotification() {
         return this.copexNotificationManager.getNotification();
     }
 
-    public void keepNotification(boolean keep){
+    public void keepNotification(boolean keep) {
         this.copexNotificationManager.keepNotification(keep);
     }
 
-    private String getBundleString(String key){
-       return this.bundle.getString(key);
-   }
+    private String getBundleString(String key) {
+        return this.bundle.getString(key);
+    }
 
     /* accepts drop from rich text editor, with functional role= research question or hypothesis */
-    public void acceptDrop(IELO textElo){
-        if(textElo != null){
+    public void acceptDrop(IELO textElo) {
+        int rowCount = copex.getActivePanel().getCopexTree().getRowCount();
+        for (int i = 0; i < rowCount; i++) {
+            copex.getActivePanel().getCopexTree().collapseRow(i);
+        }
+        if (textElo != null) {
             String[] yesNoOptions = new String[2];
             yesNoOptions[0] = getBundleString("FX-COPEX.YES");
             yesNoOptions[1] = getBundleString("FX-COPEX.NO");
             int n = -1;
             ScyElo scyElo = new ScyElo(textElo, tbi);
-            if(scyElo == null)
+            if (scyElo == null)
                 return;
             String technicalFormat = scyElo.getTechnicalFormat();
-            if(technicalFormat == null || !technicalFormat.equals("scy/rtf"))
+            if (technicalFormat == null || !technicalFormat.equals("scy/rtf"))
                 return;
-            if(textElo.getContent() == null)
+            if (textElo.getContent() == null)
                 return;
             String functionnalRole = null;
-            if(scyElo.getFunctionalRole() != null){
+            if (scyElo.getFunctionalRole() != null) {
                 functionnalRole = scyElo.getFunctionalRole().name();
             }
-            if(functionnalRole != null && functionnalRole.equals(EloFunctionalRole.HYPOTHESIS.name())){
-                n = JOptionPane.showOptionDialog( null,
-                            getBundleString("FX-COPEX.MSG_MERGE_HYPOTHESIS"),               // question
-                            getBundleString("FX-COPEX.TITLE_DIALOG_MERGE_TEXT"),           // title
-                            JOptionPane.YES_NO_CANCEL_OPTION,
-                            JOptionPane.QUESTION_MESSAGE,  // icon
-                            null, yesNoOptions,yesNoOptions[0] );
+            if (functionnalRole != null && functionnalRole.equals(EloFunctionalRole.HYPOTHESIS.name())) {
+                n = JOptionPane.showOptionDialog(null, getBundleString("FX-COPEX.MSG_MERGE_HYPOTHESIS"), // question
+                getBundleString("FX-COPEX.TITLE_DIALOG_MERGE_TEXT"), // title
+                JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, // icon
+                null, yesNoOptions, yesNoOptions[0]);
                 if (n == 0) {
                     Element el = new JDomStringConversion().stringToXml(textElo.getContent().getXmlString());
-                    if(el.getName().equals("RichText") && canEditHypothesis()){
+                    if (el.getName().equals("RichText") && canEditHypothesis()) {
                         copex.setProcedureHypothsesis(getPlainText(el.getText()));
                     }
                 }
-            }else if(functionnalRole != null && functionnalRole.equals(EloFunctionalRole.RESEARCH_QUESTION.name())){
-                n = JOptionPane.showOptionDialog( null,
-                            getBundleString("FX-COPEX.MSG_MERGE_RESEARCH_QUESTION"),               // question
-                            getBundleString("FX-COPEX.TITLE_DIALOG_MERGE_TEXT"),           // title
-                            JOptionPane.YES_NO_CANCEL_OPTION,
-                            JOptionPane.QUESTION_MESSAGE,  // icon
-                            null, yesNoOptions,yesNoOptions[0] );
+            } else if (functionnalRole != null && functionnalRole.equals(EloFunctionalRole.RESEARCH_QUESTION.name())) {
+                n = JOptionPane.showOptionDialog(null, getBundleString("FX-COPEX.MSG_MERGE_RESEARCH_QUESTION"), // question
+                getBundleString("FX-COPEX.TITLE_DIALOG_MERGE_TEXT"), // title
+                JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, // icon
+                null, yesNoOptions, yesNoOptions[0]);
                 if (n == 0) {
                     Element el = new JDomStringConversion().stringToXml(textElo.getContent().getXmlString());
-                    if(el.getName().equals("RichText") && canEditResearchQuestion()){
+                    if (el.getName().equals("RichText") && canEditResearchQuestion()) {
                         copex.setProcedureQuestion(getPlainText(el.getText()));
                     }
                 }
-              }
+            }
         }
     }
 
-    /* returns the text corresponding to the specified rtf text (rich text editor)*/
-    private String getPlainText(String rtfText){
+    /* returns the text corresponding to the specified rtf text (rich text editor) */
+    private String getPlainText(String rtfText) {
         RTFEditorKit rtfEditor = new RTFEditorKit();
         Document doc = rtfEditor.createDefaultDocument();
         try {
             rtfEditor.read(new StringReader(rtfText), doc, 0);
             String plainText = doc.getText(0, doc.getLength());
-            while (plainText.endsWith("\n")){
-                plainText = plainText.substring(0, plainText.length()-1);
+            while (plainText.endsWith("\n")) {
+                plainText = plainText.substring(0, plainText.length() - 1);
             }
             return plainText;
         } catch (IOException ex) {
-            logger.severe("IOException while reading text elo "+ex);
+            logger.severe("IOException while reading text elo " + ex);
         } catch (BadLocationException ex) {
-            logger.severe("BadLocationException while reading text elo "+ex);
+            logger.severe("BadLocationException while reading text elo " + ex);
         }
         return "";
     }
 
     /** returns true if the user can edit the research question */
-    public boolean canEditResearchQuestion(){
+    public boolean canEditResearchQuestion() {
         return copex.canEditResearchQuestion();
     }
 
     /** returns true if the user can edit the hypothesis */
-    public boolean canEditHypothesis(){
-         return copex.canEditHypothesis();
+    public boolean canEditHypothesis() {
+        return copex.canEditHypothesis();
     }
 
     // joins the session for sync.
-    public ISyncSession joinSession(String mucID){
-        if(session != null){
+    public ISyncSession joinSession(String mucID) {
+        if (session != null) {
             leaveSession(session.getId());
         }
         try {
             session = tbi.getDataSyncService().joinSession(mucID, this, toolName);
-	} catch (DataSyncException e) {
-		JOptionPane.showMessageDialog(null, getBundleString("FX-FITEX.MSG_ERROR_SYNC"));
-		e.printStackTrace();
-                return session;
-	}
+        } catch (DataSyncException e) {
+            JOptionPane.showMessageDialog(null, getBundleString("FX-FITEX.MSG_ERROR_SYNC"));
+            e.printStackTrace();
+            return session;
+        }
         if (session == null) {
             JOptionPane.showMessageDialog(null, getBundleString("FX-FITEX.MSG_ERROR_SYNC"));
             return session;
@@ -280,27 +289,27 @@ public class ScyCopexPanel extends JPanel implements ActionCopex, ISyncListener{
         return session;
     }
 
-    public void leaveSession(String mucID){
-        if(session != null){
+    public void leaveSession(String mucID) {
+        if (session != null) {
             session.removeSyncListener(this);
         }
         session = null;
     }
 
-    public void startCollaboration(){
+    public void startCollaboration() {
         this.copex.startCollaboration();
     }
-    
-    public void endCollaboration(){
+
+    public void endCollaboration() {
         this.copex.endCollaboration();
     }
 
     @Override
     public void syncObjectAdded(final ISyncObject syncObject) {
-        if (syncObject.getToolname() != null && syncObject.getToolname().equals(toolName)){
+        if (syncObject.getToolname() != null && syncObject.getToolname().equals(toolName)) {
             if (syncObject.getCreator().equals(session.getUsername())) {
                 // creator of the object
-            }else{
+            } else {
                 copex.syncNodeChanged(syncObject);
             }
         }
@@ -308,10 +317,10 @@ public class ScyCopexPanel extends JPanel implements ActionCopex, ISyncListener{
 
     @Override
     public void syncObjectChanged(ISyncObject syncObject) {
-        if (syncObject.getToolname() != null && syncObject.getToolname().equals(toolName)){
+        if (syncObject.getToolname() != null && syncObject.getToolname().equals(toolName)) {
             if (syncObject.getCreator().equals(session.getUsername())) {
                 // creator of the object
-            }else{
+            } else {
                 copex.syncNodeChanged(syncObject);
             }
         }
@@ -319,10 +328,10 @@ public class ScyCopexPanel extends JPanel implements ActionCopex, ISyncListener{
 
     @Override
     public void syncObjectRemoved(ISyncObject syncObject) {
-        if (syncObject.getToolname() != null && syncObject.getToolname().equals(toolName)){
+        if (syncObject.getToolname() != null && syncObject.getToolname().equals(toolName)) {
             if (syncObject.getCreator().equals(session.getUsername())) {
                 // creator of the object
-            }else{
+            } else {
                 copex.syncNodeRemoved(syncObject);
             }
         }
@@ -330,24 +339,24 @@ public class ScyCopexPanel extends JPanel implements ActionCopex, ISyncListener{
 
     @Override
     public void addCopexSyncObject(ISyncObject syncObject) {
-        if(session != null)
+        if (session != null)
             session.addSyncObject(syncObject);
     }
 
     @Override
     public void changeCopexSyncObject(ISyncObject syncObject) {
-        if(session != null)
+        if (session != null)
             session.changeSyncObject(syncObject);
     }
 
     @Override
     public void removeCopexSyncObject(ISyncObject syncObject) {
-        if(session != null)
+        if (session != null)
             session.removeSyncObject(syncObject);
     }
 
-    public void setReadOnly(boolean readonly){
-        if(copex != null){
+    public void setReadOnly(boolean readonly) {
+        if (copex != null) {
             this.copex.setReadOnly(readonly);
         }
     }
