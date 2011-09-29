@@ -149,8 +149,8 @@ public class EdPPanel extends JPanel implements ActionMenuEvent {
         setLayout(new BorderLayout());
         setSize(CopexPanel.PANEL_WIDTH, CopexPanel.PANEL_HEIGHT);
         initCopex();
-            setMenuBar();
-            updateMenu();
+        setMenuBar();
+        updateMenu();
         addComponentListener(new java.awt.event.ComponentAdapter() {
 
             public void componentResized(java.awt.event.ComponentEvent evt) {
@@ -227,7 +227,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent {
             menuBar.add(getMenuItemPrint());
         menuBar.add(getMenuItemHelp());
         menuBar.setBounds(0, 0, this.getWidth(), menuBar.getHeight());
-        if (!scyMode){
+        if (!scyMode) {
             this.add(menuBar, BorderLayout.NORTH);
         }
     }
@@ -1358,9 +1358,10 @@ public class EdPPanel extends JPanel implements ActionMenuEvent {
 
     /* returns the experimental procedure ELO */
     public Element getExperimentalProcedure() {
-        copexTree.setSelectionRow(0);
-        copexTree.setSelectionRow(1);
-        copexTree.setSelectionRow(0);
+        int rowCount = copexTree.getRowCount();
+        for (int i = 0; i < rowCount; i++) {
+            copexTree.collapseRow(i);
+        }
         if (proc != null)
             return this.controller.getExperimentalProcedure(proc);
         return null;
@@ -2016,6 +2017,5 @@ public class EdPPanel extends JPanel implements ActionMenuEvent {
     public TaskSelected getTaskSelected(CopexTask selTask, char insertIn) {
         return copexTree.getTaskSelected(selTask, insertIn);
     }
-
 
 }
