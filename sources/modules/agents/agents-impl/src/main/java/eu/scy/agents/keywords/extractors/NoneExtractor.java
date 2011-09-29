@@ -35,4 +35,8 @@ public class NoneExtractor implements KeywordExtractor {
 	@Override
 	public void setMission(Mission mission) {
 	}
+
+    @Override
+    public void setLanguage(String language) {
+    }
 }
