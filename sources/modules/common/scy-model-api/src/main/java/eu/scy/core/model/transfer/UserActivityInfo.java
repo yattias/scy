@@ -90,8 +90,8 @@ public class UserActivityInfo {
     
     public int getNumberOfElosInPorfolio() {
         if(getPortfolio() != null) {
-            if(getPortfolio().getElos() != null ) {
-                return getPortfolio().getElos().size();
+            if(getPortfolio().getEloAnchorEloPairs() != null ) {
+                return getPortfolio().getEloAnchorEloPairs().size();
             }
         }
 

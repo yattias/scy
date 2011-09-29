@@ -33,7 +33,8 @@
                     ${userActivityInfo.numberOfElosProduced}
                 </td>
                 <td>
-                    ${userActivityInfo.numberOfElosInPorfolio}/${fn:length(obligatoryElos)}
+                    <div dojoType="dijit.ProgressBar" style="width:300px" progress="${userActivityInfo.numberOfElosInPorfolio}" maximum="${fn:length(obligatoryElos)}">
+                    </div>
                 </td>
 
             </tr>
