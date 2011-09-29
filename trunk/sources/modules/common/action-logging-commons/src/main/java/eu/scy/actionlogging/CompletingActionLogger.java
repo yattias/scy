@@ -46,7 +46,11 @@ public class CompletingActionLogger implements IActionLogger {
         String mission = action.getContext(ContextConstants.mission);
         // replace if mission is null or n/a
         if (mission == null || mission.equalsIgnoreCase("n/a")) {
-            action.addContext(ContextConstants.mission, contextService.getMissionSpecificationURI());
+			if (contextService.getMissionSpecificationURI() == null) {
+				action.addContext(ContextConstants.mission, "n/a");
+			} else {
+				action.addContext(ContextConstants.mission, contextService.getMissionSpecificationURI());
+			}
         }
         if (action.getContext(ContextConstants.session) == null && contextService.getSession() != null) {
             action.addContext(ContextConstants.session, contextService.getSession());
