@@ -1,5 +1,8 @@
 <%@ include file="common-taglibs.jsp" %>
 
+<p>
+    <spring:message code="PORTFOLIO_OVERVIEW_HELP_TEXT"/>
+</p>
 
 <c:choose>
     <c:when test="${fn:length(transporters) > 0}">
