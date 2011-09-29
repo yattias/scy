@@ -30,7 +30,14 @@
                                             ${missionReflectionQuestionAnswer.tab.question}
                                         </td>
                                         <td>
-                                            ${missionReflectionQuestionAnswer.answer}
+                                            <c:if test="${missionReflectionQuestionAnswer.tab.type == 'text'}">
+                                                ${missionReflectionQuestionAnswer.answer}
+                                            </c:if>
+                                            <c:if test="${missionReflectionQuestionAnswer.tab.type == 'slider'}">
+                                                <img src="/webapp/themes/scy/default/images/smiley_${missionReflectionQuestionAnswer.answer}.png" alt=""  />    
+                                            </c:if>
+
+
                                         </td>
                                     </tr>
 
