@@ -47,7 +47,7 @@ public class MissionModelEloContentXmlUtils
    private final static String titleName = "title";
    private final static String nextAnchorsName = "nextAnchors";
    private final static String inputAnchorsName = "inputAnchors";
-   private final static String resourceElosName = "resourceElos";
+   private final static String initialMissionAnchorToOpenName = "initialMissionAnchorToOpen";
    private final static String intermediateAnchorsName = "intermediateAnchors";
    private final static String intermediateAnchorName = "intermediateAnchor";
    private final static String relationsName = "relations";
@@ -105,6 +105,10 @@ public class MissionModelEloContentXmlUtils
       lasRoot.addContent(createElement(lasTypeName, las.getLasType()));
       lasRoot.addContent(createElement(loElosName, eloUriName, las.getLoEloUris()));
       lasRoot.addContent(createElement(otherElosName, eloUriName, las.getOtherEloUris()));
+      if (las.getInitialMissionAnchorToOpen() != null)
+      {
+         lasRoot.addContent(createElement(initialMissionAnchorToOpenName, las.getInitialMissionAnchorToOpen().getId()));
+      }
       lasRoot.addContent(createMissionAnchorXml(mainAnchorName, las.getMissionAnchor()));
       Element intermediateAnchorsRoot = new Element(intermediateAnchorsName);
       lasRoot.addContent(intermediateAnchorsRoot);
@@ -246,7 +250,33 @@ public class MissionModelEloContentXmlUtils
          }
       }
       las.setIntermediateAnchors(intermediateAnchors);
+      String initialMissionAnchorToOpenId = root.getChildTextTrim(initialMissionAnchorToOpenName);
+      if (initialMissionAnchorToOpenId != null)
+      {
+         // the initialMissionAnchorToOpenId is defined, now find it
+         las.setInitialMissionAnchorToOpen(findMissionAnchorInLas(initialMissionAnchorToOpenId, las));
+         if (las.getInitialMissionAnchorToOpen() == null)
+         {
+            logger.warn("failed to find initialMissionAnchorToOpen with " + initialMissionAnchorToOpenId + " in las " + las.getId());
+         }
+      }
       return las;
+   }
+
+   private static MissionAnchor findMissionAnchorInLas(String id, Las las)
+   {
+      if (id.equals(las.getMissionAnchor().getId()))
+      {
+         return las.getMissionAnchor();
+      }
+      for (MissionAnchor missionAnchor : las.getIntermediateAnchors())
+      {
+         if (id.equals(missionAnchor.getId()))
+         {
+            return missionAnchor;
+         }
+      }
+      return null;
    }
 
    private static MissionAnchor createMissionAnchor(Element root) throws URISyntaxException
