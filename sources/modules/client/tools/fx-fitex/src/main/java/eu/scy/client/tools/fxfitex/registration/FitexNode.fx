@@ -304,7 +304,7 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
                         dragAndDropManager: scyWindow.dragAndDropManager;
                         dragObject: this
                         tooltipManager: scyWindow.tooltipManager
-			tooltipText: "drag to connect"
+			tooltipText: getBundleString("FX-FITEX.TOOLTIP_SYNC")
                         };
         insert syncAttrib into scyWindow.scyWindowAttributes;
         fitexPanel.initActionLogger();
