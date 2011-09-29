@@ -13,7 +13,6 @@ import javafx.scene.Scene;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.JavaFxWindowStyler;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
 import eu.scy.client.desktop.desktoputils.art.eloicons.EloIconFactory;
-import javafx.util.Sequences;
 
 /**
  * @author SikkenJ
@@ -22,42 +21,56 @@ public class TitleBarButtons extends TitleBarItemList, TitleBarButtonManager {
 
    public-init var tooltipManager: TooltipManager;
    public-init var windowStyler: WindowStyler;
+   public-init var isReadOnly: function(): Boolean;
    public override var titleBarButtons on replace { FX.deferAction(updateItems) };
    var eloIconButtons: EloIconButton[];
    def actionScheme = 1;
    public-init var globalTitleBarButtons: TitleBarButton[];
 
    override function updateItems(): Void {
-      if (windowStyler==null){
+      if (windowStyler == null) {
          return
       }
       delete  displayBox.content;
       delete  eloIconButtons;
 
-      var allTitleBarButtons : TitleBarButton[];
+      var allTitleBarButtons: TitleBarButton[];
       insert titleBarButtons into allTitleBarButtons;
       insert globalTitleBarButtons into allTitleBarButtons;
 
       eloIconButtons =
               for (titleBarButton in allTitleBarButtons) {
-                 def eloIcon = windowStyler.getScyEloIcon(titleBarButton.iconType);
-                 eloIcon.windowColorScheme = windowColorScheme;
-                 eloIcon.selected = false;
-                 def eloIconButton = EloIconButton {
-                            eloIcon: eloIcon
-                            size: itemSize
-                            mouseOverSize: mouseOverItemSize
-                            action: bind titleBarButton.action
-                            tooltip: bind titleBarButton.tooltip
-                            disableButton: bind not titleBarButton.enabled
-                            tooltipManager: tooltipManager
-                            actionScheme: actionScheme
-                            hideBackground: true
-                         }
-                 eloIconButton
+                 if (shouldAddTitleBarButton(titleBarButton)) {
+                    def eloIcon = windowStyler.getScyEloIcon(titleBarButton.iconType);
+                    eloIcon.windowColorScheme = windowColorScheme;
+                    eloIcon.selected = false;
+                    def eloIconButton = EloIconButton {
+                               eloIcon: eloIcon
+                               size: itemSize
+                               mouseOverSize: mouseOverItemSize
+                               action: bind titleBarButton.action
+                               tooltip: bind titleBarButton.tooltip
+                               disableButton: bind not titleBarButton.enabled
+                               tooltipManager: tooltipManager
+                               actionScheme: actionScheme
+                               hideBackground: true
+                            }
+                    eloIconButton
+                 } else {
+                    null
+                 }
               }
       displayBox.content = eloIconButtons;
       itemListChanged();
+   }
+
+   function shouldAddTitleBarButton(titleBarButton: TitleBarButton): Boolean {
+      if (isReadOnly!=null and isReadOnly()) {
+         if (TitleBarButton.saveActionId == titleBarButton.actionId or TitleBarButton.saveAsActionId == titleBarButton.actionId) {
+            return false
+         }
+      }
+      return true
    }
 
 }
@@ -75,8 +88,8 @@ function run() {
                layoutX: 10
                layoutY: 10
                windowStyler: JavaFxWindowStyler {
-                     eloIconFactory: EloIconFactory{}
-                  }
+                  eloIconFactory: EloIconFactory {}
+               }
                titleBarButtons: [
                   TitleBarButton {
                      iconType: "pizza"
