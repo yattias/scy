@@ -119,7 +119,7 @@ public class CopexPanel extends JPanel implements PropertyChangeListener{
 
     private File lastUsedFileOpen = null;
     private transient SAXBuilder builder = new SAXBuilder(false);
-    
+
     private CopexTabbedPane copexTabbedPane;
     private JFrame ownerFrame;
 
@@ -235,7 +235,7 @@ public class CopexPanel extends JPanel implements PropertyChangeListener{
           this.controller = new CopexControllerLabBook(this, url);
       }else
           this.controller = new CopexController(this) ;
-      
+
       setMinimumSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
       setSize(PANEL_WIDTH, PANEL_HEIGHT);
       setLayout(new BorderLayout());
@@ -275,7 +275,7 @@ public class CopexPanel extends JPanel implements PropertyChangeListener{
     /* load data */
     public void loadData(){
       setCursor(new Cursor(Cursor.WAIT_CURSOR));
-      
+
       //String logFileName = "logFile"+CopexUtilities.getCurrentDate()+"-"+dbKeyMission+"-"+idUser+".xml";
       //String fileMission = "copexMission_SCI121.xml";
       //String fileMission = "copexMission_simple.xml";
@@ -296,7 +296,7 @@ public class CopexPanel extends JPanel implements PropertyChangeListener{
       }
       setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
-    
+
     public String getVersion(){
         return this.version;
     }
@@ -308,7 +308,7 @@ public class CopexPanel extends JPanel implements PropertyChangeListener{
     public JFrame getOwnerFrame(){
         return this.ownerFrame;
     }
-    
+
     public  ImageIcon getCopexImage(String img){
         ImageIcon imgIcon = new ImageIcon(getClass().getResource("/Images/" +img));
         if (imgIcon == null){
@@ -365,14 +365,14 @@ public class CopexPanel extends JPanel implements PropertyChangeListener{
         }
     }
 
-    
+
      public void stop() {
         CopexReturn cr = this.controller.stopEdP();
         if (cr.isError())
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
     }
 
-    
+
       /* initialization of the application, with data */
     public void initEdp(CopexMission mission, ArrayList<ExperimentalProcedure> listProc,  ArrayList<PhysicalQuantity> listPhysicalQuantity) {
        setCursor(new Cursor(Cursor.WAIT_CURSOR));
@@ -391,7 +391,7 @@ public class CopexPanel extends JPanel implements PropertyChangeListener{
     }
     private void initProcedure(){
         if(listProc.size() > 0){
-            EdPPanel copex = new EdPPanel(this, listProc.get(0), controller, listPhysicalQuantity);
+            EdPPanel copex = new EdPPanel(this, listProc.get(0), controller, listPhysicalQuantity, scyMode);
             activCopex = copex;
             listCopexPanel.add(copex);
             this.add(copex, BorderLayout.CENTER);
@@ -414,7 +414,7 @@ public class CopexPanel extends JPanel implements PropertyChangeListener{
     }
 
     private void addCopexPanel(ExperimentalProcedure proc, boolean addProc){
-        EdPPanel copex = new EdPPanel(this, proc, controller,  listPhysicalQuantity);
+        EdPPanel copex = new EdPPanel(this, proc, controller,  listPhysicalQuantity,scyMode);
         activCopex = copex;
         listCopexPanel.add(copex);
         if(addProc)
@@ -474,7 +474,7 @@ public class CopexPanel extends JPanel implements PropertyChangeListener{
     public ExperimentalProcedure getProcActiv() {
         return this.getCopexTabbedPane().getProcActiv();
     }
-    
+
     /* returns true if any proc is open*/
      public boolean noProc(){
          return listProc.isEmpty();
@@ -485,7 +485,7 @@ public class CopexPanel extends JPanel implements PropertyChangeListener{
     public void displayHelpProc(LearnerProcedure helpProc){
         if(scyMode){
 //            // it could be a new elo?
-            EdPPanel helpPanel = new EdPPanel(this, helpProc, controller,  listPhysicalQuantity);
+            EdPPanel helpPanel = new EdPPanel(this, helpProc, controller,  listPhysicalQuantity,scyMode);
             HelpDialog help = new HelpDialog(activCopex, helpPanel);
             help.setVisible(true);
         }else{
@@ -524,12 +524,12 @@ public class CopexPanel extends JPanel implements PropertyChangeListener{
         return this.activCopex.getLocationDialog();
     }
 
-    
+
 
     public void createProc(ExperimentalProcedure proc){
         addCopexPanel(proc, true);
     }
-    
+
     public void reloadProc(ExperimentalProcedure proc){
         if(activCopex != null)
             this.remove(activCopex);
@@ -556,8 +556,8 @@ public class CopexPanel extends JPanel implements PropertyChangeListener{
             listCopexPanel.get(id).updateProc(proc, update);
         }
     }
-    
-    
+
+
 
     public void deleteProc(LearnerProcedure proc){
         closeProc(proc);
@@ -571,7 +571,7 @@ public class CopexPanel extends JPanel implements PropertyChangeListener{
         copexTabbedPane.updateProcName(proc, name);
     }
 
-    
+
 
     public void paste(LearnerProcedure proc, ArrayList<CopexTask> listTask, TaskSelected t, char undoRedo) {
         int id = getIdProc(proc.getDbKey());
@@ -661,7 +661,7 @@ public class CopexPanel extends JPanel implements PropertyChangeListener{
        }
     }
 
-    
+
 
     // load/open ELO SCY or not
     public void loadELO(Element elo){
@@ -678,7 +678,7 @@ public class CopexPanel extends JPanel implements PropertyChangeListener{
         }
      }
 
-    
+
     // new ELO SCY
     public void newELO(){
         // scyMode is true
@@ -701,7 +701,7 @@ public class CopexPanel extends JPanel implements PropertyChangeListener{
         return activCopex.getExperimentalProcedure();
     }
 
-    
+
     private boolean hasModification(){
         return activCopex.hasModification();
     }
@@ -1044,7 +1044,7 @@ public class CopexPanel extends JPanel implements PropertyChangeListener{
         return !scyMode;
     }
 
-    
+
     /** update the hypothesis (scy text)*/
     public void setProcedureHypothsesis(String hypothesisText){
         if(activCopex != null){
@@ -1080,7 +1080,7 @@ public class CopexPanel extends JPanel implements PropertyChangeListener{
         if ("progress".equals(evt.getPropertyName())) {
             int progress = (Integer) evt.getNewValue();
             progressBar.setValue(progress);
-        } 
+        }
     }
 
     public String getPreview(){
