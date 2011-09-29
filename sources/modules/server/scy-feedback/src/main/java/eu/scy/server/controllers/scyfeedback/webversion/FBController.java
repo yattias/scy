@@ -79,7 +79,7 @@ public class FBController extends BaseController {
 
 
         modelAndView.addObject("elos", elos);
-        modelAndView.addObject("anchorElos", getMissionELOService().getAnchorELOs(getMissionELOService().getMissionSpecificationELOForRuntume(missionRuntimeElo)));
+        //modelAndView.addObject("anchorElos", getMissionELOService().getAnchorELOs(getMissionELOService().getMissionSpecificationELOForRuntume(missionRuntimeElo)));
         modelAndView.addObject(ELO_URI, getEncodedUri(runtimeURI.toString()));
         modelAndView.addObject("criteria", criteria);
         modelAndView.addObject("uzer", user);

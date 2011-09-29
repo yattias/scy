@@ -75,7 +75,7 @@ public class StudentIndexController extends BaseController {
         modelAndView.addObject("elosWhereIHaveProvidedFeedback", elosWhereIHaveProvidedFeedback.getElos().size());
 
         String xdescriptionURI = String.valueOf(missionSpecificationElo.getTypedContent().getMissionDescriptionUri());
-        xdescriptionURI = localizeDescriptionURI(descriptionURI.toString(), request.getLocale().getCountry());
+        xdescriptionURI = localizeDescriptionURI(descriptionURI.toString(), locale);
 
         String content = "";
         try {
