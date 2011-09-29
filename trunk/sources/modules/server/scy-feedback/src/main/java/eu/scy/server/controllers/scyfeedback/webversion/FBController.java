@@ -51,10 +51,14 @@ public class FBController extends BaseController {
 
         List<TransferElo> allElos = getMissionELOService().getElosForFeedback(missionRuntimeElo, getCurrentUserName(request), null);
         List<String> allUserNames = new LinkedList<String>();
+        List<String> allEloNames = new LinkedList<String>();
         for (int i = 0; i < allElos.size(); i++) {
             TransferElo transferElo = allElos.get(i);
             if(!allUserNames.contains(transferElo.getCreatedBy())) {
                 allUserNames.add(transferElo.getCreatedBy());
+            }
+            if(!allEloNames.contains(transferElo.getMyname())) {
+                allEloNames.add(transferElo.getMyname());
             }
         }
 
@@ -73,6 +77,8 @@ public class FBController extends BaseController {
         modelAndView.addObject("criteria", criteria);
         modelAndView.addObject("uzer", user);
         modelAndView.addObject("uzers", users);
+        modelAndView.addObject("allEloNames", allEloNames);
+        modelAndView.addObject("anchorElo", anchorElo);
     }
 
     public MissionELOService getMissionELOService() {
