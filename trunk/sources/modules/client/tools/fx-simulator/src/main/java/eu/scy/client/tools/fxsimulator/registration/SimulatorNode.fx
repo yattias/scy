@@ -402,7 +402,7 @@ public class SimulatorNode
 						dragAndDropManager: scyWindow.dragAndDropManager;
 						dragObject: this
 						tooltipManager: scyWindow.tooltipManager
-						tooltipText: "drag to connect"
+						tooltipText: ##"Drag to connect"
 					};
 			insert syncAttrib into scyWindow.scyWindowAttributes;
 		} catch (e: java.lang.Exception) {
