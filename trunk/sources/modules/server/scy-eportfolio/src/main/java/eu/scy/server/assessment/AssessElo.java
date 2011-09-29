@@ -64,6 +64,17 @@ public class AssessElo extends BaseController {
             }
         }
 
+        List <EloReflectionQuestionAnswers> eloReflectionQuestionAnswers = portfolio.getEloReflectionsForElo(elo.getUri());
+        for (int i = 0; i < eloReflectionQuestionAnswers.size(); i++) {
+            EloReflectionQuestionAnswers reflectionQuestionAnswer = eloReflectionQuestionAnswers.get(i);
+            List <ReflectionQuestion> reflectionQuestions = pedagogicalPlanTransfer.getAssessmentSetup().getReflectionQuestions();
+            for (int j = 0; j < reflectionQuestions.size(); j++) {
+                ReflectionQuestion reflectionQuestion = reflectionQuestions.get(j);
+                if(reflectionQuestion.getId().equals(reflectionQuestionAnswer.getReflectionQuestionId())) {
+                    reflectionQuestionAnswer.setReflectionQuestion(reflectionQuestion);
+                }
+            }
+        }
 
         modelAndView.addObject("elo", elo);
         modelAndView.addObject("missionRuntimeURI", getEncodedUri(missionRuntimeURI.toString()));

@@ -43,6 +43,9 @@ public class ViewPedagogicalPlanController extends BaseController {
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
 
         URI uri = getURI(request.getParameter(ELO_URI));
+        if(uri == null) {
+            uri = getURI((String) request.getAttribute(ELO_URI));
+        }
 
         MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(uri, getMissionELOService());
         PedagogicalPlanTransfer pedagogicalPlanTransfer = null;

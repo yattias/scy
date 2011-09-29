@@ -157,7 +157,16 @@
                                                         <c:forEach var="reflectionQuestion" items="${eloReflectionQuestions}">
                                                             <tr>
                                                                 <td>
-                                                                    ${reflectionQuestion.questionAnswer}                                                                    
+                                                                    <i>${reflectionQuestion.reflectionQuestion.reflectionQuestion}</i>                                                                    
+                                                                </td>
+                                                                <td>
+                                                                    <c:if test="${fn:contains(reflectionQuestion.reflectionQuestion.type, 'slider')}">
+                                                                        <img src="/webapp/themes/scy/default/images/smiley_${reflectionQuestion.questionAnswer}.png" alt=""  />
+                                                                    </c:if>
+                                                                    <c:if test="${fn:contains(reflectionQuestion.reflectionQuestion.type, 'text')}">
+                                                                        ${reflectionQuestion.questionAnswer}
+                                                                    </c:if>
+
                                                                 </td>
                                                             </tr>
                                                         </c:forEach>

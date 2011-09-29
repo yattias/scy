@@ -70,6 +70,13 @@ public class StoreMissionReflection extends BaseController {
 
         getActionLoggerService().logActionForRuntime("portfolio_assessed", username, "scy_author", missionRuntimeURI.toString());
 
+        URI missionSpecURI = missionRuntimeElo.getMissionSpecificationEloUri();
+        String encodedURI = getEncodedUri(missionSpecURI.toString());
+        request.setAttribute(ELO_URI, encodedURI);
+
+        modelAndView.setViewName("forward:/app/scyauthor/viewPedagogicalPlan.html");
+
+
     }
 
     private void storeTeacherQuestions(HttpServletRequest request, Portfolio portfolio) {

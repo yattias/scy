@@ -12,6 +12,7 @@ public class EloReflectionQuestionAnswers {
     private String eloURI;
     private String reflectionQuestionId;
     private String questionAnswer;
+    private ReflectionQuestion reflectionQuestion;
 
     public String getEloURI() {
         return eloURI;
@@ -35,5 +36,13 @@ public class EloReflectionQuestionAnswers {
 
     public void setQuestionAnswer(String questionAnswer) {
         this.questionAnswer = questionAnswer;
+    }
+
+    public ReflectionQuestion getReflectionQuestion() {
+        return reflectionQuestion;
+    }
+
+    public void setReflectionQuestion(ReflectionQuestion reflectionQuestion) {
+        this.reflectionQuestion = reflectionQuestion;
     }
 }

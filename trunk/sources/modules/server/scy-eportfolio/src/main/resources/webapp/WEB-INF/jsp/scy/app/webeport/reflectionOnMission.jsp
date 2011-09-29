@@ -4,7 +4,7 @@
 
         <script type="text/javascript">
             function checkTextAreasAndEnableSubmit(formid){
-                var textareas = document.getElementById(formid).getElementsByTagName("textarea");
+                /*var textareas = document.getElementById(formid).getElementsByTagName("textarea");
                 var isReadyToSubmit = false;
                 for(var i = 0;i<textareas.length;i++){
                     if(textareas[i].value.length >= 4){
@@ -16,7 +16,8 @@
                 }
                 if(isReadyToSubmit){
                     document.getElementById("submitEport").disabled = false;
-                }
+                } */
+                //document.getElementById("submitEport").disabled = false;
             }
         </script>
 
@@ -90,7 +91,7 @@
                         <tr>
                             <td style="text-align:center;">
                                 <input type="hidden" value="${missionRuntimeURI}" name="missionRuntimeURI"/>
-                                <input type="submit" value="<spring:message code="SUBMIT_PORTFOLIO"/>" id="submitEport" disabled="true"/>
+                                <input type="submit" value="<spring:message code="SUBMIT_PORTFOLIO"/>" id="submitEport"/>
                             </td>
                         </tr>
                         </table>
