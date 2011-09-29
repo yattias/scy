@@ -235,11 +235,10 @@
                                 </div>
                                 <div class="eloInfoContainer">
                                 <p><strong><a href="/webapp/app/feedback/webversion/ViewFeedbackForElo.html?eloURI=${elo.uri}" style="color:#23409e;">${elo.myname}</a></strong></p>
-                                <p>Category: ${elo.catname}</p>
                                 <p>By: <a href="fbIndex.html?eloURI=${eloURI}&user=${elo.createdBy}" style="color:#23409e;">${elo.createdBy}</a></p>
                                 <p>Date: ${elo.createdDate}</p>
-                                <p>Shown: ${elo.feedbackEloTransfer.shown}<br/>Average Score: ${elo.feedbackEloTransfer.averageScore}</p>
-
+                                <p>Viewed: ${elo.feedbackEloTransfer.shown}<br/>Average Score: ${elo.feedbackEloTransfer.averageScore}</p>
+                                <p>Comments:  ${fn:length(elo.feedbackEloTransfer.feedbacks)}
                                 </div>
                             </div>
                         </c:forEach>
