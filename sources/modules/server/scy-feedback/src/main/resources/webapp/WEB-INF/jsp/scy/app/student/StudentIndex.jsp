@@ -60,11 +60,11 @@
                     <a id="labId" href="${jnlpUrl}"><spring:message code="START_SCYLAB"/> </a>
                 </td>
             </tr>
-            <tr class="${oddEven.oddEven}">
+            <!--tr class="${oddEven.oddEven}">
                 <td colspan="2">
                     <a href="${descriptionUrl}" target="_blank"><spring:message code="READ_THE_MISSION_DESCRIPTION"/></a>
                 </td>
-            </tr>
+            </tr-->
             <tr class="${oddEven.oddEven}">
                 <td>
                     <a id="portfolioId" href="/webapp/app/webeport/webEportIndex.html?eloURI=${missionSpecificationTransporter.uri}"><spring:message code="OPEN_MY_PORTFOLIO"/></a>
