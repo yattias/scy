@@ -9,7 +9,7 @@
         </role>
         <entity>rachel</entity>
         <date>
-          <dateTime>2011-04-28T15:04:49.429+0200</dateTime>
+          <dateTime>2011-04-28T16:04:49.429+0300</dateTime>
         </date>
       </contribute>
       <contribute>
@@ -19,10 +19,10 @@
         </role>
         <entity>rachel</entity>
         <date>
-          <dateTime>2011-07-08T16:58:35.998+0200</dateTime>
+          <dateTime>2011-07-08T17:58:35.998+0300</dateTime>
         </date>
       </contribute>
-      <version>22</version>
+      <version>23</version>
     </lifecycle>
     <annotation>
       <entity>colorId</entity>
@@ -71,61 +71,49 @@
         </identifier>
       </resource>
     </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
-  <template>TRUE</template>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>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</base64>
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Firstnames, lastnames of the experts: \b0\par
-\par
-\b Our job is:  \b0\par
-\par
-\b Case number: \b0 CY0347\b  \b0\par
-\par
-\b Object: \b0 Expert analysis for the Attorney General\par
-\par
-\b Summary of facts (according to our understanding of the crime case):    \b0\par
-\par
-\b Our mission:    \b0    \par
-\par
-\b Our biological material (our samples):\b0\par
-Did you manage to make chemical analysis out of the sample(s)?\par
-\par
-\b All the steps we have made (activities we have done, objects we have created):\b0\par
-\par
-\b Justification of our method, our technique:\b0\par
-\par
-\b Our problems during all the mission (optional):\b0\par
-\par
-\b Our conclusion:\b0\par
-Did you find a match between the evidence sample and any of the reference samples?\par
-What information does a match between evidence and reference profile give about a suspect being guilty or not?\par
-\par
-\par
-\par
-\par
-\par
-\par
-\li0\ri0\fi0\ul0\par
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Firstnames, lastnames of the experts: \b0\par&#xD;
+\par&#xD;
+\b Our job is:  \b0\par&#xD;
+\par&#xD;
+\b Case number: \b0 CY0347\b  \b0\par&#xD;
+\par&#xD;
+\b Object: \b0 Expert analysis for the Attorney General\par&#xD;
+\par&#xD;
+\b Summary of facts (according to our understanding of the crime case):    \b0\par&#xD;
+\par&#xD;
+\b Our mission:    \b0    \par&#xD;
+\par&#xD;
+\b Our biological material (our samples):\b0\par&#xD;
+Did you manage to make chemical analysis out of the sample(s)?\par&#xD;
+\par&#xD;
+\b All the steps we have made (activities we have done, objects we have created):\b0\par&#xD;
+\par&#xD;
+\b Justification of our method, our technique:\b0\par&#xD;
+\par&#xD;
+\b Our problems during all the mission (optional):\b0\par&#xD;
+\par&#xD;
+\b Our conclusion:\b0\par&#xD;
+Did you find a match between the evidence sample and any of the reference samples?\par&#xD;
+What information does a match between evidence and reference profile give about a suspect being guilty or not?\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+\li0\ri0\fi0\ul0\par&#xD;
 }</RichText>
 </content>
 <resources>

@@ -9,7 +9,7 @@
         </role>
         <entity>rachel</entity>
         <date>
-          <dateTime>2011-04-28T14:35:40.125+0200</dateTime>
+          <dateTime>2011-04-28T15:35:40.125+0300</dateTime>
         </date>
       </contribute>
       <contribute>
@@ -19,10 +19,10 @@
         </role>
         <entity>rachel</entity>
         <date>
-          <dateTime>2011-09-06T11:52:13.720+0200</dateTime>
+          <dateTime>2011-09-06T12:52:13.720+0300</dateTime>
         </date>
       </contribute>
-      <version>17</version>
+      <version>18</version>
     </lifecycle>
     <annotation>
       <entity>colorId</entity>
@@ -71,50 +71,38 @@
         </identifier>
       </resource>
     </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
-  <template>TRUE</template>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAADi0lEQVR42u3az0sUYRgH8Ll08U8QFBX0oBf1GIgKkeKlSwvKkopIbW1FXiIDIdzwFxmo0CGxg9rBDEnB7IdBl8zt1/YDqVyNhV3X1t00rRYX3f3m+9BMjW6heai27wMPzzvvPO+M+2Hm9TLazLvnAD6YMrQ4u2VOZXd3d5z5T3F7H0zcizsfWX+fUKlNzzzDK18UL3/IQHAa61gAXrUa+fT5GwFc/AJTL/BRel/Px4ysOO7AxEMFaL6u6vsc9idUCuDtJ35cuDwETdNw6/Hcd8CJMzh6MF+qDugLhnHEXofjdrv06oBqrLLl0gCsJ89/A4zhptOLsUc+Oaf6Pix5sfjx9/NvW6+5Z5+h54YTlqoTsB4+je6hye+Ad2zoPLZX6tMXbwXwrSeIq3ffoOfauPTqgGp8/f6s1EOnmr4BQo73H7BKVX3vA56Eyg1AF/Ydqkeh5bSROuAe7ayRrpevBfCgzWHq1QF/nDt3sUcAz7VfMc2rPq/3XUKlFtvY2KM7yHWEttUXWV+IOz8zM72R7l3k37VeA2NXIYA+nw9+v/+XjbFYzFT1qK2tlWqxWOKu2dwfrycrK+un99PHBQUF2/5Rm+/Z3Ny8o78p3v31WF1dNc2bnsCBgQEUFxejoqICDodDUObm5uTc5OQkotGojKuqqjbef6+M+/v7UVZWJhcbHR3FysoKCgsL0dnZKeerq6vR1dVl3KOhoQEul0vWjI2NGfPLy8tS1T1KSkpkvLS0ZPpRoVBIalpaGtbW1ozj7OxsqTabTeacTqexdn5+XmogEJBaX1+P8fFx5OXlGdfUf4uKoqIiTE1NmdY2NTVJdbvdUktLS+X+xhPI2OUrzCDgnwWsq6uTg6SkJNPJ3t7eLZuo2hdHRka2vYH/N0+g2uzT09PR2toq/5VTUlJko1ebutr0MzIykJ+fj+TkZNTU1Mia8vJyqWpe33gjkQgqKyvR0dGBcDgMj8eDwcFBvsIMAhKQgARkEJCABCQgg4AEJCABGQQkIAEJSEAGAQlIQAIyCEjAfxNQfUmQm5uL1NRUtLS0GCf6+vrQ1taGzMxMDA8PIxgMypdLjY2N0qvWqLDb7VLVJ2rt7e0ytlqt8lWDWpuTk8MnkEFAAhKQgAwCEpCABGQQkIAEJCCDgAQkIAEZBCQgAQlIQAYBCUhAAjIISEACEpBBQAISkIAMAhKQgARkEJCABEz0+Ao84l4bqs9xNAAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\li0\ri0\fi0\f1\fs24\i\b0\ul0\cf1\ldblquote The attorney wants to know whether the ink on the anonymous letter comes from one of the collected pens.\rdblquote\par
-\par
-\i0\b Elaboration of the sentence:\i\b0\par
-\par
-\par
-\par
-\par
-\par
-\par
-\par
-\par
-\par
-\i0\b Justification of the tecnique:\i\b0\par
-\par
-\i0\par
-\par
-\par
-\par
-\par
-\li0\ri0\fi0\ul0\par
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i\b0\ul0\cf1\ldblquote The attorney wants to know whether the ink on the anonymous letter comes from one of the collected pens.\rdblquote\par&#xD;
+\par&#xD;
+\i0\b Elaboration of the sentence:\i\b0\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+\i0\b Justification of the tecnique:\i\b0\par&#xD;
+\par&#xD;
+\i0\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+\li0\ri0\fi0\ul0\par&#xD;
 }</RichText>
 </content>
 <resources>
