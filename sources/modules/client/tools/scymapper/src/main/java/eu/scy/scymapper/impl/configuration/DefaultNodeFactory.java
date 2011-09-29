@@ -42,12 +42,11 @@ public class DefaultNodeFactory implements INodeFactory {
 
     @Override
     public Icon getIcon() {
-        System.out.println(UIManager.getLookAndFeel());
         if (icon == null) {
             if (name.equals("hexagon")) {
                 icon = PalettePane.getImageIcon(DefaultNodeFactory.class.getResource(ICON_LOCATION + "hexagon.png"));
             } else if (name.equals("roundRectangle")) {
-                icon = PalettePane.getImageIcon(DefaultNodeFactory.class.getResource(ICON_LOCATION + "roundRectangle.png"));
+                icon = PalettePane.getImageIcon(DefaultNodeFactory.class.getResource(ICON_LOCATION + "roundrectangle.png"));
             } else if (name.equals("ellipse")) {
                 icon = PalettePane.getImageIcon(DefaultNodeFactory.class.getResource(ICON_LOCATION + "ellipse.png"));
             } else {
