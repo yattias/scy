@@ -705,67 +705,42 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       }
    }
 
-//    function fillNewScyWindowCollaborative(window: ScyWindow, mucid: String): Void {
-//        var pleaseWait = PleaseWait { };
-//        window.scyContent = pleaseWait;
-//        FX.deferAction(function () {
-//            // one defer does not seem to be enough to show the please wait content
-//            FX.deferAction(function () {
-//                realFillNewScyWindow2(window, true);
-//                def toolNode: Node = window.scyContent;
-//                if (toolNode instanceof CollaborationStartable) {
-//                    (toolNode as CollaborationStartable).startCollaboration(mucid);
-//                }
-//            });
-//        });
-//    }
    function realFillNewScyWindow2(window: ScyWindow, collaboration: Boolean): Void {
       logger.info("realFillNewScyWindow2({window.eloUri},{collaboration})");
-      //      def eloConfig = eloConfigManager.getEloToolConfig(window.eloType);
+
       def eloConfig = window.eloToolConfig;
       if (eloConfig == null) {
          logger.error("Can't find eloConfig for {window.eloUri} of type {window.eloType}");
          return;
       }
+
       // don't place the window content tool in the window, let the please wait message stay until every thing is created
       def scyToolsList = ScyToolsList {
-                 exceptionCatcher: initializer.exceptionCatcher
-              }
+         exceptionCatcher: initializer.exceptionCatcher
+      }
+
       // create the tools
       scyToolsList.actionLoggerTool = ScyToolActionLogger {
-                 window: window;
-                 config: config
-                 missionRuntimeEloUri: missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri()
-              };
+         window: window;
+         config: config
+         missionRuntimeEloUri: missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri()
+      };
       if (not collaboration and eloConfig.isContentCollaboration()) {
          // currently, the content tool must be created on the first call, which is with collaboration false
          // otherwise the first set of tools are not informed of the elo load messages
          throw new IllegalStateException("the content tool may not be a collaboration only tool");
       }
-      //      if (eloConfig.isContentCollaboration() == collaboration) {
       scyToolsList.windowContentTool = scyToolFactory.createNewScyToolNode(eloConfig.getContentCreatorId(), window.eloType, window.eloUri, window, false);
-      //      }
       if (not initializer.singleEloMode) {
-         //      if (eloConfig.isTopDrawerCollaboration() == collaboration) {
          scyToolsList.topDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getTopDrawerCreatorId(), window.eloType, window.eloUri, window, true);
-         //      }
-         if (collaboration) {
-            scyToolsList.rightDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getRightDrawerCreatorId(), window.eloType, window.eloUri, window, true);
-         }
-         //      if (eloConfig.isBottomDrawerCollaboration() == collaboration) {
+         scyToolsList.rightDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getRightDrawerCreatorId(), window.eloType, window.eloUri, window, true);
          scyToolsList.bottomDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getBottomDrawerCreatorId(), window.eloType, window.eloUri, window, true);
-         //      }
-         //      if (eloConfig.isLeftDrawerCollaboration() == collaboration) {
          if (eloConfig.getLeftDrawerCreatorId() != null) {
             def creatorTokenizer = new StringTokenizer(eloConfig.getLeftDrawerCreatorId());
             while (creatorTokenizer.hasMoreTokens()) {
-               //               insert scyToolFactory.createNewScyToolNode(creatorTokenizer.nextToken(), window.eloType, window.eloUri, window, true) into scyToolsList.leftDrawerTools;
                var leftDrawerCreatorId = creatorTokenizer.nextToken();
                // TODO, remove these hard coded hacks!!!
                var addDrawer = true;
-               //           if (leftDrawerCreatorId.equals("feedbackQuestion") and not missionModelFX.getEloUris(false).contains(window.eloUri)){
-               //              addDrawer = false;
-               //           }
                if (leftDrawerCreatorId.equals("feedbackQuestion") and not window.scyElo.getAuthors().contains(config.getToolBrokerAPI().getLoginUserName())) {
                   addDrawer = false;
                }
@@ -775,49 +750,51 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                if (leftDrawerCreatorId.equals("resourcesInfo") and window.scyElo.getResourcesUri() == null) {
                   addDrawer = false;
                }
-
                if (addDrawer) {
                   insert scyToolFactory.createNewScyToolNode(leftDrawerCreatorId, window.eloType, window.eloUri, window, true) into scyToolsList.leftDrawerTools;
                }
             };
          }
-      //      }
       }
 
       // all tools are created and placed in the window
       // now do the ScyTool initialisation
       def myEloChanged = SimpleMyEloChanged {
-                 window: window;
-              }
+         window: window;
+      }
+
+      // assigning fucntional roles
       var functionalRoles: EloFunctionalRole[];
       if (eloConfig.getEloFunctionalRoles() != null and eloConfig.getEloFunctionalRoles().size() > 0) {
          functionalRoles = for (object in eloConfig.getEloFunctionalRoles()) {
-                    object as EloFunctionalRole
-                 }
+            object as EloFunctionalRole
+         }
       } else {
          functionalRoles = EloFunctionalRole.values()
       }
 
+      // creating the elo saver to handle elo events
       def myEloSaver = SimpleScyDesktopEloSaver {
-                 config: config
-                 toolBrokerAPI: config.getToolBrokerAPI()
-                 repository: config.getRepository()
-                 eloFactory: config.getEloFactory()
-                 titleKey: config.getTitleKey()
-                 technicalFormatKey: config.getTechnicalFormatKey()
-                 window: window;
-                 myEloChanged: myEloChanged;
-                 newTitleGenerator: newTitleGenerator;
-                 windowStyler: windowStyler;
-                 scyToolActionLogger: scyToolsList.actionLoggerTool as ScyToolActionLogger
-                 authorMode: initializer.authorMode
-                 functionalRoles: functionalRoles
-                 loginName: config.getToolBrokerAPI().getLoginUserName()
-              };
+         config: config
+         toolBrokerAPI: config.getToolBrokerAPI()
+         repository: config.getRepository()
+         eloFactory: config.getEloFactory()
+         titleKey: config.getTitleKey()
+         technicalFormatKey: config.getTechnicalFormatKey()
+         window: window;
+         myEloChanged: myEloChanged;
+         newTitleGenerator: newTitleGenerator;
+         windowStyler: windowStyler;
+         scyToolActionLogger: scyToolsList.actionLoggerTool as ScyToolActionLogger
+         authorMode: initializer.authorMode
+         functionalRoles: functionalRoles
+         loginName: config.getToolBrokerAPI().getLoginUserName()
+      };
+
       def runtimeSettingsRetriever = EloRuntimeSettingsRetriever {
-                 eloUri: bind window.eloUri
-                 runtimeSettingsManager: missionRuntimeSettingsManager
-              }
+         eloUri: bind window.eloUri
+         runtimeSettingsManager: missionRuntimeSettingsManager
+      }
 
       // place the logger first
       if (scyToolsList.actionLoggerTool != null) {
