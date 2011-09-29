@@ -278,4 +278,30 @@ public class MissionModelFX extends MissionModel {
       return missionModel.getMissionAnchors()
    }
 
+   function findMissionAnchor(eloUri):MissionAnchorFX{
+      for (las in lasses){
+         if (las.mainAnchor.eloUri==eloUri){
+            return las.mainAnchor;
+         }
+         for (anchor in las.intermediateAnchors){
+            if (anchor.eloUri==eloUri){
+               return anchor;
+            }
+         }
+
+      }
+      return null
+   }
+
+
+   public function showWebNews(eloUri: URI): Void{
+      def missionAnchor = findMissionAnchor(eloUri);
+      if (missionAnchor!=null and missionAnchor.webNewsUri!=null){
+         // we the web news uri to display, now display it...
+
+      }
+
+   }
+
+
 }
