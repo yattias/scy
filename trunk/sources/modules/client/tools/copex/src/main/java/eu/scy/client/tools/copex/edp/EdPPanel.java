@@ -1354,6 +1354,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent {
         if (cr.isError()) {
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
         }
+        scrollPaneTree.getVerticalScrollBar().setValue(scrollPaneTree.getVerticalScrollBar().getMinimum());
     }
 
     /* returns the experimental procedure ELO */
