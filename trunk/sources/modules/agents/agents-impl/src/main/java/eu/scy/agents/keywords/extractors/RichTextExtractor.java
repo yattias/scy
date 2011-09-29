@@ -43,6 +43,8 @@ public class RichTextExtractor implements KeywordExtractor {
 
 	private Mission mission;
 
+    private String language;
+
 	public static String XMLPATH = "//content/RichText";
 
 	public RichTextExtractor() {
@@ -101,7 +103,7 @@ public class RichTextExtractor implements KeywordExtractor {
 			String queryId = new VMID().toString();
 			Tuple extractKeywordsTriggerTuple = new Tuple(
 					ExtractKeywordsAgent.EXTRACT_KEYWORDS, AgentProtocol.QUERY,
-					queryId, text, mission.getName());
+					queryId, text, mission.getName(), language);
 			extractKeywordsTriggerTuple.setExpiration(7200000);
 			Tuple responseTuple = null;
 			if (this.tupleSpace.isConnected()) {
@@ -140,4 +142,9 @@ public class RichTextExtractor implements KeywordExtractor {
 	public void setMission(Mission mission) {
 		this.mission = mission;
 	}
+
+    @Override
+    public void setLanguage(String language) {
+        this.language = language;
+    }
 }

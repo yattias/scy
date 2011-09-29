@@ -36,6 +36,8 @@ public class FitexExtractor implements KeywordExtractor {
 
 	private Mission mission;
 
+    private String language;
+
 	public static String XMLPATH = "//column/symbol";
 
 	public FitexExtractor() {
@@ -68,7 +70,7 @@ public class FitexExtractor implements KeywordExtractor {
 			String queryId = new VMID().toString();
 			Tuple extractKeywordsTriggerTuple = new Tuple(
 					ExtractKeywordsAgent.EXTRACT_KEYWORDS, AgentProtocol.QUERY,
-					queryId, text, mission.getName());
+					queryId, text, mission.getName(), language);
 			extractKeywordsTriggerTuple.setExpiration(7200000);
 			Tuple responseTuple = null;
 			if (this.tupleSpace.isConnected()) {
@@ -119,5 +121,10 @@ public class FitexExtractor implements KeywordExtractor {
     public void setMission(Mission mission) {
 		this.mission = mission;
 	}
+
+   @Override
+    public void setLanguage(String language) {
+        this.language = language;
+    }
 
 }

@@ -32,4 +32,5 @@ public interface KeywordExtractor {
 
 	public void setMission(Mission mission);
 
+    void setLanguage(String language);
 }

@@ -24,12 +24,13 @@ public class ConceptMapExtractor implements KeywordExtractor {
 
 	private TupleSpace tupleSpace;
 
+    private String language;
 	private Mission mission;
 
-	public static String NODEPATH = "//nodes/eu.scy.scymapper.impl.model.NodeModel/label";
-	public static String LINKPATH = "//links/eu.scy.scymapper.impl.model.NodeLinkModel/myLabel";
+    public static String NODEPATH = "//nodes/eu.scy.scymapper.impl.model.NodeModel/label";
+    public static String LINKPATH = "//links/eu.scy.scymapper.impl.model.NodeLinkModel/myLabel";
 
-	public ConceptMapExtractor() {
+    public ConceptMapExtractor() {
 	}
 
 	@Override
@@ -53,7 +54,7 @@ public class ConceptMapExtractor implements KeywordExtractor {
 			String queryId = new VMID().toString();
 			Tuple extractKeywordsTriggerTuple = new Tuple(
 					ExtractKeywordsAgent.EXTRACT_KEYWORDS, AgentProtocol.QUERY,
-					queryId, text, mission.getName());
+					queryId, text, mission.getName(), language);
 			extractKeywordsTriggerTuple.setExpiration(7200000);
 			Tuple responseTuple = null;
 			if (this.tupleSpace.isConnected()) {
@@ -92,4 +93,9 @@ public class ConceptMapExtractor implements KeywordExtractor {
 	public void setMission(Mission mission) {
 		this.mission = mission;
 	}
+
+    @Override
+    public void setLanguage(String language) {
+        this.language = language;
+    }
 }

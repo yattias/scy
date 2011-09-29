@@ -36,9 +36,10 @@ public class CopexExtractor implements KeywordExtractor {
 
 	private Mission mission;
 
-	public static String XMLPATH = "//learner_proc/proc_hypothesis/hypothesis";
+    private String language;
+    public static String XMLPATH = "//learner_proc/proc_hypothesis/hypothesis";
 
-	public CopexExtractor() {
+    public CopexExtractor() {
 	}
 
 	/*
@@ -68,7 +69,7 @@ public class CopexExtractor implements KeywordExtractor {
 			String queryId = new VMID().toString();
 			Tuple extractKeywordsTriggerTuple = new Tuple(
 					ExtractKeywordsAgent.EXTRACT_KEYWORDS, AgentProtocol.QUERY,
-					queryId, text, mission.getName());
+					queryId, text, mission.getName(), language);
 			extractKeywordsTriggerTuple.setExpiration(7200000);
 			Tuple responseTuple = null;
 			if (this.tupleSpace.isConnected()) {
@@ -119,5 +120,10 @@ public class CopexExtractor implements KeywordExtractor {
 	public void setMission(Mission mission) {
 		this.mission = mission;
 	}
+
+    @Override
+    public void setLanguage(String language) {
+        this.language = language;
+    }
 
 }
