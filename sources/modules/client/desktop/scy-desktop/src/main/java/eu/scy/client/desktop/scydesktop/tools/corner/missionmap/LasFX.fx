@@ -26,10 +26,11 @@ public class LasFX extends Las {
    public var nextLasses: LasFX[];
    public var previousLasses: LasFX[];
    public var mainAnchor: MissionAnchorFX;
+   public var initialAnchorToOpen: MissionAnchorFX;
    public var intermediateAnchors: MissionAnchorFX[];
    public var otherEloUris: URI[] on replace {
-         las.setOtherEloUris(missionUtils.getUriList(otherEloUris))
-      };
+              las.setOtherEloUris(missionUtils.getUriList(otherEloUris))
+           };
    public var color = Color.LIGHTGRAY;
    public var toolTip: String;
    public var title: String;
@@ -59,6 +60,7 @@ public class LasFX extends Las {
       instructionUri = las.getInstructionUri();
       lasType = las.getLasType();
       selectedAnchor = missionUtils.getMissionAnchorFX(las.getSelectedMissionAnchor());
+      initialAnchorToOpen = if (las.getInitialMissionAnchorToOpen() != null) then missionUtils.getMissionAnchorFX(las.getInitialMissionAnchorToOpen()) else null;
    }
 
    override public function isExisting(): Boolean {
@@ -157,6 +159,10 @@ public class LasFX extends Las {
    override public function setLoEloUris(loEloUris: List): Void {
       las.setLoEloUris(loEloUris);
       this.loEloUris = missionUtils.getUriSequence(loEloUris);
+   }
+
+   override public function getInitialMissionAnchorToOpen(): MissionAnchor {
+      return las.getInitialMissionAnchorToOpen();
    }
 
 }
