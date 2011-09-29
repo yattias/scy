@@ -24,11 +24,13 @@ import eu.scy.client.desktop.scydesktop.tooltips.impl.NodeTooltip;
 import javafx.scene.control.Label;
 import javafx.util.Sequences;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactNameComparator;
+import eu.scy.client.desktop.scydesktop.draganddrop.DropTarget;
+import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactFrame;
 
 /**
  * @author SikkenJ
  */
-public class TitleBarBuddies extends TitleBarItemList, TooltipCreator {
+public class TitleBarBuddies extends TitleBarItemList, TooltipCreator, DropTarget {
 
    public var window: ScyWindow;
    public-init var tooltipManager: TooltipManager;
@@ -45,6 +47,28 @@ public class TitleBarBuddies extends TitleBarItemList, TooltipCreator {
    public override function create(): Node {
       displayBox
    }
+
+   public override function canAcceptDrop(object: Object) : Boolean {
+       if (object instanceof ContactFrame) {
+            var c: ContactFrame = object as ContactFrame;
+            if (not ownershipManager.isOwner(c.contact.name)) {
+                if (c.contact.onlineState == OnlineState.OFFLINE) {
+                    return true;
+                }
+            }
+        }
+        return false;
+   }
+
+   public override function acceptDrop(object: Object) {
+       if (object instanceof ContactFrame) {
+            var c: ContactFrame = object as ContactFrame;
+            if (not ownershipManager.isOwner(c.contact.name)) {
+                ownershipManager.addOwner(c.contact.name, true);
+            }
+        }
+   }
+
 
    override function updateItems() {
       delete  displayBox.content;

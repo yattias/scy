@@ -245,11 +245,19 @@ public class StandardScyWindow extends ScyWindow {
    }
 
    public override function canAcceptDrop(object: Object): Boolean {
-      return scyToolsList.canAcceptDrop(object);
+       if (titleBarBuddies.canAcceptDrop(object)) {
+           return true;
+       } else {
+           return scyToolsList.canAcceptDrop(object);
+       }
    }
 
    public override function acceptDrop(object: Object): Void {
-      scyToolsList.acceptDrop(object);
+       if (titleBarBuddies.canAcceptDrop(object)) {
+           titleBarBuddies.acceptDrop(object);
+       } else {
+           scyToolsList.acceptDrop(object);
+       }
    }
 
    override function addChangesListener(wcl: WindowChangesListener) {
