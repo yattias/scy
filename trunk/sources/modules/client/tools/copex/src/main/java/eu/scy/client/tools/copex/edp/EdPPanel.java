@@ -513,7 +513,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent {
         return scrollPaneTree;
     }
 
-    private CopexTree getCopexTree() {
+    public CopexTree getCopexTree() {
         if (copexTree == null) {
             copexTree = new CopexTree(this, proc);
         }
@@ -2016,5 +2016,6 @@ public class EdPPanel extends JPanel implements ActionMenuEvent {
     public TaskSelected getTaskSelected(CopexTask selTask, char insertIn) {
         return copexTree.getTaskSelected(selTask, insertIn);
     }
+
 
 }
