@@ -171,9 +171,16 @@
                     <select name="anchorElo" onChange="document.getElementById('filterForm').submit();">
                         <option value="ALL">All</option>
                         <c:choose>
-                            <c:when test="${fn:length(anchorElos) > 0}">
-                                <c:forEach var="anchorElo" items="${anchorElos}">
-                                    <option value="anchorElo.uri">${anchorElo.title}</option>
+                            <c:when test="${fn:length(allEloNames) > 0}">
+                                <c:forEach var="eloName" items="${allEloNames}">
+                                    <c:choose>
+                                        <c:when test="${eloName == anchorElo}">
+                                            <option value="${eloName}" selected>${eloName}</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="${eloName}">${eloName}</option>
+                                        </c:otherwise>
+                                    </c:choose> 
                                 </c:forEach>
                             </c:when>
                         </c:choose>
