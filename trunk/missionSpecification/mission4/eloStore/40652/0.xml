@@ -22,7 +22,7 @@
           <dateTime>2011-09-20T21:58:05.021+0200</dateTime>
         </date>
       </contribute>
-      <version>4</version>
+      <version>6</version>
     </lifecycle>
     <annotation>
       <entity>colorId</entity>
@@ -31,8 +31,8 @@
     <technical>
       <customElements>
         <dateCreated>1316548685021</dateCreated>
-        <dateFirstUserSaveKey>1316696673347</dateFirstUserSaveKey>
-        <dateLastModified>1316696673347</dateLastModified>
+        <dateFirstUserSaveKey>1317302766782</dateFirstUserSaveKey>
+        <dateLastModified>1317302766782</dateLastModified>
       </customElements>
       <format>scy/missionspecification</format>
     </technical>
@@ -48,7 +48,7 @@
         <catalog>memory</catalog>
         <entry>roolo://memory/40652/0/Le+laboratoire+de+police+scientifique.scymissionspecification</entry>
       </identifier>
-      <las>Chimie: Espace d'expérimentation</las>
+      <las>Biologie: Espace d'information</las>
       <missionId>forensic</missionId>
       <missionRunning>
         <catalog>memory</catalog>
@@ -74,17 +74,17 @@
   <template>TRUE</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAAA6CAYAAAAnft6RAAAAgklEQVR42u3SqQ0AMQxFwdTuclyPezGKsnQVBexB58EvmYw81lZVLT1v7ENmUvkCOOd8ddjd9E4feC8iCP0BFECAAAEKIECAAAUQIECAAggQIEABBAgQoAACBAgQoAACBAhQAAECBCiAAAECFECAAAEKIECAAAUQIECAAggQIEAdugCCGzik3jqkfQAAAABJRU5ErkJggg==</base64>
+    <base64>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</base64>
   </thumbnail>
 </metadata>
 <content languages="fr" contentType="xml">
 <missionSpeicification>
-  <missionMapModelEloUri>roolo://memory/40677/0/Le+laboratoire+de+police+scientifique.scymissionmapmodel</missionMapModelEloUri>
-  <eloToolConfigsEloUri>roolo://memory/40678/0/Le+laboratoire+de+police+scientifique.scyelotoolconfiguration</eloToolConfigsEloUri>
-  <templateElosEloUri>roolo://memory/40679/0/Le+laboratoire+de+police+scientifique.scytemplateelos</templateElosEloUri>
-  <runtimeSettingsEloUri>roolo://memory/40680/0/Le+laboratoire+de+police+scientifique.runtimesettings</runtimeSettingsEloUri>
+  <missionMapModelEloUri>roolo://memory/40702/0/Le+laboratoire+de+police+scientifique.scymissionmapmodel</missionMapModelEloUri>
+  <eloToolConfigsEloUri>roolo://memory/40703/0/Le+laboratoire+de+police+scientifique.scyelotoolconfiguration</eloToolConfigsEloUri>
+  <templateElosEloUri>roolo://memory/40704/0/Le+laboratoire+de+police+scientifique.scytemplateelos</templateElosEloUri>
+  <runtimeSettingsEloUri>roolo://memory/40705/0/Le+laboratoire+de+police+scientifique.runtimesettings</runtimeSettingsEloUri>
   <agentModelsEloUri />
-  <pedagogicalPlanSettingsEloUri>roolo://memory/40681/0/Le+laboratoire+de+police+scientifique.scy</pedagogicalPlanSettingsEloUri>
+  <pedagogicalPlanSettingsEloUri>roolo://memory/40706/0/Le+laboratoire+de+police+scientifique.scy</pedagogicalPlanSettingsEloUri>
   <colorSchemesEloUri>roolo://memory/40036/0/Color+schemes+Mission4.colorschemes</colorSchemesEloUri>
   <missionDescriptionUri>http://www.scy-lab.eu/content/en/mission4/missionMapInstruction.html</missionDescriptionUri>
   <missionId>forensic</missionId>

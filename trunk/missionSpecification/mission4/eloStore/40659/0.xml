@@ -22,7 +22,7 @@
           <dateTime>2011-07-08T16:59:21.019+0200</dateTime>
         </date>
       </contribute>
-      <version>3</version>
+      <version>5</version>
     </lifecycle>
     <annotation>
       <entity>colorId</entity>
@@ -31,8 +31,8 @@
     <technical>
       <customElements>
         <dateCreated>1303476229409</dateCreated>
-        <dateFirstUserSaveKey>1316554873710</dateFirstUserSaveKey>
-        <dateLastModified>1316554873710</dateLastModified>
+        <dateFirstUserSaveKey>1317300132649</dateFirstUserSaveKey>
+        <dateLastModified>1317300132649</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
@@ -48,67 +48,56 @@
         <catalog>memory</catalog>
         <entry>roolo://memory/40659/0/Raport+officiel.rtf</entry>
       </identifier>
-      <las>Espace de rédaction</las>
+      <las>Biologie: Espace de rédaction</las>
       <missionId>forensic</missionId>
       <missionRunning>
         <catalog>memory</catalog>
         <entry>roolo://memory/40652/0/Le+laboratoire+de+police+scientifique.scymissionspecification</entry>
       </missionRunning>
       <title>
-        <string language="en">Official report</string>
-        <string language="fr">Raport officiel</string>
+        <string language="en">Biology: Official report</string>
+        <string language="fr">Biologie: Raport officiel</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_fork_of</value>
-      </kind>
-      <resource>
-        <identifier>
-          <catalog>memory</catalog>
-          <entry>roolo://memory/40101/0/Official+report.rtf</entry>
-        </identifier>
-      </resource>
-    </relation>
   </lom>
   <template>true</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>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</base64>
+    <base64>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</base64>
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;
-&#xD;&#xD;
-\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Nom et Pr\'e9nom:\b0  \par&#xD;&#xD;
-\par&#xD;&#xD;
-\b Je suis expert en:\b0  \b  \b0\par&#xD;&#xD;
-\par&#xD;&#xD;
-\b Cas n\'b0:\b0  \b  \b0 CY0347\par&#xD;&#xD;
-\par&#xD;&#xD;
-\b Objet:\b0  Expertise pour le Minist\'e8re public\par&#xD;&#xD;
-\par&#xD;&#xD;
-\b R\'e9sum\'e9 des faits (selon ma compr\'e9hension des \'e9l\'e9ments de l'affaire): \b0  \b   \b0\par&#xD;&#xD;
-\par&#xD;&#xD;
-\b Ma mission: \b0       \b\par&#xD;&#xD;
-\par&#xD;&#xD;
-Mon mat\'e9riel biologique (mes \'e9chantillons):\par&#xD;&#xD;
-\b0 Est-ce que les \'e9chantillons de la sc\'e8ne de crime contenaient du mat\'e9riel biologique?\b\par&#xD;&#xD;
-\b0 Avez-vous r\'e9ussi \'e0 faire les profiles ADN \'e0 partir des \'e9chantillons?\b\par&#xD;&#xD;
-\b0\par&#xD;&#xD;
-\b Description des \'e9tapes de l'expertsie (Activit\'e9s que j'ai faites, objets que j'ai cr\'e9\'e9...):\b0\par&#xD;&#xD;
-\par&#xD;&#xD;
-\b Justification de ma m\'e9thode, de mes techniques d'analyse:\par&#xD;&#xD;
-\par&#xD;&#xD;
-Probl\'e8mes rencontr\'e9s lors de la mission (optionnel):\b0\par&#xD;&#xD;
-\par&#xD;&#xD;
-\b Ma conclusion:\par&#xD;&#xD;
-\b0 Avez-vous trouv\'e9 une correspondance entre l'\'e9chantillon de la sc\'e8ne de crime et l'un des \'e9chantillons de r\'e9f\'e9rence?\par&#xD;&#xD;
-Quelle information est-ce qu'une correspondance apporte sur la culpabilit\'e9 ou non d'un suspect?\par&#xD;&#xD;
-Quelle est la fr\'e9quence du profil correspondant dans la population mondiale? (Optionnel)\ul0\par&#xD;&#xD;
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Noms et Pr\'e9noms des experts:\b0  \par&#xD;
+\par&#xD;
+\b Domaine d'expertise:\b0  \b  \b0\par&#xD;
+\par&#xD;
+\b Cas n\'b0:\b0  \b  \b0 CY0347\par&#xD;
+\par&#xD;
+\b Objet:\b0  Expertise pour le Minist\'e8re public\par&#xD;
+\par&#xD;
+\b R\'e9sum\'e9 des faits (selon notre compr\'e9hension des \'e9l\'e9ments de l'affaire): \b0  \b   \b0\par&#xD;
+\par&#xD;
+\b Notre mission: \b0       \b\par&#xD;
+\par&#xD;
+Notre mat\'e9riel biologique (nos \'e9chantillons):\par&#xD;
+\b0 Est-ce que les \'e9chantillons de la sc\'e8ne de crime contenaient du mat\'e9riel biologique?\b\par&#xD;
+\b0 Avez-vous r\'e9ussi \'e0 faire les profiles ADN \'e0 partir des \'e9chantillons?\b\par&#xD;
+\b0\par&#xD;
+\b Description des \'e9tapes de l'expertsie (Activit\'e9s que nous avons faites, objets que nous avons cr\'e9\'e9s...):\b0\par&#xD;
+\par&#xD;
+\b Justification de la m\'e9thode, des techniques d'analyse:\par&#xD;
+\par&#xD;
+Probl\'e8mes rencontr\'e9s lors de la mission (optionnel):\b0\par&#xD;
+\par&#xD;
+\b Notre conclusion:\par&#xD;
+\b0 Avez-vous trouv\'e9 une correspondance entre l'\'e9chantillon de la sc\'e8ne de crime et l'un des \'e9chantillons de r\'e9f\'e9rence? Ce r\'e9sultat a-t-il \'e9t\'e9 confirm\'e9 par les r\'e9sultats des autres groupe?\par&#xD;
+Quelle information est-ce qu'une correspondance apporte sur la culpabilit\'e9 ou non d'un suspect?\par&#xD;
+Quelle est la fr\'e9quence du profil correspondant dans la population mondiale? (Optionnel)\par&#xD;
+\li0\ri0\fi0\ul0\par&#xD;
 }</RichText>
 </content>
 <resources>

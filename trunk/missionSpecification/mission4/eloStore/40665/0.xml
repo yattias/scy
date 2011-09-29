@@ -22,7 +22,7 @@
           <dateTime>2011-09-06T11:52:13.720+0200</dateTime>
         </date>
       </contribute>
-      <version>3</version>
+      <version>5</version>
     </lifecycle>
     <annotation>
       <entity>colorId</entity>
@@ -31,8 +31,8 @@
     <technical>
       <customElements>
         <dateCreated>1303994140125</dateCreated>
-        <dateFirstUserSaveKey>1316695363501</dateFirstUserSaveKey>
-        <dateLastModified>1316695363501</dateLastModified>
+        <dateFirstUserSaveKey>1317300410832</dateFirstUserSaveKey>
+        <dateLastModified>1317300410832</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
@@ -55,50 +55,39 @@
         <entry>roolo://memory/40652/0/Le+laboratoire+de+police+scientifique.scymissionspecification</entry>
       </missionRunning>
       <title>
-        <string language="en">Goal of the analysis</string>
-        <string language="fr">But de l'analyse</string>
+        <string language="en">Biology: Goal of the analysis</string>
+        <string language="fr">Biologie: But de l'analyse</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
   <template>true</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAADUElEQVR42u3Yy0sbURgF8PkTCl248YELUVvwgUvdqYhIVq5UcOFGV0qNLWqzKVGpBqkpKKi0QlBpUbGFWqHixrYoaiQUm7po0fQRopWq0Zj4iKd+VzIkwdJQpJZ6Dlxmvnvv3Ln5MYmMWhDfcYwNvQFbEXX0+PsP8xH14KAtoj4MriNw5LkyTRMgvDPj84tbiL/edAq4jRnnDmqM9/BgcEYBvj6tx17Z8WbFqwClljkLqwcKUOq5j341vutzY2f3m962vV9VC+87r503L9a+y1zvDPBtHabuGxB/7bYC1DQNj57N447lqQJ8/HwB6TduqqMAypjMGXzpUIBSP5leUeObP75gfcN1ZdoZIDbD2nZEHT0ugOG1AIbXbvcqXK5PV6Zpd4esMA091JvU0X3ntfPmxdr3P62nnT42sFgs2N/fh9/vx+HhIUIJBoPw+XwIBAKqlvPfRa6RFBYW6n2h6+rr69Vxb28P1dXVyMnJwdHRkT7v4OBAjcl8OUpOTk70cdmfzImO7C80X46hNjExoc/p7e3V1wp9RllP7i/3s9vtOD4+1tdYXFxELNF+NRC+8X8pF7EveWAuKhoYAl4qoMFgQHZ2tirKy8sxNjaGvLw8rK2twWQynf5VdSM5ORnLy8vIyspCc3MzkpKS1PylpSVsbW3B6XSiuLgYKSkpSE1NVWukpaXF9JvJJ5BfYYaABCQgARkCEpCABGT+6FWutrZW74iLi0NfX586l6PNZkNlZSXMZjM6OzvR39+PiooKNZ6QkICMjAz9OklpaSlGR0fR09OD1tZWjIyMoK6uDnNzc2p8dnYWRqNRrT08PIz29nZkZmaq10RJUVERHA6HOp+enkZ+fj4GBgZQU1ODgoICuFwupKeno62tDYmJiWp9Wa+kpATd3d2YnJxER0cHWlpa1D7LysrUWuPj48jNzdVfWaempuD1etV9q6qqVH9jYyOsViu6urrUevJfm6amJjQ0NKh7ymfweDzqlVUsZG98AvkVJiABCcgQkIAEJCBDQAISkIAMAQlIQAIyBCQgAQnIEJCABCQgQ0ACEpCADAEJSEACMgQkIAEJyBCQgAQkIENAAhKQgARkCEhAAhKQISABCUhAhoAEJCABGQL+tfwEc8g3MPhrbU4AAAAASUVORK5CYII=</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAEaklEQVR42u2Z+UtjVxTH81cILgjuP4jLDy4/iApS3LWIHaToMChiFael/hJQEaKjtUKtojBgJRbRCq113KALVRGh006XONSKbRKjQzJjNI6NS6OjSU69B9/jpcYZnenQafr9wuGed+45N+99kntfuFdlNN0noscetr2zei4mrL+/30t832vut3dnvcafOK0+ZSq9UUdLFhf9orBNm56ctOUR06//ygB3/iSPOJGdc1c23LK9efMW3f1OAPQcV+QdOB75lDHAr396RB98dIdUKhV99eNDGaDw69tuc6t/sMwALTYHvVVbRzdrazkuARS+sPdvf0ql77SeAXTTF/fM9OUPFu4TeY//MNOO/fntVatXGVZ1pJ24R9duvE2lVWrqv/O9DPBGbSN9PP0zxwxnAH9ft9En3/xG2s9mOC4BFP7n86vcXn/3vTOAxNeZr5dyK/Ksm+s+ZacAF+m16/WUfk0tmwRQGTNb9QzwjepbHnEJoDKm+VDLADWdAx5xkWc2m3zKVO7Thd11BXPS9qXynji3vMaNRv2pGV7AXq16FUEvJAZoNpvPdezu7j6zuKys7MI+t9vt1fd2/Xetra15jTudzqd+zmWlrFE+w8jIiNwv2bPqVUpgY2NjtLe3R8vLy1RfX8/xjY0NGh4eZn97e5vbkpISSklJ4ZrZ2VmPL2B/f5+Ki4vZLyoqoqysLPYLCgooMTGRJicn2Y+MjJTr8/LyuEZ8tiStVkt2u53rW1paqLCwkBISErhe+aWPj4/zWEJ1dXXcijohq9VK+fn51NvbS5ubm3z/Go2GZmZmuGZ+fl7OE2ptbfUAtbS0xG1AQADfqzDBJTs7m+PT09OYwv/IFIYA8N8FmJGRwRft7e3nEvz8/LwWGgwGcrlcvOZdZtGW1hmlpqamfANgbm4uvziEGhoaTv/fGGlwcJCioqIoIiKCmpqauE+n0/GCLqRWq8lisdDKygq/HYODg6miooL7ysvLuT4nJ4cmJibY39o6/bOdnk5hYWFUU1PDebGxsZjCmMIQAAIgAAIgBIAACIAACAEgAALg/xDg4eHhhQliu+ro6Ei+vuisRJlzlT6ljo+PL5UnbaM5HA6v5yRPu8+XAlDs7S8uLsrAxHaWkM1m462uvr4+Cg0N5e0ocT5QXV1NycnJFBQUxHlDQ0NUWVlJzc3N8sBdXV2yL843xDZYZ2enXC9JOscQEucd8fHx7Hd3d9PBwQH7PT09FB0dzb44z5C0sLAgn2t0dHRQXFwc+2lpaeTv708xMTF8Le13SuOJZ01KSqLw8HB5rNHRUW7FM4rnHxgY4HxxptLW1kYhISE8/tzcHJlMpv/uFH6eU7iX/gsUu8WBgYGUmZlJqampbNAVAJ6cnFBVVRU1NjayiWkldpUhvIUBEAABEAJAAARAAIQAEAABEAAhAARAAARACAABEAABEAJAAARAAARACAABEAABEAJAAARAAIQAEAABEAAhAARAAARACAABEAABEAJAAARAX9Zf12EQZTRNUWgAAAAASUVORK5CYII=</base64>
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\li0\ri0\fi0\f1\fs24\i\b0\ul0\cf1\ldblquote Le minist\'e8re public veut savoir si l'encre de la lettre anonyme correspond \'e0 l'encre de l'un des stylos collect\'e9s."\par
-\par
-\i0\b Reformulation (50 mots maximum):\par
-\par
-\par
-\par
-\par
-\par
-Pourquoi la chromatographie sur couche mince (CCM) est-elle la bonne technique pour r\'e9pondre \'e0 la demande du Minist\'e8re public?\i\b0\par
-\par
-\i0\par
-\par
-\par
-\par
-\par
-\li0\ri0\fi0\ul0\par
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i\b0\ul0\cf1\ldblquote Le minist\'e8re public veut savoir si l'encre de la lettre anonyme correspond \'e0 l'encre de l'un des stylos collect\'e9s."\par&#xD;
+\par&#xD;
+\i0\b Reformulation (50 mots maximum):\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+Pourquoi la chromatographie sur couche mince (CCM) est-elle la bonne technique pour r\'e9pondre \'e0 la demande du Minist\'e8re public?\i\b0\par&#xD;
+\par&#xD;
+\i0\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+\par&#xD;
+\li0\ri0\fi0\ul0\par&#xD;
 }</RichText>
 </content>
 <resources>
