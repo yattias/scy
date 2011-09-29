@@ -242,7 +242,7 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
         simulator.join(datasyncsession.getId(), datasyncEdge as Object);
         datasyncEdge.join(datasyncsession.getId(), toolBrokerAPI);
         acceptDialog.modalDialogBox.close();
-	syncAttrib.setTooltipText("drag to disconnect");
+		syncAttrib.setTooltipText(getBundleString("FX-FITEX.TOOLTIP_UNSYNC"));
     }
 
     public function removeDatasync(simulator: ISynchronizable) {
@@ -250,7 +250,7 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
         datasyncEdge = null;
         this.leave(simulator.getSessionID());
         simulator.leave(simulator.getSessionID());
-	syncAttrib.setTooltipText("drag to connect");
+		syncAttrib.setTooltipText(getBundleString("FX-FITEX.TOOLTIP_SYNC"));
     }
 
     public override function getScyWindow(): ScyWindow {
