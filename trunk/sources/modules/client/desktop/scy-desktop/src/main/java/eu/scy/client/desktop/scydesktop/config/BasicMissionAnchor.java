@@ -29,6 +29,7 @@ public class BasicMissionAnchor// implements MissionAnchor
    private URI assignmentUri;
    private URI resourcesUri;
    private URI helpUri;
+   private URI webNewsUri;
    private ColorSchemeId colorScheme;
 
    public String getId()
@@ -168,5 +169,15 @@ public class BasicMissionAnchor// implements MissionAnchor
    public void setHelpUri(URI helpUri)
    {
       this.helpUri = helpUri;
+   }
+
+   public URI getWebNewsUri()
+   {
+      return webNewsUri;
+   }
+
+   public void setWebNewsUri(URI webNewsUri)
+   {
+      this.webNewsUri = webNewsUri;
    }
 }

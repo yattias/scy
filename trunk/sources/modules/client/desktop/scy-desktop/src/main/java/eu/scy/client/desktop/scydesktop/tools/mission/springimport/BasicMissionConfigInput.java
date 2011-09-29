@@ -95,9 +95,17 @@ public class BasicMissionConfigInput implements MissionConfigInput
       {
          try
          {
+            boolean needToSetTemplateFlag = true;
             IMetadata metadata = tbi.getRepository().retrieveMetadata(eloUri);
-            Object templateValue = metadata.getMetadataValueContainer(templateKey).getValue();
-            if (!Boolean.TRUE.toString().equals(templateValue))
+            if (metadata != null)
+            {
+               Object templateValue = metadata.getMetadataValueContainer(templateKey).getValue();
+               if (Boolean.TRUE.toString().equals(templateValue))
+               {
+                  needToSetTemplateFlag = false;
+               }
+            }
+            if (needToSetTemplateFlag)
             {
                tbi.getRepository().addMetadata(eloUri, templateTrueMetadata);
             }
@@ -325,6 +333,7 @@ public class BasicMissionConfigInput implements MissionConfigInput
          missionAnchor.setAssignmentUri(basicMissionAnchor.getAssignmentUri());
          missionAnchor.setResourcesUri(basicMissionAnchor.getResourcesUri());
          missionAnchor.setHelpUri(basicMissionAnchor.getHelpUri());
+         missionAnchor.setWebNewsUri(basicMissionAnchor.getWebNewsUri());
          missionAnchor.setColorSchemeId(basicMissionAnchor.getColorScheme());
          missionAnchor.setRelationNames(basicMissionAnchor.getRelationNames());
          missionAnchor.setDependingOnMissionAnchorIds(basicMissionAnchor.getDependingOnMissionAnchorIds());

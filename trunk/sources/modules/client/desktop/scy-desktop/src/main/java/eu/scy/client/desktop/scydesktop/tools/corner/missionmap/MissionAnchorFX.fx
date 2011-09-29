@@ -13,6 +13,7 @@ import eu.scy.common.scyelo.ScyElo;
 import eu.scy.common.scyelo.ColorSchemeId;
 import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 import eu.scy.client.desktop.desktoputils.art.ScyColors;
+import java.lang.UnsupportedOperationException;
 
 /**
  * @author SikkenJ
@@ -36,6 +37,7 @@ public class MissionAnchorFX extends MissionAnchor {
    public var assignmentUri: URI;
    public var resourcesUri: URI;
    public var helpUri: URI;
+   public var webNewsUri: URI;
    public var windowColorScheme: WindowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
    public var colorScheme: ColorSchemeId;
 
@@ -58,6 +60,7 @@ public class MissionAnchorFX extends MissionAnchor {
       assignmentUri = missionAnchor.getAssignmentUri();
       resourcesUri = missionAnchor.getResourcesUri();
       helpUri = missionAnchor.getHelpUri();
+      webNewsUri = missionAnchor.getWebNewsUri();
       colorScheme = missionAnchor.getColorSchemeId();
    }
 
@@ -93,6 +96,10 @@ public class MissionAnchorFX extends MissionAnchor {
 
    override public function getHelpUri(): URI {
       return helpUri;
+   }
+
+   override public function getWebNewsUri(): URI {
+      return webNewsUri;
    }
 
    override public function setExisting(existing: Boolean): Void {
