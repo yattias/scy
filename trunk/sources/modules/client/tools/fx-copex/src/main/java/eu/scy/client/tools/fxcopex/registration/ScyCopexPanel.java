@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package eu.scy.client.tools.fxcopex.registration;
 
 import eu.scy.actionlogging.DevNullActionLogger;
