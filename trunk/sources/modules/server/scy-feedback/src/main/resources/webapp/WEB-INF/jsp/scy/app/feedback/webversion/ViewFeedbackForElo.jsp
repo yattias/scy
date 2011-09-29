@@ -186,7 +186,9 @@
     </form>
     </c:if>
 
-
+            <br/>
+            <br/>
+       <a href="fbIndex.html?eloURI=${missionRuntimeURI}">Back to gallery</a>
 
        </div>
               <div style="clear:both;"></div>
