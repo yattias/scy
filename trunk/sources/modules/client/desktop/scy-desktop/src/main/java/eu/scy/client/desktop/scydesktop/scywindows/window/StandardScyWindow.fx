@@ -190,10 +190,12 @@ public class StandardScyWindow extends ScyWindow {
       } else {
          allowResize = false;
       }
-      FX.deferAction(function(): Void {
-         var limittedSize = limitSize(newContentWidth + deltaContentWidth, newContentHeight + deltaContentHeight);
-         openBoundWindow(limittedSize.x, limittedSize.y);
-      });
+      if (not isClosed) {
+          FX.deferAction(function(): Void {
+             var limittedSize = limitSize(newContentWidth + deltaContentWidth, newContentHeight + deltaContentHeight);
+             openBoundWindow(limittedSize.x, limittedSize.y);
+          });
+      }
       scyToolsList.windowContentTool = scyContent;
    }
 
