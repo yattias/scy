@@ -22,19 +22,27 @@
           <dateTime>2011-07-26T11:02:10.125+0200</dateTime>
         </date>
       </contribute>
-      <version>12</version>
+      <version>15</version>
     </lifecycle>
+    <annotation>
+      <entity>colorId</entity>
+      <colorSchemeId />
+    </annotation>
     <technical>
       <customElements>
         <dateCreated>1303475307512</dateCreated>
-        <dateFirstUserSaveKey>1311670930125</dateFirstUserSaveKey>
-        <dateLastModified>1311670930125</dateLastModified>
+        <dateFirstUserSaveKey>1317209363896</dateFirstUserSaveKey>
+        <dateLastModified>1317209363896</dateLastModified>
       </customElements>
       <format>scy/formauthor</format>
     </technical>
     <educational>
-      <learningResourceType />
+      <learningResourceType>dataset</learningResourceType>
     </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType />
+    </annotation>
     <general>
       <identifier>
         <catalog>memory</catalog>
@@ -44,11 +52,11 @@
       <missionId>forensic</missionId>
       <missionRunning>
         <catalog>memory</catalog>
-        <entry>roolo://memory/40630/0/Forensic+mission.scymissionspecification</entry>
+        <entry>roolo://memory/40637/0/Forensic+mission.scymissionspecification</entry>
       </missionRunning>
       <title>
-        <string language="en">Picture of my results</string>
-        <string language="fr">Photo de mes résultats</string>
+        <string language="en">Biology: Picture of the results</string>
+        <string language="fr">Biologie: Photo des résultats</string>
       </title>
     </general>
     <relation>
@@ -63,15 +71,27 @@
         </identifier>
       </resource>
     </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
   </lom>
-  <template>true</template>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <template>false</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAAA+CAYAAAC875yHAAABPklEQVR42u3UMUuEcBjH8YNenG8gaHVw6hXkWDQ1NjjeVIHFlQqStqRDYLjIHZwheENBBAfRENGSz+UD/gkaKhoi+P7g4ac+Th/+/EfyHsuypOs6IT/PCIJfAnqeJ67rim3b+sFxHFQ4gQACCCAB8E8B27ZlvhgFrOtahqmqSj6+93MxPdcuiuLT7nb5pp1lmRzm9/L0ujS7+eO1dpqm2k3TmF2fvuM4lv3JTLaPW/P9353AKIpkmLIstZ+31iQMQ33e2F3XzvPc/DfsXhY72kmSyNFpKuHdptmNry61gyDQ7jPsbh5m2r7vy/jgTPa8E91xB3IHEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAASQAAggggARAAAEEkAAIIIAAEgABBBBAAAmAAAIIIAEQQAABJAACCCCA5JtZAR7w35E4XUfrAAAAAElFTkSuQmCC</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAAA+CAYAAAC875yHAAACGElEQVR42u3YvWsaYRwHcHfd/A/6h4g4KIhDMYODUOhUJ6GD+Cc0k5EIHY4aaJdIhyxOWeJprdKgEKOm5e4cgi/YDkHq6yB8m/sFD18gzStpyvcLD8/vftxzBx+fx+FsLpcLqVQKzN1iWxTT6dRqer1eBINBKIoCv98vveFwuHEfswTI3APQbrfDZruy9Hg88Pl83GncgQQkIAEZAhKQgARkrgPUdR3Lw8x6r9PpyHyq1WRut9swDENqQzdW1jV/tPDu4Fzqbrd7eZ+O94c/l64NGUp1d2VdNpuFpmnWfYueOfd6PVlzembgpKFZ6/4JwFwuh/l8js/qB5i1mUXv66sXUtfrdZl3jrdlLhQKMpvjW/F4ZV374DW+772UularIa8e4fBkhHIxh3K5LH218wlvdt+urNvaN6y6Wq3iS76IsPJR3lWpVKQ/GQ1w8eu3tY5H+H/+DxwMBnKUHmqsxzyuNxl/y/I73G730wE6nU6r6XA40O/3kUgk5DoWi6HRaCAcDmM8HkNVVTnik8nkVi9LJpPyecz8ceLxOKLRqDwrEAigVCptjFarhdlsJp/XzKTTaYRCIfl+uTjGkUjEev6TAq6n2Ww+6g7MZDI3Gs9mBzIEJCABCcgQkIAEJCBDQAISkIAMAQlIQAIyBCQgAQnIEJCABCQgQ0ACEpCADAEJSEACMgQkIAEJyBCQgAQkIAEZAhLwmeYPbnunbqB489IAAAAASUVORK5CYII=</base64>
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
-<form description="" title="" version="0" />
+<form description="" title="Picture of the gel" version="0"><field cardinality="1" title="Picture of the gel" type="IMAGE"/></form>
 </content>
 <resources>
 </resources>

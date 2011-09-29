@@ -9,24 +9,28 @@
         </role>
         <entity>rachel</entity>
         <date>
-          <dateTime>2011-09-12T10:38:11.928+0200</dateTime>
+          <dateTime>2011-09-27T18:03:34.979+0200</dateTime>
         </date>
       </contribute>
-      <version>18</version>
+      <version>22</version>
     </lifecycle>
     <technical>
       <customElements>
-        <dateCreated>1315578430283</dateCreated>
-        <dateLastModified>1317139257344</dateLastModified>
+        <dateCreated>1317139414979</dateCreated>
+        <dateFirstUserSaveKey>1317139668237</dateFirstUserSaveKey>
+        <dateLastModified>1317282775558</dateLastModified>
       </customElements>
       <format>scy/missionmapmodel</format>
     </technical>
+    <educational>
+      <learningResourceType>conversation</learningResourceType>
+    </educational>
     <general>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/40632/0/Forensic+mission.scymissionmapmodel</entry>
+        <entry>roolo://memory/40682/0/Forensic+mission.scymissionmapmodel</entry>
       </identifier>
-      <las>Biology Information</las>
+      <las>Biology Design</las>
       <missionId>forensic</missionId>
       <missionRunning>
         <catalog>memory</catalog>
@@ -34,6 +38,7 @@
       </missionRunning>
       <title>
         <string language="en">Forensic mission</string>
+        <string language="fr">Le laboratoire de police scientifique</string>
       </title>
     </general>
     <relation>
@@ -47,18 +52,22 @@
     </relation>
   </lom>
   <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>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</base64>
+  </thumbnail>
 </metadata>
-<content languages="en" contentType="xml">
+<content languages="en fr" contentType="xml">
 <missionModel>
-  <activeLas>Biology Information</activeLas>
-  <missionMapBackgroundImageUri>http://www.scy-lab.eu/content/en/mission4/forensicMissionMapBackgound.fxz</missionMapBackgroundImageUri>
+  <activeLas>Biology Design</activeLas>
+  <missionMapBackgroundImageUri />
   <missionMapInstructionUri>http://www.scy-lab.eu/content/en/mission4/missionMapInstruction.html</missionMapInstructionUri>
   <missionMapButtonIconType />
   <loElos />
   <lasses>
     <las>
       <id>Chemistry Information</id>
-      <xPos>45.0</xPos>
+      <xPos>55.0</xPos>
       <yPos>80.0</yPos>
       <toolTip>Information</toolTip>
       <title />
@@ -87,7 +96,7 @@
     </las>
     <las>
       <id>Chemistry Orientation</id>
-      <xPos>35.0</xPos>
+      <xPos>45.0</xPos>
       <yPos>30.0</yPos>
       <toolTip>Orientation</toolTip>
       <title />
@@ -116,7 +125,7 @@
     </las>
     <las>
       <id>Chemistry Design</id>
-      <xPos>85.0</xPos>
+      <xPos>95.0</xPos>
       <yPos>0.0</yPos>
       <toolTip>Design</toolTip>
       <title />
@@ -147,7 +156,7 @@
     </las>
     <las>
       <id>Chemistry Experiment</id>
-      <xPos>125.0</xPos>
+      <xPos>135.0</xPos>
       <yPos>40.0</yPos>
       <toolTip>Experiment</toolTip>
       <title />
@@ -193,7 +202,7 @@
     </las>
     <las>
       <id>Chemistry Analysis</id>
-      <xPos>95.0</xPos>
+      <xPos>105.0</xPos>
       <yPos>90.0</yPos>
       <toolTip>Analysis</toolTip>
       <title />
@@ -239,7 +248,7 @@
     </las>
     <las>
       <id>Chemistry Reporting</id>
-      <xPos>95.0</xPos>
+      <xPos>105.0</xPos>
       <yPos>140.0</yPos>
       <toolTip>Reporting</toolTip>
       <title />
@@ -269,7 +278,7 @@
     </las>
     <las>
       <id>Biology Information</id>
-      <xPos>-95.0</xPos>
+      <xPos>-105.0</xPos>
       <yPos>80.0</yPos>
       <toolTip>Information</toolTip>
       <title />
@@ -278,7 +287,7 @@
       <loElos />
       <otherElos />
       <mainAnchor>
-        <eloUri>roolo://memory/40644/0/Examen+de+la+sc%C3%A8ne+de+crime.rtf</eloUri>
+        <eloUri>roolo://memory/40565/0/Checklist+for+crime+scene+examination.rtf</eloUri>
         <id>checklist</id>
         <iconType>orientation2</iconType>
         <loElos />
@@ -298,7 +307,7 @@
     </las>
     <las>
       <id>Biology Orientation</id>
-      <xPos>-105.0</xPos>
+      <xPos>-115.0</xPos>
       <yPos>30.0</yPos>
       <toolTip>Orientation</toolTip>
       <title />
@@ -322,7 +331,7 @@
       </mainAnchor>
       <intermediateAnchors>
         <intermediateAnchor>
-          <eloUri>roolo://memory/40645/0/But+de+l%27analyse.rtf</eloUri>
+          <eloUri>roolo://memory/40095/0/Goal+of+the+analysis.rtf</eloUri>
           <id>bioGoalAnalysis</id>
           <iconType>assignment</iconType>
           <loElos />
@@ -342,7 +351,7 @@
     </las>
     <las>
       <id>Biology Design</id>
-      <xPos>-55.0</xPos>
+      <xPos>-65.0</xPos>
       <yPos>0.0</yPos>
       <toolTip>Design</toolTip>
       <title />
@@ -356,7 +365,7 @@
         <iconType>Data</iconType>
         <loElos />
         <inputAnchors>
-          <anchor>roolo://memory/40645/0/But+de+l%27analyse.rtf</anchor>
+          <anchor>roolo://memory/40095/0/Goal+of+the+analysis.rtf</anchor>
           <anchor>roolo://memory/40624/0/Choice+of+techniques.scymapping</anchor>
         </inputAnchors>
         <relations />
@@ -374,7 +383,7 @@
     </las>
     <las>
       <id>Biology Experiment</id>
-      <xPos>-15.0</xPos>
+      <xPos>-25.0</xPos>
       <yPos>40.0</yPos>
       <toolTip>Experiment</toolTip>
       <title />
@@ -420,7 +429,7 @@
     </las>
     <las>
       <id>Biology Analysis</id>
-      <xPos>-45.0</xPos>
+      <xPos>-55.0</xPos>
       <yPos>90.0</yPos>
       <toolTip>Analysis</toolTip>
       <title />
@@ -466,7 +475,7 @@
     </las>
     <las>
       <id>Biology Reporting</id>
-      <xPos>-45.0</xPos>
+      <xPos>-55.0</xPos>
       <yPos>140.0</yPos>
       <toolTip>Reporting</toolTip>
       <title />
@@ -497,78 +506,77 @@
   <windowStatesXmls>
     <windowStatesXml id="Chemistry Information">
       <windowstates>
-        <window uri="roolo://memory/40544/0/Concept+Map+for+chemical+analysis.scymapping" layoutX="1392.0" layoutY="10.0" relativeLayoutCenterX="0.8642857" relativeLayoutCenterY="0.032524273" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" />
+        <window uri="roolo://memory/40544/0/Concept+Map+for+chemical+analysis.scymapping" layoutX="1032.0" layoutY="10.0" relativeLayoutCenterX="0.853125" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
       </windowstates>
     </windowStatesXml>
     <windowStatesXml id="Biology Analysis">
       <windowstates>
-        <window uri="roolo://memory/40577/0/Results+of+my+experiment.scydraw" layoutX="211.0" layoutY="141.0" relativeLayoutCenterX="0.16130953" relativeLayoutCenterY="0.15970874" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.071428575" relativeHeight="0.04563107" />
-        <window uri="roolo://memory/40011/0/Probabilities.scypds" layoutX="780.0" layoutY="10.0" relativeLayoutCenterX="0.5" relativeLayoutCenterY="0.032524273" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" />
-        <window uri="roolo://memory/40100/0/Conclusion+of+the+experiment.rtf" layoutX="1392.0" layoutY="10.0" relativeLayoutCenterX="0.8642857" relativeLayoutCenterY="0.032524273" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" />
+        <window uri="roolo://memory/40577/0/Results+of+my+experiment.scydraw" layoutX="237.0" layoutY="117.0" relativeLayoutCenterX="0.23203126" relativeLayoutCenterY="0.1801282" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+        <window uri="roolo://memory/40011/0/Probabilities.scypds" layoutX="580.0" layoutY="10.0" relativeLayoutCenterX="0.5" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" />
+        <window uri="roolo://memory/40100/0/Conclusion+of+the+experiment.rtf" layoutX="1032.0" layoutY="10.0" relativeLayoutCenterX="0.853125" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
       </windowstates>
     </windowStatesXml>
     <windowStatesXml id="Chemistry Orientation">
       <windowstates>
-        <window uri="roolo://memory/40615/0/Goal+of+the+analysis.rtf" layoutX="1392.0" layoutY="10.0" relativeLayoutCenterX="0.8642857" relativeLayoutCenterY="0.032524273" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" />
+        <window uri="roolo://memory/40615/0/Goal+of+the+analysis.rtf" layoutX="1032.0" layoutY="10.0" relativeLayoutCenterX="0.853125" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
       </windowstates>
     </windowStatesXml>
     <windowStatesXml id="Biology Information">
       <windowstates>
-        <window uri="roolo://memory/40644/0/Examen+de+la+sc%C3%A8ne+de+crime.rtf" layoutX="1352.0" layoutY="10.0" relativeLayoutCenterX="0.8404762" relativeLayoutCenterY="0.032524273" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.071428575" relativeHeight="0.04563107" />
+        <window uri="roolo://memory/40565/0/Checklist+for+crime+scene+examination.rtf" layoutX="787.2" layoutY="10.0" relativeLayoutCenterX="0.661875" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
       </windowstates>
     </windowStatesXml>
     <windowStatesXml id="Chemistry Design">
       <windowstates>
-        <window uri="roolo://memory/40616/0/Experimental+procedure.scyxproc" layoutX="1392.0" layoutY="10.0" relativeLayoutCenterX="0.8642857" relativeLayoutCenterY="0.032524273" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" />
-        <window uri="roolo://memory/40615/0/Goal+of+the+analysis.rtf" layoutX="236.0" layoutY="89.0" relativeLayoutCenterX="0.17619048" relativeLayoutCenterY="0.1092233" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.071428575" relativeHeight="0.04563107" />
+        <window uri="roolo://memory/40616/0/Experimental+procedure.scyxproc" layoutX="1032.0" layoutY="10.0" relativeLayoutCenterX="0.853125" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+        <window uri="roolo://memory/40615/0/Goal+of+the+analysis.rtf" layoutX="601.0" layoutY="402.0" relativeLayoutCenterX="0.51640624" relativeLayoutCenterY="0.5455128" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
       </windowstates>
     </windowStatesXml>
     <windowStatesXml id="Chemistry Experiment">
       <windowstates>
-        <window uri="roolo://memory/40616/0/Experimental+procedure.scyxproc" layoutX="373.0" layoutY="130.0" relativeLayoutCenterX="0.25773808" relativeLayoutCenterY="0.14902912" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.071428575" relativeHeight="0.04563107" />
-        <window uri="roolo://memory/40617/0/Picture+of+my+results.scyformauthor" layoutX="780.0" layoutY="10.0" relativeLayoutCenterX="0.5" relativeLayoutCenterY="0.032524273" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" />
-        <window uri="roolo://memory/40548/0/Chemistry%3A+Annotated+data.scydraw" layoutX="1392.0" layoutY="10.0" relativeLayoutCenterX="0.8642857" relativeLayoutCenterY="0.032524273" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" />
-      </windowstates>
-    </windowStatesXml>
-    <windowStatesXml id="Biology Experiment">
-      <windowstates>
-        <window uri="roolo://memory/40578/0/Picture+of+my+results.scyformauthor" layoutX="780.0" layoutY="10.0" relativeLayoutCenterX="0.5" relativeLayoutCenterY="0.032524273" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" />
-        <window uri="roolo://memory/40577/0/Results+of+my+experiment.scydraw" layoutX="1392.0" layoutY="10.0" relativeLayoutCenterX="0.8642857" relativeLayoutCenterY="0.032524273" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" />
-        <window uri="roolo://memory/40097/0/Experimental+procedure.scyxproc" layoutX="152.0" layoutY="56.0" relativeLayoutCenterX="0.12619048" relativeLayoutCenterY="0.07718447" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.071428575" relativeHeight="0.04563107" />
+        <window uri="roolo://memory/40616/0/Experimental+procedure.scyxproc" layoutX="128.0" layoutY="10.0" relativeLayoutCenterX="0.146875" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+        <window uri="roolo://memory/40617/0/Picture+of+my+results.scyformauthor" layoutX="480.0" layoutY="10.0" relativeLayoutCenterX="0.5" relativeLayoutCenterY="0.04294872" width="320.0" height="47.0" rotation="0.0" relativeWidth="0.25" relativeHeight="0.06025641" />
+        <window uri="roolo://memory/40548/0/Chemistry%3A+Annotated+data.scydraw" layoutX="1032.0" layoutY="10.0" relativeLayoutCenterX="0.853125" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
       </windowstates>
     </windowStatesXml>
     <windowStatesXml id="Biology Reporting">
       <windowstates>
-        <window uri="roolo://memory/40101/0/Official+report.rtf" layoutX="1392.0" layoutY="10.0" relativeLayoutCenterX="0.8642857" relativeLayoutCenterY="0.032524273" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" />
-        <window uri="roolo://memory/40100/0/Conclusion+of+the+experiment.rtf" layoutX="321.0" layoutY="87.0" relativeLayoutCenterX="0.22678572" relativeLayoutCenterY="0.10728155" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.071428575" relativeHeight="0.04563107" />
+        <window uri="roolo://memory/40101/0/Official+report.rtf" layoutX="276.0" layoutY="101.2" relativeLayoutCenterX="0.5" relativeLayoutCenterY="0.4951282" width="728.0" height="570.0" rotation="0.0" relativeWidth="0.56875" relativeHeight="0.7307692" />
+        <window uri="roolo://memory/40100/0/Conclusion+of+the+experiment.rtf" layoutX="561.0" layoutY="551.0" relativeLayoutCenterX="0.48515624" relativeLayoutCenterY="0.73653847" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+      </windowstates>
+    </windowStatesXml>
+    <windowStatesXml id="Biology Experiment">
+      <windowstates>
+        <window uri="roolo://memory/40578/0/Picture+of+my+results.scyformauthor" layoutX="580.0" layoutY="10.0" relativeLayoutCenterX="0.578125" relativeLayoutCenterY="0.04294872" width="320.0" height="47.0" rotation="0.0" relativeWidth="0.25" relativeHeight="0.06025641" />
+        <window uri="roolo://memory/40577/0/Results+of+my+experiment.scydraw" layoutX="1032.0" layoutY="10.0" relativeLayoutCenterX="0.853125" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+        <window uri="roolo://memory/40097/0/Experimental+procedure.scyxproc" layoutX="148.0" layoutY="195.0" relativeLayoutCenterX="0.1625" relativeLayoutCenterY="0.2801282" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
       </windowstates>
     </windowStatesXml>
     <windowStatesXml id="Biology Design">
       <windowstates>
-        <window uri="roolo://memory/40645/0/But+de+l%27analyse.rtf" layoutX="128.0" layoutY="10.0" relativeLayoutCenterX="0.18650794" relativeLayoutCenterY="0.050451808" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07078313" />
-        <window uri="roolo://memory/40624/0/Choice+of+techniques.scymapping" layoutX="113.714294" layoutY="125.0" relativeLayoutCenterX="0.17233561" relativeLayoutCenterY="0.22364458" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07078313" />
-        <window uri="roolo://memory/40097/0/Experimental+procedure.scyxproc" layoutX="1046.2856" layoutY="10.0" relativeLayoutCenterX="1.0975056" relativeLayoutCenterY="0.050451808" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07078313" />
+        <window uri="roolo://memory/40095/0/Goal+of+the+analysis.rtf" layoutX="580.0" layoutY="10.0" relativeLayoutCenterX="0.5" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+        <window uri="roolo://memory/40624/0/Choice+of+techniques.scymapping" layoutX="566.0" layoutY="305.0" relativeLayoutCenterX="0.4890625" relativeLayoutCenterY="0.42115384" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+        <window uri="roolo://memory/40097/0/Experimental+procedure.scyxproc" layoutX="1032.0" layoutY="10.0" relativeLayoutCenterX="0.853125" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
       </windowstates>
     </windowStatesXml>
     <windowStatesXml id="Biology Orientation">
       <windowstates>
-        <window uri="" layoutX="924.6667" layoutY="10.0" relativeLayoutCenterX="0.5861111" relativeLayoutCenterY="0.032524273" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.071428575" relativeHeight="0.04563107" />
-        <window uri="roolo://memory/40645/0/But+de+l%27analyse.rtf" layoutX="168.00002" layoutY="10.0" relativeLayoutCenterX="0.13571429" relativeLayoutCenterY="0.032524273" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.071428575" relativeHeight="0.04563107" />
-        <window uri="roolo://memory/40624/0/Choice+of+techniques.scymapping" layoutX="168.00002" layoutY="125.0" relativeLayoutCenterX="0.13571429" relativeLayoutCenterY="0.14417475" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.071428575" relativeHeight="0.04563107" />
+        <window uri="roolo://memory/40095/0/Goal+of+the+analysis.rtf" layoutX="580.0" layoutY="10.0" relativeLayoutCenterX="0.5" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+        <window uri="roolo://memory/40624/0/Choice+of+techniques.scymapping" layoutX="1032.0" layoutY="10.0" relativeLayoutCenterX="0.853125" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
       </windowstates>
     </windowStatesXml>
     <windowStatesXml id="Chemistry Reporting">
       <windowstates>
-        <window uri="roolo://memory/40550/0/Chemistry%3A+Organized+data.scypds" layoutX="100.8" layoutY="125.0" relativeLayoutCenterX="0.15952381" relativeLayoutCenterY="0.22364458" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07078313" />
-        <window uri="roolo://memory/40551/0/Chemistry%3A+Official+report.rtf" layoutX="787.2" layoutY="10.0" relativeLayoutCenterX="0.8404762" relativeLayoutCenterY="0.050451808" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07078313" />
-        <window uri="roolo://memory/40549/0/Chemistry%3A+Conclusion+of+the+experiment.rtf" layoutX="100.8" layoutY="10.0" relativeLayoutCenterX="0.15952381" relativeLayoutCenterY="0.050451808" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07078313" />
+        <window uri="roolo://memory/40550/0/Chemistry%3A+Organized+data.scypds" layoutX="178.73016" layoutY="125.0" relativeLayoutCenterX="0.18650794" relativeLayoutCenterY="0.22364458" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07078313" />
+        <window uri="roolo://memory/40551/0/Chemistry%3A+Official+report.rtf" layoutX="1326.6667" layoutY="10.0" relativeLayoutCenterX="1.0833334" relativeLayoutCenterY="0.050451808" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07078313" />
+        <window uri="roolo://memory/40549/0/Chemistry%3A+Conclusion+of+the+experiment.rtf" layoutX="178.73016" layoutY="10.0" relativeLayoutCenterX="0.18650794" relativeLayoutCenterY="0.050451808" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11904762" relativeHeight="0.07078313" />
       </windowstates>
     </windowStatesXml>
     <windowStatesXml id="Chemistry Analysis">
       <windowstates>
-        <window uri="roolo://memory/40550/0/Chemistry%3A+Organized+data.scypds" layoutX="780.0" layoutY="10.0" relativeLayoutCenterX="0.5" relativeLayoutCenterY="0.032524273" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" />
-        <window uri="roolo://memory/40548/0/Chemistry%3A+Annotated+data.scydraw" layoutX="382.0" layoutY="181.0" relativeLayoutCenterX="0.26309523" relativeLayoutCenterY="0.19854368" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.071428575" relativeHeight="0.04563107" />
-        <window uri="roolo://memory/40549/0/Chemistry%3A+Conclusion+of+the+experiment.rtf" layoutX="1392.0" layoutY="10.0" relativeLayoutCenterX="0.8642857" relativeLayoutCenterY="0.032524273" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" />
+        <window uri="roolo://memory/40550/0/Chemistry%3A+Organized+data.scypds" layoutX="126.0" layoutY="231.0" relativeLayoutCenterX="0.1453125" relativeLayoutCenterY="0.32628205" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+        <window uri="roolo://memory/40548/0/Chemistry%3A+Annotated+data.scydraw" layoutX="128.0" layoutY="10.0" relativeLayoutCenterX="0.146875" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
+        <window uri="roolo://memory/40549/0/Chemistry%3A+Conclusion+of+the+experiment.rtf" layoutX="128.0" layoutY="10.0" relativeLayoutCenterX="0.146875" relativeLayoutCenterY="0.04294872" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.09375" relativeHeight="0.06025641" />
       </windowstates>
     </windowStatesXml>
   </windowStatesXmls>

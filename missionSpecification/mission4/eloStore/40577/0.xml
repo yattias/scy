@@ -22,19 +22,27 @@
           <dateTime>2011-07-26T11:02:45.203+0200</dateTime>
         </date>
       </contribute>
-      <version>24</version>
+      <version>29</version>
     </lifecycle>
+    <annotation>
+      <entity>colorId</entity>
+      <colorSchemeId />
+    </annotation>
     <technical>
       <customElements>
         <dateCreated>1305812921531</dateCreated>
-        <dateFirstUserSaveKey>1311670965203</dateFirstUserSaveKey>
-        <dateLastModified>1311670965203</dateLastModified>
+        <dateFirstUserSaveKey>1317209417842</dateFirstUserSaveKey>
+        <dateLastModified>1317209417842</dateLastModified>
       </customElements>
       <format>scy/drawing</format>
     </technical>
     <educational>
       <learningResourceType>drawingDesign</learningResourceType>
     </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType />
+    </annotation>
     <general>
       <identifier>
         <catalog>memory</catalog>
@@ -44,18 +52,18 @@
       <missionId>forensic</missionId>
       <missionRunning>
         <catalog>memory</catalog>
-        <entry>roolo://memory/40630/0/Forensic+mission.scymissionspecification</entry>
+        <entry>roolo://memory/40637/0/Forensic+mission.scymissionspecification</entry>
       </missionRunning>
       <title>
-        <string language="en">Results of my experiment</string>
-        <string language="fr">Résultats de mon expérience</string>
+        <string language="en">Biology: Results of the experiment</string>
+        <string language="fr">Biologie: Résultats de l'expérience</string>
       </title>
     </general>
   </lom>
   <template>true</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAABe0lEQVR42u3SvUoDQRSG4bkRxcINuYAECwuN1tp4BSLpvAALe1u1W4hehmChIFpoEyvFLGEI2WAISgwhTRQ8OmfNsCxGRZsI7wcfc7I/A/tkTLS0L7XSnkTvDcNQXjtN7eFBxc/y0PJztvLU9nO9euXns+Ojse+kOz9XFFu91BpjtPlg1l8bthsTXeMAXWqlXQWUYV969s4D3l6cKuAIUZ77/uM3N9YV0H30Z4Az01NyXS77azvbW3JzfpLs003glxcXZG11Rev2ccnnAuk27b+oAkapEyiDR5Fe508n0D3/3QmUl4GuxUJBWrauHZ3AXBDo7/uG1TX+uJ+ds41Tazzm+a/2+um9dJO/nPw6AAIIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAASQAAggggARAAAEEkAAIIIAAEgABBBBAAiCAAAIIIAEQQAABJAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAAmAAE5a3gDFASjhHSZiDAAAAABJRU5ErkJggg==</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACDklEQVR42u3Sv0sbcRjH8SO7Q1PH0K5Kgz8KdqsSVNBNKkU6uQlu4r9RKBQqaIoYBEO3DCGKjh1Ki1paBwcRzzQX629tjVCE+Hj3pPcllzMKQrb3Bz7kvnfPfXP34qy11knZ7p1y+0Gbe5oQOXbu7OflxcC6vJ8PzZQPfgXvWVm6d9/51Fxgnd9YD828eN4hnW1xbUf8mfT1vDSV4z1zrauzXa5+5xtea7VlQn52v5WBprhsJd5L7klCrt2XtyxLLtx6x7X1ACORiMj5vvZqzzb37H7/qsf+uWw2W7nHBbxW1KKMjrw2e1X2OJA3r4ZcwJTu4V+zf6yG/vtxNCoXjq39NJvUeS/6e3kuE+NjUirumplG1wB+WfsWAHTcB4o0N5sH976yWkB/7WNVz3rn5M+h5BZSIcDq2YV0WjKZjIs6rIA6c3l6J+BRfkc7/3EmAFj+eyonBVsG+/vMTKOrgB7cZs+7AKC+yGGh7hdYva4FvO1cPcDq+oC3fYFy5OhvNPpICjvb2tnktML5LZ2diPP/WiwWM3ONrPWvaAt9eCvfP3lwAAQQQAABJAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAAQQQQAIggAACSAAEEEAACYAAAgggARBAAAEkAAIIIIAEQAABBJAACCCAAJJwbgB6a8g9AU5mRwAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">

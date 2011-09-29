@@ -22,13 +22,13 @@
           <dateTime>2011-07-26T10:52:18.664+0200</dateTime>
         </date>
       </contribute>
-      <version>19</version>
+      <version>22</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1303474281695</dateCreated>
-        <dateFirstUserSaveKey>1311670338664</dateFirstUserSaveKey>
-        <dateLastModified>1311670338664</dateLastModified>
+        <dateFirstUserSaveKey>1317281715218</dateFirstUserSaveKey>
+        <dateLastModified>1317281715218</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
@@ -44,7 +44,7 @@
       <missionId>forensic</missionId>
       <missionRunning>
         <catalog>memory</catalog>
-        <entry>roolo://memory/40630/0/Forensic+mission.scymissionspecification</entry>
+        <entry>roolo://memory/40637/0/Forensic+mission.scymissionspecification</entry>
       </missionRunning>
       <title>
         <string language="en">Checklist for crime scene examination</string>
@@ -63,21 +63,53 @@
         </identifier>
       </resource>
     </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
   </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
   <template>true</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAABlUlEQVR42u3Qv0rDUBSA8fsAIr6G+hKd3HwENwdnBRcF6eLiILrrICnEQdDFQXCpDtIiuKgdlFLUYmup/Scx0fboPdCShAzdBPN9cGjPvZcMP9OXN/mW+mhE3iN7/P72vhDZHecgsgf9mnx+vaZmjAW6uGvL0nJW5hc3fwFbkrf7Sla2nbwM74/OruWy1FFAu9s3xbKvgHa/evD0vvtRlXb3ZTStzrNO+Cxpkt6Ne/aX31PAveOCTExOydzChgIaY/RsdetQAfdPijI9M6u/FtDe2TfO6Y0C2t09L+l9o/kktXolNaOAIo3QtCJ7/N4ChncLGN6r1bJUKo+pGbOW25H13O5o7B4/S5qkd+Oe/afvmUwmI8MGg4EEQaC/dnzfl3iu64rnefq/1+tJ2jNCAAIIIIAEIIAAAkgAAggggAQggAACSAACCCCABCCAAAJIAAIIIIAEIIAAAkgAAggggAQggAACSAACCCCAABKAAAIIIAEIIIAAEoAAAgggAQgggAASgAACCCABCCCAABKAAAIIIMX7AeVy0BqRT6zZAAAAAElFTkSuQmCC</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAETklEQVR42u2bS0hjZxTHs2k3XRQ3vnDhCxFFVHTjxsdCERF0YdESii4KDTpIVRzGUSQyHVHQQQQD4qMqCLZKN4NaW4VCrbXWtoPv5qVVq8k4E58Ticb86zljbhuaMjMdCpn0/OHwne9859wLv3Av+TjfVRnNjwA89bAnNtPfYmQ9PT1e4qdec7+bm/EadzgtfmUqvfFnXD5qBZb/NOuBHk48xtLulWL6rRUGaHsGjzhwxLnr+y7F3r91D3PfE8Arj1zKO7Pv+ZU9B/jtHahUKrz7ztvA3B0F4Jc//o66+zoe9b+tMsDdAzs+qqjCrYoKjrsBkk/WovsM6spPbgC6MPHDDiYXdnmN8p4e7sB29O/N1+pVBtM1wEkN+m9n4tnDD4GvNArA0op6fPrwJ/R8MQ/DDcBftw4w/PUG+j6f5rgbIPlj35h4/ODj5huA4HlOgZpHyrNYt/zKrgH+grdUddd2VzE3wIz3biu2Y9EzwCLNPY+4G+BfY9oHfQxQ297vEae8nR2zX5nKdf1iv3oFc+LJS+U5nI+9xo1G/bUZXsN8q14F0WuJAWZkZPDk7OyMx4uLCxwdHXktyMnJwebmJqanp3luNBrhdDqRnZ2N4ODg/yfAzMxMDA0NceD09BQlJSUICgpCVlYWLBYLTCaTUlBQUMBjSkqKEiOABJYAxsbGoqWlBVNTU/wjpKen+z9AkQAUgAJQAIoEoAAUgAJQJAAFoAAUgCIBKAAFoAAUCUABKAAFoEgACkABKABFAvC/BdjR0YGYmBj2y8rKeDw+Psbw8DCam5uVgoGBAYyPj7O/sLAAh8OBvb09nre3t6O2thYrKys8Pzk54ZyqqirOcys8PJyPhtA9qSYpKQlra2sIDQ1FcnIy5ywvL3M9ndNpaGhAU1MTOjs7lXv7FMDU1FQUFxdDrVbj8vISBoOBF2dnZxEdHY2+vj5YrVYGWlpaitbWVl6fn5/nHDoPQ8rLy1PWSASlpqYG9fX1DIN0fn7OZ2gSExNRWFjIsfj4eCwuLiIwMBA2m41jo6OjynUCAgIQEhKCyMhINDY2yiMs70CRABSAAlAAigSgAPQtgAkJCTzSn1mXy8W+e/wn0bq3nO7ubsV//pEiXni9F93LZwHS7qOoqIi3WLR1297e5sW6ujr+9GFiYgK5ubkMWKPR8NrY2Biqq6vZ7+/vx+rqKvtpaWnQ6XTo7e2F2WzGzMwM2traEBERAa1Wyzl2ux0bGxtcT9u8yclJ3qEsLS0hPz9fHmF5B4oEoAAUgAJQJAAF4JsFsKur65WKaYdBPY2X1fr6un8CpO99qedBTR1SVFQU9z/comYOKS4uDiMjI0qc+h1hYWEeF6Qc0uDgIF+DGlX0cTb5tEY7k/39fc6hfktlZSX75eXl3BshOzw8fGO2dfIIC0ABKAAFoEgACkABKABFAlAACkABKBKAAlAACkCRABSAAlAAigSgAPRx/QFqCRKa1x9HagAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;&#xD;&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;&#xD;
-&#xD;&#xD;&#xD;&#xD;
-\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Write your checklist here.\par&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;
-\li0\ri0\fi0\ul0\par&#xD;&#xD;&#xD;&#xD;
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Definition of DNA (10 lines):\b0\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+\b List of samples that can be used for DNA-profiling:\b0\par
+\par
+\par
+\par
+\b List of precaution for collecting samples:\b0\par
+\par
+\par
+\par
+\b Instruction about the transport of samples:\b0\par
+\par
+\par
+\li0\ri0\fi0\ul0\par
 }</RichText>
 </content>
 <resources>

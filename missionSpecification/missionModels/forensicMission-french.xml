@@ -112,7 +112,7 @@
                      <property name="anchorEloId" value="chimAnnotatedData"/>
                      <property name="intermediateEloIds">
                         <list>
-						   <value>chimRepresentationData</value>
+						   <!--<value>chimRepresentationData</value>-->
                         </list>
                      </property>
                   </bean>
@@ -237,7 +237,7 @@
                      <property name="anchorEloId" value="bioRepresentationData"/>
                      <property name="intermediateEloIds">
                         <list>
-                           <value>bioPictureData</value>
+                           <!--<value>bioPictureData</value>-->
                         </list>
                      </property>
                   </bean>
@@ -403,13 +403,13 @@
                   </list>
                </property>
             </bean>
-            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+            <!--<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="bioPictureData"/>
                <property name="uri" value="roolo://memory/40675/0/Photo+de+mes+r%C3%A9sultats.scyformauthor"/>
 			   <property name="iconType" value="concept_map2"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/targetDescription.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/Assignments/A_bioRepresentationData.html"/>
-               <!--<property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/Resources/R_bioPictureData.html"/>-->
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/Resources/R_bioPictureData.html"/>
                <property name="inputMissionAnchorIds">
                   <list>
                   </list>
@@ -418,7 +418,7 @@
                   <list>
                   </list>
                </property>
-            </bean>
+            </bean>-->
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="bioRepresentationData"/>
 			   <property name="uri" value="roolo://memory/40577/0/Results+of+my+experiment.scydraw"/>
@@ -436,13 +436,13 @@
                   </list>
                </property>
             </bean>
-			<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+			<!--<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="chimRepresentationData"/>
                <property name="uri" value="roolo://memory/40676/0/Photo+de+mes+r%C3%A9sultats.scyformauthor"/>
 			   <property name="iconType" value="concept_map2"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/targetDescription.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/Assignments/A_chimRepresentationData.html"/>
-               <!--<property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/Resources/R_chimRepresentationData.html"/>-->
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/Resources/R_chimRepresentationData.html"/>
                <property name="inputMissionAnchorIds">
                   <list>
                   </list>
@@ -451,7 +451,7 @@
                   <list>
                   </list>
                </property>
-            </bean>
+            </bean>-->
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="chimAnnotatedData"/>
 			   <property name="uri" value="roolo://memory/40548/0/Chemistry%3A+Annotated+data.scydraw"/>

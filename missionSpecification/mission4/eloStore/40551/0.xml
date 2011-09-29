@@ -22,7 +22,7 @@
           <dateTime>2011-07-08T16:58:35.998+0200</dateTime>
         </date>
       </contribute>
-      <version>15</version>
+      <version>22</version>
     </lifecycle>
     <annotation>
       <entity>colorId</entity>
@@ -31,8 +31,8 @@
     <technical>
       <customElements>
         <dateCreated>1303995889429</dateCreated>
-        <dateFirstUserSaveKey>1310137115998</dateFirstUserSaveKey>
-        <dateLastModified>1310137115998</dateLastModified>
+        <dateFirstUserSaveKey>1317290128664</dateFirstUserSaveKey>
+        <dateLastModified>1317290128664</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
@@ -52,11 +52,11 @@
       <missionId>forensic</missionId>
       <missionRunning>
         <catalog>memory</catalog>
-        <entry>roolo://memory/40623/0/Forensic+mission.scymissionspecification</entry>
+        <entry>roolo://memory/40637/0/Forensic+mission.scymissionspecification</entry>
       </missionRunning>
       <title>
-        <string language="en">Official report</string>
-        <string language="fr">Rapport officiel</string>
+        <string language="en">Chemistry: Official report</string>
+        <string language="fr">Chimie: Rapport officiel</string>
       </title>
     </general>
     <relation>
@@ -71,46 +71,61 @@
         </identifier>
       </resource>
     </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
   </lom>
-  <template>true</template>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <template>TRUE</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAFmUlEQVR42u2a2UvdRxTH7x9QSt8U3yQhwdYFNfEhLiBRXMAGjEhiXIL2oSg+WCEKSlGsQa1xaQwhMdUo1yBEwQqKVsQdXIMR1Cu2RmNNNO5xj8up30Pn9l5zFYsJdTlfGOZ3ZuY31/txfnPPnPPTzG5s0ru1LX3ZpDUje5umjeyBwQ4jW6stMrI/bE/R+ubkmSmauV2ALQOL9P0PyfTtdz/R1i7AZtixyZStbWKA6C//vYdade9pQNfBNsZ0vdrYBVjMdvsfa9y/tPKGFpcm9GXh/V9cDNtMFVPjDtv2f87HAH+t6KQvvvyKvEN/ZIAajYbb4n4uZYAFv3WR1dffcA2A6MMYbXUvA4RdWq/j/pm5cZp6N3ZmCgOc/UD/lB0GiFrZAPhvPzFA1YcCgIb3v3nzisbG/jwzRZNQkkuJJb/oC+y9baaKqXGHbTtN82n8/Pxoc3OTVldXaWVlhQuuUSDY29vbPGZtbY22trb0fSIizWEH7uzsCK2jABQJwM8DEHtgQkICG7h++PAhXbp0ScjIChSAAvBMACwpKSFzc3N6+fIlTUxMcKONjQ319vZSeXk5vX37lhYXF7kdPmBZWRkNDw/TxYsXhZ6sQAF4PAA+evSIgoODueH+/ft8fDuM1Dg88gfJx8fndAPEGffmzZvcMDc3x8c2nH2Xl5dN3jQzM8PjVP/CwoK+D+dm9KNW7bOzszQ9PU1LS0tsq1oeYZEAPDLAyMhIMjMzo8ePH9ONGzfIzs6OH98XL15QcXExDxoZGeH+y5cv0/Pnz8nW1pbH3L59m5qamngLcHR05LGenp5UUFDA8+BRzs7OpvT0dLp79y67Q/b29uTi4kLz8/M8T3t7O9/n7OzMezFcJQifd+7cOfL29mb7zp07lJycTCEhIbSxsSErUB5hkQD8JAARwsKepZSUlETu7u7U19dHtbW1QkhWoAA83gDhhgwNDbFRX1//0QDDZFJ3d7f+uqqqat9J4fZAnZ2dpx/gtWvX6MGDB2wEBQVx/fTpUxodHaUnT56w3dbWxrWrq6v+Rvh5GRkZdP78ebbhFyLEhVJUVMTHvIGBgbPzCCtHeL/Vd5AM711fXz/UHKq9urr6ozbUcMCVmpubjy9A/LGGX9LwSyipFfhfwaqxpsbv13bS8s/yIyIAjwFACwsL3vzxwwClpKTQ1NQUOTg46AempaVx7e/vTz09PdTV1UUtLS36YKqbm5u+hmOek5PDNnIo/f39nFuprKzkOREfDAwM5P6AgADOscTHx3Mw99atW9xeUVHBcyFPExMTw21ZWVmUmZnJAQcVAJYVKI+wABQdBWBoaCjl5eVRVFQUWVpass915coV7kRAE7K2tqbW1lZycnJiOzw8nAOi2DshDw8P3r+UUw0HG8J8dXV17IDHxsbKChQJwE8PMCIigs++h9HVq1cP7FepUeQzDtJ+6dITCRDw4NNBz54946Kua2pqOCGUm5vLvhr2SgQZIOR9ISSOkFTCcU/9I3B97949/TxKmK+xsZG0Wq08wiIB+GkAIieCAuH1C8QEkStG8BR5YhTkSESyAj8vQDi7CG6qtxEQEMCPg3KcVbTaUKWlpbxaITjKk5OT9Pr1a6MxiYmJXKuXNPfOh2CDTqcz+mWGZwDHXMUG8/Pzufb19dWP6ejooOjoaA4sqLcZ1MvxXl5esgJP1ApEDgPCe3xqBV6/fp1XF8L1SDaphBOOfGhDGMvKyorvgSuTmppK4+PjPKawsJDrwcFBXmFq1TU0NPD1hQsXuDaVRsA9eHUOfdh71f6M4yX64uLi2N6bsAoLC9v3Sxp+jrpGSA3C9zV8H9LU3yQrUB5hASgARQJQAApAASgSgAJQAApAkQAUgAJQAIoEoAAUgAJQAIoEoAAUgAJQJAAFoAAUgCIBKABPmP4GkG1mwVFP5BsAAAAASUVORK5CYII=</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAIZElEQVR42u1b909VSRR+/4I/aoy99xaNFYyBWLNGBVc3irGtyoJiWUVcrIAmbjRRsRLsCiJZS8C2uoogTSULCjwEQToLLCooSDnrdzYzuQ8e+CxEwfMlkzt37pyZud+7M2fOOfNMCanPqKSaLFJ6QXGDMqSjR49SyTvLstdEVuv+GRFptbygvKpVJdOjZDMl5tTS34Zkzi2korc1FmVx5mwm8N+KOovysjriusn5dTo5u/q+JzCKAGNd1MsrK29ViQm8Hp9Hu4+EkslkomtxuZpA5D19/Pkab85hAnOLK+hnVw/6xdWVyxWByCPt9A+iH938NIFhMdkUHpvDz1Avu6iEsv8p/fT0jcm/JzCNAv6IIScXN/pp6a90NDRaE+ji6kWBVx5yWXza/wSaM4vozM0UCgi+xeWKQORD/krn61z3XZpA3Dv+8BNfUS8zr6BVJdPj9wQ6zPMke+d1nOyc1mkCVRlSUlYhE+i8fKtFXUWgse5vvwcygd7vr8Zy1MvIym5VyVRSVUcllbU2p+LKGpvqFVVUWS03P3tGaZ+RvjV5E6bZzJkzqa6ujqfc+fPnSWA7mMAlS5bQixcv6NKlS2RnZ0enT5+mu3fvcoXCwkIKCAgQppoiUCAECoEtmsC1a9d+tODo0aP5umrVKiovL9flr169+v4IvHjxIoWFhVFCQgLl5+fzg7Zt29KECROooKCAlcj48ePpxo0bFsLh4eF069YtOnv2LGVlZckUFgiBQmCLJNDf359vIiIiGlSor2DUBrspzJo1S+c9PT11funSpU3KKWuoxREYHx/PN7dv3270JVJTU/kKhTF79myqrq7m++vXr1vUU1pY/SiwbA4cOMD5mpoai7rXrl3jdgYPHszmJNpG/ykpKbp9yMsUljVQIAQ2J4HYLNuCnJwcMpvNDcpt3UTn5eV91ODq16/fd21tLV/T0tK+HoFYtAcNGkSPHz/mgj59+lDnzp3ZwoCJNnnyZC53cnLSQh07dtQv8PTpU1YOqkzhxIkTfH39+jVbMmgTCgEus+XLl7Oy2Lhxo4XM5cuXacCAAVwXiqd79+6Um5vLzzIyMsje3p7atWtHixcvpuHDh9OjR4/4GcaPukbAkgICAwN1Gd5tzJgxdOTIEW2KyhSWNVAIFAIFn0ngu3fv+EbFRIAzZ87wAjxx4kRq3749zZkzR9iSL1AIFAKFQEHjBMISgBJBMB2AJTJ9+nTe1Xfp0oViY2Ppzp07tGjRIn4+b948VjAIzAO7d+9ma0FZBTARYckg1gLLQ1kSyhJZsWIF9ezZk62KVv0FfmlHp7Jhm6v9r0bguXPn+PrgwYMmheBcjYmJob1799L9+/e57M2bN5SZmUkjRozQzlAANnZkZCQlJSXxfWlpKSUnJ9OwYcPY+aoctQpRUVE6Hx0dzVdXV1dKTEykXr16kYuLC719+5b7r09+enq6Hv++ffs4n52d3fwEenh46L0fjHncY9AAvMXPnz/XAitXruQQ55o1a9ij7Obmpp/5+vpS7969tSPh2LFj7MGBDIBneLHNmzfzND906BB7txWCgoI4zvzy5UtS43J3d6chQ4aQl5cXy/fr14/3puhfeWvwg02aNIk2bNig5e7du8ceblEiooWFQMGHCMQRDWxHunbt+lHCymn5McA26FMBJWINWLfVutkYjKHWxmB8/5CQENsJxCINAtX+LTQ0lK8INULTBgcHU1VVFSsM7AePHz9Offv2ZQL379/PHuni4mLeJ8IDDe80vMYHDx5kxQBg8YfSgJaFZlaaGnFjPFPa/cKFC3pwOK8zdOhQWrBggW5j9erVnMcYsI+E/MCBA6lDhw7cJ8YA58ioUaNY2SF5e3vzu2D7tHXrVq0MZ8yYwftSnP0GwXh/aHec0oVSkiksa6AQ+H0QiCiYEX5+fjq/ZcuWBjv+sWPHNtlomzZtdH1rda2FRrHpbonmnUk5BbCAqgUa2LRpE/Xo0YO6devGoUsoETgaFi5cyAs2LIOHDx+yowBAiPHmzZu8YOMHiYuL48V8ypQp/BwLPrQlALMODgllBkIJLVu2jDp16kQjR460sHxkCssaKBACm5tAODitYerUqR88N2NcNxUQwbt69WqDcjhUrWHu3LmNtg8PzDdPoNr9q7AmTur379+fFYA6MAlfG86W4MQqFIg626JcYSo0CgvF2dmZTp06pXfzsBogj7ahKOClRh0oGpx4hX8PRCl3FKwUuMSg2JCMf6OQKSxroEAI/NIE4p9KtgBrlcAKgU+ePNFKZNq0aXyYEafvlXsLLh+jolCHMQUyhb8sgcoLu337dotKsHMR/N6zZw/fK6ckwpW7du3SIUQ8hyyO0QLbtm2jHTt2sNMVgINVtYFyRPUgf/LkSR3CVICsj48P2+PoD/UAhCxRDhtdhSzR1uHDh7Ustl6IysEpgnYA7Eux7cL4UIZtFtrcuXMny6vDBJhl2HYpOTxDvqioqHEC8ccWoKysjPdxuFdxXADC1g6SI2SJ0KLynMAbjZgvUFJSwk4I1bYC6hg9Mio0ibiyEZDF3lE5FtCXAohTMWDj+BECrQ+0owCPtBqfGgv6NY4RdRDfVgTimbENqwTiF6t/WsD4skbUf1FbUFlZ+UnyH3JpGduqqKj44orQFpeansJqChlJw9cxbtw4PQVhdSCgjbgBYhVGwIq4cuUK5xE7UcsAAuWYBgBOLaxfv57mz5/P1gZcWsbAPE5G4CtycHDQ/eNEveofVpDxS4Q8lgGMSf1dDfIIvKN/R0dHizGif9RF/wACXDAjlTmK+IkR6B/jB2AZwe2m7jEW9C9KRLSwECgECoECIVAIFAKFQIEQKAQKgUKgQAgUAoVAIVAgBAqBLQL/AUd/PWi/aEWvAAAAAElFTkSuQmCC</base64>
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Firstname, lastname: \b0\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\b My job is:  \b0\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\b Case number: \b0 CY0347\b  \b0\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\b Object: \b0 Expert analysis for the Attorney General\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\b Summary of facts (according to my understanding of the crime case):    \b0\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\b My mission:    \b0    \par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\b My biological material (my samples):\b0\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-Did you manage to make chemical analysis out of the sample(s)?\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\b All the steps I have made (activities I have done, objects I have created):\b0\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\b Justification of my method, my technique:\b0\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\b My problems during all the mission (optional):\b0\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\b My conclusion:\b0\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-Did you find a match between the evidence sample and any of the reference samples?\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-What information does a match between evidence and reference profile give about a suspect being guilty or not?\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\li0\ri0\fi0\ul0\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Firstnames, lastnames of the experts: \b0\par
+\par
+\b Our job is:  \b0\par
+\par
+\b Case number: \b0 CY0347\b  \b0\par
+\par
+\b Object: \b0 Expert analysis for the Attorney General\par
+\par
+\b Summary of facts (according to our understanding of the crime case):    \b0\par
+\par
+\b Our mission:    \b0    \par
+\par
+\b Our biological material (our samples):\b0\par
+Did you manage to make chemical analysis out of the sample(s)?\par
+\par
+\b All the steps we have made (activities we have done, objects we have created):\b0\par
+\par
+\b Justification of our method, our technique:\b0\par
+\par
+\b Our problems during all the mission (optional):\b0\par
+\par
+\b Our conclusion:\b0\par
+Did you find a match between the evidence sample and any of the reference samples?\par
+What information does a match between evidence and reference profile give about a suspect being guilty or not?\par
+\par
+\par
+\par
+\par
+\par
+\par
+\li0\ri0\fi0\ul0\par
 }</RichText>
 </content>
 <resources>
