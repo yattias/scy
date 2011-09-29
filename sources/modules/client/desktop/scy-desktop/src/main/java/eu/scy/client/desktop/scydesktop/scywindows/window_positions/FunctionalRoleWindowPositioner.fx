@@ -20,6 +20,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.StandardWindowPositionsState;
 import javafx.geometry.Point2D;
 import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
 import eu.scy.client.desktop.desktoputils.XFX;
+import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 
 /**
  * @author giemza
@@ -308,7 +309,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
         updateAreas();
 
         positionWindowsInArea(incomingWindows, incomingArea, 1);
-        positionWindowsInArea(centerWindows, centerArea, 3);
+        positionWindowsInArea(centerWindows, centerArea, 2);
         positionWindowsInArea(outgoingWindows, outgoingArea, 1);
         positionWindowsInArea(otherWindows, otherArea, sizeof otherWindows);
         positionMainWindows();
@@ -329,7 +330,6 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
         var newHeight = desktopHeight - 2 * offset;
 
         window.openWindow(newX, newY, newWidth, newHeight, 0);
-//        window.windowManager.scyDesktop.
     }
 
     function positionWindowsInArea(windowList:ScyWindow[], area:Rectangle, maxColumns:Integer) {
@@ -381,7 +381,9 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
             return;
         }
 
-        var newX = centerArea.layoutX - 5 * offset;
+//      var newX = centerArea.layoutX - 5 * offset;
+//      Moved the window a little bit more to the left of the center
+        var newX = centerArea.layoutX;
         var newY = centerArea.layoutY + (0.12 * centerArea.height); // value ist just estimated
         var newWidth = centerArea.width + 10 * offset;
         var newHeight = 0.75 * centerArea.height;
@@ -419,7 +421,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
     def centerAreaRatio = 0.6;
     def outgoingAreaRatio = 0.2;
     def offset = 10;
-    def margin = 60;
+    def margin = 100;
 
     function repositionWindowsOnResize():Void {
         FX.deferAction(function():Void {
