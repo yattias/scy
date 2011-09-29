@@ -477,7 +477,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                  tooltipManager: tooltipManager
                  bubbleManager: bubbleManager
                  scyDesktop: this
-                 buttonSize: desktopButtonSize
+                 buttonSize: 2.0*desktopButtonSize
                  moreInfoToolFactory: bind moreInfoToolFactory
                  moreInfoManager: moreInfoManager
               }
