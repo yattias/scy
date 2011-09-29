@@ -89,7 +89,15 @@
 
         </style>
         <div dojoType="dojox.layout.ContentPane" executeScripts="true" parseOnLoad="true" style="border:4px solid #cc6600;border-bottom-left-radius:40px;width:786px;height:95%;padding:4px;" class="greenBorders" parseWidgets="true">
-            <div class="feedbackHeader" >Give/Get Feedback</div>
+            <div class="feedbackHeader" >
+                <c:if test="${action == 'get'}">
+                    Get feedback
+                </c:if>
+                <c:if test="${action == 'give'}">
+                    Give feedback
+                </c:if>
+                
+            </div>
     <div dojoType="dojox.layout.ContentPane" parseOnLoad="true" executeScripts="true">
 
 
@@ -99,7 +107,7 @@
             <td style="width:50%;"-->
         <div dojoType="dojox.layout.ContentPane" style="width:50%;float:left;" executeScripts="true" parseOnLoad="true">
                 <a href="javascript:loadDialog('/webapp/components/openEloInScyLabDialog.html?eloURI=' + encodeURIComponent('${eloURI}') , '${transferElo.myname}');">
-                    <img src="${transferElo.thumbnail}" alt="" style="border:0;"/>
+                    <img src="${transferElo.thumbnail}" alt="" style="border:0;"/>           
                 </a>
 
                 <br/>
@@ -154,6 +162,7 @@
             <!--/td>
             <td style="width:50%;"-->
                 <!--form method="POST" accept-charset="UTF-8" action="/webapp/app/feedback/webversion/AddFeedback.html" onsubmit="postFeedback(this, 'feedbackReturnContainer', this.parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[5]);return false;"-->
+            <c:if test="${action != 'get'}">
                 <form method="POST" accept-charset="UTF-8" action="/webapp/app/feedback/webversion/AddFeedback.html" onsubmit="postFeedback(this, document.getElementById('feedbackReturnContainer'), true, 'after');document.getElementById('feedbacktext').value='';return false;">
 
                     <textarea id="feedbacktext" name="feedbacktext"style="width:90%;height:50px;"></textarea><br/>
@@ -175,6 +184,7 @@
 
     <input type="Submit" value="Give Feedback" />
     </form>
+    </c:if>
 
 
 
@@ -239,7 +249,7 @@
                                 </c:when>
                             </c:choose>
                             <div id="feedback_on_feedback_${feedbackItem.id}" ></div>
-                            <a href="javascript:showBlockLevelElement('feedbackOnFeedbackForm${feedbackItem.id}');">Give feedback</a>
+                            <a href="javascript:showBlockLevelElement('feedbackOnFeedbackForm${feedbackItem.id}');">Reply</a>
                             <form action="/webapp/app/feedback/webversion/AddReplyToFeedback.html" style="display:none;" id="feedbackOnFeedbackForm${feedbackItem.id}" method="POST" accept-charset="UTF-8" onsubmit="postFeedback(this, document.getElementById('feedback_on_feedback_${feedbackItem.id}'), true, 'after');document.getElementById('feedbackItem${feedbackItem.id}').value='';document.getElementById('feedbackOnFeedbackForm${feedbackItem.id}').style.display='none';return false;">
 
                                 <input type="hidden" name="feedbackId" value="${feedbackItem.id}"/>

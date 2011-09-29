@@ -236,12 +236,12 @@
                         <c:forEach var="elo" items="${elos}">
                             <div dojoType="dojox.layout.ContentPane" class="feedbackEloContainer greenBorders" style="width:30%;margin-right:15px;height:230px;float:left;background-color:#eeeeee;">
                                 <div class="thumbContainer" style="background-color:#eeeeee;" >
-                                    <a href="/webapp/app/feedback/webversion/ViewFeedbackForElo.html?eloURI=${elo.uri}" style="color:#23409e;">
+                                    <a href="/webapp/app/feedback/webversion/ViewFeedbackForElo.html?eloURI=${elo.uri}&action=${action}" style="color:#23409e;">
                                         <img src="${elo.thumbnail}" />
                                     </a>
                                 </div>
                                 <div class="eloInfoContainer">
-                                <p><strong><a href="/webapp/app/feedback/webversion/ViewFeedbackForElo.html?eloURI=${elo.uri}" style="color:#23409e;">${elo.myname}</a></strong></p>
+                                <p><strong><a href="/webapp/app/feedback/webversion/ViewFeedbackForElo.html?eloURI=${elo.uri}&action=${action}" style="color:#23409e;">${elo.myname}</a></strong></p>
                                 <p>By: <a href="fbIndex.html?eloURI=${eloURI}&user=${elo.createdBy}" style="color:#23409e;">${elo.createdBy}</a></p>
                                 <p>Date: ${elo.createdDate}</p>
                                 <p>Viewed: ${elo.feedbackEloTransfer.shown}<br/>Average Score: ${elo.feedbackEloTransfer.averageScore}</p>
