@@ -27,7 +27,7 @@
                                         <td><s:ajaxTransferObjectTextField transferObjectServiceCollection="${transferObjectServiceCollection}" transferObject="${teacherQuestionToElo}" transferEloURI="${pedagogicalPlan.pedagogicalPlanURI}" id="${teacherQuestionToElo.id}" property="questionTitle"/></td>
                                         <td><s:ajaxTransferObjectTextField transferObjectServiceCollection="${transferObjectServiceCollection}" transferObject="${teacherQuestionToElo}" transferEloURI="${pedagogicalPlan.pedagogicalPlanURI}" id="${teacherQuestionToElo.id}" property="question"/></td>
                                         <td>
-                                            <a href="javascript:openPage('addReflectionQuestionOnEloForTeacher', 'eportfolioTeacherElo.html?action=setTeacherQuestionToEloToText&teacherQuestionToElo=${teacherQuestionToElo.id}&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${transporter.anchorElo.uri}'));">
+                                            <a href="javascript:openPage('eportfolioTeacherElo', 'eportfolioTeacherElo.html?action=setTeacherQuestionToEloToText&teacherQuestionToElo=${teacherQuestionToElo.id}&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${transporter.anchorElo.uri}'));">
                                                 <c:if test="${teacherQuestionToElo.questionType == 'text'}">
                                                      <img src="/webapp/themes/scy/default/images/checked_radio.png" alt=""  />
                                                  </c:if>
@@ -38,7 +38,7 @@
                                             </a>
                                         </td>
                                         <td>
-                                            <a href="javascript:openPage('addReflectionQuestionOnEloForTeacher', 'eportfolioTeacherElo.html?action=setTeacherQuestionToEloToSlider&teacherQuestionToElo=${teacherQuestionToElo.id}&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${transporter.anchorElo.uri}'));">
+                                            <a href="javascript:openPage('eportfolioTeacherElo', 'eportfolioTeacherElo.html?action=setTeacherQuestionToEloToSlider&teacherQuestionToElo=${teacherQuestionToElo.id}&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${transporter.anchorElo.uri}'));">
                                                 <c:if test="${teacherQuestionToElo.questionType == 'slider'}">
                                                      <img src="/webapp/themes/scy/default/images/checked_radio.png" alt=""  />
                                                  </c:if>
@@ -60,7 +60,7 @@
                             </c:when>
 
                      </c:choose>
-                           <a href="javascript:openPage('addReflectionQuestionOnEloForTeacher', 'eportfolioTeacherElo.html?action=addTeachersQuestionToElo&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${transporter.anchorElo.uri}'));">
+                           <a href="javascript:openPage('eportfolioTeacherElo', 'eportfolioTeacherElo.html?action=addTeachersQuestionToElo&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${transporter.anchorElo.uri}'));">
                                <spring:message code="ADD_QUESTION"/>
                            </a>
                     <br/>
@@ -110,7 +110,7 @@
                                                             </c:forEach>
                                                             <tr>
                                                                 <td colspan="6" align="right">
-                                                                    <a href="javascript:openPage('addReflectionQuestionOnEloForTeacher', 'eportfolioTeacherElo.html?action=addCriteria&categoryId=${rubricCategory.id}&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${transporter.anchorElo.uri}'));">
+                                                                    <a href="javascript:openPage('eportfolioTeacherElo', 'eportfolioTeacherElo.html?action=addCriteria&categoryId=${rubricCategory.id}&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${transporter.anchorElo.uri}'));">
                                                                         <spring:message code="ADD_CRITERIA"/>
                                                                     </a>
                                                                 </td>
@@ -121,7 +121,7 @@
                                                </c:forEach>
                                                 <tr>
                                                     <td colspan="6" align="right">
-                                                        <a href="javascript:openPage('addReflectionQuestionOnEloForTeacher', 'eportfolioTeacherElo.html?action=addRubricCategory&rubricId=${rubric.id}&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${transporter.anchorElo.uri}'));">
+                                                        <a href="javascript:openPage('eportfolioTeacherElo', 'eportfolioTeacherElo.html?action=addRubricCategory&rubricId=${rubric.id}&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${transporter.anchorElo.uri}'));">
                                                             <spring:message code="ADD_CATEGORY"/>
                                                         </a>
                                                     </td>
@@ -136,7 +136,7 @@
 
 
 
-                            <a href="javascript:openPage('addReflectionQuestionOnEloForTeacher', 'eportfolioTeacherElo.html?action=addRubricToElo&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${transporter.anchorElo.uri}'));">
+                            <a href="javascript:openPage('eportfolioTeacherElo', 'eportfolioTeacherElo.html?action=addRubricToElo&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${transporter.anchorElo.uri}'));">
                                <spring:message code="ADD_RUBRIC"/>
                            </a>
                 <br/>

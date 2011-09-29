@@ -25,7 +25,7 @@ public class AjaxSlider extends AjaxBaseComponent{
                     "minimum=\"0\" maximum=\"" + (sliderValues.size()-1) + "\" discreteValues=\"" + sliderValues.size() + "\" intermediateChanges=\"true\"\n" +
                     "showButtons=\"false\" style=\"width:400px;\" onChange=\"updateAjaxSlider('" + id + "', this);\">\n" +
                     "    <ol dojoType=\"dijit.form.HorizontalRuleLabels\" container=\"topDecoration\"\n" +
-                    "    style=\"height:1.5em;font-size:75%;color:gray;\">");
+                    "    style=\"height:25px;font-size:75%;color:gray;\">");
             for (int i = 0; i < sliderValues.size(); i++) {
                 Object o = sliderValues.get(i);
                 pageContext.getOut().write("<li>" + o.toString() + "</li>");
