@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package eu.scy.client.tools.copex.main;
 
 import eu.scy.client.tools.copex.common.CopexAction;
@@ -397,6 +392,10 @@ public class CopexPanel extends JPanel implements PropertyChangeListener{
             this.add(copex, BorderLayout.CENTER);
         }
     }
+
+	public EdPPanel getActivePanel() {
+		return activCopex;
+	}
 
     private void initTabbedPane(){
         this.add(getCopexTabbedPane(), BorderLayout.CENTER);
