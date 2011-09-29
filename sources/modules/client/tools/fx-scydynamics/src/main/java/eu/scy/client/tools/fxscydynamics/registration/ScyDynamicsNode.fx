@@ -335,6 +335,12 @@ public class ScyDynamicsNode extends CollaborationStartable, IScaffoldChangeList
     }
 
 	public override function scaffoldLevelChanged(newLevel: java.lang.Integer): Void {
+		if (true) {
+			// scaffold level changes are changed in the current implementation,
+			// as they are not used in the missions
+			logger.info("ignoring scaffold level change.");
+			return;
+		}
 		logger.info("setting scaffold to {newLevel}");
 		//println("*** ScyDynamicsNode.scaffoldLevelChanged to {newLevel}");
 		if (newLevel == ScaffoldManager.SCAFFOLD_OFF) {
