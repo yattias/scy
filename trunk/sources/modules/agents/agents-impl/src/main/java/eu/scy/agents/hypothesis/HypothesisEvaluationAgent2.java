@@ -253,12 +253,16 @@ public class HypothesisEvaluationAgent2 extends AbstractELOSavedAgent implements
 
     private Set<String> getSimpleKeywords(String missionName, String language) {
         Set<String> keywords = modelStorage.get(missionName, language, FIXED_KEYWORDS_MODEL);
+        Set<String> trimmedKeywords = new HashSet<String>();
+        for (String keyword : keywords) {
+            trimmedKeywords.add(keyword.trim());
+        }
         if (keywords == null) {
             logger.fatal("Fixd keywords are not present for mission " + missionName
                     + ", " + language);
             keywords = Collections.emptySet();
         }
-        return keywords;
+        return trimmedKeywords;
     }
 
 
