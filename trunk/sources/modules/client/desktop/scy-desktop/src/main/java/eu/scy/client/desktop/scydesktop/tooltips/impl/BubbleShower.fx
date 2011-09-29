@@ -79,7 +79,11 @@ public class BubbleShower {
               ]
            }
    var showingBubble = false;
-   def positionChanged = sourceNode.boundsInParent on replace { sourceNodeMoved(); }
+   def sourceMovedDetectionTimeLine = Timeline{
+
+   }
+
+//   def positionChanged = sourceNode.boundsInParent on replace { sourceNodeMoved(); }
 
    init {
       bubbleNode.cache = true;
