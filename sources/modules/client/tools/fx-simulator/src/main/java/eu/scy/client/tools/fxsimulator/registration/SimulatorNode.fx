@@ -210,7 +210,7 @@ public class SimulatorNode
 		this.join(datasyncsession.getId());
 		datasyncEdge.join(datasyncsession.getId(), toolBrokerAPI);
 		acceptDialog.modalDialogBox.close();
-		syncAttrib.setTooltipText("drag to disconnect");
+		syncAttrib.setTooltipText(##"Drag to disconnect");
 	}
 
 	public function removeDatasync(fitex: ISynchronizable) {
@@ -218,7 +218,7 @@ public class SimulatorNode
 		datasyncEdge = null;
 		this.leave(dataCollector.getSessionID());
 		fitex.leave(fitex.getSessionID());
-		syncAttrib.setTooltipText("drag to connect");
+		syncAttrib.setTooltipText(##"Drag to connect");
 	}
 
 	public override function getScyWindow(): ScyWindow {

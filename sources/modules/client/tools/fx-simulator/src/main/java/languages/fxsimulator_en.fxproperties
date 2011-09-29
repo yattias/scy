@@ -7,3 +7,5 @@
 "SaveAs Simconfig"="SaveAs Simconfig"
 "Synchronise?"="Synchronise?"
 "Yes"="Yes"
+"Drag to connect"="Drag this symbol to a dataset to automatically update it."
+"Drag to disconnect"="Drag this symbol to disconnect the dataset and the simulator."
