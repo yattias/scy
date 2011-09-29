@@ -178,7 +178,7 @@
                             </c:when>
                         </c:choose>
                     </select>
-                    <strong>Person:</strong>
+                    <strong>Created by:</strong>
                     <select name="user" onChange="document.getElementById('filterForm').submit();">
                         <c:choose>
                             <c:when test="${uzer == 'ALL'}">
