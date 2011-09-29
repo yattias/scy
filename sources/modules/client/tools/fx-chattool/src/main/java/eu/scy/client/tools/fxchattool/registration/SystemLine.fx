@@ -16,17 +16,16 @@ import javafx.geometry.VPos;
  * @author pg
  */
 
-public class TimeLine extends CustomNode {
+public class SystemLine extends CustomNode {
 
-    public-init var time:String;
+    public-init var text:String;
     public-init var color:Color;
     public var layoutWidth:Number;
 
-
     var timeText:Text = Text {
-        content: "[{time}]"
+        content: "[{text}]"
         font: Font {
-            size: 8.0;
+            size: 11.0;
         }
         fill: Color.GREY;
     }

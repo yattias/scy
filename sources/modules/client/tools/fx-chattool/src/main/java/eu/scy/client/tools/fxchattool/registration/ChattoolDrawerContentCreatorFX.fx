@@ -73,6 +73,7 @@ public class ChattoolDrawerContentCreatorFX extends ScyToolCreatorFX {
 
             def presenceListener = PresenceListener {
                 ownershipManager: scyWindow.ownershipManager;
+                chattool: chattool;
             };
 
             chatController.getAwarenessService().addAwarenessPresenceListener(presenceListener);
