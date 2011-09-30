@@ -22,7 +22,7 @@
           <dateTime>2011-07-08T16:59:21.019+0200</dateTime>
         </date>
       </contribute>
-      <version>5</version>
+      <version>7</version>
     </lifecycle>
     <annotation>
       <entity>colorId</entity>
@@ -31,8 +31,8 @@
     <technical>
       <customElements>
         <dateCreated>1303476229409</dateCreated>
-        <dateFirstUserSaveKey>1317300132649</dateFirstUserSaveKey>
-        <dateLastModified>1317300132649</dateLastModified>
+        <dateFirstUserSaveKey>1317393453750</dateFirstUserSaveKey>
+        <dateLastModified>1317393453750</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
@@ -56,48 +56,61 @@
       </missionRunning>
       <title>
         <string language="en">Biology: Official report</string>
-        <string language="fr">Biologie: Raport officiel</string>
+        <string language="fr">Biologie: Rapport officiel</string>
       </title>
     </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
   </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
   <template>true</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>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</base64>
+    <base64>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</base64>
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
-&#xD;
-\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Noms et Pr\'e9noms des experts:\b0  \par&#xD;
-\par&#xD;
-\b Domaine d'expertise:\b0  \b  \b0\par&#xD;
-\par&#xD;
-\b Cas n\'b0:\b0  \b  \b0 CY0347\par&#xD;
-\par&#xD;
-\b Objet:\b0  Expertise pour le Minist\'e8re public\par&#xD;
-\par&#xD;
-\b R\'e9sum\'e9 des faits (selon notre compr\'e9hension des \'e9l\'e9ments de l'affaire): \b0  \b   \b0\par&#xD;
-\par&#xD;
-\b Notre mission: \b0       \b\par&#xD;
-\par&#xD;
-Notre mat\'e9riel biologique (nos \'e9chantillons):\par&#xD;
-\b0 Est-ce que les \'e9chantillons de la sc\'e8ne de crime contenaient du mat\'e9riel biologique?\b\par&#xD;
-\b0 Avez-vous r\'e9ussi \'e0 faire les profiles ADN \'e0 partir des \'e9chantillons?\b\par&#xD;
-\b0\par&#xD;
-\b Description des \'e9tapes de l'expertsie (Activit\'e9s que nous avons faites, objets que nous avons cr\'e9\'e9s...):\b0\par&#xD;
-\par&#xD;
-\b Justification de la m\'e9thode, des techniques d'analyse:\par&#xD;
-\par&#xD;
-Probl\'e8mes rencontr\'e9s lors de la mission (optionnel):\b0\par&#xD;
-\par&#xD;
-\b Notre conclusion:\par&#xD;
-\b0 Avez-vous trouv\'e9 une correspondance entre l'\'e9chantillon de la sc\'e8ne de crime et l'un des \'e9chantillons de r\'e9f\'e9rence? Ce r\'e9sultat a-t-il \'e9t\'e9 confirm\'e9 par les r\'e9sultats des autres groupe?\par&#xD;
-Quelle information est-ce qu'une correspondance apporte sur la culpabilit\'e9 ou non d'un suspect?\par&#xD;
-Quelle est la fr\'e9quence du profil correspondant dans la population mondiale? (Optionnel)\par&#xD;
-\li0\ri0\fi0\ul0\par&#xD;
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Noms et Pr\'e9noms des experts:\b0  \par
+\par
+\b Domaine d'expertise:\b0  \b  \b0\par
+\par
+\b Cas n\'b0:\b0  \b  \b0 CY0347\par
+\par
+\b Objet:\b0  Expertise pour le Minist\'e8re public\par
+\par
+\b R\'e9sum\'e9 des faits (selon notre compr\'e9hension des \'e9l\'e9ments de l'affaire): \b0  \b   \b0\par
+\par
+\b Notre mission: \b0       \b\par
+\par
+Notre mat\'e9riel biologique (nos \'e9chantillons):\par
+\b0 Est-ce que les \'e9chantillons de la sc\'e8ne de crime contenaient du mat\'e9riel biologique?\b\par
+\b0 Avez-vous r\'e9ussi \'e0 faire les profiles ADN \'e0 partir des \'e9chantillons?\b\par
+\b0\par
+\b Description des \'e9tapes de l'expertsie (Activit\'e9s que nous avons faites, objets que nous avons cr\'e9\'e9s...):\b0\par
+\par
+\b Justification de la m\'e9thode, des techniques d'analyse:\par
+\par
+Probl\'e8mes rencontr\'e9s lors de la mission (optionnel):\b0\par
+\par
+\b Notre conclusion:\par
+\b0 Avez-vous trouv\'e9 une correspondance entre l'\'e9chantillon de la sc\'e8ne de crime et l'un des \'e9chantillons de r\'e9f\'e9rence? Ce r\'e9sultat a-t-il \'e9t\'e9 confirm\'e9 par les r\'e9sultats des autres groupe?\par
+Quelle information est-ce qu'une correspondance apporte sur la culpabilit\'e9 ou non d'un suspect?\par
+Quelle est la fr\'e9quence du profil correspondant dans la population mondiale? (Optionnel)\par
+\par
+\li0\ri0\fi0\ul0\par
 }</RichText>
 </content>
 <resources>

@@ -22,13 +22,13 @@
           <dateTime>2011-07-26T10:52:18.664+0200</dateTime>
         </date>
       </contribute>
-      <version>7</version>
+      <version>9</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1303474281695</dateCreated>
-        <dateFirstUserSaveKey>1317297638282</dateFirstUserSaveKey>
-        <dateLastModified>1317297638282</dateLastModified>
+        <dateFirstUserSaveKey>1317393750570</dateFirstUserSaveKey>
+        <dateLastModified>1317393750570</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
@@ -51,44 +51,57 @@
         <string language="fr">Examen de la scène de crime</string>
       </title>
     </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
   </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
   <template>true</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAEhElEQVR42u2cW0hsZRTH56VeegjxQbw9iCj6IOINFe94eZNQCwyNQIQGPIYXPI4pMnJSDC3Fh1GRcwIhpNBE1I6kgiCaeT14wRrHw3jJ5sx4JvGuzcw/18qZHDLoJIVM6w+L9e2117dn82PvDd/3rW8UuufPALx0sn3z5p9iZF1dXbfEj27NnZoevzV+YTG4lCm0ukX8+uwTYOUPe2HSwgIjlnetDtPqVxmg+QROceCAc9d/tjns3QePMP0dAbQ65VLe8emeS9nvACdVUCgUePON14FplQPgyNxPqKrXsNdurTHAXdMpPigqxYOiIo7bAVKbrFHzJfI+/PgaoA3ffL+Dp7O7fI7yXv6yA/PBP7f71l+xsXkF8KkSTx4m42SwEPhW6QD4flE1Ph9cQNfXM9i4Bvij3oQvRn/A46/GOG4HSO3eiU3275U0XAMEH2e8lcee8gwv9C5lVwCX8Jqi6so+cpgdYNI7Dx22Y9AywLeVj5zidoA3Y+rPHjNA9adPnOKUt7Pz3KVMYbv6sFtfwSzY/1t5FxbjrXGdTntlG3ew+9VfAdGdxACTkpL44Pj4mP3l5SUODg6cEnU6HfumpiZkZWUhJCQEJycnKCkp4XhBQQEqKir+nwCTk5PR3d3NgaOjI+Tm5sLDwwMpKSkwGAxYWVnB9vY2KisroVarOZcAnp6eIjo6mmMLCwsoLy/na6Snp3P/oaEhnJ2dob+/H+7u7q4LUCQABaAAFIAiASgABaAAFAlAASgABaBIAApAASgARQJQAApAASgSgAJQAApAkQD8dwDabDZu1NbWQqvVYmRkhEs1SFTWQaLSjJqaGlRXV2NgYABmsxnj4+NYX1/n83V1dVCpVFhaWoLFYkFLSwuXeYSHh8N+faq3oeuSNTc3o6Ojg+M9PT3QaDRcNkLS6/VcRldfX8/3ZDKZHDcbFhYGLy8vnJ+fIzQ09P49gcPDw8jPz0dCQgKDIID7+/soLi6Gp6cnYmJi2Kg2hkCMjY1xv7i4OERERCA+Ph6NjY0Mzs3NDVNTU7BarVyoNDc3x7l9fX3sY2Nj2RcWFrKPjIxk7+/vz7+Vl5fH90B1OSRqU/GTj48PHwcHB8srLN9AkQAUgAJQAApAkQAUgAJQAIruBDAjI4PHoKStrS309vYiOzub93x4e3tjbW2Nx6/Ly8tQKpWcV1VVhcTERERFRfFEAk0E0D6Tvb09tLe3cw61GxoaeIxrF+XTPpOJiQk+pravry+3aY/K6OgoWltbcXh4yJMUNyc2cnJy2NsnE2iTEPVPS0vjyQY6NhqN6OzsRFBQEAICAjA4OOjYRPSfP4GZmZnymMkrLAAFoAAUCUABKAAFoEgACsD7C3B1dfWVLzAzM8PevoD+V5qdnXVdgLRovbi4yKv+JD8/P6ektrY2x2CeKhPsKisrQ2lpKebn57n/zXNUuRAYGMiDflpMp2tSe3Jykv+sghbOqT8tlNOiOy2wp6am8sTAxcWFvMLyDRQJQAEoAAWgSAAKQAEoAEUCUAAKQAEoEoACUAAKQJGTfgPnaOO6yTnv+wAAAABJRU5ErkJggg==</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAC/klEQVR42u3bz0vTYRwH8O+fMOjgb1HxYCWoICIi4s3TEB3iyYN66aBExIIokOwynBB5FAuMOQpMCjK0yINbEmoYQZuHYlhLmo2am3Ntbb7z8xHGJjsIEWV7v+HD9/t5nmdf5cV38CCPRgpfkcROuoDvWf3x+Xfe1aze4biX1SdSAfz4+SVvyhAgvL2Jj08uofTM1UPAEJY9u7hw+QZuOZYV0HXYP3z2Gu7NsAJKL2vWfHEFlP7V+5jOR6Lb2I18Tlco7NfKHMtVudaddOxvPu8I8OVFPLeZUWqyKqBhGLjzaBVX7A8U8O7jNZw9d16vAihzssbx9I0CSn//xabOB799QmBnK2/qCBDBjApl9cfnBTCzF8DMfnvbh62tD3lTxrWZ27g+M5Eu6Y+P5apc60469j89zzCbzUilUpDs7+/rNZFI6LWkpESvKysrcLvdaGpq0r6zsxONjY16H4vFsj6bbzF+9wEejwf5HAMMAQlIQAIyBCQgAQnIEJCABCQgQ0ACEpCADAFPNeDBwUH+ADY0NKC2thaRSCRr0uVyYW9vDxUVFbBYLPD5fKiqqoLX60VzczPsdjt6e3t1bWVlJYLBIGpqarSfn5/HxsYGZmdndZ18fnR0FPX19XA6nejp6YHVakVxcTEGBgb4BvIrzBCQgAQkIENAAp4uQDmdNTk5qRtgOY01Nzenp7Bkc1tdXa2Luru7ddPb2tqKxcVFDA0NYXh4WDfBEjmhVVRUpPd+v1/HZUw213KSKxqN6sZbIifBCgsL9b6lpUV/bnl5ua5fWFhAWVkZOjo6MD09jXA4nP4d+AbyK8wQkIAEJCBDQAL+cxvp9fV11NXVQe7lL8zxeBxLS0sIBAK6KBQKYXBwEGNjY7DZbOjv70cymYTJZMLIyAja2tp03fj4ONrb29P/+iDp6+vTzfHU1BS6urpQUFDAN5AhIAEJSECGgAQkIAEJyBCQgAQkIENAAhKQgAwBCUhAAjIEJCABCcgQkIAEJCBDQAISkIAMAf9UfgFe6zeu62u3OAAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
-&#xD;
-\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 D\'e9finition de l'ADN (10 ignes):\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-Types de preuves pouvant servir \'e0 une analyse ADN:\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-Liste de pr\'e9cautions \'e0 prendre pour effectuer des pr\'e9l\'e8vements:\b0\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-\b Instructions pour le transport des preuves:\b0\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-\li0\ri0\fi0\ul0\par&#xD;
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 D\'e9finition de l'ADN (10 lignes) :\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+Types de preuves pouvant servir \'e0 une analyse ADN :\par
+\par
+\par
+\par
+\par
+Liste de pr\'e9cautions \'e0 prendre pour effectuer des pr\'e9l\'e8vements :\b0\par
+\par
+\par
+\par
+\par
+\b Instructions pour le transport des preuves :\b0\par
+\par
+\par
+\par
+\par
+\li0\ri0\fi0\ul0\par
 }</RichText>
 </content>
 <resources>

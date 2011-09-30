@@ -22,13 +22,13 @@
           <dateTime>2011-07-08T14:58:19.019+0200</dateTime>
         </date>
       </contribute>
-      <version>2</version>
+      <version>4</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1303995497619</dateCreated>
-        <dateFirstUserSaveKey>1316556039518</dateFirstUserSaveKey>
-        <dateLastModified>1316556039518</dateLastModified>
+        <dateFirstUserSaveKey>1317393597231</dateFirstUserSaveKey>
+        <dateLastModified>1317393597231</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
@@ -47,43 +47,44 @@
         <entry>roolo://memory/40652/0/Le+laboratoire+de+police+scientifique.scymissionspecification</entry>
       </missionRunning>
       <title>
-        <string language="en">Conclusion of the experiment</string>
-        <string language="fr">Conclusion de mon expérience</string>
+        <string language="en">Chemistry: Conclusion of the experiment</string>
+        <string language="fr">Chimie: Conclusion de l'expérience</string>
       </title>
     </general>
     <relation>
       <kind>
         <source>LOMv1.0</source>
-        <value>is_fork_of</value>
+        <value>is_version_of</value>
       </kind>
       <resource>
-        <identifier>
-          <catalog>memory</catalog>
-          <entry>roolo://memory/40549/0/Chemistry%3A+Conclusion+of+the+experiment.rtf</entry>
-        </identifier>
+        <identifier />
       </resource>
     </relation>
   </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
   <template>true</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACjUlEQVR42u3Uz2uScRwH8Ocf8eZFD5528CCWB1O8dHFmjJgHKZsL6VAwogikkNp5h0QmQocihqD2g20QHmo296NCLDdXw+maWYrRRJi+8/mGsodJxdZB5P2GN8/zfJ7P90FeB6WV9S3sfYOiH/Pfj8zkBoPBI7PqD/TdnV981Xde/HIwVJXSq5t4v9PCu0PN5r6iVIZitrRWEoDV/bZiXqlB7GZ3272OXr6LhcXXQFv5DXmvUNofqgrAF+kSph/MQZIkPF8u9gDl+6k7M+LaBSxWfuKS9yomvV4x7wLK93IDM49wbiLwG7CTp6kCnr3ZEe/kve1CtdPaCTpY56Xl1TxC0RRGx69g7OJ1BOeWeoDj3huYja2IWWp9VwDmtst4OP8BoccLYt4FlO+fvMyL6/nJez1A+fnM2TFxlfc+fd4bqkrptTzMF6Zw2nFN9FSnXcDuTO7bbEUAOiZuK3a7gId3b94PC8Bb07OKubyX3yoMVaV+f/R/bOXf9krlg77zXG4TGxvH76Cdl8CcKAJQr9f3Bu12W7FgtVr/+pF6va54ttvtime1Wn3sH9hqtQYf0O12IxKJiDYaDTidThgMBhSLRdhsNqhUKpjNZoRCISQSCWQyGXg8HrhcLuh0OoyMjMDv9/c+6nA4xHkZ0mQyQaPRiLlWq4XP50M4HEaz2UQymYTFYhHvYrEYotEojEYjAoGAmMXjcdRqtcEHZAhIQAISkCEgAQlIQIaABCQgARkCEpCABGQISEACEpAhIAEJSECGgAQkIAEZAhKQgARkCEhAAhKQISABCUhAAjIEJCABCcgQkIAEJCBDQAISkIAMAQlIQAIyBCQgAQnIEJCABCQgQ0ACEpCADAH/f34B9pSXxjKQLNQAAAAASUVORK5CYII=</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAABwElEQVR42u3TPUtCURzH8fMWgmb36iX4GnwfbhEOzpFDSENjS0Fh4BIVREPR0BOEEkRDOVjmQ5ZKT8b1KfVf/xPqNRykJcjvD/6c+zvn3Ct8QPNQEskXe1N66e8/z89i1319dS3S1+8LLck9fozMGAWSyznJ7MyIZzwopVeRo6s38QdmZXH90AIef/WNvXM5SZQtoHa9E0/VLaD2s2TVnmfzjmTu37uTzpXtuPcGzaB7w+795fe+AU+nZX/eJ56xgAU0xsjyVkyCC1ELuLIdl4nJKbsqoJ7pncjuhQXUHj1I2PN09llS6eLIjAXUv213vgALT73Rc3dXQHdXQHe/TeUleZMemTFLm3fC/H6Mz+eTVqsltVpN6vW6OI4jlUrFPmsajYZ91lXTbDalWq3aNRQK2T09D4fD0on2zjfa7XZ3X39D3/tPMe7i9/sHXnIjDBuv1yujECMEQAABBJAACCCAABIAAQQQQAIggAACSAAEEEAACYAAAgggARBAAAEkAAIIIIAEQAABBJAACCCAABIAAQQQQAAJgAACCCABEEAAASQAAggggARAAAEEkAAIIIAAEgABBBBAAiCAAP7DfALpVt9mOYKZ3QAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
-&#xD;
-\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 R\'e9digez la conclusion de votre exp\'e9rience ici.\par&#xD;
-\b0\par&#xD;
-\b\par&#xD;
-\par&#xD;
-\par&#xD;
-\b0\par&#xD;
-\par&#xD;
-\par&#xD;
-\li0\ri0\fi0\ul0\par&#xD;
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 R\'e9digez la conclusion de votre exp\'e9rience ici.\par
+\b0\par
+\b\par
+\par
+\par
+\b0\par
+\par
+\par
+\par
+\li0\ri0\fi0\ul0\par
 }</RichText>
 </content>
 <resources>

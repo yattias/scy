@@ -9,22 +9,22 @@
         </role>
         <entity>rachel</entity>
         <date>
-          <dateTime>2011-09-29T15:24:56.855+0200</dateTime>
+          <dateTime>2011-09-30T17:20:36.765+0200</dateTime>
         </date>
       </contribute>
-      <version>10</version>
+      <version>0</version>
     </lifecycle>
     <technical>
       <customElements>
-        <dateCreated>1317302696855</dateCreated>
-        <dateLastModified>1317394433657</dateLastModified>
+        <dateCreated>1317396036765</dateCreated>
+        <dateLastModified>1317396036765</dateLastModified>
       </customElements>
       <format>scy/missionmapmodel</format>
     </technical>
     <general>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/40702/0/Le+laboratoire+de+police+scientifique.scymissionmapmodel</entry>
+        <entry>roolo://memory/40707/0/Le+laboratoire+de+police+scientifique.scymissionmapmodel</entry>
       </identifier>
       <las>Biologie: Espace d'analyse</las>
       <missionId>forensic</missionId>
@@ -50,7 +50,7 @@
 </metadata>
 <content languages="fr" contentType="xml">
 <missionModel>
-  <activeLas>Biologie: Espace d'analyse</activeLas>
+  <activeLas>Biologie: Espace d'information</activeLas>
   <missionMapBackgroundImageUri>http://www.scy-lab.eu/content/en/mission4/forensicMissionMapBackgound.fxz</missionMapBackgroundImageUri>
   <missionMapInstructionUri>http://www.scy-lab.eu/content/en/mission4/missionMapInstruction.html</missionMapInstructionUri>
   <missionMapButtonIconType />
@@ -479,61 +479,7 @@
       <nextLasses />
     </las>
   </lasses>
-  <windowStatesXmls>
-    <windowStatesXml id="Chimie: Espace de rédaction">
-      <windowstates>
-        <window uri="roolo://memory/40550/0/Chemistry%3A+Organized+data.scypds" layoutX="208.0" layoutY="125.0" relativeLayoutCenterX="0.15952381" relativeLayoutCenterY="0.14417475" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.071428575" relativeHeight="0.04563107" />
-        <window uri="roolo://memory/40667/0/Rapport+officiel.rtf" layoutX="1352.0" layoutY="10.0" relativeLayoutCenterX="0.8404762" relativeLayoutCenterY="0.032524273" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.071428575" relativeHeight="0.04563107" />
-        <window uri="roolo://memory/40666/0/Conclusion+de+mon+exp%C3%A9rience.rtf" layoutX="620.0" layoutY="175.0" relativeLayoutCenterX="0.4047619" relativeLayoutCenterY="0.19271845" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.071428575" relativeHeight="0.04563107" />
-      </windowstates>
-    </windowStatesXml>
-    <windowStatesXml id="Chimie: Espace d'orientation">
-      <windowstates>
-        <window uri="roolo://memory/40665/0/But+de+l%27analyse.rtf" layoutX="1352.0" layoutY="10.0" relativeLayoutCenterX="0.8404762" relativeLayoutCenterY="0.032524273" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.071428575" relativeHeight="0.04563107" />
-      </windowstates>
-    </windowStatesXml>
-    <windowStatesXml id="Biologie: Espace de rédaction">
-      <windowstates>
-        <window uri="roolo://memory/40659/0/Raport+officiel.rtf" layoutX="1352.0" layoutY="10.0" relativeLayoutCenterX="0.8404762" relativeLayoutCenterY="0.032524273" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.071428575" relativeHeight="0.04563107" />
-        <window uri="roolo://memory/40658/0/Conclusion+de+mon+exp%C3%A9rience.rtf" layoutX="208.0" layoutY="10.0" relativeLayoutCenterX="0.15952381" relativeLayoutCenterY="0.032524273" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" />
-      </windowstates>
-    </windowStatesXml>
-    <windowStatesXml id="Chimie: Espace d'information">
-      <windowstates>
-        <window uri="roolo://memory/40674/0/Carte+conceptuelle+des+analyses+chimiques.scymapping" layoutX="1352.0" layoutY="10.0" relativeLayoutCenterX="0.8404762" relativeLayoutCenterY="0.032524273" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.071428575" relativeHeight="0.04563107" />
-      </windowstates>
-    </windowStatesXml>
-    <windowStatesXml id="Biologie: Espace d'information">
-      <windowstates>
-        <window uri="roolo://memory/40644/0/Examen+de+la+sc%C3%A8ne+de+crime.rtf" layoutX="747.2" layoutY="10.0" relativeLayoutCenterX="0.4804762" relativeLayoutCenterY="0.032524273" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.071428575" relativeHeight="0.04563107" />
-      </windowstates>
-    </windowStatesXml>
-    <windowStatesXml id="Chimie: Espace d'analyse">
-      <windowstates>
-        <window uri="roolo://memory/40550/0/Chemistry%3A+Organized+data.scypds" layoutX="780.0" layoutY="10.0" relativeLayoutCenterX="0.5" relativeLayoutCenterY="0.032524273" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.071428575" relativeHeight="0.04563107" />
-        <window uri="roolo://memory/40666/0/Conclusion+de+mon+exp%C3%A9rience.rtf" layoutX="1352.0" layoutY="10.0" relativeLayoutCenterX="0.8404762" relativeLayoutCenterY="0.032524273" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.071428575" relativeHeight="0.04563107" />
-        <window uri="roolo://memory/40548/0/Chemistry%3A+Annotated+data.scydraw" layoutX="1352.0" layoutY="10.0" relativeLayoutCenterX="0.8404762" relativeLayoutCenterY="0.032524273" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.071428575" relativeHeight="0.04563107" />
-      </windowstates>
-    </windowStatesXml>
-    <windowStatesXml id="Chimie: Espace d'expérimentation">
-      <windowstates>
-        <window uri="roolo://memory/40616/0/Experimental+procedure.scyxproc" layoutX="208.0" layoutY="10.0" relativeLayoutCenterX="0.15952381" relativeLayoutCenterY="0.032524273" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" />
-        <window uri="roolo://memory/40548/0/Chemistry%3A+Annotated+data.scydraw" layoutX="1352.0" layoutY="10.0" relativeLayoutCenterX="0.8404762" relativeLayoutCenterY="0.032524273" width="120.0" height="47.0" rotation="0.0" relativeWidth="Infinity" relativeHeight="Infinity" />
-      </windowstates>
-    </windowStatesXml>
-    <windowStatesXml id="Biologie: Espace d'orientation">
-      <windowstates>
-        <window uri="roolo://memory/40645/0/But+de+l%27analyse.rtf" layoutX="733.0" layoutY="56.0" relativeLayoutCenterX="0.47202381" relativeLayoutCenterY="0.07718447" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.071428575" relativeHeight="0.04563107" />
-        <window uri="roolo://memory/40673/0/Choix+des+techniques.scymapping" layoutX="1369.0" layoutY="46.0" relativeLayoutCenterX="0.85059524" relativeLayoutCenterY="0.06747573" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.071428575" relativeHeight="0.04563107" />
-      </windowstates>
-    </windowStatesXml>
-    <windowStatesXml id="Biologie: Espace d'expérimentation">
-      <windowstates>
-        <window uri="roolo://memory/40577/0/Results+of+my+experiment.scydraw" layoutX="1352.0" layoutY="10.0" relativeLayoutCenterX="0.8404762" relativeLayoutCenterY="0.032524273" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" />
-        <window uri="roolo://memory/40646/0/Protocole+exp%C3%A9rimental.scyxproc" layoutX="208.0" layoutY="10.0" relativeLayoutCenterX="0.15952381" relativeLayoutCenterY="0.032524273" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" />
-      </windowstates>
-    </windowStatesXml>
-  </windowStatesXmls>
+  <windowStatesXmls />
 </missionModel>
 </content>
 <resources>
