@@ -67,7 +67,17 @@ public class FeedbackEloSearchResultFilter implements Comparator {
     }
 
     private int compareOnMostViewed(TransferElo first, TransferElo last) {
-        Integer firstShown = new Integer(first.getFeedbackEloTransfer().getShown());
+
+        Integer firstShown = 0;
+        if(first.getFeedbackEloTransfer().getShown() != null && !first.getFeedbackEloTransfer().getShown().equals("")) {
+            try {
+                firstShown = new Integer(first.getFeedbackEloTransfer().getShown());
+            } catch (NumberFormatException e) {
+                log.warning(e.getMessage());
+                firstShown = 0;
+            }
+        }
+
         if (last.getFeedbackEloTransfer().getShown() == null || last.getFeedbackEloTransfer().getShown() == "")
             return -1;
         Integer lastShown = new Integer(last.getFeedbackEloTransfer().getShown());
