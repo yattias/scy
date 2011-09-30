@@ -115,7 +115,7 @@ public class CombinedWindowElements extends ScyWindow {
         throw new UnsupportedOperationException('Not implemented yet');
     }
 
-   override public function close(): Void {
+   override public function close(animateClose : Boolean): Void {
       throw new UnsupportedOperationException('Not implemented yet');
    }
 

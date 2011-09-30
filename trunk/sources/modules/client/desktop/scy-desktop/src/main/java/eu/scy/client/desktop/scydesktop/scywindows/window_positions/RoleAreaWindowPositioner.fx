@@ -278,7 +278,7 @@ public class RoleAreaWindowPositioner extends WindowPositioner {
          window.openWindow(bounds.width, bounds.height);
       }
       else {
-         window.close();
+         window.close(true);
          window.width = bounds.width;
          window.height = bounds.height;
       }

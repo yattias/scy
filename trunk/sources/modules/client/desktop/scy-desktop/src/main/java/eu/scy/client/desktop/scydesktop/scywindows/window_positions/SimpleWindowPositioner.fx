@@ -129,7 +129,7 @@ public class SimpleWindowPositioner extends WindowPositioner {
          window.openWindow(windowWidth, windowHeigth);
       }
       else{
-         window.close();
+         window.close(true);
          window.width = windowHeigth;
          window.height = windowHeigth;
       }
@@ -155,7 +155,7 @@ public class SimpleWindowPositioner extends WindowPositioner {
 
    function minimizeWindow(window:ScyWindow){
       if (not window.isClosed){
-         window.close();
+         window.close(true);
       }
 
    }

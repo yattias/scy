@@ -20,7 +20,6 @@ import eu.scy.client.desktop.scydesktop.scywindows.StandardWindowPositionsState;
 import javafx.geometry.Point2D;
 import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
 import eu.scy.client.desktop.desktoputils.XFX;
-import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 
 /**
  * @author giemza
@@ -266,7 +265,27 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
             windowStates.applyStateForWindow(window);
         }
         positionWindows();
+        for (window in incomingWindows) {
+            openWindowAndBringToFront(window);
+        }
+        for (window in centerWindows) {
+            openWindowAndBringToFront(window);
+        }
+        for (window in outgoingWindows) {
+            openWindowAndBringToFront(window);
+        }
+        for (window in otherWindows) {
+            openWindowAndBringToFront(window);
+        }
     }
+
+    function openWindowAndBringToFront(window : ScyWindow) : Void {
+        if (not window.isClosed) {
+            window.openWindow(window.layoutX, window.layoutY, window.width, window.height, window.rotate);
+        }
+        window.toFront();
+    }
+
 
     function windowAlreadyAdded(window:ScyWindow):Boolean {
         // checks if window is already in any of the window lists
@@ -333,8 +352,8 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
     }
 
     function positionWindowsInArea(windowList:ScyWindow[], area:Rectangle, maxColumns:Integer) {
-        var topOffset = 0.0;
-        var padding = 115.0;
+        var topOffset = 25.0;
+        var padding = 140.0;
         // positioning incoming
         var numberOfWindows = sizeof windowList;
         var columns = maxColumns;
@@ -347,17 +366,19 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
         for (window in windowList) {
             if (not window.isCentered and not window.isManuallyRepositioned) { // window.layoutX == 0 and window.layoutY == 0 and window.relativeLayoutCenterX == 0 and window.relativeLayoutCenterY == 0) {
                 
-                window.layoutX = area.layoutX + (column * shift) - (window.width / 2);
+                window.layoutX = area.layoutX + (column * shift) + ((column-1) * 25) - (window.width / 2);
                 window.layoutY = area.layoutY + topOffset + (row * padding);
-                window.closedPosition = Point2D {
-                    x: window.layoutX;
-                    y: window.layoutY;
+                if (window.closedPosition == null) {
+                    window.closedPosition = Point2D {
+                        x: window.layoutX;
+                        y: window.layoutY;
+                    }
                 }
 
                 window.relativeLayoutCenterX = (window.layoutX + window.width / 2) / desktopWidth;
                 window.relativeLayoutCenterY = (window.layoutY + window.height / 2) / desktopHeight;
 
-                padding = Math.max(padding, window.height);
+                padding = Math.max(padding, window.height + 15);
 
                 if (column mod columns != 0) {
                     column++;
@@ -383,9 +404,9 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
 
 //      var newX = centerArea.layoutX - 5 * offset;
 //      Moved the window a little bit more to the left of the center
-        var newX = centerArea.layoutX;
+        var newX = centerArea.layoutX - 2 * offset;
         var newY = centerArea.layoutY + (0.12 * centerArea.height); // value ist just estimated
-        var newWidth = centerArea.width + 10 * offset;
+        var newWidth = centerArea.width + 4 * offset;
         var newHeight = 0.75 * centerArea.height;
 
         mainArea.layoutX = newX;
@@ -421,7 +442,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
     def centerAreaRatio = 0.6;
     def outgoingAreaRatio = 0.2;
     def offset = 10;
-    def margin = 100;
+    def margin = 50;
 
     function repositionWindowsOnResize():Void {
         FX.deferAction(function():Void {
@@ -487,17 +508,10 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
         for (window in windowList) {
             // close might take too long or too much memory
             // maybe set heigth and width manually?
-            window.close();
-            window.layoutX = 0;
-            window.layoutY = 0;
-            window.relativeLayoutCenterX = 0;
-            window.relativeLayoutCenterY = 0;
-            window.width = 0;
-            window.height = 0;
-            window.relativeWidth = 0;
-            window.relativeHeight = 0;
-            window.rotate = 0;
-            window.isCentered = false;
+            // UPDATE 30.09.2011
+            // yes it took too long and created some weired layouting shit
+            // which led to the broken ELO positioning
+            window.close(false);
             logger.debug("resetting window {window.title} with URI {window.eloUri}");
         }
     }

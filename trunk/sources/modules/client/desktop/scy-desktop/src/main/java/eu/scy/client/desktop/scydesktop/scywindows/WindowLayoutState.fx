@@ -20,5 +20,6 @@ public class WindowLayoutState {
     public-init var relativeWidth:Number;
     public-init var relativeHeight:Number;
     public-init var opened: Boolean;
+    public-init var isManuallyRepositioned : Boolean;
 
 }

@@ -32,24 +32,15 @@ public class ScyWindowControlImpl extends ScyWindowControl {
    var firstNewLas = true;
    def techniocalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
    def activeLas = bind missionModel.activeLas on replace oldActiveLas {
-              activeLasChanged(oldActiveLas);
-              if (firstNewLas and activeLas != null) {
-                 FX.deferAction(function() {
-                    activeLasChanged(activeLas);
-                 });
-                 firstNewLas = false;
-              }
-           }
-//   def activeAnchor = bind missionModel.activeLas on replace oldActiveAnchor{
-//      activeAnchorChanged(oldActiveAnchor);
-//      if (firstNewLas and activeAnchor!=null){
-//         FX.deferAction(function(){
-//            activeAnchorChanged(activeAnchor);
-//         });
-//         firstNewLas = false;
-//      }
-//
-//   };
+      activeLasChanged(oldActiveLas);
+      if (firstNewLas and activeLas != null) {
+         FX.deferAction(function() {
+            activeLasChanged(activeLas);
+         });
+         firstNewLas = false;
+      }
+   }
+
    var activeAnchorWindow: ScyWindow;
    /**
     * as the uri of a window can change (when saving the elo content, this always result is an other uri),
