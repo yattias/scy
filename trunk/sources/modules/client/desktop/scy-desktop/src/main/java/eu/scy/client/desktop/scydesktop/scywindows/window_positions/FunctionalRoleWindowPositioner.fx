@@ -282,8 +282,8 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
     function openWindowAndBringToFront(window : ScyWindow) : Void {
         if (not window.isClosed) {
             window.openWindow(window.layoutX, window.layoutY, window.width, window.height, window.rotate);
+            window.toFront();
         }
-        window.toFront();
     }
 
 
