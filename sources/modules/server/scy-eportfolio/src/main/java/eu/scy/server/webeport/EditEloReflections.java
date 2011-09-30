@@ -38,19 +38,7 @@ public class EditEloReflections extends BaseController {
         ScyElo elo = ScyElo.loadLastVersionElo(eloURI, getMissionELOService());
         TransferElo transferElo = new TransferElo(elo);
 
-        URI missionRuntimeURI = getURI(request.getParameter("missionRuntimeURI"));
-        MissionRuntimeElo missionRuntimeElo = null;
-        if (missionRuntimeURI == null) {
-            //this will happen if elo has been added from scylab
-            List<ISearchResult> missionRuntimes = (List<ISearchResult>) getRuntimeELOService().getRuntimeElosForUser(getCurrentUserName(request));
-            if (missionRuntimes.size() > 0) {
-                ISearchResult searchResult = missionRuntimes.get(0);
-                missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(searchResult.getUri(), getMissionELOService());
-            }
-        } else {
-            missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(missionRuntimeURI, getMissionELOService());
-        }
-
+        MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(elo.getMissionRuntimeEloUri(), getMissionELOService());
         URI anchorEloURI = getURI(request.getParameter("anchorEloURI"));
         if(anchorEloURI == null) {
             anchorEloURI = missionRuntimeElo.getMissionRuntimeModel().getAnchorEloUriForElo(elo.getUri());
