@@ -19,7 +19,7 @@
         <div style="border:4px solid #333333;border-bottom-left-radius:40px;width:786px;height:95%;padding:4px;">
                     <!--img src="/webapp/themes/scy/default/images/feedback_header.png" alt="" class="greenBackgrounds" /-->
                     <div class="feedbackHeader" >My ePortfolio</div>
-                   
+             <center><a href="webEportIndex.html?eloURI=${missionRuntimeURI}">Back to gallery</a></center>
                 <div dojoType="dojox.layout.ContentPane" style="width:100%;height:90%;" id="eportfolioPane" parseOnLoad="true" executeScripts="true">
 
             <c:choose>
