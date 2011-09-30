@@ -241,7 +241,7 @@ public class RichTextEditorScyNode extends INotifiable, RichTextEditorNode, ScyT
         if (notification.getSender().equals("eu.scy.agents.hypothesis.HypothesisDecisionMakerAgent")) {
             var messageFromAgent = notification.getFirstProperty("message");
             if (not messageFromAgent.equals(""))
-                DialogBox.showMessageDialog(messageFromAgent, "Hypothesis checker", null, null, null);
+                javafx.stage.Alert.inform(messageFromAgent);
             return true;
         } else {
             return false;
