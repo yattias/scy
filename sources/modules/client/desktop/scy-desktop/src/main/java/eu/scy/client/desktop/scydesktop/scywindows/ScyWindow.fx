@@ -95,7 +95,7 @@ public abstract class ScyWindow extends CustomNode, DropTarget {
     public-read protected var isClosed = true;
     public var isCentered = false;
     public-read protected var isMaximized = false;
-    public-read protected var isManuallyRepositioned = false;
+    public var isManuallyRepositioned = false;
     public var isCollaborative = false;
     public var isQuiting = false;
     public var isScyContentSet: Boolean = false;
@@ -106,7 +106,7 @@ public abstract class ScyWindow extends CustomNode, DropTarget {
 
     public abstract function copyWindowColorSchemeColors(newColors: WindowColorScheme): Void;
 
-    public abstract function close(): Void;
+    public abstract function close(animateClose : Boolean): Void;
 
     public abstract function openBoundWindow(openWidth: Number, openHeight: Number): Void;
 

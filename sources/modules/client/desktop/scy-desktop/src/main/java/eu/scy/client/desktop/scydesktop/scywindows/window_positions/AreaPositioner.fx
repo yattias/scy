@@ -92,7 +92,7 @@ public class AreaPositioner {
 
    function minimizeWindow(window: ScyWindow) {
       if (not window.isClosed) {
-         window.close();
+         window.close(true);
       }
    }
 

@@ -41,6 +41,7 @@ import org.apache.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleLayer;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleKey;
+import java.lang.RuntimeException;
 
 /**
  * @author sikkenj
@@ -476,8 +477,26 @@ public class StandardScyWindow extends ScyWindow {
               }
    }
 
-   public override function close() {
-      doClose();
+   public override function close(animateClose : Boolean) {
+       if (animateClose) {
+          doClose();
+       } else {
+          width = minimumWidth;
+          height = closedHeight;
+          layoutX = closedPosition.x;
+          layoutY = closedPosition.y;
+          rotate = 0;
+          isClosed = true;
+          hideDrawers = false;
+          isCentered = false;
+          if (closedAction != null) {
+             closedAction(this);
+          }
+          isAnimating = false;
+          scyToolsList.onClosed();
+          updateRelativeBounds();
+          reorganizeOtherMainWindows();
+       }
    }
 
    //update relative values

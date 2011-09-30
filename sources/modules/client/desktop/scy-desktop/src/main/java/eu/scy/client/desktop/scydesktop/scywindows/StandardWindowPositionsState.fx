@@ -35,6 +35,7 @@ public class StandardWindowPositionsState extends WindowPositionsState {
     def relativeWidthTag:String = "relativeWidth";
     def relativeHeightTag:String = "relativeHeight";
     def openedTag:String = "opened";
+    def isManuallyRepositionedTag:String = "isManuallyRepositioned";
 
     def windowUriToLayoutMap:Map = new HashMap();
 
@@ -58,6 +59,7 @@ public class StandardWindowPositionsState extends WindowPositionsState {
                         relativeHeight: Float.parseFloat(e.getAttributeValue(relativeHeightTag));
                         rotate: Float.parseFloat(e.getAttributeValue(rotateTag));
                         opened: Boolean.parseBoolean(e.getAttributeValue(openedTag));
+                        isManuallyRepositioned : Boolean.parseBoolean(e.getAttributeValue(isManuallyRepositionedTag))
                     }
                     windowUriToLayoutMap.put(uri, layoutState);
                 }
@@ -81,6 +83,7 @@ public class StandardWindowPositionsState extends WindowPositionsState {
             relativeHeight: window.relativeHeight;
             rotate: window.rotate;
             opened: not window.isClosed;
+            isManuallyRepositioned: window.isManuallyRepositioned;
         }
         windowUriToLayoutMap.put(window.eloUri, layoutState);
     }
@@ -93,24 +96,21 @@ public class StandardWindowPositionsState extends WindowPositionsState {
     public function applyStateForWindow(window:ScyWindow) {
         def layoutState:WindowLayoutState = windowUriToLayoutMap.get(window.eloUri) as WindowLayoutState;
         if (layoutState != null) {
-            if (layoutState.opened) {
-                window.openWindow(layoutState.layoutX, layoutState.layoutY, layoutState.width, layoutState.height, layoutState.rotate);
-            } else {
-                window.layoutX = layoutState.layoutX;
-                window.layoutY = layoutState.layoutY;
-                window.closedPosition = Point2D {
-                    x: window.layoutX;
-                    y: window.layoutY;
-                }
-                window.relativeLayoutCenterX = layoutState.relativeLayoutCenterX;
-                window.relativeLayoutCenterY = layoutState.relativeLayoutCenterY;
-                window.rotate = layoutState.rotate;
-                window.width = layoutState.width;
-                window.height = layoutState.height;
-                window.relativeWidth = layoutState.relativeWidth;
-                window.relativeHeight = layoutState.relativeHeight;
+            window.layoutX = layoutState.layoutX;
+            window.layoutY = layoutState.layoutY;
+            window.closedPosition = Point2D {
+                x: window.layoutX;
+                y: window.layoutY;
             }
-            window.isManuallyRepositioned = true;
+            window.relativeLayoutCenterX = layoutState.relativeLayoutCenterX;
+            window.relativeLayoutCenterY = layoutState.relativeLayoutCenterY;
+            window.rotate = layoutState.rotate;
+            window.width = layoutState.width;
+            window.height = layoutState.height;
+            window.relativeWidth = layoutState.relativeWidth;
+            window.relativeHeight = layoutState.relativeHeight;
+            window.isManuallyRepositioned = layoutState.isManuallyRepositioned;
+            window.isClosed = not layoutState.opened;
         }
     }
 
@@ -141,6 +141,8 @@ public class StandardWindowPositionsState extends WindowPositionsState {
             writer.writeAttribute(rotateTag, "{layoutState.rotate}");
             writer.writeAttribute(relativeWidthTag, "{layoutState.relativeWidth}");
             writer.writeAttribute(relativeHeightTag, "{layoutState.relativeHeight}");
+            writer.writeAttribute(openedTag, "{layoutState.opened}");
+            writer.writeAttribute(isManuallyRepositionedTag, "{layoutState.isManuallyRepositioned}");
             writer.writeEndElement();
         }
         writer.writeEndDocument();
