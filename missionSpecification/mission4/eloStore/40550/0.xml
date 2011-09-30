@@ -22,13 +22,13 @@
           <dateTime>2011-07-08T14:57:01.473+0200</dateTime>
         </date>
       </contribute>
-      <version>17</version>
+      <version>19</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1303995691024</dateCreated>
-        <dateFirstUserSaveKey>1310129821473</dateFirstUserSaveKey>
-        <dateLastModified>1310129821474</dateLastModified>
+        <dateFirstUserSaveKey>1317394420058</dateFirstUserSaveKey>
+        <dateLastModified>1317394420058</dateLastModified>
       </customElements>
       <format>scy/pds</format>
     </technical>
@@ -40,18 +40,30 @@
         <catalog>memory</catalog>
         <entry>roolo://memory/40550/0/Chemistry%3A+Organized+data.scypds</entry>
       </identifier>
-      <las>Analysis_Chim</las>
+      <las>Chimie: Espace d'analyse</las>
       <missionId>forensic</missionId>
       <missionRunning>
         <catalog>memory</catalog>
-        <entry>roolo://memory/40608/0/Forensic+mission.scymissionspecification</entry>
+        <entry>roolo://memory/40652/0/Le+laboratoire+de+police+scientifique.scymissionspecification</entry>
       </missionRunning>
       <title>
-        <string language="en">Organized data</string>
-        <string language="fr">Mise en forme de mes données</string>
+        <string language="en">Chemistry: Organized data</string>
+        <string language="fr">Chimie: Organisation des données</string>
       </title>
     </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
   </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
   <template>true</template>
   <thumbnail>
     <mime>png</mime>
@@ -61,7 +73,7 @@
 <content languages="en fr" contentType="xml">
 <processDataset>
   <dataset>
-    <header language="en">
+    <header language="fr">
       <column>
         <symbol>data1</symbol>
         <description />

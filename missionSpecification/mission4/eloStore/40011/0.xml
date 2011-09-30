@@ -22,13 +22,13 @@
           <dateTime>2011-07-26T12:24:24.143+0200</dateTime>
         </date>
       </contribute>
-      <version>17</version>
+      <version>19</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1300374238765</dateCreated>
-        <dateFirstUserSaveKey>1311675864143</dateFirstUserSaveKey>
-        <dateLastModified>1311675864144</dateLastModified>
+        <dateFirstUserSaveKey>1317394473448</dateFirstUserSaveKey>
+        <dateLastModified>1317394473448</dateLastModified>
       </customElements>
       <format>scy/pds</format>
     </technical>
@@ -40,18 +40,30 @@
         <catalog>memory</catalog>
         <entry>roolo://memory/40011/0/Probabilities.scypds</entry>
       </identifier>
-      <las>Biology Analysis</las>
+      <las>Biologie: Espace d'analyse</las>
       <missionId>forensic</missionId>
       <missionRunning>
         <catalog>memory</catalog>
-        <entry>roolo://memory/40630/0/Forensic+mission.scymissionspecification</entry>
+        <entry>roolo://memory/40652/0/Le+laboratoire+de+police+scientifique.scymissionspecification</entry>
       </missionRunning>
       <title>
-        <string language="en">Probabilities</string>
-        <string language="fr">Probabilités</string>
+        <string language="en">Biology: Probabilities</string>
+        <string language="fr">Biologie: Probabilités</string>
       </title>
     </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
   </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
   <template>true</template>
   <thumbnail>
     <mime>png</mime>

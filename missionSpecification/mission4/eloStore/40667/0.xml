@@ -22,7 +22,7 @@
           <dateTime>2011-07-08T16:58:35.998+0200</dateTime>
         </date>
       </contribute>
-      <version>4</version>
+      <version>6</version>
     </lifecycle>
     <annotation>
       <entity>colorId</entity>
@@ -31,8 +31,8 @@
     <technical>
       <customElements>
         <dateCreated>1303995889429</dateCreated>
-        <dateFirstUserSaveKey>1317300815205</dateFirstUserSaveKey>
-        <dateLastModified>1317300815205</dateLastModified>
+        <dateFirstUserSaveKey>1317393652974</dateFirstUserSaveKey>
+        <dateLastModified>1317393652974</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
@@ -55,52 +55,65 @@
         <entry>roolo://memory/40652/0/Le+laboratoire+de+police+scientifique.scymissionspecification</entry>
       </missionRunning>
       <title>
-        <string language="en">Biology: Official report</string>
-        <string language="fr">Biologie: Rapport officiel</string>
+        <string language="en">Chemistry: Official report</string>
+        <string language="fr">Chimie: Rapport officiel</string>
       </title>
     </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
   </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
   <template>true</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>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</base64>
+    <base64>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</base64>
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
-&#xD;
-\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Noms et Pr\'e9noms des expert: \b0\par&#xD;
-\par&#xD;
-\b Domaine d'expertise :  \b0\par&#xD;
-\par&#xD;
-\b Affaire n\'b0: \b0 CY0347\b  \b0\par&#xD;
-\par&#xD;
-\b Objet: \b0 Expertise pour le Minist\'e8re public\par&#xD;
-\par&#xD;
-\b R\'e9sum\'e9 des faits (selon notre compr\'e9hension des \'e9l\'e9ments de l'affaire):    \b0\par&#xD;
-\par&#xD;
-\b Notre mission:    \b0    \par&#xD;
-\par&#xD;
-\b Notre mat\'e9riel chimique (nos \'e9chantillons):\par&#xD;
-\b0 Avez-vous r\'e9ussi \'e0 faire l'analyse chimique des \'e9chantillons?\par&#xD;
-\par&#xD;
-\b Listes des \'e9tapes de l'expertise (activit\'e9s que nous avons faites, objets que nous avons cr\'e9\'e9s, ...):\b0\par&#xD;
-\par&#xD;
-\b Justification de la m\'e9thode, de la technique d'analyse:\b0\par&#xD;
-\par&#xD;
-\b Probl\'e8mes rencontr\'e9s lors de l'expertsie (Optionnel):\b0\par&#xD;
-\par&#xD;
-\b Notre conclusion:\b0\par&#xD;
-Avez-vous trouv\'e9 une correspondance entre l'\'e9chantillon r\'e9colt\'e9 sur le terrain et l'une des encres de r\'e9f\'e9rence?\par&#xD;
-Quelle information est-ce qu'une correspondance apporte sur la culpabilit\'e9 ou non d'un suspect?\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-\par&#xD;
-\li0\ri0\fi0\ul0\par&#xD;
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f1\fs24\i0\b\ul0\cf1 Noms et Pr\'e9noms des expert: \b0\par
+\par
+\b Domaine d'expertise :  \b0\par
+\par
+\b Affaire n\'b0: \b0 CY0347\b  \b0\par
+\par
+\b Objet: \b0 Expertise pour le Minist\'e8re public\par
+\par
+\b R\'e9sum\'e9 des faits (selon notre compr\'e9hension des \'e9l\'e9ments de l'affaire):    \b0\par
+\par
+\b Notre mission:    \b0    \par
+\par
+\b Notre mat\'e9riel chimique (nos \'e9chantillons):\par
+\b0 Avez-vous r\'e9ussi \'e0 faire l'analyse chimique des \'e9chantillons?\par
+\par
+\b Listes des \'e9tapes de l'expertise (activit\'e9s que nous avons faites, objets que nous avons cr\'e9\'e9s, ...):\b0\par
+\par
+\b Justification de la m\'e9thode, de la technique d'analyse:\b0\par
+\par
+\b Probl\'e8mes rencontr\'e9s lors de l'expertsie (Optionnel):\b0\par
+\par
+\b Notre conclusion:\b0\par
+Avez-vous trouv\'e9 une correspondance entre l'\'e9chantillon r\'e9colt\'e9 sur le terrain et l'une des encres de r\'e9f\'e9rence?\par
+Quelle information est-ce qu'une correspondance apporte sur la culpabilit\'e9 ou non d'un suspect?\par
+\par
+\par
+\par
+\par
+\par
+\par
+\li0\ri0\fi0\ul0\par
 }</RichText>
 </content>
 <resources>
