@@ -1,0 +1,68 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-05-16T19:22:30.434+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-05-16T19:22:30.434+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1305566550434</dateCreated>
+        <dateFirstUserSaveKey>1305566550434</dateFirstUserSaveKey>
+        <dateLastModified>1305566550434</dateLastModified>
+      </customElements>
+      <format>scy/url</format>
+    </technical>
+    <educational>
+      <learningResourceType>informationResource</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40050/0/mission4Links.url</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">Mission 4 links</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <thumbnail>
+    <mime>png</mime>
+<base64>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</base64>
+  </thumbnail>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<url>http://www.scy-lab.eu/content/en/mission4/missionLinks.html</url>
+</content>
+<resources>
+</resources>
+</elo>
