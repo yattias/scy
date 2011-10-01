@@ -20,6 +20,8 @@ import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.desktoputils.XFX;
 import java.util.Collection;
+import eu.scy.client.desktop.scydesktop.scywindows.ShowMoreInfo;
+import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoTypes;
 
 /**
  * @author SikkenJ
@@ -44,6 +46,7 @@ public class MissionModelFX extends MissionModel {
    public var saveUpdatedModel = false;
    public var scyDesktop: ScyDesktop;
    public var storedWindowStatesXmlsChanged = false;
+   public var showMoreInfo: ShowMoreInfo;
    var contentChanged = false;
 
    function newMissionModel(): Void {
@@ -293,12 +296,12 @@ public class MissionModelFX extends MissionModel {
       return null
    }
 
-
    public function showWebNews(eloUri: URI): Void{
       def missionAnchor = findMissionAnchor(eloUri);
       if (missionAnchor!=null and missionAnchor.webNewsUri!=null){
          // we the web news uri to display, now display it...
-
+//         println("trying to open web news: {missionAnchor.webNewsUri}");
+         showMoreInfo.showMoreInfo(missionAnchor.webNewsUri, MoreInfoTypes.WEB_NEWS, eloUri);
       }
 
    }

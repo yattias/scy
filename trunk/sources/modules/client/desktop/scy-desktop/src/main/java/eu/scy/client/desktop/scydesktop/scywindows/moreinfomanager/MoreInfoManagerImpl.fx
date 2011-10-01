@@ -251,7 +251,8 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       moreInfoTool.showInfoUrl(uriLocalizer.localizeUrlwithChecking(infoUri.toURL()));
       if (not showingMoreInfoWindow) {
          ModalDialogLayer.addModalDialog(moreInfoWindow, true, true, false, 0);
-         showingMoreInfoWindow = true
+         showingMoreInfoWindow = true;
+         bubbleManager.pauze();
       }
       sceneSizeChanged();
    }
@@ -259,6 +260,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
    function hideMoreInfoWindow(): Void {
       ModalDialogLayer.removeModalDialog(moreInfoWindow);
       showingMoreInfoWindow = false;
+      bubbleManager.resume();
    }
 
    function initMoreInfoWindow(): Void {

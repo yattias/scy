@@ -11,5 +11,5 @@ package eu.scy.client.desktop.scydesktop.scywindows;
 public enum MoreInfoTypes
 {
 
-   ASSIGNMENT, RESOURCES;
+   ASSIGNMENT, RESOURCES, WEB_NEWS;
 }

@@ -275,6 +275,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       DialogBox.windowStyler = windowStyler;
       ModalDialogBox.bubbleManager = bubbleManager;
       scyWindowControl.missionModel = missionModelFX;
+      missionModelFX.showMoreInfo = moreInfoManager;
       FX.deferAction(initialWindowPositioning);
       FX.deferAction(initMouseBlocker);
       logger.info("repository class: {config.getRepository().getClass()}");
