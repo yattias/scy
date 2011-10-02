@@ -38,10 +38,6 @@ public class NodeBubble extends CustomNode {
    def lightBorderColor = windowColorScheme.thirdColorLight;
    def contentBorder = 3.0;
    def borderWidth = 2.0;
-//   def backgroundX = bind content.boundsInLocal.minX - contentBorder - borderWidth - arcSize / 2;
-//   def backgroundY = bind content.boundsInLocal.minY - contentBorder - borderWidth - arcSize / 2;
-//   def backgroundWidth = bind content.boundsInLocal.width + 2 * contentBorder + 2 * borderWidth + arcSize;
-//   def backgroundHeight = bind content.boundsInLocal.height + 2 * contentBorder + 2 * borderWidth + arcSize;
    def backgroundX = content.boundsInLocal.minX - contentBorder - borderWidth - arcSize / 2;
    def backgroundY = content.boundsInLocal.minY - contentBorder - borderWidth - arcSize / 2;
    def backgroundWidth = content.boundsInLocal.width + 2 * contentBorder + 2 * borderWidth + arcSize;
@@ -94,10 +90,10 @@ public class NodeBubble extends CustomNode {
                  blocksMouse: true;
                  content: [
                     Rectangle {
-                       x: bind backgroundX
-                       y: bind backgroundY
-                       width: bind backgroundWidth
-                       height: bind backgroundHeight
+                       x: backgroundX
+                       y: backgroundY
+                       width: backgroundWidth
+                       height: backgroundHeight
                        arcHeight: arcSize
                        arcWidth: arcSize
                        fill: backgroundColor;
@@ -105,10 +101,10 @@ public class NodeBubble extends CustomNode {
                        strokeWidth: borderWidth;
                     }
                     Rectangle {
-                       x: bind backgroundX + borderWidth
-                       y: bind backgroundY + borderWidth
-                       width: bind backgroundWidth - 2 * borderWidth
-                       height: bind backgroundHeight - 2 * borderWidth
+                       x: backgroundX + borderWidth
+                       y: backgroundY + borderWidth
+                       width: backgroundWidth - 2 * borderWidth
+                       height: backgroundHeight - 2 * borderWidth
                        arcHeight: arcSize
                        arcWidth: arcSize
                        fill: null;

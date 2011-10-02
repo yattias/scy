@@ -29,6 +29,8 @@ class LayoutResult {
 
 public class BubbleShower {
 
+   public-init var simpleBubbleManager: SimpleBubbleManager;
+   public-init var bubble: AbstractBubble;
    public-init var bubbleContent: Node;
    public-init var windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
    public-init var sourceNode: Node;
@@ -41,10 +43,6 @@ public class BubbleShower {
    def bubbleNode = NodeBubble {
               content: bubbleContent
               windowColorScheme: windowColorScheme
-              arrowPoint: sourceNode.localToScene(Point2D {
-                 x: sourceNode.layoutBounds.minX + sourceNode.layoutBounds.width / 2
-                 y: sourceNode.layoutBounds.minY + sourceNode.layoutBounds.height / 2
-              })
            }
    def timeline = Timeline {
               keyFrames: [
@@ -73,17 +71,23 @@ public class BubbleShower {
                     values: bubbleNode.opacity => 0.0 tween Interpolator.EASEBOTH;
                     action: function() {
                        delete bubbleNode from tooltipGroup.content;
-                       showingBubble = false;
+                       stopPositioning();
                     }
                  }
               ]
            }
    var showingBubble = false;
-   def sourceMovedDetectionTimeLine = Timeline{
-
-   }
-
-//   def positionChanged = sourceNode.boundsInParent on replace { sourceNodeMoved(); }
+   def sourceMovedDetectionTimeLine = Timeline {
+              repeatCount: Timeline.INDEFINITE
+              keyFrames: [
+                 KeyFrame {
+                    time: 1ms
+                    canSkip: true
+                    action: checkIfSourceMoved;
+                 }
+              ];
+           }
+   var sourceNodeSceneBounds: Bounds;
 
    init {
       bubbleNode.cache = true;
@@ -102,16 +106,36 @@ public class BubbleShower {
       }
    }
 
-   function sourceNodeMoved(): Void {
-      println("sourceNodeMoved: {showingBubble}");
+//   var checkCounter = 0;
+
+   function checkIfSourceMoved(): Void {
+//      println("checkIfSourceMoved - {checkCounter++}");
       if (showingBubble) {
-         positionTooltip()
+         def currentSourceSceneBounds = sourceNode.localToScene(sourceNode.layoutBounds);
+         if (currentSourceSceneBounds != sourceNodeSceneBounds) {
+            sourceNodeMoved();
+         }
+      }
+   }
+
+   function sourceNodeMoved(): Void {
+//      println("sourceNodeMoved: {showingBubble}");
+      if (showingBubble) {
+         positionTooltip();
+         sourceNodeSceneBounds = sourceNode.localToScene(sourceNode.layoutBounds);
       }
    }
 
    function startPositioning(): Void {
       showingBubble = true;
       sourceNodeMoved();
+      sourceMovedDetectionTimeLine.play();
+   }
+
+   function stopPositioning(): Void {
+      showingBubble = false;
+      simpleBubbleManager.bubbleRemoved(bubble);
+      sourceMovedDetectionTimeLine.stop();
    }
 
    function positionTooltip(): Void {
@@ -138,6 +162,10 @@ public class BubbleShower {
       bubbleNode.layoutX = toolTipLayout.point.x;
       bubbleNode.layoutY = toolTipLayout.point.y;
       bubbleNode.arrowPosition = toolTipLayout.arrowPosition;
+      bubbleNode.arrowPoint = sourceNode.localToScene(Point2D {
+                 x: sourceNode.layoutBounds.minX + sourceNode.layoutBounds.width / 2
+                 y: sourceNode.layoutBounds.minY + sourceNode.layoutBounds.height / 2
+              });
       if (outsideArea > 0) {
          moveTooltipInside(sceneBounds);
       }

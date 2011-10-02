@@ -36,7 +36,6 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
    public-init var activateBubbleManager = true;
    public-init var scene: Scene;
    public-init var windowManager: WindowManager;
-   def timeStep = 1s;
    def bubbleStore = new BubbleStoreImpl();
 //   var activeLayerId: Object;
    var noBubbleFoundCounter = 0;
@@ -48,7 +47,7 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
 
    init {
       showingLayer(BubbleLayer.DESKTOP);
-   //      debugBubbleKey = BubbleKey.DRAWER_CONTROL;
+//      debugBubbleKey = BubbleKey.MISSION_MAP_ANCHOR_ELO_MAP;
    }
 
    public override function log(action: IAction): Void {
@@ -98,10 +97,8 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
       def bubbleToDisplay = if (topLayerId != null) bubbleStore.getNextBubble(topLayerId) as AbstractBubble else null;
       if (bubbleToDisplay != null) {
          showBubble(bubbleToDisplay);
-         if (debugBubbleKey == null) {
-            bubbleStore.removeBubbles(bubbleToDisplay.id);
-         }
          noBubbleFoundCounter = 0;
+         pauze();
       } else {
          ++noBubbleFoundCounter;
          if (noBubbleFoundCounter < 3) {
@@ -119,6 +116,8 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
       }
 
       BubbleShower {
+         simpleBubbleManager: this
+         bubble: bubble
          tooltipGroup: SimpleTooltipManager.tooltipGroup
          bubbleContent: bubbleNode
          windowColorScheme: bubble.windowColorScheme
@@ -132,7 +131,10 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
    }
 
    public function bubbleRemoved(bubble: AbstractBubble): Void {
-      bubbleStore.removeBubble(bubble);
+      if (debugBubbleKey == null) {
+         bubbleStore.removeBubble(bubble);
+      }
+      resume()
    }
 
    public override function showingLayer(bubbleLayer: BubbleLayer): Void {
@@ -258,12 +260,12 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
          if (not windowManager.hasWindow(bubble.window)) {
             return false;
          }
-         if (bubble.window!=windowManager.activeWindow){
+         if (bubble.window != windowManager.activeWindow) {
             if (windowManager.activeWindow.isMaximized) {
                // an other window is full screen
                return false
             }
-            if (not windowManager.activeWindow.isClosed){
+            if (not windowManager.activeWindow.isClosed) {
                // an other window is open
                return false
             }
