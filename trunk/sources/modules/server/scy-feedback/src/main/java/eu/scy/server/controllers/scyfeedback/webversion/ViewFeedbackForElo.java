@@ -72,7 +72,11 @@ public class ViewFeedbackForElo extends BaseController {
         String action = request.getParameter("action");
         if(action == null) action = "give";
 
-        String missionRuntimeURI = getEncodedUri(request.getParameter("missionRuntimeURI"));
+
+        String missionRuntimeURI =null;
+        if(request.getParameter("missionRuntimeURI") != null) {
+            missionRuntimeURI = getEncodedUri(request.getParameter("missionRuntimeURI"));
+        }
 
         TransferElo transferElo = getMissionELOService().getTransferElo(scyElo);
         try {
