@@ -102,7 +102,7 @@
             </div>
             <div>
                 <br/>
-                <form action="fbIndex.html" id="filterForm">
+                <form action="/webapp/app/feedback/webversion/fbIndex.html" id="filterForm">
                     <strong>Show:</strong>
                     <select name="criteria" onChange="document.getElementById('filterForm').submit();">
                         <c:choose>

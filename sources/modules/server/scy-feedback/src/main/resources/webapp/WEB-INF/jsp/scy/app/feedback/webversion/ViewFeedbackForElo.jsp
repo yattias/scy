@@ -188,7 +188,7 @@
 
             <br/>
             <br/>
-       <a href="fbIndex.html?eloURI=${missionRuntimeURI}">Back to gallery</a>
+       <a href="/webapp/app/feedback/webversion/fbIndex.html?eloURI=${missionRuntimeURI}">Back to gallery</a>
 
        </div>
               <div style="clear:both;"></div>
