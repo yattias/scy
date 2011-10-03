@@ -259,13 +259,13 @@ public class MissionModelEloContentXmlUtils
          las.setInitialMissionAnchorToOpen(findMissionAnchorInLas(initialMissionAnchorToOpenId, las));
          if (las.getInitialMissionAnchorToOpen() == null)
          {
-            logger.warn("failed to find initialMissionAnchorToOpen with " + initialMissionAnchorToOpenId + " in las " + las.getId());
+            logger.warn("failed to find initialMissionAnchorToOpen with id " + initialMissionAnchorToOpenId + " in las id " + las.getId());
          }
       }
       return las;
    }
 
-   private static MissionAnchor findMissionAnchorInLas(String id, Las las)
+   public static MissionAnchor findMissionAnchorInLas(String id, Las las)
    {
       if (id.equals(las.getMissionAnchor().getId()))
       {
