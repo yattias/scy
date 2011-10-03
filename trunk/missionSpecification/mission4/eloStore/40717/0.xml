@@ -9,22 +9,22 @@
         </role>
         <entity>rachel</entity>
         <date>
-          <dateTime>2011-09-30T17:20:36.765+0200</dateTime>
+          <dateTime>2011-10-03T09:34:26.306+0200</dateTime>
         </date>
       </contribute>
-      <version>1</version>
+      <version>0</version>
     </lifecycle>
     <technical>
       <customElements>
-        <dateCreated>1317396036765</dateCreated>
-        <dateLastModified>1317627229894</dateLastModified>
+        <dateCreated>1317627266306</dateCreated>
+        <dateLastModified>1317627266306</dateLastModified>
       </customElements>
       <format>scy/missionmapmodel</format>
     </technical>
     <general>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/40707/0/Le+laboratoire+de+police+scientifique.scymissionmapmodel</entry>
+        <entry>roolo://memory/40717/0/Le+laboratoire+de+police+scientifique.scymissionmapmodel</entry>
       </identifier>
       <las>Biologie: Espace d'information</las>
       <missionId>forensic</missionId>
@@ -75,7 +75,7 @@
         <relations />
         <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Information/chimTargetDescription.txt</targetDescriptionUri>
         <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Information/Assignments/A_chimConceptMap.html</assignmentUri>
-        <resourcesUri />
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission4/LAS_Information/Resources/R_chimConceptMap.html</resourcesUri>
         <helpUri />
         <webNewsUri />
         <colorScheme />
@@ -105,7 +105,7 @@
         <relations />
         <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/TargetDescription.txt</targetDescriptionUri>
         <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/Assignments/A_chimGoalAnalysis.html</assignmentUri>
-        <resourcesUri />
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/Resources/R_bioGoalAnalysis.html</resourcesUri>
         <helpUri />
         <webNewsUri />
         <colorScheme />
@@ -169,7 +169,7 @@
         <relations />
         <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/targetDescription.txt</targetDescriptionUri>
         <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/Assignments/A_chimAnnotatedData.html</assignmentUri>
-        <resourcesUri />
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/Resources/R_chimAnnotatedData.html</resourcesUri>
         <helpUri />
         <webNewsUri />
         <colorScheme />
@@ -201,7 +201,7 @@
         <relations />
         <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/targetDescription.txt</targetDescriptionUri>
         <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/Assignments/A_chimExperimentConclusion.html</assignmentUri>
-        <resourcesUri />
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/Resources/R_chimExperimentConclusion.html</resourcesUri>
         <helpUri />
         <webNewsUri />
         <colorScheme />
@@ -217,7 +217,7 @@
           <relations />
           <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/targetDescription.txt</targetDescriptionUri>
           <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/Assignments/A_chimOrganizedData.html</assignmentUri>
-          <resourcesUri />
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/Resources/R_chimOrganizedData.html</resourcesUri>
           <helpUri />
           <webNewsUri />
           <colorScheme />
@@ -250,7 +250,7 @@
         <relations />
         <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Reporting/targetDescription.txt</targetDescriptionUri>
         <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Reporting/Assignments/A_chimReport.html</assignmentUri>
-        <resourcesUri />
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission4/LAS_Reporting/Resources/R_chimReport.html</resourcesUri>
         <helpUri />
         <webNewsUri />
         <colorScheme />
@@ -308,7 +308,7 @@
         <relations />
         <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/TargetDescription.txt</targetDescriptionUri>
         <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/Assignments/A_bioChoiceTechnique.html</assignmentUri>
-        <resourcesUri />
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/Resources/R_bioChoiceTechnique.html</resourcesUri>
         <helpUri />
         <webNewsUri>http://www.scy-lab.eu/content/en/mission4/webnews/webnews2.html</webNewsUri>
         <colorScheme />
@@ -324,7 +324,7 @@
           <relations />
           <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/TargetDescription.txt</targetDescriptionUri>
           <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/Assignments/A_bioGoalAnalysis.html</assignmentUri>
-          <resourcesUri />
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/Resources/R_bioGoalAnalysis.html</resourcesUri>
           <helpUri />
           <webNewsUri />
           <colorScheme />
@@ -389,7 +389,7 @@
         <relations />
         <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/targetDescription.txt</targetDescriptionUri>
         <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/Assignments/A_bioAnnotatedData.html</assignmentUri>
-        <resourcesUri />
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/Resources/R_bioRepresentationData.html</resourcesUri>
         <helpUri />
         <webNewsUri />
         <colorScheme />
@@ -421,7 +421,7 @@
         <relations />
         <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/targetDescription.txt</targetDescriptionUri>
         <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/Assignments/A_bioExperimentConclusion.html</assignmentUri>
-        <resourcesUri />
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/Resources/R_bioExperimentConclusion.html</resourcesUri>
         <helpUri />
         <webNewsUri />
         <colorScheme />
@@ -437,7 +437,7 @@
           <relations />
           <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/targetDescription.txt</targetDescriptionUri>
           <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/Assignments/A_Probabilities.html</assignmentUri>
-          <resourcesUri />
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/Resources/R_Probabilities.html</resourcesUri>
           <helpUri />
           <webNewsUri />
           <colorScheme />
@@ -469,7 +469,7 @@
         <relations />
         <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Reporting/targetDescription.txt</targetDescriptionUri>
         <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Reporting/Assignments/A_bioReport.html</assignmentUri>
-        <resourcesUri />
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission4/LAS_Reporting/Resources/R_bioReport.html</resourcesUri>
         <helpUri />
         <webNewsUri>http://www.scy-lab.eu/content/en/mission4/webnews/webnews4.html</webNewsUri>
         <colorScheme />
@@ -479,13 +479,7 @@
       <nextLasses />
     </las>
   </lasses>
-  <windowStatesXmls>
-    <windowStatesXml id="Biologie: Espace d'information">
-      <windowstates>
-        <window uri="roolo://memory/40644/0/Examen+de+la+sc%C3%A8ne+de+crime.rtf" layoutX="797.2" layoutY="35.0" relativeLayoutCenterX="0.8503968" relativeLayoutCenterY="0.08810241" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" opened="false" isManuallyRepositioned="false" />
-      </windowstates>
-    </windowStatesXml>
-  </windowStatesXmls>
+  <windowStatesXmls />
 </missionModel>
 </content>
 <resources>

@@ -12,12 +12,12 @@
           <dateTime>2011-09-29T15:14:54.870+0200</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>1</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1317302094870</dateCreated>
-        <dateLastModified>1317302094871</dateLastModified>
+        <dateLastModified>1317626926282</dateLastModified>
       </customElements>
       <format>scy/missionmapmodel</format>
     </technical>
@@ -26,11 +26,11 @@
         <catalog>memory</catalog>
         <entry>roolo://memory/40692/0/Forensic+mission.scymissionmapmodel</entry>
       </identifier>
-      <las>Biologie: Espace d'information</las>
+      <las>Biology Information</las>
       <missionId>forensic</missionId>
       <missionRunning>
         <catalog>memory</catalog>
-        <entry>roolo://memory/40652/0/Le+laboratoire+de+police+scientifique.scymissionspecification</entry>
+        <entry>roolo://memory/40637/0/Forensic+mission.scymissionspecification</entry>
       </missionRunning>
       <title>
         <string language="en">Forensic mission</string>
@@ -479,7 +479,13 @@
       <nextLasses />
     </las>
   </lasses>
-  <windowStatesXmls />
+  <windowStatesXmls>
+    <windowStatesXml id="Biology Information">
+      <windowstates>
+        <window uri="roolo://memory/40565/0/Checklist+for+crime+scene+examination.rtf" layoutX="797.2" layoutY="35.0" relativeLayoutCenterX="0.8503968" relativeLayoutCenterY="0.08810241" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" opened="false" isManuallyRepositioned="false" />
+      </windowstates>
+    </windowStatesXml>
+  </windowStatesXmls>
 </missionModel>
 </content>
 <resources>
