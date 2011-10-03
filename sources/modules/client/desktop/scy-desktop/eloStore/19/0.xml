@@ -1,0 +1,62 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-10-03T17:50:16.037+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1317657016037</dateCreated>
+        <dateLastModified>1317657016037</dateLastModified>
+      </customElements>
+      <format>scy/templateelos</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/19/0/The+test+mission.scytemplateelos</entry>
+      </identifier>
+      <las />
+      <missionId>testMission</missionId>
+      <missionruntime>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/14/0/Lege+missie.scymissionruntime</entry>
+      </missionruntime>
+      <title>
+        <string language="en">The test mission</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <template>TRUE</template>
+</metadata>
+<content languages="en" contentType="xml">
+<templateElosEloUris>
+  <templateElosEloUri>roolo://memory/3/0/help_elo_2.text</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/1/0/Mission_background.text</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/99/0/help_elo_2.text</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/0/0/Mission_description.text</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/2/0/help_elo_1.text</templateElosEloUri>
+</templateElosEloUris>
+</content>
+<resources>
+</resources>
+</elo>

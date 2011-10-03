@@ -22,42 +22,25 @@
           <dateTime>2011-02-10T13:25:13.272+0100</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>1</version>
     </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1255477772875</dateCreated>
+      </customElements>
+      <format>scy/text</format>
+    </technical>
     <general>
-      <title>
-        <string language="en">Mission background</string>
-      </title>
       <identifier>
         <catalog>memory</catalog>
         <entry>roolo://memory/1/0/Mission_background.text</entry>
       </identifier>
+      <title>
+        <string language="en">Mission background</string>
+      </title>
     </general>
-    <technical>
-      <format>scy/text</format>
-      <customElements>
-        <dateCreated>1255477772875</dateCreated>
-      </customElements>
-    </technical>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_versioned_by</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAAA8CAYAAADxJz2MAAAA8klEQVR42u3SMYqDQBSA4VzNA3iE3EVES9uARY5gk2MIniA2NlZCBPu8JQMLWwSyJLCw8v0woKNO8fkOoY86IAAIECBAAQT4TwGv1yuFNxvHMQ7TNMXlcnn6wrqubx18v9/T2nsPuwTYdV2cTqe0uW1b3G63KMsyvqfzeDxG0zTpep7nGIYhsixL93Vdx7Isked5+iOPb/q+T8/O53MURbF/wJ+T82qyntW2bVRV9etzdgsogAABAhRAgAABCiBAgAAFECBAgAIIECBAAQQIEKAAAgQIUAABAgQIECBAgAABkgAIECBAAQQIEKAA/jGgPusL61pAMhuG25wAAAAASUVORK5CYII=</base64>
