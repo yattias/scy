@@ -23,6 +23,7 @@
                                 <tr>
                                     <th><spring:message code="QUESTION_TITLE"/> </th>
                                     <th><spring:message code="QUESTION"/> </th>
+                                    <th></th>
                                     <th width="7%">Text</th>
                                     <th width="7%">Slider</th>
                                     <th></th>
@@ -31,6 +32,7 @@
                                     <tr class="${oddEven.oddEven}">
                                         <td><s:ajaxTransferObjectTextField transferObjectServiceCollection="${transferObjectServiceCollection}" transferObject="${reflectionQuestion}" transferEloURI="${pedagogicalPlan.pedagogicalPlanURI}" id="${reflectionQuestion.id}" property="reflectionQuestionTitle"/></td>
                                         <td><s:ajaxTransferObjectTextField transferObjectServiceCollection="${transferObjectServiceCollection}" transferObject="${reflectionQuestion}" transferEloURI="${pedagogicalPlan.pedagogicalPlanURI}" id="${reflectionQuestion.id}" property="reflectionQuestion"/></td>
+                                        <td>${reflectionQuestion.anchorEloURI}</td>
                                         <td>
                                             <a href="javascript:openPage(document.getElementById('addReflectionQuestionOnMission').parentNode.id, 'eportfolioStudentElo.html?action=setReflectionQuestionToText&reflectionQuestion=${reflectionQuestion.id}&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}') + '&amp;anchorEloURI=' + encodeURIComponent('${transporter.anchorElo.uri}'));">
                                                <c:if test="${reflectionQuestion.type == 'text'}">
@@ -67,6 +69,11 @@
                                <spring:message code="ADD_QUESTION"/>
                            </a>
             </c:forEach>
+
+            <br/><br/>
+        <a href="javascript:openPage(document.getElementById('addReflectionQuestionOnMission').parentNode.id, 'eportfolioStudentElo.html?action=clearReflectionQuestions&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));">
+            Resync questions
+        </a>
 
 
     </c:when>

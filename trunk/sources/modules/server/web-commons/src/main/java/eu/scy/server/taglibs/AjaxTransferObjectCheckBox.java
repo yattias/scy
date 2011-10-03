@@ -1,5 +1,6 @@
 package eu.scy.server.taglibs;
 
+import eu.scy.core.model.transfer.AnchorEloTransfer;
 import eu.scy.core.model.transfer.BaseXMLTransfer;
 import eu.scy.server.util.TransferObjectServiceCollection;
 

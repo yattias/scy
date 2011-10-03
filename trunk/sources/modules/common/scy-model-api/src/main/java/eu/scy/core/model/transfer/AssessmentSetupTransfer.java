@@ -1,5 +1,7 @@
 package eu.scy.core.model.transfer;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.AbstractList;
 import java.util.LinkedList;
 import java.util.List;
@@ -73,8 +75,19 @@ public class AssessmentSetupTransfer extends BaseXMLTransfer{
         List <ReflectionQuestion> returnList = new LinkedList<ReflectionQuestion>();
         for (int i = 0; i < reflectionQuestions.size(); i++) {
             ReflectionQuestion reflectionQuestion = (ReflectionQuestion) reflectionQuestions.get(i);
-            if(reflectionQuestion.getAnchorEloURI() != null && reflectionQuestion.getAnchorEloURI().equals(anchorEloUri)) returnList.add(reflectionQuestion);
+            String reflectionQuestionAnchorEloURI = reflectionQuestion.getAnchorEloURI();
+            try {
+                String decodedReflectionQuestionURI = URLDecoder.decode(reflectionQuestionAnchorEloURI, "utf-8");
+                String decodedAnchorEloURI = URLDecoder.decode(anchorEloUri, "utf-8");
+
+                    if(decodedReflectionQuestionURI.equals(decodedAnchorEloURI)) {
+                    returnList.add(reflectionQuestion);
+                }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
         }
+        System.out.println("Returning " + returnList.size() + " reflection questions");
         return returnList;
     }
 

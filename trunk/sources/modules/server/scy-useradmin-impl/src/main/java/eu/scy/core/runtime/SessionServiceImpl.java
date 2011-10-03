@@ -21,10 +21,7 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.search.*;
 
 import java.net.URI;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -99,8 +96,8 @@ public class SessionServiceImpl extends BaseELOServiceImpl implements SessionSer
     }
 
     private void addPortfolio(UserActivityInfo userActivityInfo, MissionSpecificationElo missionSpecificationElo) {
-        MissionRuntimeElo runtime = getMissionRuntime(userActivityInfo.getParsedUserName());
-        Portfolio portfolio  = getPortfolio(runtime);
+        MissionRuntimeElo runtime = getMissionRuntime(userActivityInfo.getParsedUserName(), missionSpecificationElo);
+        Portfolio portfolio = getPortfolio(runtime);
         userActivityInfo.setPortfolio(portfolio);
     }
 
@@ -118,12 +115,22 @@ public class SessionServiceImpl extends BaseELOServiceImpl implements SessionSer
     }
 
 
-    private MissionRuntimeElo getMissionRuntime(String userNname) {
-        ISearchResult result = getRuntimeElosForUser(userNname).get(0);
-        return MissionRuntimeElo.loadLastVersionElo(result.getUri(), this);
+    private MissionRuntimeElo getMissionRuntime(String userNname, MissionSpecificationElo missionSpecificationElo) {
+        List<ISearchResult> results = getRuntimeElosForUser(userNname);
+        for (int i = 0; i < results.size(); i++) {
+            ISearchResult searchResult = results.get(i);
+            MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(searchResult.getUri(), this);
+            if (missionRuntimeElo.getMissionSpecificationElo().equals(missionSpecificationElo.getUri())) {
+                logger.info("FOUND RUNTIME ELO " + missionRuntimeElo.getTitle());
+                return missionRuntimeElo;
+
+            }
+        }
+        return null;
+
     }
 
-    private List <ISearchResult> getRuntimeElosForUser(String userName) {
+    private List<ISearchResult> getRuntimeElosForUser(String userName) {
 
         final IMetadataKey technicalFormatKey = getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
         IQueryComponent missionRuntimeQueryComponent = new MetadataQueryComponent(technicalFormatKey, SearchOperation.EQUALS, MissionEloType.MISSION_RUNTIME.getType());
@@ -150,7 +157,6 @@ public class SessionServiceImpl extends BaseELOServiceImpl implements SessionSer
         return runtimeElos;
         */
     }
-
 
 
     public UserActivityInfo getUserActivityInfo(MissionSpecificationElo missionSpecificationElo, String userName) {
@@ -275,7 +281,7 @@ public class SessionServiceImpl extends BaseELOServiceImpl implements SessionSer
                 LasActivityInfo lasActivityInfo = null;
 
                 lasActivityInfo = getLasActivityInfo(lasName, returnList, missionSpecificationElo);
-                if(lasActivityInfo == null ) {
+                if (lasActivityInfo == null) {
                     lasActivityInfo = new LasActivityInfo();
                     lasActivityInfo.setLasName(lasName);
                     lasActivityInfo.setHumanReadableName(pedagogicalPlan.obtainLasName(lasName));
@@ -332,7 +338,6 @@ public class SessionServiceImpl extends BaseELOServiceImpl implements SessionSer
         String returnValue = userName.substring(0, userName.indexOf("@"));
         return returnValue;
     }
-
 
 
     public TupleSpace getTupleSpace() {

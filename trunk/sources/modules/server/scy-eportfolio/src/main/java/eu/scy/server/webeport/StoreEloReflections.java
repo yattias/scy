@@ -49,7 +49,7 @@ public class StoreEloReflections extends BaseController {
         Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo, getCurrentUserName(request));
 
         ScyElo eloToBeAdded = ScyElo.loadLastVersionElo(eloURI, getMissionELOService());
-        ScyElo ae = ScyElo.loadLastVersionElo(anchorEloURI, getMissionELOService());
+        ScyElo ae = ScyElo.loadElo(anchorEloURI, getMissionELOService());
         TransferElo anchorElo = new TransferElo(ae);
         TransferElo elotoBeAddedTransfer = new TransferElo(eloToBeAdded);
 
