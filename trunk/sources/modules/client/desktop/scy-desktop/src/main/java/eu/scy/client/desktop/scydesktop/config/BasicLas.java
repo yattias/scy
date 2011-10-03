@@ -24,6 +24,7 @@ public class BasicLas
    private String anchorEloId;
    private List<String> intermediateEloIds = new ArrayList<String>();
    private String tooltip;
+   private String initialAnchorEloIdToOpen;
    private URI instructionUri;
    private LasType lasType;
    private GroupFormationConfig groupFormationConfig;
@@ -145,5 +146,15 @@ public class BasicLas
    public void setGroupFormationConfig(GroupFormationConfig groupFormationConfig)
    {
       this.groupFormationConfig = groupFormationConfig;
+   }
+
+   public String getInitialAnchorEloIdToOpen()
+   {
+      return initialAnchorEloIdToOpen;
+   }
+
+   public void setInitialAnchorEloIdToOpen(String initialAnchorEloIdToOpen)
+   {
+      this.initialAnchorEloIdToOpen = initialAnchorEloIdToOpen;
    }
 }
