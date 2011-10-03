@@ -91,6 +91,7 @@ public class WindowResize extends WindowActiveElement {
          onMousePressed: function( e: MouseEvent ):Void {
             activate();
             startResize(e);
+            bubbleManager.pauze();
             resizing = true;
          }
          onMouseDragged: function( e: MouseEvent ):Void {
@@ -99,6 +100,7 @@ public class WindowResize extends WindowActiveElement {
          onMouseReleased: function( e: MouseEvent ):Void {
             stopResize(e);
             resizing = false;
+            bubbleManager.resume();
          }
          onMouseEntered: function( e: MouseEvent ):Void {
             highLighted = true;

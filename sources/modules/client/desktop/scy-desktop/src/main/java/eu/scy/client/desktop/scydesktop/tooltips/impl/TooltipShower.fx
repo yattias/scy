@@ -15,6 +15,7 @@ import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.util.Math;
 import javafx.scene.CacheHint;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleManager;
 
 /**
  * @author SikkenJ
@@ -28,6 +29,7 @@ public class TooltipShower {
    public-init var startDisappearingTime = AnimationTiming.startDisappearingTime;
    public-init var fullDisappearingTime = AnimationTiming.fullDisappearingTime;
    public-init var tooltipGroup: Group;
+   public-init var bubbleManager: BubbleManager;
    def finalOpacity = 0.95;
    def tooltip = tooltipNode;
    def timeline = Timeline {
@@ -42,6 +44,7 @@ public class TooltipShower {
                     action: function() {
                        insert tooltip into tooltipGroup.content;
                        FX.deferAction(positionTooltip);
+                       bubbleManager.pauze();
                     }
                  }
                  KeyFrame {
@@ -57,6 +60,7 @@ public class TooltipShower {
                     values: tooltip.opacity => 0.0 tween Interpolator.EASEBOTH;
                     action: function() {
                        delete tooltip from tooltipGroup.content;
+                       bubbleManager.resume();
                     }
                  }
               ]

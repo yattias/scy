@@ -14,6 +14,7 @@ import java.lang.Exception;
 import eu.scy.client.desktop.desktoputils.log4j.Logger;
 import javafx.scene.Group;
 import eu.scy.client.desktop.desktoputils.art.AnimationTiming;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleManager;
 
 /**
  * @author sikken
@@ -23,7 +24,7 @@ public var tooltipGroup = Group {
         };
 
 public class SimpleTooltipManager extends TooltipManager {
-
+   public var bubbleManager: BubbleManager;
    def logger = Logger.getLogger(this.getClass());
    def sourceNodes = new HashMap();
    var currentTooltipShower: TooltipShower;
@@ -71,7 +72,9 @@ public class SimpleTooltipManager extends TooltipManager {
    function createTooltipShower(sourceNode: Node, tooltipCreator: TooltipCreator): TooltipShower {
       def tooltipNode = getTooltipNode(sourceNode, tooltipCreator);
       if (tooltipNode != null) {
+         bubbleManager.userDidSomething();
          return TooltipShower {
+                    bubbleManager: bubbleManager
                     tooltipGroup: tooltipGroup
                     tooltipNode: tooltipNode
                     sourceNode: sourceNode

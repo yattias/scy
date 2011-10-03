@@ -596,6 +596,7 @@ public class StandardScyWindow extends ScyWindow {
    }
 
    function doClose(): Void {
+      userDidSomething();
       if (isMaximized) {
          resetMaximizedState();
       }
@@ -622,6 +623,7 @@ public class StandardScyWindow extends ScyWindow {
    }
 
    function doMaximize(): Void {
+      userDidSomething();
       // TODO: needs to call window positioning code
       activate();
       toFront();
@@ -662,6 +664,7 @@ public class StandardScyWindow extends ScyWindow {
    }
 
    function centerAction(): Void {
+      userDidSomething();
       if (isMaximized) {
          resetMaximizedState();
       }
@@ -669,6 +672,7 @@ public class StandardScyWindow extends ScyWindow {
    }
 
    function doRotateNormal(): Void {
+      userDidSomething();
       cache = true;
       cacheHint = CacheHint.ROTATE;
       Timeline {
@@ -890,6 +894,10 @@ public class StandardScyWindow extends ScyWindow {
       dragAndDropManager.startDrag(dragNode, dragObject, this, e);
    }
 
+   function userDidSomething():Void{
+      bubbleManager.userDidSomething()
+   }
+
    public override function create(): Node {
       if (isClosed) {
          width = minimumWidth;
@@ -1029,6 +1037,7 @@ public class StandardScyWindow extends ScyWindow {
                  stopResize: stopResize;
                  layoutX: bind realWidth
                  layoutY: bind realHeight
+                 bubbleManager: bubbleManager
               }
 
       rotateElement = WindowRotate {
@@ -1041,7 +1050,8 @@ public class StandardScyWindow extends ScyWindow {
                  rotateWindow: this;
                  layoutX: 0;
                  layoutY: bind realHeight;
-              }
+                 bubbleManager: bubbleManager
+             }
 
       // show a filled rect as content for test purposes
 //      scyContent = Rectangle {
@@ -1118,11 +1128,13 @@ public class StandardScyWindow extends ScyWindow {
                             openGroup
                          ]
                          onMouseClicked: function(e: MouseEvent): Void {
+                            userDidSomething();
                             if (e.clickCount == 2) {
                                handleDoubleClick(e);
                             }
                          }
                          onMousePressed: function(e: MouseEvent): Void {
+                            bubbleManager.pauze();
                             if (allowDragging) {
                                startDragging(e);
                             }
@@ -1133,6 +1145,7 @@ public class StandardScyWindow extends ScyWindow {
                             }
                          }
                          onMouseReleased: function(e: MouseEvent): Void {
+                            bubbleManager.resume();
                             if (allowDragging) {
                                stopDragging(e);
                             }

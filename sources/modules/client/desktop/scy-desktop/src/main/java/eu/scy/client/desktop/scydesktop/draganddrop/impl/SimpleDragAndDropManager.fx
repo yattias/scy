@@ -23,6 +23,7 @@ import javafx.scene.paint.Color;
 import javafx.util.Math;
 import javafx.scene.shape.Line;
 import org.apache.log4j.Logger;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleManager;
 
 /**
  * @author sikken
@@ -34,6 +35,7 @@ public class SimpleDragAndDropManager extends DragAndDropManager {
 
    def logger = Logger.getLogger(this.getClass());
    public var windowManager: WindowManager;
+   public var bubbleManager: BubbleManager;
    var dropTargets: Node[];
    def dragOpacity = 0.35;
    def dropOpacity = 0.85;
@@ -51,6 +53,7 @@ public class SimpleDragAndDropManager extends DragAndDropManager {
 
    override public function startDrag(node: Node, object: Object, source: Node, e: MouseEvent): Void {
       MouseBlocker.startMouseBlocking();
+      bubbleManager.pauze();
       def sqrt2 = 0.707106781;
 
       def redCircle = Circle {
@@ -172,6 +175,7 @@ public class SimpleDragAndDropManager extends DragAndDropManager {
       } else {
          logger.warn("SimpleDragAndDropManager.mouseReleased, but no dragNode!!!");
       }
+      bubbleManager.resume();
    }
 
    function checkDropStatus(e: MouseEvent): Void {

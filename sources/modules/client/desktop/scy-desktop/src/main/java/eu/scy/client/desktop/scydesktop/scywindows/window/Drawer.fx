@@ -217,6 +217,7 @@ public abstract class Drawer extends CustomNode {
                  size: closedSize
                  onMouseClicked: function(e: MouseEvent): Void {
                     opened = not opened;
+                    bubbleManager.userDidSomething();
                  }
               }
       if (scyTool != null) {

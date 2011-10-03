@@ -42,6 +42,7 @@ public class BigMissionMap extends MissionMap, Resizable {
 
    init {
       tooltipManager = SemiPermanentTooltipManager {
+                 bubbleManager: bubbleManager
               }
    }
 
