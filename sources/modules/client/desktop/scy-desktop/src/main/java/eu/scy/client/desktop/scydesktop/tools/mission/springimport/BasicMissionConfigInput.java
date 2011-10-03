@@ -19,6 +19,7 @@ import eu.scy.common.mission.RuntimeSettingKey;
 import eu.scy.common.mission.impl.BasicLas;
 import eu.scy.common.mission.impl.BasicMissionAnchor;
 import eu.scy.common.mission.impl.BasicMissionModelEloContent;
+import eu.scy.common.mission.impl.jdom.MissionModelEloContentXmlUtils;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.net.URI;
@@ -394,6 +395,12 @@ public class BasicMissionConfigInput implements MissionConfigInput
             }
          }
          las.setIntermediateAnchors(intermediateAnchors);
+         if (!StringUtils.isEmpty(basicLas.getInitialAnchorEloIdToOpen())){
+            las.setInitialMissionAnchorToOpen(MissionModelEloContentXmlUtils.findMissionAnchorInLas(basicLas.getInitialAnchorEloIdToOpen(), las));
+            if (las.getInitialMissionAnchorToOpen()==null){
+               logger.error(addError("Cannot find initial mission anchor to open with id '" + basicLas.getInitialAnchorEloIdToOpen() + "' in las with id '" + basicLas.getId() + "'"));
+            }
+         }
       }
       // check the dependingOnMissionAnchorIds
       for (BasicMissionAnchor missionAnchor : missionAnchorMap.values())

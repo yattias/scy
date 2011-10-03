@@ -230,6 +230,17 @@ public class ScyWindowControlImpl extends ScyWindowControl {
          windowPositioner.positionWindows(windowPositionsState);
       } else {
          // no old position information
+         // find the initial to open anchor elo
+         var initialToopenAnchorEloUri:URI = null;
+         if (activeLas.initialAnchorToOpen!=null){
+            initialToopenAnchorEloUri = activeLas.initialAnchorToOpen.eloUri;
+         } else if (sizeof activeLas.intermediateAnchors == 0){
+            initialToopenAnchorEloUri = activeLas.mainAnchor.eloUri;
+         }
+         if (initialToopenAnchorEloUri!=null){
+            def initialToOpenAnchorWindow = getScyWindow(initialToopenAnchorEloUri);
+            windowPositioner.makeMainWindow(initialToOpenAnchorWindow);
+         }
          windowPositioner.positionWindows();
       }
    }
