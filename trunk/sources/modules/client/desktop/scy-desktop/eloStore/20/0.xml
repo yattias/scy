@@ -1,0 +1,75 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-10-03T17:50:16.048+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1317657016048</dateCreated>
+        <dateLastModified>1317657016048</dateLastModified>
+      </customElements>
+      <format>scy/runtimesettings</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20/0/The+test+mission.runtimesettings</entry>
+      </identifier>
+      <las />
+      <missionId>testMission</missionId>
+      <missionruntime>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/14/0/Lege+missie.scymissionruntime</entry>
+      </missionruntime>
+      <title>
+        <string language="en">The test mission</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <template>TRUE</template>
+</metadata>
+<content languages="en" contentType="xml">
+<runtimeSettings>
+  <runtimeSetting>
+    <name>testItem2</name>
+    <lasId>las1</lasId>
+    <eloUri>testValue</eloUri>
+    <value>testValue</value>
+  </runtimeSetting>
+  <runtimeSetting>
+    <name>testItem3</name>
+    <lasId />
+    <eloUri>testValue</eloUri>
+    <value>testValue</value>
+  </runtimeSetting>
+  <runtimeSetting>
+    <name>testItem</name>
+    <lasId />
+    <eloUri />
+    <value>testValue</value>
+  </runtimeSetting>
+</runtimeSettings>
+</content>
+<resources>
+</resources>
+</elo>

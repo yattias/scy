@@ -1,0 +1,85 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-10-03T17:50:46.792+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-10-03T17:50:46.792+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1317657046792</dateCreated>
+        <dateFirstUserSaveKey>1317657046792</dateFirstUserSaveKey>
+        <dateLastModified>1317657046792</dateLastModified>
+      </customElements>
+      <format>scy/missionspecification</format>
+    </technical>
+    <educational>
+      <learningResourceType>documentDesign</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/22/0/The+test+mission.scymissionspecification</entry>
+      </identifier>
+      <las />
+      <missionId>testMission</missionId>
+      <missionruntime>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/14/0/Lege+missie.scymissionruntime</entry>
+      </missionruntime>
+      <title>
+        <string language="en">The test mission</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAAA+CAYAAAC875yHAAAL6UlEQVR42u2c9YscSxDH83fkt0AgQiBGQkhCiBN3TwgJcXd3d3d3dyfu7u7u7i79+BR8h759d3t75N69ky0YdmemZ6anurrqW9/q3XQuKn8l6fydFy9euE+fPiXoBt++fXPPnz+PKvDu3bvu1q1b7uHDh+7ChQt27Nq1a/b59etX+5w0aZIbP358cPHjx4/dkydPgk/JlClT3NChQ9OOAh89euROnjwZbFIgki9fPrOwli1buiZNmrj8+fMH5/bs2eN69uzpypcv786fP+8OHz5sxwsWLOg2bdrkChQo4EaMGGHHbt68aYNz79499+DBg9SlwPfv37v9+/e7HTt22LZx48agwevXr21qIw0aNDAF/vnzx/Zpi5VWqVLFvt++fduO582b19qg2IEDB7ofP344DRTH58+fn/qm8IEDB9zmzZvdihUrEnSDJUuWuC1btrh169ZFg0hUogpMegVeunTJ/fr1K7pFuN24ccOdOnXK7d692128eNGlO3funGkS504w+Rvxg0844VlPnz6NqO3v37/dz58/rbMJkePHj7vv378nusWBJmbOnGkKBLGYAnmZ3r17u8GDBxsW7NWrl9u7d69d0LlzZ/flyxfXvHlz17VrV1eqVClXsWJFgyLdunWzNu3atXMvX74M9mmHHDt2LMCSSNOmTQ3KDBgwwF2/ft0w5ahRoyw6cy2KpVMLFy60faJ3o0aNXKFCheyakiVLujJlythLlC1b1u7ZqlUrA/8tWrSw/R49erh58+YFkKpTp05mOWDVevXquapVq7rZs2e7iRMnmiImTJhg7Tp06ODevHlj73nixIngeKhggSNHjrTgGSgQoRO8LFbEg3whyvKwNm3auEGDBrm1a9e6ZcuWxbASOn3nzh3bF5zRS0hevXpln1gGSkBOnz5tg6VrkPbt27tDhw7ZdzBpx44dXZ8+fUyRKJbn0Cf1GwTBwPv9kaxevTqAUFjl5cuX7f1y5sxpiYEv+/bti9fSUSD4d+fOnaboQIEpSbp37+4OHjwYbzssBBEODRWsOqGCmztz5oxNYRSeIhX4fwopLwrctWuXJQ+BAjWFlMbhuEnhmC74D6bF1atXg0yCY8+ePYsq0LdAfJsykf79+7vRo0ebj8FccbwLFiywgIF/wl8OHz48zSmQIBirAvUJKSCaiu9EsLdv31qkRmEEAPkW8uS0JgRGZiZK/JcFRoLfYvueloSIz+wDxhGJAwV+/vzZfFw4mTp1apznPn78aCMSnxC5ECw7UgGfLV26NOL2QK1IgXp87xyxAvF1pCgbNmxwhQsXNrwFbgPUEkDgA8GCBBu4PvAQwvQOhQp58uSxz+LFixtUAJRmzpzZwG7fvn1jdIjrgCXgMqRGjRrmPnxcSMACs+E66F/p0qUNrDNoCOAejDpt2jTDo/CW4EvwZJcuXaxNrly5LClgAxPyDvL7EmUu/rMjViAIHpAJ8GzWrFmAs0DsKAIukJegQ1BXviLIJgSSW7du7TJkyGDfixQpYgNQrVo1lz59ejtHNiIhwwFXQaMRsHzrGTt2rO0vWrTIlMN59a9EiRIBaIf9Jhshi2KAZ82aZYMAyCVbkIIyZcpkgJwN4+AdYM2ZEeI7eTYyZsyYhCswJQmDuH379njbMTBkMEniA8MFjEiORxJ4EuN+yTaIAFkIJMpN5Q8EWbiIY0wBCVMKP6Q27LMh+FMEkgEfJn/lO238biQpWbJXoGgsDqxZs8YKP76sWrXKQHT9+vUDPyGfgd/hvE8YfPjwwZw9AnPBPYmkElX58IGpQoF+CocFEQVDheO8OASsIjDRDFAJNSUhBWTTfSl3wrxwTAKEoRNEd5SdKhQYlSQA0vEJWDESwcLPnj0bUVv8JwDddxORBC5gyt9Yd1zBLWIgLVZZMmTIkIBQBdvh12Bv5dPAW2Jn1PFQQlW+j2CEG6CT4DUISghaFCsCFMzJ/SA4gS0w5hCqDNLy5cuD8gFtjh49Guvg42NFsOJuuJcI09y5cxuwhyjx81wFvwRbIAhdQJUbK+VCYF8AwNDrrETgBURti8InEIkVBlj7aZtAsQAroF1UPyzxtm3bDGSjUF6C+6EoFNCwYUMbKK7JkSOHDSKU0pw5c4JyAs+Guo+NkVYfeWHuja+n4J8xY8Z/pZ4EQLIXRCsqUqUPZKBVfwknBC4UHpeoLJDkQSStMjFhFSifx1QSgCYNIsdkSgJVatasab6GT7jBtEiohrVA/JEERloBAfYVn4OjR6koF382Y8aMqAITMoXnzp0bw+FGp3AUSCeOAgkKcPxHjhwxCPDu3TtLt5S/0piIBtcGAQoxoMI4wncio64RDiSnZh/Sle/wfJCdEmAP13Idz0Qo2tAHjgNPcBWQGwB9MB/nsH5wnZ5NfzgP6KZ/tWrVsv7yXeQo0Ie0kudwDtzLtfCJSjMFw/x3i9gC6SjYDiBdt25d49KQOnXqmOLAZXxCZAJitTJBwFNrq/GX4DWEJSAssISUzZo1qwUq8JwPrFE25Kx4OxhslONT+LzQ5MmTg/6xPIPgpvwdkA3hCsBnAztiEBCjYFeERZ+0Y+P+QBhKFGBaCYPAoIUrH8SpQE4wkowyo6ZluJAFWAAkwv37920lK8fIHvybiv6indbVEJSo3JEpcOzKlStB1U+kAqOPImmDcH9ELA3tuRYLUv+w4mHDhtl5Zg19xfqwXjbSRCwNEK013fQRBMEGwOcdANYoTIOvZ4ZjiFKFDyRD8dmdcEBa6VySBBGRnkxnrCc2Wqtfv34JeqBftEn1UZiDTJnQJRuw1OPGjbOcVPhQOS2+SSSBcCPTRxwhOWX16tVTvwJxqFgg615Cy3rQ8gBpHDSBQakcxALXwVZLsF78HsED4ZNrI6kZpxkcGIn/SZNAOr6feRHhwom/GjWxCQmVESIRsGJiB4+wCmQH/8bSXjASBWfwHdMZIKwVo+BApjc4EEJBUrlyZcNvhH+IVvylSEugBDgQbEhRCjwmoeBerlw587EiJvjRDj4Vv8kqA7hEcCkEqzAclUHAstrTBlxK8Z88nWcA7OmPVjxky5bNnk/fuAc4l+dzTMtAcE9IOJ8dpwXi/LXE1189APmIslitgALJKMQGY0WySmUfsDlSUoUKFUyxdFpAGr8ZCqRDi9+w1L7QWYKV+seAAaL1I0eUyX3xxT6QXrlypQ1CKJAmIwFIc94vFYA64luYnixw4N/yiUR/LSoPJwDuxGaMomRCUgFpplFiAOn169fH2Bdp4EMknkvRilQxRSuQF8ChhwJpAgrJeiiQxu/gm0jCQ4G0lngApHHWPo/INfghIqUAN76VQQMvcl+KW+BHn3xI1gok6QbGKNL6wktPnz7dlosRVEKBtCpkPpBWYABIcy0sjUoHbdu2tQDCumsUx6BB1hKoYHu4J6wLAYEfwKQ6IJ2Q1aVpxgfGlV0wzUIBdmgUjS+qhluM7j+X+8Q2OPjJcMJPypKFBTJ9Ebg5CtbCeTC7ANatW7caMOZvAGCZtXyWn/gzJQHcgNyiRYvaMlxALOQk/Bt4EGAOwcmDtSLVr63gK7VSrHbt2hawwI+AeOFNADFBB9BMf1gQwF8LkATQDs7xf1OgyEyNKL6QjottQUH85J/OL168OLiucePGQZEaP0agIQhUqlTJ/CQK5HuxYsUsQNE+NkHxygoA7ygle/bs1lFJlixZjCIDKDMYsM4MIKy2D9KTtQ+MVPh1ZVIA6xQXRKJAOhYF4v9Ul2AagdNUr2DaEQgIJqrKkYeC+fBhWuFEbomAC7XAB4hDTYN9/79l/O8EDq6BuPCP+xEfmIWl0hf6wbPlR5NScHNSID43UCAHeVleFL9HkYZ8ExzGbyzwR/gZ9qlkESQICvhCknheDvwG6IYFUXQl6QfnsV7PL8z7QjAi+KiM6v9zCOwOwrWUGcCUsgQffyaVUCHEIGL8XhhlKYtAEVgDGxkF1TcCBJUu2mJ5KERWh6KwEqAGx1QS5BotZ8NKGTGtm0bIOLiOgAVUokOkjmJ6OA4zQmd5JsrlPP0huNEXgfOkFHhJjIm14X/9g+v/4j8JkrtggeT3+s+EfwAKuJfYuOaPhgAAAABJRU5ErkJggg==</base64>
+  </thumbnail>
+</metadata>
+<content languages="en" contentType="xml">
+<missionSpeicification>
+  <missionMapModelEloUri>roolo://memory/17/0/The+test+mission.scymissionmapmodel</missionMapModelEloUri>
+  <eloToolConfigsEloUri>roolo://memory/18/0/The+test+mission.scyelotoolconfiguration</eloToolConfigsEloUri>
+  <templateElosEloUri>roolo://memory/19/0/The+test+mission.scytemplateelos</templateElosEloUri>
+  <runtimeSettingsEloUri>roolo://memory/20/0/The+test+mission.runtimesettings</runtimeSettingsEloUri>
+  <agentModelsEloUri>roolo://memory/4/0/standard+ColorSchemes.colorschemes</agentModelsEloUri>
+  <pedagogicalPlanSettingsEloUri>roolo://memory/21/0/The+test+mission.scy</pedagogicalPlanSettingsEloUri>
+  <colorSchemesEloUri>roolo://memory/4/0/standard+ColorSchemes.colorschemes</colorSchemesEloUri>
+  <missionDescriptionUri>http://www.scy-lab.eu/content/en/mission2/las_description_challenge.html</missionDescriptionUri>
+  <missionId>testMission</missionId>
+  <xhtmlVersionId>X</xhtmlVersionId>
+</missionSpeicification>
+</content>
+<resources>
+</resources>
+</elo>

@@ -1,51 +1,27 @@
 <elo>
 <metadata>
   <lom>
-      <contribute>
-        <role>
-          <source>LOMv1.0</source>
-          <value>author</value>
-        </role>
-        <entity>sikken</entity>
-        <date>
-          <dateTime>2011-02-10T13:25:13.272+0100</dateTime>
-        </date>
-      </contribute>
+    <technical>
+      <customElements>
+        <dateCreated>1258624538703</dateCreated>
+      </customElements>
+      <format>scy/text</format>
+    </technical>
     <general>
-      <title>
-        <string language="en">help elo 1</string>
-      </title>
       <identifier>
         <catalog>memory</catalog>
         <entry>roolo://memory/2/0/help_elo_1.text</entry>
       </identifier>
+      <title>
+        <string language="en">help elo 1</string>
+      </title>
     </general>
-    <technical>
-      <format>scy/text</format>
-      <customElements>
-        <dateCreated>1258624538703</dateCreated>
-      </customElements>
-    </technical>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_versioned_by</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
+    <lifecycle>
+      <version>1</version>
+    </lifecycle>
   </lom>
- <thumbnail>
+  <template>true</template>
+  <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAAA2CAYAAABQvB7qAAAA40lEQVR42u3XQQqDMBBG4VzSveDpvI4eQNeC3kBTFJQiNa1tFy1+D7JoSYo+/plMQ8RHBAoIJJBAAvG2wKqqYtu222qaJvn52b6j/fs969qfeeV86rdS6+gZz77juuq6jmGaptj3/UO7WZaJWILZXRjHMXZdF4uiWL4sy3LbkOd5HIaBqQNmd0sC75ll4kQC9wJBIIEEXu0WxhdvYShhAvVAPRASKIEuEQJBIIEEEggCDdI/PEgTSKC/cnqgBMIYo4SVsBIGgQQSSCCMMcYYJayEoYQl8C8SSCCBeqAeeOUE4jNuCWza6r9wKeQAAAAASUVORK5CYII=</base64>
   </thumbnail>

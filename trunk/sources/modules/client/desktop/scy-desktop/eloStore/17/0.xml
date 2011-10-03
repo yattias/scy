@@ -1,0 +1,187 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-10-03T17:50:16.018+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1317657016018</dateCreated>
+        <dateLastModified>1317657016018</dateLastModified>
+      </customElements>
+      <format>scy/missionmapmodel</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/17/0/The+test+mission.scymissionmapmodel</entry>
+      </identifier>
+      <las />
+      <missionId>testMission</missionId>
+      <missionruntime>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/14/0/Lege+missie.scymissionruntime</entry>
+      </missionruntime>
+      <title>
+        <string language="en">The test mission</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <template>TRUE</template>
+</metadata>
+<content languages="en" contentType="xml">
+<missionModel>
+  <activeLas>las1</activeLas>
+  <missionMapBackgroundImageUri>http://www.scy-lab.eu/content/en/mission2/ecoBackground.fxz</missionMapBackgroundImageUri>
+  <missionMapInstructionUri>http://www.scy-lab.eu/content/en/mission1/startPage/Welcome.html</missionMapInstructionUri>
+  <missionMapButtonIconType>pizza</missionMapButtonIconType>
+  <loElos>
+    <eloUri>roolo://memory/2/0/help_elo_1.text</eloUri>
+  </loElos>
+  <lasses>
+    <las>
+      <id>las1</id>
+      <xPos>0.0</xPos>
+      <yPos>0.0</yPos>
+      <toolTip>A great small las top left</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission1/startPage/Welcome.html</instructionUri>
+      <lasType>ORIENTATION</lasType>
+      <loElos>
+        <eloUri>roolo://memory/2/0/help_elo_1.text</eloUri>
+      </loElos>
+      <otherElos />
+      <initialMissionAnchorToOpen>testIntermediate1</initialMissionAnchorToOpen>
+      <mainAnchor>
+        <eloUri>roolo://memory/0/0/Mission_description.text</eloUri>
+        <id>missionDescription</id>
+        <iconType>scy/drawing</iconType>
+        <loElos>
+          <eloUri>roolo://memory/2/0/help_elo_1.text</eloUri>
+        </loElos>
+        <inputAnchors>
+          <anchor>roolo://memory/1/0/Mission_background.text</anchor>
+          <anchor>roolo://memory/99/0/Mission_intro.text</anchor>
+        </inputAnchors>
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission1/dummyLasInstruction.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission1/startPage/Welcome.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission1/startPage/Welcome.html</resourcesUri>
+        <helpUri />
+        <webNewsUri>http://www.scy-lab.eu/content/en/mission1/startPage/Welcome.html</webNewsUri>
+        <colorScheme />
+        <dependingOnMissionAnchorIds>
+          <dependingOnMissionAnchorId>missionIntro</dependingOnMissionAnchorId>
+        </dependingOnMissionAnchorIds>
+      </mainAnchor>
+      <intermediateAnchors>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/3/0/help_elo_2.text</eloUri>
+          <id>testIntermediate1</id>
+          <iconType />
+          <loElos />
+          <inputAnchors />
+          <relations />
+          <targetDescriptionUri />
+          <assignmentUri />
+          <resourcesUri />
+          <helpUri />
+          <webNewsUri />
+          <colorScheme />
+          <dependingOnMissionAnchorIds />
+        </intermediateAnchor>
+      </intermediateAnchors>
+      <nextLasses>
+        <las>las2</las>
+        <las>las3</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>las2</id>
+      <xPos>40.0</xPos>
+      <yPos>80.0</yPos>
+      <toolTip>A great small las at the bottom</toolTip>
+      <title />
+      <instructionUri />
+      <lasType />
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/99/0/Mission_intro.text</eloUri>
+        <id>missionIntro</id>
+        <iconType />
+        <loElos />
+        <inputAnchors>
+          <anchor>roolo://memory/1/0/Mission_background.text</anchor>
+        </inputAnchors>
+        <relations />
+        <targetDescriptionUri />
+        <assignmentUri />
+        <resourcesUri />
+        <helpUri />
+        <webNewsUri />
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses>
+        <las>las1</las>
+        <las>las3</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>las3</id>
+      <xPos>80.0</xPos>
+      <yPos>0.0</yPos>
+      <toolTip>A great small las to right</toolTip>
+      <title />
+      <instructionUri />
+      <lasType />
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/1/0/Mission_background.text</eloUri>
+        <id>missionBackground</id>
+        <iconType />
+        <loElos />
+        <inputAnchors>
+          <anchor>roolo://memory/0/0/Mission_description.text</anchor>
+        </inputAnchors>
+        <relations />
+        <targetDescriptionUri />
+        <assignmentUri />
+        <resourcesUri />
+        <helpUri />
+        <webNewsUri />
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses />
+    </las>
+  </lasses>
+  <windowStatesXmls />
+</missionModel>
+</content>
+<resources>
+</resources>
+</elo>

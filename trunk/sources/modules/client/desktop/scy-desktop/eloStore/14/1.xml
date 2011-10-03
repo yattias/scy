@@ -1,0 +1,69 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-10-03T17:49:54.599+0200</dateTime>
+        </date>
+      </contribute>
+      <version>1</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1317656994599</dateCreated>
+        <dateLastModified>1317656994637</dateLastModified>
+      </customElements>
+      <format>scy/missionruntime</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/14/1/Lege+missie.scymissionruntime</entry>
+      </identifier>
+      <missionruntime>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/14/0/Lege+missie.scymissionruntime</entry>
+      </missionruntime>
+      <title>
+        <string language="nl">Lege missie</string>
+      </title>
+      <userRunningMission>jakob</userRunningMission>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/14/0/Lege+missie.scymissionruntime</entry>
+        </identifier>
+      </resource>
+    </relation>
+  </lom>
+  <template>TRUE</template>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<missionRuntimeElo>
+  <missionSpecificationEloUri />
+  <missionMapModelEloUri>roolo://memory/15/0/Lege+missie.scymissionmapmodel</missionMapModelEloUri>
+  <eloToolConfigsEloUri />
+  <templateElosEloUri />
+  <runtimeSettingsEloUri>roolo://memory/16/0/Lege+missie.runtimesettings</runtimeSettingsEloUri>
+  <ePortfolioEloUri />
+  <pedagogicalPlanSettingsEloUri />
+  <colorSchemesEloUri />
+  <missionId />
+  <xhtmlVersionId />
+</missionRuntimeElo>
+</content>
+<resources>
+</resources>
+</elo>

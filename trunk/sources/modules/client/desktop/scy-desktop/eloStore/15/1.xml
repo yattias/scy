@@ -1,0 +1,79 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-10-03T17:49:54.621+0200</dateTime>
+        </date>
+      </contribute>
+      <version>1</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1317656994621</dateCreated>
+        <dateLastModified>1317657016115</dateLastModified>
+      </customElements>
+      <format>scy/missionmapmodel</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/15/1/Lege+missie.scymissionmapmodel</entry>
+      </identifier>
+      <las />
+      <missionruntime>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/14/0/Lege+missie.scymissionruntime</entry>
+      </missionruntime>
+      <title>
+        <string language="nl">Lege missie</string>
+      </title>
+      <userRunningMission>jakob</userRunningMission>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/15/0/Lege+missie.scymissionmapmodel</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/15/2/Lege+missie.scymissionmapmodel</entry>
+        </identifier>
+      </resource>
+    </relation>
+  </lom>
+  <template>TRUE</template>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<missionModel>
+  <activeLas />
+  <missionMapBackgroundImageUri />
+  <missionMapInstructionUri />
+  <missionMapButtonIconType />
+  <loElos />
+  <lasses />
+  <windowStatesXmls />
+</missionModel>
+</content>
+<resources>
+</resources>
+</elo>
