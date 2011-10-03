@@ -189,10 +189,11 @@ public class ScyCopexPanel extends JPanel implements ActionCopex, ISyncListener 
 
     /* accepts drop from rich text editor, with functional role= research question or hypothesis */
     public void acceptDrop(IELO textElo) {
-        int rowCount = copex.getActivePanel().getCopexTree().getRowCount();
-        for (int i = 0; i < rowCount; i++) {
-            copex.getActivePanel().getCopexTree().collapseRow(i);
-        }
+//        int rowCount = copex.getActivePanel().getCopexTree().getRowCount();
+//        for (int i = 0; i < rowCount; i++) {
+//            copex.getActivePanel().getCopexTree().collapseRow(i);
+//        }
+        copex.getActivePanel().getCopexTree().closeTree();
         if (textElo != null) {
             String[] yesNoOptions = new String[2];
             yesNoOptions[0] = getBundleString("FX-COPEX.YES");
