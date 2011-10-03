@@ -142,6 +142,22 @@ public class CopexTree extends JTree implements MouseListener, KeyListener, Mous
         resizeWidth();
     }
 
+//   @Override
+//    public void collapseRow(int row) {
+//       int nrOfRows = getRowCount();
+//       // prevent the collapse of the last row
+//       if (row<4){
+//          super.collapsePath(getPathForRow(row));
+//       }
+//    }
+//
+   public void closeTree(){
+        int rowCount = getRowCount();
+        rowCount = 3; // don't close the manupulation leave
+        for (int i = 0; i < rowCount; i++) {
+            collapseRow(i);
+        }
+   }
 
     public ExperimentalProcedure getProc(){
         return this.proc;

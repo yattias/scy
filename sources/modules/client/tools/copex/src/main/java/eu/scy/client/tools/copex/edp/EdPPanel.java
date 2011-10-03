@@ -1359,10 +1359,11 @@ public class EdPPanel extends JPanel implements ActionMenuEvent {
 
     /* returns the experimental procedure ELO */
     public Element getExperimentalProcedure() {
-        int rowCount = copexTree.getRowCount();
-        for (int i = 0; i < rowCount; i++) {
-            copexTree.collapseRow(i);
-        }
+//        int rowCount = copexTree.getRowCount();
+//        for (int i = 0; i < rowCount; i++) {
+//            copexTree.collapseRow(i);
+//        }
+        copexTree.closeTree();
         if (proc != null)
             return this.controller.getExperimentalProcedure(proc);
         return null;
