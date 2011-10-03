@@ -52,6 +52,10 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
 
    public override function log(action: IAction): Void {
       //      println("actionLogged");
+      userDidSomething();
+   }
+
+   public override function userDidSomething(): Void {
       bubbleManagerTimer.userDidSomething();
    }
 
@@ -132,7 +136,7 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
 
    public function bubbleRemoved(bubble: AbstractBubble): Void {
       if (debugBubbleKey == null) {
-         bubbleStore.removeBubble(bubble);
+         bubbleStore.removeBubbles(bubble.id);
       }
       resume()
    }

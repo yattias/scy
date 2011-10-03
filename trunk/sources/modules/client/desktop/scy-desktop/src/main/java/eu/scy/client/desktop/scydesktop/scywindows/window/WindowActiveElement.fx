@@ -7,6 +7,7 @@
 package eu.scy.client.desktop.scydesktop.scywindows.window;
 
 import javafx.scene.paint.Color;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleManager;
 
 /**
  * @author sikkenj
@@ -16,6 +17,7 @@ import javafx.scene.paint.Color;
 public abstract class WindowActiveElement extends WindowElement {
 
    public-init var size = 10.0;
+   public-init var bubbleManager : BubbleManager;
    public var active = true;
 
    public-init var borderWidth = 2.0;
@@ -33,6 +35,10 @@ public abstract class WindowActiveElement extends WindowElement {
    protected def highLightScale = 1.25;
    protected var scaledTranslateXCorrection2 = 0.0;
    protected var scaledTranslateYCorrection2 = 0.0;
+
+   protected function userDidSomething():Void{
+      bubbleManager.userDidSomething()
+   }
 
    function updateHighLighting(){
       if (highLighted){

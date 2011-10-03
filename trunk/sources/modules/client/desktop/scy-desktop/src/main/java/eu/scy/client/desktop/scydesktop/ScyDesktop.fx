@@ -211,15 +211,18 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                  });
               }
            }
-   public def tooltipManager: TooltipManager = SimpleTooltipManager {};
-   public def dragAndDropManager: DragAndDropManager = SimpleDragAndDropManager {
-              windowManager: windows;
-           };
    public def bubbleManager: BubbleManager = SimpleBubbleManager {
               tbi: missionRunConfigs.tbi
               activateBubbleManager: initializer.showHelpBubbles
               scene: scene
               windowManager:windows
+           };
+   public def tooltipManager: TooltipManager = SimpleTooltipManager {
+            bubbleManager: bubbleManager
+         };
+   public def dragAndDropManager: DragAndDropManager = SimpleDragAndDropManager {
+              windowManager: windows;
+              bubbleManager: bubbleManager
            };
    public var scyToolFactory: ScyToolFactory;
    var windowPositioner: WindowPositioner;

@@ -151,12 +151,14 @@ public class WindowRotate extends WindowActiveElement {
          onMousePressed: function( e: MouseEvent ):Void {
             activate();
             startRotate(e);
+            bubbleManager.pauze();
          }
          onMouseDragged: function( e: MouseEvent ):Void {
             doRotate(e);
          }
          onMouseReleased: function( e: MouseEvent ):Void {
             stopRotate(e);
+            bubbleManager.resume();
          }
          onMouseEntered: function( e: MouseEvent ):Void {
             highLighted = true;
