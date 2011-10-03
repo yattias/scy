@@ -153,9 +153,14 @@ public class CopexTree extends JTree implements MouseListener, KeyListener, Mous
 //
    public void closeTree(){
         int rowCount = getRowCount();
-        rowCount = 3; // don't close the manupulation leave
+        // can't find a simple way to prevent the closing of the manipation leave and still closing the other leaves
+        // so no closing at all
+        rowCount = 0;
+        int manipulationRowNr = 99;
         for (int i = 0; i < rowCount; i++) {
-            collapseRow(i);
+           if (i!=manipulationRowNr){
+              collapseRow(i);
+           }
         }
    }
 
