@@ -27,4 +27,5 @@ public class AnchorEloTransfer extends BaseXMLTransfer {
     public void setObligatoryInPortfolio(Boolean obligatoryInPortfolio) {
         this.obligatoryInPortfolio = obligatoryInPortfolio;
     }
+    
 }

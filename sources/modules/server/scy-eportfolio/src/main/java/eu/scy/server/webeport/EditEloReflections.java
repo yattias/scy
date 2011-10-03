@@ -52,14 +52,15 @@ public class EditEloReflections extends BaseController {
 
         boolean anchorEloObligatory = false;
 
-        anchorElo = ScyElo.loadLastVersionElo(anchorEloURI, getMissionELOService());
-
-        TransferElo anchorEloForAddedElo = new TransferElo(anchorElo);
+        URI anchorEloFromMissionSpecURI = missionSpecificationElo.getMissionManagement().getAnchorEloUriForElo(eloURI);
 
         for (int i = 0; i < obligatoryAnchorElos.size(); i++) {
             TransferElo obligatoryAnchorElo = obligatoryAnchorElos.get(i);
-            if (anchorEloForAddedElo.getUri().equals(obligatoryAnchorElo.getUri())) anchorEloObligatory = true;
-
+            String obliURI = getURI(obligatoryAnchorElo.getUri().toString()).toString();
+            String thEloUri = anchorEloFromMissionSpecURI.toString();
+            if (obliURI.equals(thEloUri)) {
+                anchorEloObligatory = true;
+            }
         }
 
         if (!anchorEloObligatory) {
@@ -78,17 +79,10 @@ public class EditEloReflections extends BaseController {
             Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo, getCurrentUserName(request));
 
 
-            anchorElo = ScyElo.loadLastVersionElo(anchorEloURI, getMissionELOService());
+            anchorElo = ScyElo.loadElo(anchorEloFromMissionSpecURI, getMissionELOService());
             TransferElo anchorEloTransfer = new TransferElo(anchorElo);
             modelAndView.addObject("elo", transferElo);
             modelAndView.addObject("anchorElo", anchorEloTransfer);
-
-
-            List<ISearchResult> runtimeElos = getRuntimeELOService().getRuntimeElosForUser(getCurrentUserName(request));
-            if (runtimeElos.size() > 0) {
-                ISearchResult searchResult = runtimeElos.get(0);
-                pedagogicalPlanTransfer = getPedagogicalPlanELOService().getPedagogicalPlanForMissionRuntimeElo(searchResult.getUri().toString());
-            }
 
             List<ReflectionQuestion> reflectionQuestions = pedagogicalPlanTransfer.getAssessmentSetup().getReflectionQuestionsForAnchorElo(anchorEloTransfer.getUri());
 
@@ -130,7 +124,7 @@ public class EditEloReflections extends BaseController {
 
 
             if (anchorEloURI == null) {
-                anchorEloURI = missionRuntimeElo.getMissionRuntimeModel().getAnchorEloUriForElo(elo.getUri());
+                anchorEloURI = missionSpecificationElo.getMissionManagement().getAnchorEloUriForElo(elo.getUri());
                 logger.info("ANCHOR ELO URI: " + anchorEloURI);
             }
 

@@ -74,10 +74,10 @@ public class PedagogicalPlanELOServiceImpl extends BaseELOServiceImpl implements
 
                     MissionAnchor missionAnchor = las.getMissionAnchor();
                     if (missionAnchor != null) {
-                        ScyElo missionAnchorElo = ScyElo.loadLastVersionElo(missionAnchor.getEloUri(), this);
+                        ScyElo missionAnchorElo = ScyElo.loadElo(missionAnchor.getEloUri(), this);
                         AnchorEloTransfer anchorEloTransfer = new AnchorEloTransfer();
-                        anchorEloTransfer.setName(missionAnchorElo.getTitle());
-                        anchorEloTransfer.setObligatoryInPortfolio(missionAnchorElo.getObligatoryInPortfolio());
+                        //anchorEloTransfer.setName(missionAnchorElo.getTitle());
+                        //anchorEloTransfer.setObligatoryInPortfolio(missionAnchorElo.getObligatoryInPortfolio());
                         lasTransfer.setAnchorElo(anchorEloTransfer);
                         lasTransfer.setFullName(missionAnchorElo.getTitle());
                     }

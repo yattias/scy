@@ -1,4 +1,5 @@
 <%@ include file="common-taglibs.jsp" %>
+<div id="missionPlanner">
 
 <p>
     <spring:message code="TEACHER_INTRO_TO_PEDAGOGICAL_PLAN_TAB"/>
@@ -9,7 +10,7 @@
 </p>
 
 <c:choose>
-    <c:when test="${fn:length(pedagogicalPlan.missionPlan.lasTransfers) > 0}">
+    <c:when test="${fn:length(anchorEloWrappers) > 0}">
         <table>
             <tr>
                 <th>
@@ -21,35 +22,40 @@
                 <th>
                     <spring:message code="OBLIGATORY_IN_PORTFOLIO"/>
                 </th>
-                <th>
+                <!--th>
                     <spring:message code="OWN_COMMENTS"/>
-                </th>
+                </th-->
             </tr>
 
-            <c:forEach var="las" items="${pedagogicalPlan.missionPlan.lasTransfers}">
+            <c:forEach var="anchorEloWrapper" items="${anchorEloWrappers}">
                 <tr class="${oddEven.oddEven}">
                     <td>
-                        ${las.anchorElo.name} <!--(Legg inn beskrivelse fra hoover her) Denne skal aapne opp en dialog-->
+                        ${anchorEloWrapper.name} 
                     </td>
                     <td>
-                        <div id="external${las.id}" dojoType="dijit.Dialog" title="${las.anchorElo.name}" href="${las.instructions}" style="overflow:auto; width: 400px; height: 400px;"> </div>
-                        <a href="#" onClick="dijit.byId('external${las.id}').show();">${las.lasType}<!--(IKON HER)--></a>
+                        ${anchorEloWrapper.lasName}
                     </td>
                     <td>
-                         <s:ajaxTransferObjectCheckBox transferObjectServiceCollection="${transferObjectServiceCollection}" transferObject="${las.anchorElo}" transferEloURI="${pedagogicalPlan.pedagogicalPlanURI}" id="${las.anchorElo.id}" property="obligatoryInPortfolio"/>
-                    </td>
-                    <td>
-                        <s:ajaxTransferObjectTextField transferObjectServiceCollection="${transferObjectServiceCollection}" transferObject="${las}" transferEloURI="${pedagogicalPlan.pedagogicalPlanURI}" id="${las.id}" property="comments"/>
+                        <center>
+                            <a href="javascript:openPage(document.getElementById('missionPlanner').parentNode.id, 'missionPlanner.html?eloURI=' + encodeURIComponent('${eloURI}') + '&action=setAnchorEloObligatory&anchorEloUri=' + encodeURIComponent('${anchorEloWrapper.encodedUri}'));">
+                                <c:if test="${anchorEloWrapper.obligatoryInPortfolio == true}">
+                                    <img src="/webapp/themes/scy/default/images/checkbox_checked.png" alt=""  />
+                                </c:if>
+                                <c:if test="${anchorEloWrapper.obligatoryInPortfolio == false}">
+                                    <img src="/webapp/themes/scy/default/images/checkbox_unchecked.png" alt=""  />
+                                </c:if>
+                            </a>
+                        </center>
                     </td>
                 </tr>
             </c:forEach>
         </table>
     </c:when>
 </c:choose>
-
-<!--sec:authorize ifAllGranted="ROLE_AUTHOR">
+</div>
+<sec:authorize ifAllGranted="ROLE_AUTHOR">
     <a href="missionPlanner.html?eloURI=${eloURI}&action=reinitializePedagogicalPlan">Reinitialize plan</a>
-</sec:authorize-->
+</sec:authorize>
 
 
 

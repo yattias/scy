@@ -1,6 +1,7 @@
 package eu.scy.server.webeport;
 
 import eu.scy.common.mission.MissionRuntimeElo;
+import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.XMLTransferObjectService;
 import eu.scy.core.model.transfer.Portfolio;
@@ -34,9 +35,13 @@ public class SelectEloFromGallery extends BaseController {
 
         URI anchorEloURI = getURI(request.getParameter("anchorEloURI"));
         URI missionRuntimeURI = getURI(request.getParameter("missionRuntimeURI"));
-        ScyElo anchorElo = ScyElo.loadLastVersionElo(anchorEloURI, getMissionELOService());
-        TransferElo anchorEloTransferElo = new TransferElo(anchorElo);
         MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(missionRuntimeURI, getMissionELOService());
+        URI missionSpecificationURI = missionRuntimeElo.getMissionSpecificationEloUri();
+        MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(missionSpecificationURI, getMissionELOService());
+        URI missionAnchorEloURI = missionSpecificationElo.getMissionManagement().getAnchorEloUriForElo(anchorEloURI);
+        ScyElo anchorElo = ScyElo.loadElo(missionAnchorEloURI, getMissionELOService());
+        TransferElo anchorEloTransferElo = new TransferElo(anchorElo);
+
         Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo, getCurrentUserName(request));
         TransferElo elo = portfolio.getEloForAnchroElo(anchorEloTransferElo);
 

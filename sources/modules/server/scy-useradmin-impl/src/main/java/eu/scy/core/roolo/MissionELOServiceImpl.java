@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.util.*;
 import java.util.logging.Logger;
 
+import eu.scy.common.mission.impl.BasicMissionAnchor;
 import eu.scy.core.model.transfer.*;
 import eu.scy.core.roolo.filter.FeedbackEloSearchFilterImpl;
 import roolo.elo.api.IMetadata;
@@ -195,55 +196,9 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
 
     @Override
     public List getAnchorELOs(MissionSpecificationElo missionSpecificationElo) {
-
-        log.info("LOADING ANCHOR ELOS FOR MISSION SPEC: " + missionSpecificationElo.getUri());
-        List returnList = new LinkedList();
         MissionModelElo missionModel = MissionModelElo.loadLastVersionElo(missionSpecificationElo.getTypedContent().getMissionMapModelEloUri(), this);
-        /*
-        List<MissionAnchor> anchorElos = missionModel.getTypedContent().getMissionAnchors();
-        for (int i = 0; i < anchorElos.size(); i++) {
-            MissionAnchor missionAnchor = anchorElos.get(i);
-            if (missionAnchor.getObligatoryInPortfolio() != null && missionAnchor.getObligatoryInPortfolio()) {
-                returnList.add(missionAnchor);
-            }
-            returnList.add(missionAnchor.getScyElo());
-        }
-        */
-
-
-        //missionModel.getMissionModel().loadMetadata(this);
-        List lasses = missionModel.getTypedContent().getLasses();//what is  this? A getter??
-
-        log.info("*** *** MISSION URI: " + missionModel.getUri());
-
-        List missionAnchors = new LinkedList();
-        for (int i = 0; i < lasses.size(); i++) {
-            Las las = (Las) lasses.get(i);
-            MissionAnchor missionAnchor = las.getMissionAnchor();
-            if (missionAnchor != null) {
-                ScyElo missionAnchorElo = ScyElo.loadLastVersionElo(missionAnchor.getEloUri(), this);
-                returnList.add(missionAnchorElo);
-                if (missionAnchorElo != null) {
-                    log.info("MISSION ANCHOR: " + missionAnchorElo.getTitle() + " OBLIGATORY: " + missionAnchorElo.getObligatoryInPortfolio());
-                } else {
-                    log.info("MISSION SCY ELO IS NULL:" + missionAnchor.getIconType());
-                }
-
-            }
-
-        }
-
-        log.info("Returning : " + missionAnchors.size() + " MISSION ANCHORS");
-
-        //return missionAnchors; */
-
-        log.info("FOUND " + returnList.size() + " ANCHOR ELOS!");
-        for (int i = 0; i < returnList.size(); i++) {
-            ScyElo scyElo = (ScyElo) returnList.get(i);
-            System.out.println("scyElo" + scyElo);
-        }
-
-        return returnList;
+        missionModel.getMissionModel().loadMetadata(this);
+        return missionModel.getTypedContent().getMissionAnchors();
     }
 
 
@@ -252,33 +207,25 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
         List anchorElos = getAnchorELOs(missionSpecificationElo);
         List returnList = new LinkedList();
         for (int i = 0; i < anchorElos.size(); i++) {
-            ScyElo scyElo = (ScyElo) anchorElos.get(i);
-            if (getIsDefinedAsObligatoryInPedagogicalPlan(pedagogicalPlan, scyElo)) {
-                TransferElo transferElo = new TransferElo(scyElo);
-                returnList.add(transferElo);
+            BasicMissionAnchor basicMissionAnchor = (BasicMissionAnchor) anchorElos.get(i);
+            ScyElo elo = ScyElo.loadElo(basicMissionAnchor.getEloUri(), this);
+            if (elo.getObligatoryInPortfolio() != null && elo.getObligatoryInPortfolio() == true) {
+                returnList.add(new TransferElo(elo));
             }
         }
+
+        log.info("FETCHED " + returnList.size() + " OBLIGATORY ELOS IN MISSION!");
 
         return returnList;
 
     }
 
     private boolean getIsDefinedAsObligatoryInPedagogicalPlan(PedagogicalPlanTransfer pedagogicalPlan, ScyElo scyElo) {
-        List<LasTransfer> lasses = pedagogicalPlan.getMissionPlan().getLasTransfers();
-        if (lasses != null) {
-            for (int i = 0; i < lasses.size(); i++) {
-                LasTransfer lasTransfer = lasses.get(i);
-                if (lasTransfer.getAnchorElo() != null) {
-                    if (lasTransfer.getAnchorElo().getObligatoryInPortfolio() != null) {
-                        if (lasTransfer.getAnchorElo().getObligatoryInPortfolio() && lasTransfer.getAnchorElo().getName().equals(scyElo.getTitle()))
-                            return true;
-                    }
-
-                }
-            }
-
+        if (scyElo.getObligatoryInPortfolio() == null) {
+            scyElo.setObligatoryInPortfolio(false);
+            scyElo.updateElo();
         }
-        return false;
+        return scyElo.getObligatoryInPortfolio();
     }
 
     private RuntimeSettingsElo getRuntimeSettingsElo(MissionSpecificationElo missionSpecificationElo) {
