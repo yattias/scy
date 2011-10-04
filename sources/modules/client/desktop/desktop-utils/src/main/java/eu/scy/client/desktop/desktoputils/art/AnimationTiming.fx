@@ -10,10 +10,10 @@ package eu.scy.client.desktop.desktoputils.art;
  * @author sikken
  */
 
-def startShowTime = 500ms;
-def appearTime = 500ms;
-def showTime = 5s;
-def disappearTime = 1000ms;
+public def startShowTime = 500ms;
+public def appearTime = 500ms;
+public def showTime = 5s;
+public def disappearTime = 1000ms;
 
 public def startAppearingTime = startShowTime;
 public def fullAppearingTime = startShowTime + appearTime;
