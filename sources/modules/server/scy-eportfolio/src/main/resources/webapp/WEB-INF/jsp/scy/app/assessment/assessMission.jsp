@@ -88,10 +88,10 @@
                         </tr>
                         <tr>
                             <td>
-                               <input type="radio" name="rating"><spring:message code="POOR"></spring:message><br/>
-                               <input type="radio" name="rating"><spring:message code="FAIR"></spring:message><br/>
-                               <input type="radio" name="rating"><spring:message code="GOOD"></spring:message><br/>
-                               <input type="radio" name="rating"><spring:message code="EXCELLENT"></spring:message><br/>
+                               <input type="radio" name="rating" value="1"><spring:message code="POOR"></spring:message><br/>
+                               <input type="radio" name="rating" value="2"><spring:message code="FAIR"></spring:message><br/>
+                               <input type="radio" name="rating" value="3"><spring:message code="GOOD"></spring:message><br/>
+                               <input type="radio" name="rating" value="4"><spring:message code="EXCELLENT"></spring:message><br/>
                                 <input type="hidden" value="${missionRuntimeURI}" name="missionRuntimeURI"/>
                             </td>
 

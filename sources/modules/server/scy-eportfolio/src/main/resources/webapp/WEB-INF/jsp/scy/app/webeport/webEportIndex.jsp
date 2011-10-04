@@ -310,12 +310,29 @@ function renderHtmlLabel(item){
                                 ${portfolio.assessmentPortfolioComment}
                             </td>
                         </tr>
+
+
+                        <c:choose>
+                            <c:when test="${fn:length(teacherReflectionOnMisionAnswers) > 0}">
+                                <c:forEach var="answer" items="${teacherReflectionOnMisionAnswers}">
+                                    <tr  class="${oddEven.oddEven}_eport">
+                                        <td>
+                                            ${answer.teacherQuestionToMission}
+                                        </td>
+                                        <td>
+                                            ${answer.answer}
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </c:when>
+                        </c:choose>
+
                         <tr  class="${oddEven.oddEven}_eport">
                             <td>
                                 <spring:message code="TEACHERS_RATING_OF_PORTFOLIO"/>
                             </td>
                             <td>
-                                ${portfolio.assessmentPortfolioRating}
+                                <img src="/webapp/themes/scy/default/images/smiley_${portfolio.assessmentPortfolioRating}.png" alt=""  /> 
                             </td>
                         </tr>
                     </table>

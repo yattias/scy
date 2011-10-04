@@ -329,7 +329,7 @@ public class ConfigureAssessmentController extends BaseController {
     }
 
     private void addteachersQuestionToElo(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer, String anchorEloURI, HttpServletRequest request) {
-        ScyElo anchorElo = ScyElo.loadLastVersionElo(getURI(anchorEloURI), getMissionELOService());
+        ScyElo anchorElo = ScyElo.loadElo(getURI(anchorEloURI), getMissionELOService());
         TransferElo anchorEloTransfer = new TransferElo(anchorElo);
         logger.info("*** **** **** **** Adding teacher question to anchor elo: " + anchorEloTransfer.getMyname());
         TeacherQuestionToElo teacherQuestionToElo = new TeacherQuestionToElo();
