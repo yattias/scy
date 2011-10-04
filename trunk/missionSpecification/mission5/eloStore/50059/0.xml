@@ -1,0 +1,56 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>Caspar</entity>
+        <date>
+          <dateTime>2011-10-04T16:56:21.687+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1317740181687</dateCreated>
+        <dateLastModified>1317740181687</dateLastModified>
+      </customElements>
+      <format>scy/runtimesettings</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/50059/0/Run+for+your+life%21.runtimesettings</entry>
+      </identifier>
+      <las>information</las>
+      <missionId>mini1</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/50054/0/Run+for+your+life%21.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Run for your life!</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <template>TRUE</template>
+</metadata>
+<content languages="en" contentType="xml">
+<runtimeSettings />
+</content>
+<resources>
+</resources>
+</elo>
