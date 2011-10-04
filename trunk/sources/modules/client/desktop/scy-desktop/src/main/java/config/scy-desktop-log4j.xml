@@ -43,7 +43,7 @@
       <level value="error" />
    </logger>
 
-   <logger name="eu.scy.client.desktop.scydesktop.utils.InjectObjectsUtils">
+   <logger name="eu.scy.client.desktop.desktoputils.InjectObjectsUtils">
       <level value="error" />
    </logger>
 

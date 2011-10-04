@@ -216,6 +216,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
               activateBubbleManager: initializer.showHelpBubbles
               scene: scene
               windowManager:windows
+              nomberOfTimesStarted:missionRunConfigs.nomberOfTimesStarted
            };
    public def tooltipManager: TooltipManager = SimpleTooltipManager {
             bubbleManager: bubbleManager

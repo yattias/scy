@@ -23,11 +23,18 @@ public class BubbleLayerManager
    {
       if (!layerId.equals(getTopLayer()))
       {
-         layerStack.add(layerId);
+         if (!layerStack.contains(layerId))
+         {
+            layerStack.add(layerId);
+         }
+         else
+         {
+            logger.warn("showLayer (" + layerId + "), layer is already present, but not on top: " + layerStack);
+         }
       }
       else
       {
-         logger.warn("duplicate showLayer: " + layerId);
+         logger.warn("showLayer (" + layerId + "), layer is allready on top: " + layerStack);
       }
    }
 
@@ -37,9 +44,14 @@ public class BubbleLayerManager
       {
          layerStack.remove(layerStack.size() - 1);
       }
+      else if (layerStack.contains(layerId))
+      {
+         layerStack.remove(layerId);
+         logger.warn("hideLayer (" + layerId + "), but layer is not on top: " + layerStack);
+      }
       else
       {
-         logger.warn("hideLayer (" + layerId + "), but layer is not on top, top layer: " + getTopLayer());
+         logger.warn("hideLayer (" + layerId + "), but layer is not visible, " + layerStack);
       }
    }
 
@@ -50,5 +62,17 @@ public class BubbleLayerManager
          return null;
       }
       return layerStack.get(layerStack.size() - 1);
+   }
+
+   @Override
+   public String toString()
+   {
+      StringBuilder builder = new StringBuilder();
+      for (BubbleLayer layer : layerStack)
+      {
+         builder.append(layer);
+         builder.append(",");
+      }
+      return "BubbleLayerManager{" + "layerStack=[" + builder.toString() + "]}";
    }
 }
