@@ -40,9 +40,11 @@ public class BubbleShower {
    public-init var fullDisappearingTime = AnimationTiming.fullDisappearingTime;
    public-init var tooltipGroup: Group;
    def finalOpacity = 0.95;
-   def bubbleNode = NodeBubble {
+   def minimalDisplayTimeForDeleteBubble = fullAppearingTime+2s;
+   def bubbleNode:NodeBubble = NodeBubble {
               content: bubbleContent
               windowColorScheme: windowColorScheme
+              clickedInBubble: clickedInBubble
            }
    def timeline = Timeline {
               keyFrames: [
@@ -77,6 +79,7 @@ public class BubbleShower {
               ]
            }
    var showingBubble = false;
+   var shouldDeleteBubble = true;
    def sourceMovedDetectionTimeLine = Timeline {
               repeatCount: Timeline.INDEFINITE
               keyFrames: [
@@ -95,7 +98,12 @@ public class BubbleShower {
       timeline.play();
    }
 
-   public function remove(): Void {
+   public function userDidSomething():Void{
+      shouldDeleteBubble = timeline.time>=minimalDisplayTimeForDeleteBubble;
+      remove();
+   }
+
+   function remove(): Void {
       if (timeline.time < startAppearingTime) {
          timeline.stop();
       } else if (timeline.time < fullAppearingTime) {
@@ -106,6 +114,9 @@ public class BubbleShower {
       }
    }
 
+   function clickedInBubble():Void{
+      remove();
+   }
 //   var checkCounter = 0;
 
    function checkIfSourceMoved(): Void {
@@ -134,7 +145,7 @@ public class BubbleShower {
 
    function stopPositioning(): Void {
       showingBubble = false;
-      simpleBubbleManager.bubbleRemoved(bubble);
+      simpleBubbleManager.bubbleRemoved(bubble,shouldDeleteBubble);
       sourceMovedDetectionTimeLine.stop();
    }
 

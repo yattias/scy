@@ -18,8 +18,8 @@
 		<level value="info" />
 	</logger>
 
-	<logger name="eu.scy.client.desktop.scydesktop.utils.InjectObjectsUtils">
-		<level value="info" />
+	<logger name="eu.scy.client.desktop.desktoputils.InjectObjectsUtils">
+		<level value="error" />
 	</logger>
 
 	<logger name="eu.scy.client.desktop.scydesktop.scywindows">

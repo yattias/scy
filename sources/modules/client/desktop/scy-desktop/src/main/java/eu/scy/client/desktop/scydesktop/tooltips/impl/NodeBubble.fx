@@ -21,6 +21,7 @@ import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 import javafx.geometry.Bounds;
 import javafx.geometry.BoundingBox;
 import eu.scy.client.desktop.desktoputils.art.ScyColors;
+import javafx.scene.input.MouseEvent;
 
 /**
  * @author SikkenJ
@@ -30,6 +31,7 @@ public class NodeBubble extends CustomNode {
    public var content: Node;
    public-init var arcSize = 10.0;
    public-init var arrowOffset = 12.0;
+   public-init var clickedInBubble: function():Void;
    public var arrowPosition = ArrowPosition.TOP_LEFT;
    public var arrowPoint: Point2D;
    public var windowColorScheme: WindowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
@@ -134,6 +136,9 @@ public class NodeBubble extends CustomNode {
                     //                    }
                     content
                  ]
+                 onMouseClicked: function(m: MouseEvent):Void{
+                    clickedInBubble()
+                 }
               }
    }
 

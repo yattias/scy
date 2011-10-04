@@ -25,6 +25,7 @@ import javafx.scene.Scene;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowManager;
 import java.lang.IllegalArgumentException;
+import eu.scy.client.desktop.desktoputils.art.AnimationTiming;
 
 /**
  * @author sikken
@@ -36,27 +37,49 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
    public-init var activateBubbleManager = true;
    public-init var scene: Scene;
    public-init var windowManager: WindowManager;
+   public-init var nomberOfTimesStarted = 1;
    def bubbleStore = new BubbleStoreImpl();
-//   var activeLayerId: Object;
    var noBubbleFoundCounter = 0;
    def bubbleManagerTimer = new BubbleManagerTimer(this);
    def layerManager = new BubbleLayerManager();
    def resourceBundleWrapper = new ResourceBundleWrapper(this);
    var debugBubbleKey: BubbleKey = null;
    var pauzeCount = 0;
+   var startAppearingTime = 10ms;
+   var fullAppearingTime = AnimationTiming.appearTime;
+   var startDisappearingTime = fullAppearingTime + AnimationTiming.showTime;
+   var fullDisappearingTime = startDisappearingTime + AnimationTiming.disappearTime;
+   var currentBubbleShower: BubbleShower;
 
    init {
+      setBubbleTiming();
       showingLayer(BubbleLayer.DESKTOP);
-//      debugBubbleKey = BubbleKey.MISSION_MAP_ANCHOR_ELO_MAP;
+   //      debugBubbleKey = BubbleKey.MISSION_MAP_ANCHOR_ELO_MAP;
+   }
+
+   function setBubbleTiming() {
+      if (nomberOfTimesStarted <= 1) {
+         setBubbleTiming(2500, 20s);
+      } else if (nomberOfTimesStarted == 2) {
+         setBubbleTiming(5000, 10s);
+      } else {
+         setBubbleTiming(30000, 10s);
+      }
+   }
+
+   function setBubbleTiming(bubbleDelay: Long, bubbleShow: Duration) {
+      bubbleManagerTimer.setBubbleWaitMillis(bubbleDelay);
+      startDisappearingTime = fullAppearingTime + bubbleShow;
+      fullDisappearingTime = startDisappearingTime + AnimationTiming.disappearTime;
    }
 
    public override function log(action: IAction): Void {
-      //      println("actionLogged");
       userDidSomething();
    }
 
    public override function userDidSomething(): Void {
       bubbleManagerTimer.userDidSomething();
+      currentBubbleShower.userDidSomething();
    }
 
    public override function start(): Void {
@@ -119,37 +142,36 @@ public class SimpleBubbleManager extends BubbleManager, ShowNextBubble, IActionL
          targetNode = bubble.targetNode
       }
 
-      BubbleShower {
-         simpleBubbleManager: this
-         bubble: bubble
-         tooltipGroup: SimpleTooltipManager.tooltipGroup
-         bubbleContent: bubbleNode
-         windowColorScheme: bubble.windowColorScheme
-         sourceNode: targetNode
-      //         startAppearingTime: startAppearingTime
-      //         fullAppearingTime: fullAppearingTime
-      //         startDisappearingTime: startDisappearingTime
-      //         fullDisappearingTime: fullDisappearingTime
-      }
-
+      currentBubbleShower = BubbleShower {
+                 simpleBubbleManager: this
+                 bubble: bubble
+                 tooltipGroup: SimpleTooltipManager.tooltipGroup
+                 bubbleContent: bubbleNode
+                 windowColorScheme: bubble.windowColorScheme
+                 sourceNode: targetNode
+                 startAppearingTime: startAppearingTime
+                 fullAppearingTime: fullAppearingTime
+                 startDisappearingTime: startDisappearingTime
+                 fullDisappearingTime: fullDisappearingTime
+              }
    }
 
-   public function bubbleRemoved(bubble: AbstractBubble): Void {
-      if (debugBubbleKey == null) {
+   public function bubbleRemoved(bubble: AbstractBubble, deleteBubble: Boolean): Void {
+      if (debugBubbleKey == null and deleteBubble) {
          bubbleStore.removeBubbles(bubble.id);
       }
       resume()
    }
 
    public override function showingLayer(bubbleLayer: BubbleLayer): Void {
-      logger.info("showing BubbleLayer: {bubbleLayer}");
+      logger.info("showing BubbleLayer: {bubbleLayer}, stack: {layerManager}");
       layerManager.showLayer(bubbleLayer);
       noBubbleFoundCounter = 0;
    }
 
    public override function hidingLayer(bubbleLayer: BubbleLayer): Void {
       layerManager.hideLayer(bubbleLayer);
-      logger.info("hiding BubbleLayer: {bubbleLayer}, new top layer: {layerManager.getTopLayer()}");
+      logger.info("hiding BubbleLayer: {bubbleLayer}, stack: {layerManager}");
       noBubbleFoundCounter = 0;
    }
 

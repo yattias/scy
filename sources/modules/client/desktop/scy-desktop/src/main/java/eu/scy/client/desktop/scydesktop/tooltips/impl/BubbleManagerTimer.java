@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 public class BubbleManagerTimer implements Runnable
 {
 
-   private final long bubbleWaitMillis = 10000;
+   private long bubbleWaitMillis = 10000;
    private long nextBubbleMillis = Long.MAX_VALUE;
    private boolean abort = true;
    private final ShowNextBubble showNextBubble;
@@ -27,6 +27,11 @@ public class BubbleManagerTimer implements Runnable
    public void start(){
       abort = false;
       new Thread(this).start();
+   }
+
+   public void setBubbleWaitMillis(long bubbleWaitMillis)
+   {
+      this.bubbleWaitMillis = bubbleWaitMillis;
    }
 
    public void abort()
