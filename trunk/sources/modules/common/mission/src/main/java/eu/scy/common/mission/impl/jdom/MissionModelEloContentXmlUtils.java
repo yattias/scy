@@ -267,15 +267,33 @@ public class MissionModelEloContentXmlUtils
 
    public static MissionAnchor findMissionAnchorInLas(String id, Las las)
    {
-      if (id.equals(las.getMissionAnchor().getId()))
+      MissionAnchor missionAnchor = findMissionAnchorInMissionAnchor(id, las.getMissionAnchor());
+      if (missionAnchor != null)
       {
-         return las.getMissionAnchor();
+         return missionAnchor;
       }
-      for (MissionAnchor missionAnchor : las.getIntermediateAnchors())
+      for (MissionAnchor intermediateMissionAnchor : las.getIntermediateAnchors())
       {
-         if (id.equals(missionAnchor.getId()))
+         missionAnchor = findMissionAnchorInMissionAnchor(id, intermediateMissionAnchor);
+         if (missionAnchor != null)
          {
             return missionAnchor;
+         }
+      }
+      return null;
+   }
+
+   public static MissionAnchor findMissionAnchorInMissionAnchor(String id, MissionAnchor missionAnchor)
+   {
+      if (id.equals(missionAnchor.getId()))
+      {
+         return missionAnchor;
+      }
+      for (MissionAnchor inputMissionAnchor : missionAnchor.getInputMissionAnchors())
+      {
+         if (id.equals(inputMissionAnchor.getId()))
+         {
+            return inputMissionAnchor;
          }
       }
       return null;
