@@ -66,26 +66,24 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
     public Map<String, MultiUserChat> joinedMUCRooms = new HashMap<String, MultiUserChat>();
     private Connection xmppConnection;
     private ArrayList<IAwarenessInvitationListener> invitationListeners = new ArrayList<IAwarenessInvitationListener>();
-
     private boolean isAvailable;
-
     private String status;
 
     public AwarenessServiceXMPPImpl() {
     }
 
-   @Override
-   public String toString() {
-      String host="?";
-      int port=-1;
-      String user="?";
-      if (xmppConnection!=null){
-         host = xmppConnection.getHost();
-         port = xmppConnection.getPort();
-         user = xmppConnection.getUser();
-      }
-      return this.getClass().getName() + "{host=" + host + ",port=" + port + ",user=" + user  + '}';
-   }
+    @Override
+    public String toString() {
+        String host = "?";
+        int port = -1;
+        String user = "?";
+        if (xmppConnection != null) {
+            host = xmppConnection.getHost();
+            port = xmppConnection.getPort();
+            user = xmppConnection.getUser();
+        }
+        return this.getClass().getName() + "{host=" + host + ",port=" + port + ",user=" + user + '}';
+    }
 
     @Override
     public boolean isConnected() {
@@ -136,7 +134,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
                 // System.out.println("message sent for MUC: " + ELOUri);
             } catch (XMPPException e) {
                 logger.error("sendMessage: XMPPException MUC: " + e);
-                
+
                 e.printStackTrace();
             }
         }
@@ -211,18 +209,18 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
             IAwarenessMessageListener awarenessMessageListener) {
         messageListeners.add(awarenessMessageListener);
     }
-    
+
     @Override
     public void addAwarenessRosterListener(
             IAwarenessRosterListener awarenessListListener) {
         rosterListeners.add(awarenessListListener);
     }
-    
+
     @Override
     public void addInvitationListener(IAwarenessInvitationListener invitationListener) {
         invitationListeners.add(invitationListener);
     }
-    
+
     @Override
     public void removeInvitationListener(IAwarenessInvitationListener invitationListener) {
         invitationListeners.remove(invitationListener);
@@ -243,12 +241,13 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
     @Override
     public void addBuddy(String buddyName) throws AwarenessServiceException {
         roster = this.xmppConnection.getRoster();
-        Collection<RosterEntry> rosterEntries = roster.getEntries();
-        try {
-            roster.createEntry(buddyName, buddyName,
-                    new String[]{"everybody"});
-        } catch (XMPPException e) {
-            logger.error("addBuddy: XMPPException: " + e);
+        if (!roster.contains(buddyName)) {
+            try {
+                roster.createEntry(buddyName, buddyName,
+                        new String[]{"everybody"});
+            } catch (XMPPException e) {
+                logger.error("addBuddy: XMPPException: " + e);
+            }
         }
     }
 
@@ -381,9 +380,9 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
                 }
             }
         });
-        
+
         MultiUserChat.addInvitationListener(connection, new InvitationListener() {
-            
+
             @Override
             public void invitationReceived(Connection conn, String room, String inviter, String reason, String password, Message message) {
                 try {
@@ -395,7 +394,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
                         }
                     }
                 } catch (AwarenessServiceException e) {
-                    logger.debug("Could not join the room " + room + " on an invitation." , e);
+                    logger.debug("Could not join the room " + room + " on an invitation.", e);
                 }
             }
         });
@@ -417,7 +416,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
             }
         });
     }
-    
+
     @Override
     public void inviteUserToChat(String roomId, String username) {
         MultiUserChat chat = joinedMUCRooms.get(roomId);
@@ -481,7 +480,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
         this.isAvailable = available;
         updatePresence();
     }
-    
+
     private void updatePresence() {
         if (xmppConnection != null && xmppConnection.isConnected()) {
             Presence presence = new Presence(Presence.Type.available);
