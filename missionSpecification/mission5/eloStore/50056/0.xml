@@ -9,22 +9,22 @@
         </role>
         <entity>Caspar</entity>
         <date>
-          <dateTime>2011-10-04T16:56:21.734+0200</dateTime>
+          <dateTime>2011-10-04T16:56:21.671+0200</dateTime>
         </date>
       </contribute>
-      <version>1</version>
+      <version>0</version>
     </lifecycle>
     <technical>
       <customElements>
-        <dateCreated>1315578717435</dateCreated>
-        <dateLastModified>1317740181734</dateLastModified>
+        <dateCreated>1317740181671</dateCreated>
+        <dateLastModified>1317740181671</dateLastModified>
       </customElements>
       <format>scy/missionmapmodel</format>
     </technical>
     <general>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/50049/0/Run+for+your+life%21.scymissionmapmodel</entry>
+        <entry>roolo://memory/50056/0/Run+for+your+life%21.scymissionmapmodel</entry>
       </identifier>
       <las>information</las>
       <missionId>mini1</missionId>
@@ -65,19 +65,17 @@
       <instructionUri>http://www.scy-lab.eu/content/en/mission5/LAS_Information/curtain_INFORMATION.html</instructionUri>
       <lasType>INFORMATION</lasType>
       <loElos />
-      <otherElos>
-        <eloUri>roolo://memory/50056/0/Run+for+your+life%21.scymissionmapmodel</eloUri>
-      </otherElos>
+      <otherElos />
       <mainAnchor>
-        <eloUri>roolo://memory/50001/0/List+of+information.rtf</eloUri>
-        <id>listOfInformation</id>
+        <eloUri>roolo://memory/50055/0/Concept-map+over+glucose.scymapping</eloUri>
+        <id>cmapOnGlucose</id>
         <iconType>information2</iconType>
         <loElos />
         <inputAnchors />
         <relations />
         <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission5/LAS_Information/tip_LAS_A.txt</targetDescriptionUri>
-        <assignmentUri>http://www.scy-lab.eu/content/en/mission5/LAS_Information/instruction_01_listOfInformation.html</assignmentUri>
-        <resourcesUri>http://www.scy-lab.eu/content/en/mission5/LAS_Information/resources_01_listOfInformation.html</resourcesUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission5/LAS_Information/instruction_01_cmapOnGlucose.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission5/LAS_Information/resources_01_cmapOnGlucose.html</resourcesUri>
         <helpUri />
         <webNewsUri />
         <colorScheme />
@@ -113,7 +111,23 @@
         <colorScheme />
         <dependingOnMissionAnchorIds />
       </mainAnchor>
-      <intermediateAnchors />
+      <intermediateAnchors>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/50055/0/Concept-map+over+glucose.scymapping</eloUri>
+          <id>cmapOnGlucose</id>
+          <iconType>information2</iconType>
+          <loElos />
+          <inputAnchors />
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission5/LAS_Information/tip_LAS_A.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission5/LAS_Information/instruction_01_cmapOnGlucose.html</assignmentUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission5/LAS_Information/resources_01_cmapOnGlucose.html</resourcesUri>
+          <helpUri />
+          <webNewsUri />
+          <colorScheme />
+          <dependingOnMissionAnchorIds />
+        </intermediateAnchor>
+      </intermediateAnchors>
       <nextLasses>
         <las>information</las>
         <las>experiment</las>
@@ -146,14 +160,14 @@
       </mainAnchor>
       <intermediateAnchors>
         <intermediateAnchor>
-          <eloUri>roolo://memory/50000/0/Glucose+Model.scymodel</eloUri>
-          <id>visualRepresentationOfData</id>
-          <iconType>dataset</iconType>
+          <eloUri>roolo://memory/50002/0/Hypothesis.rtf</eloUri>
+          <id>hypothesis</id>
+          <iconType>alert_question</iconType>
           <loElos />
           <inputAnchors />
           <relations />
-          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission5/LAS_Experiment/tip_LAS_C.txt</targetDescriptionUri>
-          <assignmentUri>http://www.scy-lab.eu/content/en/mission5/LAS_Experiment/instruction_03a_Model.html</assignmentUri>
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission5/LAS_Conceptualization/tip_LAS_B.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission5/LAS_Conceptualization/instruction_02_hypothesis.html</assignmentUri>
           <resourcesUri />
           <helpUri />
           <webNewsUri />
@@ -168,7 +182,7 @@
           <inputAnchors />
           <relations />
           <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission5/LAS_Experiment/tip_LAS_C.txt</targetDescriptionUri>
-          <assignmentUri>http://www.scy-lab.eu/content/en/mission5/LAS_Experiment/instruction_03_visualRepresentationOfData.html</assignmentUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission5/LAS_Experiment/instruction_03_simulationOfGlucoseLevels.html</assignmentUri>
           <resourcesUri />
           <helpUri />
           <webNewsUri />
@@ -206,19 +220,29 @@
         <colorScheme />
         <dependingOnMissionAnchorIds />
       </mainAnchor>
-      <intermediateAnchors />
+      <intermediateAnchors>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/50007/0/Conclusion+of+experiment.rtf</eloUri>
+          <id>conclusionOfExperiment</id>
+          <iconType>dataset</iconType>
+          <loElos />
+          <inputAnchors />
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission5/LAS_Experiment/tip_LAS_C.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission5/LAS_Experiment/instruction_04_conclusionOfExperiment.html</assignmentUri>
+          <resourcesUri />
+          <helpUri />
+          <webNewsUri />
+          <colorScheme />
+          <dependingOnMissionAnchorIds />
+        </intermediateAnchor>
+      </intermediateAnchors>
       <nextLasses>
         <las>experiment</las>
       </nextLasses>
     </las>
   </lasses>
-  <windowStatesXmls>
-    <windowStatesXml id="information">
-      <windowstates>
-        <window uri="roolo://memory/50001/0/List+of+information.rtf" layoutX="804.4" layoutY="35.0" relativeLayoutCenterX="0.8507874" relativeLayoutCenterY="0.08692422" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" opened="false" isManuallyRepositioned="false" />
-      </windowstates>
-    </windowStatesXml>
-  </windowStatesXmls>
+  <windowStatesXmls />
 </missionModel>
 </content>
 <resources>
