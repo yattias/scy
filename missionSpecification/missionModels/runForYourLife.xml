@@ -44,7 +44,7 @@
                            <value>conceptualization</value>
                         </list>
                      </property>
-                     <property name="anchorEloId" value="listOfInformation"/>
+                     <property name="anchorEloId" value="cmapOnGlucose"/>
 					 
                      <property name="intermediateEloIds">
                         <list>
@@ -71,6 +71,7 @@
                      <property name="anchorEloId" value="hypothesis"/>
                      <property name="intermediateEloIds">
                         <list>
+								<value>cmapOnGlucose</value>
 						</list>
                      </property>
                   </bean>
@@ -94,7 +95,7 @@
                      <property name="anchorEloId" value="conclusionOfExperiment"/>
                      <property name="intermediateEloIds">
                         <list>
-								<value>visualRepresentationOfData</value>
+								<value>hypothesis</value>								
 								<value>simulationOfGlucoseLevels</value>
 							</list>
                      </property>
@@ -118,6 +119,7 @@
                      <property name="anchorEloId" value="report"/>
                      <property name="intermediateEloIds">
                         <list>
+								<value>conclusionOfExperiment</value>						
                         </list>
                      </property>
                   </bean>
@@ -131,12 +133,12 @@
       <property name="basicMissionAnchors">
          <list>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="listOfInformation"/>
-               <property name="uri" value="roolo://memory/50001/0/List+of+information.rtf"/>
+               <property name="id" value="cmapOnGlucose"/>
+               <property name="uri" value="roolo://memory/50055/0/Concept-map+over+glucose.scymapping"/>
                <property name="iconType" value="information2"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission5/LAS_Information/tip_LAS_A.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission5/LAS_Information/instruction_01_listOfInformation.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission5/LAS_Information/resources_01_listOfInformation.html"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission5/LAS_Information/instruction_01_cmapOnGlucose.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission5/LAS_Information/resources_01_cmapOnGlucose.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -165,7 +167,7 @@
                <property name="uri" value="roolo://memory/50048/0/Glucose+level+simulation.scysimconfig"/>
                <property name="iconType" value="dataset"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission5/LAS_Experiment/tip_LAS_C.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission5/LAS_Experiment/instruction_03_visualRepresentationOfData.html"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission5/LAS_Experiment/instruction_03_simulationOfGlucoseLevels.html"/>
                <property name="resourcesUri" value=""/>
                <property name="inputMissionAnchorIds">
                   <list />
@@ -174,23 +176,8 @@
                   <list />
                </property>
             </bean>
-			
+	
 		    <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="visualRepresentationOfData"/>
-               <property name="uri" value="roolo://memory/50000/0/Glucose+Model.scymodel"/>
-               <property name="iconType" value="dataset"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission5/LAS_Experiment/tip_LAS_C.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission5/LAS_Experiment/instruction_03a_Model.html"/>
-               <property name="resourcesUri" value=""/>
-               <property name="inputMissionAnchorIds">
-                  <list />
-               </property>
-               <property name="loEloUris">
-                  <list />
-               </property>
-            </bean>
-			
-            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="conclusionOfExperiment"/>
                <property name="uri" value="roolo://memory/50007/0/Conclusion+of+experiment.rtf"/>
 			   <property name="iconType" value="dataset"/>
