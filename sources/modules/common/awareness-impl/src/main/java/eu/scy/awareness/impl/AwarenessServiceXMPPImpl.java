@@ -282,7 +282,8 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
                     if (presence.getMode() != null) {
                         au.setMode(presence.getMode().toString());
                     }
-                    String presenceString = presence.toString();
+                    au.setStatus(presence.getStatus());
+                    String presenceString = presence.getType().toString();
                     au.setPresence(presenceString);
                 }
                 buddies.add(au);
@@ -366,21 +367,18 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
                 if (presence == null) {
                     return;
                 }
-
+                IAwarenessUser aw = new AwarenessUser();
+                aw.setJid(presence.getFrom());
+                aw.setPresence(presence.getType().toString());
+                aw.setStatus(presence.getStatus());
+                IAwarePresenceEvent presenceEvent = new AwarenessPresenceEvent(
+                        AwarenessServiceXMPPImpl.this, aw,
+                        "updated from awareness service", presence.getType().toString(), presence.getStatus());
                 for (IAwarenessPresenceListener presenceListener : presenceListeners) {
                     if (presenceListener != null) {
-
-                        IAwarenessUser aw = new AwarenessUser();
-                        aw.setJid(presence.getFrom());
-                        aw.setPresence(presence.getType().toString());
-                        aw.setStatus(presence.getStatus());
-                        IAwarePresenceEvent presenceEvent = new AwarenessPresenceEvent(
-                                AwarenessServiceXMPPImpl.this, aw,
-                                "updated from awareness service", presence.getType().toString(), presence.getStatus());
                         presenceListener.handleAwarenessPresenceEvent(presenceEvent);
                     }
                 }
-
             }
         });
         
