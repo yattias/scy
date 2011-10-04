@@ -45,6 +45,8 @@
                      <property name="nextLasses">
                         <list>
                            <value>information</value>
+						   <value>reflection2</value>
+                           <value>evaluation</value>
                         </list>
                      </property>
                      <property name="anchorEloId" value="myOptimizedHealthyPizza"/>
@@ -69,10 +71,10 @@
                      </property>
                      <property name="nextLasses">
                         <list>
-                           <value>information</value>
-                           <value>conceptualization2</value>
+                           <value>design</value>
+                           <value>conceptualization1</value>
                            <value>conceptualization3</value>
-                           <value>reflection1</value>
+                           <value>conceptualization4</value>
                         </list>
                      </property>
                      <property name="anchorEloId" value="healthPassport"/>
@@ -98,7 +100,6 @@
                      <property name="nextLasses">
                         <list>
                            <value>experiment</value>
-                           <value>conceptualization1</value>
                         </list>
                      </property>
                      <property name="anchorEloId" value="questionsAboutPizzaBenefits"/>
@@ -146,7 +147,6 @@
                      <property name="nextLasses">
                         <list>
                            <value>experiment</value>
-                           <value>conceptualization3</value>
                         </list>
                      </property>
                      <property name="anchorEloId" value="constructionOfTheFoodPyramid"/>
@@ -170,7 +170,6 @@
                      <property name="nextLasses">
                         <list>
                            <value>experiment</value>
-                           <value>conceptualization4</value>
                         </list>
                      </property>
                      <property name="anchorEloId" value="energyFactSheet"/>
@@ -215,7 +214,6 @@
                      <property name="nextLasses">
                         <list>
                            <value>experiment</value>
-                           <value>reflection2</value>
                         </list>
                      </property>
                      <property name="anchorEloId" value="personalComments"/>
@@ -226,8 +224,8 @@
 
 				  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="reflection2"/>
-                     <property name="xPosition" value="-105"/>
-                     <property name="yPosition" value="-40"/>
+                     <property name="xPosition" value="-135"/>
+                     <property name="yPosition" value="-15"/>
                      <property name="tooltip" value="tip_LAS_I"/>
                      <property name="lasType" value="REFLECTION"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/curtain_REFLECTION2.html"/>
@@ -237,7 +235,6 @@
                      <property name="nextLasses">
                         <list>
                            <value>design</value>
-                           <value>evaluation</value>
                         </list>
                      </property>
                      <property name="anchorEloId" value="criteriaFinalTable"/>
@@ -253,8 +250,8 @@
 				  
 				  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="evaluation"/>
-                     <property name="xPosition" value="-40"/>
-                     <property name="yPosition" value="-100"/>
+                     <property name="xPosition" value="-15"/>
+                     <property name="yPosition" value="-135"/>
                      <property name="tooltip" value="tip_LAS_J"/>
                      <property name="lasType" value="EVALUATION"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/curtain_EVALUATION.html"/>
@@ -263,7 +260,7 @@
                      </property>
                      <property name="nextLasses">
                         <list>
-                           <value>design</value>
+                           <value>build</value>
                         </list>
                      </property>
                      <property name="anchorEloId" value="letterToSchoolCanteen"/>
@@ -277,8 +274,8 @@
 				  
 				  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="build"/>
-                     <property name="xPosition" value="-75"/>
-                     <property name="yPosition" value="5"/>
+                     <property name="xPosition" value="-80"/>
+                     <property name="yPosition" value="-80"/>
                      <property name="tooltip" value="tip_LAS_K"/>
                      <property name="lasType" value="CONSTRUCTION"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/curtain_BUILD.html"/>
@@ -287,7 +284,7 @@
                      </property>
                      <property name="nextLasses">
                         <list>
-                           <value>design</value>
+                           <value>evaluation</value>
                         </list>
                      </property>
                      <property name="anchorEloId" value="tasteScores"/>
