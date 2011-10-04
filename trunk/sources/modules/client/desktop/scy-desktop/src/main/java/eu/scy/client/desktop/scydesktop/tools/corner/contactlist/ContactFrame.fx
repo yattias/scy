@@ -10,8 +10,6 @@ import javafx.scene.CustomNode;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.Node;
-import javafx.animation.Timeline;
-import javafx.animation.SimpleInterpolator;
 import javafx.scene.transform.Scale;
 import javafx.scene.paint.Color;
 
@@ -83,5 +81,9 @@ public class ContactFrame extends CustomNode {
 
     init {
         size = INITIAL_SIZE;
+    }
+
+    override public function toString():String{
+        return "ContactFrame[{contact}]";
     }
 }
