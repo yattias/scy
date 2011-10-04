@@ -230,7 +230,9 @@ function renderHtmlLabel(item){
 
                 </div>
         <div dojoType="dojox.layout.ContentPane" style="width:100%;height:60%;" id="eportfolioPane" parseOnLoad="true" executeScripts="true">
-
+                <center>List of obligatory student products you have to add to your ePortfolio is show here.</center><br/>
+                <center>Gray frame = missing products, Green frame=  added products.</center>
+                <br/><br/>
 
             <div dojoType="dojox.widget.FisheyeList"
 		itemWidth="80" itemHeight="80"
@@ -242,6 +244,7 @@ function renderHtmlLabel(item){
 		labelEdge="bottom"
 		id="fisheye1"
         conservativeTrigger="true" >
+
 
 
 
