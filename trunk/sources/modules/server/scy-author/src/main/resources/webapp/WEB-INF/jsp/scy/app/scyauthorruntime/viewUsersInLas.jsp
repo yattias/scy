@@ -26,7 +26,7 @@
                                         <span>
                                             <div>
                                                 <center>
-                                                    <img  id="toolTip-${activeUser.userDetails.username}" src="/webapp/common/filestreamer.html?username=${userActivityInfo.parsedUserName}&showIcon"/>
+                                                    <img  id="toolTip-${activeUser.userDetails.username}" src="/webapp/common/filestreamer.html?username=${activeUser.userDetails.username}&showIcon"/>
                                                     <br/>
                                                     ${activeUser.userDetails.firstName}
                                                 </center>
