@@ -61,10 +61,8 @@ public class ContactList extends CustomNode {
 
     function createContactFrames(): Void {
         //TODO check if contact already exists -> UserID
-        println("++++++++++++removing all contact frames++++++++++++++++");
         var contactFrames: ContactFrame[];
         for (contact in contacts) {
-            println("contact: {contact} - filter: {filter} - filterId: {filterId} - contact.getStatus: {contact.awarenessUser.getStatus()}");
             if((not filter ) or (filter and  filterId.equalsIgnoreCase(contact.awarenessUser.getStatus()) )) {
 
                 def contactFrame: ContactFrame = ContactFrame {
@@ -84,7 +82,6 @@ public class ContactList extends CustomNode {
                 }
                 tooltipManager.registerNode(contactFrame, contactTooltipCreator);
                 insert contactFrame into contactFrames;
-                println("+++++++ inserted contact frame: {contactFrame} ++++++++++++");
             }
         }
         calculateMultiColumnContent(columns, contactFrames);
