@@ -5,6 +5,7 @@
 package eu.scy.client.desktop.scydesktop.hacks;
 
 import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
+import java.awt.EventQueue;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +54,9 @@ public class RepositoryWrapper implements IRepository
 //	private IMetadataKey typeKey;
 //	private IMetadataKey annotatesRelationKey;
    private List<EloSavedListener> eloSavedListeners = new CopyOnWriteArrayList<EloSavedListener>();
+
+   // to enable the EDT check start SCY-Lab with -UEDTCheck=true
+   private boolean edtCheck = Boolean.getBoolean("EDTCheck");
 
    @Override
    public String toString()
@@ -264,6 +268,7 @@ public class RepositoryWrapper implements IRepository
    @Override
    public IMetadata addNewELO(IELO elo)
    {
+      throwExceptionIfOnEDT();
       addGeneralMetadata(elo);
       IMetadata metadata = repository.addNewELO(elo);
       if (uriKey != null)
@@ -276,6 +281,7 @@ public class RepositoryWrapper implements IRepository
    @Override
    public IMetadata addForkedELO(IELO elo)
    {
+      throwExceptionIfOnEDT();
       addGeneralMetadata(elo);
       IMetadata metadata = repository.addForkedELO(elo);
       if (uriKey != null)
@@ -288,6 +294,7 @@ public class RepositoryWrapper implements IRepository
    @Override
    public IMetadata addForkedELO(IELO elo, URI parentUri)
    {
+      throwExceptionIfOnEDT();
       addGeneralMetadata(elo);
       IMetadata metadata = repository.addForkedELO(elo, parentUri);
       if (uriKey != null)
@@ -300,18 +307,21 @@ public class RepositoryWrapper implements IRepository
    @Override
    public IELO retrieveELO(URI arg0)
    {
+      throwExceptionIfOnEDT();
       return repository.retrieveELO(arg0);
    }
 
    @Override
    public void deleteELO(URI arg0)
    {
+      throwExceptionIfOnEDT();
       repository.deleteELO(arg0);
    }
 
    @Override
    public IMetadata updateELO(IELO elo)
    {
+      throwExceptionIfOnEDT();
       addGeneralMetadata(elo);
       IMetadata metadata = repository.updateELO(elo);
       if (uriKey != null)
@@ -324,6 +334,7 @@ public class RepositoryWrapper implements IRepository
    @Override
    public IMetadata updateELO(IELO elo, URI parentUri)
    {
+      throwExceptionIfOnEDT();
       addGeneralMetadata(elo);
       IMetadata metadata = repository.updateELO(elo, parentUri);
       if (uriKey != null)
@@ -336,30 +347,35 @@ public class RepositoryWrapper implements IRepository
    @Override
    public void archiveELO(URI arg0)
    {
+      throwExceptionIfOnEDT();
       repository.archiveELO(arg0);
    }
 
    @Override
    public void unarchiveELO(URI arg0)
    {
+      throwExceptionIfOnEDT();
       repository.unarchiveELO(arg0);
    }
 
    @Override
    public List<ISearchResult> search(IQuery arg0)
    {
-         return repository.search(arg0);
+       throwExceptionIfOnEDT();
+       return repository.search(arg0);
    }
 
    @Override
    public IMetadata retrieveMetadata(URI arg0)
    {
+      throwExceptionIfOnEDT();
       return repository.retrieveMetadata(arg0);
    }
 
    @Override
    public void addMetadata(URI arg0, IMetadata arg1)
    {
+      throwExceptionIfOnEDT();
       repository.addMetadata(arg0, arg1);
       if (uriKey != null)
       {
@@ -370,48 +386,56 @@ public class RepositoryWrapper implements IRepository
    @Override
    public IELO retrieveELOLastVersion(URI arg0)
    {
+      throwExceptionIfOnEDT();
       return repository.retrieveELOLastVersion(arg0);
    }
 
    @Override
    public IELO retrieveELOFirstVersion(URI arg0)
    {
+      throwExceptionIfOnEDT();
       return repository.retrieveELOFirstVersion(arg0);
    }
 
    @Override
    public IMetadata retrieveMetadataLastVersion(URI arg0)
    {
+      throwExceptionIfOnEDT();
       return repository.retrieveMetadataLastVersion(arg0);
    }
 
    @Override
    public IMetadata retrieveMetadataFirstVersion(URI arg0)
    {
+      throwExceptionIfOnEDT();
       return repository.retrieveMetadataFirstVersion(arg0);
    }
 
    @Override
    public List<IELO> retrieveELOAllVersions(URI uri)
    {
+      throwExceptionIfOnEDT();
       return repository.retrieveELOAllVersions(uri);
    }
 
    @Override
    public List<IELO> retrieveELOs(List<URI> uris)
    {
+      throwExceptionIfOnEDT();
       return repository.retrieveELOs(uris);
    }
 
    @Override
    public List<IMetadata> retrieveMetadataAllVersions(URI uri)
    {
+      throwExceptionIfOnEDT();
       return repository.retrieveMetadataAllVersions(uri);
    }
 
    @Override
    public List<IMetadata> retrieveMetadatas(List<URI> uris)
    {
+      throwExceptionIfOnEDT();
       return repository.retrieveMetadatas(uris);
    }
 
@@ -451,5 +475,28 @@ public class RepositoryWrapper implements IRepository
     @Override
     public int getHits(IQuery query) {
         return repository.getHits(query);
+    }
+
+    private void throwExceptionIfOnEDT() {
+        if (edtCheck && EventQueue.isDispatchThread()) {
+            try {
+                throw new RuntimeException("ROOLO ACCESS ON EDT IS FORBIDDEN!");
+            } catch (RuntimeException e) {
+                System.err.println("ROOLO ACCESS ON EDT IS FORBIDDEN!\n"
+                                 + "RoOLO is a remote component. If you ever want to access it,\n"
+                                 + "do it on an extra thread, as access on the EDT will freeze\n"
+                                 + "the UI and make SCY-Lab look crashed for the user. This will\n"
+                                 + "create a very bad user experience and users will not like it.\n"
+                                 + "You can use FX.deferAction() for \"fire and forget\" operations\n"
+                                 + "or XFX.runActionInBackgroundAndCallBack(f, f) to pass a\n"
+                                 + "function into the background and get a callback on the EDT\n"
+                                 + "to complete the result. You should always give feedback to\n"
+                                 + "the user, that something is happening by indicating progress.\n"
+                                 + "The simple solution is to use ProgressOverlay.startShowWorking();\n"
+                                 + "and ProgressOverlay.stopShowWorking();. From now on, no excuses\n"
+                                 + "for a laggy UI!");
+                e.printStackTrace();
+            }
+        }
     }
 }
