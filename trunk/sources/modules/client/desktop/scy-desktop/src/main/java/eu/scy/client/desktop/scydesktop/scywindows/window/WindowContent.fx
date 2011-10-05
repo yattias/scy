@@ -120,7 +120,6 @@ public class WindowContent extends CustomNode {
 
    function setSwingCustomMetalTheme(node: Node): Void {
       if (node instanceof ScySwingWrapper) {
-         println("applying custom metal theme on a ScySwingWrapper");
          def scySwingWrapper = node as ScySwingWrapper;
          scySwingWrapper.windowColorScheme = windowColorScheme;
       } else if (node instanceof Container) {
