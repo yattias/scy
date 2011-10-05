@@ -55,7 +55,7 @@ public class RepositoryWrapper implements IRepository
 //	private IMetadataKey annotatesRelationKey;
    private List<EloSavedListener> eloSavedListeners = new CopyOnWriteArrayList<EloSavedListener>();
 
-   // to enable the EDT check start SCY-Lab with -UEDTCheck=true
+   // to enable the EDT check start SCY-Lab with -DEDTCheck=true
    private boolean edtCheck = Boolean.getBoolean("EDTCheck");
 
    @Override
