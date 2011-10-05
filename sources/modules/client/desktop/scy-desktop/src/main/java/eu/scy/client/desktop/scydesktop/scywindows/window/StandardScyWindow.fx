@@ -41,6 +41,9 @@ import org.apache.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleLayer;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleKey;
+import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactFrame;
+import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.OnlineState;
+import eu.scy.client.desktop.scydesktop.dialogs.DragBuddyDialog;
 
 /**
  * @author sikkenj
@@ -246,21 +249,58 @@ public class StandardScyWindow extends ScyWindow {
       }
    }
 
-   public override function canAcceptDrop(object: Object): Boolean {
-       if (titleBarBuddies.canAcceptDrop(object)) {
-           return true;
-       } else {
-           return scyToolsList.canAcceptDrop(object);
-       }
-   }
+  public override function canAcceptDrop(object: Object): Boolean {
+        if (object instanceof ContactFrame and (not ownershipManager.isOwner((object as ContactFrame).contact.name))) {
+            return true;
+        } else {
+            return scyToolsList.canAcceptDrop(object);
+        }
+    }
 
-   public override function acceptDrop(object: Object): Void {
-       if (titleBarBuddies.canAcceptDrop(object)) {
-           titleBarBuddies.acceptDrop(object);
-       } else {
-           scyToolsList.acceptDrop(object);
-       }
-   }
+    public override function acceptDrop(object: Object): Void {
+        //buddy & offline -> addBuddyAsOwner
+        //buddy & online ->
+        //!collaborativ -> Dialog (add buddy as owner / send elo to buddy)
+        //collaborativ -> Dialog (add buddy as owner / send elo to buddy / start collaboration)
+        if (object instanceof ContactFrame) {
+            def c: ContactFrame = object as ContactFrame;
+            if (c.contact.onlineState == OnlineState.OFFLINE) {
+                addBuddyAsOwner(c);
+            } else if (c.contact.onlineState == OnlineState.AWAY) {
+                //XXX what should happen here? For the moment we just add the buddy as owner
+                addBuddyAsOwner(c);
+            } else {
+                //online
+               DragBuddyDialog {
+                            scyDesktop: windowControl.windowManager.scyDesktop
+                            scyElo: scyElo
+                            eloIconName: "collaboration_invitation"
+                            title: ##"Dragged buddy"
+                            message: "{##"You dragged a buddy on this ELO. What do you want to do?"}"
+                            collaborative : scyToolsList.canAcceptDrop(object)
+                            sendEloFunction: function():Void{
+                                sendEloToUser(c);
+                            }
+                            addBuddyFunction: function():Void{
+                                addBuddyAsOwner(c);
+                            }
+                            collaborateFunction:function():Void{
+                                scyToolsList.acceptDrop(object);
+                            }
+                        }
+            }
+        }
+    }
+
+    function addBuddyAsOwner(contactFrame: ContactFrame): Void {
+        if (not ownershipManager.isOwner(contactFrame.contact.name)) {
+            ownershipManager.addOwner(contactFrame.contact.name, true);
+        }
+    }
+
+    function sendEloToUser(contactFrame: ContactFrame): Void {
+        //TODO implement
+    }
 
    override function addChangesListener(wcl: WindowChangesListener) {
       insert wcl into changesListeners;
