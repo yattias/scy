@@ -54,6 +54,7 @@ import roolo.elo.api.IELO;
 import roolo.elo.api.exceptions.ELONotLastVersionException;
 import javafx.scene.Node;
 import eu.scy.client.desktop.desktoputils.art.AnimationTiming;
+import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 
 /**
  * @author sikken
@@ -184,35 +185,48 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
    }
 
    function saveAction(eloSaveAsPanel: EloSaveAsMixin): Void {
-      var elo = eloSaveAsPanel.elo;
-      updateTags(elo);
+      def elo = eloSaveAsPanel.elo;
       def scyElo = eloSaveAsPanel.scyElo;
-      eloSaveAsPanel.setTitleAndLanguagesInElo();
-      scyElo.setFunctionalRole(eloSaveAsPanel.getFunctionalRole());
       addThumbnail(scyElo);
-      scyElo.setDateFirstUserSave(System.currentTimeMillis());
 
-      if (eloSaveAsPanel.authorUpdate) {
-         // the call is  caused by an update action, so that the author can modify the titles
-         // so do not create a new elo, but do just an update
-         scyElo.updateElo();
-      } else if (elo.getUri() != null) {
-         if (scyElo.getAuthors().size() > 1) {
-            scyElo.setAuthor(loginName);
-            window.windowManager.scyDesktop.uninstallCollaborationTools(window);
-            window.ownershipManager.update();
-         }
-         scyElo.saveAsForkedElo();
-      } else {
-         scyElo.setCreator(loginName);
-         scyElo.saveAsNewElo();
-      }
-      if (eloSaveAsPanel.myElo or eloSaveAsPanel.authorUpdate) {
-         myEloChanged.myEloChanged(scyElo);
-      }
+      ProgressOverlay.startShowWorking();
+
+      XFX.runActionInBackgroundAndCallBack(function() : Object {
+          updateTags(elo);
+          eloSaveAsPanel.setTitleAndLanguagesInElo();
+          scyElo.setFunctionalRole(eloSaveAsPanel.getFunctionalRole());
+          scyElo.setDateFirstUserSave(System.currentTimeMillis());
+          if (eloSaveAsPanel.authorUpdate) {
+             // the call is  caused by an update action, so that the author can modify the titles
+             // so do not create a new elo, but do just an update
+                 scyElo.updateElo();
+          } else if (elo.getUri() != null) {
+             if (scyElo.getAuthors().size() > 1) {
+                scyElo.setAuthor(loginName);
+                FX.deferAction(function() :Void {
+                    window.windowManager.scyDesktop.uninstallCollaborationTools(window);
+                    window.ownershipManager.update();
+                });
+             }
+                scyElo.saveAsForkedElo();
+          } else {
+                scyElo.setCreator(loginName);
+                scyElo.saveAsNewElo();
+          }
+          if (eloSaveAsPanel.myElo or eloSaveAsPanel.authorUpdate) {
+             myEloChanged.myEloChanged(scyElo);
+          }
+          scyToolActionLogger.eloSaved(elo);
+          return eloSaveAsPanel as Object;
+      }, afterSaveAction);
+   }
+
+   function afterSaveAction(eloSaveAsPanelObject : Object) {
+      def eloSaveAsPanel = eloSaveAsPanelObject as EloSaveAsMixin;
+      def elo = eloSaveAsPanel.elo;
       eloSaveAsPanel.eloSaverCallBack.eloSaved(elo);
-      scyToolActionLogger.eloSaved(elo);
       eloSaveAsPanel.modalDialogBox.close();
+      ProgressOverlay.stopShowWorking();
       showEloSaved();
    }
 
@@ -242,7 +256,6 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
       if (elo == null) {
          throw new IllegalArgumentException("elo may not be null");
       }
-      updateTags(elo);
 
       if (elo.getUri() != null) {
          def scyElo = new ScyElo(elo, config.getToolBrokerAPI());
@@ -252,38 +265,46 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
          } else {
             def myElo = scyElo.getAuthors().contains(config.getToolBrokerAPI().getLoginUserName());
             if (myElo or window.isQuiting) {
-               // it is (also) my elo
-               var dateFirstUserSaveSet = false;
-               var creatorSet = false;
-               addThumbnail(scyElo);
-               if (scyElo.getDateFirstUserSave() == null) {
-                  scyElo.setDateFirstUserSave(System.currentTimeMillis());
-                  dateFirstUserSaveSet = true;
-               }
-               if (scyElo.getCreator() == null) {
-                  scyElo.setCreator(loginName);
-                  creatorSet = true;
-               }
-               if (myElo) {
-                  try {
-                     scyElo.updateElo();
-                  } catch (e: ELONotLastVersionException) {
-                     logger.error("unexpected ELONotLastVersionException for elo: {e.getURI()}, now doing a save as");
-                     if (dateFirstUserSaveSet) {
-                        scyElo.getMetadata().deleteMetatadata(dateFirstUserSaveKey);
-                     }
-                     if (creatorSet) {
-                        scyElo.getMetadata().deleteMetatadata(creatorKey);
-                     }
-                     eloSaveAs(elo, eloSaverCallBack);
-                  }
-               } else {
-                  // it is not my, but as this window is being quit, i may not ask the user anything
-                  scyElo.saveAsForkedElo();
-               }
-               myEloChanged.myEloChanged(scyElo);
-               eloSaverCallBack.eloSaved(scyElo.getElo());
-               showEloSaved();
+               ProgressOverlay.startShowWorking();
+               XFX.runActionInBackgroundAndCallBack(function() : Object {
+                   updateTags(elo);
+                   // it is (also) my elo
+                   var dateFirstUserSaveSet = false;
+                   var creatorSet = false;
+                   addThumbnail(scyElo);
+                   if (scyElo.getDateFirstUserSave() == null) {
+                      scyElo.setDateFirstUserSave(System.currentTimeMillis());
+                      dateFirstUserSaveSet = true;
+                   }
+                   if (scyElo.getCreator() == null) {
+                      scyElo.setCreator(loginName);
+                      creatorSet = true;
+                   }
+                   if (myElo) {
+                      try {
+                         scyElo.updateElo();
+                      } catch (e: ELONotLastVersionException) {
+                         logger.error("unexpected ELONotLastVersionException for elo: {e.getURI()}, now doing a save as");
+                         if (dateFirstUserSaveSet) {
+                            scyElo.getMetadata().deleteMetatadata(dateFirstUserSaveKey);
+                         }
+                         if (creatorSet) {
+                            scyElo.getMetadata().deleteMetatadata(creatorKey);
+                         }
+                         eloSaveAs(elo, eloSaverCallBack);
+                      }
+                   } else {
+                      // it is not my, but as this window is being quit, i may not ask the user anything
+                      scyElo.saveAsForkedElo();
+                   }
+                   scyToolActionLogger.eloSaved(elo);
+                   myEloChanged.myEloChanged(scyElo);
+                   return null;
+               }, function (o :Object) {
+                   eloSaverCallBack.eloSaved(scyElo.getElo());
+                   ProgressOverlay.stopShowWorking();
+                   showEloSaved();
+               });
             } else {
                // it is not my elo, do a save as
                eloSaveAs(elo, eloSaverCallBack);
@@ -292,8 +313,6 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
       } else {
          eloSaveAs(elo, eloSaverCallBack);
       }
-
-      scyToolActionLogger.eloSaved(elo);
    }
 
    public override function otherEloSaveAs(elo: IELO, eloSaverCallBack: EloSaverCallBack): Void {
