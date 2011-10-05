@@ -230,7 +230,7 @@ class GroupFormationNotificationHelper {
         notificationTuple.add(action.getContext(ContextConstants.session));
         notificationTuple.add("type=filter_users");
         notificationTuple.add("filter=" + Boolean.toString(filterEnabled));
-        notificationTuple.add("groupd-id=" + groupid);
+        notificationTuple.add("group-id=" + groupid);
         try {
             notificationSpace.write(notificationTuple);
         } catch ( TupleSpaceException e ) {
