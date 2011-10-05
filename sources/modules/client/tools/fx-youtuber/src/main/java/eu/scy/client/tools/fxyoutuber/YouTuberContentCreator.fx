@@ -18,10 +18,6 @@ public class YouTuberContentCreator extends ScyToolCreatorFX {
 
     public var toolBrokerAPI:ToolBrokerAPI;
 
-    init {
-        println("youtuber content creator");
-    }
-
     public override function createScyToolNode(eloType:String, creatorId:String, scyWindow:ScyWindow, windowContent: Boolean):Node {
         setWindowProperties(scyWindow);
         var props:Properties = new Properties();
