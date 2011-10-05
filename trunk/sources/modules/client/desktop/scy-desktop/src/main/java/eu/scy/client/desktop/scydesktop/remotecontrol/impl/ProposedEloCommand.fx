@@ -37,7 +37,7 @@ public class ProposedEloCommand extends ScyDesktopRemoteCommand {
             eloUri: uri
             eloIconName: "collaboration_invitation"
             title: ##"Shared ELO"
-            message: "{userNickname} {##"wants to share an ELO with you."}"
+            message: "{userNickname} {##"wants to share an ELO with you. Do you want to open it?"}"
             yesTitle: ##"Accept"
             yesFunction: function(): Void {
                 if (toolWindow == null) {
@@ -49,6 +49,7 @@ public class ProposedEloCommand extends ScyDesktopRemoteCommand {
                     logger.debug("updating existing ELO/tool.");
                     toolWindow.setScyContent(toolWindow);
                 }
+                toolWindow.openDrawer("right");
                 scyDesktop.scyWindowControl.makeMainScyWindow(uri);
             }
             noTitle: ##"Deny"
