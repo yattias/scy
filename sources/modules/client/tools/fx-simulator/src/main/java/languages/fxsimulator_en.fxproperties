@@ -1,5 +1,7 @@
 "Clear Dataset"="Clear Dataset"
 "Do you want to synchronise\nwith the Dataprocessing tool?"="Do you want to synchronise\nwith the Dataprocessing tool?"
+"Drag to connect"="Drag this symbol to a dataset to automatically update it."
+"Drag to disconnect"="Drag this symbol to disconnect the dataset and the simulator."
 "No"="No"
 "Please wait while the simulation is loaded, this may take some seconds."="Please wait while the simulation is loaded, this may take some seconds."
 "Save Simconfig"="Save Simconfig"
@@ -7,5 +9,3 @@
 "SaveAs Simconfig"="SaveAs Simconfig"
 "Synchronise?"="Synchronise?"
 "Yes"="Yes"
-"Drag to connect"="Drag this symbol to a dataset to automatically update it."
-"Drag to disconnect"="Drag this symbol to disconnect the dataset and the simulator."
