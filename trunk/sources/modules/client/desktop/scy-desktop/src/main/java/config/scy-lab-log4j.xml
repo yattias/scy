@@ -15,7 +15,7 @@
 	</appender>
 
 	<logger name="eu.scy">
-		<level value="info" />
+		<level value="error" />
 	</logger>
 
 	<logger name="eu.scy.client.desktop.desktoputils.InjectObjectsUtils">
@@ -23,27 +23,27 @@
 	</logger>
 
 	<logger name="eu.scy.client.desktop.scydesktop.scywindows">
-		<level value="info" />
+		<level value="error" />
 	</logger>
 
 	<logger name="eu.scy.client.desktop.scydesktop.scywindows.moreinfomanager">
-		<level value="info" />
+		<level value="error" />
 	</logger>
 
 	<logger name="eu.scy.client.desktop.scydesktop.scywindows.scydesktop">
-		<level value="info" />
+		<level value="error" />
 	</logger>
 
 	<logger name="eu.scy.client.desktop.scydesktop.scywindows.window_positions">
-		<level value="info" />
+		<level value="error" />
 	</logger>
 
 	<logger name="eu.scy.client.desktop.scydesktop.elofactory">
-		<level value="info" />
+		<level value="error" />
 	</logger>
 
    <logger name="eu.scy.common.configuration">
-      <level value="info" />
+      <level value="error" />
    </logger>
 
 	<logger name="org.apache">
