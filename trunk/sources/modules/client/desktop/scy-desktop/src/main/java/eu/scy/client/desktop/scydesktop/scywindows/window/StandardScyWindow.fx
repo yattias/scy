@@ -45,7 +45,6 @@ import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactFrame;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.OnlineState;
 import eu.scy.client.desktop.scydesktop.dialogs.DragBuddyDialog;
 import eu.scy.actionlogging.api.IAction;
-import eu.scy.actionlogging.Action;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.actionlogging.api.ContextConstants;
 
