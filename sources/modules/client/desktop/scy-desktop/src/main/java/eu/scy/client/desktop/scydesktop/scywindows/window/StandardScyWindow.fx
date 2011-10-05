@@ -41,7 +41,6 @@ import org.apache.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleLayer;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleKey;
-import java.lang.RuntimeException;
 
 /**
  * @author sikkenj
@@ -57,24 +56,26 @@ public class StandardScyWindow extends ScyWindow {
               titleBarBuddies.buddiesChanged();
            };
    public override var width = 150 on replace oldWidth {
-              //      println("before width from {oldWidth} size: {width}*{height}, content: {contentWidth}*{contentHeight} of {eloUri}");
-              if (not isAnimating) {
-                 width = limitSize(width, height).x;
-              }
+//                    println("before width from {oldWidth} size: {width}*{height}, content: {contentWidth}*{contentHeight} of {eloUri}");
+//              JAKOB: Why did you do this? It freaked the layouting....
+//              if (not isAnimating) {
+//                 width = limitSize(width, height).x;
+//              }
               realWidth = width;
-           //      println("after width from {oldWidth} size: {width}*{height}, content: {contentWidth}*{contentHeight} of {eloUri}");
+//                 println("after width from {oldWidth} size: {width}*{height}, content: {contentWidth}*{contentHeight} of {eloUri}");
            };
    public override var height = 100 on replace oldHeight {
-              //      println("before height from {oldHeight} size: {width}*{height}, content: {contentWidth}*{contentHeight} of {eloUri}");
-              if (not isAnimating) {
-                 if (isClosed or isMinimized) {
-                    height = closedHeight;
-                 } else {
-                    height = limitSize(width, height).y;
-                 }
-              }
+//                    println("before height from {oldHeight} size: {width}*{height}, content: {contentWidth}*{contentHeight} of {eloUri}");
+//              JAKOB: Why did you do this? It freaked the layouting....
+//              if (not isAnimating) {
+//                 if (isClosed or isMinimized) {
+//                    height = closedHeight;
+//                 } else {
+//                    height = limitSize(width, height).y;
+//                 }
+//              }
               realHeight = height;
-           //      println("after height from {oldHeight} size: {width}*{height}, content: {contentWidth}*{contentHeight} of {eloUri}");
+//                 println("after height from {oldHeight} size: {width}*{height}, content: {contentWidth}*{contentHeight} of {eloUri}");
            };
    public override var widthHeightProportion = -1.0;
    public override var scyContent on replace {
@@ -494,7 +495,7 @@ public class StandardScyWindow extends ScyWindow {
           }
           isAnimating = false;
           scyToolsList.onClosed();
-          updateRelativeBounds();
+//          updateRelativeBounds();
           reorganizeOtherMainWindows();
        }
    }
