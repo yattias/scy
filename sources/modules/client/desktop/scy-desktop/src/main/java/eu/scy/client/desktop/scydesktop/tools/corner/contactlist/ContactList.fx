@@ -30,6 +30,7 @@ import roolo.search.ISearchResult;
 import java.net.URI;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import java.lang.String;
+import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 
 /**
  * @author Sven
@@ -37,7 +38,8 @@ import java.lang.String;
 public class ContactList extends CustomNode {
 
     public-init var dragAndDropManager: DragAndDropManager;
-    public var tooltipManager: TooltipManager;
+    public-init var tooltipManager: TooltipManager;
+    public-init var windowStyler: WindowStyler;
     public-init var scyDesktop: ScyDesktop;
     public-init var showOfflineContacts: Boolean = true;
     public-init var columns: Integer;
@@ -45,7 +47,9 @@ public class ContactList extends CustomNode {
     public var filter: Boolean = false on replace{createContactFrames()};
     public var filterId: String on replace{createContactFrames()};
     def chatManager: ChatManager = ChatManager {};
+    def buddyEloIcon = windowStyler.getScyEloIcon("buddy_other");
     def contactTooltipCreator = ContactTooltipCreator {
+               windowColorScheme: buddyEloIcon.windowColorScheme
             }
     var awarenessServiceWrapper: AwarenessServiceWrapper;
     public var toolBrokerAPI: ToolBrokerAPI;

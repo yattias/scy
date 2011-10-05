@@ -433,6 +433,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                  contacts: []
                  dragAndDropManager: dragAndDropManager
                  tooltipManager: tooltipManager
+                 windowStyler: windowStyler
                  scyDesktop: this
                  height: 250
                  showOfflineContacts: initializer.showOfflineContacts
