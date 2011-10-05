@@ -24,6 +24,7 @@ import eu.scy.client.desktop.scydesktop.remotecontrol.impl.ScaffoldLevelCommand;
 import eu.scy.client.desktop.scydesktop.remotecontrol.impl.SetStatusCommand;
 import eu.scy.client.desktop.scydesktop.remotecontrol.impl.FilterUsersByStatusCommand;
 import eu.scy.client.desktop.scydesktop.remotecontrol.impl.SearchProposalCommand;
+import eu.scy.client.desktop.scydesktop.remotecontrol.impl.ProposedEloCommand;
 
 
 /** This JavaFX class wraps the Registry for RemoteCommands and makes JavaFX-RemoteCommands possible
@@ -51,7 +52,8 @@ public class RemoteCommandRegistryFX extends INotifiable {
         def setStatusCommand = new SetStatusCommand(scyDesktop.config.getToolBrokerAPI());
         def filterUsersByStatusCommand = FilterUsersByStatusCommand { scyDesktop: scyDesktop };
         def searchProposalCommand = SearchProposalCommand { scyDesktop: scyDesktop };
-        remoteCommandRegistry.registerRemoteCommands(scaffoldLevelCommand, collaborationRequestCommand, collaborationResponseCommand, eloShowCommand, messageDialogShowCommand, optionDialogShowCommand, eloAssessmentFinishedCommand,feedbackAskedCommand,feedbackGivenCommand,addBuddyCommand,removeAllBuddiesCommand, agendaNotificationCommand, setStatusCommand, filterUsersByStatusCommand, searchProposalCommand);
+        def proposedEloCommand = ProposedEloCommand { scyDesktop: scyDesktop };
+        remoteCommandRegistry.registerRemoteCommands(scaffoldLevelCommand, collaborationRequestCommand, collaborationResponseCommand, eloShowCommand, messageDialogShowCommand, optionDialogShowCommand, eloAssessmentFinishedCommand,feedbackAskedCommand,feedbackGivenCommand,addBuddyCommand,removeAllBuddiesCommand, agendaNotificationCommand, setStatusCommand, filterUsersByStatusCommand, searchProposalCommand, proposedEloCommand);
         }
 
    postinit{
