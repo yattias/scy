@@ -254,11 +254,13 @@ public class StandardScyWindow extends ScyWindow {
     }
 
     public override function canAcceptDrop(object: Object): Boolean {
-        if (object instanceof ContactFrame and (not ownershipManager.isOwner((object as ContactFrame).contact.name))) {
-            return true;
-        } else {
-            return scyToolsList.canAcceptDrop(object);
+        if (object instanceof ContactFrame) {
+            def c:ContactFrame = object as ContactFrame;
+            if (not ownershipManager.isOwner(c.contact.name)) {
+                return true;
+            }
         }
+        return scyToolsList.canAcceptDrop(object);
     }
 
     public override function acceptDrop(object: Object): Void {
@@ -281,7 +283,7 @@ public class StandardScyWindow extends ScyWindow {
                     eloIconName: "collaboration_invitation"
                     title: ##"Dragged buddy"
                     message: "{##"You dragged a buddy on this ELO. What do you want to do?"}"
-                             collaborative: scyToolsList.canAcceptDrop(object)
+                              collaborative: scyToolsList.canAcceptDrop(object)
                     sendEloFunction: function(): Void {
                         sendEloToUser(c, scyElo);
                     }
@@ -302,10 +304,10 @@ public class StandardScyWindow extends ScyWindow {
         }
     }
 
-    function sendEloToUser(contactFrame: ContactFrame, scyElo:ScyElo): Void {
-        if((not (scyElo==null)) and (not (scyElo.getUri() == null))){
-            def sendEloAction:IAction  = new Action();
-            def proposingUser:String = windowControl.windowManager.scyDesktop.config.getToolBrokerAPI().getContextService().getUsername();
+    function sendEloToUser(contactFrame: ContactFrame, scyElo: ScyElo): Void {
+        if ((not (scyElo == null)) and (not (scyElo.getUri() == null))) {
+            def sendEloAction: IAction = new Action();
+            def proposingUser: String = windowControl.windowManager.scyDesktop.config.getToolBrokerAPI().getContextService().getUsername();
             sendEloAction.setUser(proposingUser);
             sendEloAction.setType("proposed_elo");
             sendEloAction.addContext(ContextConstants.tool, "scylab");
