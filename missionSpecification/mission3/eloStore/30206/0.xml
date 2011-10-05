@@ -12,12 +12,12 @@
           <dateTime>2011-09-09T17:00:37.969+0200</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>1</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1315580437969</dateCreated>
-        <dateLastModified>1315580437969</dateLastModified>
+        <dateLastModified>1317804758343</dateLastModified>
       </customElements>
       <format>scy/missionmapmodel</format>
     </technical>
@@ -26,8 +26,12 @@
         <catalog>memory</catalog>
         <entry>roolo://memory/30206/0/A+healthy+pizza.scymissionmapmodel</entry>
       </identifier>
-      <las />
+      <las>conceptualization3</las>
       <missionId>pizza2</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30211/0/A+healthy+pizza.scymissionspecification</entry>
+      </missionRunning>
       <title>
         <string language="en">A healthy pizza</string>
       </title>
@@ -46,7 +50,7 @@
 </metadata>
 <content languages="en" contentType="xml">
 <missionModel>
-  <activeLas>design</activeLas>
+  <activeLas>conceptualization3</activeLas>
   <missionMapBackgroundImageUri>http://www.scy-lab.eu/content/en/mission3/pizzaBackground.fxz</missionMapBackgroundImageUri>
   <missionMapInstructionUri>http://www.scy-lab.eu/content/en/mission3/curtain_MISSION.html</missionMapInstructionUri>
   <missionMapButtonIconType>pizza</missionMapButtonIconType>
@@ -75,6 +79,7 @@
         <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_27_myOptimizedHealthyPizza.html</assignmentUri>
         <resourcesUri />
         <helpUri />
+        <webNewsUri />
         <colorScheme />
         <dependingOnMissionAnchorIds>
           <dependingOnMissionAnchorId>criteriaFinalTable</dependingOnMissionAnchorId>
@@ -92,6 +97,7 @@
           <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_01_myFavouritePizza.html</assignmentUri>
           <resourcesUri />
           <helpUri />
+          <webNewsUri />
           <colorScheme />
           <dependingOnMissionAnchorIds />
         </intermediateAnchor>
@@ -106,6 +112,7 @@
           <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_21_myFirstHealthyPizza.html</assignmentUri>
           <resourcesUri />
           <helpUri />
+          <webNewsUri />
           <colorScheme />
           <dependingOnMissionAnchorIds />
         </intermediateAnchor>
@@ -135,6 +142,7 @@
         <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_11_13_18_19_20.html</assignmentUri>
         <resourcesUri />
         <helpUri />
+        <webNewsUri />
         <colorScheme />
         <dependingOnMissionAnchorIds>
           <dependingOnMissionAnchorId>foodAndExerciseDiary</dependingOnMissionAnchorId>
@@ -154,6 +162,7 @@
           <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_04_foodAndExerciseDiary.html</assignmentUri>
           <resourcesUri />
           <helpUri />
+          <webNewsUri />
           <colorScheme />
           <dependingOnMissionAnchorIds />
         </intermediateAnchor>
@@ -168,6 +177,7 @@
           <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_10_dailyCalorieIntake.html</assignmentUri>
           <resourcesUri />
           <helpUri />
+          <webNewsUri />
           <colorScheme />
           <dependingOnMissionAnchorIds>
             <dependingOnMissionAnchorId>foodAndExerciseDiary</dependingOnMissionAnchorId>
@@ -184,6 +194,7 @@
           <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_14_estimatedEnergyRequirements.html</assignmentUri>
           <resourcesUri />
           <helpUri />
+          <webNewsUri />
           <colorScheme />
           <dependingOnMissionAnchorIds />
         </intermediateAnchor>
@@ -216,6 +227,7 @@
         <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_03_questionsOnPizzaBenefits.html</assignmentUri>
         <resourcesUri />
         <helpUri />
+        <webNewsUri />
         <colorScheme />
         <dependingOnMissionAnchorIds />
       </mainAnchor>
@@ -231,6 +243,7 @@
           <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_02_notesOnUnhealthyDiet.html</assignmentUri>
           <resourcesUri />
           <helpUri />
+          <webNewsUri />
           <colorScheme />
           <dependingOnMissionAnchorIds />
         </intermediateAnchor>
@@ -261,6 +274,7 @@
         <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_06_nutrientAndEnergyCalculations.html</assignmentUri>
         <resourcesUri />
         <helpUri />
+        <webNewsUri />
         <colorScheme />
         <dependingOnMissionAnchorIds />
       </mainAnchor>
@@ -276,6 +290,7 @@
           <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_05_nutrientsTable.html</assignmentUri>
           <resourcesUri>http://www.scy-lab.eu/content/en/mission3/resource_05_nutrientsTable.html</resourcesUri>
           <helpUri />
+          <webNewsUri />
           <colorScheme />
           <dependingOnMissionAnchorIds />
         </intermediateAnchor>
@@ -290,6 +305,7 @@
           <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_07_pizzaIngredientTable.html</assignmentUri>
           <resourcesUri />
           <helpUri />
+          <webNewsUri />
           <colorScheme />
           <dependingOnMissionAnchorIds />
         </intermediateAnchor>
@@ -319,6 +335,7 @@
         <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_09_constructionOfTheFoodPyramid.html</assignmentUri>
         <resourcesUri />
         <helpUri />
+        <webNewsUri />
         <colorScheme />
         <dependingOnMissionAnchorIds />
       </mainAnchor>
@@ -334,6 +351,7 @@
           <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_08_questionsAboutTheFoodPyramid.html</assignmentUri>
           <resourcesUri />
           <helpUri />
+          <webNewsUri />
           <colorScheme />
           <dependingOnMissionAnchorIds />
         </intermediateAnchor>
@@ -364,6 +382,7 @@
         <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_12_energyFactSheet.html</assignmentUri>
         <resourcesUri />
         <helpUri />
+        <webNewsUri />
         <colorScheme />
         <dependingOnMissionAnchorIds />
       </mainAnchor>
@@ -394,6 +413,7 @@
         <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_15_mapOfTheDigestiveSystem.html</assignmentUri>
         <resourcesUri />
         <helpUri />
+        <webNewsUri />
         <colorScheme />
         <dependingOnMissionAnchorIds />
       </mainAnchor>
@@ -409,6 +429,7 @@
           <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_16_factSheetOfOneOrgan.html</assignmentUri>
           <resourcesUri />
           <helpUri />
+          <webNewsUri />
           <colorScheme />
           <dependingOnMissionAnchorIds />
         </intermediateAnchor>
@@ -438,6 +459,7 @@
         <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_17_personalComments.html</assignmentUri>
         <resourcesUri>http://www.scy-lab.eu/content/en/mission3/resource_17_personalComments.html</resourcesUri>
         <helpUri />
+        <webNewsUri />
         <colorScheme />
         <dependingOnMissionAnchorIds />
       </mainAnchor>
@@ -468,6 +490,7 @@
         <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_26_criteriaFinalTable.html</assignmentUri>
         <resourcesUri />
         <helpUri />
+        <webNewsUri />
         <colorScheme />
         <dependingOnMissionAnchorIds>
           <dependingOnMissionAnchorId>criteriaTable</dependingOnMissionAnchorId>
@@ -486,6 +509,7 @@
           <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_22_methodologySteps.html</assignmentUri>
           <resourcesUri />
           <helpUri />
+          <webNewsUri />
           <colorScheme />
           <dependingOnMissionAnchorIds />
         </intermediateAnchor>
@@ -500,6 +524,7 @@
           <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_23_reflectionOnImportanceOfCriteria.html</assignmentUri>
           <resourcesUri>http://www.scy-lab.eu/content/en/mission3/resource_23_optimizationStrategy.html</resourcesUri>
           <helpUri />
+          <webNewsUri />
           <colorScheme />
           <dependingOnMissionAnchorIds />
         </intermediateAnchor>
@@ -514,6 +539,7 @@
           <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_24_criteriaTable.html</assignmentUri>
           <resourcesUri />
           <helpUri />
+          <webNewsUri />
           <colorScheme />
           <dependingOnMissionAnchorIds>
             <dependingOnMissionAnchorId>myFavouritePizza</dependingOnMissionAnchorId>
@@ -531,6 +557,7 @@
           <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_25_criteriaWeightTable.html</assignmentUri>
           <resourcesUri />
           <helpUri />
+          <webNewsUri />
           <colorScheme />
           <dependingOnMissionAnchorIds />
         </intermediateAnchor>
@@ -561,6 +588,7 @@
         <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_31_letterToSchoolCanteen.html</assignmentUri>
         <resourcesUri />
         <helpUri />
+        <webNewsUri />
         <colorScheme />
         <dependingOnMissionAnchorIds />
       </mainAnchor>
@@ -576,6 +604,7 @@
           <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_28_individualReport.html</assignmentUri>
           <resourcesUri />
           <helpUri />
+          <webNewsUri />
           <colorScheme />
           <dependingOnMissionAnchorIds />
         </intermediateAnchor>
@@ -590,6 +619,7 @@
           <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_29_groupReport.html</assignmentUri>
           <resourcesUri />
           <helpUri />
+          <webNewsUri />
           <colorScheme />
           <dependingOnMissionAnchorIds />
         </intermediateAnchor>
@@ -619,6 +649,7 @@
         <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_30_tasteScores.html</assignmentUri>
         <resourcesUri />
         <helpUri />
+        <webNewsUri />
         <colorScheme />
         <dependingOnMissionAnchorIds />
       </mainAnchor>
@@ -628,7 +659,16 @@
       </nextLasses>
     </las>
   </lasses>
-  <windowStatesXmls />
+  <windowStatesXmls>
+    <windowStatesXml id="design">
+      <windowstates>
+        <window uri="roolo://memory/30152/0/Glossary.url" layoutX="448.0" layoutY="492.1" relativeLayoutCenterX="0.5" relativeLayoutCenterY="0.7661218" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" opened="false" isManuallyRepositioned="false" />
+        <window uri="roolo://memory/30090/0/My+First+Healthy+Pizza.scysimconfig" layoutX="554.60004" layoutY="35.0" relativeLayoutCenterX="0.6049213" relativeLayoutCenterY="0.08692422" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" opened="false" isManuallyRepositioned="false" />
+        <window uri="roolo://memory/30089/0/My+Favourite+Pizza.scysimconfig" layoutX="366.40002" layoutY="35.0" relativeLayoutCenterX="0.41968507" relativeLayoutCenterY="0.08692422" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" opened="false" isManuallyRepositioned="false" />
+        <window uri="roolo://memory/30091/0/My+Optimized+Healthy+Pizza.scysimconfig" layoutX="804.4" layoutY="35.0" relativeLayoutCenterX="0.8507874" relativeLayoutCenterY="0.08692422" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" opened="false" isManuallyRepositioned="false" />
+      </windowstates>
+    </windowStatesXml>
+  </windowStatesXmls>
 </missionModel>
 </content>
 <resources>
