@@ -105,16 +105,18 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
     function eloUriChanged(eloUri: URI) {
         this.eloUri = eloUri;
         def feedbackElo = findFeedbackElo(eloUri);
-        if (feedbackElo != null) {
-            if (feedbackElo.getContent().getXmlString()!=null){
-               setFeedbackAsked(getQuestionDisplay(feedbackElo));
+        FX.deferAction(function() : Void {
+            if (feedbackElo != null) {
+                if (feedbackElo.getContent().getXmlString()!=null){
+                   setFeedbackAsked(getQuestionDisplay(feedbackElo));
+                } else {
+                   logger.warn("unexpected null for feedbackElo.getContent().getXmlString(), eloUri: {eloUri}");
+                   setFeedbackNotAsked();
+                }
             } else {
-               logger.warn("unexpected null for feedbackElo.getContent().getXmlString(), eloUri: {eloUri}");
-               setFeedbackNotAsked();
+                setFeedbackNotAsked();
             }
-        } else {
-            setFeedbackNotAsked();
-        }
+        });
     }
 
     function findFeedbackElo(eloUri: URI): ScyElo {
