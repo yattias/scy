@@ -164,16 +164,15 @@ class GroupFormationNotificationHelper {
 
         for ( Group group : formedGroups ) {
             for ( String user : group ) {
+                // buddify whole group
+                String messageNotificationId = createId();
+                buddifyGroup(action, group, user, messageNotificationId);
+
                 // set the status for every user to the groupId
                 setStatus(action, group.getId(), user);
 
                 // enable filtering on the groupId
                 enableFiltering(action, group.getId(), user, true);
-
-                String messageNotificationId = createId();
-
-                // buddify whole group
-                buddifyGroup(action, group, user, messageNotificationId);
 
                 // send message about proposed collaboration to user
                 sendCollaborationMessage(action, messages, group, user, messageNotificationId);
