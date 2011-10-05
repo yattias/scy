@@ -14,5 +14,5 @@ public enum ArrowPosition
    TOP_LEFT,
    TOP_RIGHT,
    BOTTOM_RIGHT,
-   BOTTOM_LEFT
+   BOTTOM_LEFT,
 }

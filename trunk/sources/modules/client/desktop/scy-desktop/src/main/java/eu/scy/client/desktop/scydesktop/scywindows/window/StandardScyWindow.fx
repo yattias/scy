@@ -139,7 +139,7 @@ public class StandardScyWindow extends ScyWindow {
                 minimumWidth = Math.max(minimumWidth, 2 * borderWidth + 3 * controlSize);
             }
     var emptyWindow: EmptyWindow;
-    var windowTitleBar: WindowTitleBarDouble;
+    public-read var windowTitleBar: WindowTitleBarDouble;
     var resizeElement: WindowResize;
     var rotateElement: WindowRotate;
     var windowStateControls: WindowStateControls;

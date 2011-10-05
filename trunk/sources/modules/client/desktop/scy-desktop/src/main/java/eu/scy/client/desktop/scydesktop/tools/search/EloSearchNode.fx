@@ -68,7 +68,7 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
            };
    public var scyDesktop: ScyDesktop;
    public var querySelecterFactory: QuerySelecterFactory;
-   public var eloOpenedAction: function(: ScyWindow): Void;
+//   public var eloOpenedAction: function(: ScyWindow): Void;
    public var savedAction: function(: ScyWindow): Void;
    public var switchedToEloBasedAction: function(: ScyWindow): Void;
    def minimumWidth = 600;
@@ -499,7 +499,7 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
    function openElo(): Void {
       def newWindow = scyDesktop.scyWindowControl.addOtherScyWindow(selectedSearchResult.getScyElo().getUri());
       scyDesktop.scyWindowControl.makeMainScyWindow(newWindow);
-      eloOpenedAction(newWindow)
+//      eloOpenedAction(newWindow)
    }
 
    public function searchBasedOnElo(scyElo: ScyElo): Void {

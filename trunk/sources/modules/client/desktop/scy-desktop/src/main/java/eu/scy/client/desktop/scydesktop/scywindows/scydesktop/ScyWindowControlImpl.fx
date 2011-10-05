@@ -32,15 +32,14 @@ public class ScyWindowControlImpl extends ScyWindowControl {
    var firstNewLas = true;
    def techniocalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
    def activeLas = bind missionModel.activeLas on replace oldActiveLas {
-      activeLasChanged(oldActiveLas);
-      if (firstNewLas and activeLas != null) {
-         FX.deferAction(function() {
-            activeLasChanged(activeLas);
-         });
-         firstNewLas = false;
-      }
-   }
-
+              activeLasChanged(oldActiveLas);
+              if (firstNewLas and activeLas != null) {
+                 FX.deferAction(function() {
+                    activeLasChanged(activeLas);
+                 });
+                 firstNewLas = false;
+              }
+           }
    var activeAnchorWindow: ScyWindow;
    /**
     * as the uri of a window can change (when saving the elo content, this always result is an other uri),
@@ -231,13 +230,13 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       } else {
          // no old position information
          // find the initial to open anchor elo
-         var initialToopenAnchorEloUri:URI = null;
-         if (activeLas.initialAnchorToOpen!=null){
+         var initialToopenAnchorEloUri: URI = null;
+         if (activeLas.initialAnchorToOpen != null) {
             initialToopenAnchorEloUri = activeLas.initialAnchorToOpen.eloUri;
-         } else if (sizeof activeLas.intermediateAnchors == 0){
+         } else if (sizeof activeLas.intermediateAnchors == 0) {
             initialToopenAnchorEloUri = activeLas.mainAnchor.eloUri;
          }
-         if (initialToopenAnchorEloUri!=null){
+         if (initialToopenAnchorEloUri != null) {
             def initialToOpenAnchorWindow = getScyWindow(initialToopenAnchorEloUri);
             windowPositioner.makeMainWindow(initialToOpenAnchorWindow);
          }

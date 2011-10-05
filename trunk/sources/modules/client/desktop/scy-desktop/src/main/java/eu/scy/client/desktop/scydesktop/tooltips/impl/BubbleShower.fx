@@ -39,12 +39,14 @@ public class BubbleShower {
    public-init var startDisappearingTime = AnimationTiming.startDisappearingTime;
    public-init var fullDisappearingTime = AnimationTiming.fullDisappearingTime;
    public-init var tooltipGroup: Group;
+   public-init var showArrow = true;
    def finalOpacity = 0.95;
-   def minimalDisplayTimeForDeleteBubble = fullAppearingTime+2s;
-   def bubbleNode:NodeBubble = NodeBubble {
+   def minimalDisplayTimeForDeleteBubble = fullAppearingTime + 2s;
+   def bubbleNode: NodeBubble = NodeBubble {
               content: bubbleContent
               windowColorScheme: windowColorScheme
               clickedInBubble: clickedInBubble
+              showArrow: showArrow
            }
    def timeline = Timeline {
               keyFrames: [
@@ -98,8 +100,8 @@ public class BubbleShower {
       timeline.play();
    }
 
-   public function userDidSomething():Void{
-      shouldDeleteBubble = timeline.time>=minimalDisplayTimeForDeleteBubble;
+   public function userDidSomething(): Void {
+      shouldDeleteBubble = timeline.time >= minimalDisplayTimeForDeleteBubble;
       remove();
    }
 
@@ -114,13 +116,13 @@ public class BubbleShower {
       }
    }
 
-   function clickedInBubble():Void{
+   function clickedInBubble(): Void {
       remove();
    }
 //   var checkCounter = 0;
 
    function checkIfSourceMoved(): Void {
-//      println("checkIfSourceMoved - {checkCounter++}");
+      //      println("checkIfSourceMoved - {checkCounter++}");
       if (showingBubble) {
          def currentSourceSceneBounds = sourceNode.localToScene(sourceNode.layoutBounds);
          if (currentSourceSceneBounds != sourceNodeSceneBounds) {
@@ -130,7 +132,7 @@ public class BubbleShower {
    }
 
    function sourceNodeMoved(): Void {
-//      println("sourceNodeMoved: {showingBubble}");
+      //      println("sourceNodeMoved: {showingBubble}");
       if (showingBubble) {
          positionTooltip();
          sourceNodeSceneBounds = sourceNode.localToScene(sourceNode.layoutBounds);
@@ -145,7 +147,7 @@ public class BubbleShower {
 
    function stopPositioning(): Void {
       showingBubble = false;
-      simpleBubbleManager.bubbleRemoved(bubble,shouldDeleteBubble);
+      simpleBubbleManager.bubbleRemoved(bubble, shouldDeleteBubble);
       sourceMovedDetectionTimeLine.stop();
    }
 
@@ -172,11 +174,14 @@ public class BubbleShower {
 
       bubbleNode.layoutX = toolTipLayout.point.x;
       bubbleNode.layoutY = toolTipLayout.point.y;
-      bubbleNode.arrowPosition = toolTipLayout.arrowPosition;
-      bubbleNode.arrowPoint = sourceNode.localToScene(Point2D {
-                 x: sourceNode.layoutBounds.minX + sourceNode.layoutBounds.width / 2
-                 y: sourceNode.layoutBounds.minY + sourceNode.layoutBounds.height / 2
-              });
+      if (showArrow) {
+         bubbleNode.arrowPosition = toolTipLayout.arrowPosition;
+         bubbleNode.arrowPoint = sourceNode.localToScene(Point2D {
+                    x: sourceNode.layoutBounds.minX + sourceNode.layoutBounds.width / 2
+                    y: sourceNode.layoutBounds.minY + sourceNode.layoutBounds.height / 2
+                 });
+      }
+
       if (outsideArea > 0) {
          moveTooltipInside(sceneBounds);
       }
