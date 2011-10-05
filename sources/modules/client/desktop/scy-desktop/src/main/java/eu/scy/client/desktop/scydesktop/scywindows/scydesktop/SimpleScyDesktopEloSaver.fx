@@ -6,45 +6,54 @@
 
 package eu.scy.client.desktop.scydesktop.scywindows.scydesktop;
 
-import javafx.scene.Group;
 import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
 import eu.scy.client.desktop.scydesktop.config.Config;
-import eu.scy.client.desktop.desktoputils.art.EloIcon;
 import eu.scy.client.desktop.scydesktop.scywindows.NewTitleGenerator;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
-import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.design.SimpleSaveAsNodeDesign;
 import eu.scy.client.desktop.scydesktop.tools.EloSaver;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
 import roolo.api.IRepository;
-import roolo.elo.api.IELO;
 import roolo.elo.api.IELOFactory;
-import eu.scy.client.desktop.desktoputils.i18n.Composer;
-import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.tools.ScyTool;
 import java.awt.image.BufferedImage;
 import eu.scy.client.desktop.desktoputils.art.ArtSource;
-import eu.scy.common.scyelo.ScyElo;
 import eu.scy.client.desktop.desktoputils.ImageUtils;
 import javafx.geometry.BoundingBox;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.design.EloSaveAsMixin;
 import eu.scy.common.scyelo.EloFunctionalRole;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
-import java.lang.IllegalArgumentException;
-import java.lang.System;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
-import roolo.elo.api.exceptions.ELONotLastVersionException;
 import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 import org.apache.log4j.Logger;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.metadata.keys.SocialTags;
 import roolo.elo.api.IMetadata;
-import javafx.util.StringLocalizer;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.design.MultiLanguageAuthorSaveAsNodeDesign;
 import eu.scy.client.desktop.desktoputils.art.ImageLoader;
+import javafx.scene.Group;
+import javafx.util.StringLocalizer;
 import eu.scy.client.desktop.desktoputils.XFX;
+import eu.scy.client.desktop.desktoputils.art.EloIcon;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
+import eu.scy.client.desktop.desktoputils.i18n.Composer;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.design.SimpleSaveAsNodeDesign;
+import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
+import eu.scy.client.desktop.scydesktop.tooltips.impl.BubbleShower;
+import eu.scy.client.desktop.scydesktop.tooltips.impl.SimpleTooltipManager;
+import eu.scy.client.desktop.scydesktop.tooltips.impl.TextBubble;
+import eu.scy.common.scyelo.ScyElo;
+import java.lang.IllegalArgumentException;
+import java.lang.String;
+import java.lang.System;
+import java.lang.Void;
+import roolo.elo.api.IELO;
+import roolo.elo.api.exceptions.ELONotLastVersionException;
+import javafx.scene.Node;
+import eu.scy.client.desktop.desktoputils.art.AnimationTiming;
 
 /**
  * @author sikken
@@ -120,7 +129,8 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
       showEloSaveAsPanel(elo, suggestedEloTitle, true, false, eloSaverCallBack);
    }
 
-      var eloSaveAsPanel: EloSaveAsMixin;
+   var eloSaveAsPanel: EloSaveAsMixin;
+
    function showEloSaveAsPanel(elo: IELO, suggestedEloTitle: String, myElo: Boolean, authorUpdate: Boolean, eloSaverCallBack: EloSaverCallBack): Void {
       println("showEloSaveAsPanel");
       def scyElo = new ScyElo(elo, config.getToolBrokerAPI());
@@ -170,7 +180,7 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
               }
       // delay the positioning long enough so that it will done after the things are placed on screen
       // but before the user actually sees the buttons shifting
-      XFX.runActionAfter(eloSaveAsPanel.correctButtonPositions,500ms);
+      XFX.runActionAfter(eloSaveAsPanel.correctButtonPositions, 500ms);
    }
 
    function saveAction(eloSaveAsPanel: EloSaveAsMixin): Void {
@@ -203,6 +213,7 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
       eloSaveAsPanel.eloSaverCallBack.eloSaved(elo);
       scyToolActionLogger.eloSaved(elo);
       eloSaveAsPanel.modalDialogBox.close();
+      showEloSaved();
    }
 
    function cancelAction(eloSaveAsPanel: EloSaveAsMixin): Void {
@@ -272,6 +283,7 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
                }
                myEloChanged.myEloChanged(scyElo);
                eloSaverCallBack.eloSaved(scyElo.getElo());
+               showEloSaved();
             } else {
                // it is not my elo, do a save as
                eloSaveAs(elo, eloSaverCallBack);
@@ -317,6 +329,33 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
          window.requestLayout();
       }
       scyElo.setThumbnail(thumbnailImage);
+   }
+
+   function showEloSaved(): Void {
+      def showEloSavedMassegaeTime = 1s;
+      var targetNode: Node = window;
+      if (window instanceof StandardScyWindow){
+         targetNode = (window as StandardScyWindow).windowTitleBar.eloIcon;
+      }
+
+      def eloSavedBubbled = TextBubble {
+                 bubbleText: ##"ELO saved"
+                 windowColorScheme: window.windowColorScheme
+                 targetNode: targetNode
+              }
+      BubbleShower {
+//         simpleBubbleManager: this
+         bubble: eloSavedBubbled
+         tooltipGroup: SimpleTooltipManager.tooltipGroup
+         bubbleContent: eloSavedBubbled.getBubbleContent()
+         windowColorScheme: eloSavedBubbled.windowColorScheme
+         sourceNode: eloSavedBubbled.targetNode
+         showArrow: false
+         startAppearingTime: 10ms
+         fullAppearingTime: AnimationTiming.appearTime
+         startDisappearingTime: AnimationTiming.appearTime + showEloSavedMassegaeTime
+         fullDisappearingTime: AnimationTiming.appearTime + showEloSavedMassegaeTime + AnimationTiming.disappearTime
+      }
    }
 
 }

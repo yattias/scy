@@ -1,4 +1,4 @@
-"\nEverything will be saved."="\nWhen you qu"
+"\nEverything will be saved."="\nWhen you quit, your work will be saved"
 "Accept"="Accept"
 "Accept?"="Accept?"
 "Advanced search"="Advanced search"
@@ -37,6 +37,7 @@
 "Drag me over a window to start collaboration!"="Drag me over a window to start collaboration!"
 "drawer"="drawer"
 "Edit title"="Edit title"
+"ELO saved"="ELO saved"
 "Empty mission"="Empty mission"
 "Enter title"="Enter title"
 "ePortfolio"="ePortfolio"

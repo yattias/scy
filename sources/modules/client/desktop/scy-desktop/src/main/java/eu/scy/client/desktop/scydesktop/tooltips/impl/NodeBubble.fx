@@ -31,7 +31,8 @@ public class NodeBubble extends CustomNode {
    public var content: Node;
    public-init var arcSize = 10.0;
    public-init var arrowOffset = 12.0;
-   public-init var clickedInBubble: function():Void;
+   public-init var clickedInBubble: function(): Void;
+   public-init var showArrow = true;
    public var arrowPosition = ArrowPosition.TOP_LEFT;
    public var arrowPoint: Point2D;
    public var windowColorScheme: WindowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
@@ -68,6 +69,10 @@ public class NodeBubble extends CustomNode {
            }
 
    public function updateShape(): Void {
+      if (not showArrow) {
+         return;
+      }
+
       def arrowPoints = ArrowPoints {
                  baseRect: positionBounds
                  arrowPosition: arrowPosition
@@ -113,9 +118,16 @@ public class NodeBubble extends CustomNode {
                        stroke: mainBorderColor;
                        strokeWidth: borderWidth;
                     }
-                    arrowBackground,
-                    arrowBackgroundBorder,
-                    arrowLine,
+                    if (showArrow) {
+                       [
+                          arrowBackground,
+                          arrowBackgroundBorder,
+                          arrowLine
+                       ]
+                    } else {
+                       null
+                    }
+
                     //                    Rectangle {
                     //                       x: bind backgroundX
                     //                       y: bind backgroundY
@@ -136,7 +148,7 @@ public class NodeBubble extends CustomNode {
                     //                    }
                     content
                  ]
-                 onMouseClicked: function(m: MouseEvent):Void{
+                 onMouseClicked: function(m: MouseEvent): Void {
                     clickedInBubble()
                  }
               }
