@@ -67,6 +67,7 @@
                            <value>testIntermediate1</value>
                         </list>
                      </property>
+                     <property name="initialAnchorEloIdToOpen" value="testIntermediate1"/>
                      <property name="groupFormationConfig">
                         <bean class="eu.scy.client.desktop.scydesktop.config.GroupFormationConfig">
 
@@ -120,6 +121,7 @@
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission1/dummyLasInstruction.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission1/startPage/Welcome.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission1/startPage/Welcome.html"/>
+               <property name="webNewsUri" value="http://www.scy-lab.eu/content/en/mission1/startPage/Welcome.html"/>
                <property name="inputMissionAnchorIds">
                   <list>
                      <value>missionBackground</value>
