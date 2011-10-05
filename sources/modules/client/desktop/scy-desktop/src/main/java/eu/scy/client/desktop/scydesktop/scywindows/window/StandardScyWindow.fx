@@ -314,6 +314,7 @@ public class StandardScyWindow extends ScyWindow {
             sendEloAction.addAttribute("proposed_user", contactFrame.contact.awarenessUser.getJid());
             sendEloAction.addAttribute("proposed_elo", scyElo.getUri().toString());
             windowControl.windowManager.scyDesktop.config.getToolBrokerAPI().getActionLogger().log(sendEloAction);
+            openDrawer("right");;
         }
     }
 
