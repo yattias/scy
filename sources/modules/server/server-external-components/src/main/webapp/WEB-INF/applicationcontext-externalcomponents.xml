@@ -95,6 +95,7 @@
 		                <ref bean="scaffoldNotificator"/>
 		                <ref bean="conceptMapEvaluation" />
                 		<!--ref bean="searchEnricher"/-->
+      			<ref bean="eloProposer" />
             </set>
         </property>
         <property name="repository">

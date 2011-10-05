@@ -4,7 +4,7 @@
 <beans>
 
     <!-- This file consists of a list of all defined agents. To enable or disable
-         them, modify the external-components.xml, not this one! -->
+         them, modify the applicationcontext-externalcomponents.xml, not this one! -->
 
     <bean id="topicdetector" class="eu.scy.agents.impl.AgentStartConfiguration">
         <constructor-arg index="0"
@@ -249,6 +249,14 @@
     <bean id="searchEnricher" class="eu.scy.agents.impl.AgentStartConfiguration">
         <constructor-arg index="0"
                          value="eu.scy.agents.search.searchresultenricher.SearchResultEnricherAgent"/>
+        <constructor-arg index="1">
+            <map/>
+        </constructor-arg>
+    </bean>
+    
+    <bean id="eloProposer" class="eu.scy.agents.impl.AgentStartConfiguration">
+        <constructor-arg index="0"
+                         value="eu.scy.agents.eloproposal.ELOProposalAgent"/>
         <constructor-arg index="1">
             <map/>
         </constructor-arg>
