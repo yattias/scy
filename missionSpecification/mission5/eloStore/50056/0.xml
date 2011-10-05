@@ -12,12 +12,12 @@
           <dateTime>2011-10-04T16:56:21.671+0200</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>1</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1317740181671</dateCreated>
-        <dateLastModified>1317740181671</dateLastModified>
+        <dateLastModified>1317823773750</dateLastModified>
       </customElements>
       <format>scy/missionmapmodel</format>
     </technical>
@@ -30,7 +30,7 @@
       <missionId>mini1</missionId>
       <missionRunning>
         <catalog>memory</catalog>
-        <entry>roolo://memory/50054/0/Run+for+your+life%21.scymissionspecification</entry>
+        <entry>roolo://memory/50061/0/Run+for+your+life%21.scymissionspecification</entry>
       </missionRunning>
       <title>
         <string language="en">Run for your life!</string>
@@ -242,7 +242,13 @@
       </nextLasses>
     </las>
   </lasses>
-  <windowStatesXmls />
+  <windowStatesXmls>
+    <windowStatesXml id="information">
+      <windowstates>
+        <window uri="roolo://memory/50055/0/Concept-map+over+glucose.scymapping" layoutX="-60.0" layoutY="0.0" relativeLayoutCenterX="0.0" relativeLayoutCenterY="0.0" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" opened="false" isManuallyRepositioned="false" />
+      </windowstates>
+    </windowStatesXml>
+  </windowStatesXmls>
 </missionModel>
 </content>
 <resources>
