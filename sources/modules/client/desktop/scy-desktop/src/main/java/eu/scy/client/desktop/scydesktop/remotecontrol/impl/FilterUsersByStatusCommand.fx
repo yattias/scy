@@ -20,6 +20,7 @@ public class FilterUsersByStatusCommand extends ScyDesktopRemoteCommand {
 
     override public function executeRemoteCommand(notification: INotification): Void {
         logger.debug("********************filter users command*************************");
+        logger.info(notification);
         def filterUsersAsString: String = notification.getFirstProperty("filter");
         def filterUsers = Boolean.parseBoolean(filterUsersAsString);
         def groupId: String = notification.getFirstProperty("group-id");
