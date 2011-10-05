@@ -47,11 +47,11 @@ public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX
     def spacing = 5.0;
     var collaborative: Boolean = false;
 
-   def saveTitleBarButton = TitleBarButton {
+   def saveTitleBarButton : TitleBarButton = TitleBarButton {
               actionId: TitleBarButton.saveActionId
               action: doSaveConceptMap
            }
-   def saveAsTitleBarButton = TitleBarButton {
+   def saveAsTitleBarButton : TitleBarButton = TitleBarButton {
               actionId: TitleBarButton.saveAsActionId
               action: doSaveConceptMapAs
            }
@@ -87,6 +87,8 @@ public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX
             doSaveConceptMapAs();
             return;
         }
+        saveTitleBarButton.enabled = false;
+        saveAsTitleBarButton.enabled = false;
         var conceptMap = scyMapperPanel.getConceptMap();
         repositoryWrapper.setELOConceptMap(currentELO, conceptMap);
         eloSaver.eloUpdate(currentELO, this);
@@ -96,6 +98,8 @@ public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX
     }
 
     function doSaveConceptMapAs():Void {
+        saveTitleBarButton.enabled = false;
+        saveAsTitleBarButton.enabled = false;
         var conceptMap = scyMapperPanel.getConceptMap();
         repositoryWrapper.setELOConceptMap(currentELO, conceptMap);
         eloSaver.eloSaveAs(currentELO, this);
@@ -148,12 +152,17 @@ public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX
 
     override function eloSaveCancelled(elo: IELO): Void {
         logger.debug("User cancelled saving of ELO");
+        saveTitleBarButton.enabled = true;
+        saveAsTitleBarButton.enabled = true;
+
     }
 
     override public function eloSaved(elo: IELO): Void {
         this.currentELO = elo;
         scyMapperPanel.getConceptMapActionLogger().setEloURI(currentELO.getUri().toString());
         logger.debug("ELO SUCCESSFULLY SAVED");
+        saveTitleBarButton.enabled = true;
+        saveAsTitleBarButton.enabled = true;
     }
 
     function resizeContent() {
