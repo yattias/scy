@@ -232,7 +232,7 @@
 				  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="reflection2"/>
                      <property name="xPosition" value="-105"/>
-                     <property name="yPosition" value="-15"/>
+                     <property name="yPosition" value="-25"/>
                      <property name="tooltip" value="tip_LAS_I"/>
                      <property name="lasType" value="REFLECTION"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/curtain_REFLECTION2.html"/>
