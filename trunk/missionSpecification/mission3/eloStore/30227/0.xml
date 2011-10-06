@@ -1,0 +1,56 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>Caspar</entity>
+        <date>
+          <dateTime>2011-10-06T15:19:36.593+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1317907176593</dateCreated>
+        <dateLastModified>1317907176593</dateLastModified>
+      </customElements>
+      <format>scy/runtimesettings</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30227/0/%CE%A5%CE%B3%CE%B9%CE%B5%CE%B9%CE%BD%CE%AE+%CF%80%CE%AF%CF%84%CF%83%CE%B1.runtimesettings</entry>
+      </identifier>
+      <las>design</las>
+      <missionId>pizza2</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30217/0/A+healthy+pizza+v2.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="el">Υγιεινή πίτσα</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <template>TRUE</template>
+</metadata>
+<content languages="el" contentType="xml">
+<runtimeSettings />
+</content>
+<resources>
+</resources>
+</elo>
