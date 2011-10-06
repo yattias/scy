@@ -281,7 +281,7 @@ public class StandardScyWindow extends ScyWindow {
                     scyElo: scyElo
                     eloIconName: "collaboration_invitation"
                     title: ##"Dragged buddy"
-                    message: "{##"You dragged a buddy on this ELO. What do you want to do?"}"
+                    message: "{##"You dragged"} {c.contact.name} {##"on this ELO. What do you want to do?"}"
                               collaborative: scyToolsList.canAcceptDrop(object)
                     sendEloFunction: function(): Void {
                         sendEloToUser(c, scyElo);
