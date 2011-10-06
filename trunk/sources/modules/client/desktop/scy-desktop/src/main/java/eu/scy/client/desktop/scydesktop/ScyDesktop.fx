@@ -738,9 +738,15 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       }
       scyToolsList.windowContentTool = scyToolFactory.createNewScyToolNode(eloConfig.getContentCreatorId(), window.eloType, window.eloUri, window, false);
       if (not initializer.singleEloMode) {
-         scyToolsList.topDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getTopDrawerCreatorId(), window.eloType, window.eloUri, window, true);
-         scyToolsList.rightDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getRightDrawerCreatorId(), window.eloType, window.eloUri, window, true);
-         scyToolsList.bottomDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getBottomDrawerCreatorId(), window.eloType, window.eloUri, window, true);
+         if (window.topDrawerTool == null) {
+            scyToolsList.topDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getTopDrawerCreatorId(), window.eloType, window.eloUri, window, true);
+         }
+         if (window.rightDrawerTool == null) {
+            scyToolsList.rightDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getRightDrawerCreatorId(), window.eloType, window.eloUri, window, true);
+         }
+         if (window.bottomDrawerTool == null) {
+            scyToolsList.bottomDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getBottomDrawerCreatorId(), window.eloType, window.eloUri, window, true);
+         }
          if (eloConfig.getLeftDrawerCreatorId() != null) {
             def creatorTokenizer = new StringTokenizer(eloConfig.getLeftDrawerCreatorId());
             while (creatorTokenizer.hasMoreTokens()) {
