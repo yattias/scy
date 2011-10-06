@@ -1,0 +1,85 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>Caspar</entity>
+        <date>
+          <dateTime>2011-10-06T09:56:57.234+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>Caspar</entity>
+        <date>
+          <dateTime>2011-10-06T09:56:57.234+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1317887817234</dateCreated>
+        <dateFirstUserSaveKey>1317887817234</dateFirstUserSaveKey>
+        <dateLastModified>1317887817234</dateLastModified>
+      </customElements>
+      <format>scy/missionspecification</format>
+    </technical>
+    <educational>
+      <learningResourceType>documentDesign</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30217/0/A+healthy+pizza+v2.scymissionspecification</entry>
+      </identifier>
+      <las>conceptualization3</las>
+      <missionId>pizza2</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30211/0/A+healthy+pizza.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">A healthy pizza v2</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABCCAYAAADAD1E9AAAHeElEQVR42u2a909UbRCF/Xf0FzVGTIwxMUYFiRob1qhg711QQcFOUTQ27LH33nsEI9LEoLFGLFhj79358kwyN5f9EHSXiMJ7kmV3b3nvZfbMzJmZW0scQkIt/pw9e1Zu3bqlG9LT0yUvL8874PLly3LhwgXv+/Pnz+Xr16/y7NkzZz0z4MmTJ2XHjh26wYyVlZWl7/v375cjR46UOunly5dy/PhxZz0zoIMzYNUbkNj3/v17mTlzpsa3adOmyebNm3UfLnzt2jX9THw8dOiQrFu3Tr9/+vRJ3/v27esY6BCiAWFefHy8vHr1ytt2+vRpadWqlcTExMi8efOkX79+yroXL17o93r16kn//v1l7969EhcXp+d8+fJFRo0aJU+ePJGUlBTp0qWL7md9ks/58+fl6tWrXkIis//48UMeP34snz9//t9N9urVy2P8gwcPVAWsX79ez8nOztbtTZo00WvUSAYWFBSEvAY/bJUxkF+eX7h3796yYcMG6dixo8yfP19ZMnDgQElKSpI3b954J02cOFE6dOigL9gFli5dKp06ddLY+ejRI93G96ioKP0MgydMmCCLFi3yYufDhw+lcePG+r179+76PnjwYHn37t2/58K4QyjArfwoaz0Mw/ZQr/XXxkAYCGCdgZhogEGGIUOGeEYB3759C+oGyPqsRczkBQM3bdpU7prfv3//Ow3YsGFDWb16td7g2LFjVcZQpRi7SC6FhYWyceNGef36tUydOlWP2b59u9y/f18iIiJk0qRJWhYOHz5ck4MZYsuWLd4afrYSGkgcbJ8xY4a8ffvWO8fCA1i1apWXYNjXsmVLOXXqlBqca3IPHz9+rB5JpCI2lldHV4URQjbg7du3VRYMGzZMSkpKlIFr1671Ekd+fr4UFxdLamqqMmT06NFqJES131gI8YsXL+oaOTk5EhsbK5cuXZKtW7cqW209vpOArJ6eMmWK1KlTRxYuXKgyxQnpmiakjUUwxg86NB8+fNDP4eHhnlAmsSxbtsw7DkEN0tLSVBhbHJs1a5a+mjZtqgli3LhxGgspC5EziOAlS5aUYvHIkSNl27Ztur1Pnz6yYMECTyRz/Jw5czSLW5mZkJBQ8xhYGXHOXy1VuQERtWRdxCxCmNIMZU82JcN169bNE8QmIRDb9pl4h/RhHVicm5srK1eulOvXr8uaNWu0UQGz6tevL5mZmXLnzp3qpwMPHz5cageu5xCEC8O4uXPnypgxY+TmzZvaNAANGjSQ8ePHa2yCkT169PAEdXR0tGZZYh9xkNYWGdtGA8Qs4qZVICNGjFDGwtJAwFJrSJw7d07vhziMriQm4gnLly+X2bNne80I3BmP4LpDhw6t2lKuojIrmDJsz549nrsHnr979+6fnvf06dOf7mM95jV/HQPLaicRtwIBiwyLFy8us7sCg/04ePCgvlsDgWZCtXBh3ACD4DaG9u3by40bN/QzohfpgWRo166ddwyuGxYWpq7drFkzLQPp3VH+AfqIxNI2bdqo65GYYBVlH6CzXe1i4K+AisPBZ0CYR6Du3LmzJCYmqrAleFPC0ReEiRbD6EAT/OkJTp8+XbchUyZPnuyysEOIpdyJEydU8CILkCW0rPzZl3KKniAtLUBpZswjIyKoiYP37t3TzjbNgQMHDnhyB4FNK6xt27YqjywWMjeB8eYNDPNpSABiL/stm9OQwBt27dqlyYsmiM1LDJyLhKLEbNSoUdUwEK0VjKCurHa8jUtDQXkyqFINSG0KmwBtLEQyvzpsATRAEbXMNWClPfZhgJldu3bVDGylHW0pZAyTOaZwgE5zdZsfewwMfP7FgCGQOVQWvwMMV+OSCM1QizcwkfhGyXXmzBktnTCKjQ+JeTYvsRY97GKu4p9Z2JSOmLdz505lMeXez3D06FEpKirSc/xspbSkTDNRT0lJOx+VALhPPIBYTRuO460MJWZzLPMXnkSz8wcNGqQeZfGX2GsYMGCAXt+IwHd/aKu0LFxeCRg4qfMDVgd7rVBhT6L96nXKu265Y022HTt2rMwTaVWVhebNm5diWGCZFwqSk5Nl3759FR4HkxhBGIyJgfU5Lz/rgmlE1Ao0GDT3L0TysAvifuYuLVq00MRD1o2MjNT69u7du1q2sYb/HzBpQVebBHTlyhWdstFdAcxEcH36j8gnutb0JDE+op2QgAsh2A3IGbJsRkaG7qOstPvr2bOnvls3iJKybt26em9GFCaATPZwdQMzoT8upK358K9N0yo1idjAnF+HoA+DTKrYr0KwtQBK2de6dWsvSyNPSCrMOTjGZiv+Ab0r5RwqLuUsHiE3GH7DSKssVqxY4bWpYB1lHwyzGMkaHE9Dgm4N5RzgoSPWcwx0qNiAtWvX1vktwpNnTaiDaQoQ38hYzGLpNpt4JQM6AzqEbkCEJsMdMjDlHNqITEv9y4spHcwEaDH0FxoQ6ULLiIbrn+h8/DMMDHz+LrDqIFkE+zygc2EHZ0BnQGdAZ0AHZ0BnQGdAZ0AHZ0BnQGdAZ0BnQAdnQGdAZ0BnQAdnQGdAZ0BnQIffw39yV8CQgx0ftAAAAABJRU5ErkJggg==</base64>
+  </thumbnail>
+</metadata>
+<content languages="en" contentType="xml">
+<missionSpeicification>
+  <missionMapModelEloUri>roolo://memory/30212/0/A+healthy+pizza.scymissionmapmodel</missionMapModelEloUri>
+  <eloToolConfigsEloUri>roolo://memory/30213/0/A+healthy+pizza.scyelotoolconfiguration</eloToolConfigsEloUri>
+  <templateElosEloUri>roolo://memory/30214/0/A+healthy+pizza.scytemplateelos</templateElosEloUri>
+  <runtimeSettingsEloUri>roolo://memory/30215/0/A+healthy+pizza.runtimesettings</runtimeSettingsEloUri>
+  <agentModelsEloUri />
+  <pedagogicalPlanSettingsEloUri>roolo://memory/30216/0/A+healthy+pizza.scy</pedagogicalPlanSettingsEloUri>
+  <colorSchemesEloUri>roolo://memory/30100/0/colorschemes1.colorschemes</colorSchemesEloUri>
+  <missionDescriptionUri>http://www.scy-lab.eu/content/en/mission3/curtain_MISSION.html</missionDescriptionUri>
+  <missionId>pizza2</missionId>
+  <xhtmlVersionId />
+</missionSpeicification>
+</content>
+<resources>
+</resources>
+</elo>

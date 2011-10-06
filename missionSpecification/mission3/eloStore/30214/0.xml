@@ -1,0 +1,61 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>Caspar</entity>
+        <date>
+          <dateTime>2011-10-06T09:56:26.515+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1317887786515</dateCreated>
+        <dateLastModified>1317887786515</dateLastModified>
+      </customElements>
+      <format>scy/templateelos</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30214/0/A+healthy+pizza.scytemplateelos</entry>
+      </identifier>
+      <las>conceptualization3</las>
+      <missionId>pizza2</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30211/0/A+healthy+pizza.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">A healthy pizza</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <template>TRUE</template>
+</metadata>
+<content languages="en" contentType="xml">
+<templateElosEloUris>
+  <templateElosEloUri>roolo://memory/30116/0/newText.rtf</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/30118/0/newConceptmap.scymapping</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/30119/0/newDrawing.scydraw</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/30117/0/newDataset.scypds</templateElosEloUri>
+</templateElosEloUris>
+</content>
+<resources>
+</resources>
+</elo>
