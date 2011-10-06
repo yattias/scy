@@ -142,12 +142,17 @@ public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX
 
     public override function acceptDrop(object: Object): Void {
         logger.debug("acceptDrop of {object.getClass()}");
-        doSaveConceptMap();
-        var c: ContactFrame = object as ContactFrame;
-        logger.debug("acceptDrop user: {c.contact.name}");
-        scyWindow.ownershipManager.addPendingOwner(c.contact.name);
-        scyWindow.windowManager.scyDesktop.config.getToolBrokerAPI().proposeCollaborationWith("{c.contact.awarenessUser.getJid()}", scyWindow.eloUri.toString(), scyWindow.mucId);
-        logger.debug("scyDesktop: {scyWindow.windowManager.scyDesktop}");
+
+        saveTitleBarButton.enabled = false;
+        saveAsTitleBarButton.enabled = false;
+        var conceptMap = scyMapperPanel.getConceptMap();
+        repositoryWrapper.setELOConceptMap(currentELO, conceptMap);
+        var saverCallback = SCYMapperEloSaverCallback {
+            scyWindow: scyWindow;
+            droppedObject: object;
+            functionToCallBefore: eloSaved;
+        };
+        eloSaver.eloUpdate(currentELO, saverCallback);
     }
 
     override function eloSaveCancelled(elo: IELO): Void {
