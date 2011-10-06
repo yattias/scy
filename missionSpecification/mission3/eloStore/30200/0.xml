@@ -7,17 +7,17 @@
           <source>LOMv1.0</source>
           <value>author</value>
         </role>
-        <entity>jakob</entity>
+        <entity>costas</entity>
         <date>
-          <dateTime>2011-09-09T16:59:52.385+0200</dateTime>
+          <dateTime>2011-10-06T17:35:33.250+0300</dateTime>
         </date>
       </contribute>
-      <version>1</version>
+      <version>4</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1315580392385</dateCreated>
-        <dateLastModified>1317804938129</dateLastModified>
+        <dateLastModified>1317911834516</dateLastModified>
       </customElements>
       <format>scy/missionmapmodel</format>
     </technical>
@@ -26,7 +26,7 @@
         <catalog>memory</catalog>
         <entry>roolo://memory/30200/0/%CE%A5%CE%B3%CE%B9%CE%B5%CE%B9%CE%BD%CE%AE+%CF%80%CE%AF%CF%84%CF%83%CE%B1.scymissionmapmodel</entry>
       </identifier>
-      <las>conceptualization3</las>
+      <las>reflection2</las>
       <missionId>pizza2</missionId>
       <missionRunning>
         <catalog>memory</catalog>
@@ -50,7 +50,7 @@
 </metadata>
 <content languages="el" contentType="xml">
 <missionModel>
-  <activeLas>conceptualization3</activeLas>
+  <activeLas>reflection2</activeLas>
   <missionMapBackgroundImageUri>http://www.scy-lab.eu/content/en/mission3/pizzaBackground.fxz</missionMapBackgroundImageUri>
   <missionMapInstructionUri>http://www.scy-lab.eu/content/en/mission3/curtain_MISSION.html</missionMapInstructionUri>
   <missionMapButtonIconType>pizza</missionMapButtonIconType>
@@ -646,6 +646,19 @@
     </las>
   </lasses>
   <windowStatesXmls>
+    <windowStatesXml id="conceptualization4">
+      <windowstates>
+        <window uri="roolo://memory/30152/0/Glossary.url" layoutX="780.0" layoutY="714.0" relativeLayoutCenterX="0.5" relativeLayoutCenterY="0.7449495" width="120.0" height="47.0" rotation="0.0" relativeWidth="Infinity" relativeHeight="Infinity" opened="false" isManuallyRepositioned="false" />
+        <window uri="roolo://memory/30185/0/Fact+Sheet+Of+One+Organ.rtf" layoutX="780.0" layoutY="35.0" relativeLayoutCenterX="0.5" relativeLayoutCenterY="0.05909091" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.071428575" relativeHeight="0.047474746" opened="false" isManuallyRepositioned="false" />
+        <window uri="roolo://memory/30126/0/mapOfDigestiveSystem.scydraw" layoutX="1402.0" layoutY="35.0" relativeLayoutCenterX="0.87023807" relativeLayoutCenterY="0.05909091" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" opened="false" isManuallyRepositioned="false" />
+      </windowstates>
+    </windowStatesXml>
+    <windowStatesXml id="conceptualization3">
+      <windowstates>
+        <window uri="roolo://memory/30152/0/Glossary.url" layoutX="780.0" layoutY="736.04834" relativeLayoutCenterX="0.5" relativeLayoutCenterY="0.76722056" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" opened="false" isManuallyRepositioned="false" />
+        <window uri="roolo://memory/30184/0/Energy+Fact+Sheet.scymapping" layoutX="442.6772" layoutY="82.0" relativeLayoutCenterX="0.2992126" relativeLayoutCenterY="0.15936556" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.11811024" relativeHeight="0.07099698" opened="false" isManuallyRepositioned="true" />
+      </windowstates>
+    </windowStatesXml>
     <windowStatesXml id="design">
       <windowstates>
         <window uri="roolo://memory/30152/0/Glossary.url" layoutX="448.0" layoutY="492.1" relativeLayoutCenterX="0.5" relativeLayoutCenterY="0.7661218" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" opened="false" isManuallyRepositioned="false" />
