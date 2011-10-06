@@ -364,11 +364,16 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
         var column = 1;
         def shift = area.width / (columns + 1);
         for (window in windowList) {
-            if (not window.isCentered and not window.isManuallyRepositioned) { // window.layoutX == 0 and window.layoutY == 0 and window.relativeLayoutCenterX == 0 and window.relativeLayoutCenterY == 0) {
+            if (window.isClosed and not window.isManuallyRepositioned) { // window.layoutX == 0 and window.layoutY == 0 and window.relativeLayoutCenterX == 0 and window.relativeLayoutCenterY == 0) {
                 
                 window.layoutX = area.layoutX + (column * shift) + ((column-1) * 25) - (window.width / 2);
                 window.layoutY = area.layoutY + topOffset + (row * padding);
                 if (window.closedPosition == null) {
+                    window.closedPosition = Point2D {
+                        x: window.layoutX;
+                        y: window.layoutY;
+                    }
+                } else if (window.closedPosition.x <= 0 or window.closedPosition.y <= 0) {
                     window.closedPosition = Point2D {
                         x: window.layoutX;
                         y: window.layoutY;
