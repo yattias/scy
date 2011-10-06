@@ -7,17 +7,17 @@
           <source>LOMv1.0</source>
           <value>author</value>
         </role>
-        <entity>jakob</entity>
+        <entity>Caspar</entity>
         <date>
-          <dateTime>2011-09-09T17:00:37.969+0200</dateTime>
+          <dateTime>2011-10-06T09:56:26.578+0200</dateTime>
         </date>
       </contribute>
-      <version>1</version>
+      <version>2</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1315580437969</dateCreated>
-        <dateLastModified>1317804758343</dateLastModified>
+        <dateLastModified>1317887786578</dateLastModified>
       </customElements>
       <format>scy/missionmapmodel</format>
     </technical>
@@ -370,7 +370,9 @@
       <instructionUri>http://www.scy-lab.eu/content/en/mission3/curtain_CONCEPTUALISATION3.html</instructionUri>
       <lasType>CONCEPTUALISATION</lasType>
       <loElos />
-      <otherElos />
+      <otherElos>
+        <eloUri>roolo://memory/30212/0/A+healthy+pizza.scymissionmapmodel</eloUri>
+      </otherElos>
       <mainAnchor>
         <eloUri>roolo://memory/30019/0/Energy+Fact+Sheet.scymapping</eloUri>
         <id>energyFactSheet</id>
@@ -660,6 +662,12 @@
     </las>
   </lasses>
   <windowStatesXmls>
+    <windowStatesXml id="conceptualization3">
+      <windowstates>
+        <window uri="roolo://memory/30152/0/Glossary.url" layoutX="448.0" layoutY="492.09998" relativeLayoutCenterX="0.5" relativeLayoutCenterY="0.7661218" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" opened="false" isManuallyRepositioned="false" />
+        <window uri="roolo://memory/30019/0/Energy+Fact+Sheet.scymapping" layoutX="-60.0" layoutY="0.0" relativeLayoutCenterX="0.0" relativeLayoutCenterY="0.0" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" opened="false" isManuallyRepositioned="false" />
+      </windowstates>
+    </windowStatesXml>
     <windowStatesXml id="design">
       <windowstates>
         <window uri="roolo://memory/30152/0/Glossary.url" layoutX="448.0" layoutY="492.1" relativeLayoutCenterX="0.5" relativeLayoutCenterY="0.7661218" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" opened="false" isManuallyRepositioned="false" />

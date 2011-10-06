@@ -12,12 +12,12 @@
           <dateTime>2011-10-04T16:56:21.671+0200</dateTime>
         </date>
       </contribute>
-      <version>1</version>
+      <version>2</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1317740181671</dateCreated>
-        <dateLastModified>1317823773750</dateLastModified>
+        <dateLastModified>1317887687265</dateLastModified>
       </customElements>
       <format>scy/missionmapmodel</format>
     </technical>
@@ -65,7 +65,9 @@
       <instructionUri>http://www.scy-lab.eu/content/en/mission5/LAS_Information/curtain_INFORMATION.html</instructionUri>
       <lasType>INFORMATION</lasType>
       <loElos />
-      <otherElos />
+      <otherElos>
+        <eloUri>roolo://memory/50062/0/Run+for+your+life%21.scymissionmapmodel</eloUri>
+      </otherElos>
       <mainAnchor>
         <eloUri>roolo://memory/50055/0/Concept-map+over+glucose.scymapping</eloUri>
         <id>cmapOnGlucose</id>
@@ -245,7 +247,7 @@
   <windowStatesXmls>
     <windowStatesXml id="information">
       <windowstates>
-        <window uri="roolo://memory/50055/0/Concept-map+over+glucose.scymapping" layoutX="-60.0" layoutY="0.0" relativeLayoutCenterX="0.0" relativeLayoutCenterY="0.0" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" opened="false" isManuallyRepositioned="false" />
+        <window uri="roolo://memory/50055/0/Concept-map+over+glucose.scymapping" layoutX="804.4" layoutY="35.0" relativeLayoutCenterX="0.8507874" relativeLayoutCenterY="0.08692422" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" opened="false" isManuallyRepositioned="false" />
       </windowstates>
     </windowStatesXml>
   </windowStatesXmls>
