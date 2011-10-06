@@ -6,7 +6,9 @@
  */
 package eu.scy.agents.groupformation.strategies.features;
 
+import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -15,6 +17,10 @@ import eu.scy.common.scyelo.EloFunctionalRole;
 import eu.scy.common.scyelo.ScyElo;
 
 import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.IMetadataValueContainer;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import roolo.elo.metadata.keys.KeyValuePair;
 
 public class HypothesisFeatureExtractor extends AbstractFeatureExtractor{
 
@@ -63,8 +69,18 @@ public class HypothesisFeatureExtractor extends AbstractFeatureExtractor{
 
     @Override
     protected double[] getFeatures(String user, String mission, IELO elo, IELO userELO) {
-        // TODO Auto-generated method stub
-        return null;
+        ScyElo userScyElo = new ScyElo(userELO, repository);
+        IMetadataKey hypoValueKey = repository.getMetaDataTypeManager()
+                .getMetadataKey(CoreRooloMetadataKeyIds.HYPO_VALUE.getId());
+        IMetadataValueContainer hypoValueContainer = userELO.getMetadata()
+                .getMetadataValueContainer(hypoValueKey);
+        List<KeyValuePair> valueList = (List<KeyValuePair>) hypoValueContainer.getValueList();
+        int maxId = Math.min(4, valueList.size());
+        double [] result = new double[4]; 
+        for (int i = 0; i < result.length; i++) {
+          result[i] = new Double((i < maxId)? valueList.get(i).getValue() : "0.0") ;
+        }
+        return result;
     }
 
 }
