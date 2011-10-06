@@ -9,7 +9,7 @@
         </role>
         <entity>costas</entity>
         <date>
-          <dateTime>2011-06-21T15:19:01.453+0200</dateTime>
+          <dateTime>2011-06-21T16:19:01.453+0300</dateTime>
         </date>
       </contribute>
       <contribute>
@@ -19,16 +19,16 @@
         </role>
         <entity>costas</entity>
         <date>
-          <dateTime>2011-06-21T15:19:01.453+0200</dateTime>
+          <dateTime>2011-06-21T16:19:01.453+0300</dateTime>
         </date>
       </contribute>
-      <version>21</version>
+      <version>22</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1295540223843</dateCreated>
-        <dateFirstUserSaveKey>1308662341453</dateFirstUserSaveKey>
-        <dateLastModified>1308662341453</dateLastModified>
+        <dateFirstUserSaveKey>1317911860594</dateFirstUserSaveKey>
+        <dateLastModified>1317911860594</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
@@ -41,29 +41,55 @@
         <entry>roolo://memory/30024/0/Reflection+On+Importance+Of+Criteria.rtf</entry>
       </identifier>
       <las>reflection2</las>
+      <missionId>pizza2</missionId>
       <missionRunning>
         <catalog>memory</catalog>
-        <entry>roolo://memory/30175/0/A+healthy+pizza.scymissionspecification</entry>
+        <entry>roolo://memory/30205/0/%CE%A5%CE%B3%CE%B9%CE%B5%CE%B9%CE%BD%CE%AE+%CF%80%CE%AF%CF%84%CF%83%CE%B1.scymissionspecification</entry>
       </missionRunning>
       <title>
         <string language="en">Reflection On Importance Of Criteria</string>
-        <string language="el">Αξιολόγηση της Στρατγηγικής της Βελτιστοποίησης</string>
+        <string language="el">Αξιολόγηση της Στρατηγικής της Βελτιστοποίησης</string>
       </title>
     </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_forked_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/30212/0/%CE%91%CE%BE%CE%B9%CE%BF%CE%BB%CF%8C%CE%B3%CE%B7%CF%83%CE%B7+%CF%84%CE%B7%CF%82+%CE%A3%CF%84%CF%81%CE%B1%CF%84%CE%B7%CE%B3%CE%B9%CE%BA%CE%AE%CF%82+%CF%84%CE%B7%CF%82+%CE%92%CE%B5%CE%BB%CF%84%CE%B9%CF%83%CF%84%CE%BF%CF%80%CE%BF%CE%AF%CE%B7%CF%83%CE%B7%CF%82.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
   </lom>
-  <template>true</template>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <template>TRUE</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAABvUlEQVR42u3UzUoCURjG8bmL7iRo1SLoEtp3A3UNUesWFZm1qjZ9Egh9UNHKChclkeBCPFbSKBNlKVpg9dQ54qBlELQy/g88zLxzZgbmN8x4Fd2opFxbH96NSnX6m3rlT8AgCNrqAC2kjOtXYL/Web05P+lKqVwinG1vK+m2ufniWu9ReDZdV88+yONDIJtM7iUErKqg9zdpIf4SAl36b/Krafn39qGzShUlz/P0+nmuXT9MFt08Mber1FXCzUcXgdtawP2zgts/OPMdYFl59fUPumMOsGS6rg7wqXSn8Z26egbSIWBNRa1uJdU7qRBweiaiWCwmP2gALm5faG79OARc3rtUdONEI+NLDnB+81RDw6PumAWcXY0rshZ31zQB7drY1EoD8M50XR3gT59wazPF87DZ6+/rX2sBW2cL2Dp3+veavOm6etFoVJ1qcob+op7InwIggAACCCABEEAAASQAAggggARAAAEEkAAIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAASQAAggggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAAfyX+QDlGv0mp+r2gwAAAABJRU5ErkJggg==</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAABgUlEQVR42u3SsU7CUBTG8fsGRl/Kzd0X8QlcdHHR1AWIGiWRjQRJTNzUpSY6OJRGtBSLFnGROAjosfc2RdBIbnBw4P8lX9pzbiDNL1fFzyKt9lcPiqWxOZ8vjM02jR77M1OlAU+9rrjBQC6CXgJ4aOZz/9U8cwng4P1DFpeWzWyA4vQ3SimJOymannWrbksa0YuEUXcmagB3K5eysupI8fja3EA97x1dmae+gW+9vizMz5k5u2WFsmvmDFC/b+6fiFM6k7tGW4KwMxM1gGtOWda302rA0VkDbu1UhzuN9fAkw3P9rnfZvJGryE09lPrt/YQ2LXZNy7NJu2lr/33K9zypJfVH+n3+bTdtbf6/Znn239+nhPwpAAIIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAASQAAggggARAAAEEkAAIIIAAEgABBBBAAiCAAAIIIAEQQAABJAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAMnPfAJ85wP8smd96gAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
 <content languages="en el" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\li0\ri0\fi0\ul0\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1\par
+\par
+\li0\ri0\fi0\ul0\par
 }</RichText>
 </content>
 <resources>
