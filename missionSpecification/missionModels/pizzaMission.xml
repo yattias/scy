@@ -57,6 +57,7 @@
 								<value>myFirstHealthyPizza</value>
 							</list>
                      </property>
+					 <property name="initialAnchorEloIdToOpen" value="myFavouritePizza"/>
                   </bean>
 
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
@@ -85,6 +86,7 @@
 								<value>estimatedEnergyRequirements</value>
 							</list>
                      </property>
+					 <property name="initialAnchorEloIdToOpen" value="foodAndExerciseDiary"/>
                   </bean>
 
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
@@ -108,6 +110,8 @@
 								<value>notesOnUnhealthyDiet</value>
 							</list>
                      </property>
+					 <property name="initialAnchorEloIdToOpen" value="notesOnUnhealthyDiet"/>
+
                   </bean>
                   
 				  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
@@ -132,6 +136,7 @@
                            <value>pizzaIngredientTable</value>
                         </list>
                      </property>
+					 <property name="initialAnchorEloIdToOpen" value="nutritionTable"/>
                   </bean>
 				  
 				  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
@@ -155,6 +160,7 @@
                            <value>questionsAboutTheFoodPyramid</value>
                         </list>
                      </property>
+					 <property name="initialAnchorEloIdToOpen" value="questionsAboutTheFoodPyramid"/>
                   </bean>
 				  
 				  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
@@ -199,6 +205,7 @@
                            <value>factSheetOfOneOrgan</value>
                         </list>
                      </property>
+					 <property name="initialAnchorEloIdToOpen" value="mapOfTheDigestiveSystem"/>
                   </bean>
 				  
 				  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
@@ -224,7 +231,7 @@
 
 				  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="reflection2"/>
-                     <property name="xPosition" value="-135"/>
+                     <property name="xPosition" value="-105"/>
                      <property name="yPosition" value="-15"/>
                      <property name="tooltip" value="tip_LAS_I"/>
                      <property name="lasType" value="REFLECTION"/>
@@ -246,12 +253,13 @@
 						   <value>criteriaWeightTable</value>
                         </list>
                      </property>
+					 <property name="initialAnchorEloIdToOpen" value="methodologySteps"/>
                   </bean>
 				  
 				  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="evaluation"/>
-                     <property name="xPosition" value="-15"/>
-                     <property name="yPosition" value="-135"/>
+                     <property name="xPosition" value="-25"/>
+                     <property name="yPosition" value="-105"/>
                      <property name="tooltip" value="tip_LAS_J"/>
                      <property name="lasType" value="EVALUATION"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/curtain_EVALUATION.html"/>
@@ -270,12 +278,13 @@
                            <value>groupReport</value>
                         </list>
                      </property>
+					 <property name="initialAnchorEloIdToOpen" value="individualReport"/>
                   </bean>
 				  
 				  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="build"/>
-                     <property name="xPosition" value="-80"/>
-                     <property name="yPosition" value="-80"/>
+                     <property name="xPosition" value="-100"/>
+                     <property name="yPosition" value="-100"/>
                      <property name="tooltip" value="tip_LAS_K"/>
                      <property name="lasType" value="CONSTRUCTION"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/curtain_BUILD.html"/>
