@@ -5,6 +5,7 @@ import eu.scy.agents.groupformation.GroupFormationStrategy;
 import eu.scy.agents.groupformation.cache.Group;
 import eu.scy.agents.groupformation.cache.GroupCache;
 import eu.scy.agents.groupformation.strategies.features.CMapFeatureExtractor;
+import eu.scy.agents.groupformation.strategies.features.HypothesisFeatureExtractor;
 import eu.scy.agents.helper.ELOFiller;
 import eu.scy.agents.impl.AgentRooloServiceImpl;
 import eu.scy.common.scyelo.RooloServices;
@@ -36,7 +37,8 @@ public class ClusterStrategyTest extends AbstractTestFixture {
 
     @Before
     public void setup() throws IOException {
-        this.referenceElo = this.loadElo("/eco_reference_concept_map.scymapper.xml", "TestInterview", "scy/interview");
+//        this.referenceElo = this.loadElo("/eco_reference_concept_map.scymapper.xml",  "scy/mapping", "referenceMap");
+        this.referenceElo = this.loadElo("/copexExampleElo2.xml", "scy/xproc", "copex2");
         strategy = new ClusterStrategy();
         users = new HashSet<String>();
         users.add("TestUser1");
@@ -46,14 +48,20 @@ public class ClusterStrategyTest extends AbstractTestFixture {
         users.add("TestUser5");
         users.add("TestUser6");
         users.add("TestUser7");
-        ( (ClusterStrategy) strategy ).addFeatureExtractor(new CMapFeatureExtractor());
+        AgentRooloServiceImpl agentRooloService = new AgentRooloServiceImpl(repository);
+        agentRooloService.setMetadataTypeManager(typeManager);
+        strategy.setRooloServices(agentRooloService);
+        CMapFeatureExtractor cMapFeatureExtractor = new CMapFeatureExtractor();
+        cMapFeatureExtractor.setRepository(agentRooloService); 
+        ( (ClusterStrategy) strategy ).addFeatureExtractor(cMapFeatureExtractor);
+        HypothesisFeatureExtractor hypothesisFeatureExtractor = new HypothesisFeatureExtractor();
+        hypothesisFeatureExtractor.setRepository(agentRooloService); 
+        ( (ClusterStrategy) strategy ).addFeatureExtractor(hypothesisFeatureExtractor);
         strategy.setAvailableUsers(users);
         strategy.setMinimumGroupSize(2);
         strategy.setMaximumGroupSize(3);
         GroupCache groupFormationCache = new GroupCache();
         strategy.setGroupFormationCache(groupFormationCache);
-        RooloServices rooloServices = new AgentRooloServiceImpl(repository);
-        strategy.setRooloServices(rooloServices);
 
 
         addEloToRepository("/ecoExpertMaps/expertMap1.scymapper.xml", "scy/mapping", "cmap1", "TestUser1");
@@ -63,6 +71,11 @@ public class ClusterStrategyTest extends AbstractTestFixture {
         addEloToRepository("/ecoSimpleMaps/simpleMap1.scymapper.xml", "scy/mapping", "cmap5", "TestUser5");
         addEloToRepository("/ecoSimpleMaps/simpleMap2.scymapper.xml", "scy/mapping", "cmap6", "TestUser6");
         addEloToRepository("/ecoSimpleMaps/simpleMap3.scymapper.xml", "scy/mapping", "cmap7", "TestUser7");
+        
+        addEloToRepository("/copexExampleElo.xml", "scy/xproc", "copex1", "TestUser1");
+        addEloToRepository("/copexExampleElo2.xml", "scy/xproc", "copex2", "TestUser2");
+        addEloToRepository("/copexExampleEmptyElo.xml", "scy/xproc", "copex3", "TestUser3");
+        addEloToRepository("/copexExampleSmallElo.xml", "scy/xproc", "copex4", "TestUser4");
     }
 
     @Test

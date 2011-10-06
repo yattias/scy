@@ -34,7 +34,11 @@ import org.jdom.input.SAXBuilder;
 import roolo.api.IRepository;
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
+import roolo.elo.api.IMetadataValueContainer;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import roolo.elo.metadata.keys.KeyValuePair;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -49,6 +53,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.Map.Entry;
 
 /**
  * @author Jörg Kindermann
@@ -210,9 +215,27 @@ public class HypothesisEvaluationAgent2 extends AbstractELOSavedAgent implements
         HashMap<Integer, Integer> histogram = docResult
                 .getFeature(KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM);
 
-        // addSentenceHistogramToMetadata(elo, hist);
+        addSentenceHistogramToMetadata(elo, histogram);
 //        sendNotification(user, tool, session, eloUri, mission, histogram); s
         return histogram;
+    }
+
+    private void addSentenceHistogramToMetadata(ScyElo elo, HashMap<Integer, Integer> hist) {
+        IMetadataKey hypoValueKey = rooloServices.getMetadataTypeManager()
+                .getMetadataKey(CoreRooloMetadataKeyIds.HYPO_VALUE.getId());
+        IMetadataValueContainer hypoValueContainer = elo.getMetadata()
+                .getMetadataValueContainer(hypoValueKey);
+        for(Entry<Integer, Integer> entry : hist.entrySet()) {
+            KeyValuePair keyValuePair = new KeyValuePair();
+            keyValuePair.setKey(entry.getKey().toString());
+            keyValuePair.setValue(entry.getValue().toString());
+            hypoValueContainer.addValue(keyValuePair);
+        }
+        
+        // repository.updateELO(elo); //XXX this is important because an update
+        // would change the version number of the elo, which will also change
+        // the URI
+        rooloServices.getRepository().addMetadata(elo.getUri(), elo.getMetadata());
     }
 
     private void sendNotification(String user, String tool, String session, String eloUri, String mission, HashMap<Integer, Integer> histogram) throws IOException, TupleSpaceException {
