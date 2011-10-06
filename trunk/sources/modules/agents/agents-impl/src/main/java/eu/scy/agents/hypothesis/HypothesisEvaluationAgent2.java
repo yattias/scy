@@ -83,7 +83,7 @@ public class HypothesisEvaluationAgent2 extends AbstractELOSavedAgent implements
             eloFinishedListener = getActionSpace().eventRegister(Command.WRITE,
                     new Tuple(ActionConstants.ACTION, String.class, Long.class, ActionConstants.ELO_FINISHED,
                             Field.createWildCardField()), this, true);
-        } catch ( TupleSpaceException e ) {
+        } catch (TupleSpaceException e) {
             e.printStackTrace();
         }
     }
@@ -91,7 +91,7 @@ public class HypothesisEvaluationAgent2 extends AbstractELOSavedAgent implements
     @Override
     protected void doRun() throws TupleSpaceException, AgentLifecycleException,
             InterruptedException {
-        while ( status == Status.Running ) {
+        while (status == Status.Running) {
             sendAliveUpdate();
             Thread.sleep(5000);
         }
@@ -102,7 +102,7 @@ public class HypothesisEvaluationAgent2 extends AbstractELOSavedAgent implements
         try {
             getActionSpace().disconnect();
             getCommandSpace().disconnect();
-        } catch ( TupleSpaceException e ) {
+        } catch (TupleSpaceException e) {
             e.printStackTrace();
         }
     }
@@ -119,7 +119,7 @@ public class HypothesisEvaluationAgent2 extends AbstractELOSavedAgent implements
 
     @Override
     public void call(Command command, int seq, Tuple afterTuple, Tuple beforeTuple) {
-        if ( seq != eloFinishedListener ) {
+        if (seq != eloFinishedListener) {
             logger.debug("Callback passed to Superclass.");
             super.call(command, seq, afterTuple, beforeTuple);
             return;
@@ -132,12 +132,15 @@ public class HypothesisEvaluationAgent2 extends AbstractELOSavedAgent implements
 
         int scaffoldLevel = getScaffoldLevel(user);
         try {
-            if ( scaffoldLevel == AgentProtocol.SCAFFOLD_LEVEL_MEDIUM ) {
-                runHypothesisChecking(user, tool, session, eloUri);
+            String missionName = getSession().getMission(user).getName();
+            HashMap<Integer, Integer> histogram = runHypothesisChecking(user, tool, session, eloUri, missionName);
+
+            if (scaffoldLevel == AgentProtocol.SCAFFOLD_LEVEL_MEDIUM) {
+                sendNotification(user, tool, session, eloUri, missionName, histogram);
             }
-        } catch ( IOException e ) {
+        } catch (IOException e) {
             logger.error(e);
-        } catch ( TupleSpaceException e ) {
+        } catch (TupleSpaceException e) {
             logger.error(e);
         }
     }
@@ -147,16 +150,19 @@ public class HypothesisEvaluationAgent2 extends AbstractELOSavedAgent implements
                                       long timeInMillis, String tool, String mission, String session,
                                       String eloUri, String eloType) {
         try {
-            if ( eloType == null ) {
+            if (eloType == null) {
                 logger.warn(eloUri + " has no type");
             }
+            String missionName = getSession().getMission(user).getName();
+            HashMap<Integer, Integer> histogram = runHypothesisChecking(user, tool, session, eloUri, missionName);
+
             int scaffoldLevel = getScaffoldLevel(user);
-            if ( scaffoldLevel == AgentProtocol.SCAFFOLD_LEVEL_HIGH ) {
-                runHypothesisChecking(user, tool, session, eloUri);
+            if (scaffoldLevel == AgentProtocol.SCAFFOLD_LEVEL_HIGH) {
+                sendNotification(user, tool, session, eloUri, missionName, histogram);
             }
-        } catch ( IOException e ) {
+        } catch (IOException e) {
             logger.error(e);
-        } catch ( TupleSpaceException e ) {
+        } catch (TupleSpaceException e) {
             logger.error(e);
         }
     }
@@ -164,30 +170,30 @@ public class HypothesisEvaluationAgent2 extends AbstractELOSavedAgent implements
     private int getScaffoldLevel(String user) {
         String missionName = getSession().getMission(user).getName();
         String scaffoldLevelAsString = (String) configuration.getParameter(missionName, AgentProtocol.GLOBAL_SCAFFOLDING_LEVEL);
-        if ( scaffoldLevelAsString == null ) {
+        if (scaffoldLevelAsString == null) {
             logger.warn("Scaffold level not set assuming 1");
             scaffoldLevelAsString = "1";
         }
         return Integer.parseInt(scaffoldLevelAsString);
     }
 
-    private void runHypothesisChecking(String user, String tool, String session, String eloUri) throws IOException, TupleSpaceException {
+    private HashMap<Integer, Integer> runHypothesisChecking(String user, String tool, String session, String eloUri, String missionName) throws IOException, TupleSpaceException {
         String language = getSession().getLanguage(user);
-        String mission = getSession().getMission(user).getName();
 
-        if ( eloUri == null ) {
+
+        if (eloUri == null) {
             logger.warn("The eloUri in the elo_saved action was null. Hypothesis agent could not run.");
-            return;
+            return null;
         }
         ScyElo elo = ScyElo.loadElo(URI.create(eloUri), rooloServices);
-        if ( !isCorrectEloType(elo) ) {
-            return;
+        if (!isCorrectEloType(elo)) {
+            return null;
         }
 
         String text = getText(elo);
-        Set<String> keywords = getSimpleKeywords(mission, language);
-        if ( keywords.isEmpty() ) {
-            keywords = getComplexKeywords(text, mission, language);
+        Set<String> keywords = getSimpleKeywords(missionName, language);
+        if (keywords.isEmpty()) {
+            keywords = getComplexKeywords(text, missionName, language);
         }
 
         // make OBWIOUS document and process in workflow:
@@ -201,15 +207,19 @@ public class HypothesisEvaluationAgent2 extends AbstractELOSavedAgent implements
         Container result = cmpHistogramOp.run();
         Document docResult = (Document) result
                 .get(ObjectIdentifiers.DOCUMENT);
-        HashMap<Integer, Integer> hist = docResult
+        HashMap<Integer, Integer> histogram = docResult
                 .getFeature(KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM);
 
         // addSentenceHistogramToMetadata(elo, hist);
+//        sendNotification(user, tool, session, eloUri, mission, histogram); s
+        return histogram;
+    }
 
+    private void sendNotification(String user, String tool, String session, String eloUri, String mission, HashMap<Integer, Integer> histogram) throws IOException, TupleSpaceException {
         // write HashMap histogram as a ByteArray object
         ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
         ObjectOutputStream out = new ObjectOutputStream(bytesOut);
-        out.writeObject(hist);
+        out.writeObject(histogram);
         // write a tuple with Byte version of histogram to trigger the
         // HypothesisEvaluation decision
         // maker
@@ -220,7 +230,7 @@ public class HypothesisEvaluationAgent2 extends AbstractELOSavedAgent implements
 
     private String getText(ScyElo elo) {
         String text = "";
-        if ( isRichtextElo(elo) ) {
+        if (isRichtextElo(elo)) {
             text = getRichtextEloText(elo.getElo());
         } else {
             text = Utilities.getEloText(elo.getElo(), SCYED_XPATH, logger);
@@ -253,13 +263,13 @@ public class HypothesisEvaluationAgent2 extends AbstractELOSavedAgent implements
 
     private Set<String> getSimpleKeywords(String missionName, String language) {
         Set<String> keywords = modelStorage.get(missionName, language, FIXED_KEYWORDS_MODEL);
-        if ( keywords == null ) {
+        if (keywords == null) {
             logger.fatal("Fixd keywords are not present for mission " + missionName
                     + ", " + language);
             return Collections.emptySet();
         }
         Set<String> trimmedKeywords = new HashSet<String>();
-        for ( String keyword : keywords ) {
+        for (String keyword : keywords) {
             trimmedKeywords.add(keyword.trim());
         }
         return trimmedKeywords;
@@ -268,7 +278,7 @@ public class HypothesisEvaluationAgent2 extends AbstractELOSavedAgent implements
 
     private String getRichtextEloText(IELO elo) {
         Element rootElement = getContentAsXML(elo);
-        if ( rootElement == null ) {
+        if (rootElement == null) {
             return "";
         }
         return rootElement.getTextTrim();
@@ -276,7 +286,7 @@ public class HypothesisEvaluationAgent2 extends AbstractELOSavedAgent implements
 
     private Element getContentAsXML(IELO elo) {
         IContent content = elo.getContent();
-        if ( content == null ) {
+        if (content == null) {
             logger.fatal("Content of elo is null");
             return null;
         }
@@ -286,9 +296,9 @@ public class HypothesisEvaluationAgent2 extends AbstractELOSavedAgent implements
         try {
             org.jdom.Document document = builder.build(new StringReader(contentText));
             return document.getRootElement();
-        } catch ( JDOMException e ) {
+        } catch (JDOMException e) {
             e.printStackTrace();
-        } catch ( IOException e ) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
@@ -296,8 +306,8 @@ public class HypothesisEvaluationAgent2 extends AbstractELOSavedAgent implements
 
     private boolean isRichtextElo(ScyElo elo) {
         String technicalFormat = elo.getTechnicalFormat();
-        if ( EloTypes.SCY_RICHTEXT.equals(technicalFormat) ) {
-            if ( elo.getFunctionalRole() == EloFunctionalRole.HYPOTHESIS ) {
+        if (EloTypes.SCY_RICHTEXT.equals(technicalFormat)) {
+            if (elo.getFunctionalRole() == EloFunctionalRole.HYPOTHESIS) {
                 return true;
             }
         }
@@ -306,7 +316,7 @@ public class HypothesisEvaluationAgent2 extends AbstractELOSavedAgent implements
 
     private boolean isScyEdElo(ScyElo elo) {
         String technicalFormat = elo.getTechnicalFormat();
-        if ( EloTypes.SCY_XPROC.equals(technicalFormat) ) {
+        if (EloTypes.SCY_XPROC.equals(technicalFormat)) {
             return true;
         }
         return false;
@@ -337,15 +347,15 @@ public class HypothesisEvaluationAgent2 extends AbstractELOSavedAgent implements
             Tuple response = getCommandSpace().waitToTake(
                     new Tuple(agent, AgentProtocol.RESPONSE, queryId,
                             String.class), waitTime);
-            if ( response == null ) {
+            if (response == null) {
                 return result;
             }
             String keywordString = (String) response.getField(3).getValue();
             StringTokenizer tokenizer = new StringTokenizer(keywordString, ";");
-            while ( tokenizer.hasMoreTokens() ) {
+            while (tokenizer.hasMoreTokens()) {
                 result.add(tokenizer.nextToken());
             }
-        } catch ( TupleSpaceException e ) {
+        } catch (TupleSpaceException e) {
             e.printStackTrace();
         }
         return result;
