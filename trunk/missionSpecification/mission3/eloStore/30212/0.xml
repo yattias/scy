@@ -12,12 +12,12 @@
           <dateTime>2011-10-06T09:56:26.515+0200</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>2</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1317887786515</dateCreated>
-        <dateLastModified>1317887786515</dateLastModified>
+        <dateLastModified>1317907176640</dateLastModified>
       </customElements>
       <format>scy/missionmapmodel</format>
     </technical>
@@ -26,11 +26,11 @@
         <catalog>memory</catalog>
         <entry>roolo://memory/30212/0/A+healthy+pizza.scymissionmapmodel</entry>
       </identifier>
-      <las>conceptualization3</las>
+      <las>design</las>
       <missionId>pizza2</missionId>
       <missionRunning>
         <catalog>memory</catalog>
-        <entry>roolo://memory/30211/0/A+healthy+pizza.scymissionspecification</entry>
+        <entry>roolo://memory/30217/0/A+healthy+pizza+v2.scymissionspecification</entry>
       </missionRunning>
       <title>
         <string language="en">A healthy pizza</string>
@@ -67,7 +67,10 @@
       <instructionUri>http://www.scy-lab.eu/content/en/mission3/curtain_DESIGN.html</instructionUri>
       <lasType>DESIGN</lasType>
       <loElos />
-      <otherElos />
+      <otherElos>
+        <eloUri>roolo://memory/30218/0/A+healthy+pizza.scymissionmapmodel</eloUri>
+        <eloUri>roolo://memory/30224/0/%CE%A5%CE%B3%CE%B9%CE%B5%CE%B9%CE%BD%CE%AE+%CF%80%CE%AF%CF%84%CF%83%CE%B1.scymissionmapmodel</eloUri>
+      </otherElos>
       <mainAnchor>
         <eloUri>roolo://memory/30091/0/My+Optimized+Healthy+Pizza.scysimconfig</eloUri>
         <id>myOptimizedHealthyPizza</id>
@@ -656,7 +659,17 @@
       </nextLasses>
     </las>
   </lasses>
-  <windowStatesXmls />
+  <windowStatesXmls>
+    <windowStatesXml id="design">
+      <windowstates>
+        <window uri="roolo://memory/30218/0/A+healthy+pizza.scymissionmapmodel" layoutX="639.0" layoutY="492.09998" relativeLayoutCenterX="0.68799216" relativeLayoutCenterY="0.7661218" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" opened="false" isManuallyRepositioned="false" />
+        <window uri="roolo://memory/30152/0/Glossary.url" layoutX="282.0" layoutY="492.09998" relativeLayoutCenterX="0.33661416" relativeLayoutCenterY="0.7661218" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" opened="false" isManuallyRepositioned="false" />
+        <window uri="roolo://memory/30090/0/My+First+Healthy+Pizza.scysimconfig" layoutX="554.60004" layoutY="35.0" relativeLayoutCenterX="0.6049213" relativeLayoutCenterY="0.08692422" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" opened="false" isManuallyRepositioned="false" />
+        <window uri="roolo://memory/30089/0/My+Favourite+Pizza.scysimconfig" layoutX="366.40002" layoutY="35.0" relativeLayoutCenterX="0.41968507" relativeLayoutCenterY="0.08692422" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" opened="false" isManuallyRepositioned="false" />
+        <window uri="roolo://memory/30091/0/My+Optimized+Healthy+Pizza.scysimconfig" layoutX="804.4" layoutY="35.0" relativeLayoutCenterX="0.8507874" relativeLayoutCenterY="0.08692422" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" opened="false" isManuallyRepositioned="false" />
+      </windowstates>
+    </windowStatesXml>
+  </windowStatesXmls>
 </missionModel>
 </content>
 <resources>
