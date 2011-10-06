@@ -1,0 +1,85 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>Caspar</entity>
+        <date>
+          <dateTime>2011-10-06T09:55:12.687+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>Caspar</entity>
+        <date>
+          <dateTime>2011-10-06T09:55:12.687+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1317887712687</dateCreated>
+        <dateFirstUserSaveKey>1317887712687</dateFirstUserSaveKey>
+        <dateLastModified>1317887712687</dateLastModified>
+      </customElements>
+      <format>scy/missionspecification</format>
+    </technical>
+    <educational>
+      <learningResourceType>documentDesign</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/50067/0/Run+for+your+life%21+v3.scymissionspecification</entry>
+      </identifier>
+      <las>information</las>
+      <missionId>mini1</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/50061/0/Run+for+your+life%21.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Run for your life! v3</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>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</base64>
+  </thumbnail>
+</metadata>
+<content languages="en" contentType="xml">
+<missionSpeicification>
+  <missionMapModelEloUri>roolo://memory/50062/0/Run+for+your+life%21.scymissionmapmodel</missionMapModelEloUri>
+  <eloToolConfigsEloUri>roolo://memory/50063/0/Run+for+your+life%21.scyelotoolconfiguration</eloToolConfigsEloUri>
+  <templateElosEloUri>roolo://memory/50064/0/Run+for+your+life%21.scytemplateelos</templateElosEloUri>
+  <runtimeSettingsEloUri>roolo://memory/50065/0/Run+for+your+life%21.runtimesettings</runtimeSettingsEloUri>
+  <agentModelsEloUri />
+  <pedagogicalPlanSettingsEloUri>roolo://memory/50066/0/Run+for+your+life%21.scy</pedagogicalPlanSettingsEloUri>
+  <colorSchemesEloUri>roolo://memory/50010/0/colorschemes1.colorschemes</colorSchemesEloUri>
+  <missionDescriptionUri>http://www.scy-lab.eu/content/en/mission5/curtain_MISSION.html</missionDescriptionUri>
+  <missionId>mini1</missionId>
+  <xhtmlVersionId />
+</missionSpeicification>
+</content>
+<resources>
+</resources>
+</elo>
