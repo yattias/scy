@@ -266,12 +266,12 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
             def myElo = scyElo.getAuthors().contains(config.getToolBrokerAPI().getLoginUserName());
             if (myElo or window.isQuiting) {
                ProgressOverlay.startShowWorking();
+               addThumbnail(scyElo);
                XFX.runActionInBackgroundAndCallBack(function() : Object {
                    updateTags(elo);
                    // it is (also) my elo
                    var dateFirstUserSaveSet = false;
                    var creatorSet = false;
-                   addThumbnail(scyElo);
                    if (scyElo.getDateFirstUserSave() == null) {
                       scyElo.setDateFirstUserSave(System.currentTimeMillis());
                       dateFirstUserSaveSet = true;
