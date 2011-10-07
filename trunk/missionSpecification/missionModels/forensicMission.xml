@@ -52,6 +52,7 @@
                         <list>
                         </list>
                      </property>
+					 <property name="initialAnchorEloIdToOpen" value="chimConceptMap"/>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="Chemistry Orientation"/>
@@ -70,6 +71,7 @@
                         <list>
                         </list>
                      </property>
+					 <property name="initialAnchorEloIdToOpen" value="chimGoalAnalysis"/>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="Chemistry Design"/>
@@ -92,6 +94,7 @@
                         <list>
                         </list>
                      </property>
+					 <property name="initialAnchorEloIdToOpen" value="chimExperimentalProcedure"/>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="Chemistry Experiment"/>
@@ -115,6 +118,7 @@
 						   <!--<value>chimRepresentationData</value>-->
                         </list>
                      </property>
+					 <property name="initialAnchorEloIdToOpen" value="chimAnnotatedData"/>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="Chemistry Analysis"/>
@@ -134,6 +138,7 @@
 							<value>chimOrganizedData</value>
                         </list>
                      </property>
+					 <property name="initialAnchorEloIdToOpen" value="chimOrganizedData"/>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="Chemistry Reporting"/>
@@ -151,6 +156,7 @@
                         <list>
                         </list>
                      </property>
+					 <property name="initialAnchorEloIdToOpen" value="chimReport"/>
                   </bean>
 				  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="Biology Information"/>
@@ -174,6 +180,7 @@
 							<!--<value>chimConceptMap</value>-->
                         </list>
                      </property>
+					 <property name="initialAnchorEloIdToOpen" value="checklist"/>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="Biology Orientation"/>
@@ -194,6 +201,7 @@
 							<!--<value>chimGoalAnalysis</value>-->
                         </list>
                      </property>
+					 <property name="initialAnchorEloIdToOpen" value="bioGoalAnalysis"/>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="Biology Design"/>
@@ -217,6 +225,7 @@
 							<!--<value>chimExperimentalProcedure</value>-->
                         </list>
                      </property>
+					 <property name="initialAnchorEloIdToOpen" value="bioExperimentalProcedure"/>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="Biology Experiment"/>
@@ -240,6 +249,7 @@
                            <!--<value>bioPictureData</value>-->
                         </list>
                      </property>
+					 <property name="initialAnchorEloIdToOpen" value="bioRepresentationData"/>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="Biology Analysis"/>
@@ -261,6 +271,7 @@
 						   <value>chimOrganizedData</value>-->
                         </list>
                      </property>
+					 <property name="initialAnchorEloIdToOpen" value="bioExperimentConclusion"/>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="Biology Reporting"/>
@@ -280,6 +291,7 @@
 							<!--<value>chimReport</value>-->
                         </list>
                      </property>
+					 <property name="initialAnchorEloIdToOpen" value="bioReport"/>
                   </bean>
                </list>
             </property>
@@ -360,7 +372,7 @@
                <property name="iconType" value="Research_question"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/TargetDescription.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/Assignments/A_chimGoalAnalysis.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/Resources/R_bioGoalAnalysis.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/Resources/R_chimGoalAnalysis.html"/>
                <property name="inputMissionAnchorIds">
                   <list>
                   </list>
@@ -549,7 +561,7 @@
                <property name="inputMissionAnchorIds">
                   <list>
 				  	<value>bioExperimentConclusion</value>
-					<!--<value>Probabilities</value>-->
+					<value>Probabilities</value>
                   </list>
                </property>
                <property name="loEloUris">
