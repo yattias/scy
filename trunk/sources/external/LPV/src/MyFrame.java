@@ -1,3 +1,8 @@
+import info.collide.sqlspaces.client.TupleSpace;
+import info.collide.sqlspaces.commons.Field;
+import info.collide.sqlspaces.commons.Tuple;
+import info.collide.sqlspaces.commons.TupleSpaceException;
+
 import javax.swing.*;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -25,6 +30,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.TimeZone;
 
 import village.City;
@@ -48,7 +54,7 @@ implements ActionListener, ItemListener{
 	MyPanel canvas;
 	 
 	JButton butt,butt2 ;
-	JTextField textField,textField2;
+	JTextField textField,textField2,textField3;
 	JComboBox actors;
 	ArrayList<String> userNames;
 	String[] bannedActionsList = { "tool_quit", "tool_started", "tool_lost_focus", "tool_got_focus"};// maybe also "tool_opened", "tool_closed"
@@ -71,11 +77,16 @@ implements ActionListener, ItemListener{
         JPanel p = new JPanel();
         p.setLayout(new FlowLayout());
 		//-Button
-        butt = new JButton ( "Load SQL" ) ; 
-//		p.add(butt);
+        butt = new JButton ( "Load SQLSpaces" ) ; 
+		p.add(butt);
 		//-Text Field
-		textField = new JTextField("mysql://127.0.0.1/dummy?user=dumdum&password=password",33);
-//		p.add(textField);
+		p.add(new JLabel("Server:"));
+		textField = new JTextField("127.0.0.1",25);
+		p.add(textField);
+		
+		p.add(new JLabel("Port:"));
+		textField3 = new JTextField("2525",3);
+		p.add(textField3);
 		//-Combo Box
 		actors = new JComboBox(); 
 		MutableComboBoxModel model = (MutableComboBoxModel) actors.getModel();
@@ -85,13 +96,13 @@ implements ActionListener, ItemListener{
 		//-Button 2
 		//butt2 = new JButton ( "Load XML" ) ; 
 		butt2 = new JButton ( "Load CSV" ) ;
-		p.add(butt2);
+//		p.add(butt2);
 		//-Text Field 2
 		//textField2 = new JTextField("c:\\data\\doc\\infomedia.uib.no\\Scy project\\logs\\actionLogsUT2(1).xml",33);
 		//textField2 = new JTextField("actionLogsUT2(2).xml",33);
-		//textField2 = new JTextField("c:\\data\\doc\\infomedia.uib.no\\Scy project\\logs\\cyprus_lpv_3.csv",33);
-		textField2 = new JTextField("cyprus_lpv_2.csv",33);
-		p.add(textField2);
+		textField2 = new JTextField("c:\\data\\doc\\infomedia.uib.no\\Scy project\\logs\\cyprus_lpv_3.csv",33);
+		//textField2 = new JTextField("cyprus_lpv_2.csv",33);
+//		p.add(textField2);
 		//Top Panel add
 		add(p,BorderLayout.PAGE_START);
 		//Panel for drawing - canvas
@@ -154,9 +165,11 @@ implements ActionListener, ItemListener{
 		
 		
 		if (src == butt || src == textField ){
-			//String uurl = textField.getText();
+			String uurl = textField.getText();
+			int port = Integer.parseInt(textField3.getText());
 			textField.selectAll();
-			//readSQL(uurl);
+			readSQLSpaces(uurl, port);
+			
 		}
 		if (src == butt2 || src == textField2 ){
 			String uurl = textField2.getText();
@@ -398,6 +411,59 @@ implements ActionListener, ItemListener{
 		}
 		System.out.println(cities.get(0).productTypeDict);
 	}
+	
+	public void readSQLSpaces(String url,int port){
+		try {
+			System.out.println("SQLSpaces connecting");
+			TupleSpace ts = new TupleSpace(url, port);
+				System.out.println("SQLSpaces connected");
+				Tuple actionTemplate = new Tuple("action",Field.createWildCardField());
+		    ArrayList<String[]> allData = new ArrayList<String[]>();
+		    for (Tuple t : ts.readAll(actionTemplate, 100)) {
+		        
+		    	String[] l = new String[7];
+		    	l[0] = ((Long) t.getField(2).getValue()).toString();
+		    	if(((String)t.getField(3).getValue()).equals("elo_saved") || ((String)t.getField(3).getValue()).equals("elo_save")){
+		    	}
+		    	for(int i = 3; i<7;i++){
+		    		l[i-2] = (String) t.getField(i).getValue();
+		        	if(l[i-2] == "") l[i-2] = null;
+		        }
+		    	l[5] = (String) t.getField(8).getValue();
+		    	int j = 9;
+		    	boolean end = t.numberOfFields()<10;
+		    	while(!end){
+		    		String[] k = ((String) t.getField(j).getValue()).split("=");
+		    		if(k.length>1){
+		    			if(k[0].equals("elo_uri")){
+		    				l[6] = k[1];
+		    			}
+		    		}
+		    		j++;
+		    		if(j>=t.numberOfFields()) end = true;
+		    	}
+		    	allData.add(l);
+		    }
+		    //sort allData
+		    Collections.sort(allData, new AllDataComparator());
+		    for (String[] l : allData){
+		        if(l.length>6){
+		        	addIntoCity(Long.parseLong(l[0]), l[4], l[2], l[3], l[1], l[5], l[5], l[6]);
+		        }
+		        else {
+		        	if(l.length == 6)
+		        		addIntoCity(Long.parseLong(l[0]), l[4], l[2], l[3], l[1], l[5], l[5], null);
+		        	if(l.length < 6)
+		        		System.out.println("input error: not enough fields");
+		        }
+		    }
+		    
+		} catch (TupleSpaceException e) {
+			e.printStackTrace();
+		}
+		if(cities.size()>0) System.out.println(cities.get(0).productTypeDict);
+	}
+
 
 	private void addIntoCity(Long time, String mission, String user,String tool, String type, String elouri, String elo_uri, String old_uri){
 		for (String listElement : bannedActionsList) {
