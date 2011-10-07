@@ -22,7 +22,7 @@
           <dateTime>2011-07-08T16:59:21.019+0200</dateTime>
         </date>
       </contribute>
-      <version>28</version>
+      <version>30</version>
     </lifecycle>
     <annotation>
       <entity>colorId</entity>
@@ -31,8 +31,8 @@
     <technical>
       <customElements>
         <dateCreated>1303476229409</dateCreated>
-        <dateFirstUserSaveKey>1317210166290</dateFirstUserSaveKey>
-        <dateLastModified>1317210166290</dateLastModified>
+        <dateFirstUserSaveKey>1317976359117</dateFirstUserSaveKey>
+        <dateLastModified>1317976359117</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
@@ -56,7 +56,7 @@
       </missionRunning>
       <title>
         <string language="en">Biology: Official report</string>
-        <string language="fr">Biologie: Raport officiel</string>
+        <string language="fr">Biologie: Rapport officiel</string>
       </title>
     </general>
     <relation>
@@ -75,7 +75,7 @@
   <template>true</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>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</base64>
+    <base64>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</base64>
   </thumbnail>
 </metadata>
 <content languages="en fr" contentType="xml">
@@ -108,7 +108,8 @@ Our problems during all the mission (optional):\b0\par&#xD;
 \b Our conclusion:\par&#xD;
 \b0 Did you find a match between the evidence sample and any of the reference samples? Did you get the same information from your colleagues' results?\par&#xD;
 What information does a match between evidence and reference profile give about a suspect being guilty or not?\par&#xD;
-What is the profile frequency of the matching profiles? (optional)\par&#xD;
+What is the profile frequency of the matching profiles?\par&#xD;
+\par&#xD;
 \par&#xD;
 \par&#xD;
 \par&#xD;
