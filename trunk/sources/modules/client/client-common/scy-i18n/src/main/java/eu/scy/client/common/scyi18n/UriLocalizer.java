@@ -7,16 +7,16 @@ package eu.scy.client.common.scyi18n;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.util.Locale;
+import java.util.Map;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -95,15 +95,34 @@ public class UriLocalizer
       logger.info("failed to find url: " + localizedUrl.toString());
       return url;
    }
+   private static final Map<String, Boolean> urlExistsMap = new ConcurrentHashMap<String, Boolean>();
 
    private boolean urlExisits(URL url)
    {
+      boolean exists = false;
+      String utlString = url.toString();
+      Boolean cachedValue = urlExistsMap.get(utlString);
+      if (cachedValue != null)
+      {
+         return cachedValue;
+      }
       try
       {
          URLConnection connection = url.openConnection();
-         InputStream inputStream = connection.getInputStream();
-         inputStream.close();
-         return true;
+         if (connection instanceof HttpURLConnection)
+         {
+            HttpURLConnection httpUrlConnection = (HttpURLConnection) url.openConnection();
+            httpUrlConnection.setRequestMethod("HEAD");
+            httpUrlConnection.connect();
+            int responseCode = httpUrlConnection.getResponseCode();
+            exists = responseCode == HttpURLConnection.HTTP_OK;
+         }
+         else
+         {
+            InputStream inputStream = connection.getInputStream();
+            inputStream.close();
+            exists = true;
+         }
       }
       catch (FileNotFoundException ex)
       {
@@ -111,7 +130,8 @@ public class UriLocalizer
       catch (IOException ex)
       {
       }
-      return false;
+      urlExistsMap.put(utlString, exists);
+      return exists;
    }
 
    /**
