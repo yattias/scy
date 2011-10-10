@@ -134,4 +134,19 @@ public class BasicMissionModelEloContent implements MissionModelEloContent
       }
       return null;
    }
+
+   @Override
+   public MissionAnchor getMissionAnchor(URI eloUri)
+   {
+      List<MissionAnchor> missionAnchors = getMissionAnchors();
+      for (MissionAnchor missionAnchor : missionAnchors)
+      {
+         if (missionAnchor.getEloUri() != null && missionAnchor.getEloUri().equals(eloUri))
+         {
+            return missionAnchor;
+         }
+      }
+      return null;
+   }
+
 }

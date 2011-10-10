@@ -223,4 +223,10 @@ public class BasicMissionModel implements MissionModel
       return missionModelEloContent.getMissionAnchor(id);
    }
 
+   @Override
+   public MissionAnchor getMissionAnchor(URI eloUri)
+   {
+      return missionModelEloContent.getMissionAnchor(eloUri);
+   }
+
 }

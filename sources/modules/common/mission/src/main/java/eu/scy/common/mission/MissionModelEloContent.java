@@ -29,4 +29,6 @@ public interface MissionModelEloContent
    public List<MissionAnchor> getMissionAnchors();
    
    public MissionAnchor getMissionAnchor(String id);
+
+   public MissionAnchor getMissionAnchor(URI eloUri);
 }
