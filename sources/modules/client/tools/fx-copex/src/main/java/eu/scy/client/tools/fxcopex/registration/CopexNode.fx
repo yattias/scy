@@ -139,6 +139,7 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
                     saveTitleBarButton,
                     saveAsTitleBarButton,
                     notificationTitleBarButton
+                    exportToPdfTitleBarButton
                  ]
    }
 
@@ -147,6 +148,7 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
     copexTitleBarButtonManager.titleBarButtons = [
                     saveTitleBarButton,
                     saveAsTitleBarButton
+                    exportToPdfTitleBarButton
                  ]
    }
 
