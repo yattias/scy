@@ -277,6 +277,10 @@ public class MissionModelFX extends MissionModel {
       return missionModel.getMissionAnchor(id)
    }
 
+   override public function getMissionAnchor(eloUri: URI): MissionAnchor {
+      return missionModel.getMissionAnchor(eloUri)
+   }
+
    override public function getMissionAnchors(): List {
       return missionModel.getMissionAnchors()
    }
