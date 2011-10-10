@@ -25,23 +25,18 @@ import java.lang.System;
 import roolo.elo.metadata.keys.Contribute;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageWindowStyler;
-import eu.scy.client.desktop.desktoputils.i18n.Composer;
-import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 import eu.scy.client.desktop.desktoputils.FpsDisplay;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.client.desktop.scydesktop.uicontrols.EloIconButton;
-import javafx.util.StringLocalizer;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import roolo.elo.api.IELO;
 import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
-import eu.scy.client.desktop.scydesktop.tools.search.EloSearchNode;
-import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.tools.search.ScySearchResult;
 import eu.scy.client.desktop.scydesktop.tools.search.ScySearchResultTitleComparator;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleLayer;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleKey;
-import eu.scy.client.desktop.desktoputils.XFX;
+import javafx.scene.control.ListCell;
 
 /**
  * @author sikken
@@ -71,6 +66,9 @@ public class EloManagement extends CustomNode {
    var searcher: Searcher;
    var createBlankEloButton: EloIconButton;
    var archiver: Archiver;
+   var eloTemplateUriDisplays: ScySearchResult[];
+   var createNewEloFromTemplateModalDialogBox: ModalDialogBox;
+   var createNewBlankEloModalDialogBox: ModalDialogBox;
    public-read var searchWrapper: SearchWrapper;
 
    init {
@@ -172,10 +170,8 @@ public class EloManagement extends CustomNode {
       }
    }
 
-   var eloTemplateUris: URI[];
-   var eloTemplateUriDisplays: ScySearchResult[];
-
    function findTemplateEloInformation() {
+      var eloTemplateUris: URI[];
       if (templateEloUris != null) {
          for (uri in templateEloUris) {
             insert uri as URI into eloTemplateUris;
@@ -199,22 +195,31 @@ public class EloManagement extends CustomNode {
 
    function createNewEloFromTemplateAction(): Void {
       newFromEloTemplateButton.turnedOn = true;
-      var createNewElo = CreateNewElo {
-                 createAction: createNewEloFromTemplate
-                 cancelAction: cancelNewElo
+      def templateListSelectectionNode = ListSelectionTool {
+                 listItems: eloTemplateUriDisplays
+                 cellFactory: templateEloCellFactory
+                 titleLabel: ##"Select template"
+                 okButtonLabel: ##"Create"
+                 okButtonAction: createNewEloFromTemplate
+                 cancelAction: closeCreateNewEloFromTemplateModalDialogBox
               }
-      createNewElo.listView.cellFactory = createNewElo.simpleScyEloCellFactory;
-      createNewElo.listView.items = eloTemplateUriDisplays;
 
-      createNewElo.label.text = ##"Select template";
-      var eloIcon = windowStyler.getScyEloIcon(ImageWindowStyler.generalNew);
-      var windowColorScheme = windowStyler.getWindowColorScheme(ImageWindowStyler.generalNew);
-
-      createModalDialog(windowColorScheme, eloIcon, ##"Create new", createNewElo);
+      createNewEloFromTemplateModalDialogBox = createModalDialog(ImageWindowStyler.generalNew, ##"Create new", templateListSelectectionNode);
    }
 
-   function createNewEloFromTemplate(createNewElo: CreateNewElo): Void {
-      var scySearchResult = createNewElo.listView.selectedItem as ScySearchResult;
+   function templateEloCellFactory(): ListCell {
+      var listCell: ListCell;
+      listCell = ListCell {
+                 node: TemplateEloListCellNode {
+                    newEloCreationRegistry: scyDesktop.newEloCreationRegistry
+                    templateElo: bind listCell.item as ScySearchResult
+                 }
+              }
+      return listCell;
+   }
+
+   function createNewEloFromTemplate(templateDisplay: Object): Void {
+      var scySearchResult = templateDisplay as ScySearchResult;
       if (scySearchResult != null) {
          var eloTemplateUri = scySearchResult.getScyElo().getUri();
          var newElo = repository.retrieveELO(eloTemplateUri);
@@ -231,34 +236,42 @@ public class EloManagement extends CustomNode {
             logger.error("can't find template elo, with uri: {eloTemplateUri}");
          }
       }
-      createNewElo.modalDialogBox.close();
+      closeCreateNewEloFromTemplateModalDialogBox()
+   }
+
+   function closeCreateNewEloFromTemplateModalDialogBox(): Void {
+      createNewEloFromTemplateModalDialogBox.close();
       newFromEloTemplateButton.turnedOn = false;
    }
 
-   function setTitleAndLanguage(elo: IELO, title: String): Void {
-      def titleMap = new LinkedHashMap();
-      titleMap.put(Locale.getDefault(), title);
-      elo.getMetadata().getMetadataValueContainer(titleKey).setValuesI18n(titleMap);
-      elo.getContent().setLanguage(Locale.getDefault());
+   function createModalDialog(eloTypeName: String, title: String, content: Node): ModalDialogBox {
+       def eloIcon = windowStyler.getScyEloIcon(eloTypeName);
+      def windowColorScheme = windowStyler.getWindowColorScheme(eloTypeName);
+     eloIcon.selected = true;
+      ModalDialogBox {
+         content: content
+         title: title
+         eloIcon: eloIcon
+         windowColorScheme: windowColorScheme
+      }
    }
 
    function createNewBlankEloAction(): Void {
       createBlankEloButton.turnedOn = true;
-      var createNewElo = CreateNewElo {
-                 createAction: createNewBlankElo
-                 cancelAction: cancelNewElo
-              }
       var typeNames = scyDesktop.newEloCreationRegistry.getEloTypeNames();
-      createNewElo.listView.items = Sequences.sort(typeNames);
-      createNewElo.label.text = ##"Select type";
-      var eloIcon = windowStyler.getScyEloIcon(ImageWindowStyler.generalNew);
-      var windowColorScheme = windowStyler.getWindowColorScheme(ImageWindowStyler.generalNew);
+      def typeListSelectectionNode = ListSelectionTool {
+                 listItems: Sequences.sort(typeNames)
+                 titleLabel: ##"Select type"
+                 okButtonLabel: ##"Create"
+                 okButtonAction: createNewBlankElo
+                 cancelAction: closeCreateNewBlankModalDialogBox
+              }
 
-      createModalDialog(windowColorScheme, eloIcon, ##"Create new", createNewElo);
+      createNewBlankEloModalDialogBox = createModalDialog(ImageWindowStyler.generalNew, ##"Create new", typeListSelectectionNode);
    }
 
-   function createNewBlankElo(createNewElo: CreateNewElo): Void {
-      var eloTypeName = createNewElo.listView.selectedItem as String;
+   function createNewBlankElo(typeNameDisplay: Object): Void {
+      var eloTypeName = typeNameDisplay as String;
       if (eloTypeName != null) {
          var eloType = scyDesktop.newEloCreationRegistry.getEloType(eloTypeName);
          if (eloType != null) {
@@ -268,55 +281,19 @@ public class EloManagement extends CustomNode {
             scyWindowControl.makeMainScyWindow(scyWindow);
          }
       }
-      createNewElo.modalDialogBox.close();
+      closeCreateNewBlankModalDialogBox();
    }
 
-   function cancelNewElo(createNewElo: CreateNewElo): Void {
-      createNewElo.modalDialogBox.close();
-      newFromEloTemplateButton.turnedOn = false;
+   function closeCreateNewBlankModalDialogBox(): Void {
+      createNewBlankEloModalDialogBox.close();
       createBlankEloButton.turnedOn = false;
    }
 
-   function createModalDialog(windowColorScheme: WindowColorScheme, eloIcon: EloIcon, title: String, modalDialogNode: ModalDialogNode): Void {
-      eloIcon.selected = true;
-      Composer.localizeDesign(modalDialogNode.getContentNodes(), StringLocalizer {});
-      modalDialogNode.modalDialogBox = ModalDialogBox {
-                 //            content: EmptyBorderNode {
-                 //               content: modalDialogNode.getContentGroup();
-                 //            }
-                 content: modalDialogNode.getContentGroup()
-                 title: title
-                 eloIcon: eloIcon
-                 windowColorScheme: windowColorScheme
-                 closeAction: function(): Void {
-                    newFromEloTemplateButton.turnedOn = false;
-                    createBlankEloButton.turnedOn = false;
-                    searcher.turnedOn = false;
-                 }
-              }
-   }
-
-   function cancelModalDialog(modalDialogNode: ModalDialogNode): Void {
-      modalDialogNode.modalDialogBox.close();
-      newFromEloTemplateButton.turnedOn = false;
-      createBlankEloButton.turnedOn = false;
-      searcher.turnedOn = false;
-      archiver.turnedOn = false;
-   }
-
-   function createModalDialogForContent(windowColorScheme: WindowColorScheme, eloIcon: EloIcon, title: String, content: Node): ModalDialogBox {
-      eloIcon.selected = true;
-      ModalDialogBox {
-         content: content
-         title: title
-         eloIcon: eloIcon
-         windowColorScheme: windowColorScheme
-         closeAction: function(): Void {
-            newFromEloTemplateButton.turnedOn = false;
-            createBlankEloButton.turnedOn = false;
-            searcher.turnedOn = false;
-         }
-      }
+   function setTitleAndLanguage(elo: IELO, title: String): Void {
+      def titleMap = new LinkedHashMap();
+      titleMap.put(Locale.getDefault(), title);
+      elo.getMetadata().getMetadataValueContainer(titleKey).setValuesI18n(titleMap);
+      elo.getContent().setLanguage(Locale.getDefault());
    }
 
    function textQuerySearchAction(): Void {
@@ -340,4 +317,5 @@ public class EloManagement extends CustomNode {
               }
       scyWindowControl.makeMainScyWindow(eloBasedSearchWrapper.searchWindow);
    }
+
 }
