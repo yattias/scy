@@ -17,9 +17,11 @@ public class JavaFXBackgroundRunner extends Runnable {
 
    override public function run(): Void {
       def result = runner();
-      FX.deferAction(function(): Void {
-         finished(result)
-      });
+      if (finished != null) {
+         FX.deferAction(function(): Void {
+            finished(result)
+         });
+      }
    }
 
    public function start() {

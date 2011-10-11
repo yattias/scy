@@ -7,7 +7,6 @@ package eu.scy.client.desktop.desktoputils;
 import eu.scy.client.desktop.desktoputils.JavaFXUIThreadRunner;
 import eu.scy.client.desktop.desktoputils.JavaFXBackgroundRunner;
 import javafx.animation.Timeline;
-import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 
 /**
@@ -26,13 +25,28 @@ public function runActionInBackgroundAndCallBack(backgroundAction: function(): O
    }.start();
 }
 
+public function runActionInBackground(backgroundAction: function(): Void): Void {
+   JavaFXBackgroundRunner {
+      runner: backgroundAction;
+   }.start();
+}
+
 public function runActionAfter(action: function(): Void, waitCount: Integer): Void {
    if (waitCount < 0) {
       action()
    } else {
       runActionAfter(action, waitCount - 1)
    }
+}
 
+public function runActionInBackgroundAfter(action: function(): Void, waitCount: Integer): Void {
+   if (waitCount < 0) {
+      JavaFXBackgroundRunner {
+         runner: action
+      }.start();
+   } else {
+      runActionAfter(action, waitCount - 1)
+   }
 }
 
 public function runActionAfter(action: function(): Void, duration: Duration): Void {
@@ -42,6 +56,22 @@ public function runActionAfter(action: function(): Void, duration: Duration): Vo
          KeyFrame {
             time: duration
             action: action
+         }
+      ];
+   }.play()
+}
+
+public function runActionInBackgroundAfter(action: function(): Void, duration: Duration): Void {
+   Timeline {
+      repeatCount: 1
+      keyFrames: [
+         KeyFrame {
+            time: duration
+            action: function(): Void {
+               JavaFXBackgroundRunner {
+                  runner: action
+               }.start();
+            }
          }
       ];
    }.play()
