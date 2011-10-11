@@ -24,6 +24,7 @@ public class TextExtractorTest extends AbstractExtractorTest {
         extractor = new TextExtractor();
         extractor.setMission(Mission.MISSION1);
         extractor.setTupleSpace(getCommandSpace());
+        extractor.setLanguage("en");
     }
 
     @Test

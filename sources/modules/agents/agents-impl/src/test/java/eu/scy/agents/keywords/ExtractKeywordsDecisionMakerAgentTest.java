@@ -131,7 +131,7 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 						ActionConstants.ACTION_LOG_IN, USER, "scy-desktop",
 						MISSION1, "n/a", "balbal", "missionSpecification="
 								+ MISSION1, "language=en", "missionName="
-								+ Mission.MISSION1.getName()));
+								+ Mission.MISSION1.getName(), "missionId=" + Mission.MISSION1.getId()));
 		Thread.sleep(1000);
 
 		this.sendWebresourcerStarted();

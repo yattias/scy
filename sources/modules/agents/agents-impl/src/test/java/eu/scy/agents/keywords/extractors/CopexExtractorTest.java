@@ -21,6 +21,7 @@ public class CopexExtractorTest extends AbstractExtractorTest {
 		extractor = new CopexExtractor();
 		extractor.setMission(Mission.MISSION1);
 		extractor.setTupleSpace(getCommandSpace());
+        extractor.setLanguage("en");
 	}
 
 	@Test

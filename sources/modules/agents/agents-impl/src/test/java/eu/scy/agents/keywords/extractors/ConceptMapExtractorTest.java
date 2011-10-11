@@ -17,16 +17,17 @@ public class ConceptMapExtractorTest extends AbstractExtractorTest {
         elo = loadElo("/conceptMap1.xml", "TestInterview", "scy/interview");
         extractor.setMission(Mission.MISSION1);
         extractor.setTupleSpace(getCommandSpace());
+        extractor.setLanguage("en");
     }
 
     @Test
     public void testGetKeywords() {
         List<String> keywords = extractor.getKeywords(elo);
-        assertEquals(16, keywords.size());
-        assertTrue(hasItems(keywords, "wind", "reduces", "inhabitants",
-                "insulation", "effects", "number", "space", "sun",
-                "temperature", "size", "roof", "inside", "heating", "energy",
-                "wall", "outside"));
+        assertEquals(18, keywords.size());
+        assertTrue(hasItems(keywords, "wind", "reduces", "inhabitants", "insulation", "number",
+                            "effects", "reduces effects", "space", "sun", "temperature", "size",
+                            "roof", "inside", "effects reduces", "heating", "energy", "wall",
+                            "outside"));
     }
 
 }

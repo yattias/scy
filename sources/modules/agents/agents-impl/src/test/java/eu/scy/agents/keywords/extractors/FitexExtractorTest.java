@@ -20,6 +20,7 @@ public class FitexExtractorTest extends AbstractExtractorTest {
 		extractor = new FitexExtractor();
 		extractor.setMission(Mission.MISSION1);
 		extractor.setTupleSpace(getCommandSpace());
+        extractor.setLanguage("en");
 	}
 
 	@Test
