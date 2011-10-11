@@ -22,7 +22,7 @@ public class ArchivedElo
    @Override
    public String toString()
    {
-      return "ArchivedElo{" + "eloUri=" + eloUri + "scyElo=" + scyElo + "eloIcon=" + eloIcon + "archievedMillis=" + archievedMillis + '}';
+      return "ArchivedElo{" + "eloUri=" + eloUri + ",scyElo=" + scyElo + ",eloIcon=" + eloIcon + ",archievedMillis=" + archievedMillis + '}';
    }
 
    @Override
