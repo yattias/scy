@@ -31,14 +31,13 @@ import java.util.LinkedHashMap;
 import java.util.Locale;
 import roolo.elo.api.IELO;
 import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
-import eu.scy.client.desktop.scydesktop.tools.search.ScySearchResult;
-import eu.scy.client.desktop.scydesktop.tools.search.ScySearchResultTitleComparator;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleLayer;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleKey;
 import javafx.scene.control.ListCell;
 import eu.scy.common.mission.ArchivedElo;
 import eu.scy.client.desktop.desktoputils.XFX;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
+import eu.scy.common.mission.ArchivedEloTitleComparator;
 
 /**
  * @author sikken
@@ -72,7 +71,7 @@ public class EloManagement extends CustomNode {
    var searcher: Searcher;
    var createBlankEloButton: EloIconButton;
    var archiver: Archiver;
-   var eloTemplateUriDisplays: ScySearchResult[];
+   var eloTemplateUriDisplays: ArchivedElo[];
    var createNewEloFromTemplateModalDialogBox: ModalDialogBox;
    var createNewBlankEloModalDialogBox: ModalDialogBox;
    var undoArchiveModalDialogBox: ModalDialogBox;
@@ -102,7 +101,7 @@ public class EloManagement extends CustomNode {
          buttonActionScheme = scyDesktop.desktopButtonActionScheme;
       }
 
-      findTemplateEloInformation();
+      XFX.runActionInBackgroundAfter(findTemplateEloInformation, 10);
    }
 
    public override function create(): Node {
@@ -129,6 +128,7 @@ public class EloManagement extends CustomNode {
                  action: createNewEloFromTemplateAction
                  tooltipManager: tooltipManager
                  tooltip: ##"create new ELO"
+                 disable: true
               }
       searcher = Searcher {
                  tbi: scyDesktop.config.getToolBrokerAPI()
@@ -178,7 +178,7 @@ public class EloManagement extends CustomNode {
       }
    }
 
-   function findTemplateEloInformation() {
+   function findTemplateEloInformation(): Void {
       var eloTemplateUris: URI[];
       if (templateEloUris != null) {
          for (uri in templateEloUris) {
@@ -186,17 +186,20 @@ public class EloManagement extends CustomNode {
          }
       }
       eloTemplateUriDisplays = for (uri in eloTemplateUris) {
-                 createScySearchResult(uri)
+                 createArchivedElo(uri)
               }
-      eloTemplateUriDisplays = Sequences.sort(eloTemplateUriDisplays, new ScySearchResultTitleComparator()) as ScySearchResult[];
-      newFromEloTemplateButton.disable = sizeof eloTemplateUris == 0;
+      eloTemplateUriDisplays = Sequences.sort(eloTemplateUriDisplays, new ArchivedEloTitleComparator()) as ArchivedElo[];
+      if (sizeof eloTemplateUris > 0) {
+         FX.deferAction(function(): Void {
+            newFromEloTemplateButton.disable = false;
+         })
+      }
    }
 
-   function createScySearchResult(uri: URI): ScySearchResult {
-      //FIXME change this.... dont load metadata into search results
+   function createArchivedElo(uri: URI): ArchivedElo {
       def scyElo = ScyElo.loadMetadata(uri, tbi);
       def eloIcon: EloIcon = windowStyler.getScyEloIcon(scyElo);
-      def scySearchResult = new ScySearchResult(scyElo, 1.0);
+      def scySearchResult = new ArchivedElo(scyElo);
       scySearchResult.setEloIcon(eloIcon);
       return scySearchResult;
    }
@@ -220,16 +223,16 @@ public class EloManagement extends CustomNode {
       listCell = ListCell {
                  node: TemplateEloListCellNode {
                     newEloCreationRegistry: scyDesktop.newEloCreationRegistry
-                    templateElo: bind listCell.item as ScySearchResult
+                    archivedElo: bind listCell.item as ArchivedElo
                  }
               }
       return listCell;
    }
 
    function createNewEloFromTemplate(templateDisplay: Object): Void {
-      var scySearchResult = templateDisplay as ScySearchResult;
-      if (scySearchResult != null) {
-         var eloTemplateUri = scySearchResult.getScyElo().getUri();
+      var archivedElo = templateDisplay as ArchivedElo;
+      if (archivedElo != null) {
+         var eloTemplateUri = archivedElo.getScyElo().getUri();
          var newElo = repository.retrieveELO(eloTemplateUri);
          if (newElo != null) {
             var titleContainer = newElo.getMetadata().getMetadataValueContainer(titleKey);
@@ -309,7 +312,7 @@ public class EloManagement extends CustomNode {
       def undoArchiveListSelectectionNode = ListSelectionTool {
                  listItems: getArchivedElos()
                  cellFactory: archivedEloCellFactory
-                 titleLabel: ##"Select archived ELO"
+                 titleLabel: ##"Select removed ELO"
                  okButtonLabel: ##"Place back"
                  okButtonAction: undoArchiveElo
                  cancelAction: closeUndoArchiveModalDialogBox
@@ -321,9 +324,12 @@ public class EloManagement extends CustomNode {
    function undoArchiveElo(archiveEloObject: Object): Void {
       def archivedElo = archiveEloObject as ArchivedElo;
       if (archivedElo != null) {
-         var scyWindow = scyWindowControl.addOtherScyWindow(archivedElo.getEloUri());
-         scyWindowControl.makeMainScyWindow(scyWindow);
-         scyDesktop.missionModelFX.removeArchivedElo(archivedElo);
+         FX.deferAction(function(): Void {
+            def lastVersionScyElo = ScyElo.loadLastVersionMetadata(archivedElo.getEloUri(), tbi);
+            var scyWindow = scyWindowControl.addOtherScyWindow(lastVersionScyElo.getUri());
+            scyWindowControl.makeMainScyWindow(scyWindow);
+            scyDesktop.missionModelFX.removeArchivedElo(archivedElo);
+         })
       }
       closeUndoArchiveModalDialogBox();
    }

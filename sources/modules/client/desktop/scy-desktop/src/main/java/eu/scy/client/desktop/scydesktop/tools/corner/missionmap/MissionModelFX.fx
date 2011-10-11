@@ -22,7 +22,6 @@ import eu.scy.client.desktop.desktoputils.XFX;
 import java.util.Collection;
 import eu.scy.client.desktop.scydesktop.scywindows.ShowMoreInfo;
 import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoTypes;
-import java.lang.UnsupportedOperationException;
 import eu.scy.common.mission.ArchivedElo;
 
 /**
@@ -48,6 +47,7 @@ public class MissionModelFX extends MissionModel {
    public var saveUpdatedModel = false;
    public var scyDesktop: ScyDesktop;
    public var storedWindowStatesXmlsChanged = false;
+   public var archiveElosChanged = false;
    public var showMoreInfo: ShowMoreInfo;
    var contentChanged = false;
 
@@ -207,11 +207,12 @@ public class MissionModelFX extends MissionModel {
    }
 
    override public function updateElo(): Void {
-      if (saveUpdatedModel or storedWindowStatesXmlsChanged) {
+      if (saveUpdatedModel or storedWindowStatesXmlsChanged or archiveElosChanged) {
          missionModel.updateElo();
       }
       contentChanged = false;
       storedWindowStatesXmlsChanged = false;
+      archiveElosChanged = false
    }
 
    override public function loadMetadata(rooloServices: RooloServices): Void {
@@ -293,10 +294,12 @@ public class MissionModelFX extends MissionModel {
 
    override public function removeArchivedElo(archivedElo: ArchivedElo): Void {
       missionModel.removeArchivedElo(archivedElo);
+      archiveElosChanged = true
    }
 
    override public function addArchivedElo(archivedElo: ArchivedElo): Void {
       missionModel.addArchivedElo(archivedElo);
+      archiveElosChanged = true
    }
 
    function findMissionAnchor(eloUri): MissionAnchorFX {

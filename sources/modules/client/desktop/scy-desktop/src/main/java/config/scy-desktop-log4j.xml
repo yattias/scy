@@ -12,15 +12,15 @@
    </appender>
 
    <logger name="eu.scy">
-      <level value="error" />
+      <level value="info" />
    </logger>
 
    <logger name="eu.scy.client.desktop.scydesktop">
-      <level value="error" />
+      <level value="warn" />
    </logger>
 
    <logger name="eu.scy.client.desktop.scydesktop.tooltips">
-      <level value="error" />
+      <level value="debug" />
    </logger>
 
    <logger name="eu.scy.client.desktop.scydesktop.scywindows">
@@ -56,7 +56,7 @@
    </logger>
 
    <logger name="org.springframework">
-      <level value="error" />
+      <level value="info" />
    </logger>
 
    <root>

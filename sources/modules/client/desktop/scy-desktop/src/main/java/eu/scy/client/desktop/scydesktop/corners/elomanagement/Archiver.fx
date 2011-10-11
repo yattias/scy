@@ -11,7 +11,6 @@ import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
 import java.lang.Object;
 import roolo.elo.api.IMetadata;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
-import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import org.apache.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowControl;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
@@ -131,7 +130,6 @@ public class Archiver extends CustomNode, DropTarget2 {
       if (object instanceof IMetadata){
          def metadata = object as IMetadata;
          return new ScyElo(metadata,tbi);
-//         return metadata.getMetadataValueContainer(identifierKey).getValue() as URI
       }
       return null;
    }
