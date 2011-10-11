@@ -124,6 +124,13 @@ public class ScyToolActionLogger extends CustomNode, ScyToolFX, EloSaverCallBack
         action.addAttribute("old_uri", oldURI);
         var eloType = elo.getMetadata().getMetadataValueContainer(technicalFormatKey).getValue() as String;
         action.addAttribute("elo_type", eloType);
+		var missionAnchor = window.windowManager.scyDesktop.missionModelFX.getMissionAnchor(elo.getUri());
+		var missionAnchorId = "n/a";
+		if (missionAnchor != null) {
+			missionAnchorId = missionAnchor.getId();
+		}
+		//System.out.println("**** logging save action: mission anchor: {missionAnchor}");
+		action.addAttribute("mission_anchor_id", missionAnchorId);
         actionLogger.log(action);
         oldURI = elo.getUri().toString();
 //        System.out.println("***** logging eloSaved for {username}@{toolname}");
