@@ -171,4 +171,10 @@ public class BasicMissionModelEloContent implements MissionModelEloContent
       archivedElos.remove(archivedElo);
    }
 
+   public void setArchivedElos(List<ArchivedElo> archivedElos)
+   {
+      this.archivedElos.clear();
+      this.archivedElos.addAll(archivedElos);
+   }
+
 }
