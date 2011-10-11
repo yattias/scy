@@ -20,6 +20,7 @@ public class WebresourceExtractorTest extends AbstractExtractorTest {
         extractor = new WebresourceExtractor();
         extractor.setMission(Mission.MISSION1);
         extractor.setTupleSpace(getCommandSpace());
+        extractor.setLanguage("en");
     }
 
     @Test

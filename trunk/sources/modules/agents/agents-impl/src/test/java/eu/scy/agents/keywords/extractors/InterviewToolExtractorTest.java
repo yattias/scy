@@ -20,6 +20,7 @@ public class InterviewToolExtractorTest extends AbstractExtractorTest {
 		extractor = new InterviewToolExtractor();
 		extractor.setMission(Mission.MISSION1);
 		extractor.setTupleSpace(getCommandSpace());
+		extractor.setLanguage("en");
 	}
 
 	@Test

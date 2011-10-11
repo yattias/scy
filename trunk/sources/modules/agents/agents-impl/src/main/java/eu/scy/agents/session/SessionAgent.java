@@ -185,7 +185,7 @@ public class SessionAgent extends AbstractRequestAgent {
             }
             String missionId = action.getAttribute(ActionConstants.MISSION_ID);
             if (missionId == null) {
-                LOGGER.warn("missionName is null");
+                LOGGER.warn("missionId is null");
             }
             Tuple missionTuple = new Tuple(Session.MISSION, user, missionSpecification, missionName, missionRuntime, missionId);
             missionTuple.setExpiration(SESSION_TUPLE_EXPIRATION);

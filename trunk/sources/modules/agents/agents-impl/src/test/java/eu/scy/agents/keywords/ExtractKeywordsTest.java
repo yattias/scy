@@ -86,7 +86,7 @@ public class ExtractKeywordsTest extends AbstractTestFixture {
 		this.getCommandSpace().write(
 				new Tuple(ExtractKeywordsAgent.EXTRACT_KEYWORDS,
 						AgentProtocol.QUERY, queryId.toString(), TEXT,
-						Mission.MISSION1.getName()));
+						Mission.MISSION1.getName(), "en"));
 
 		Tuple response = this.getCommandSpace().waitToTake(
 				new Tuple(ExtractKeywordsAgent.EXTRACT_KEYWORDS,
