@@ -1,5 +1,6 @@
 package eu.scy.common.mission.impl;
 
+import eu.scy.common.mission.ArchivedElo;
 import eu.scy.common.mission.MissionAnchor;
 import java.net.URI;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import eu.scy.common.mission.Las;
 import eu.scy.common.mission.MissionModelEloContent;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 public class BasicMissionModelEloContent implements MissionModelEloContent
@@ -21,6 +23,7 @@ public class BasicMissionModelEloContent implements MissionModelEloContent
    private URI missionMapInstructionUri;
    private String missionMapButtonIconType;
    private Map<String, String> desktopStatesXml = new HashMap<String, String>();
+   private LinkedList<ArchivedElo> archivedElos = new LinkedList<ArchivedElo>();
 
    @Override
    public List<URI> getLoEloUris()
@@ -147,6 +150,25 @@ public class BasicMissionModelEloContent implements MissionModelEloContent
          }
       }
       return null;
+   }
+
+   @Override
+   public List<ArchivedElo> getArchivedElos()
+   {
+      return archivedElos;
+   }
+
+   @Override
+   public void addArchivedElo(ArchivedElo archivedElo)
+   {
+      removeArchivedElo(archivedElo);
+      archivedElos.addFirst(archivedElo);
+   }
+
+   @Override
+   public void removeArchivedElo(ArchivedElo archivedElo)
+   {
+      archivedElos.remove(archivedElo);
    }
 
 }
