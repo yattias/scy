@@ -1,5 +1,6 @@
 package eu.scy.common.mission.impl.jdom;
 
+import eu.scy.common.mission.ArchivedElo;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -62,6 +63,9 @@ public class MissionModelEloContentXmlUtils
    private final static String colorSchemeName = "colorScheme";
    private final static String windowStatesXmlsName = "windowStatesXmls";
    private final static String windowStatesXmlName = "windowStatesXml";
+   private final static String archivedElosName = "archivedElos";
+   private final static String archivedEloName = "archivedElo";
+   private final static String dateName = "date";
    private final static Logger logger = Logger.getLogger(MissionModelEloContentXmlUtils.class);
    private final static JDomStringConversion jdomStringConversion = new JDomStringConversion();
 
@@ -91,6 +95,7 @@ public class MissionModelEloContentXmlUtils
          lasses.addContent(createLasXml(las));
       }
       root.addContent(createWindowStatesXmls(missionModel));
+      root.addContent(createArchivedElosXml(missionModel));
       return new JDomStringConversion().xmlToString(root);
    }
 
@@ -177,6 +182,19 @@ public class MissionModelEloContentXmlUtils
       return windowStatesXmlsElement;
    }
 
+   private static Element createArchivedElosXml(MissionModelEloContent missionModel)
+   {
+       final Element archivedElosXmlElement = new Element(archivedElosName);
+      for (ArchivedElo archivedElo : missionModel.getArchivedElos())
+      {
+         final Element archivedEloXmlElement = new Element(archivedEloName);
+         archivedEloXmlElement.addContent(createElement(eloUriName,archivedElo.getEloUri()));
+         archivedEloXmlElement.addContent(createElement(dateName,archivedElo.getArchievedMillis()));
+         archivedElosXmlElement.addContent(archivedEloXmlElement);
+      }
+      return archivedElosXmlElement;
+   }
+
    public static MissionModelEloContent missionModelFromXml(String xml) throws URISyntaxException
    {
       Element root = new JDomStringConversion().stringToXml(xml);
@@ -218,6 +236,7 @@ public class MissionModelEloContentXmlUtils
          fillInMissingLinks(lassesMap, anchorsMap, lassesRoot);
       }
       setWindowStatesXmls(root, missionModel);
+      setArchivedElos(root, missionModel);
       return missionModel;
    }
 
@@ -397,6 +416,27 @@ public class MissionModelEloContentXmlUtils
                missionModel.setWindowStatesXml(lasId, xml);
             }
          }
+      }
+   }
+
+   private static void setArchivedElos(Element root, BasicMissionModelEloContent missionModel) throws URISyntaxException
+   {
+      final Element archivedElosElement = root.getChild(archivedElosName);
+      if (archivedElosElement != null)
+      {
+         List<ArchivedElo> archivedElos = new ArrayList<ArchivedElo>();
+         @SuppressWarnings("unchecked")
+         List<Element> archivedEloList = archivedElosElement.getChildren(archivedEloName);
+         if (archivedEloList != null)
+         {
+            for (Element archivedEloElement : archivedEloList)
+            {
+               final URI eloUri = getUriValue(archivedEloElement, eloUriName);
+               final long date = getLongValue(archivedEloElement, dateName);
+               archivedElos.add(new ArchivedElo(eloUri,date));
+            }
+         }
+         missionModel.setArchivedElos(archivedElos);
       }
    }
 }
