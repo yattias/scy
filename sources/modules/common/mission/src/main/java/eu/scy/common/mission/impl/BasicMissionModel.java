@@ -1,5 +1,6 @@
 package eu.scy.common.mission.impl;
 
+import eu.scy.common.mission.ArchivedElo;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -227,6 +228,24 @@ public class BasicMissionModel implements MissionModel
    public MissionAnchor getMissionAnchor(URI eloUri)
    {
       return missionModelEloContent.getMissionAnchor(eloUri);
+   }
+
+   @Override
+   public void addArchivedElo(ArchivedElo archivedElo)
+   {
+      missionModelEloContent.addArchivedElo(archivedElo);
+   }
+
+   @Override
+   public List<ArchivedElo> getArchivedElos()
+   {
+      return missionModelEloContent.getArchivedElos();
+   }
+
+   @Override
+   public void removeArchivedElo(ArchivedElo archivedElo)
+   {
+      missionModelEloContent.removeArchivedElo(archivedElo);
    }
 
 }

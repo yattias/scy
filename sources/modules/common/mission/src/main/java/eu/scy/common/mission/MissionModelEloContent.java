@@ -31,4 +31,10 @@ public interface MissionModelEloContent
    public MissionAnchor getMissionAnchor(String id);
 
    public MissionAnchor getMissionAnchor(URI eloUri);
+
+   public List<ArchivedElo> getArchivedElos();
+
+   public void addArchivedElo(ArchivedElo archivedElo);
+
+   public void removeArchivedElo(ArchivedElo archivedElo);
 }
