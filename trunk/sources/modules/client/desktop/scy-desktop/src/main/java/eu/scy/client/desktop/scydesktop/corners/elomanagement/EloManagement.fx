@@ -24,7 +24,6 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import java.lang.System;
 import roolo.elo.metadata.keys.Contribute;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
-import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageWindowStyler;
 import eu.scy.client.desktop.desktoputils.FpsDisplay;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.client.desktop.scydesktop.uicontrols.EloIconButton;
@@ -37,6 +36,9 @@ import eu.scy.client.desktop.scydesktop.tools.search.ScySearchResultTitleCompara
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleLayer;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleKey;
 import javafx.scene.control.ListCell;
+import eu.scy.common.mission.ArchivedElo;
+import eu.scy.client.desktop.desktoputils.XFX;
+import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 
 /**
  * @author sikken
@@ -44,6 +46,10 @@ import javafx.scene.control.ListCell;
 public class EloManagement extends CustomNode {
 
    def logger = Logger.getLogger(this.getClass());
+   def archiverTypeName = "archive";
+   def newEloFromTemplateTypeName = "new_template";
+   def searcherTypeName = "search";
+   def newBlankEloTypeName = "new_author";
    public var scyDesktop: ScyDesktop;
    public var scyWindowControl: ScyWindowControl on replace { archiver.scyWindowControl = scyWindowControl };
    public var repository: IRepository;
@@ -69,6 +75,7 @@ public class EloManagement extends CustomNode {
    var eloTemplateUriDisplays: ScySearchResult[];
    var createNewEloFromTemplateModalDialogBox: ModalDialogBox;
    var createNewBlankEloModalDialogBox: ModalDialogBox;
+   var undoArchiveModalDialogBox: ModalDialogBox;
    public-read var searchWrapper: SearchWrapper;
 
    init {
@@ -108,7 +115,8 @@ public class EloManagement extends CustomNode {
                  tbi: scyDesktop.config.getToolBrokerAPI()
                  missionMapModel: scyDesktop.missionModelFX
                  scyWindowControl: scyWindowControl
-                 eloIcon: windowStyler.getScyEloIcon("archive")
+                 eloIcon: windowStyler.getScyEloIcon(archiverTypeName)
+                 clickAction: undoArchiveAction
                  buttonSize: buttonSize
                  buttonActionScheme: buttonActionScheme
                  tooltipManager: tooltipManager
@@ -116,7 +124,7 @@ public class EloManagement extends CustomNode {
               }
       newFromEloTemplateButton = EloIconButton {
                  size: buttonSize
-                 eloIcon: windowStyler.getScyEloIcon("new_template")
+                 eloIcon: windowStyler.getScyEloIcon(newEloFromTemplateTypeName)
                  actionScheme: buttonActionScheme
                  action: createNewEloFromTemplateAction
                  tooltipManager: tooltipManager
@@ -124,7 +132,7 @@ public class EloManagement extends CustomNode {
               }
       searcher = Searcher {
                  tbi: scyDesktop.config.getToolBrokerAPI()
-                 eloIcon: windowStyler.getScyEloIcon("search")
+                 eloIcon: windowStyler.getScyEloIcon(searcherTypeName)
                  buttonSize: buttonSize
                  buttonActionScheme: buttonActionScheme
                  clickAction: textQuerySearchAction
@@ -134,7 +142,7 @@ public class EloManagement extends CustomNode {
               }
       createBlankEloButton = EloIconButton {
                  size: buttonSize
-                 eloIcon: windowStyler.getScyEloIcon("new_author")
+                 eloIcon: windowStyler.getScyEloIcon(newBlankEloTypeName)
                  actionScheme: buttonActionScheme
                  action: createNewBlankEloAction
                  tooltipManager: tooltipManager
@@ -204,7 +212,7 @@ public class EloManagement extends CustomNode {
                  cancelAction: closeCreateNewEloFromTemplateModalDialogBox
               }
 
-      createNewEloFromTemplateModalDialogBox = createModalDialog(ImageWindowStyler.generalNew, ##"Create new", templateListSelectectionNode);
+      createNewEloFromTemplateModalDialogBox = createModalDialog(newEloFromTemplateTypeName, ##"Create new", templateListSelectectionNode);
    }
 
    function templateEloCellFactory(): ListCell {
@@ -239,15 +247,22 @@ public class EloManagement extends CustomNode {
       closeCreateNewEloFromTemplateModalDialogBox()
    }
 
+   function setTitleAndLanguage(elo: IELO, title: String): Void {
+      def titleMap = new LinkedHashMap();
+      titleMap.put(Locale.getDefault(), title);
+      elo.getMetadata().getMetadataValueContainer(titleKey).setValuesI18n(titleMap);
+      elo.getContent().setLanguage(Locale.getDefault());
+   }
+
    function closeCreateNewEloFromTemplateModalDialogBox(): Void {
       createNewEloFromTemplateModalDialogBox.close();
       newFromEloTemplateButton.turnedOn = false;
    }
 
    function createModalDialog(eloTypeName: String, title: String, content: Node): ModalDialogBox {
-       def eloIcon = windowStyler.getScyEloIcon(eloTypeName);
+      def eloIcon = windowStyler.getScyEloIcon(eloTypeName);
       def windowColorScheme = windowStyler.getWindowColorScheme(eloTypeName);
-     eloIcon.selected = true;
+      eloIcon.selected = true;
       ModalDialogBox {
          content: content
          title: title
@@ -267,7 +282,7 @@ public class EloManagement extends CustomNode {
                  cancelAction: closeCreateNewBlankModalDialogBox
               }
 
-      createNewBlankEloModalDialogBox = createModalDialog(ImageWindowStyler.generalNew, ##"Create new", typeListSelectectionNode);
+      createNewBlankEloModalDialogBox = createModalDialog(newBlankEloTypeName, ##"Create new", typeListSelectectionNode);
    }
 
    function createNewBlankElo(typeNameDisplay: Object): Void {
@@ -289,11 +304,75 @@ public class EloManagement extends CustomNode {
       createBlankEloButton.turnedOn = false;
    }
 
-   function setTitleAndLanguage(elo: IELO, title: String): Void {
-      def titleMap = new LinkedHashMap();
-      titleMap.put(Locale.getDefault(), title);
-      elo.getMetadata().getMetadataValueContainer(titleKey).setValuesI18n(titleMap);
-      elo.getContent().setLanguage(Locale.getDefault());
+   function undoArchiveAction(): Void {
+      archiver.turnedOn = true;
+      def undoArchiveListSelectectionNode = ListSelectionTool {
+                 listItems: getArchivedElos()
+                 cellFactory: archivedEloCellFactory
+                 titleLabel: ##"Select archived ELO"
+                 okButtonLabel: ##"Place back"
+                 okButtonAction: undoArchiveElo
+                 cancelAction: closeUndoArchiveModalDialogBox
+              }
+
+      undoArchiveModalDialogBox = createModalDialog(archiverTypeName, ##"Place back", undoArchiveListSelectectionNode);
+   }
+
+   function undoArchiveElo(archiveEloObject: Object): Void {
+      def archivedElo = archiveEloObject as ArchivedElo;
+      if (archivedElo != null) {
+         var scyWindow = scyWindowControl.addOtherScyWindow(archivedElo.getEloUri());
+         scyWindowControl.makeMainScyWindow(scyWindow);
+         scyDesktop.missionModelFX.removeArchivedElo(archivedElo);
+      }
+      closeUndoArchiveModalDialogBox();
+   }
+
+   function getArchivedElos(): ArchivedElo[] {
+      var nrOfLoadsNeeded = 0;
+      for (archivedEloObject in scyDesktop.missionModelFX.getArchivedElos()) {
+         def archivedElo = archivedEloObject as ArchivedElo;
+         if (archivedElo.getScyElo() == null) {
+            ++nrOfLoadsNeeded
+         }
+      }
+      if (nrOfLoadsNeeded > 0) {
+         XFX.deferActionAndWait(loadMissingArchivedScyElos);
+      }
+      for (archivedEloObject in scyDesktop.missionModelFX.getArchivedElos()) {
+         def archivedElo = archivedEloObject as ArchivedElo;
+         if (archivedElo.getEloIcon() == null) {
+            archivedElo.setEloIcon(windowStyler.getScyEloIcon(archivedElo.getScyElo()))
+         }
+         archivedElo
+      }
+   }
+
+   function loadMissingArchivedScyElos(): Void {
+      ProgressOverlay.startShowWorking();
+      for (archivedEloObject in scyDesktop.missionModelFX.getArchivedElos()) {
+         def archivedElo = archivedEloObject as ArchivedElo;
+         if (archivedElo.getScyElo() == null) {
+            archivedElo.setScyElo(ScyElo.loadMetadata(archivedElo.getEloUri(), tbi))
+         }
+      }
+      ProgressOverlay.stopShowWorking();
+   }
+
+   function archivedEloCellFactory(): ListCell {
+      var listCell: ListCell;
+      listCell = ListCell {
+                 node: ArchivedEloListCellNode {
+                    newEloCreationRegistry: scyDesktop.newEloCreationRegistry
+                    archivedElo: bind listCell.item as ArchivedElo
+                 }
+              }
+      return listCell;
+   }
+
+   function closeUndoArchiveModalDialogBox(): Void {
+      undoArchiveModalDialogBox.close();
+      archiver.turnedOn = false;
    }
 
    function textQuerySearchAction(): Void {

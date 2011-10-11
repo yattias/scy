@@ -22,6 +22,8 @@ import eu.scy.client.desktop.desktoputils.XFX;
 import java.util.Collection;
 import eu.scy.client.desktop.scydesktop.scywindows.ShowMoreInfo;
 import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoTypes;
+import java.lang.UnsupportedOperationException;
+import eu.scy.common.mission.ArchivedElo;
 
 /**
  * @author SikkenJ
@@ -285,30 +287,40 @@ public class MissionModelFX extends MissionModel {
       return missionModel.getMissionAnchors()
    }
 
-   function findMissionAnchor(eloUri):MissionAnchorFX{
-      for (las in lasses){
-         if (las.mainAnchor.eloUri==eloUri){
+   override public function getArchivedElos(): List {
+      return missionModel.getArchivedElos();
+   }
+
+   override public function removeArchivedElo(archivedElo: ArchivedElo): Void {
+      missionModel.removeArchivedElo(archivedElo);
+   }
+
+   override public function addArchivedElo(archivedElo: ArchivedElo): Void {
+      missionModel.addArchivedElo(archivedElo);
+   }
+
+   function findMissionAnchor(eloUri): MissionAnchorFX {
+      for (las in lasses) {
+         if (las.mainAnchor.eloUri == eloUri) {
             return las.mainAnchor;
          }
-         for (anchor in las.intermediateAnchors){
-            if (anchor.eloUri==eloUri){
+         for (anchor in las.intermediateAnchors) {
+            if (anchor.eloUri == eloUri) {
                return anchor;
             }
          }
-
       }
       return null
    }
 
-   public function showWebNews(eloUri: URI): Void{
+   public function showWebNews(eloUri: URI): Void {
       def missionAnchor = findMissionAnchor(eloUri);
-      if (missionAnchor!=null and missionAnchor.webNewsUri!=null){
+      if (missionAnchor != null and missionAnchor.webNewsUri != null) {
          // we the web news uri to display, now display it...
-//         println("trying to open web news: {missionAnchor.webNewsUri}");
+         //         println("trying to open web news: {missionAnchor.webNewsUri}");
          showMoreInfo.showMoreInfo(missionAnchor.webNewsUri, MoreInfoTypes.WEB_NEWS, eloUri);
       }
 
    }
-
 
 }

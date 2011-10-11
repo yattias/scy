@@ -16,13 +16,14 @@ import org.apache.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowControl;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import java.lang.Void;
-import java.net.URI;
 import eu.scy.client.desktop.scydesktop.draganddrop.DropTarget2;
 import eu.scy.client.desktop.desktoputils.art.EloIcon;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import eu.scy.client.desktop.scydesktop.uicontrols.EloIconButton;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 import eu.scy.client.desktop.desktoputils.XFX;
+import eu.scy.common.scyelo.ScyElo;
+import eu.scy.common.mission.ArchivedElo;
 
 /**
  * @author SikkenJ
@@ -37,12 +38,11 @@ public class Archiver extends CustomNode, DropTarget2 {
    public-init var buttonActionScheme = 1;
    public-init var tooltipManager: TooltipManager;
    public-init var tooltip: String;
+   public-init var clickAction: function(): Void;
    public var scyWindowControl: ScyWindowControl;
    public var turnedOn = false on replace{
          archiverButton.turnedOn = turnedOn
       };
-
-   def identifierKey = tbi.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER);
 
    def archiverButton: EloIconButton = EloIconButton {
               eloIcon: eloIcon
@@ -62,7 +62,7 @@ public class Archiver extends CustomNode, DropTarget2 {
    }
 
    function archiveAction():Void{
-
+      clickAction()
    }
 
    override public function dropEntered(object: Object, canAccept: Boolean): Void{
@@ -76,7 +76,7 @@ public class Archiver extends CustomNode, DropTarget2 {
    }
 
    override public function canAcceptDrop(object: Object): Boolean {
-      def eloUri = getArchivebleEloUri(object);
+      def eloUri = getArchivebleScyElo(object);
       if (eloUri!=null){
          return true;
       }
@@ -90,14 +90,14 @@ public class Archiver extends CustomNode, DropTarget2 {
    override public function acceptDrop(object: Object): Void {
     ProgressOverlay.startShowWorking();
     XFX.runActionInBackgroundAndCallBack(function(): Object {
-        def eloUri = getArchivebleEloUri(object);
-        if (eloUri != null) {
-            archieveElo(eloUri);
-            logger.info("archieved elo: {eloUri}");
+        def scyElo = getArchivebleScyElo(object);
+        if (scyElo != null) {
+            archiveScyElo(scyElo);
+            logger.info("archieved elo: {scyElo}");
             return null;
         }
         if (object instanceof ScyWindow) {
-            archieveScyWindow(object as ScyWindow);
+            archiveScyWindow(object as ScyWindow);
         }
         return null;
     }, function(o : Object) {
@@ -105,31 +105,33 @@ public class Archiver extends CustomNode, DropTarget2 {
     });
 }
 
-   function archieveElo(eloUri: URI):Void{
-      scyWindowControl.removeOtherScyWindow(eloUri);
+   function archiveScyElo(scyElo: ScyElo):Void{
+      scyWindowControl.removeOtherScyWindow(scyElo.getUri());
+      missionMapModel.addArchivedElo(new ArchivedElo(scyElo));
    }
 
-   function archieveScyWindow(window: ScyWindow):Void{
+   function archiveScyWindow(window: ScyWindow):Void{
       scyWindowControl.removeOtherScyWindow(window);
    }
 
-   function getArchivebleEloUri(object: Object): URI{
-      def eloUri = getEloUri(object);
-      if (eloUri!=null){
+   function getArchivebleScyElo(object: Object): ScyElo{
+      def scyElo = getScyElo(object);
+      if (scyElo!=null){
          // there is a elo passed on
          def coreEloUris = missionMapModel.getEloUris(false);
-         if (not coreEloUris.contains(eloUri)){
+         if (not coreEloUris.contains(scyElo.getUri())){
             // it is not one of the core elos
-            return eloUri;
+            return scyElo;
          }
       }
       return null;
    }
 
-   function getEloUri(object: Object): URI{
+   function getScyElo(object: Object): ScyElo{
       if (object instanceof IMetadata){
          def metadata = object as IMetadata;
-         return metadata.getMetadataValueContainer(identifierKey).getValue() as URI
+         return new ScyElo(metadata,tbi);
+//         return metadata.getMetadataValueContainer(identifierKey).getValue() as URI
       }
       return null;
    }
