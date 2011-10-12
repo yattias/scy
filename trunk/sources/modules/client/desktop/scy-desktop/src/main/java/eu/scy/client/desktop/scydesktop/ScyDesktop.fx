@@ -269,7 +269,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
    var cornerGroup: Group;
    public def desktopButtonSize = 25.0;
    public def desktopButtonActionScheme = 1;
-   var bigMissionMapControl: BigMissionMapControl;
+   public var bigMissionMapControl: BigMissionMapControl;
    public var eloManagement: EloManagement;
 
    public function getActiveLasId():String{
