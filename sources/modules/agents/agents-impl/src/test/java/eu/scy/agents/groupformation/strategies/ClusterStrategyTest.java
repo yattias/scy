@@ -1,5 +1,7 @@
 package eu.scy.agents.groupformation.strategies;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.groupformation.GroupFormationStrategy;
 import eu.scy.agents.groupformation.cache.Group;
@@ -8,7 +10,6 @@ import eu.scy.agents.groupformation.strategies.features.CMapFeatureExtractor;
 import eu.scy.agents.groupformation.strategies.features.HypothesisFeatureExtractor;
 import eu.scy.agents.helper.ELOFiller;
 import eu.scy.agents.impl.AgentRooloServiceImpl;
-import eu.scy.common.scyelo.RooloServices;
 import org.junit.Before;
 import org.junit.Test;
 import roolo.elo.api.IELO;
@@ -16,11 +17,11 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.Contribute;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-
-import static org.junit.Assert.assertTrue;
 
 public class ClusterStrategyTest extends AbstractTestFixture {
 
@@ -72,10 +73,34 @@ public class ClusterStrategyTest extends AbstractTestFixture {
         addEloToRepository("/ecoSimpleMaps/simpleMap2.scymapper.xml", "scy/mapping", "cmap6", "TestUser6");
         addEloToRepository("/ecoSimpleMaps/simpleMap3.scymapper.xml", "scy/mapping", "cmap7", "TestUser7");
         
-        addEloToRepository("/copexExampleElo.xml", "scy/xproc", "copex1", "TestUser1");
-        addEloToRepository("/copexExampleElo2.xml", "scy/xproc", "copex2", "TestUser2");
-        addEloToRepository("/copexExampleEmptyElo.xml", "scy/xproc", "copex3", "TestUser3");
-        addEloToRepository("/copexExampleSmallElo.xml", "scy/xproc", "copex4", "TestUser4");
+        // the following is a test to check if all user ELOS could be retrieved:
+        try {
+            IELO retrieveELO = repository.retrieveELO(new URI("roolo://memory/1/0/TestCopex1.scyxproc"));
+            assertNotNull(retrieveELO);
+            retrieveELO = repository.retrieveELO(new URI("roolo://memory/2/0/TestCopex2.scyxproc"));
+            assertNotNull(retrieveELO);
+            retrieveELO = repository.retrieveELO(new URI("roolo://memory/3/0/TestCopex3.scyxproc"));
+            assertNotNull(retrieveELO);
+            retrieveELO = repository.retrieveELO(new URI("roolo://memory/4/0/TestCopex4.scyxproc"));
+            assertNotNull(retrieveELO);
+            retrieveELO = repository.retrieveELO(new URI("roolo://memory/5/0/TestCopex5.scyxproc"));
+            assertNotNull(retrieveELO);
+            retrieveELO = repository.retrieveELO(new URI("roolo://memory/6/0/TestCopex6.scyxproc"));
+            assertNotNull(retrieveELO);
+            retrieveELO = repository.retrieveELO(new URI("roolo://memory/7/0/TestCopex7.scyxproc"));
+            assertNotNull(retrieveELO);
+        } catch (URISyntaxException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+//        addEloToRepository("/hypoTestElos/Copex1.xml", "scy/xproc", "copex1", "TestUser1");
+//        addEloToRepository("/hypoTestElos/Copex2.xml", "scy/xproc", "copex2", "TestUser2");
+//        addEloToRepository("/hypoTestElos/Copex3.xml", "scy/xproc", "copex3", "TestUser3");
+//        addEloToRepository("/hypoTestElos/Copex1.xml", "scy/xproc", "copex4", "TestUser4");
+//        addEloToRepository("/hypoTestElos/Copex2.xml", "scy/xproc", "copex2", "TestUser5");
+//        addEloToRepository("/hypoTestElos/Copex3.xml", "scy/xproc", "copex3", "TestUser6");
+//        addEloToRepository("/hypoTestElos/Copex1.xml", "scy/xproc", "copex4", "TestUser7");
     }
 
     @Test

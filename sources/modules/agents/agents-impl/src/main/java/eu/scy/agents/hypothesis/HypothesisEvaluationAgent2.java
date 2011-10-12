@@ -236,6 +236,7 @@ public class HypothesisEvaluationAgent2 extends AbstractELOSavedAgent implements
         // would change the version number of the elo, which will also change
         // the URI
         rooloServices.getRepository().addMetadata(elo.getUri(), elo.getMetadata());
+        rooloServices.getRepository().updateELO(elo.getElo());
     }
 
     private void sendNotification(String user, String tool, String session, String eloUri, String mission, HashMap<Integer, Integer> histogram) throws IOException, TupleSpaceException {
