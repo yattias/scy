@@ -1,18 +1,20 @@
 package eu.scy.agents.sensors.behaviourclassifier;
 
+import info.collide.sqlspaces.client.TupleSpace;
+import info.collide.sqlspaces.commons.Tuple;
+import info.collide.sqlspaces.commons.TupleSpaceException;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.dgc.VMID;
 import java.util.List;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.Timer;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import info.collide.sqlspaces.client.TupleSpace;
-import info.collide.sqlspaces.commons.Tuple;
-import info.collide.sqlspaces.commons.TupleSpaceException;
+import eu.scy.agents.impl.AgentProtocol;
 
 public class BehavioralModel {
 
@@ -67,7 +69,7 @@ public class BehavioralModel {
      * After every callback from the {@link TupleSpace} this agent will check, if the users<br/>
      * behaviour is systematic or not. If not, it will provide feedback (see the SCAFFOLD enum) <br/>
      * which is sent to the user using the notification mechanism.
-     *
+     * 
      * @param name
      *            The name of the user as <b>XMPP JID</b> (e.g. name@hub/smack)
      * @param eloUri
@@ -101,7 +103,7 @@ public class BehavioralModel {
 
     /**
      * This method returns the current user experience. It returns a value between 0 - 100.
-     *
+     * 
      * @return A value between 0-100 describing the current user experience
      */
     public int getUserExp() {
@@ -110,7 +112,7 @@ public class BehavioralModel {
 
     /**
      * This method returns the current VOTAT value. It returns a value between 0 - 100.
-     *
+     * 
      * @return A value between 0-100 describing the current VOTAT measurement.
      */
     public int getVotat() {
@@ -119,7 +121,7 @@ public class BehavioralModel {
 
     /**
      * This method returns the current canonical value. It returns a value between 0 - 100.
-     *
+     * 
      * @return A value between 0-100 describing the current canonical/equal increment measurement.
      */
     public int getCanonical() {
@@ -128,7 +130,7 @@ public class BehavioralModel {
 
     /**
      * Retuns the elouri of this model.
-     *
+     * 
      * @return The elouri of this model.
      */
     public String getEloUri() {
@@ -137,7 +139,7 @@ public class BehavioralModel {
 
     /**
      * Retuns the username (should be a XMPP JID) of this model.
-     *
+     * 
      * @return The (XMPP JID) name of the user of this model.
      */
     public String getName() {
@@ -146,7 +148,7 @@ public class BehavioralModel {
 
     /**
      * This method updated the value of "equal increment" in this model with the given new value. Be sure that this value should not be above 100.
-     *
+     * 
      * @param newCanonical
      *            The new value for equal increment / canonical for this model.
      */
@@ -161,7 +163,7 @@ public class BehavioralModel {
 
     /**
      * This method updated the value of the user experience in this model with the given new value. Be sure that this value should not be above 100.
-     *
+     * 
      * @param newUserExp
      *            The new value for the user experience for this model.
      */
@@ -179,7 +181,7 @@ public class BehavioralModel {
 
     /**
      * This method updated the value of VOTAT in this model with the given new value. Be sure that this value should not be above 100.
-     *
+     * 
      * @param newVotat
      *            The new value for VOTAT for this model.
      */
@@ -238,12 +240,56 @@ public class BehavioralModel {
             });
             timer.setRepeats(false);
             timer.start();
-            Tuple notificationTuple = new Tuple("notification", new VMID().toString(), name, eloUri, "ScySimBehaviorClassifier", "n/a", "n/a", "type=sysbehavior", "level=" + level.name());
+
             try {
-                commandSpace.write(notificationTuple);
-            } catch (TupleSpaceException e) {
-                e.printStackTrace();
+                commandSpace.write(createMessageNotificationTuple(new VMID().toString(), getNotificationTexts(level)[1],getNotificationTexts(level)[0], name));
+            } catch (TupleSpaceException e1) {
+                e1.printStackTrace();
             }
         }
+
+    }
+
+    public Tuple createMessageNotificationTuple(String notificationId, String message,String title, String user) {
+        Tuple notificationTuple = new Tuple();
+        notificationTuple.add(AgentProtocol.NOTIFICATION);
+        notificationTuple.add(notificationId);
+        notificationTuple.add(user);
+        notificationTuple.add("no specific elo");
+        notificationTuple.add(BehavioralModel.class.getSimpleName());
+        notificationTuple.add("n/a");
+        notificationTuple.add("n/a");
+        notificationTuple.add("text=" + message);
+        notificationTuple.add("title="+title);
+        notificationTuple.add("type=message_dialog_show");
+        notificationTuple.add("modal=true");
+        notificationTuple.add("dialogType=OK_DIALOG");
+        return notificationTuple;
+    }
+
+    private String[] getNotificationTexts(Scaffold level) {
+        if (level == Scaffold.VOTAT) {
+
+            String votat = "If a variable is not relevant for the hypothesis under, \ntest then hold that variable constant, or vary one thing at a time (VOTAT), or If not varying a variable, then pick the same value as used in the previous experiment";
+            String title = "Vary only one thing at a time.";
+            return new String[]{title,votat};
+        } else if (level == Scaffold.CONFIRM_HYPO) {
+            String confirmHypothesis = "Generate several additional cases in an attempt \nto either confirm or disconfirm the hypothesized relation";
+            String title = "Try to confirm your hypothesis.";
+            return new String[]{title,confirmHypothesis};
+        } else if (level == Scaffold.EXTREME_VALUES) {
+            String extemevalues = "Try some extreme values to see if there are limits on the proposed relationship";
+            String title = "Try some extreme values.";
+            return new String[]{title,extemevalues};
+        } else if (level == Scaffold.IDENT_HYPO) {
+            String identifyHypothesis = "Generate a small amount of data and examine for a candidate rule or relation";
+            String title = "Try to identify a hypothesis.";
+            return new String[]{title,identifyHypothesis};
+        } else if (level == Scaffold.INC_CHANGE) {
+            String equalIncrement = "If choosing a third value for a variable, \nthen choose an equal increment as between first and second values. Or if manipulating a variable, then choose simple, canonical manipulations ";
+            String title = "Use equal increments when varying variables.";
+            return new String[]{title,equalIncrement};
+        }
+        return null;
     }
 }
