@@ -145,14 +145,11 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
         // System.out.println("presence of " + presence.toString());
         for (IAwarenessPresenceListener presenceListener : presenceListeners) {
             if (presenceListener != null) {
-
-
                 String roomId = StringUtils.parseName(presence.getFrom());
-
-
                 IAwarenessUser aw = new AwarenessUser();
-                aw.setJid(presence.getTo());
+                aw.setJid(StringUtils.parseResource(presence.getFrom()));
                 aw.setPresence(presence.getType().toString());
+                aw.setStatus(presence.getStatus());
 
                 // System.out.println("awareness user: " + aw);
                 IAwarePresenceEvent presenceEvent = new AwarenessPresenceEvent(
@@ -609,7 +606,6 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
                         throw new AwarenessServiceException("Could not connect to chat session " + ELOUri + " " + ex.getMessage());
                     }
                 }
-
             } else {
                 // this should actually not happen, but we keep it in as a fall back case
                 // so we create the chat room
@@ -646,9 +642,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
                 }
             }
             joinedMUCRooms.put(ELOUri, muc);
-
         }
-
     }
 
     @Override
@@ -708,7 +702,6 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
     @Override
     public void addBuddyToMUC(IAwarenessUser buddy, String ELOUri) throws AwarenessServiceException {
         if (ELOUri != null) {
-
             // check to see if the room exists
             if (this.doesRoomExist(ELOUri)) {
                 try {
@@ -722,9 +715,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
             } else {
                 // the room does not exist.
             }
-
         }
-
     }
 
     @Override
@@ -743,11 +734,9 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 
     @Override
     public MultiUserChat getMultiUserChat(String ELOUri) throws AwarenessServiceException {
-
         if (!joinedMUCRooms.isEmpty()) {
             return joinedMUCRooms.get(ELOUri);
         }
-
         return null;
     }
 
@@ -758,9 +747,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 
     public class AwarenessParticipantListener extends DefaultParticipantStatusListener {
 
-        public void banned(String arg0, String arg1, String arg2) {
-        }
-
+        @Override
         public void joined(String participant) {
             String roomId = StringUtils.parseName(participant);
             participant = participant.substring(participant.indexOf("/") + 1);
@@ -769,7 +756,6 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 
             for (IAwarenessRosterListener rosterListener : rosterListeners) {
                 if (rosterListener != null) {
-
                     List<String> addresses = new ArrayList<String>();
                     addresses.add(participant);
                     if (!participant.equals(AwarenessServiceXMPPImpl.this.getConnection().getUser())) {
@@ -781,12 +767,12 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
             }
         }
 
+        @Override
         public void kicked(String participant, String arg1, String arg2) {
             removeParticipant(participant);
         }
 
         private void removeParticipant(String participant) {
-            // System.out.println("AwarenessServiceXMPPImpl.AwarenessParticipantListener.removeParticipant() " + participant);
             String roomId = StringUtils.parseName(participant);
 
             participant = participant.substring(participant.indexOf("/") + 1);
@@ -802,11 +788,9 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
             }
         }
 
+        @Override
         public void left(String participant) {
             removeParticipant(participant);
-        }
-
-        public void nicknameChanged(String arg0, String arg1) {
         }
     }
 }
