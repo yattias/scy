@@ -43,6 +43,7 @@ public class ContactList extends CustomNode {
     public-init var scyDesktop: ScyDesktop;
     public-init var showOfflineContacts: Boolean = true;
     public-init var columns: Integer;
+    public var spacing: Float = 5.0;
     public-init var stateIndicatorOpacity: Boolean = true;
     public var filter: Boolean = false on replace{createContactFrames()};
     public var filterId: String on replace{createContactFrames()};
@@ -166,9 +167,9 @@ public class ContactList extends CustomNode {
         delete  content;
         if (sizeof contactFrames > 0) {
             var count = 0;
-            var box: HBox = HBox {};
+            var box: HBox = HBox {spacing:bind spacing};
             for (i in [1..columns]) {
-                insert VBox { content: [] } into box.content;
+                insert VBox { content: [] ; spacing:bind spacing} into box.content;
             }
 
             def contactsPerColumn: Integer = Math.ceil((sizeof contactFrames as Double) / columns as Double) as Integer;

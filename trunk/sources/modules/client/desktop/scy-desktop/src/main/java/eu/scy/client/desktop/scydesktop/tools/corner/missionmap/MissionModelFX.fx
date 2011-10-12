@@ -323,7 +323,6 @@ public class MissionModelFX extends MissionModel {
          //         println("trying to open web news: {missionAnchor.webNewsUri}");
          showMoreInfo.showMoreInfo(missionAnchor.webNewsUri, MoreInfoTypes.WEB_NEWS, eloUri);
       }
-
    }
 
 }

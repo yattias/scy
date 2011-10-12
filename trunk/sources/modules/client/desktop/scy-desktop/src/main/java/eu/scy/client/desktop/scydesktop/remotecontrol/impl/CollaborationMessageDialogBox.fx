@@ -36,6 +36,8 @@ public class CollaborationMessageDialogBox {
    public var yesFunction: function(): Void;
    public var noTitle = ##"No";
    public var noFunction: function(): Void;
+   public-init var proposedLasId:String;
+   public-init var myLasId:String;
    var yesButton : Button;
    var noButton : Button;
 
@@ -139,6 +141,15 @@ public class CollaborationMessageDialogBox {
                width: 1, height: 1
                fill: Color.TRANSPARENT
             }
+            if(not proposedLasId.equals(myLasId)){
+                Label {
+                        text: ##"This requires to change your working space.";
+                        font: Font.font("Verdana", FontWeight.BOLD, 11)
+                     }
+            } else {
+                null
+            }
+
          ]
       }
    }

@@ -10,6 +10,7 @@ import eu.scy.scymapper.api.IConceptMap;
 import eu.scy.scymapper.api.diagram.model.IDiagramModel;
 import eu.scy.scymapper.impl.DiagramModel;
 import eu.scy.scymapper.impl.model.DefaultConceptMap;
+import java.util.logging.Level;
 import org.springframework.util.StringUtils;
 import roolo.api.IRepository;
 import roolo.search.IQuery;
@@ -48,17 +49,17 @@ public class ScyMapperRepositoryWrapper {
     public void setMetadataTypeManager(IMetadataTypeManager metadataTypeManager) {
         this.metadataTypeManager = metadataTypeManager;
         identifierKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId());
-        logger.info("retrieved key " + identifierKey.getId());
+        logger.log(Level.INFO, "retrieved key {0}", identifierKey.getId());
         titleKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
-        logger.info("retrieved key " + titleKey.getId());
+        logger.log(Level.INFO, "retrieved key {0}", titleKey.getId());
         technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
-        logger.info("retrieved key " + technicalFormatKey.getId());
+        logger.log(Level.INFO, "retrieved key {0}", technicalFormatKey.getId());
         dateCreatedKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.DATE_CREATED.getId());
-        logger.info("retrieved key " + dateCreatedKey.getId());
+        logger.log(Level.INFO, "retrieved key {0}", dateCreatedKey.getId());
 //		missionKey = metadataTypeManager.getMetadataKey("mission");
 //		logger.info("retrieved key " + missionKey.getId());
         authorKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId());
-        logger.info("retrieved key " + authorKey.getId());
+        logger.log(Level.INFO, "retrieved key {0}", authorKey.getId());
     }
 
     public void setDocName(String docName) {
@@ -82,7 +83,7 @@ public class ScyMapperRepositoryWrapper {
     }
 
     public IELO loadELO(URI eloUri) {
-        logger.info("Trying to load elo " + eloUri);
+        logger.log(Level.INFO, "Trying to load elo {0}", eloUri);
         IELO foundElo = repository.retrieveELO(eloUri);
         if (foundElo != null) {
             String eloType = foundElo.getMetadata().getMetadataValueContainer(technicalFormatKey).getValue().toString();
@@ -105,7 +106,7 @@ public class ScyMapperRepositoryWrapper {
     }
 
     public IConceptMap getELOConceptMap(IELO elo) {
-        logger.info("Decoding concept map from elo content " + elo.getUri());
+        logger.log(Level.INFO, "Decoding concept map from elo content {0}", elo.getUri());
 
         XStream xstream = new XStream(new DomDriver());
         IConceptMap cmap = (IConceptMap) xstream.fromXML(elo.getContent().getXmlString());
@@ -113,7 +114,7 @@ public class ScyMapperRepositoryWrapper {
     }
 
     public void setELOConceptMap(IELO elo, IConceptMap cmap) {
-        logger.info("Encoding concept map as elo content " + elo.getUri());
+        logger.log(Level.INFO, "Encoding concept map as elo content {0}", elo.getUri());
         XStream xstream = new XStream(new DomDriver());
         String xml = xstream.toXML(cmap);
         elo.getContent().setXmlString(xml);

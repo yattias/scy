@@ -104,6 +104,10 @@ public abstract class ScyWindow extends CustomNode, DropTarget {
         openWindow(minimumWidth, minimumHeight)
     }
 
+    public function getActiveLasId():String{
+        return windowManager.scyDesktop.getActiveLasId();
+    }
+
     public abstract function copyWindowColorSchemeColors(newColors: WindowColorScheme): Void;
 
     public abstract function close(animateClose : Boolean): Void;

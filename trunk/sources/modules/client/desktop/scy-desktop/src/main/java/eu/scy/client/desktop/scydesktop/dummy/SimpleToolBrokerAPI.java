@@ -164,7 +164,7 @@ public class SimpleToolBrokerAPI implements ToolBrokerAPI,ToolBrokerAPIRuntimeSe
    }
 
    @Override
-   public void proposeCollaborationWith(String proposedUser, String elouri, String mucid)
+   public void proposeCollaborationWith(String proposedUser, String elouri, String mucid, String lasId)
    {
       
    }

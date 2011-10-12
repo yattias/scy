@@ -24,6 +24,8 @@ public class CollaborationResponseCommand extends ScyDesktopRemoteCommand {
         logger.debug("********************collaboration_response*************************");
         def accepted: String = notification.getFirstProperty("accepted");
         def eloUriString: String = notification.getFirstProperty("proposed_elo");
+        def lasId: String = notification.getFirstProperty("las_id");
+        def myLasId : String = scyDesktop.getActiveLasId();
         def proposingUser: String = notification.getFirstProperty("proposing_user");
         def proposedUser: String = notification.getFirstProperty("proposed_user");
         //TODO submit user-nickname instead of extracting it
@@ -40,6 +42,10 @@ public class CollaborationResponseCommand extends ScyDesktopRemoteCommand {
                 title: ##"Collaboration request"
                 message: ##"Collaboration started on ELO"
                 yesTitle: ##"OK"
+            }
+            //change las if not the right
+            if((not (lasId.equals(""))) and (not (lasId.equals(myLasId)))){
+               scyDesktop.missionModelFX.activeLas.id = lasId;
             }
             def mucid: String = notification.getFirstProperty("mucid");
             var collaborationWindow: ScyWindow = scyDesktop.scyWindowControl.windowManager.findScyWindow(eloUri);
