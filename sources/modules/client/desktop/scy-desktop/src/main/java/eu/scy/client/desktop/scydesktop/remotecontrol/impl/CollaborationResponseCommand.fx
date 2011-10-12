@@ -45,6 +45,7 @@ public class CollaborationResponseCommand extends ScyDesktopRemoteCommand {
             }
             //change las if not the right
             if((not (lasId.equals(""))) and (not (lasId.equals(myLasId)))){
+               scyDesktop.bigMissionMapControl.bigMissionMapVisible=true;
                scyDesktop.missionModelFX.activeLas.id = lasId;
             }
             def mucid: String = notification.getFirstProperty("mucid");
