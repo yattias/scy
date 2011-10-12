@@ -396,7 +396,7 @@ public class SimulatorNode
 			//var realSize = simquestViewer.getRealSize();
 			split.setPreferredSize(new Dimension(300, simquestViewer.getRealSize().height+100));
 			switchSwingDisplayComponent(split);
-			scyWindow.open();
+//			scyWindow.open();
 			syncAttrib = DatasyncAttribute {
 						scyWindow: scyWindow
 						dragAndDropManager: scyWindow.dragAndDropManager;
