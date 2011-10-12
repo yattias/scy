@@ -107,6 +107,7 @@ public class CollaborationAgent extends AbstractThreadedAgent {
             String mission;
             String session;
             String elouri;
+            String lasId;
             String type;
 
             // determine if triggered by user or by agent
@@ -118,9 +119,10 @@ public class CollaborationAgent extends AbstractThreadedAgent {
                 type = a.getType();
                 if (type.equals("collaboration_request")) {
                     proposedUser = a.getAttribute("proposed_user");
+                    lasId = a.getAttribute("lasId");
                     proposingUser = a.getUser();
                     mucid = a.getAttribute("mucid");
-                    handleCollaborationRequest(proposedUser, proposingUser, elouri, mission, session, mucid);
+                    handleCollaborationRequest(proposedUser, proposingUser, elouri, mission, session, mucid, lasId);
                 } else if (type.equals("collaboration_response")) {
                     proposedUser = a.getUser();
                     proposingUser = a.getAttribute("proposing_user");
@@ -134,7 +136,7 @@ public class CollaborationAgent extends AbstractThreadedAgent {
                 elouri = afterTuple.getField(4).getValue().toString();
                 mission = afterTuple.getField(5).getValue().toString();
                 session = afterTuple.getField(6).getValue().toString();
-                handleCollaborationRequest(proposedUser, "collaboration agent", elouri, mission, session, null);
+                handleCollaborationRequest(proposedUser, "collaboration agent", elouri, mission, session, null, null);
             }
         }
 
@@ -172,7 +174,7 @@ public class CollaborationAgent extends AbstractThreadedAgent {
             }
         }
 
-        private void handleCollaborationRequest(final String proposedUser, final String proposingUser, final String elouri, final String mission, final String session, String mucid) {
+        private void handleCollaborationRequest(final String proposedUser, final String proposingUser, final String elouri, final String mission, final String session, String mucid, final String lasId) {
             if (mucid != null) {
                 mucids.put(elouri, mucid);
             }
@@ -185,8 +187,8 @@ public class CollaborationAgent extends AbstractThreadedAgent {
 
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            sendNotification(proposingUser, mission, session, "type=collaboration_response", "accepted=false", "proposed_user=" + user, "proposing_user=" + proposingUser, "proposed_elo=" + elouri);
-                            sendNotification(user, mission, session, "type=collaboration_response", "accepted=false", "proposed_user=" + user, "proposing_user=" + proposingUser, "proposed_elo=" + elouri);
+                            sendNotification(proposingUser, mission, session, "type=collaboration_response", "accepted=false", "proposed_user=" + user, "proposing_user=" + proposingUser, "proposed_elo=" + elouri, "las_id="+ lasId);
+                            sendNotification(user, mission, session, "type=collaboration_response", "accepted=false", "proposed_user=" + user, "proposing_user=" + proposingUser, "proposed_elo=" + elouri, "las_id="+ lasId);
                             t.stop();
                             timeoutTimer.remove(proposingUser + user);
                         }
@@ -197,14 +199,14 @@ public class CollaborationAgent extends AbstractThreadedAgent {
                 }
             } else {
                 logger.debug("Got a collaboration request from user " + proposingUser + " to " + proposedUser + " for elo " + elouri);
-                sendNotification(proposedUser, mission, session, "type=collaboration_request", "proposing_user=" + proposingUser, "proposed_elo=" + elouri);
+                sendNotification(proposedUser, mission, session, "type=collaboration_request", "proposing_user=" + proposingUser, "proposed_elo=" + elouri, "las_id="+ lasId);
                 final Timer t = new Timer(COLLABORATION_REQUEST_TIMEOUT, null);
                 t.addActionListener(new ActionListener() {
 
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        sendNotification(proposedUser, mission, session, "type=collaboration_response", "accepted=false", "proposed_user=" + proposedUser, "proposing_user=" + proposingUser, "proposed_elo=" + elouri);
-                        sendNotification(proposingUser, mission, session, "type=collaboration_response", "accepted=false", "proposed_user=" + proposedUser, "proposing_user=" + proposingUser, "proposed_elo=" + elouri);
+                        sendNotification(proposedUser, mission, session, "type=collaboration_response", "accepted=false", "proposed_user=" + proposedUser, "proposing_user=" + proposingUser, "proposed_elo=" + elouri, "las_id="+ lasId);
+                        sendNotification(proposingUser, mission, session, "type=collaboration_response", "accepted=false", "proposed_user=" + proposedUser, "proposing_user=" + proposingUser, "proposed_elo=" + elouri, "las_id="+ lasId);
                         t.stop();
                         timeoutTimer.remove(proposingUser + proposedUser);
                     }
