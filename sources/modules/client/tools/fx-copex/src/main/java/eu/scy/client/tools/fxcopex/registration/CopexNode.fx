@@ -361,7 +361,8 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
             var c: ContactFrame = object as ContactFrame;
             logger.info("acceptDrop user: {c.contact.name}");
             scyWindow.ownershipManager.addPendingOwner(c.contact.name);
-            scyWindow.windowManager.scyDesktop.config.getToolBrokerAPI().proposeCollaborationWith("{c.contact.awarenessUser.getJid()}", scyWindow.eloUri.toString(), scyWindow.mucId);
+            def lasId:String = scyWindow.getActiveLasId();
+            scyWindow.windowManager.scyDesktop.config.getToolBrokerAPI().proposeCollaborationWith("{c.contact.awarenessUser.getJid()}", scyWindow.eloUri.toString(), scyWindow.mucId, lasId);
             return;
         }
         if (object instanceof BasicMetadata) {

@@ -60,541 +60,519 @@ import org.jivesoftware.smack.packet.Presence;
  */
 public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSetting {
 
-	private static final Logger logger = Logger.getLogger(ToolBrokerImpl.class.getName());
+    private static final Logger logger = Logger.getLogger(ToolBrokerImpl.class.getName());
+    private static final String defaultBeanConfigurationFile = "beans.xml";
+    private ApplicationContext context;
+    private IRepository repository;
+    private IMetadataTypeManager metaDataTypeManager;
+    private IExtensionManager extensionManager;
+    private IELOFactory eloFactory;
+    private IActionLogger actionLogger;
+    private IContextService contextService;
+    private SessionManager sessionManager;
+    private IAwarenessService awarenessService;
+    private IDataSyncService dataSyncService;
+    private ConnectionConfiguration config;
+    private Connection connection;
+    private NotificationReceiver notificationReceiver;
+    private String userName;
+    private String password;
+    private URI missionSpecificationURI;
+    private URI missionRuntimeURI;
+    private List<ConnectionListener> connectionListeners;
+    private Map<String, BlockingQueue<INotification>> collaborationAnswers;
 
-	private static final String defaultBeanConfigurationFile = "beans.xml";
+    /**
+     * Creates an instance of the ToolBroker, logs in the user (creates the XMPP connection) and
+     * initializes the services. Beware of using this constructor on the UI thread, as it may take
+     * some time to finalizes the initialization.
+     *
+     * @param username XMPP user name of the user.
+     * @param password XMPP password of the user.
+     * @throws LoginFailedException is thrown when the login fails.
+     */
+    public ToolBrokerImpl(String username, String password) throws LoginFailedException {
+        this(username, password, false);
+    }
 
-	private ApplicationContext context;
+    /**
+     * Creates an instance of the ToolBroker, logs in the user (creates the XMPP connection) and
+     * initializes the services depending on parameter avoidServiceInitialization. If calling this
+     * constructor on the UI thread, avoid the service initialization.
+     *
+     * @param username XMPP user name of the user.
+     * @param password XMPP password of the user.
+     * @param avoidServiceInitialization if true, services will not be initialized.
+     * @throws LoginFailedException is thrown when the login fails.
+     */
+    public ToolBrokerImpl(String username, String password, boolean avoidServiceInitialization) throws LoginFailedException {
+        Connection.DEBUG_ENABLED = true;
+        getConnection(username, password);
 
-	private IRepository repository;
+        connectionListeners = new CopyOnWriteArrayList<ConnectionListener>();
 
-	private IMetadataTypeManager metaDataTypeManager;
+        if (!avoidServiceInitialization) {
+            initializeServices();
+        }
+    }
 
-	private IExtensionManager extensionManager;
+    /**
+     * Creates and instance of ToolBroker (for more details see {@link #ToolBrokerImpl(String, String)} and adds connection listener.
+     *
+     * @param connectionListener the connection listener to be added
+     */
+    public ToolBrokerImpl(String username, String password, ConnectionListener connectionListener) {
+        this(username, password, false, connectionListener);
+    }
 
-	private IELOFactory eloFactory;
+    /**
+     * Creates and instance of ToolBroker (for more details see {@link #ToolBrokerImpl(String, String, boolean))} and adds connection listener.
+     *
+     * @param connectionListener the connection listener to be added
+     */
+    public ToolBrokerImpl(String username, String password, boolean avoidServiceInitialization, ConnectionListener connectionListener) {
+        this(username, password, false);
+        addConnectionListener(connectionListener);
+    }
 
-	private IActionLogger actionLogger;
+    /*
+     * (non-Javadoc)
+     * @see eu.scy.toolbrokerapi.ToolBrokerAPI#addConnectionListener(eu.scy.toolbrokerapi.ConnectionListener)
+     */
+    @Override
+    public void addConnectionListener(ConnectionListener connectionListener) {
+        if (!connectionListeners.contains(connectionListener)) {
+            connectionListeners.add(connectionListener);
+        }
+    }
 
-	private IContextService contextService;
+    /*
+     * (non-Javadoc)
+     * @see eu.scy.toolbrokerapi.ToolBrokerAPI#removeConnectionListener(eu.scy.toolbrokerapi.ConnectionListener)
+     */
+    @Override
+    public void removeConnectionListener(ConnectionListener connectionListener) {
+        connectionListeners.remove(connectionListener);
+    }
 
-	private SessionManager sessionManager;
+    /**
+     * Do not call this method. Use {@link #initializeServices()} instead.
+     */
+    @Deprecated
+    public void getReadyForUser() {
+        initializeServices(defaultBeanConfigurationFile);
+    }
 
-	private IAwarenessService awarenessService;
+    /**
+     * Initializes the TBI services with the default configuration.
+     */
+    public void initializeServices() {
+        initializeServices(defaultBeanConfigurationFile);
+    }
 
-	private IDataSyncService dataSyncService;
+    /**
+     * Initializes the TBI services with the configuration file from the parameter.
+     *
+     * @param beanConfigurationFile String path to the spring configuration file of the services.
+     */
+    public void initializeServices(String beanConfigurationFile) {
+        String beanConfigFile = beanConfigurationFile;
+        if (StringUtils.isEmpty(beanConfigFile)) {
+            beanConfigFile = defaultBeanConfigurationFile;
+        }
+        context = new ClassPathXmlApplicationContext(beanConfigFile);
 
-	private ConnectionConfiguration config;
+        // RoOLO
+        repository = (IRepository) context.getBean("repository");
+        metaDataTypeManager = (IMetadataTypeManager) context.getBean("metadataTypeManager");
+        extensionManager = (IExtensionManager) context.getBean("extensionManager");
+        eloFactory = (IELOFactory) context.getBean("eloFactory");
 
-	private Connection connection;
+        // ActionLogger
+        actionLogger = (IActionLogger) context.getBean("actionlogger");
+        IActionLogger internalLogger = ((CompletingActionLogger) actionLogger).getInternalLogger();
+        List<IActionLogger> loggers = ((MultiActionLogger) internalLogger).getLoggers();
+        for (IActionLogger actionLogger : loggers) {
+            if (actionLogger instanceof ActionLogger) {
+                ((ActionLogger) actionLogger).init(connection);
+            }
+        }
 
-	private NotificationReceiver notificationReceiver;
+        // ContextService
+        contextService = (IContextService) context.getBean("contextservice");
+        contextService.setUsername(org.jivesoftware.smack.util.StringUtils.parseBareAddress(connection.getUser()));
 
-	private String userName;
 
-	private String password;
+        // SessionManager (Up-to-date?)
+        sessionManager = (SessionManager) context.getBean("sessionManager");
 
-	private URI missionSpecificationURI;
+        // AwarenessService
+        awarenessService = (IAwarenessService) context.getBean("awarenessService");
+        awarenessService.init(connection);
+        awarenessService.setMUCConferenceExtension(Configuration.getInstance().getOpenFireConference() + "." + Configuration.getInstance().getOpenFireHost());
+        logger.debug("Conference extension parameter: " + awarenessService.getMUCConferenceExtension());
 
-        private URI missionRuntimeURI;
+        // DataSyncService
+        dataSyncService = (IDataSyncService) context.getBean("dataSyncService");
+        ((DataSyncService) dataSyncService).init(connection);
 
-        private List<ConnectionListener> connectionListeners;
+        // NotificationReceiver
+        notificationReceiver = (NotificationReceiver) context.getBean("notificationReceiver");
+        notificationReceiver.init(connection);
 
-	private Map<String, BlockingQueue<INotification>> collaborationAnswers;
+        // collaboration
+        collaborationAnswers = new HashMap<String, BlockingQueue<INotification>>();
+        registerForNotifications(new INotifiable() {
 
-	/**
-	 * Creates an instance of the ToolBroker, logs in the user (creates the XMPP connection) and
-	 * initializes the services. Beware of using this constructor on the UI thread, as it may take
-	 * some time to finalizes the initialization.
-	 * 
-	 * @param username XMPP user name of the user.
-	 * @param password XMPP password of the user.
-	 * @throws LoginFailedException is thrown when the login fails.
-	 */
-	public ToolBrokerImpl(String username, String password) throws LoginFailedException {
-		this(username, password, false);
-	}
-
-	/**
-	 * Creates an instance of the ToolBroker, logs in the user (creates the XMPP connection) and
-	 * initializes the services depending on parameter avoidServiceInitialization. If calling this
-	 * constructor on the UI thread, avoid the service initialization.
-	 * 
-	 * @param username XMPP user name of the user.
-	 * @param password XMPP password of the user.
-	 * @param avoidServiceInitialization if true, services will not be initialized.
-	 * @throws LoginFailedException is thrown when the login fails.
-	 */
-	public ToolBrokerImpl(String username, String password, boolean avoidServiceInitialization) throws LoginFailedException {
-		Connection.DEBUG_ENABLED = true;
-	        getConnection(username, password);
-
-		connectionListeners = new CopyOnWriteArrayList<ConnectionListener>();
-		
-		if (!avoidServiceInitialization) {
-			initializeServices();
-		}
-	}
-	
-	/**
-	 * Creates and instance of ToolBroker (for more details see {@link #ToolBrokerImpl(String, String)} and adds connection listener.
-	 * 
-	 * @param connectionListener the connection listener to be added
-	 */
-	public ToolBrokerImpl(String username, String password, ConnectionListener connectionListener) {
-		this(username, password, false, connectionListener);
-	}
-	
-	/**
-	 * Creates and instance of ToolBroker (for more details see {@link #ToolBrokerImpl(String, String, boolean))} and adds connection listener.
-	 * 
-	 * @param connectionListener the connection listener to be added
-	 */
-	public ToolBrokerImpl(String username, String password, boolean avoidServiceInitialization, ConnectionListener connectionListener) {
-		this(username, password, false);
-		addConnectionListener(connectionListener);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see eu.scy.toolbrokerapi.ToolBrokerAPI#addConnectionListener(eu.scy.toolbrokerapi.ConnectionListener)
-	 */
-	@Override
-	public void addConnectionListener(ConnectionListener connectionListener) {
-		if (!connectionListeners.contains(connectionListener)) {
-			connectionListeners.add(connectionListener);
-		}
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see eu.scy.toolbrokerapi.ToolBrokerAPI#removeConnectionListener(eu.scy.toolbrokerapi.ConnectionListener)
-	 */
-	@Override
-	public void removeConnectionListener(ConnectionListener connectionListener) {
-		connectionListeners.remove(connectionListener);
-	}
-
-	/**
-	 * Do not call this method. Use {@link #initializeServices()} instead.
-	 */
-	@Deprecated
-	public void getReadyForUser() {
-		initializeServices(defaultBeanConfigurationFile);
-	}
-	
-	/**
-	 * Initializes the TBI services with the default configuration.
-	 */
-	public void initializeServices() {
-		initializeServices(defaultBeanConfigurationFile);
-	}
-
-	/**
-	 * Initializes the TBI services with the configuration file from the parameter.
-	 * 
-	 * @param beanConfigurationFile String path to the spring configuration file of the services. 
-	 */
-	public void initializeServices(String beanConfigurationFile) {
-		String beanConfigFile = beanConfigurationFile;
-		if (StringUtils.isEmpty(beanConfigFile)) {
-			beanConfigFile = defaultBeanConfigurationFile;
-		}
-		context = new ClassPathXmlApplicationContext(beanConfigFile);
-
-		// RoOLO
-		repository = (IRepository) context.getBean("repository");
-		metaDataTypeManager = (IMetadataTypeManager) context.getBean("metadataTypeManager");
-		extensionManager = (IExtensionManager) context.getBean("extensionManager");
-		eloFactory = (IELOFactory) context.getBean("eloFactory");
-
-		// ActionLogger
-		actionLogger = (IActionLogger) context.getBean("actionlogger");
-		IActionLogger internalLogger = ((CompletingActionLogger) actionLogger).getInternalLogger();
-		List<IActionLogger> loggers = ((MultiActionLogger) internalLogger).getLoggers();
-		for (IActionLogger actionLogger : loggers) {
-                    if (actionLogger instanceof ActionLogger) {
-                        ((ActionLogger) actionLogger).init(connection);
+            @Override
+            public boolean processNotification(INotification notification) {
+                if (notification.getToolId().equals("scylab") && notification.getFirstProperty("type") != null && notification.getFirstProperty("type").equals("collaboration_response")) {
+                    String proposingUser = notification.getFirstProperty("proposing_user");
+                    String proposedUser = notification.getFirstProperty("proposed_user");
+                    String elo = notification.getFirstProperty("proposed_elo");
+                    BlockingQueue<INotification> q = collaborationAnswers.remove(proposingUser + "#" + proposedUser + "#" + elo);
+                    if (q != null) {
+                        q.add(notification);
+                    } else {
+                        logger.warn("Received collaboration response that could not be mapped to a request, from user " + proposingUser + " to user " + proposedUser + ", elouri is " + elo);
                     }
                 }
-		
-		// ContextService
-		contextService = (IContextService) context.getBean("contextservice");
-                contextService.setUsername(org.jivesoftware.smack.util.StringUtils.parseBareAddress(connection.getUser()));
+                return true;
+            }
+        });
+    }
 
-                
-		// SessionManager (Up-to-date?)
-		sessionManager = (SessionManager) context.getBean("sessionManager");
-		
-		// AwarenessService
-		awarenessService = (IAwarenessService) context.getBean("awarenessService");
-		awarenessService.init(connection);
-		awarenessService.setMUCConferenceExtension(Configuration.getInstance().getOpenFireConference() + "." + Configuration.getInstance().getOpenFireHost());
-		logger.debug("Conference extension parameter: " + awarenessService.getMUCConferenceExtension());
+    /**
+     * Sets the repository instance into the ToolBroker. Is mainly used for
+     * Spring bean injection.
+     *
+     * @param repository
+     *            the repository instance to set
+     */
+    public void setRepository(IRepository repository) {
+        this.repository = repository;
+    }
 
-		// DataSyncService
-		dataSyncService = (IDataSyncService) context.getBean("dataSyncService");
-		((DataSyncService) dataSyncService).init(connection);
+    /**
+     * @param metaDataTypeManager
+     *            the metaDataTypeManager to set
+     */
+    public void setMetaDataTypeManager(IMetadataTypeManager metaDataTypeManager) {
+        this.metaDataTypeManager = metaDataTypeManager;
+    }
 
-		// NotificationReceiver
-		notificationReceiver = (NotificationReceiver) context.getBean("notificationReceiver");
-		notificationReceiver.init(connection);
+    /**
+     * @param extensionManager
+     *            the extensionManager to set
+     */
+    public void setExtensionManager(IExtensionManager extensionManager) {
+        this.extensionManager = extensionManager;
+    }
 
-		// collaboration
-		collaborationAnswers = new HashMap<String, BlockingQueue<INotification>>();
-		registerForNotifications(new INotifiable() {
+    /**
+     * @param actionLogger
+     *            the actionLogger to be set
+     */
+    public void setActionLogger(IActionLogger actionLogger) {
+        this.actionLogger = actionLogger;
+    }
 
-			@Override
-			public boolean processNotification(INotification notification) {
-				if (notification.getToolId().equals("scylab") && notification.getFirstProperty("type") != null && notification.getFirstProperty("type").equals("collaboration_response")) {
-					String proposingUser = notification.getFirstProperty("proposing_user");
-					String proposedUser = notification.getFirstProperty("proposed_user");
-					String elo = notification.getFirstProperty("proposed_elo");
-					BlockingQueue<INotification> q = collaborationAnswers.remove(proposingUser + "#" + proposedUser + "#" + elo);
-					if (q != null) {
-						q.add(notification);
-					} else {
-						logger.warn("Received collaboration response that could not be mapped to a request, from user " + proposingUser + " to user " + proposedUser + ", elouri is " + elo);
-					}
-				}
-                                return true;
-			}
-		});
-	}
+    public void setSessionManager(SessionManager sessionManager) {
+        this.sessionManager = sessionManager;
+    }
 
-	/**
-	 * Sets the repository instance into the ToolBroker. Is mainly used for
-	 * Spring bean injection.
-	 * 
-	 * @param repository
-	 *            the repository instance to set
-	 */
-	public void setRepository(IRepository repository) {
-		this.repository = repository;
-	}
+    /*
+     * (non-Javadoc)
+     *
+     * @see eu.scy.toolbrokerapi.ToolBrokerAPI#getRepository()
+     */
+    @Override
+    public IRepository getRepository() {
+        return repository;
+    }
 
-	/**
-	 * @param metaDataTypeManager
-	 *            the metaDataTypeManager to set
-	 */
-	public void setMetaDataTypeManager(IMetadataTypeManager metaDataTypeManager) {
-		this.metaDataTypeManager = metaDataTypeManager;
-	}
+    /*
+     * (non-Javadoc)
+     *
+     * @see eu.scy.toolbrokerapi.ToolBrokerAPI#getMetaDataTypeManager()
+     */
+    @Override
+    public IMetadataTypeManager getMetaDataTypeManager() {
+        return metaDataTypeManager;
+    }
 
-	/**
-	 * @param extensionManager
-	 *            the extensionManager to set
-	 */
-	public void setExtensionManager(IExtensionManager extensionManager) {
-		this.extensionManager = extensionManager;
-	}
+    /*
+     * (non-Javadoc)
+     *
+     * @see eu.scy.toolbrokerapi.ToolBrokerAPI#getExtensionManager()
+     */
+    @Override
+    public IExtensionManager getExtensionManager() {
+        return extensionManager;
+    }
 
-	/**
-	 * @param actionLogger
-	 *            the actionLogger to be set
-	 */
-	public void setActionLogger(IActionLogger actionLogger) {
-		this.actionLogger = actionLogger;
-	}
+    @Override
+    public IActionLogger getActionLogger() {
+        return actionLogger;
+    }
 
-	public void setSessionManager(SessionManager sessionManager) {
-		this.sessionManager = sessionManager;
-	}
+    @Override
+    public SessionManager getUserSession(String username, String password) {
+        try {
+            sessionManager.login(username, password);
+            return sessionManager;
+        } catch (LoginException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see eu.scy.toolbrokerapi.ToolBrokerAPI#getRepository()
-	 */
-	@Override
-	public IRepository getRepository() {
-		return repository;
-	}
+    @Override
+    public IAwarenessService getAwarenessService() {
+        return this.awarenessService;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see eu.scy.toolbrokerapi.ToolBrokerAPI#getMetaDataTypeManager()
-	 */
-	@Override
-	public IMetadataTypeManager getMetaDataTypeManager() {
-		return metaDataTypeManager;
-	}
+    @Override
+    public IDataSyncService getDataSyncService() {
+        return dataSyncService;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see eu.scy.toolbrokerapi.ToolBrokerAPI#getExtensionManager()
-	 */
-	@Override
-	public IExtensionManager getExtensionManager() {
-		return extensionManager;
-	}
+    private Connection getConnection(String userName, String password) {
+        if (connection == null) {
 
-	@Override
-	public IActionLogger getActionLogger() {
-		return actionLogger;
-	}
+            this.userName = userName;
+            this.password = password;
 
-	@Override
-	public SessionManager getUserSession(String username, String password) {
-		try {
-			sessionManager.login(username, password);
-			return sessionManager;
-		} catch (LoginException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+            XMPPConnection.DEBUG_ENABLED = false;
+            SmackConfiguration.setKeepAliveInterval(10000);
+            config = new ConnectionConfiguration(Configuration.getInstance().getOpenFireHost(), Configuration.getInstance().getOpenFirePort());
+            config.setCompressionEnabled(true);
+            config.setReconnectionAllowed(true);
+            config.setSecurityMode(SecurityMode.disabled);
+            this.connection = new XMPPConnection(config);
+            // setting a peudo random resource for the xmpp connection for the scy-lab user
+            // it is very unlikely that the same user connects in the same millisecond moment
+            String resource = "scylab" + System.currentTimeMillis();
 
-	@Override
-	public IAwarenessService getAwarenessService() {
-		return this.awarenessService;
-	}
+            try {
+                this.connection.connect();
+                logger.info("Successful connection to xmpp server " + config.getHost() + ":" + config.getPort());
+                try {
+                    logger.debug("User logging in: " + userName + " " + password);
+                    this.connection.login(userName, password, resource);
+                    logger.debug("Login successful with " + userName + " " + password);
+                } catch (XMPPException e) {
+                    logger.error("Login failed  " + e);
+                    e.printStackTrace();
+                    throw new LoginFailedException(userName);
+                }
+            } catch (XMPPException e) {
+                logger.error("Error while connecting over XMPP, trying over HTTP now");
+                if (connection != null) {
+                    connection.disconnect();
+                    connection = null;
+                }
+            }
 
-	@Override
-	public IDataSyncService getDataSyncService() {
-		return dataSyncService;
-	}
+            if (connection == null) {
+                try {
+                    logger.info("Successful HTTP connection to xmpp server " + config.getHost() + ":" + config.getPort());
+                    config = new BOSHConfiguration(false, Configuration.getInstance().getOpenFireHTTPHost(), Configuration.getInstance().getOpenFireHTTPPort(), "/http-bind/", Configuration.getInstance().getOpenFireHost());
+                    connection = new BOSHConnection((BOSHConfiguration) config);
+                    connection.connect();
 
-	private Connection getConnection(String userName, String password) {
-		if (connection == null) {
-
-			this.userName = userName;
-			this.password = password;
-
-			XMPPConnection.DEBUG_ENABLED = false;
-			SmackConfiguration.setKeepAliveInterval(10000);
-			config = new ConnectionConfiguration(Configuration.getInstance().getOpenFireHost(), Configuration.getInstance().getOpenFirePort());
-			config.setCompressionEnabled(true);
-			config.setReconnectionAllowed(true);
-			config.setSecurityMode(SecurityMode.disabled);
-			this.connection = new XMPPConnection(config);
-                        // setting a peudo random resource for the xmpp connection for the scy-lab user
-                        // it is very unlikely that the same user connects in the same millisecond moment
-                        String resource = "scylab" + System.currentTimeMillis();
-			
-			try {
-				this.connection.connect();
-				logger.info("Successful connection to xmpp server " + config.getHost() + ":" + config.getPort());
-				try {
-	                                logger.debug("User logging in: " + userName + " " + password);
-	                                this.connection.login(userName, password, resource);
-	                                logger.debug("Login successful with " + userName + " " + password);
-	                        } catch (XMPPException e) {
-	                                logger.error("Login failed  " + e);
-	                                e.printStackTrace();
-	                                throw new LoginFailedException(userName);
-	                        }
-			} catch (XMPPException e) {
-				logger.error("Error while connecting over XMPP, trying over HTTP now");
-				if (connection != null) {
-				    connection.disconnect();
-				    connection = null;
-				}
-			}
-			
-			if (connection == null) {
-			    try {
-			        logger.info("Successful HTTP connection to xmpp server " + config.getHost() + ":" + config.getPort());
-			        config = new BOSHConfiguration(false, Configuration.getInstance().getOpenFireHTTPHost(), Configuration.getInstance().getOpenFireHTTPPort(), "/http-bind/", Configuration.getInstance().getOpenFireHost());
-			        connection = new BOSHConnection((BOSHConfiguration) config);
-                                connection.connect();
-                                
-                                try {
-                                    logger.debug("User logging in: " + userName + " " + password);
+                    try {
+                        logger.debug("User logging in: " + userName + " " + password);
                         this.connection.login(userName, password, resource);
-                                    logger.debug("Login successful with " + userName + " " + password);
-                                } catch (XMPPException e) {
-                                        logger.error("Login failed  " + e);
-                                        e.printStackTrace();
-                                        throw new LoginFailedException(userName);
-                                }
-                            } catch (XMPPException e) {
-                                logger.error("Error while connecting over HTTP, no way connecting to the SCY server.");
-                                logger.error("Check firewall settings for port " + Configuration.getInstance().getOpenFireHTTPPort() + " and " + Configuration.getInstance().getOpenFirePort() + " or get some professional support!");
-				throw new ServerNotRespondingException(config.getHost(), config.getPort());
-                            }
-			}
+                        logger.debug("Login successful with " + userName + " " + password);
+                    } catch (XMPPException e) {
+                        logger.error("Login failed  " + e);
+                        e.printStackTrace();
+                        throw new LoginFailedException(userName);
+                    }
+                } catch (XMPPException e) {
+                    logger.error("Error while connecting over HTTP, no way connecting to the SCY server.");
+                    logger.error("Check firewall settings for port " + Configuration.getInstance().getOpenFireHTTPPort() + " and " + Configuration.getInstance().getOpenFirePort() + " or get some professional support!");
+                    throw new ServerNotRespondingException(config.getHost(), config.getPort());
+                }
+            }
 
-			
 
-			/*
-			 * The reconnection mechanism will try to reconnect periodically:
-			 * (from JavaDoc) - For the first minute it will attempt to connect
-			 * once every ten seconds. - For the next five minutes it will
-			 * attempt to connect once a minute. - If that fails it will
-			 * indefinitely try to connect once every five minutes.
-			 */
 
-			this.connection.addConnectionListener(new org.jivesoftware.smack.ConnectionListener() {
+            /*
+             * The reconnection mechanism will try to reconnect periodically:
+             * (from JavaDoc) - For the first minute it will attempt to connect
+             * once every ten seconds. - For the next five minutes it will
+             * attempt to connect once a minute. - If that fails it will
+             * indefinitely try to connect once every five minutes.
+             */
 
-				@Override
-				public void connectionClosed() {
-					logger.debug("TBI connection was closed. Informing listeners...");
-					for (Iterator<ConnectionListener> iterator = connectionListeners.iterator(); iterator.hasNext();) {
-						iterator.next().connectionClosed();
-					}
-				}
+            this.connection.addConnectionListener(new org.jivesoftware.smack.ConnectionListener() {
 
-				@Override
-				public void connectionClosedOnError(Exception e) {
-					logger.debug("TBI server error closed;");
-					for (Iterator<ConnectionListener> iterator = connectionListeners.iterator(); iterator.hasNext();) {
-						iterator.next().connectionClosedOnError(e);
-					}
-				}
+                @Override
+                public void connectionClosed() {
+                    logger.debug("TBI connection was closed. Informing listeners...");
+                    for (Iterator<ConnectionListener> iterator = connectionListeners.iterator(); iterator.hasNext();) {
+                        iterator.next().connectionClosed();
+                    }
+                }
 
-				@Override
-				public void reconnectingIn(int seconds) {
-					logger.debug("TBI server reconnecting;");
-					for (Iterator<ConnectionListener> iterator = connectionListeners.iterator(); iterator.hasNext();) {
-						iterator.next().reconnectingIn(seconds);
-					}
-				}
+                @Override
+                public void connectionClosedOnError(Exception e) {
+                    logger.debug("TBI server error closed;");
+                    for (Iterator<ConnectionListener> iterator = connectionListeners.iterator(); iterator.hasNext();) {
+                        iterator.next().connectionClosedOnError(e);
+                    }
+                }
 
-				@Override
-				public void reconnectionFailed(Exception e) {
-					logger.debug("TBI server reconnecting failed");
-					for (Iterator<ConnectionListener> iterator = connectionListeners.iterator(); iterator.hasNext();) {
-						iterator.next().reconnectionFailed(e);
-					}
-				}
+                @Override
+                public void reconnectingIn(int seconds) {
+                    logger.debug("TBI server reconnecting;");
+                    for (Iterator<ConnectionListener> iterator = connectionListeners.iterator(); iterator.hasNext();) {
+                        iterator.next().reconnectingIn(seconds);
+                    }
+                }
 
-				@Override
-				public void reconnectionSuccessful() {
-					logger.debug("TBI server reconnecting success");
-					for (Iterator<ConnectionListener> iterator = connectionListeners.iterator(); iterator.hasNext();) {
-						iterator.next().reconnectionSuccessful();
-					}
-				}
-			});
-		}
-                Presence presence = new Presence(Presence.Type.available);
-                presence.setMode(Presence.Mode.away);
-                connection.sendPacket(presence);
-		return connection;
-	}
+                @Override
+                public void reconnectionFailed(Exception e) {
+                    logger.debug("TBI server reconnecting failed");
+                    for (Iterator<ConnectionListener> iterator = connectionListeners.iterator(); iterator.hasNext();) {
+                        iterator.next().reconnectionFailed(e);
+                    }
+                }
 
-	@Override
-	public void registerForNotifications(INotifiable notifiable) {
-		notificationReceiver.addNotifiable(notifiable);
-	}
+                @Override
+                public void reconnectionSuccessful() {
+                    logger.debug("TBI server reconnecting success");
+                    for (Iterator<ConnectionListener> iterator = connectionListeners.iterator(); iterator.hasNext();) {
+                        iterator.next().reconnectionSuccessful();
+                    }
+                }
+            });
+        }
+        Presence presence = new Presence(Presence.Type.available);
+        presence.setMode(Presence.Mode.away);
+        connection.sendPacket(presence);
+        return connection;
+    }
 
-	@Override
-	public IELOFactory getELOFactory() {
-		return eloFactory;
-	}
+    @Override
+    public void registerForNotifications(INotifiable notifiable) {
+        notificationReceiver.addNotifiable(notifiable);
+    }
 
-	@Override
-	public void proposeCollaborationWith(String proposedUser, String elouri, String mucid) {
-		logger.debug("TBI: proposeCollaborationWith: user: " + proposedUser + " eloid: " + elouri);
-		// callback.receivedCollaborationResponse(elouri, proposedUser);
-		String proposingUser = org.jivesoftware.smack.util.StringUtils.parseBareAddress(connection.getUser());
-		final LinkedBlockingQueue<INotification> queue = new LinkedBlockingQueue<INotification>();
-		collaborationAnswers.put(proposingUser + "#" + proposedUser + "#" + elouri, queue);
-		final IActionLogger log = getActionLogger();
-		final IAction requestCollaborationAction = new Action();
-		requestCollaborationAction.setUser(proposingUser);
-		requestCollaborationAction.setType("collaboration_request");
-		requestCollaborationAction.addContext(ContextConstants.tool, "scylab");
-		requestCollaborationAction.addAttribute("proposed_user", proposedUser);
-		requestCollaborationAction.addAttribute("proposed_elo", elouri);
-		if (mucid != null && !mucid.isEmpty()) {
-			requestCollaborationAction.addAttribute("mucid", mucid);
-		}
-		Thread t = new Thread(new Runnable() {
+    @Override
+    public IELOFactory getELOFactory() {
+        return eloFactory;
+    }
 
-			@Override
-			public void run() {
-				log.log(requestCollaborationAction);
-				try {
-					INotification notif = queue.take();
-					boolean accepted = Boolean.parseBoolean(notif.getFirstProperty("accepted"));
-					if (accepted) {
-						String mucid = notif.getFirstProperty("mucid");
-						return;
-					}
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		t.start();
-	}
+    @Override
+    public void proposeCollaborationWith(String proposedUser, String elouri, String mucid, String lasId) {
+        logger.debug("TBI: proposeCollaborationWith: user: " + proposedUser + " eloid: " + elouri);
+        // callback.receivedCollaborationResponse(elouri, proposedUser);
+        String proposingUser = org.jivesoftware.smack.util.StringUtils.parseBareAddress(connection.getUser());
+        final LinkedBlockingQueue<INotification> queue = new LinkedBlockingQueue<INotification>();
+        collaborationAnswers.put(proposingUser + "#" + proposedUser + "#" + elouri, queue);
+        final IActionLogger log = getActionLogger();
+        final IAction requestCollaborationAction = new Action();
+        requestCollaborationAction.setUser(proposingUser);
+        requestCollaborationAction.setType("collaboration_request");
+        requestCollaborationAction.addContext(ContextConstants.tool, "scylab");
+        requestCollaborationAction.addAttribute("proposed_user", proposedUser);
+        requestCollaborationAction.addAttribute("proposed_elo", elouri);
+        requestCollaborationAction.addAttribute("las_id", lasId);
+        if (mucid != null && !mucid.isEmpty()) {
+            requestCollaborationAction.addAttribute("mucid", mucid);
+        }
+        Thread t = new Thread(new Runnable() {
 
-	@Override
-	public String answerCollaborationProposal(boolean accept, String proposingUser, String elouri) {
-		LinkedBlockingQueue<INotification> queue = new LinkedBlockingQueue<INotification>();
-		String proposedUser = org.jivesoftware.smack.util.StringUtils.parseBareAddress(connection.getUser());
-		collaborationAnswers.put(proposingUser + "#" + proposedUser + "#" + elouri, queue);
-		IActionLogger log = getActionLogger();
-		IAction collaborationResponseAction = new Action();
-		collaborationResponseAction.setUser(proposedUser);
-		collaborationResponseAction.setType("collaboration_response");
-		collaborationResponseAction.addContext(ContextConstants.tool, "scylab");
-		collaborationResponseAction.addAttribute("request_accepted", String.valueOf(accept));
-		collaborationResponseAction.addAttribute("proposing_user", proposingUser);
-		collaborationResponseAction.addAttribute("proposed_user", proposedUser);
-		collaborationResponseAction.addAttribute("proposed_elo", elouri);
-		log.log(collaborationResponseAction);
-		if (accept) {
-			try {
-				INotification notif = queue.take();
-				String mucid = notif.getFirstProperty("mucid");
-				return mucid;
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				return null;
-			}
-		} else {
-			return null;
-		}
-	}
+            @Override
+            public void run() {
+                log.log(requestCollaborationAction);
+                try {
+                    INotification notif = queue.take();
+                    boolean accepted = Boolean.parseBoolean(notif.getFirstProperty("accepted"));
+                    if (accepted) {
+                        String mucid = notif.getFirstProperty("mucid");
+                        return;
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        t.start();
+    }
 
-	@Override
-   public URI getMissionRuntimeURI()
-   {
-      return missionRuntimeURI;
-   }
+    @Override
+    public String answerCollaborationProposal(boolean accept, String proposingUser, String elouri) {
+        LinkedBlockingQueue<INotification> queue = new LinkedBlockingQueue<INotification>();
+        String proposedUser = org.jivesoftware.smack.util.StringUtils.parseBareAddress(connection.getUser());
+        collaborationAnswers.put(proposingUser + "#" + proposedUser + "#" + elouri, queue);
+        IActionLogger log = getActionLogger();
+        IAction collaborationResponseAction = new Action();
+        collaborationResponseAction.setUser(proposedUser);
+        collaborationResponseAction.setType("collaboration_response");
+        collaborationResponseAction.addContext(ContextConstants.tool, "scylab");
+        collaborationResponseAction.addAttribute("request_accepted", String.valueOf(accept));
+        collaborationResponseAction.addAttribute("proposing_user", proposingUser);
+        collaborationResponseAction.addAttribute("proposed_user", proposedUser);
+        collaborationResponseAction.addAttribute("proposed_elo", elouri);
+        log.log(collaborationResponseAction);
+        if (accept) {
+            try {
+                INotification notif = queue.take();
+                String mucid = notif.getFirstProperty("mucid");
+                return mucid;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
 
-   @Override
-   public void setMissionRuntimeURI(URI missionRuntimeURI)
-   {
-      logger.info("setMissionRuntimeURI: "+missionRuntimeURI);
-      this.missionRuntimeURI = missionRuntimeURI;
-   }
+    @Override
+    public URI getMissionRuntimeURI() {
+        return missionRuntimeURI;
+    }
 
-   @Override
-   public URI getMissionSpecificationURI() {
-       return missionSpecificationURI;
-   }
+    @Override
+    public void setMissionRuntimeURI(URI missionRuntimeURI) {
+        logger.info("setMissionRuntimeURI: " + missionRuntimeURI);
+        this.missionRuntimeURI = missionRuntimeURI;
+    }
 
-   @Override
-   public void setMissionSpecificationURI(URI missionSpecificationURI) {
-       this.missionSpecificationURI = missionSpecificationURI;
-       contextService.setMissionSpecificationURI(missionSpecificationURI.toString());
-   }
+    @Override
+    public URI getMissionSpecificationURI() {
+        return missionSpecificationURI;
+    }
 
-   @Deprecated
-   public String getMission() {
-       return "ToolBrokerAPI.getMission() is deprecated";
-   }
+    @Override
+    public void setMissionSpecificationURI(URI missionSpecificationURI) {
+        this.missionSpecificationURI = missionSpecificationURI;
+        contextService.setMissionSpecificationURI(missionSpecificationURI.toString());
+    }
 
-   @Deprecated
-   @Override
-   public void setMissionId(String missionId) {
-       // do nothing, deprecated
-   }
+    @Deprecated
+    public String getMission() {
+        return "ToolBrokerAPI.getMission() is deprecated";
+    }
+
+    @Deprecated
+    @Override
+    public void setMissionId(String missionId) {
+        // do nothing, deprecated
+    }
 
     @Override
     public String getLoginUserName() {
-            return userName;
+        return userName;
     }
 
     @Override
     public IContextService getContextService() {
         return contextService;
     }
-    
 }

@@ -32,6 +32,8 @@ public class CollaborationRequestCommand extends ScyDesktopRemoteCommand {
         def userNickname = user.substring(0, user.indexOf("@"));
         def eloUriString: String = notification.getFirstProperty("proposed_elo");
         def eloUri = new URI(eloUriString);
+        def lasId: String = notification.getFirstProperty("las_id");
+        def myLasId : String = scyDesktop.getActiveLasId();
 
         var collaborationMessageDialogBox: CollaborationMessageDialogBox;
 
@@ -75,6 +77,8 @@ public class CollaborationRequestCommand extends ScyDesktopRemoteCommand {
          yesFunction: yesAction
          noTitle: ##"Deny"
          noFunction: noAction
+         proposedLasId: lasId
+         myLasId: myLasId
       }
       pendingCollaborationRequestDialogs.put(eloUri,collaborationMessageDialogBox);
     }

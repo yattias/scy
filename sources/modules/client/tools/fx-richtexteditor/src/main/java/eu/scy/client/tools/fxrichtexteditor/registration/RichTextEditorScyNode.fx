@@ -288,7 +288,8 @@ public class RichTextEditorScyNode extends INotifiable, RichTextEditorNode, ScyT
         var c: ContactFrame = object as ContactFrame;
         logger.debug("acceptDrop user: {c.contact.name}");
         scyWindow.ownershipManager.addPendingOwner(c.contact.name);
-        scyWindow.windowManager.scyDesktop.config.getToolBrokerAPI().proposeCollaborationWith("{c.contact.awarenessUser.getJid()}", scyWindow.eloUri.toString(), scyWindow.mucId);
+        def lasId:String = scyWindow.getActiveLasId();
+        scyWindow.windowManager.scyDesktop.config.getToolBrokerAPI().proposeCollaborationWith("{c.contact.awarenessUser.getJid()}", scyWindow.eloUri.toString(), scyWindow.mucId, lasId);
         logger.debug("scyDesktop: {scyWindow.windowManager.scyDesktop}");
     }
 

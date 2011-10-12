@@ -62,7 +62,7 @@ public interface ToolBrokerAPI extends RooloServices {
      * @param mucid
      *            the optional id of the already created muc, can be null or empty, if there is no muc, yet
      */
-    public void proposeCollaborationWith(String proposedUser, String elouri, String mucid);
+    public void proposeCollaborationWith(String proposedUser, String elouri, String mucid, String lasId);
 
     /**
      * Sends the answer to a previous collaboration proposal.

@@ -218,7 +218,7 @@ public class LocalToolBrokerAPI implements ToolBrokerAPI,ToolBrokerAPIRuntimeSet
    }
 
    @Override
-   public void proposeCollaborationWith(String proposedUser, String elouri, String mucid)
+   public void proposeCollaborationWith(String proposedUser, String elouri, String mucid, String lasId)
    {
 
    }

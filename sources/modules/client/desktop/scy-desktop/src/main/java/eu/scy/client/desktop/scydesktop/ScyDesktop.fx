@@ -272,6 +272,10 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
    var bigMissionMapControl: BigMissionMapControl;
    public var eloManagement: EloManagement;
 
+   public function getActiveLasId():String{
+       return missionModelFX.activeLas.id;
+   }
+
    init {
       if (config.isRedirectSystemStreams() and config.getLoggingDirectory() != null) {
          RedirectSystemStreams.redirect(config.getLoggingDirectory());
