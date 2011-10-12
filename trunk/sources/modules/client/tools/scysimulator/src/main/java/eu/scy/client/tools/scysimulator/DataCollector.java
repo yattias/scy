@@ -590,7 +590,7 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
 			}
 			success = true;
 		} else if (type != null && notification.getFirstProperty("level") != null && !shownMessages.contains(notification.getFirstProperty("level"))) {
-			if (type.equals("scaffold")) {
+			if (type.equals("sysbehavior")) {
 				if (notification.getFirstProperty("level").equals(SCAFFOLD.SHOWBUTTON.name())) {
 					notificationMessage = SCAFFOLD.SHOWBUTTON.name();
 					notifyButton.setVisible(true);
