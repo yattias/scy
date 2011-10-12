@@ -238,7 +238,7 @@ public class BehavioralModel {
             });
             timer.setRepeats(false);
             timer.start();
-            Tuple notificationTuple = new Tuple("notification", new VMID().toString(), name, eloUri, "ScySimBehaviorClassifier", "n/a", "n/a", "type=scaffold", "level=" + level.name());
+            Tuple notificationTuple = new Tuple("notification", new VMID().toString(), name, eloUri, "ScySimBehaviorClassifier", "n/a", "n/a", "type=sysbehavior", "level=" + level.name());
             try {
                 commandSpace.write(notificationTuple);
             } catch (TupleSpaceException e) {
