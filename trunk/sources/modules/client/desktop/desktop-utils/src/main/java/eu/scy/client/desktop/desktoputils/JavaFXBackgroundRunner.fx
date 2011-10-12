@@ -14,6 +14,7 @@ public class JavaFXBackgroundRunner extends Runnable {
 
    public var runner: function(): Object;
    public var finished: function(result: Object): Void;
+   public var threadName: String;
 
    override public function run(): Void {
       def result = runner();
@@ -25,7 +26,11 @@ public class JavaFXBackgroundRunner extends Runnable {
    }
 
    public function start() {
-      new Thread(this).start();
+      def thread = new Thread(this);
+      if (threadName!=null){
+         thread.setName(threadName);
+      }
+      thread.start();
    }
 
 }
