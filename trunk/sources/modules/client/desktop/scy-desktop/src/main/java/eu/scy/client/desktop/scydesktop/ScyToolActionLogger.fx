@@ -28,7 +28,7 @@ public class ScyToolActionLogger extends CustomNode, ScyToolFX, EloSaverCallBack
     public-init var config: Config;
     public-init var missionRuntimeEloUri: URI;
     var toolId = "scy://unsaved_elo_{UUID.randomUUID().toString()}";
-    var oldURI = getURI();
+    var oldURIString = getURI();
     def actionLogger = config.getToolBrokerAPI().getActionLogger();
     def username = config.getToolBrokerAPI().getLoginUserName();
     def toolname = config.getEloToolConfig(window.eloType).getContentCreatorId();
@@ -113,27 +113,38 @@ public class ScyToolActionLogger extends CustomNode, ScyToolFX, EloSaverCallBack
     public override function loadElo(eloUri: URI): Void {
         var action = createBasicAction(ELO_LOADED);
         action.addAttribute("elo_uri", eloUri.toString());
-        action.addAttribute("old_uri", oldURI);
+        action.addAttribute("old_uri", oldURIString);
         actionLogger.log(action);
-        oldURI = eloUri.toString();
+        oldURIString = eloUri.toString();
     }
 
     public override function eloSaved(elo: IELO): Void {
         var action = createBasicAction(ELO_SAVED);
         action.addAttribute("elo_uri", elo.getUri().toString());
-        action.addAttribute("old_uri", oldURI);
+        action.addAttribute("old_uri", oldURIString);
         var eloType = elo.getMetadata().getMetadataValueContainer(technicalFormatKey).getValue() as String;
         action.addAttribute("elo_type", eloType);
+
+		// trying the old and the new elo uri may look a bit stupid
+		// but solves the problem the missionModel might not be updated, yet
+		var oldUri = new URI(oldURIString);
+		var missionAnchorOld = window.windowManager.scyDesktop.missionModelFX.getMissionAnchor(oldUri);
 		var missionAnchor = window.windowManager.scyDesktop.missionModelFX.getMissionAnchor(elo.getUri());
 		var missionAnchorId = "n/a";
 		if (missionAnchor != null) {
 			missionAnchorId = missionAnchor.getId();
+		} else if (missionAnchorOld != null) {
+			missionAnchorId = missionAnchorOld.getId();
 		}
+		
+		//System.out.println("**** logging save action: missionModelFX: {window.windowManager.scyDesktop.missionModelFX}");
 		//System.out.println("**** logging save action: mission anchor: {missionAnchor}");
+		//System.out.println("**** logging save action: mission anchor old: {missionAnchorOld}");
+		//System.out.println("**** logging save action: mission anchor id: {missionAnchorId}");
 		action.addAttribute("mission_anchor_id", missionAnchorId);
         actionLogger.log(action);
-        oldURI = elo.getUri().toString();
-//        System.out.println("***** logging eloSaved for {username}@{toolname}");
+        oldURIString = elo.getUri().toString();
+		//System.out.println("***** logging eloSaved for {username}@{toolname}");
     }
 
     public override function eloSaveCancelled(elo: IELO): Void {    }
