@@ -31,7 +31,6 @@ import eu.scy.client.desktop.desktoputils.art.ScyColors;
 import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.elofactory.impl.BasicEloToolConfigManager;
 import eu.scy.common.mission.EloSystemRole;
-import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.mission.impl.ApplyEloToolConfigDefaults;
@@ -42,6 +41,7 @@ import java.util.ArrayList;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.JavaFxWindowStyler;
 import eu.scy.client.desktop.desktoputils.art.eloicons.EloIconFactory;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.DialogBox;
+import eu.scy.client.desktop.desktoputils.XFX;
 
 /**
  * @author sikkenj
@@ -191,18 +191,17 @@ public class ScyDesktopCreator {
       activityTimer.startActivity("handleTemplateElos");
       handleTemplateElos();
       activityTimer.startActivity("print mission elo info");
-      def missionSpecificationEloUri = missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getTypedContent().getMissionSpecificationEloUri();
+      def missionSpecificationEloUri = missionRunConfigs.missionSpecificationElo.getUri();
       logger.warn("missionRunConfigs elos:\n""- mission specification : {missionSpecificationEloUri}\n""- mission runtime       : {missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri()}\n""- mission map model     : {missionRunConfigs.missionMapModel.getMissionModelElo().getUri()}\n""- elo tool configs      : {missionRunConfigs.missionRuntimeModel.getEloToolConfigsElo().getUri()}\n""- template elos         : {missionRunConfigs.missionRuntimeModel.getTemplateElosElo().getUri()}\n""- runtime settings      : {missionRunConfigs.missionRuntimeModel.getRuntimeSettingsElo().getUri()}\n""- ePortfolio            : {missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getTypedContent().getEPortfolioEloUri()}\n""- colorSchemes          : {missionRunConfigs.missionRuntimeModel.getColorSchemesElo().getUri()}");
-      if (missionSpecificationEloUri != null) {
-         def missionSpecificationElo = MissionSpecificationElo.loadElo(missionSpecificationEloUri, missionRunConfigs.tbi);
-         def misssionSpecification = missionSpecificationElo.getTypedContent();
+      if (missionRunConfigs.missionSpecificationElo != null) {
+         def misssionSpecification = missionRunConfigs.missionSpecificationElo.getTypedContent();
          logger.warn("mission specification elos:\n""- mission map model : {misssionSpecification.getMissionMapModelEloUri()}\n""- elo tool configs  : {misssionSpecification.getEloToolConfigsEloUri()}\n""- template elos     : {misssionSpecification.getTemplateElosEloUri()}\n""- runtime settings  : {misssionSpecification.getRuntimeSettingsEloUri()}\n""- colorSchemes  : {misssionSpecification.getColorSchemesEloUri()}");
       }
       if (initializer.debugMode) {
          activityTimer.startActivity("printConfiguration");
-         printConfiguration();
+         XFX.runActionInBackground(printConfiguration,"printConfiguration");
+//         printConfiguration();
       }
-
    }
 
    function addEloInformationToMissionModel(): Void {
@@ -261,17 +260,18 @@ public class ScyDesktopCreator {
       def templateEloUriList = missionRunConfigs.missionRuntimeModel.getTemplateElosElo().getTypedContent().getTemplateEloUris();
       if (templateEloUriList.size() > 0) {
          for (templateEloUri in templateEloUriList) {
-            def metadata = config.getRepository().retrieveMetadata(templateEloUri);
-            if (metadata != null) {
-               def templateEloUriType = metadata.getMetadataValueContainer(technicalFormatKey).getValue() as String;
-               if (newEloCreationRegistry.containsEloType(templateEloUriType)) {
-                  insert templateEloUri into templateEloUris;
-               } else {
-                  logger.warn("skipped template elo, because the type ({templateEloUriType}) ) is not configured for the user: {templateEloUri}");
-               }
-            } else {
-               logger.warn("could not find template elo: {templateEloUri}");
-            }
+            insert templateEloUri into templateEloUris;
+//            def metadata = config.getRepository().retrieveMetadata(templateEloUri);
+//            if (metadata != null) {
+//               def templateEloUriType = metadata.getMetadataValueContainer(technicalFormatKey).getValue() as String;
+//               if (newEloCreationRegistry.containsEloType(templateEloUriType)) {
+//                  insert templateEloUri into templateEloUris;
+//               } else {
+//                  logger.warn("skipped template elo, because the type ({templateEloUriType}) ) is not configured for the user: {templateEloUri}");
+//               }
+//            } else {
+//               logger.warn("could not find template elo: {templateEloUri}");
+//            }
 
          }
       }

@@ -355,7 +355,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                  newTitleGenerator: newTitleGenerator;
                  showMoreInfo: moreInfoManager
               }
-      missionRuntimeSettingsManager = missionRunConfigs.missionRuntimeModel.getRuntimeSettingsManager();
+      missionRuntimeSettingsManager = missionRunConfigs.runtimeSettingsManager;
       if (not initializer.singleEloMode) {
          createMultiEloElements();
       }
@@ -929,8 +929,12 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       println("Scy desktop is shutting down....");
       logger.info("Scy desktop is shutting down....");
       if (not initializer.globalReadOnlyMode) {
-         saveAll();
+         XFX.runActionInBackgroundAndCallBack(saveAll, function(o:Object){ logAndExit() });
+//         saveAll();
       }
+   }
+
+   function logAndExit():Void{
       try {
          logLoggedOut();
       } catch (e: Exception) {
@@ -939,6 +943,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       closeIfPossible(config.getToolBrokerAPI(), "tool broker");
       FX.exit();
    }
+
 
    function logLoggedOut(): Void {
       def action: IAction = new Action();
@@ -952,7 +957,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       logger.info("logged logge_out-action: {action}");
    }
 
-   function saveAll() {
+   function saveAll(): Void {
       println("Now saving all ELOs....");
       logger.info("Now saving all ELOs....");
       for (window in windows.getScyWindows()) {

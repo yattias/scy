@@ -198,6 +198,14 @@ public class EloManagement extends CustomNode {
 
    function createArchivedElo(uri: URI): ArchivedElo {
       def scyElo = ScyElo.loadMetadata(uri, tbi);
+      if (scyElo==null){
+         logger.warn("could not find template elo: {uri}");
+         return null;
+      }
+      if (not scyDesktop.newEloCreationRegistry.containsEloType(scyElo.getTechnicalFormat())){
+         logger.warn("skipped template elo, because the type ({scyElo.getTechnicalFormat()}) ) is not configured for the user: {uri}");
+         return null;
+      }
       def eloIcon: EloIcon = windowStyler.getScyEloIcon(scyElo);
       def scySearchResult = new ArchivedElo(scyElo);
       scySearchResult.setEloIcon(eloIcon);

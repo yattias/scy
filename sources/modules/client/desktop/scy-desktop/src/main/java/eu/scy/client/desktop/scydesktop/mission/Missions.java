@@ -118,7 +118,7 @@ public class Missions
       return null;
    }
 
-   private MissionSpecificationElo findMissionSpecificationEloByUri(URI uri)
+   public MissionSpecificationElo findMissionSpecificationEloByUri(URI uri)
    {
       for (MissionSpecificationElo missionSpecificationElo : missionSpecificationElos)
       {

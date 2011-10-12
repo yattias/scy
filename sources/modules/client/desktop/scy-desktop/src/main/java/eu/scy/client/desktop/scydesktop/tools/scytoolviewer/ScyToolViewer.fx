@@ -40,6 +40,7 @@ import eu.scy.client.desktop.scydesktop.tools.DrawerUIIndicator;
 import eu.scy.client.desktop.scydesktop.tools.RuntimeSettingsRetriever;
 import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleKey;
+import eu.scy.client.desktop.desktoputils.XFX;
 
 /**
  * @author sikken
@@ -173,10 +174,16 @@ public class ScyToolViewer extends CustomNode, Resizable, ScyToolFX {
 
    function setEloInfo(eloUri: URI): Void {
       var scyElo: ScyElo;
-      if (eloUri != null) {
-         scyElo = ScyElo.loadElo(eloUri, toolBrokerAPI);
-      }
       uri = "{eloUri}";
+      if (eloUri != null) {
+         XFX.runActionInBackgroundAndCallBack(function():Object {ScyElo.loadElo(eloUri, toolBrokerAPI)}, showEloInfo);
+      } else {
+         showEloInfo(null);
+      }
+   }
+
+   function showEloInfo(scyEloObject: Object):Void{
+      def scyElo = scyEloObject as ScyElo;
       assignmentUri = scyElo.getAssignmentUri();
       resourcesUri = scyElo.getResourcesUri();
    }
