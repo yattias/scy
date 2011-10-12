@@ -114,13 +114,14 @@ public class Initializer {
    def enableLocalLoggingKey = "enableLocalLogging";
    def loggingDirectoryKey = "loggingDirectory";
    def storeElosOnDiskKey = "storeElosOnDisk";
-    def scyServerPortKey = "httpPort";
+   def scyServerPortKey = "httpPort";
    def scyServerNameKey = "serverName";
    def sqlspacesServerKey = "sqlspacesServer";
    def minimumRooloNewVersionListIdKey = "minimumRooloNewVersionListId";
    def disableRooloVersioningKey = "disableRooloVersioning";
    // parameter option names
    def log4JInitFileOption = "log4JInitFile";
+   def javaUtilLoggingInitFileOption = "javaUtilLoggingInitFile";
    def enableLocalLoggingOption = "enableLocalLogging";
    def loggingDirectoryNameOption = "loggingDirectoryName";
    def redirectSystemStreamOption = "redirectSystemStream";
@@ -166,6 +167,7 @@ public class Initializer {
    var setupLoggingToFiles: SetupLoggingToFiles;
    package var background: DynamicTypeBackground;
    public-read var loginTypeEnum: LoginType;
+   var javaLoggingConfigFilesSet = false;
 
    init {
       StringLocalizer.associate("languages.scydesktop", "eu.scy.client.desktop.scydesktop");
@@ -225,7 +227,12 @@ public class Initializer {
 
             if (option == log4JInitFileOption.toLowerCase()) {
                log4JInitFile = argumentsList.nextStringValue(log4JInitFileOption);
+               javaLoggingConfigFilesSet = true;
                logger.info("app: {log4JInitFileOption}: {log4JInitFile}");
+            } else if (option == javaUtilLoggingInitFileOption.toLowerCase()) {
+               javaUtilLoggingInitFile = argumentsList.nextStringValue(javaUtilLoggingInitFileOption);
+               javaLoggingConfigFilesSet = true;
+               logger.info("app: {javaUtilLoggingInitFileOption}: {javaUtilLoggingInitFile}");
             } else if (option == enableLocalLoggingOption.toLowerCase()) {
                enableLocalLogging = argumentsList.nextBooleanValue(enableLocalLoggingOption);
                logger.info("app: {enableLocalLoggingOption}: {enableLocalLogging}");

@@ -55,6 +55,7 @@ import roolo.elo.api.exceptions.ELONotLastVersionException;
 import javafx.scene.Node;
 import eu.scy.client.desktop.desktoputils.art.AnimationTiming;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
+import java.awt.EventQueue;
 
 /**
  * @author sikken
@@ -270,7 +271,7 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
             if (myElo or window.isQuiting) {
                ProgressOverlay.startShowWorking();
                addThumbnail(scyElo);
-               XFX.runActionInBackgroundAndCallBack(function() : Object {
+               def doEloUpdate = function():Void{
                    updateTags(elo);
                    // it is (also) my elo
                    var dateFirstUserSaveSet = false;
@@ -294,20 +295,68 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
                          if (creatorSet) {
                             scyElo.getMetadata().deleteMetatadata(creatorKey);
                          }
-                         eloSaveAs(elo, eloSaverCallBack);
+                         FX.deferAction(function():Void{
+                               eloSaveAs(elo, eloSaverCallBack);
+                            });
                       }
                    } else {
-                      // it is not my, but as this window is being quit, i may not ask the user anything
+                      // it is not mine, but as this window is being quit, i may not ask the user anything
                       scyElo.saveAsForkedElo();
                    }
                    scyToolActionLogger.eloSaved(elo);
                    myEloChanged.myEloChanged(scyElo);
-                   return null;
-               }, function (o :Object) {
+               }
+               def finishEloUpdate = function():Void{
                    eloSaverCallBack.eloSaved(scyElo.getElo());
                    ProgressOverlay.stopShowWorking();
                    showEloSaved();
-               });
+               }
+               // run it only in a background thread, if we are ruuning on the EDT
+               // during the close of scy-lab, all save actions are done in a background thread
+               if (EventQueue.isDispatchThread()){
+                  XFX.runActionInBackgroundAndCallBack(doEloUpdate,function(o:Object):Void{finishEloUpdate()});
+               } else {
+                  doEloUpdate();
+                  finishEloUpdate()
+               }
+//               XFX.runActionInBackgroundAndCallBack(function() : Object {
+//                   updateTags(elo);
+//                   // it is (also) my elo
+//                   var dateFirstUserSaveSet = false;
+//                   var creatorSet = false;
+//                   if (scyElo.getDateFirstUserSave() == null) {
+//                      scyElo.setDateFirstUserSave(System.currentTimeMillis());
+//                      dateFirstUserSaveSet = true;
+//                   }
+//                   if (scyElo.getCreator() == null) {
+//                      scyElo.setCreator(loginName);
+//                      creatorSet = true;
+//                   }
+//                   if (myElo) {
+//                      try {
+//                         scyElo.updateElo();
+//                      } catch (e: ELONotLastVersionException) {
+//                         logger.error("unexpected ELONotLastVersionException for elo: {e.getURI()}, now doing a save as");
+//                         if (dateFirstUserSaveSet) {
+//                            scyElo.getMetadata().deleteMetatadata(dateFirstUserSaveKey);
+//                         }
+//                         if (creatorSet) {
+//                            scyElo.getMetadata().deleteMetatadata(creatorKey);
+//                         }
+//                         eloSaveAs(elo, eloSaverCallBack);
+//                      }
+//                   } else {
+//                      // it is not my, but as this window is being quit, i may not ask the user anything
+//                      scyElo.saveAsForkedElo();
+//                   }
+//                   scyToolActionLogger.eloSaved(elo);
+//                   myEloChanged.myEloChanged(scyElo);
+//                   return null;
+//               }, function (o :Object) {
+//                   eloSaverCallBack.eloSaved(scyElo.getElo());
+//                   ProgressOverlay.stopShowWorking();
+//                   showEloSaved();
+//               });
             } else {
                // it is not my elo, do a save as
                eloSaveAs(elo, eloSaverCallBack);

@@ -303,8 +303,8 @@ public class LoginDialog extends CustomNode, TbiReady {
    }
 
    function finishTbi(missionRunConfigs: MissionRunConfigs): Void {
-      InjectObjectsUtils.injectObjectIfWantedJava(missionRunConfigs.tbi, URI.class, "missionRuntimeURI", missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUriFirstVersion());
-      InjectObjectsUtils.injectObjectIfWantedJava(missionRunConfigs.tbi, URI.class, "missionSpecificationURI", missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getTypedContent().getMissionSpecificationEloUri());
+      InjectObjectsUtils.injectObjectIfWantedJava(missionRunConfigs.tbi, URI.class, "missionRuntimeURI", missionRunConfigs.missionRuntimeURI);
+      InjectObjectsUtils.injectObjectIfWantedJava(missionRunConfigs.tbi, URI.class, "missionSpecificationURI", missionRunConfigs.missionSpecificationElo.getUri());
    }
 
    function placeScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {

@@ -23,6 +23,8 @@ import java.util.Collection;
 import eu.scy.client.desktop.scydesktop.scywindows.ShowMoreInfo;
 import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoTypes;
 import eu.scy.common.mission.ArchivedElo;
+import java.util.concurrent.locks.ReentrantLock;
+import java.lang.Thread;
 
 /**
  * @author SikkenJ
@@ -50,6 +52,7 @@ public class MissionModelFX extends MissionModel {
    public var archiveElosChanged = false;
    public var showMoreInfo: ShowMoreInfo;
    var contentChanged = false;
+   def updateEloLock = new ReentrantLock();
 
    function newMissionModel(): Void {
       createAllFxVersions();
@@ -208,11 +211,19 @@ public class MissionModelFX extends MissionModel {
 
    override public function updateElo(): Void {
       if (saveUpdatedModel or storedWindowStatesXmlsChanged or archiveElosChanged) {
+         if (updateEloLock.isLocked()) {
+            logger.error("trying to update mission model, while an update is in progress. My thread name: {Thread.currentThread().getName()}");
+         }
+         updateEloLock.lock();
+         try{
          missionModel.updateElo();
+         } finally {
+            updateEloLock.unlock();
+         }
       }
       contentChanged = false;
       storedWindowStatesXmlsChanged = false;
-      archiveElosChanged = false
+      archiveElosChanged = false;
    }
 
    override public function loadMetadata(rooloServices: RooloServices): Void {

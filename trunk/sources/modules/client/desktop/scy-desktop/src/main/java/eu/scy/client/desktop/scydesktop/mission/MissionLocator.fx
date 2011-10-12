@@ -28,7 +28,6 @@ import eu.scy.common.mission.MissionRuntimeModel;
 import eu.scy.common.mission.impl.BasicMissionRuntimeModel;
 import eu.scy.common.mission.MissionModel;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
-import eu.scy.client.desktop.desktoputils.XFX;
 import javafx.util.Sequences;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.DialogBox;
 import javafx.util.StringLocalizer;
@@ -37,6 +36,7 @@ import java.lang.Exception;
 import eu.scy.client.desktop.scydesktop.login.MissionListCellDisplay;
 import eu.scy.common.scyelo.MissionLanguageTitleComparator;
 import java.net.URLDecoder;
+import eu.scy.client.desktop.desktoputils.XFX;
 
 /**
  * @author SikkenJ
@@ -115,19 +115,25 @@ public class MissionLocator {
          def missionModel = missionRuntimeModel.getMissionModel();
          initializer.launchTimer.startActivity("missionModel.loadMetadata");
          missionModel.loadMetadata(tbi);
-         return missionModel;
-      }, function(missionModel): Void {
-         initializer.launchTimer.startActivity("creating MissionModelFX");
-         missionMapModel = MissionModelFX {
+          missionMapModel = MissionModelFX {
                     tbi: tbi
-                    missionModel: missionModel as MissionModel
+                    missionModel: missionModel
                     saveUpdatedModel: not initializer.dontUseMissionRuntimeElos
                  }
-         startMission(MissionRunConfigs {
-            tbi: tbi
-            missionRuntimeModel: missionRuntimeModel
-            missionMapModel: missionMapModel
-         });
+        return missionModel;
+      }, function(missionModel): Void {
+         initializer.launchTimer.startActivity("creating MissionModelFX");
+//         missionMapModel = MissionModelFX {
+//                    tbi: tbi
+//                    missionModel: missionModel as MissionModel
+//                    saveUpdatedModel: not initializer.dontUseMissionRuntimeElos
+//                 }
+         startTheMission(missionRuntimeModel,null,missionSpecificationElo);
+//         startMission(MissionRunConfigs {
+//            tbi: tbi
+//            missionRuntimeModel: missionRuntimeModel
+//            missionMapModel: missionMapModel
+//         });
          ProgressOverlay.stopShowWorking();
       });
 
@@ -159,11 +165,12 @@ public class MissionLocator {
                     missionModel: missionModel as MissionModel
                     saveUpdatedModel: true
                  }
-         startMission(MissionRunConfigs {
-            tbi: tbi
-            missionRuntimeModel: missionRuntimeModel
-            missionMapModel: missionMapModel
-         });
+         startTheMission(missionRuntimeModel,null,missions.findMissionSpecificationEloByUri(missionRuntimeElo.getTypedContent().getMissionSpecificationEloUri()));
+//         startMission(MissionRunConfigs {
+//            tbi: tbi
+//            missionRuntimeModel: missionRuntimeModel
+//            missionMapModel: missionMapModel
+//         });
          ProgressOverlay.stopShowWorking();
       });
 
@@ -231,11 +238,12 @@ public class MissionLocator {
          }
          return new BasicMissionRuntimeModel(missionRuntimeElo, null, tbi, missionMapModelElo, null, null, runtimeSettingsElo, null);
       }, function(missionRuntimeModel): Void {
-         startMission(MissionRunConfigs {
-            tbi: tbi
-            missionRuntimeModel: missionRuntimeModel as MissionRuntimeModel
-            missionMapModel: missionMapModel
-         });
+         startTheMission(missionRuntimeModel as MissionRuntimeModel,null,null);
+//         startMission(MissionRunConfigs {
+//            tbi: tbi
+//            missionRuntimeModel: missionRuntimeModel as MissionRuntimeModel
+//            missionMapModel: missionMapModel
+//         });
          ProgressOverlay.stopShowWorking();
       });
    }
@@ -301,7 +309,7 @@ public class MissionLocator {
    function startSingleEloMission() {
       def eloUri = findSingleEloUri();
       var scyElo = ScyElo.loadElo(eloUri, tbi);
-      if (scyElo==null){
+      if (scyElo == null) {
          def decodedEloUriString = URLDecoder.decode(eloUri.toString(), "utf-8");
          logger.info("failed to load elo with uri: {eloUri}, now trying with the decoded eloUri: {decodedEloUriString}");
          def decodedEloUri = new URI(decodedEloUriString);
@@ -315,11 +323,12 @@ public class MissionLocator {
             def missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(scyElo.getMissionRuntimeEloUri(), tbi);
             missionRuntimeModel = missionRuntimeElo.getMissionRuntimeModel();
          }
-         startMission(MissionRunConfigs {
-            tbi: tbi
-            missionRuntimeModel: missionRuntimeModel
-            scyEloToLoad: scyElo
-         });
+         startTheMission(missionRuntimeModel,scyElo,null);
+//         startMission(MissionRunConfigs {
+//            tbi: tbi
+//            missionRuntimeModel: missionRuntimeModel
+//            scyEloToLoad: scyElo
+//         });
       } else {
          logger.warn("Cannot find product with uri: {eloUri}");
          DialogBox.showMessageDialog(String.format(##"Cannot find product with url:%n%s%nSCY-Lab will quit.", eloUri), ##"Cannot find product", null, function(): Void {
@@ -353,6 +362,21 @@ public class MissionLocator {
       } else {
          return new URI(initializer.singleEloUri);
       }
+   }
+
+   function startTheMission(missionRuntimeModel: MissionRuntimeModel, scyEloToLoad: ScyElo, missionSpecificationElo: MissionSpecificationElo): Void {
+      def missionRonConfigs = MissionRunConfigs {
+                 tbi: tbi
+                 missionRuntimeModel: missionRuntimeModel
+                 missionMapModel: missionMapModel
+                 scyEloToLoad: scyEloToLoad
+                 missionSpecificationElo: missionSpecificationElo;
+              }
+      XFX.runActionInBackgroundAndCallBack(missionRonConfigs.findAdditionalInformation,
+      function(o: Object): Void {
+         startMission(missionRonConfigs)
+      });
+
    }
 
 }
