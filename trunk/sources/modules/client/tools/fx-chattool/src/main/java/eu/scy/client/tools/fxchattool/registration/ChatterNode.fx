@@ -22,9 +22,6 @@ import javafx.scene.layout.LayoutInfo;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Container;
 import javafx.geometry.Insets;
-import javafx.scene.text.Text;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.geometry.HPos;
 import eu.scy.chat.controller.IChat;
 import eu.scy.client.desktop.scydesktop.tools.DrawerUIIndicator;
@@ -137,7 +134,7 @@ public class ChatterNode extends CustomNode, Resizable, ScyToolFX, IChat {
     }
 
     public function addMessage(time: String, name: String, text: String, isSystemMessage: Boolean): Void {
-        if (not time.equalsIgnoreCase(lastTime)) {
+        if (not time.equalsIgnoreCase(lastTime) and not isSystemMessage) {
             insert SystemLine {
                 text: time
                 layoutWidth: bind content.layoutBounds.width
