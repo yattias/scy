@@ -18,7 +18,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.SimpleScyDesktopEl
 
 public mixin class EloSaveAsMixin {
 
-   public var saveAction: function(: EloSaveAsMixin): Void;
+   public var saveAction: function(: EloSaveAsMixin, :Boolean): Void;
    public var cancelAction: function(: EloSaveAsMixin): Void;
    // store information of caller
    public var elo: IELO;

@@ -82,7 +82,7 @@ public class SimpleSaveAsNodeDesign extends EloSaveAsMixin {
    }
 
    function saveButtonAction(): Void {
-      saveAction(this)
+      saveAction(this, true)
    }
 
    function titleTextBoxOnKeyTyped(event: javafx.scene.input.KeyEvent): Void {
