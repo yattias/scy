@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<reference_model name="efs" term_set="efs" notation="cmap">
+  <nodes>
+    <node term="Joule" drop="true"/>
+    <node term="calorie" drop="true"/>
+    <node term="thinking" drop="true"/>
+    <node term="running" drop="true"/>
+    <node term="saliva production" drop="true"/>
+    <node term="definition calorie" drop="true"/>
+    <node term="definition Joule" drop="true"/>
+    <node term="talking" drop="true"/>
+    <node term="heart beat" drop="true"/>
+    <node term="making new cells" drop="true"/>
+
+    <node term="explain weight" open="true"/>
+    <node term="explain age" open="true"/>
+    <node term="explain gender" open="true"/>
+
+    <node term="muscle contraction"/>
+    <node term="energy used body"/>
+    <node term="physical work"/>
+    <node term="other body processes"/>
+    <node term="gender"/>
+    <node term="age"/>
+    <node term="activities"/>
+    <node term="ENERGY"/>
+    <node term="weight"/>
+    <node term="energy needs body"/>
+  </nodes>
+  <links>
+    <link term="for example"/>
+    <link term="is defined as"/>
+    <link term="for"/>
+    <link term="depend on"/>
+    <link term="is measured in"/>
+    <link term="because"/>
+    <link term="is 4.18"/>
+  </links>
+  <edges>
+    <edge tail="muscle contraction" head="heart beat" link="for example"/>
+    <edge tail="calorie" head="definition calorie" link="is defined as"/>
+    <edge
+	tail="energy used body"
+	head="muscle contraction"
+	link="for"/>
+    <edge
+	tail="energy needs body"
+	head="activities"
+	link="for example"/>
+    <edge
+	tail="energy needs body"
+	head="gender"
+	link="depend on"/>
+    <edge tail="ENERGY" head="calorie" link="is measured in"/>
+    <edge tail="other body processes" head="thinking" link="for example"/>
+    <edge tail="weight" head="explain weight" link="because"/>
+    <edge
+	tail="energy needs body"
+	head="age"
+	link="for example"/>
+    <edge tail="ENERGY" head="Joule" link="is measured in"/>
+    <edge tail="Joule" head="definition Joule" link="is defined as"/>
+    <edge tail="muscle contraction" head="running" link="for example"/>
+    <edge tail="age" head="explain age" link="because"/>
+    <edge
+	tail="activities"
+	head="physical work"
+	link="because"/>
+    <edge tail="muscle contraction" head="talking" link="for example"/>
+    <edge
+	tail="energy used body"
+	head="other body processes"
+	link="for"/>
+    <edge tail="gender" head="explain gender" link="because"/>
+    <edge tail="Joule" head="calorie" link="is 4.18"/>
+    <edge tail="other body processes" head="saliva production" link="for example"/>
+    <edge
+	tail="energy needs body"
+	head="weight"
+	link="depend on"/>
+    <edge tail="other body processes" head="making new cells" link="for example"/>
+  </edges>
+</reference_model>

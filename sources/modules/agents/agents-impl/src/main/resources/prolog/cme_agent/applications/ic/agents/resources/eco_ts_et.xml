@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<term_set name="eco" word_order="any">
+  <term name="">
+    <string></string>
+  </term>
+  <term name="Air">
+    <string>õhk</string>
+  </term>
+  <term name="CO2">
+    <string>CO2</string>
+    <string>süsihappegaas</string>
+  </term>
+  <term name="H20">
+    <string>H20</string>
+	<string>water</string>
+  </term>
+  <term name="Land">
+    <string>maa</string>
+    <string>pinnas</string>
+    <string>muld</string>
+  </term>
+  <term name="N">
+    <string>lämmastik</string>
+    <string>N</string>
+  </term>
+  <term name="O2">
+    <string>hapnik</string>
+    <string>O2</string>
+  </term>
+  <term name="P">
+    <string>P</string>
+    <string>fosfor</string>
+  </term>
+  <term name="Water">
+    <string>vesi</string>
+    <string>H2O</string>
+  </term>
+  <term name="abiotic factors">
+    <string>abiootilised tegurid</string>
+    <string>abiootilised faktorid</string>
+    <string>eluta looduse tegurid</string>
+    <string>eluta looduse faktorid</string>
+  </term>
+  <term name="abundance">
+    <string>hulk</string>
+    <string>tase</string>
+  </term>
+  <term name="acid rain">
+    <string>happevihm</string>
+    <string>happesademed</string>
+  </term>
+  <term name="algae">
+    <string>vetikad</string>
+  </term>
+  <term name="are">
+    <string>on</string>
+  </term>
+  <term name="biomass growth">
+    <string>biomassi kasv</string>
+    <string>biomassi suurenemine</string>
+  </term>
+  <term name="biotic factors">
+    <string>biootilised tegurid</string>
+    <string>biootilised faktorid</string>
+    <string>eluslooduse tegurid</string>
+    <string>eluslooduse faktorid</string>
+  </term>
+  <term name="buffering capacity">
+    <string>puhverdusvõime</string>
+  </term>
+  <term name="cause">
+    <string>põhjustab</string>
+    <string>tekitab</string>
+  </term>
+  <term name="causes">
+    <string>põhjustab</string>
+    <string>tekitab</string>
+  </term>
+  <term name="characterizes">
+    <string>kirjeldab</string>
+    <string>iseloomustab</string>
+  </term>
+  <term name="consumers">
+    <string>tarbijad</string>
+    <string>tarbija</string>
+    <string>konsument</string>
+  </term>
+  <term name="decomposers">
+    <string>lagundaja</string>
+    <string>lagundajad</string>
+  </term>
+  <term name="energy">
+    <string>energia</string>
+  </term>
+  <term name="eutrophication">
+    <string>eutrofeerumine</string>
+    <string>toitelisuse kasv</string>
+  </term>
+  <term name="feed on">
+    <string>toituvad</string>
+  </term>
+  <term name="flow">
+    <string>voog</string>
+    <string>liikumine</string>
+  </term>
+  <term name="glucose">
+    <string>glükoos</string>
+    <string>suhkur</string>
+    <string>suhkrud</string>
+    <string>sahhariidid</string>
+  </term>
+  <term name="granite">
+    <string>graniit</string>
+  </term>
+  <term name="ground type">
+    <string>pinnase tüüp</string>
+  </term>
+  <term name="has">
+    <string>on</string>
+    <string>omab</string>
+  </term>
+  <term name="have">
+    <string>on</string>
+    <string>omab</string>
+  </term>
+  <term name="herbivores">
+    <string>herbivoorid</string>
+    <string>taimtoidulised</string>
+  </term>
+  <term name="include">
+    <string>sisaldab</string>
+    <string>koosneb</string>
+  </term>
+  <term name="includes">
+    <string>sisaldab</string>
+    <string>koosneb</string>
+  </term>
+  <term name="influence">
+    <string>mõjub</string>
+    <string>mõjutab</string>
+  </term>
+  <term name="influences">
+    <string>mõjub</string>
+    <string>mõjutab</string>
+  </term>
+  <term name="intensity">
+    <string>tugevus</string>
+    <string>intensiivsus</string>
+    <string>tase</string>
+  </term>
+  <term name="interactions">
+    <string>seosed</string>
+  </term>
+  <term name="is">
+    <string>on</string>
+  </term>
+  <term name="is transferred between">
+    <string>kantakse üle</string>
+  </term>
+  <term name="light">
+    <string>valgus</string>
+    <string>valgustatus</string>
+  </term>
+  <term name="limestone">
+    <string>paekivi</string>
+    <string>lubjakivi</string>
+  </term>
+  <term name="nitrate">
+    <string>nitraat</string>
+    <string>NO3</string>
+  </term>
+  <term name="nutrients">
+    <string>toitained</string>
+  </term>
+  <term name="organisms">
+    <string>organismid</string>
+    <string>elusolendid</string>
+  </term>
+  <term name="pH">
+    <string>pH</string>
+  </term>
+  <term name="pH indicators">
+    <string>pH indikaatorid</string>
+  </term>
+  <term name="part of">
+    <string>osa</string>
+    <string>koosneb</string>
+  </term>
+  <term name="phosphate">
+    <string>PO4</string>
+  </term>
+  <term name="photosynthesis">
+    <string>fotosüntees</string>
+  </term>
+  <term name="phytoplankton">
+    <string>fütoplankton</string>
+    <string>taimhõljum</string>
+  </term>
+  <term name="pikes">
+    <string>haugid</string>
+    <string>haug</string>
+  </term>
+  <term name="plants">
+    <string>taimed</string>
+    <string>taim</string>
+    <string>autotroofid</string>
+    <string>autotroof</string>
+  </term>
+  <term name="population size">
+    <string>populatsiooni suurus</string>
+  </term>
+  <term name="predators">
+    <string>kiskjad</string>
+  </term>
+  <term name="preys">
+    <string>saakloomad</string>
+  </term>
+  <term name="primary consumers">
+    <string>esmased tarbijad</string>
+    <string>taimtoidulised</string>
+    <string>esimese astme tarbijad</string>
+  </term>
+  <term name="primary production">
+    <string>esmane produktsioon</string>
+    <string>primaarproduktsioon</string>
+  </term>
+  <term name="producers">
+    <string>tootjad</string>
+    <string>autotroofid</string>
+  </term>
+  <term name="product of">
+    <string>produkt</string>
+    <string>saadus</string>
+  </term>
+  <term name="range of tolerance">
+    <string>taluvusmäär</string>
+    <string>taluvusualtus</string>
+    <string>taluvusamplituud</string>
+  </term>
+  <term name="respiration">
+    <string>hingamine</string>
+  </term>
+  <term name="roaches">
+    <string>ahven</string>
+    <string>ahvenad</string>
+  </term>
+  <term name="salinity">
+    <string>soolsus</string>
+  </term>
+  <term name="salts">
+    <string>soolad</string>
+    <string>sool</string>
+  </term>
+  <term name="sand">
+    <string>liiv</string>
+  </term>
+  <term name="secondary consumers">
+    <string>teise astme tarbijad</string>
+    <string>sekundaarsed konsumendid</string>
+    <string>sekundaarsed tarbijad</string>
+  </term>
+  <term name="temperature">
+    <string>temperatuur</string>
+    <string>soojus</string>
+  </term>
+  <term name="tertiary consumers">
+    <string>kolmanda astme tarbijad</string>
+    <string>tertsiaarsed konsumendid</string>
+    <string>tertsiaarsed tarbijad</string>
+  </term>
+  <term name="trophic levels">
+    <string>troofilised tasemed</string>
+  </term>
+</term_set>

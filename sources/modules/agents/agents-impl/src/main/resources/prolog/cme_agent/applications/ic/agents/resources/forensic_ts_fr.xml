@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<term_set name="unknown" word_order="any">
+  <term name="Chemical substance">
+    <string>Substance chimique</string>
+  </term>
+  <term name="Chemical tests">
+    <string>Les test chimiques</string>
+  </term>
+  <term name="Chromatography">
+    <string>Chromatographie</string>
+    <string>Techniques de chromatographie</string>
+  </term>
+  <term name="Column chromatography">
+    <string>Chromatographie sur colonne</string>
+  </term>
+  <term name="Controls">
+    <string>Controles</string>
+  </term>
+  <term name="Decantation">
+    <string>Décantation</string>
+  </term>
+  <term name="Distillation">
+    <string>Distillation</string>
+  </term>
+  <term name="Extraction">
+    <string>Extraction par solvant</string>
+    <string>Extraction</string>
+  </term>
+  <term name="Filtration">
+    <string>Filtration</string>
+  </term>
+  <term name="HPLC">
+    <string>HOKC</string>
+  </term>
+  <term name="Hydrodistillation">
+    <string>Hydrodistillation</string>
+    <string>Entraînement à la vapeur</string>
+  </term>
+  <term name="Identification technique">
+    <string>Techniques d'identification</string>
+  </term>
+  <term name="Mobile phase">
+    <string>Phase mobile</string>
+    <string>Eluant</string>
+  </term>
+  <term name="Physico-chemical properties">
+    <string>Les proprietes physici-chimiques</string>
+  </term>
+  <term name="Rf">
+    <string>Rf</string>
+  </term>
+  <term name="Separation technique">
+    <string>Technique de separation</string>
+  </term>
+  <term name="Solubility">
+    <string>Solubilité</string>
+  </term>
+  <term name="Solution">
+    <string>Solution</string>
+  </term>
+  <term name="Solvant">
+    <string>Solvant</string>
+  </term>
+  <term name="Spectroscopy">
+    <string>Spectroscopie</string>
+  </term>
+  <term name="Static phase">
+    <string>Phase stationnaire</string>
+    <string>Plaque de chromatographie</string>
+    <string>Plaque CCM</string>
+  </term>
+  <term name="TLC">
+    <string>CCM</string>
+    <string>Chromatographie sur couche mince</string>
+  </term>
+  <term name="characterizes">
+    <string>caracterise</string>
+  </term>
+  <term name="depends on">
+    <string>depend de</string>
+  </term>
+  <term name="has a">
+    <string>a</string>
+  </term>
+  <term name="is a">
+    <string>est</string>
+  </term>
+  <term name="is composed of">
+    <string>est fait d'une</string>
+  </term>
+  <term name="necessitates">
+    <string>necessite</string>
+  </term>
+</term_set>

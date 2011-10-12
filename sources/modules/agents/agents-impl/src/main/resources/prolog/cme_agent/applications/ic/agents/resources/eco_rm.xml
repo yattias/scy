@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<reference_model name="eco" notation="cmap">
+  <nodes>
+    <node term="respiration"/>
+    <node term="Water"/>
+    <node term="pH"/>
+    <node term="pH indicators"/>
+    <node term="Land"/>
+    <node term="consumers"/>
+    <node term="herbivores"/>
+    <node term="CO2"/>
+    <node term="energy"/>
+    <node term="population size"/>
+    <node term="trophic levels"/>
+    <node term="glucose"/>
+    <node term="Air"/>
+    <node term="pikes"/>
+    <node term="flow"/>
+    <node term="Land"/>
+    <node term="producers"/>
+    <node term="primary consumers"/>
+    <node term="acid rain"/>
+    <node term="decomposers"/>
+    <node term="nitrate"/>
+    <node term="light"/>
+    <node term="sand"/>
+    <node term="primary production"/>
+    <node term="photosynthesis"/>
+    <node term="algae"/>
+    <node term="interactions"/>
+    <node term="H20"/>
+    <node term="abundance"/>
+    <node term="roaches"/>
+    <node term="P"/>
+    <node term="tertiary consumers"/>
+    <node term="organisms"/>
+    <node term="phytoplankton"/>
+    <node term="O2"/>
+    <node term="range of tolerance"/>
+    <node term="limestone"/>
+    <node term="biotic factors"/>
+    <node term="N"/>
+    <node term="predators"/>
+    <node term="intensity"/>
+    <node term="buffering capacity"/>
+    <node term="plants"/>
+    <node term="salinity"/>
+    <node term="temperature"/>
+    <node term="preys"/>
+    <node term="salts"/>
+    <node term="secondary consumers"/>
+    <node term="phosphate"/>
+    <node term="abiotic factors"/>
+    <node term=""/>
+    <node term="eutrophication"/>
+    <node term="nutrients"/>
+    <node term="biomass growth"/>
+    <node term="granite"/>
+    <node term="ground type"/>
+  </nodes>
+  <links>
+    <link term="are"/>
+    <link term="influences"/>
+    <link term="is"/>
+    <link term="has"/>
+    <link term="characterizes"/>
+    <link term="causes"/>
+    <link term="cause"/>
+    <link term="includes"/>
+    <link term="product of"/>
+    <link term="influence"/>
+    <link term="part of"/>
+    <link term="include"/>
+    <link term="is transferred between"/>
+    <link term="have"/>
+    <link term="feed on"/>
+  </links>
+  <edges>
+    <edge tail="roaches" head="preys" link="are"/>
+    <edge tail="limestone" head="pH" link="influences"/>
+    <edge tail="H20" head="abiotic factors" link="is"/>
+    <edge tail="Water" head="flow" link="has"/>
+    <edge tail="organisms" head="abundance" link="characterizes"/>
+    <edge tail="eutrophication" head="decomposers" link="influences"/>
+    <edge tail="eutrophication" head="producers" link="influences"/>
+    <edge tail="predators" head="consumers" link="are"/>
+    <edge tail="trophic levels" head="consumers" link="are"/>
+    <edge tail="algae" head="producers" link="are"/>
+    <edge tail="trophic levels" head="decomposers" link="are"/>
+    <edge tail="primary consumers" head="herbivores" link="are"/>
+    <edge tail="light" head="energy" link="causes"/>
+    <edge tail="phytoplankton" head="eutrophication" link="causes"/>
+    <edge tail="plants" head="photosynthesis" link="cause"/>
+    <edge tail="organisms" head="trophic levels" link="characterizes"/>
+    <edge tail="temperature" head="abiotic factors" link="is"/>
+    <edge tail="light" head="photosynthesis" link="causes"/>
+    <edge tail="light" head="abiotic factors" link="is"/>
+    <edge tail="biotic factors" head="interactions" link="are"/>
+    <edge tail="buffering capacity" head="pH" link="influences"/>
+    <edge tail="ground type" head="limestone" link="includes"/>
+    <edge tail="CO2" head="respiration" link="product of"/>
+    <edge tail="consumers" head="primary consumers" link="are"/>
+    <edge
+	tail="range of tolerance"
+	head="temperature"
+	link="influence"/>
+    <edge tail="pikes" head="predators" link="are"/>
+    <edge tail="nutrients" head="nitrate" link="is"/>
+    <edge tail="phytoplankton" head="algae" link="part of"/>
+    <edge tail="primary consumers" head="plants" link="influence"/>
+    <edge tail="light" head="intensity" link="characterizes"/>
+    <edge tail="eutrophication" head="consumers" link="influences"/>
+    <edge tail="phytoplankton" head="photosynthesis" link="cause"/>
+    <edge tail="trophic levels" head="producers" link="include"/>
+    <edge tail="O2" head="photosynthesis" link="product of"/>
+    <edge tail="primary consumers" head="producers" link="influence"/>
+    <edge tail="phosphate" head="P" link="part of"/>
+    <edge tail="pH indicators" head="pH" link="characterizes"/>
+    <edge tail="Land" head="ground type" link="has"/>
+    <edge
+	tail="energy"
+	head="trophic levels"
+	link="is transferred between"/>
+    <edge tail="plants" head="producers" link="are"/>
+    <edge tail="nutrients" head="biomass growth" link="influence"/>
+    <edge tail="O2" head="respiration" link="influences"/>
+    <edge tail="biotic factors" head="trophic levels" link="are"/>
+    <edge tail="ground type" head="sand" link="characterizes"/>
+    <edge tail="decomposers" head="producers" link="influence"/>
+    <edge tail="flow" head="abiotic factors" link="is"/>
+    <edge tail="decomposers" head="consumers" link="influence"/>
+    <edge tail="CO2" head="photosynthesis" link="influences"/>
+    <edge tail="Air" head="O2" link="part of"/>
+    <edge tail="pikes" head="roaches" link="influence"/>
+    <edge tail="ground type" head="limestone" link="characterizes"/>
+    <edge tail="nutrients" head="abiotic factors" link="is"/>
+    <edge
+	tail="tertiary consumers"
+	head="secondary consumers"
+	link="influence"/>
+    <edge tail="Water" head="H20" link="is"/>
+    <edge tail="Air" head="CO2" link="part of"/>
+    <edge tail="CO2" head="pH" link="influences"/>
+    <edge tail="organisms" head="range of tolerance" link="have"/>
+    <edge
+	tail="eutrophication"
+	head="phytoplankton"
+	link="influences"/>
+    <edge tail="ground type" head="pH" link="influences"/>
+    <edge
+	tail="ground type"
+	head="buffering capacity"
+	link="influences"/>
+    <edge tail="predators" head="preys" link="influence"/>
+    <edge tail="consumers" head="secondary consumers" link="are"/>
+    <edge tail="eutrophication" head="algae" link="influences"/>
+    <edge tail="range of tolerance" head="pH" link="is"/>
+    <edge tail="nutrients" head="phosphate" link="is"/>
+    <edge tail="eutrophication" head="plants" link="influences"/>
+    <edge tail="interactions" head="organisms" link="have"/>
+    <edge tail="salts" head="abiotic factors" link="is"/>
+    <edge tail="glucose" head="respiration" link="causes"/>
+    <edge tail="salts" head="salinity" link="cause"/>
+    <edge tail="phytoplankton" head="producers" link="are"/>
+    <edge tail="pH" head="abiotic factors" link="is"/>
+    <edge tail="energy" head="photosynthesis" link="influences"/>
+    <edge tail="glucose" head="photosynthesis" link="product of"/>
+    <edge tail="nutrients" head="P" link="is"/>
+    <edge tail="eutrophication" head="producers" link="influences"/>
+    <edge tail="nutrients" head="primary production" link="influence"/>
+    <edge tail="acid rain" head="pH" link="influences"/>
+    <edge tail="preys" head="consumers" link="are"/>
+    <edge tail="herbivores" head="plants" link="influence"/>
+    <edge tail="nutrients" head="N" link="is"/>
+    <edge
+	tail="range of tolerance"
+	head="abiotic factors"
+	link="characterizes"/>
+    <edge
+	tail="secondary consumers"
+	head="primary consumers"
+	link="feed on"/>
+    <edge tail="ground type" head="granite" link="characterizes"/>
+    <edge tail="algae" head="photosynthesis" link="cause"/>
+    <edge tail="CO2" head="abiotic factors" link="is"/>
+    <edge tail="H20" head="photosynthesis" link="influences"/>
+    <edge
+	tail="abundance"
+	head="population size"
+	link="characterizes"/>
+    <edge tail="consumers" head="tertiary consumers" link="are"/>
+    <edge tail="biomass growth" head="eutrophication" link="causes"/>
+    <edge tail="nitrate" head="N" link="part of"/>
+    <edge tail="O2" head="abiotic factors" link="is"/>
+    <edge tail="" head="N" link="part of"/>
+    <edge
+	tail="limestone"
+	head="buffering capacity"
+	link="influences"/>
+  </edges>
+</reference_model>

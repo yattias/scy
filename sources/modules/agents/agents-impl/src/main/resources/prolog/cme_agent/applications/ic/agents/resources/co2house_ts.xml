@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<term_set name="co2house" word_order="any">
+  <term name="AirQuality">
+    <string>lucht kwaliteit</string>
+  </term>
+  <term name="BioenergyPower">
+    <string>schone energie</string>
+  </term>
+  <term name="CO2Emission">
+    <string>co2 emissie/string>
+  </term>
+  <term name="CoalPower">
+    <string>kolen centrale</string>
+  </term>
+  <term name="ConstructionCosts">
+    <string>constructie kosten</string>
+  </term>
+  <term name="Deforestation">
+    <string>ontbossing</string>
+  </term>
+  <term name="Farming">
+    <string>landbouw</string>
+  </term>
+  <term name="FossilFuel">
+    <string>fossiele brandstoffen</string>
+  </term>
+  <term name="HighSunshineDuration">
+    <string>lang zonne schijn duur</string>
+  </term>
+  <term name="HighWindSpeed">
+    <string>hoge wind snelheid</string>
+  </term>
+  <term name="IncinerationPower">
+    <string>vergassing centrale</string>
+  </term>
+  <term name="Insulation">
+    <string>insulatie</string>
+  </term>
+  <term name="MaintenanceCosts">
+    <string>onderhouds kosten</string>
+  </term>
+  <term name="NaturalGasPower">
+    <string>lpg</string>
+    <string>gas centrale</string>
+  </term>
+  <term name="NecessityForHeating">
+    <string>noodzaak voor verhitting</string>
+  </term>
+  <term name="OutdoorTemperature">
+    <string>buiten temperatuur</string>
+  </term>
+  <term name="Pollution">
+    <string>vervuiling</string>
+  </term>
+  <term name="SolarIrradiation">
+    <string>zonne straling</string>
+  </term>
+  <term name="SolarPower">
+    <string>zon kracht</string>
+  </term>
+  <term name="Wind">
+    <string>wind</string>
+  </term>
+  <term name="WindPower">
+    <string>wind kracht</string>
+  </term>
+  <term name="cleanDevelopmentMechanism">
+    <string>schoon ontwikkel mechanisme</string>
+  </term>
+  <term name="decreases">
+    <string>neemt af</string>
+    <string>oorzaak</string>
+  </term>
+  <term name="isDecreasedBy">
+    <string>neemt af door</string>
+  </term>
+  <term name="dependsOn">
+    <string>hangt af van</string>
+  </term>
+  <term name="door">
+    <string>deur</string>
+  </term>
+  <term name="emissionsTrading">
+    <string>verhandelen emissie rechten</string>
+  </term>
+  <term name="energyConsumption">
+    <string>energie consumptie</string>
+    <string>energie gebruik</string>
+  </term>
+  <term name="glacierRetreat">
+    <string>terug trekking gletsjers</string>
+  </term>
+  <term name="glassWool">
+    <string>glas wol</string>
+  </term>
+  <term name="globalWarming">
+    <string>globale opwarming</string>
+  </term>
+  <term name="greenhouseEffect">
+    <string>broei kas effect</string>
+  </term>
+  <term name="greenhouseGas">
+    <string>broei kas gas</string>
+  </term>
+  <term name="hasInfluenceOn">
+    <string>heeft invloed op</string>
+    <string>beinvloed</string>
+  </term>
+  <term name="hasRelationTo">
+    <string>gerelateerd aan</string>
+  </term>
+  <term name="heatConduction">
+    <string>hitte overdracht</string>
+  </term>
+  <term name="heatwave">
+    <string>hitte golf</string>
+  </term>
+  <term name="heavyRain">
+    <string>hevige regen</string>
+  </term>
+  <term name="housePart">
+    <string>huis onderdeel</string>
+  </term>
+  <term name="includes">
+    <string>bevat</string>
+  </term>
+  <term name="increases">
+    <string>neemt toe</string>
+    <string>gevolg</string>
+  </term>
+  <term name="isIncreasedBy">
+    <string>neemt toe door</string>
+  </term>
+  <term name="kyotoProtocol">
+    <string>kyoto protocol</string>
+  </term>
+  <term name="moreExtremeWeather">
+    <string>extreem weer</string>
+  </term>
+  <term name="opening">
+    <string>opening</string>
+  </term>
+  <term name="rockWool">
+    <string>minerale wol</string>
+  </term>
+  <term name="roof">
+    <string>dak</string>
+  </term>
+  <term name="seaLevelRise">
+    <string>stijgende zee spiegel</string>
+  </term>
+  <term name="storms">
+    <string>stormen</string>
+  </term>
+  <term name="styrofoam">
+    <string>styrofoam</string>
+  </term>
+  <term name="thermalBridge">
+    <string>koude brug</string>
+  </term>
+  <term name="vulcanism">
+    <string>vulcanisme</string>
+  </term>
+  <term name="wall">
+    <string accept="false">land</string>
+    <string>wand</string>
+  </term>
+  <term name="wasteProduction">
+    <string>afval productie</string>
+  </term>
+  <term name="window">
+    <string>raam</string>
+  </term>
+  <term name="woodWool">
+    <string>hout wol</string>
+  </term>
+</term_set>

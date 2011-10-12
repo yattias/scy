@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<reference_model name="co2house" notation="cmap" term_set="co2house">
+  <nodes>
+    <node term="AirQuality"/>
+    <node term="BioenergyPower"/>
+    <node term="CO2Emission"/>
+    <node term="CoalPower"/>
+    <node term="ConstructionCosts"/>
+    <node term="Deforestation"/>
+    <node term="Farming"/>
+    <node term="FossilFuel"/>
+    <node term="HighSunshineDuration"/>
+    <node term="HighWindSpeed"/>
+    <node term="IncinerationPower"/>
+    <node term="Insulation"/>
+    <node term="MaintenanceCosts"/>
+    <node term="NaturalGasPower"/>
+    <node term="NecessityForHeating"/>
+    <node term="OutdoorTemperature"/>
+    <node term="Pollution"/>
+    <node term="SolarIrradiation"/>
+    <node term="SolarPower"/>
+    <node term="Wind"/>
+    <node term="WindPower"/>
+    <node term="cleanDevelopmentMechanism"/>
+    <node term="door"/>
+    <node term="emissionsTrading"/>
+    <node term="energyConsumption"/>
+    <node term="glacierRetreat"/>
+    <node term="glassWool"/>
+    <node term="globalWarming"/>
+    <node term="greenhouseEffect"/>
+    <node term="greenhouseGas"/>
+    <node term="heatConduction"/>
+    <node term="heatwave"/>
+    <node term="heavyRain"/>
+    <node term="housePart"/>
+    <node term="kyotoProtocol"/>
+    <node term="moreExtremeWeather"/>
+    <node term="opening"/>
+    <node term="rockWool"/>
+    <node term="roof"/>
+    <node term="seaLevelRise"/>
+    <node term="storms"/>
+    <node term="styrofoam"/>
+    <node term="thermalBridge"/>
+    <node term="vulcanism"/>
+    <node term="wall"/>
+    <node term="wasteProduction"/>
+    <node term="window"/>
+    <node term="woodWool"/>
+  </nodes>
+  <links>
+    <link term="decreases" inverse="isDecreasedBy"/>
+    <link term="dependsOn" inverse="isPrerequisiteOf"/>
+    <link term="hasInfluenceOn"/>
+    <link term="hasRelationTo"/>
+    <link term="includes"/>
+    <link term="increases" inverse="isIncreasedBy"/>
+  </links>
+  <edges>
+    <edge
+	tail="globalWarming"
+	head="moreExtremeWeather"
+	link="increases"/>
+    <edge
+	tail="cleanDevelopmentMechanism"
+	head="emissionsTrading"
+	link="hasRelationTo"/>
+    <edge tail="vulcanism" head="greenhouseEffect" link="increases"/>
+    <edge tail="FossilFuel" head="Pollution" link="increases"/>
+    <edge tail="FossilFuel" head="CO2Emission" link="increases"/>
+    <edge tail="woodWool" head="Insulation" link="increases"/>
+    <edge tail="glassWool" head="Insulation" link="increases"/>
+    <edge tail="globalWarming" head="glacierRetreat" link="increases"/>
+    <edge tail="housePart" head="opening" link="includes"/>
+    <edge tail="housePart" head="wall" link="includes"/>
+    <edge tail="housePart" head="roof" link="includes"/>
+    <edge
+	tail="emissionsTrading"
+	head="cleanDevelopmentMechanism"
+	link="hasRelationTo"/>
+    <edge tail="NaturalGasPower" head="CO2Emission" link="increases"/>
+    <edge tail="globalWarming" head="heatwave" link="increases"/>
+    <edge tail="CoalPower" head="Pollution" link="increases"/>
+    <edge tail="CoalPower" head="CO2Emission" link="increases"/>
+    <edge tail="SolarPower" head="MaintenanceCosts" link="decreases"/>
+    <edge tail="SolarPower" head="SolarIrradiation" link="dependsOn"/>
+    <edge tail="SolarPower" head="ConstructionCosts" link="increases"/>
+    <edge
+	tail="BioenergyPower"
+	head="MaintenanceCosts"
+	link="decreases"/>
+    <edge
+	tail="BioenergyPower"
+	head="ConstructionCosts"
+	link="increases"/>
+    <edge
+	tail="greenhouseGas"
+	head="greenhouseEffect"
+	link="increases"/>
+    <edge tail="globalWarming" head="seaLevelRise" link="increases"/>
+    <edge
+	tail="IncinerationPower"
+	head="wasteProduction"
+	link="dependsOn"/>
+    <edge tail="globalWarming" head="storms" link="increases"/>
+    <edge tail="opening" head="window" link="includes"/>
+    <edge tail="opening" head="door" link="includes"/>
+    <edge
+	tail="heatConduction"
+	head="Insulation"
+	link="hasInfluenceOn"/>
+    <edge
+	tail="energyConsumption"
+	head="MaintenanceCosts"
+	link="increases"/>
+    <edge tail="globalWarming" head="heatwave" link="increases"/>
+    <edge tail="globalWarming" head="heavyRain" link="increases"/>
+    <edge
+	tail="greenhouseEffect"
+	head="globalWarming"
+	link="increases"/>
+    <edge tail="globalWarming" head="seaLevelRise" link="increases"/>
+    <edge
+	tail="globalWarming"
+	head="moreExtremeWeather"
+	link="increases"/>
+    <edge tail="globalWarming" head="storms" link="increases"/>
+    <edge tail="globalWarming" head="glacierRetreat" link="increases"/>
+    <edge tail="Pollution" head="AirQuality" link="decreases"/>
+    <edge tail="WindPower" head="Wind" link="dependsOn"/>
+    <edge tail="SolarPower" head="ConstructionCosts" link="increases"/>
+    <edge
+	tail="BioenergyPower"
+	head="ConstructionCosts"
+	link="increases"/>
+    <edge
+	tail="IncinerationPower"
+	head="CO2Emission"
+	link="increases"/>
+    <edge tail="IncinerationPower" head="Pollution" link="increases"/>
+    <edge
+	tail="IncinerationPower"
+	head="wasteProduction"
+	link="dependsOn"/>
+    <edge
+	tail="SolarIrradiation"
+	head="OutdoorTemperature"
+	link="increases"/>
+    <edge
+	tail="SolarIrradiation"
+	head="greenhouseEffect"
+	link="hasRelationTo"/>
+    <edge
+	tail="SolarIrradiation"
+	head="HighSunshineDuration"
+	link="hasRelationTo"/>
+    <edge tail="SolarPower" head="SolarIrradiation" link="dependsOn"/>
+    <edge tail="styrofoam" head="Insulation" link="increases"/>
+    <edge tail="rockWool" head="Insulation" link="increases"/>
+    <edge
+	tail="SolarIrradiation"
+	head="OutdoorTemperature"
+	link="increases"/>
+    <edge
+	tail="greenhouseEffect"
+	head="OutdoorTemperature"
+	link="increases"/>
+    <edge
+	tail="OutdoorTemperature"
+	head="NecessityForHeating"
+	link="hasRelationTo"/>
+    <edge tail="vulcanism" head="greenhouseEffect" link="increases"/>
+    <edge tail="CO2Emission" head="greenhouseEffect" link="increases"/>
+    <edge
+	tail="greenhouseGas"
+	head="greenhouseEffect"
+	link="increases"/>
+    <edge
+	tail="greenhouseEffect"
+	head="OutdoorTemperature"
+	link="increases"/>
+    <edge
+	tail="greenhouseEffect"
+	head="globalWarming"
+	link="increases"/>
+    <edge
+	tail="greenhouseEffect"
+	head="SolarIrradiation"
+	link="hasRelationTo"/>
+    <edge
+	tail="Deforestation"
+	head="greenhouseEffect"
+	link="increases"/>
+    <edge tail="FossilFuel" head="CO2Emission" link="increases"/>
+    <edge tail="CO2Emission" head="greenhouseEffect" link="increases"/>
+    <edge tail="Farming" head="CO2Emission" link="increases"/>
+    <edge tail="CoalPower" head="CO2Emission" link="increases"/>
+    <edge
+	tail="IncinerationPower"
+	head="CO2Emission"
+	link="increases"/>
+    <edge tail="NaturalGasPower" head="CO2Emission" link="increases"/>
+    <edge tail="kyotoProtocol" head="CO2Emission" link="decreases"/>
+    <edge
+	tail="energyConsumption"
+	head="MaintenanceCosts"
+	link="increases"/>
+    <edge tail="SolarPower" head="MaintenanceCosts" link="decreases"/>
+    <edge
+	tail="BioenergyPower"
+	head="MaintenanceCosts"
+	link="decreases"/>
+    <edge tail="FossilFuel" head="Pollution" link="increases"/>
+    <edge tail="IncinerationPower" head="Pollution" link="increases"/>
+    <edge tail="CoalPower" head="Pollution" link="increases"/>
+    <edge tail="Pollution" head="AirQuality" link="decreases"/>
+    <edge tail="thermalBridge" head="Insulation" link="decreases"/>
+    <edge tail="thermalBridge" head="Insulation" link="decreases"/>
+    <edge tail="styrofoam" head="Insulation" link="increases"/>
+    <edge tail="woodWool" head="Insulation" link="increases"/>
+    <edge tail="glassWool" head="Insulation" link="increases"/>
+    <edge tail="rockWool" head="Insulation" link="increases"/>
+    <edge tail="WindPower" head="Wind" link="dependsOn"/>
+    <edge tail="Wind" head="HighWindSpeed" link="hasRelationTo"/>
+    <edge tail="kyotoProtocol" head="CO2Emission" link="decreases"/>
+    <edge
+	tail="kyotoProtocol"
+	head="cleanDevelopmentMechanism"
+	link="includes"/>
+    <edge tail="Farming" head="CO2Emission" link="increases"/>
+    <edge
+	tail="HighSunshineDuration"
+	head="SolarIrradiation"
+	link="hasRelationTo"/>
+    <edge tail="globalWarming" head="heavyRain" link="increases"/>
+    <edge
+	tail="Deforestation"
+	head="greenhouseEffect"
+	link="increases"/>
+  </edges>
+</reference_model>
