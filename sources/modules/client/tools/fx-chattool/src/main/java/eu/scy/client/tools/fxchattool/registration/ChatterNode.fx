@@ -137,7 +137,7 @@ public class ChatterNode extends CustomNode, Resizable, ScyToolFX, IChat {
     }
 
     public function addMessage(time: String, name: String, text: String, isSystemMessage: Boolean): Void {
-        if (not time.equalsIgnoreCase(lastTime) and not isSystemMessage) {
+        if (not time.equalsIgnoreCase(lastTime)) {
             insert SystemLine {
                 text: time
                 layoutWidth: bind content.layoutBounds.width
@@ -158,6 +158,7 @@ public class ChatterNode extends CustomNode, Resizable, ScyToolFX, IChat {
                         vgrow: Priority.ALWAYS
                     }
                 } into chatLines.content;
+                sv.vvalue = sv.vmax;
             }
             return;
         }
