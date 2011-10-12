@@ -222,7 +222,7 @@ public class MultiLanguageAuthorSaveAsNodeDesign extends EloSaveAsMixin {
    }
 
    function saveButtonAction(): Void {
-      saveAction(this)
+      saveAction(this, true)
    }
 
    function updateSaveState(): Void {
