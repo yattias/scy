@@ -22,6 +22,7 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorFX;
 import roolo.elo.metadata.keys.Contribute;
+import java.net.URLEncoder;
 
 
 /**
@@ -54,16 +55,16 @@ public class ChattoolDrawerContentCreatorFX extends ScyToolCreatorFX {
             var identifierKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId());
             var firstVersionELOURI = metadataFirstVersion.getMetadataValueContainer(identifierKey).getValue() as URI;
 
-            var s = firstVersionELOURI.toString();
+            var roomId = firstVersionELOURI.toString();
 
-            s = StringUtils.remove(s, "/");
-            s = StringUtils.remove(s, ".");
-            s = StringUtils.remove(s, ":");
-            chatController = chatControllerMap.get(s) as ChatController;
+            roomId = StringUtils.remove(roomId, "/");
+            roomId = StringUtils.remove(roomId, ".");
+            roomId = StringUtils.remove(roomId, ":");
+            chatController = chatControllerMap.get(roomId) as ChatController;
 
             if( chatController == null ) {
-                chatController = new MUCChatController(awarenessService, s);
-                chatControllerMap.put(s, chatController);
+                chatController = new MUCChatController(awarenessService, roomId);
+                chatControllerMap.put(roomId, chatController);
             }
             def chattool = ChatterNode{
                 chatController: chatController
@@ -74,6 +75,7 @@ public class ChattoolDrawerContentCreatorFX extends ScyToolCreatorFX {
             def presenceListener = PresenceListener {
                 ownershipManager: scyWindow.ownershipManager;
                 chattool: chattool;
+                roomId: roomId;
             };
 
             chatController.getAwarenessService().addAwarenessPresenceListener(presenceListener);
