@@ -88,30 +88,23 @@ public class Archiver extends CustomNode, DropTarget2 {
 
    override public function acceptDrop(object: Object): Void {
     ProgressOverlay.startShowWorking();
+    var scyElo;
     XFX.runActionInBackgroundAndCallBack(function(): Object {
-        def scyElo = getArchivebleScyElo(object);
+        scyElo = getArchivebleScyElo(object);
         if (scyElo != null) {
-            archiveScyElo(scyElo);
-            logger.info("archieved elo: {scyElo}");
-            return null;
-        }
-        if (object instanceof ScyWindow) {
-            archiveScyWindow(object as ScyWindow);
+            missionMapModel.addArchivedElo(new ArchivedElo(scyElo));
         }
         return null;
     }, function(o : Object) {
+        if (scyElo != null) {
+            scyWindowControl.removeOtherScyWindow(scyElo.getUri());
+        }
+        if (object instanceof ScyWindow) {
+            scyWindowControl.removeOtherScyWindow(object as ScyWindow);
+        }
         ProgressOverlay.stopShowWorking();
     });
 }
-
-   function archiveScyElo(scyElo: ScyElo):Void{
-      scyWindowControl.removeOtherScyWindow(scyElo.getUri());
-      missionMapModel.addArchivedElo(new ArchivedElo(scyElo));
-   }
-
-   function archiveScyWindow(window: ScyWindow):Void{
-      scyWindowControl.removeOtherScyWindow(window);
-   }
 
    function getArchivebleScyElo(object: Object): ScyElo{
       def scyElo = getScyElo(object);
@@ -133,6 +126,4 @@ public class Archiver extends CustomNode, DropTarget2 {
       }
       return null;
    }
-
-
 }
