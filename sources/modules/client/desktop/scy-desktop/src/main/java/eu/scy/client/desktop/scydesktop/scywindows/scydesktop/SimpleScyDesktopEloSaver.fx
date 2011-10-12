@@ -185,6 +185,10 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
    }
 
    function saveAction(eloSaveAsPanel: EloSaveAsMixin): Void {
+       saveAction(eloSaveAsPanel, false);
+   }
+   
+   function saveAction(eloSaveAsPanel: EloSaveAsMixin, showBubbleAfterSaving: Boolean): Void {
       def elo = eloSaveAsPanel.elo;
       def scyElo = eloSaveAsPanel.scyElo;
       addThumbnail(scyElo);
@@ -217,17 +221,16 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
              myEloChanged.myEloChanged(scyElo);
           }
           scyToolActionLogger.eloSaved(elo);
-          return eloSaveAsPanel as Object;
-      }, afterSaveAction);
-   }
-
-   function afterSaveAction(eloSaveAsPanelObject : Object) {
-      def eloSaveAsPanel = eloSaveAsPanelObject as EloSaveAsMixin;
-      def elo = eloSaveAsPanel.elo;
-      eloSaveAsPanel.eloSaverCallBack.eloSaved(elo);
-      eloSaveAsPanel.modalDialogBox.close();
-      ProgressOverlay.stopShowWorking();
-      showEloSaved();
+          return null;
+      }, function (o : Object) {
+          def elo = eloSaveAsPanel.elo;
+          eloSaveAsPanel.eloSaverCallBack.eloSaved(elo);
+          eloSaveAsPanel.modalDialogBox.close();
+          ProgressOverlay.stopShowWorking();
+          if (showBubbleAfterSaving) {
+            showEloSaved();
+          }
+      });
    }
 
    function cancelAction(eloSaveAsPanel: EloSaveAsMixin): Void {

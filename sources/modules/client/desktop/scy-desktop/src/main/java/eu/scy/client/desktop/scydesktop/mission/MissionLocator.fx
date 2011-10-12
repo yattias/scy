@@ -191,7 +191,7 @@ public class MissionLocator {
               }
    }
 
-   function createBlankMissionAction(eloSaveAsMixin: EloSaveAsMixin): Void {
+   function createBlankMissionAction(eloSaveAsMixin: EloSaveAsMixin, showFeedbackPopup: Boolean): Void {
 
       XFX.runActionInBackgroundAndCallBack(function(): Object {
          eloSaveAsMixin.modalDialogBox.close();
