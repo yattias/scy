@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<term_set name="unknown" word_order="any">
+  <term name="Chemical substance">
+    <string>Chemical substance</string>
+  </term>
+  <term name="Chemical tests">
+    <string>Chemical tests</string>
+  </term>
+  <term name="Chromatography">
+    <string>Chromatography</string>
+  </term>
+  <term name="Column chromatography">
+    <string>Column chromatography</string>
+  </term>
+  <term name="Controls">
+    <string>Controls</string>
+  </term>
+  <term name="Decantation">
+    <string>Decantation</string>
+  </term>
+  <term name="Distillation">
+    <string>Distillation</string>
+  </term>
+  <term name="Extraction">
+    <string>Extraction</string>
+  </term>
+  <term name="Filtration">
+    <string>Filtration</string>
+  </term>
+  <term name="HPLC">
+    <string>HPLC</string>
+  </term>
+  <term name="Hydrodistillation">
+    <string>Hydrodistillation</string>
+  </term>
+  <term name="Identification technique">
+    <string>Identification technique</string>
+  </term>
+  <term name="Mobile phase">
+    <string>Mobile phase</string>
+  </term>
+  <term name="Physico-chemical properties">
+    <string>Physico-chemical properties</string>
+  </term>
+  <term name="Rf">
+    <string>Rf</string>
+  </term>
+  <term name="Separation technique">
+    <string>Separation technique</string>
+  </term>
+  <term name="Solubility">
+    <string>Solubility</string>
+  </term>
+  <term name="Solution">
+    <string>Solution</string>
+  </term>
+  <term name="Solvant">
+    <string>Solvant</string>
+  </term>
+  <term name="Spectroscopy">
+    <string>Spectroscopy</string>
+  </term>
+  <term name="Static phase">
+    <string>Static phase</string>
+  </term>
+  <term name="TLC">
+    <string>TLC</string>
+  </term>
+  <term name="characterizes">
+    <string>characterizes</string>
+  </term>
+  <term name="depends on">
+    <string>depends on</string>
+  </term>
+  <term name="has a">
+    <string>has a</string>
+  </term>
+  <term name="is a">
+    <string>is a</string>
+  </term>
+  <term name="is composed of">
+    <string>is composed of</string>
+  </term>
+  <term name="necessitates">
+    <string>necessitates</string>
+  </term>
+</term_set>

@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<term_set name="eco" word_order="any">
+  <term name="">
+    <string></string>
+  </term>
+  <term name="Air">
+    <string>Air</string>
+  </term>
+  <term name="CO2">
+    <string>CO2</string>
+    <string>carbon dioxide</string>
+  </term>
+  <term name="H20">
+    <string>H20</string>
+    <string>water</string>
+  </term>
+  <term name="Land">
+    <string>Land</string>
+    <string>Soil</string>
+    <string>Earth</string>
+  </term>
+  <term name="N">
+    <string>N</string>
+    <string>nitrogen</string>
+  </term>
+  <term name="O2">
+    <string>O2</string>
+    <string>oxygen</string>
+  </term>
+  <term name="P">
+    <string>P</string>
+    <string>phosophorus</string>
+  </term>
+  <term name="Water">
+    <string>Water</string>
+    <string>H2O</string>
+  </term>
+  <term name="abiotic factors">
+    <string>abiotic factors</string>
+  </term>
+  <term name="abundance">
+    <string>abundance</string>
+    <string>level</string>
+  </term>
+  <term name="acid rain">
+    <string>acid rain</string>
+  </term>
+  <term name="algae">
+    <string>algae</string>
+  </term>
+  <term name="are">
+    <string>are</string>
+    <string>is</string>
+    <string>is a</string>
+  </term>
+  <term name="biomass growth">
+    <string>biomass growth</string>
+    <string>biomass increase</string>
+  </term>
+  <term name="biotic factors">
+    <string>biotic factors</string>
+  </term>
+  <term name="buffering capacity">
+    <string>buffering capacity</string>
+  </term>
+  <term name="cause">
+    <string>cause</string>
+    <string>causes</string>
+  </term>
+  <term name="causes">
+    <string>causes</string>
+    <string>cause</string>
+  </term>
+  <term name="characterizes">
+    <string>characterizes</string>
+    <string>describes</string>
+  </term>
+  <term name="consumers">
+    <string>consumers</string>
+    <string>consumer</string>
+  </term>
+  <term name="decomposers">
+    <string>decomposers</string>
+    <string>decomposer</string>
+  </term>
+  <term name="energy">
+    <string>energy</string>
+  </term>
+  <term name="eutrophication">
+    <string>eutrophication</string>
+  </term>
+  <term name="feed on">
+    <string>feed on</string>
+  </term>
+  <term name="flow">
+    <string>flow</string>
+  </term>
+  <term name="glucose">
+    <string>glucose</string>
+    <string>sugar</string>
+    <string>sugars</string>
+    <string>saccharides</string>
+  </term>
+  <term name="granite">
+    <string>granite</string>
+  </term>
+  <term name="ground type">
+    <string>ground type</string>
+    <string>soil type</string>
+  </term>
+  <term name="has">
+    <string>has</string>
+  </term>
+  <term name="have">
+    <string>have</string>
+  </term>
+  <term name="herbivores">
+    <string>herbivores</string>
+  </term>
+  <term name="include">
+    <string>include</string>
+  </term>
+  <term name="includes">
+    <string>includes</string>
+    <string>cosists of</string>
+    <string>consists</string>
+    <string>contains</string>
+  </term>
+  <term name="influence">
+    <string>influence</string>
+    <string>affects</string>
+    <string>affect</string>
+  </term>
+  <term name="influences">
+    <string>influences</string>
+    <string>influence</string>
+    <string>affects</string>
+    <string>affect</string>
+  </term>
+  <term name="intensity">
+    <string>intensity</string>
+    <string>level</string>
+  </term>
+  <term name="interactions">
+    <string>interactions</string>
+    <string>relations</string>
+    <string>connections</string>
+  </term>
+  <term name="is">
+    <string>is</string>
+    <string>are</string>
+    <string>is a</string>
+  </term>
+  <term name="is transferred between">
+    <string>is transferred between</string>
+  </term>
+  <term name="light">
+    <string>light</string>
+  </term>
+  <term name="limestone">
+    <string>limestone</string>
+  </term>
+  <term name="nitrate">
+    <string>nitrate</string>
+    <string>NO3</string>
+  </term>
+  <term name="nutrients">
+    <string>nutrients</string>
+  </term>
+  <term name="organisms">
+    <string>organisms</string>
+  </term>
+  <term name="pH">
+    <string>pH</string>
+  </term>
+  <term name="pH indicators">
+    <string>pH indicators</string>
+  </term>
+  <term name="part of">
+    <string>part of</string>
+    <string>consists of</string>
+  </term>
+  <term name="phosphate">
+    <string>phosphate</string>
+    <string>PO4</string>
+  </term>
+  <term name="photosynthesis">
+    <string>photosynthesis</string>
+  </term>
+  <term name="phytoplankton">
+    <string>phytoplankton</string>
+  </term>
+  <term name="pikes">
+    <string>pikes</string>
+    <string>haug</string>
+  </term>
+  <term name="plants">
+    <string>plants</string>
+    <string>plant</string>
+    <string>autotrophs</string>
+    <string>autotroph</string>
+  </term>
+  <term name="population size">
+    <string>population size</string>
+  </term>
+  <term name="predators">
+    <string>predators</string>
+  </term>
+  <term name="preys">
+    <string>preys</string>
+  </term>
+  <term name="primary consumers">
+    <string>primary consumers</string>
+  </term>
+  <term name="primary production">
+    <string>primary production</string>
+  </term>
+  <term name="producers">
+    <string>producers</string>
+    <string>autotrophs</string>
+  </term>
+  <term name="product of">
+    <string>product of</string>
+  </term>
+  <term name="range of tolerance">
+    <string>range of tolerance</string>
+  </term>
+  <term name="respiration">
+    <string>respiration</string>
+  </term>
+  <term name="roaches">
+    <string>roaches</string>
+    <string>roach</string>
+  </term>
+  <term name="salinity">
+    <string>salinity</string>
+  </term>
+  <term name="salts">
+    <string>salts</string>
+    <string>salt</string>
+  </term>
+  <term name="sand">
+    <string>sand</string>
+  </term>
+  <term name="secondary consumers">
+    <string>secondary consumers</string>
+  </term>
+  <term name="temperature">
+    <string>temperature</string>
+  </term>
+  <term name="tertiary consumers">
+    <string>tertiary consumers</string>
+  </term>
+  <term name="trophic levels">
+    <string>trophic levels</string>
+  </term>
+</term_set>

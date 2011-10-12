@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<term_set name="efs">
+  <term name="ENERGY">
+    <string>ENERGY</string>
+  </term>
+  <term name="Joule">
+    <string>Joule</string>
+  </term>
+  <term name="explain weight">
+    <string>[explain weight]</string>
+  </term>
+  <term name="explain age">
+    <string>[explain age]</string>
+  </term>
+  <term name="explain gender">
+    <string>[explain gender]</string>
+  </term>
+  <term name="activities">
+    <string>activities</string>
+  </term>
+  <term name="age">
+    <string>age</string>
+  </term>
+  <term name="because">
+    <string>because</string>
+  </term>
+  <term name="calorie">
+    <string>calorie</string>
+  </term>
+  <term name="depend on">
+    <string>depend on</string>
+  </term>
+  <term name="energy needs body" word_order="true">
+    <string>energy needs of your body</string>
+  </term>
+  <term name="energy used body" word_order="true">
+    <string>energy used by your body</string>
+  </term>
+  <term name="for">
+    <string>for</string>
+  </term>
+  <term name="for example">
+    <string>for example</string>
+  </term>
+  <term name="gender">
+    <string>gender</string>
+  </term>
+  <term name="is 4.18">
+    <string>is 4.18</string>
+  </term>
+  <term name="is defined as">
+    <string>is defined as</string>
+  </term>
+  <term name="is measured in">
+    <string>is measured in</string>
+  </term>
+  <term name="heart beat" word_order="true">
+    <string>letting your heart beat</string>
+  </term>
+  <term name="making new cells">
+    <string>making new cells</string>
+  </term>
+  <term name="muscle contraction">
+    <string>muscle contraction</string>
+  </term>
+  <term name="other body processes">
+    <string>other body processes</string>
+  </term>
+  <term name="running">
+    <string>running</string>
+  </term>
+  <term name="saliva production">
+    <string>saliva production</string>
+  </term>
+  <term name="talking">
+    <string>talking</string>
+  </term>
+  <term name="definition calorie" word_order="true">
+    <string>the amount of energy to increase the temperature of 1 gram of water by 1 degree Celsius</string>
+  </term>
+  <term name="definition Joule"
+     word_order="true">
+    <string>the amount of energy to produce 1 Watt of power for 1 second</string>
+  </term>
+  <term name="physical work"
+word_order="true">
+    <string>the more physical work you do, the more energy you need</string>
+  </term>
+  <term name="thinking">
+    <string>thinking</string>
+  </term>
+  <term name="weight">
+    <string>weight</string>
+  </term>
+</term_set>

@@ -1,0 +1,49 @@
+<rules>
+
+<rule name="B1" result_type="bool"> 
+  <true at_least="3">
+    <node term="nutrients" status="present"/>
+    <node term="primary production" status="present"/>
+    <node term="producers" status="present"/>
+  </true>
+</rule>
+
+<rule name="B2" result_type="bool"> 
+  <true at_least="5">		<!-- maximum is 7 -->
+    <node term="CO2" status="present"/>
+    <node term="Water" status="present"/>
+    <node term="O2" status="present"/>
+    <node term="glucose" status="present"/>
+    <node term="energy" status="present"/>
+    <node term="light" status="present"/>
+    <node term="photosynthesis" status="present"/>
+  </true>
+</rule>
+
+<rule name="B3" result_type="bool"> 
+  <true at_least="6">		<!-- maximum is 7 -->
+    <or>
+      <node term="consumers" status="present"/>
+      <node term="primary consumers" status="present"/>
+    </or>
+    <node term="decomposers" status="present"/>
+    <node term="predators" status="present"/>
+    <node term="preys" status="present"/>
+    <or>
+      <node term="primary production" status="present"/>
+      <node term="producers" status="present"/>
+      <node term="herbivors" status="present"/>
+    </or>
+    <node term="population size" status="present"/>
+    <node term="tropic levels" status="present"/>
+  </true>
+</rule>
+
+<rule name="C1" result_type="bool">
+  <true at_least="2">
+    <node term="pH" status="present"/>
+    <node term="range of tolerance" status="present"/>
+  </true>
+</rule>
+
+</rules>
