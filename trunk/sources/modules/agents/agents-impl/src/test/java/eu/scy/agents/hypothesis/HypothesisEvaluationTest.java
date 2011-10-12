@@ -81,7 +81,7 @@ public class HypothesisEvaluationTest extends AbstractTestFixture {
         this.agentMap.put(SessionAgent.NAME, params);
         this.startAgentFramework(this.agentMap);
 
-        InputStream inStream = this.getClass().getResourceAsStream("/copexExampleElo.xml");
+        InputStream inStream = this.getClass().getResourceAsStream("/copexExampleElo3.xml");
         String eloContent = this.readFile(inStream);
         this.elo = this.createNewElo("TestCopex", ELO_TYPE);
         this.elo.setContent(new BasicContent(eloContent));
@@ -108,46 +108,62 @@ public class HypothesisEvaluationTest extends AbstractTestFixture {
 
     @Test
     public void testRunOnEloSaved() throws TupleSpaceException, IOException, ClassNotFoundException {
-        AgentParameter agentParameter = new AgentParameter(Mission.MISSION1.getName(), AgentProtocol.GLOBAL_SCAFFOLDING_LEVEL);
+        AgentParameter agentParameter = new AgentParameter(Mission.MISSION1.getName(),
+                                                           AgentProtocol.GLOBAL_SCAFFOLDING_LEVEL);
         agentParameter.setParameterValue(Integer.toString(AgentProtocol.SCAFFOLD_LEVEL_HIGH));
         agentParameterAPI.setParameter("global", agentParameter);
-        this.login("testUser", "roolo://memory/0/0/Design+a+CO2-friendly+house.scymissionspecification",
-                Mission.MISSION1.getName(), "en", "co2_2");
+        this.login("testUser",
+                   "roolo://memory/0/0/Design+a+CO2-friendly+house.scymissionspecification",
+                   Mission.MISSION1.getName(), "en", "co2_2");
 
-        Tuple tuple = new Tuple("action", UUID1234, TIME_IN_MILLIS, ActionConstants.ACTION_ELO_SAVED, "testUser",
-                "SomeTool", MISSION1, "TestSession", this.eloPath, "elo_type=" + ELO_TYPE, "elo_uri=" + this.eloPath);
+        Tuple tuple = new Tuple("action", UUID1234, TIME_IN_MILLIS,
+                                ActionConstants.ACTION_ELO_SAVED, "testUser", "SomeTool", MISSION1,
+                                "TestSession", this.eloPath, "elo_type=" + ELO_TYPE, "elo_uri="
+                                                                                     + this.eloPath);
         this.getActionSpace().write(tuple);
 
-        Tuple response = this.getCommandSpace().waitToTake(
-                new Tuple(HypothesisEvaluationAgent.EVAL, String.class, String.class, String.class, String.class,
-                        String.class, Field.createWildCardField()), AgentProtocol.MINUTE * 1);
+        Tuple response = this.getCommandSpace().waitToTake(new Tuple(
+                                                                     HypothesisEvaluationAgent.EVAL,
+                                                                     String.class, String.class,
+                                                                     String.class, String.class,
+                                                                     String.class,
+                                                                     Field.createWildCardField()),
+                                                           AgentProtocol.MINUTE * 1);
         assertNotNull("no response received", response);
-        ByteArrayInputStream bytesIn = new ByteArrayInputStream((byte[]) response.getField(6).getValue());
+        ByteArrayInputStream bytesIn = new ByteArrayInputStream(
+                                                                (byte[]) response.getField(6).getValue());
         ObjectInputStream objectIn = new ObjectInputStream(bytesIn);
         HashMap<Integer, Integer> histogram = (HashMap<Integer, Integer>) objectIn.readObject();
         String string = histogram.toString();
         assertEquals("{0=1, 2=3}", string);
-
     }
 
     @Test
-    public void testRunOnEloFinished() throws TupleSpaceException, IOException, ClassNotFoundException {
-        AgentParameter agentParameter = new AgentParameter(Mission.MISSION1.getName(), AgentProtocol.GLOBAL_SCAFFOLDING_LEVEL);
+    public void testRunOnEloFinished() throws TupleSpaceException, IOException,
+            ClassNotFoundException {
+        AgentParameter agentParameter = new AgentParameter(Mission.MISSION1.getName(),
+                                                           AgentProtocol.GLOBAL_SCAFFOLDING_LEVEL);
         agentParameter.setParameterValue(Integer.toString(AgentProtocol.SCAFFOLD_LEVEL_MEDIUM));
         agentParameterAPI.setParameter("global", agentParameter);
 
-        this.login("testUser", "roolo://memory/0/0/Design+a+CO2-friendly+house.scymissionspecification",
-                Mission.MISSION1.getName(), "en", "co2_2");
+        this.login("testUser",
+                   "roolo://memory/0/0/Design+a+CO2-friendly+house.scymissionspecification",
+                   Mission.MISSION1.getName(), "en", "co2_2");
 
-        Tuple tuple = new Tuple("action", UUID1234, TIME_IN_MILLIS, ActionConstants.ELO_FINISHED, "testUser",
-                "SomeTool", MISSION1, "TestSession", this.eloPath);
+        Tuple tuple = new Tuple("action", UUID1234, TIME_IN_MILLIS, ActionConstants.ELO_FINISHED,
+                                "testUser", "SomeTool", MISSION1, "TestSession", this.eloPath);
         this.getActionSpace().write(tuple);
 
-        Tuple response = this.getCommandSpace().waitToTake(
-                new Tuple(HypothesisEvaluationAgent.EVAL, String.class, String.class, String.class, String.class,
-                        String.class, Field.createWildCardField()), AgentProtocol.MINUTE * 1);
+        Tuple response = this.getCommandSpace().waitToTake(new Tuple(
+                                                                     HypothesisEvaluationAgent.EVAL,
+                                                                     String.class, String.class,
+                                                                     String.class, String.class,
+                                                                     String.class,
+                                                                     Field.createWildCardField()),
+                                                           AgentProtocol.MINUTE * 1);
         assertNotNull("no response received", response);
-        ByteArrayInputStream bytesIn = new ByteArrayInputStream((byte[]) response.getField(6).getValue());
+        ByteArrayInputStream bytesIn = new ByteArrayInputStream(
+                                                                (byte[]) response.getField(6).getValue());
         ObjectInputStream objectIn = new ObjectInputStream(bytesIn);
         HashMap<Integer, Integer> histogram = (HashMap<Integer, Integer>) objectIn.readObject();
         String string = histogram.toString();
