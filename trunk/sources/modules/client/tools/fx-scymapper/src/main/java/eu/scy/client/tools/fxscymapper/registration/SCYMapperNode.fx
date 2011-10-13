@@ -68,11 +68,11 @@ public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX
 	}
 
 	def notificationTitleBarButton = TitleBarButton {
-	  actionId: "notify"
-	  iconType: "information2"
-	  action: doNotify
-	  tooltip: ##"Show notification"
-    }
+            actionId: "notify"
+            iconType: "information2"
+            action: doNotify
+            tooltip: ##"Show notification"
+        }
 
 	def testNotificationTitleBarButton = TitleBarButton {
 	  actionId: "test notify"
