@@ -70,8 +70,8 @@ public class HypothesisFeatureExtractor extends AbstractFeatureExtractor {
         IMetadataValueContainer hypoValueContainer = userELO.getMetadata().getMetadataValueContainer(hypoValueKey);
         String stringValueList = (String) hypoValueContainer.getValue();
         double[] result = new double[4];
-        String[] splittedValues = stringValueList.split(",");
-        for ( String pair : splittedValues ) {
+        String[] splitValues = stringValueList.split(",");
+        for ( String pair : splitValues ) {
             String[] splitPairSoup = pair.split("=");
             int index = Integer.valueOf(splitPairSoup[0]);
             if ( index < result.length ) {

@@ -26,7 +26,7 @@ import java.util.Set;
 public class ClusterStrategyTest extends AbstractTestFixture {
 
     private GroupFormationStrategy strategy;
-    private IELO referenceElo;
+    private IELO referenceElo1, referenceElo2;
     private Set<String> users;
 
     private void addEloToRepository(String eloPath, String eloType, String eloTitle, String user) throws IOException {
@@ -39,7 +39,7 @@ public class ClusterStrategyTest extends AbstractTestFixture {
     @Before
     public void setup() throws IOException {
 //        this.referenceElo = this.loadElo("/eco_reference_concept_map.scymapper.xml",  "scy/mapping", "referenceMap");
-        this.referenceElo = this.loadElo("/copexExampleElo2.xml", "scy/xproc", "copex2");
+        this.referenceElo1 = this.loadElo("/copexExampleElo2.xml", "scy/xproc", "copex2");
         strategy = new ClusterStrategy();
         users = new HashSet<String>();
         users.add("TestUser1");
@@ -105,7 +105,7 @@ public class ClusterStrategyTest extends AbstractTestFixture {
 
     @Test
     public void testFormGroup() {
-        Collection<Group> groups = strategy.formGroup(referenceElo);
+        Collection<Group> groups = strategy.formGroup(referenceElo1);
         Group group = new Group();
         group.add("TestUser5");
         assertTrue(groups.contains(group));
