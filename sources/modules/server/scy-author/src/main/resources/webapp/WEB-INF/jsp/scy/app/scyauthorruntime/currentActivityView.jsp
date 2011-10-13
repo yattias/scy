@@ -13,10 +13,10 @@
                     <spring:message code="LAS"/>
                 </th>
                 <th>
-                    
+                    ELOs in ePortfolio   
                 </th>
                 <th>
-                    Portfolio status
+                    ELOs added to ePortfolio
                 </th>
             </tr>
 
@@ -45,8 +45,9 @@
                     </c:choose>
                 </td>
                 <td>
-                    <div dojoType="dijit.ProgressBar" style="width:300px" progress="${userActivityInfo.numberOfElosInPorfolio}" maximum="${fn:length(obligatoryElos)}">
-                    </div>
+                    ${userActivityInfo.numberOfElosInPorfolio} / ${fn:length(obligatoryElos)}
+                    <!--div dojoType="dijit.ProgressBar" style="width:300px" progress="${userActivityInfo.numberOfElosInPorfolio}" maximum="${fn:length(obligatoryElos)}">
+                    </div-->
                 </td>
 
             </tr>
