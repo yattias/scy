@@ -70,19 +70,10 @@ action_monitor(Options) :-
 	option(server(Server), Options),
 	agent_connect(Server, actions, TS),
 	assert(cme_tuple_space(actions,TS,Server)),
-	(   exists_directory('/home/anjo')
-	->  debug(cme(dev)),
-	    debug(cme(dev), '**** running in simulation mode ****~n', []),
-	    agent_query(action, Query,
-			[ action(elo_saved),
-			  tool(conceptmap),
-			  user('anjo@scy.collide.info')
-			])
-	;   agent_query(action, Query,
-			[ action(elo_saved),
-			  tool(conceptmap)
-			])
-	),
+	agent_query(action, Query,
+		    [ action(elo_saved),
+		      tool(conceptmap)
+		    ]),
 	Call = cme_action_callback,
 	tspl_event_register(TS, write, Query, Call, _).
 
@@ -256,26 +247,39 @@ cme_action(elo_saved, Tuple) :-
 		      attributes(Attributes)
 		    ]),
 	cme_tuple_space(session, SessionSpace, _),
-	scy_session_user_language(SessionSpace, User, Language, [default(gr)]),
+	scy_session_user_language(SessionSpace, User, Language, [default(el)]),
 	option(mission_anchor_id(Anchor), Attributes, 'energyFactSheet'),	% TBD -- default
+	memberchk(elo_uri(NewElo), Attributes),		% For notification
+	memberchk(old_uri(OldElo), Attributes),		% For notification
+	debug(cme(dev), '  elo = ~w~n', [Elo]),
+	debug(cme(dev), '  old elo = ~w~n', [OldElo]),
+	debug(cme(dev), '  new elo = ~w~n', [NewElo]),
+	debug(cme(dev), '  mission = ~w~n', [Mission]),
+	debug(cme(dev), '  anchor = ~w~n', [Anchor]),
 	anchor_properties(Anchor, Language, AnchorProps),
 	memberchk(term_set(TS), AnchorProps),
 	memberchk(reference_model(RM), AnchorProps),
 	memberchk(rule_set(RS), AnchorProps),
 	memberchk(method(Method), AnchorProps),
 	cme_tuple_space(command, CommandSpace, _),
-	ts_elo_fetch(CommandSpace, Elo, XML),
-	cmap_parse(XML, Nodes, Edges, []),
+	ts_elo_fetch(CommandSpace, NewElo, XML),
+	(   Anchor == energyFactSheet
+	->  cmap_parse(XML, Nodes, Edges, [empty_link_label('for example')])
+	;   cmap_parse(XML, Nodes, Edges, [])
+	),
 	cmap_create(Map, Nodes, Edges, [cmap_xml(XML)]),
 	debug(cme(dev), 'created cmap ~w~n', [Map]),
+	(   Anchor == chimConceptMap
+	->  broadcast(show_gls(Map))
+	;   debug(cme(dev), '******** ONLY SHOWING chimConceptMap ********~n', [])
+	),
 	cme_evaluate(Method, Map, TS, RM, RS, Evaluation),
-	broadcast(show_gls(Map)),
 	debug(cme(dev), '  eval = ~w~n', [Evaluation]),
 	tspl:uid(Id),
 	tspl_actual_field(string, notification, F0),
 	tspl_actual_field(string, Id, F1),
 	tspl_actual_field(string, User, F2),
-	tspl_actual_field(string, Elo, F3),
+	tspl_actual_field(string, NewElo, F3),
 	tspl_actual_field(string, cme_agent, F4),
 	tspl_actual_field(string, Mission, F5),
 	tspl_actual_field(string, Session, F6),

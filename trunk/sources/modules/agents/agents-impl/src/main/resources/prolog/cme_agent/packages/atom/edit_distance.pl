@@ -31,8 +31,7 @@
 
 :-
 	source_file_register(atom('Makefile')),
-	source_file_register(atom('edit_distance.c')),
-	source_file_register(atom('bin/edit_distance.so')).
+	source_file_register(atom('edit_distance.c')).
 
 
 %%	edit_distance(+Str1:atom, +Str2:atom, -Distance:int) is det.

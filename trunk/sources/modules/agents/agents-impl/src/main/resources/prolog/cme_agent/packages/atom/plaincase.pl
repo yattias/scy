@@ -35,8 +35,7 @@
 :-
 	source_file_register(atom('Makefile')),
 	source_file_register(atom('plaincase.c')),
-	source_file_register(atom('plaincase.h')),
-	source_file_register(atom('bin/plaincase.so')).
+	source_file_register(atom('plaincase.h')).
 
 
 /*------------------------------------------------------------

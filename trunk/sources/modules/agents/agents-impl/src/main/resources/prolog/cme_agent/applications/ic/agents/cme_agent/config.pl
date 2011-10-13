@@ -55,13 +55,13 @@ anchor_properties(chimConceptMap, Language, Props) :-	% Forensic science mission
 	->  Props = [ term_set(forensic_fr),
 		      reference_model(forensic),
 		      rule_set(''),
-		      method(open_ended)
+		      method(fill_in)
 		    ]
 	; % Language == en
 	    Props = [ term_set(forensic_en),
 		      reference_model(forensic),
 		      rule_set(''),
-		      method(open_ended)
+		      method(fill_in)
 		    ]
 	).
 anchor_properties(conceptMap, Language, Props) :-	% ECO mission
@@ -88,18 +88,11 @@ anchor_properties(conceptMap, Language, Props) :-	% ECO mission
 feedback_message(all_dropped, Lang, Props, Msg) :-
 	memberchk(correct(Correct), Props),
 	memberchk(wrong(Wrong), Props),
-	(   Lang = _				% TBD -- ignored
-	->  format(atom(Msg), 'You have ~w concepts correct and ~w are wrong',
-		[Correct, Wrong])
-	;   feedback_message(all_dropped, en, Props, Msg)
-	).
+	fmt(all_dropped(Correct,Wrong), Lang, Msg).
 	
 feedback_message(not_all_dropped, Lang, Props, Msg) :-
 	memberchk(not_dropped(NotDropped), Props),
-	(   Lang = _
-	->  format(atom(Msg), 'There are still %d concepts that have to be moved to an empty spot', [NotDropped])
-	;   feedback_message(all_dropped, en, Props, Msg)
-	).
+	fmt(not_dropped(NotDropped), Lang, Msg).
 
 
 method_anchor_evaluation(drag_and_drop, Language, _Anchor, Evaluation, Msg) :-
@@ -120,3 +113,31 @@ method_anchor_evaluation(drag_and_drop, Language, _Anchor, Evaluation, Msg) :-
 	).
 
 
+fmt(all_dropped(Correct,Wrong), Lang, Msg) :-
+	(   Wrong == 0
+	->  (   Lang == el
+	    ->  M = 'GREEK FOR: You have placed all concepts correctly.  Congratulations'
+	    ;   M = 'You have placed all concepts correctly.  Congratulations'
+	    ),
+	    format(atom(Msg), M, [])
+	;   (   Lang == el
+	    ->  M = 'GREEK FOR: You have ~w concepts correct and ~w are wrong'
+	    ;   M = 'You have ~w concepts correct and ~w are wrong'
+	    ),
+	    format(atom(Msg), M, [Correct, Wrong])
+	).
+
+
+fmt(not_dropped(NotDropped), Lang, Msg) :-
+    (   NotDropped == 1
+    ->  (   Lang == el
+	->  M = 'GREEK FOR: There is still one concept that needs to be dragged to an empty spot'
+	;   M = 'There is still one concept that needs to be dragged to an empty spot'
+	),
+	format(atom(Msg), M, [])
+    ;   (   Lang == el
+	->  M = 'GREEK FOR: There are still ~w concepts that need to be dragged to an empty spot'
+	;   M = 'There are still ~w concepts that need to be dragged to an empty spot'
+	),
+	format(atom(Msg), M, [NotDropped])
+    ).
