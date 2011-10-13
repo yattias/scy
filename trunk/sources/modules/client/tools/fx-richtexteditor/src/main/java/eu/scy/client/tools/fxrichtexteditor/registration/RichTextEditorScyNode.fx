@@ -41,7 +41,7 @@ import javafx.util.StringLocalizer;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
 import eu.scy.client.desktop.desktoputils.EmptyBorderNode;
 import javafx.scene.Group;
-
+import eu.scy.client.desktop.scydesktop.corners.elomanagement.ModalDialogNode;
 /**
  * @author kaido
  */
