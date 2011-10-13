@@ -24,6 +24,8 @@
 
 :- use_module(load).
 
+:- use_module(dac(atom_to_csv)).		% Force loading
+
 :- use_module(cme_agent, [cme_agent_start/1]).
 
 :- use_module(source(files), [source_files_required/2, source_files_copy/3]).
@@ -34,16 +36,13 @@ cme_run :-
 
 
 cme_svn_files :-
-	Dst = '/home/anjo/svn_cme_agent',
-	(   exists_directory(Dst)
-	->  format(atom(Remove), 'rm -r ~w', [Dst]),
-	    shell(Remove)
-	;   true
-	),
-	format(atom(Create), 'mkdir ~w', [Dst]),
-	shell(Create),
+	Dst = '/home/anjo/scy/agents/src/main/resources/prolog/cme_agent',
+%	Dst = '/home/anjo/test_cme_agent',
 	source_files_required(Files, [pce_autoload(false)]),
-	source_files_copy(Files, Dst, [ root('/home/anjo/cute2')]).
+	source_files_copy(Files, Dst,
+			  [root('/home/anjo/cute2'),
+			   preserve(true)
+			  ]).
 
 
 

@@ -91,7 +91,8 @@ source_files_copy(Files, Dst0, Options) :-
 	absolute_file_name(Dst0, Dst1),
 	ends_on_slash(Dst1, Dst),
 	ends_on_slash(Root1, Root),
-	copy_files(Files, Dst, Root).
+	option(preserve(Preserve), Options, false),
+	copy_files(Files, Dst, Root, Preserve).
 
 
 ends_on_slash(Dir, Dir) :-
@@ -100,26 +101,33 @@ ends_on_slash(Dir0, Dir) :-
 	atomic_concat(Dir0, '/', Dir).
 
 
-copy_files([], _, _).
-copy_files([File|Files], Dst, Root) :-
+copy_files([], _, _, _).
+copy_files([File|Files], Dst, Root, Preserve) :-
 	(   access_file(File, read)
-	->  copy_file(File, Dst, Root)
+	->  copy_file(File, Dst, Root, Preserve)
 	;   format('  source_files_copy/2: file ~w is not readable~n', [File])
 	),
-	copy_files(Files, Dst, Root).
+	copy_files(Files, Dst, Root, Preserve).
 
-copy_file(File, Dst, Root) :-
+copy_file(File, Dst, Root, Preserve) :-
 	sub_atom(File, 0,_,A, Root),
 	sub_atom(File, _,A,0, Tail),
 	atomic_concat(Dst, Tail, Path),
 	create_path(Path),
-	open(File, read, In),
-	open(Path, write, Out),
-	set_stream(In, encoding(octet)),
-	set_stream(Out, encoding(octet)),
-	copy_stream_data(In, Out),
-	close(Out),
-	close(In).
+	(   Preserve == false
+	->  open(File, read, In),
+	    open(Path, write, Out),
+	    set_stream(In, encoding(octet)),
+	    set_stream(Out, encoding(octet)),
+	    copy_stream_data(In, Out),
+	    close(Out),
+	    close(In)
+	;   prolog_to_os_filename(File, File1),
+	    prolog_to_os_filename(Path, Path1),
+	    format(atom(Cmd), 'cp --preserve "~w" "~w"', [File1,Path1]),
+	    format('copying ~w, ~w~n', [File1,Path1]),
+	    shell(Cmd)
+	).
 
 
 create_path(Path) :-

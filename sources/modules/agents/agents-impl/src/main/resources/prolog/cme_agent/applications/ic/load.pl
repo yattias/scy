@@ -63,35 +63,3 @@ user:file_search_path(mod,		ic(mod)).
 user:file_search_path(seq,		ic(seq)).
 user:file_search_path(systematic_behaviour, ic(systematic_behaviour)).
 user:file_search_path(study,		ic(study)).
-
-end_of_file.
-
-/*------------------------------------------------------------
- *  Global objects
- *------------------------------------------------------------*/
-
-:- pce_global(@finder, new(finder)).
-
-:- pce_global(@horizontal_format, make_horizontal_format).
-
-make_horizontal_format(F) :-
-	new(F, format(horizontal,1000,@on)),
-	send(F, row_sep, 5).
-
-:- pce_global(@vertical_center_format, make_vertical_center_format).
-
-make_vertical_center_format(F) :-
-	new(F, format(horizontal,1,@on)),
-	send(F, row_sep, 5),
-	send(F, adjustment, vector(center)).
-
-:- pce_image_directory(icons).
-
-define_types :-
-	pce_define_type(item2, int),
-	pce_define_type(sdm_id, name),
-	pce_define_type(cmap_id, name),
-	pce_define_type(gls_id, name).
-
-:- initialization
-	define_types.

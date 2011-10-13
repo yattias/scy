@@ -1048,7 +1048,6 @@ responsethread(TS) :-
 		memberchk(element(before, _, BeforeCommand), Children), 
 		callback(SEQ, TS, _:Call),
 		CbCall =.. [Call, Cmd, SEQ, BeforeCommand, AfterCommand],
-	    format('CbCall = ~w~n', [CbCall]),
 		thread_send_message(CallbackQ, CbCall)
 	    ),
 	    fail

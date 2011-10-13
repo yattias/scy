@@ -45,7 +45,8 @@ link_shape_class('eu.scy.scymapper.impl.shapes.links.Line', straight).
 link_shape_class('eu.scy.scymapper.impl.shapes.links.Arrow', arrow).
 
 
-cmap_parse(Source, Nodes, Links, _Options) :-
+cmap_parse(Source, Nodes, Links, Options) :-
+	nb_setval(cmap_parse_options, Options),
 	source_to_xml(Source, XML, [dialect(xml), space(remove)]),
 	node_entry_tag(NodeModel),
 	findall(Node,
@@ -157,8 +158,11 @@ parse_link_h(element(Tag,_,_), _, L-L) :-
 parse_link_tag(myLabel, _As, C, _Nodes, [name(Name)|L]-L) :-
 	(   C = [Name]
 	->  true
-	;   Name = 'for example',
-	    format('   **** Replaced empty link label by "for example" ****~n', [])
+	;   nb_getval(cmap_parse_options, Options),
+	    (   memberchk(empty_link_label(Name), Options)
+	    ->  true
+	    ;   Name = ''
+	    )
 	).
 parse_link_tag(fromNode, As, _, Nodes, [from(From)|L]-L) :-
 	memberchk(reference=Ref, As),
