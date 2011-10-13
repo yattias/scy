@@ -70,15 +70,15 @@ public class HypothesisFeatureExtractor extends AbstractFeatureExtractor{
     @Override
     protected double[] getFeatures(String user, String mission, IELO elo, IELO userELO) {
         ScyElo userScyElo = new ScyElo(userELO, repository);
-        IMetadataKey hypoValueKey = repository.getMetaDataTypeManager()
-                .getMetadataKey(CoreRooloMetadataKeyIds.HYPO_VALUE.getId());
-        IMetadataValueContainer hypoValueContainer = userELO.getMetadata()
-                .getMetadataValueContainer(hypoValueKey);
+        IMetadataKey hypoValueKey = repository.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.HYPO_VALUE.getId());
+        IMetadataValueContainer hypoValueContainer = userELO.getMetadata().getMetadataValueContainer(hypoValueKey);
         List<KeyValuePair> valueList = (List<KeyValuePair>) hypoValueContainer.getValueList();
-        int maxId = Math.min(4, valueList.size());
-        double [] result = new double[4]; 
-        for (int i = 0; i < result.length; i++) {
-          result[i] = new Double((i < maxId)? valueList.get(i).getValue() : "0.0") ;
+        double[] result = new double[4];
+        for (Iterator<KeyValuePair> pairIt = valueList.iterator(); pairIt.hasNext();) {
+            KeyValuePair pair = (KeyValuePair) pairIt.next();
+            int index = new Integer(pair.getKey());
+            double value = new Double(pair.getValue());
+            result[index] = value;
         }
         return result;
     }
