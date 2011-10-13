@@ -438,6 +438,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
                 nextWindow.openWindow(newX, newY, newWidth, newHeight, angle);
             }
             insert topWindow into mainWindows;
+            topWindow.toFront();
         }
         // then we open the last (latest) mainWindow
         topWindow.openWindow(newX, newY, newWidth, newHeight, 0);
