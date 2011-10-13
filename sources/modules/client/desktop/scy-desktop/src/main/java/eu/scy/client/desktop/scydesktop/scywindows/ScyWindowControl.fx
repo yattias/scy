@@ -77,6 +77,8 @@ public mixin class ScyWindowControl {
    public abstract function newEloSaved(scyElo: ScyElo):Void;
 
    public abstract function saveCurrentWindowState():Void;
+   public abstract function askShutdownPermissionFromWindows():Boolean;
+   public abstract function saveBeforeQuit():Void;
 
 //   public function positionWindows():Void{
 //      positionWindows(false);

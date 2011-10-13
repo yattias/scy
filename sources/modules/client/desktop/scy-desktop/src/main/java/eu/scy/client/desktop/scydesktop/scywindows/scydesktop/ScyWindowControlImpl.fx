@@ -20,6 +20,7 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.client.desktop.desktoputils.StringUtils;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowPositionsState;
+import java.lang.Exception;
 
 /**
  * @author sikken
@@ -59,7 +60,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
          // the elo is not yet in a window on the desktop, add it
          logger.info("new elo, is not yet on the desktop, {scyElo.getUri()}");
          // TODO check if elo is a 'displayable/creatabke' elo
-//         def eloMetadata = ScyElo.loadMetadata(eloUri, tbi);
+         //         def eloMetadata = ScyElo.loadMetadata(eloUri, tbi);
          if (windowManager.scyDesktop.newEloCreationRegistry.containsEloType(scyElo.getTechnicalFormat())) {
             logger.info("new elo's type ({scyElo.getTechnicalFormat()}) is registered in scy-desktop, trying to create a new scywindow/tool for it.");
             addOtherScyWindow(scyElo);
@@ -165,8 +166,8 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       windowManager.activateScyWindow(window);
    }
 
-   override public function saveCurrentWindowState():Void{
-      if (activeLas!=null){
+   override public function saveCurrentWindowState(): Void {
+      if (activeLas != null) {
          def windowPositionsState = windowPositioner.getWindowPositionsState();
          missionModel.setWindowStatesXml(activeLas.id, windowPositionsState.getXml());
       }
@@ -389,4 +390,29 @@ public class ScyWindowControlImpl extends ScyWindowControl {
    function getAnchorDirection(las: LasFX): Number {
       return Math.atan2(las.yPos - activeLas.yPos, las.xPos - activeLas.xPos);
    }
+
+   public override function askShutdownPermissionFromWindows(): Boolean {
+      for (window in scyWindows) {
+         if (window.eloUri != null) {
+            if (not window.scyToolsList.aboutToClose()) {
+               return false
+            }
+         }
+      }
+      return true
+   }
+
+   public override function saveBeforeQuit(): Void {
+      for (window in scyWindows) {
+         if (window.eloUri != null) {
+            try {
+               window.isQuiting = true;
+               window.scyToolsList.onQuit();
+            } catch (e: Exception) {
+               logger.error("an exception occured during the aboutToClose of {window.eloUri}", e);
+            }
+         }
+      }
+   }
+
 }
