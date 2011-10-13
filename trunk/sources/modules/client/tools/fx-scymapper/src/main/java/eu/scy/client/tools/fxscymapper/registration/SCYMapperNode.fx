@@ -328,12 +328,12 @@ public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX
     }
 
 	function okayNotificationDialog(): Void {
-        notificationDialog.modalDialogBox.close();
-        removeNotificationInTitleBar();
-        //FX.deferAction(function () {
-        //    scyCopexPanel.keepNotification(false);
-        //})
-    }
+    notificationDialog.modalDialogBox.close();
+    removeNotificationInTitleBar();
+//FX.deferAction(function () {
+//    scyCopexPanel.keepNotification(false);
+//})
+}
 
 //	function cancelNotificationDialog(): Void {
 //        notificationDialog.modalDialogBox.close();
