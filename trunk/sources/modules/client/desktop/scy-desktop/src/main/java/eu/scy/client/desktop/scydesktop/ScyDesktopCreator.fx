@@ -261,18 +261,6 @@ public class ScyDesktopCreator {
       if (templateEloUriList.size() > 0) {
          for (templateEloUri in templateEloUriList) {
             insert templateEloUri into templateEloUris;
-//            def metadata = config.getRepository().retrieveMetadata(templateEloUri);
-//            if (metadata != null) {
-//               def templateEloUriType = metadata.getMetadataValueContainer(technicalFormatKey).getValue() as String;
-//               if (newEloCreationRegistry.containsEloType(templateEloUriType)) {
-//                  insert templateEloUri into templateEloUris;
-//               } else {
-//                  logger.warn("skipped template elo, because the type ({templateEloUriType}) ) is not configured for the user: {templateEloUri}");
-//               }
-//            } else {
-//               logger.warn("could not find template elo: {templateEloUri}");
-//            }
-
          }
       }
    }
