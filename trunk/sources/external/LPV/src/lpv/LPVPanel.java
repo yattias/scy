@@ -1,3 +1,5 @@
+package lpv;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -27,22 +29,16 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
-import village.City;
-import village.CityBackground;
-import village.CityTimeScale;
-import village.ELOProcess;
-import village.Product;
 
-import village.StateObject;
 
-class MyPanel extends JPanel 
+ class LPVPanel extends JPanel 
 implements ActionListener, MouseInputListener, MouseWheelListener, HierarchyBoundsListener{
 
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = -1789551003424858306L;
-    private village.City city;
+    private lpv.City city;
     private CityBackground background;
     private LinkedList<CityTimeScale> timeScales;
     private StateObject hover;
@@ -58,7 +54,7 @@ implements ActionListener, MouseInputListener, MouseWheelListener, HierarchyBoun
     static final double scaleYstart = 0.5;
 
     
-    public MyPanel(village.City c) {
+    public LPVPanel(lpv.City c) {
     	city = c;
     	scaleX = 1;
     	background = new CityBackground(CityBackground.DRAWMETHOD_FANCY);
@@ -129,7 +125,7 @@ implements ActionListener, MouseInputListener, MouseWheelListener, HierarchyBoun
    }
     
 
-    private void updateScales() {
+    protected void updateScales() {
     /*	for(int i = 0; i< timeScales.size(); i++){
     		//modify
     		
@@ -189,7 +185,7 @@ implements ActionListener, MouseInputListener, MouseWheelListener, HierarchyBoun
 			ts.draw(g);
 		}
     }  
-    public void setCity(village.City c){
+    public void setCity(lpv.City c){
     	city = c;
     }
 
@@ -272,12 +268,12 @@ implements ActionListener, MouseInputListener, MouseWheelListener, HierarchyBoun
 
 	
 	private int getTooltipX(StateObject o){
-		if(o.getClass().getName()=="village.Product"){
+		if(o.getClass().getName()=="lpv.Product"){
 			Product goo = (Product) o;
 			return (int)(city.cityToScreenCoordX((goo.getCenterX()))+(goo.getWidth()/2)*(1-0.5/Math.sqrt(2))*city.getVisualScale());
 		}
 		else{
-			village.ELOProcess goo = (ELOProcess) o;
+			lpv.ELOProcess goo = (ELOProcess) o;
 			int start = (int)(Math.max(0,city.cityToScreenCoordX(goo.getFrom().getCenterX())));
 			int end = (int)(Math.min(getWidth(),city.cityToScreenCoordX(goo.getTo().getCenterX())));
 			return (start+end)/2;
@@ -286,20 +282,20 @@ implements ActionListener, MouseInputListener, MouseWheelListener, HierarchyBoun
 	}
 	
 	private int getTooltipY(StateObject o){
-		if(o.getClass().getName()=="village.Product"){
+		if(o.getClass().getName()=="lpv.Product"){
 			Product goo = (Product) o;
 			return (int)(city.cityToScreenCoordY(goo.getCornerY())+city.getVisualScale()*goo.getHeight()/7);
 		}
 		else{
-			village.ELOProcess goo = (ELOProcess) o;
+			lpv.ELOProcess goo = (ELOProcess) o;
 			return (int)(city.cityToScreenCoordY(goo.getCenterY()));
 		}
 		
 	}
 	
 	private void activateState(StateObject what,boolean hover, int x){
-		if(what.getClass().getName()=="village.Product"){
-			village.Product goo = (village.Product)what;
+		if(what.getClass().getName()=="lpv.Product"){
+			lpv.Product goo = (lpv.Product)what;
 			if(goo.getName() != -1){
 				what.setState(2);
 				boolean bubbleNExists = true;
@@ -330,8 +326,8 @@ implements ActionListener, MouseInputListener, MouseWheelListener, HierarchyBoun
 				
 			}
 		}
-		else {// what.getClass().getName()=="village.ELOProcess"
-			village.ELOProcess goo = (village.ELOProcess)what;
+		else {// what.getClass().getName()=="lpv.ELOProcess"
+			lpv.ELOProcess goo = (lpv.ELOProcess)what;
 			if(goo.getFatherName()!=-1){
 				what.setState(2);
 				boolean bubbleNExists = true;
@@ -364,7 +360,7 @@ implements ActionListener, MouseInputListener, MouseWheelListener, HierarchyBoun
 	}
 	
 	private void deactivateState(StateObject what){
-		if(what.getClass().getName()=="village.ELOProcess" && ((village.ELOProcess)what).getFatherName() != -1){
+		if(what.getClass().getName()=="lpv.ELOProcess" && ((lpv.ELOProcess)what).getFatherName() != -1){
 				what.setState(0);
 				MyContentBubble bounty = null;
 				for (MyContentBubble bub : bubbles) {
@@ -381,7 +377,7 @@ implements ActionListener, MouseInputListener, MouseWheelListener, HierarchyBoun
 				}
 		}
 		else{
-			if(what.getClass().getName()=="village.Product" && ((village.Product)what).getName() != -1){
+			if(what.getClass().getName()=="lpv.Product" && ((lpv.Product)what).getName() != -1){
 				what.setState(0);
 				MyContentBubble bounty = null;
 				for (MyContentBubble bub : bubbles) {
