@@ -72,13 +72,16 @@ public class HypothesisFeatureExtractor extends AbstractFeatureExtractor{
         ScyElo userScyElo = new ScyElo(userELO, repository);
         IMetadataKey hypoValueKey = repository.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.HYPO_VALUE.getId());
         IMetadataValueContainer hypoValueContainer = userELO.getMetadata().getMetadataValueContainer(hypoValueKey);
-        List<KeyValuePair> valueList = (List<KeyValuePair>) hypoValueContainer.getValueList();
+        List<String> valueList = (List<String>) hypoValueContainer.getValueList();
         double[] result = new double[4];
-        for (Iterator<KeyValuePair> pairIt = valueList.iterator(); pairIt.hasNext();) {
-            KeyValuePair pair = (KeyValuePair) pairIt.next();
-            int index = new Integer(pair.getKey());
-            double value = new Double(pair.getValue());
+        for (Iterator<String> pairIt = valueList.iterator(); pairIt.hasNext();) {
+            String pair = pairIt.next().toString();
+            String[] split = pair.split(",");
+            int index = Integer.valueOf(split[0].replaceAll("\\(", ""));
+            if (index < result.length){
+            double value = Double.valueOf(split[1].replaceAll("\\)", ""));
             result[index] = value;
+            }
         }
         return result;
     }
