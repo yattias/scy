@@ -50,7 +50,7 @@ import eu.scy.client.desktop.scydesktop.corners.elomanagement.ModalDialogNode;
  * Some general logic is implemented in RichTextEditorNode.
  * @see RichTextEditorNode
  */
-public class RichTextEditorScyNode extends INotifiable, RichTextEditorNode, ScyToolFX, EloSaverCallBack, CollaborationStartable {
+public class RichTextEditorScyNode extends INotifiable, RichTextEditorNode, ScyToolFX, EloSaverCallBack {
 
     def logger = Logger.getLogger("eu.scy.client.tools.fxrichtexteditor.RichTextEditorNode");
     def scyRichTextEditorType = "scy/rtf";
@@ -303,49 +303,6 @@ public class RichTextEditorScyNode extends INotifiable, RichTextEditorNode, ScyT
                         printTitleBarButton
                     ]
         }
-    }
-
-    public override function startCollaboration(mucid: String) {
-        if (not collaborative) {
-            collaborative = true;
-            FX.deferAction(function(): Void {
-                def session: ISyncSession = toolBrokerAPI.getDataSyncService().joinSession(mucid, richTextEditor, RichTextEditor.TOOLNAME);
-                richTextEditor.setSyncSession(session);
-                session.addCollaboratorStatusListener(scyWindow.ownershipManager);
-                session.refreshOnlineCollaborators();
-                logger.debug("joined session, mucid: {mucid}");
-            });
-        }
-    }
-
-    public override function stopCollaboration(): Void {
-        if (collaborative) {
-            collaborative = false;
-            FX.deferAction(function(): Void {
-                richTextEditor.setSyncSession(null);
-            });
-        }
-    }
-
-    public override function canAcceptDrop(object: Object): Boolean {
-        logger.debug("canAcceptDrop of {object.getClass()}");
-        if (object instanceof ContactFrame) {
-            var c: ContactFrame = object as ContactFrame;
-            if (not scyWindow.ownershipManager.isOwner(c.contact.name)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public override function acceptDrop(object: Object): Void {
-        logger.debug("acceptDrop of {object.getClass()}");
-        var c: ContactFrame = object as ContactFrame;
-        logger.debug("acceptDrop user: {c.contact.name}");
-        scyWindow.ownershipManager.addPendingOwner(c.contact.name);
-        def lasId: String = scyWindow.getActiveLasId();
-        scyWindow.windowManager.scyDesktop.config.getToolBrokerAPI().proposeCollaborationWith("{c.contact.awarenessUser.getJid()}", scyWindow.eloUri.toString(), scyWindow.mucId, lasId);
-        logger.debug("scyDesktop: {scyWindow.windowManager.scyDesktop}");
     }
 
     function doNotify() {
