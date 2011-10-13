@@ -49,7 +49,7 @@ public class MissionModelFX extends MissionModel {
    public var saveUpdatedModel = false;
    public var scyDesktop: ScyDesktop;
    public var storedWindowStatesXmlsChanged = false;
-   public var archiveElosChanged = false;
+   public var archivedElosChanged = false;
    public var showMoreInfo: ShowMoreInfo;
    var contentChanged = false;
    def updateEloLock = new ReentrantLock();
@@ -210,20 +210,21 @@ public class MissionModelFX extends MissionModel {
    }
 
    override public function updateElo(): Void {
-      if (saveUpdatedModel or storedWindowStatesXmlsChanged or archiveElosChanged) {
+      if (saveUpdatedModel or storedWindowStatesXmlsChanged or archivedElosChanged) {
+         logger.info("saving mission model because: saveUpdatedModel={saveUpdatedModel} or storedWindowStatesXmlsChanged={storedWindowStatesXmlsChanged} or archivedElosChanged={archivedElosChanged}");
          if (updateEloLock.isLocked()) {
             logger.error("trying to update mission model, while an update is in progress. My thread name: {Thread.currentThread().getName()}");
          }
          updateEloLock.lock();
          try{
-         missionModel.updateElo();
+            missionModel.updateElo();
          } finally {
             updateEloLock.unlock();
          }
       }
       contentChanged = false;
       storedWindowStatesXmlsChanged = false;
-      archiveElosChanged = false;
+      archivedElosChanged = false;
    }
 
    override public function loadMetadata(rooloServices: RooloServices): Void {
@@ -305,12 +306,12 @@ public class MissionModelFX extends MissionModel {
 
    override public function removeArchivedElo(archivedElo: ArchivedElo): Void {
       missionModel.removeArchivedElo(archivedElo);
-      archiveElosChanged = true
+      archivedElosChanged = true
    }
 
    override public function addArchivedElo(archivedElo: ArchivedElo): Void {
       missionModel.addArchivedElo(archivedElo);
-      archiveElosChanged = true
+      archivedElosChanged = true
    }
 
    function findMissionAnchor(eloUri): MissionAnchorFX {

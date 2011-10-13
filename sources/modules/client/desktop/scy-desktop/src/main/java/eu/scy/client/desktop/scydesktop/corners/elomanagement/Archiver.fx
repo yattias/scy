@@ -97,7 +97,7 @@ public class Archiver extends CustomNode, DropTarget2 {
         return null;
     }, function(o : Object) {
         if (scyElo != null) {
-            scyWindowControl.removeOtherScyWindow(scyElo.getUri());
+            scyWindowControl.removeOtherScyWindow(scyElo);
         }
         if (object instanceof ScyWindow) {
             scyWindowControl.removeOtherScyWindow(object as ScyWindow);

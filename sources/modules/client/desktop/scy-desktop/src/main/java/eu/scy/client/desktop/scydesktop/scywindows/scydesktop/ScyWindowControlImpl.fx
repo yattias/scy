@@ -78,6 +78,10 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       }
    }
 
+   public override function removeOtherScyWindow(scyElo: ScyElo): Void {
+      removeOtherScyWindow(scyElo.getUri())
+   }
+
    public override function removeOtherScyWindow(scyWindow: ScyWindow): Void {
       if (scyWindow.eloUri != null) {
          removeOtherScyWindow(scyWindow.eloUri);
@@ -88,23 +92,33 @@ public class ScyWindowControlImpl extends ScyWindowControl {
    }
 
    public override function addOtherScyWindow(eloUri: URI): ScyWindow {
-      logger.debug("trying to add another scy-windows with uri: {eloUri}");
-      if (Sequences.indexOf(activeLas.otherEloUris, eloUri) <= 0) {
-         missionModel.eloUriChanged(null, eloUri);
+      def scyElo = ScyElo.loadMetadata(eloUri, tbi);
+      addOtherScyWindow(scyElo)
+   }
+
+   public override function addOtherScyWindow(scyElo: ScyElo): ScyWindow {
+      logger.debug("trying to add another scy-windows with uri: {scyElo.getUri()}");
+      if (Sequences.indexOf(activeLas.otherEloUris, scyElo.getUri()) <= 0) {
+         missionModel.eloUriChanged(null, scyElo.getUri());
       //         insert eloUri into activeLas.otherEloUris;
       }
-      var scyWindow = getScyWindow(eloUri);
+      var scyWindow = getScyWindow(scyElo);
       windowManager.addScyWindow(scyWindow);
       windowPositioner.placeOtherWindow(scyWindow);
       return scyWindow;
    }
 
    public override function addOtherCollaborativeScyWindow(eloUri: URI, mucid: String): ScyWindow {
-      logger.debug("trying to add another collaborative scy-window with uri: {eloUri}");
-      if (Sequences.indexOf(activeLas.otherEloUris, eloUri) <= 0) {
-         missionModel.eloUriChanged(null, eloUri);
+      def scyElo = ScyElo.loadMetadata(eloUri, tbi);
+      addOtherCollaborativeScyWindow(scyElo, mucid)
+   }
+
+   public override function addOtherCollaborativeScyWindow(scyElo: ScyElo, mucid: String): ScyWindow {
+      logger.debug("trying to add another collaborative scy-window with uri: {scyElo.getUri()}");
+      if (Sequences.indexOf(activeLas.otherEloUris, scyElo.getUri()) <= 0) {
+         missionModel.eloUriChanged(null, scyElo.getUri());
       }
-      var scyWindow = getScyWindow(eloUri);
+      var scyWindow = getScyWindow(scyElo);
       scyWindow.scyElo.setMucId(mucid);
       windowManager.addScyWindow(scyWindow);
       windowPositioner.placeOtherWindow(scyWindow);
@@ -137,10 +151,21 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       windowManager.activateScyWindow(window);
    }
 
+   override public function makeMainScyWindow(scyElo: ScyElo): Void {
+      makeMainScyWindow(scyElo.getUri())
+   }
+
    override public function makeMainScyWindow(window: ScyWindow): Void {
       windowPositioner.makeMainWindow(window);
       windowPositioner.positionWindows();
       windowManager.activateScyWindow(window);
+   }
+
+   override public function saveCurrentWindowState():Void{
+      if (activeLas!=null){
+         def windowPositionsState = windowPositioner.getWindowPositionsState();
+         missionModel.setWindowStatesXml(activeLas.id, windowPositionsState.getXml());
+      }
    }
 
    function activeLasChanged(oldActiveLas: LasFX) {
@@ -276,15 +301,27 @@ public class ScyWindowControlImpl extends ScyWindowControl {
    function getScyWindow(eloUri: URI): ScyWindow {
       var scyWindow = findScyWindow(eloUri);
       if (scyWindow == null) {
-         scyWindow = createScyWindow(eloUri);
+         def scyElo = ScyElo.loadMetadata(eloUri, tbi);
+         scyWindow = createScyWindow(scyElo);
       }
       return scyWindow;
    }
 
-   function createScyWindow(eloUri: URI): ScyWindow {
-      def scyElo = ScyElo.loadElo(eloUri, tbi);
+   function getScyWindow(scyElo: ScyElo): ScyWindow {
+      var scyWindow = findScyWindow(scyElo.getUri());
+      if (scyWindow == null) {
+         scyWindow = createScyWindow(scyElo);
+      }
+      return scyWindow;
+   }
+
+//   function createScyWindow(eloUri: URI): ScyWindow {
+//      def scyElo = ScyElo.loadElo(eloUri, tbi);
+//      createScyWindow(scyElo)
+//   }
+   function createScyWindow(scyElo: ScyElo): ScyWindow {
       var scyWindow = StandardScyWindow {
-                 eloUri: eloUri;
+                 eloUri: scyElo.getUri()
                  scyElo: scyElo
                  eloType: scyElo.getTechnicalFormat()
                  eloToolConfig: eloConfigManager.getEloToolConfig(scyElo.getTechnicalFormat())
@@ -301,7 +338,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
                  windowStyler: windowStyler
               }
       windowStyler.style(scyWindow);
-      var anchorAttribute = missionMap.getAnchorAttribute(eloUri);
+      var anchorAttribute = missionMap.getAnchorAttribute(scyElo.getUri());
       if (anchorAttribute != null) {
          anchorAttribute.scyWindow = scyWindow;
          scyWindow.scyWindowAttributes = anchorAttribute;
