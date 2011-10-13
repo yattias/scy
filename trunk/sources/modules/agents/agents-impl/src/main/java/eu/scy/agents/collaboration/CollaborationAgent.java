@@ -117,7 +117,7 @@ public class CollaborationAgent extends AbstractThreadedAgent {
                 session = a.getContext(ContextConstants.session);
                 elouri = a.getAttribute("proposed_elo");
                 type = a.getType();
-                lasId = a.getAttribute("lasId");
+                lasId = a.getAttribute("las_id");
                 if (type.equals("collaboration_request")) {
                     proposedUser = a.getAttribute("proposed_user");
                     proposingUser = a.getUser();
