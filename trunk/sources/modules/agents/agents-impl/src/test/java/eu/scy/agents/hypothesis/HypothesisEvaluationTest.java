@@ -101,72 +101,72 @@ public class HypothesisEvaluationTest extends AbstractTestFixture {
         try {
             this.stopAgentFrameWork();
             super.tearDown();
-        } catch (AgentLifecycleException e) {
+        } catch ( AgentLifecycleException e ) {
             e.printStackTrace();
         }
     }
 
     @Test
-    public void testRunOnEloSaved() throws TupleSpaceException, IOException, ClassNotFoundException {
+    public void testRunOnEloSaved() throws TupleSpaceException, IOException, ClassNotFoundException, InterruptedException {
         AgentParameter agentParameter = new AgentParameter(Mission.MISSION1.getName(),
-                                                           AgentProtocol.GLOBAL_SCAFFOLDING_LEVEL);
+                AgentProtocol.GLOBAL_SCAFFOLDING_LEVEL);
         agentParameter.setParameterValue(Integer.toString(AgentProtocol.SCAFFOLD_LEVEL_HIGH));
         agentParameterAPI.setParameter("global", agentParameter);
         this.login("testUser",
-                   "roolo://memory/0/0/Design+a+CO2-friendly+house.scymissionspecification",
-                   Mission.MISSION1.getName(), "en", "co2_2");
+                "roolo://memory/0/0/Design+a+CO2-friendly+house.scymissionspecification",
+                Mission.MISSION1.getName(), "en", "co2_2");
+        Thread.sleep(100);
 
         Tuple tuple = new Tuple("action", UUID1234, TIME_IN_MILLIS,
-                                ActionConstants.ACTION_ELO_SAVED, "testUser", "SomeTool", MISSION1,
-                                "TestSession", this.eloPath, "elo_type=" + ELO_TYPE, "elo_uri="
-                                                                                     + this.eloPath);
+                ActionConstants.ACTION_ELO_SAVED, "testUser", "SomeTool", MISSION1,
+                "TestSession", this.eloPath, "elo_type=" + ELO_TYPE, "elo_uri="
+                + this.eloPath);
         this.getActionSpace().write(tuple);
 
         Tuple response = this.getCommandSpace().waitToTake(new Tuple(
-                                                                     HypothesisEvaluationAgent.EVAL,
-                                                                     String.class, String.class,
-                                                                     String.class, String.class,
-                                                                     String.class,
-                                                                     Field.createWildCardField()),
-                                                           AgentProtocol.MINUTE * 1);
+                HypothesisEvaluationAgent2.EVAL,
+                String.class, String.class,
+                String.class, String.class,
+                String.class,
+                Field.createWildCardField()),
+                AgentProtocol.MINUTE * 1);
         assertNotNull("no response received", response);
         ByteArrayInputStream bytesIn = new ByteArrayInputStream(
-                                                                (byte[]) response.getField(6).getValue());
+                (byte[]) response.getField(6).getValue());
         ObjectInputStream objectIn = new ObjectInputStream(bytesIn);
         HashMap<Integer, Integer> histogram = (HashMap<Integer, Integer>) objectIn.readObject();
         String string = histogram.toString();
-        assertEquals("{0=1, 2=3}", string);
+        assertEquals("{0=2, 1=3, 2=2}", string);
     }
 
     @Test
     public void testRunOnEloFinished() throws TupleSpaceException, IOException,
             ClassNotFoundException {
         AgentParameter agentParameter = new AgentParameter(Mission.MISSION1.getName(),
-                                                           AgentProtocol.GLOBAL_SCAFFOLDING_LEVEL);
+                AgentProtocol.GLOBAL_SCAFFOLDING_LEVEL);
         agentParameter.setParameterValue(Integer.toString(AgentProtocol.SCAFFOLD_LEVEL_MEDIUM));
         agentParameterAPI.setParameter("global", agentParameter);
 
         this.login("testUser",
-                   "roolo://memory/0/0/Design+a+CO2-friendly+house.scymissionspecification",
-                   Mission.MISSION1.getName(), "en", "co2_2");
+                "roolo://memory/0/0/Design+a+CO2-friendly+house.scymissionspecification",
+                Mission.MISSION1.getName(), "en", "co2_2");
 
         Tuple tuple = new Tuple("action", UUID1234, TIME_IN_MILLIS, ActionConstants.ELO_FINISHED,
-                                "testUser", "SomeTool", MISSION1, "TestSession", this.eloPath);
+                "testUser", "SomeTool", MISSION1, "TestSession", this.eloPath);
         this.getActionSpace().write(tuple);
 
-        Tuple response = this.getCommandSpace().waitToTake(new Tuple(
-                                                                     HypothesisEvaluationAgent.EVAL,
-                                                                     String.class, String.class,
-                                                                     String.class, String.class,
-                                                                     String.class,
-                                                                     Field.createWildCardField()),
-                                                           AgentProtocol.MINUTE * 1);
+        Tuple response = this.getCommandSpace().waitToTake(new Tuple(HypothesisEvaluationAgent2.EVAL,
+                String.class, String.class,
+                String.class, String.class,
+                String.class,
+                Field.createWildCardField()),
+                AgentProtocol.MINUTE * 1);
         assertNotNull("no response received", response);
         ByteArrayInputStream bytesIn = new ByteArrayInputStream(
-                                                                (byte[]) response.getField(6).getValue());
+                (byte[]) response.getField(6).getValue());
         ObjectInputStream objectIn = new ObjectInputStream(bytesIn);
         HashMap<Integer, Integer> histogram = (HashMap<Integer, Integer>) objectIn.readObject();
         String string = histogram.toString();
-        assertEquals("{0=1, 2=3}", string);
+        assertEquals("{0=2, 1=3, 2=2}", string);
     }
 }

@@ -56,7 +56,7 @@ public class HypothesisDecisionMakerAgent extends AbstractDecisionAgent implemen
         try {
             this.listenerId = this.getCommandSpace().eventRegister(
                     Command.WRITE,
-                    new Tuple(HypothesisEvaluationAgent.EVAL, String.class, String.class, String.class, String.class,
+                    new Tuple(HypothesisEvaluationAgent2.EVAL, String.class, String.class, String.class, String.class,
                             String.class, Field.createWildCardField()), this, true);
         } catch ( TupleSpaceException e ) {
             e.printStackTrace();
