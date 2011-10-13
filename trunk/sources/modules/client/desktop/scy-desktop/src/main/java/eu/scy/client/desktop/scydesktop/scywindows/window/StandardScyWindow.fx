@@ -409,6 +409,7 @@ public class StandardScyWindow extends ScyWindow {
                                 cacheHint = CacheHint.DEFAULT;
                                 isAnimating = false;
                                 eloFinishedButton.enabled = true;
+                                toFront();
                                 finishedOpeningWindow();
                             }
                         }
@@ -472,6 +473,7 @@ public class StandardScyWindow extends ScyWindow {
                                     cacheHint = CacheHint.DEFAULT;
                                     isAnimating = false;
                                     eloFinishedButton.enabled = true;
+                                    toFront();
                                     finishedOpeningWindow();
                                 }
                             }
