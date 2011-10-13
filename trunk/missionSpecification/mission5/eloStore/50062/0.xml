@@ -242,13 +242,7 @@
       </nextLasses>
     </las>
   </lasses>
-  <windowStatesXmls>
-    <windowStatesXml id="information">
-      <windowstates>
-        <window uri="roolo://memory/50055/0/Concept-map+over+glucose.scymapping" layoutX="804.4" layoutY="35.0" closedLayoutX="804.4" closedLayoutY="35.0" relativeLayoutCenterX="0.8507874" relativeLayoutCenterY="0.08692422" width="120.0" height="47.0" rotation="0.0" relativeWidth="0.0" relativeHeight="0.0" opened="false" isManuallyRepositioned="false" />
-      </windowstates>
-    </windowStatesXml>
-  </windowStatesXmls>
+  <windowStatesXmls />
 </missionModel>
 </content>
 <resources>
