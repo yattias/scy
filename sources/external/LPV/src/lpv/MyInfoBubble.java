@@ -1,3 +1,4 @@
+package lpv;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
@@ -12,7 +13,7 @@ import java.awt.geom.GeneralPath;
 import javax.swing.*;
 
 
-public class MyInfoBubble extends JPanel{
+ class MyInfoBubble extends JPanel{
 
 	/**
 	 * 

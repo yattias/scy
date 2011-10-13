@@ -1,16 +1,18 @@
+package lpv;
 
 
 
 
 
-public class MyContentBubble extends MyInfoBubble {
+
+class MyContentBubble extends MyInfoBubble {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -620111665991297216L;
 	private String header,author,time,description;
-	private village.StateObject owner;
+	private lpv.StateObject owner;
 	
 	public MyContentBubble(int foX, int foY, int w, int h) {
 		super(foX, foY, w, h);
@@ -53,11 +55,11 @@ public class MyContentBubble extends MyInfoBubble {
 	}
 	
 	
-	public void setOwner(village.StateObject o){
+	public void setOwner(lpv.StateObject o){
 		owner = o;
 	}
 	
-	public village.StateObject getOwner(){
+	public lpv.StateObject getOwner(){
 		return owner;
 	}
 	
