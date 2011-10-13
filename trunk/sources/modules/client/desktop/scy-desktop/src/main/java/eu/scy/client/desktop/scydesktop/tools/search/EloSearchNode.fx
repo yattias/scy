@@ -497,7 +497,7 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
    }
 
    function openElo(): Void {
-      def newWindow = scyDesktop.scyWindowControl.addOtherScyWindow(selectedSearchResult.getScyElo().getUri());
+      def newWindow = scyDesktop.scyWindowControl.addOtherScyWindow(selectedSearchResult.getScyElo());
       scyDesktop.scyWindowControl.makeMainScyWindow(newWindow);
 //      eloOpenedAction(newWindow)
    }

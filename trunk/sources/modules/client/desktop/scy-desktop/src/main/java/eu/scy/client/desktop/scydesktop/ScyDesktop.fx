@@ -35,7 +35,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.config.SpringConfigFactory;
-import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ScyToolsList;
 import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
@@ -631,7 +630,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
    }
 
    function loadSingleScyElo() {
-      def window = scyWindowControl.addOtherScyWindow(missionRunConfigs.scyEloToLoad.getUri());
+      def window = scyWindowControl.addOtherScyWindow(missionRunConfigs.scyEloToLoad);
       window.openFixedFullScreen();
       deferLoadTimer();
    }
@@ -971,6 +970,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
          }
       }
       try {
+         scyWindowControl.saveCurrentWindowState();
          missionModelFX.updateElo();
       } catch (e: Exception) {
          logger.error("an exception occured during the update of mission map model elo", e);
@@ -1066,11 +1066,11 @@ function run() {
                  scyDesktop.windows.addScyWindow(window);
               }
            }
-   var newScyWindowTool = NewScyWindowTool {
-              repository: config.getRepository();
-              titleKey: config.getTitleKey();
-              technicalFormatKey: config.getTechnicalFormatKey();
-           }
+//   var newScyWindowTool = NewScyWindowTool {
+//              repository: config.getRepository();
+//              titleKey: config.getTitleKey();
+//              technicalFormatKey: config.getTechnicalFormatKey();
+//           }
    //   var windowContentCreatorRegistryFX:WindowContentCreatorRegistryFX =WindowContentCreatorRegistryFXImpl{
    //         };
    //
@@ -1095,8 +1095,8 @@ function run() {
            //      bottomLeftCornerTool:newWindowButton;
            //        bottomLeftCornerTool: newScyWindowTool;
            }
-   newScyWindowTool.scyDesktop = scyDesktop;
-   scyDesktop.bottomLeftCornerTool = newScyWindowTool;
+//   newScyWindowTool.scyDesktop = scyDesktop;
+//   scyDesktop.bottomLeftCornerTool = newScyWindowTool;
    //   scyDesktop.bottomLeftCornerTool = Rectangle{x:10,y:10,width:100,height:100,fill:Color.BLACK};
 
    scyDesktop.newEloCreationRegistry.registerEloCreation("test");

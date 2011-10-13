@@ -21,6 +21,7 @@ import eu.scy.client.desktop.scydesktop.edges.IEdgesManager;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.elofactory.EloConfigManager;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleManager;
+import eu.scy.common.scyelo.ScyElo;
 
 
 /**
@@ -53,22 +54,28 @@ public mixin class ScyWindowControl {
    //   public var edgesManager: EdgesManager;
 
    public abstract function addOtherScyWindow(eloUri:URI): ScyWindow;
+   public abstract function addOtherScyWindow(scyElo: ScyElo): ScyWindow;
    
    public abstract function addOtherScyWindow(eloType:String): ScyWindow;
 
    public abstract function addOtherScyWindow(window:ScyWindow): ScyWindow;
 
    public abstract function addOtherCollaborativeScyWindow(eloUri:URI, mucid: String): ScyWindow;
+   public abstract function addOtherCollaborativeScyWindow(scyElo: ScyElo, mucid: String): ScyWindow;
 
    public abstract function removeOtherScyWindow(eloUri:URI): Void;
+   public abstract function removeOtherScyWindow(scyElo: ScyElo): Void;
 
    public abstract function removeOtherScyWindow(window:ScyWindow): Void;
 
    public abstract function makeMainScyWindow(eloUri:URI): Void;
+   public abstract function makeMainScyWindow(scyElo: ScyElo): Void;
 
    public abstract function makeMainScyWindow(window: ScyWindow): Void;
 
    public abstract function newEloSaved(eloUri:URI):Void;
+
+   public abstract function saveCurrentWindowState():Void;
 
 //   public function positionWindows():Void{
 //      positionWindows(false);

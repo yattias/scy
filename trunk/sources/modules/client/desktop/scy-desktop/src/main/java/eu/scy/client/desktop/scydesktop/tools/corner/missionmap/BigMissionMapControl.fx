@@ -211,7 +211,7 @@ public class BigMissionMapControl extends CustomNode {
    function openElo(scyElo: ScyElo, las: LasFX): Void {
       missionModel.selectLas(las);
 
-      scyWindowControl.makeMainScyWindow(scyElo.getUri());
+      scyWindowControl.makeMainScyWindow(scyElo);
       hideBigMissionMap();
    }
 

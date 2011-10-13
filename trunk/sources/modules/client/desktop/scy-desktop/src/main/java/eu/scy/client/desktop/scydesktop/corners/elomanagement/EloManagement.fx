@@ -197,7 +197,7 @@ public class EloManagement extends CustomNode {
    }
 
    function createArchivedElo(uri: URI): ArchivedElo {
-      def scyElo = ScyElo.loadMetadata(uri, tbi);
+      def scyElo = ScyElo.loadElo(uri, tbi);
       if (scyElo==null){
          logger.warn("could not find template elo: {uri}");
          return null;
@@ -238,22 +238,14 @@ public class EloManagement extends CustomNode {
    }
 
    function createNewEloFromTemplate(templateDisplay: Object): Void {
-      var archivedElo = templateDisplay as ArchivedElo;
+      def archivedElo = templateDisplay as ArchivedElo;
       if (archivedElo != null) {
-         var eloTemplateUri = archivedElo.getScyElo().getUri();
-         var newElo = repository.retrieveELO(eloTemplateUri);
-         if (newElo != null) {
-            var titleContainer = newElo.getMetadata().getMetadataValueContainer(titleKey);
-            var templateTitle = titleContainer.getValue() as String;
-            setTitleAndLanguage(newElo, scyDesktop.newTitleGenerator.generateNewTitleFromName(templateTitle));
-            newElo.getMetadata().getMetadataValueContainer(templateKey).setValue("true");
-            newElo.getMetadata().getMetadataValueContainer(creatorKey).setValue(new Contribute(tbi.getLoginUserName(), System.currentTimeMillis()));
-            var metadata = repository.addForkedELO(newElo);
-            eloFactory.updateELOWithResult(newElo, metadata);
-            scyWindowControl.addOtherScyWindow(newElo.getUri());
-         } else {
-            logger.error("can't find template elo, with uri: {eloTemplateUri}");
-         }
+         def newScyElo = new ScyElo(archivedElo.getScyElo().getElo().clone(),tbi);
+         setTitleAndLanguage(newScyElo.getElo(),scyDesktop.newTitleGenerator.generateNewTitleFromName(newScyElo.getTitle()));
+         newScyElo.setTemplate(true);
+         newScyElo.setCreator(tbi.getLoginUserName());
+         newScyElo.saveAsForkedElo();
+         scyWindowControl.addOtherScyWindow(newScyElo);
       }
       closeCreateNewEloFromTemplateModalDialogBox()
    }
@@ -334,7 +326,7 @@ public class EloManagement extends CustomNode {
       if (archivedElo != null) {
          FX.deferAction(function(): Void {
             def lastVersionScyElo = ScyElo.loadLastVersionMetadata(archivedElo.getEloUri(), tbi);
-            var scyWindow = scyWindowControl.addOtherScyWindow(lastVersionScyElo.getUri());
+            var scyWindow = scyWindowControl.addOtherScyWindow(lastVersionScyElo);
             scyWindowControl.makeMainScyWindow(scyWindow);
             scyDesktop.missionModelFX.removeArchivedElo(archivedElo);
          })

@@ -186,7 +186,7 @@ public class VersionViewer extends CustomNode, Resizable, ScyToolFX {
 
    function openElo(elo: ScyElo) {
       if (elo != null) {
-         def eloWindow = scyDesktop.scyWindowControl.addOtherScyWindow(elo.getUri());
+         def eloWindow = scyDesktop.scyWindowControl.addOtherScyWindow(elo);
          if (eloWindow!=null){
             scyDesktop.scyWindowControl.makeMainScyWindow(eloWindow);
          }
