@@ -117,9 +117,9 @@ public class CollaborationAgent extends AbstractThreadedAgent {
                 session = a.getContext(ContextConstants.session);
                 elouri = a.getAttribute("proposed_elo");
                 type = a.getType();
+                lasId = a.getAttribute("lasId");
                 if (type.equals("collaboration_request")) {
                     proposedUser = a.getAttribute("proposed_user");
-                    lasId = a.getAttribute("lasId");
                     proposingUser = a.getUser();
                     mucid = a.getAttribute("mucid");
                     handleCollaborationRequest(proposedUser, proposingUser, elouri, mission, session, mucid, lasId);
@@ -127,7 +127,7 @@ public class CollaborationAgent extends AbstractThreadedAgent {
                     proposedUser = a.getUser();
                     proposingUser = a.getAttribute("proposing_user");
                     requestAccepted = Boolean.parseBoolean(a.getAttribute("request_accepted"));
-                    handleCollaborationResponse(proposedUser, proposingUser, elouri, mission, session, requestAccepted);
+                    handleCollaborationResponse(proposedUser, proposingUser, elouri, mission, session, requestAccepted, lasId);
                     return;
                 }
             } else {
@@ -140,7 +140,7 @@ public class CollaborationAgent extends AbstractThreadedAgent {
             }
         }
 
-        private void handleCollaborationResponse(String proposedUser, String proposingUser, String elouri, String mission, String session, boolean requestAccepted) {
+        private void handleCollaborationResponse(String proposedUser, String proposingUser, String elouri, String mission, String session, boolean requestAccepted, String lasId) {
             logger.debug("Got a collaboration response from user " + proposedUser + " to " + proposingUser + " for elo " + elouri + ", 'accepted' is " + requestAccepted);
             Timer t = timeoutTimer.remove(proposingUser + proposedUser);
             if (t != null) {
@@ -159,9 +159,9 @@ public class CollaborationAgent extends AbstractThreadedAgent {
                         }
                         mucId = dataSyncResponse.getField(1).getValue().toString();
                         logger.debug("Fetching datasync response for ID " + id + ", mucid is " + mucId);
-                        sendNotification(proposingUser, mission, session, "type=collaboration_response", "accepted=true", "proposed_user=" + proposedUser, "proposing_user=" + proposingUser, "mucid=" + mucId, "proposed_elo=" + elouri);
+                        sendNotification(proposingUser, mission, session, "type=collaboration_response", "accepted=true", "proposed_user=" + proposedUser, "proposing_user=" + proposingUser, "mucid=" + mucId, "proposed_elo=" + elouri, "las_id="+lasId);
                     }
-                    sendNotification(proposedUser, mission, session, "type=collaboration_response", "accepted=true", "proposed_user=" + proposedUser, "proposing_user=" + proposingUser, "mucid=" + mucId, "proposed_elo=" + elouri);
+                    sendNotification(proposedUser, mission, session, "type=collaboration_response", "accepted=true", "proposed_user=" + proposedUser, "proposing_user=" + proposingUser, "mucid=" + mucId, "proposed_elo=" + elouri, "las_id="+lasId);
                 } catch (TupleSpaceException e) {
                     // in case of problems dump a stacktrace and do as if
                     // request has not been
@@ -170,7 +170,7 @@ public class CollaborationAgent extends AbstractThreadedAgent {
                     e.printStackTrace();
                 }
             } else {
-                sendNotification(proposingUser, mission, session, "type=collaboration_response", "accepted=false", "proposed_user=" + proposedUser, "proposing_user=" + proposingUser, "proposed_elo=" + elouri);
+                sendNotification(proposingUser, mission, session, "type=collaboration_response", "accepted=false", "proposed_user=" + proposedUser, "proposing_user=" + proposingUser, "proposed_elo=" + elouri, "las_id="+lasId);
             }
         }
 
