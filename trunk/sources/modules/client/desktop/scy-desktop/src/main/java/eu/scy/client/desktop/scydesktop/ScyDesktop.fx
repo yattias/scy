@@ -905,13 +905,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
 
    function askShutdownPermissionFromWindows(): Boolean {
       try {
-         for (window in windows.getScyWindows()) {
-            if (window.eloUri != null) {
-               if (not window.scyToolsList.aboutToClose()) {
-                  return false
-               }
-            }
-         }
+         return scyWindowControl.askShutdownPermissionFromWindows();
       } catch (e: Exception) {
          initializer.exceptionCatcher.showAndLogUncaughtException(Thread.currentThread(), e);
       }
@@ -929,7 +923,6 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       logger.info("Scy desktop is shutting down....");
       if (not initializer.globalReadOnlyMode) {
          XFX.runActionInBackgroundAndCallBack(saveAll, function(o:Object){ logAndExit() });
-//         saveAll();
       }
    }
 
@@ -959,18 +952,19 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
    function saveAll(): Void {
       println("Now saving all ELOs....");
       logger.info("Now saving all ELOs....");
-      for (window in windows.getScyWindows()) {
-         if (window.eloUri != null) {
-            try {
-               window.isQuiting = true;
-               window.scyToolsList.onQuit();
-            } catch (e: Exception) {
-               logger.error("an exception occured during the aboutToClose of {window.eloUri}", e);
-            }
-         }
+      try {
+         scyWindowControl.saveBeforeQuit();
+      } catch (e: Exception) {
+         logger.error("an exception occured during the saving of elos", e);
       }
+      logger.info("Now saving current window state....");
       try {
          scyWindowControl.saveCurrentWindowState();
+      } catch (e: Exception) {
+         logger.error("an exception occured during the saving of the window state", e);
+      }
+      logger.info("Now saving mission model....");
+      try {
          missionModelFX.updateElo();
       } catch (e: Exception) {
          logger.error("an exception occured during the update of mission map model elo", e);

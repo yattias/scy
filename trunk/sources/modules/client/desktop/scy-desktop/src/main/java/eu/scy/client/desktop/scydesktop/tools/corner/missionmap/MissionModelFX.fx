@@ -123,22 +123,40 @@ public class MissionModelFX extends MissionModel {
       }
    }
 
-   public function selectLas(lasId: String): Void {
-       selectLas(getLasById(lasId));
+//   public function selectLas(las: LasFX): Void {
+//      if (las == activeLas) {
+//         // nothing changed
+//         return;
+//      } else {
+//         def previousId = activeLas.id;
+//         activeLas = las;
+//         logger.debug("new activeLas {activeLas}");
+//         missionModel.setSelectedLas(activeLas);
+//         logLasChange(previousId, activeLas.id);
+//         updateElo();
+//      }
+//   }
+   public function setSelectedLas(lasId: String): Void {
+       setSelectedLas(getLasById(lasId));
    }
 
-   public function selectLas(las: LasFX): Void {
-      if (las == activeLas) {
-         // nothing changed
+   function setSelectedLas(selectedLas: LasFX): Void {
+      setSelectedLas(selectedLas.las)
+   }
+
+   override public function setSelectedLas(selectedLas: Las): Void {
+      if (activeLas==selectedLas){
+         // noting changed
          return;
-      } else {
-         def previousId = activeLas.id;
-         activeLas = las;
-         logger.debug("new activeLas {activeLas}");
-         missionModel.setSelectedLas(activeLas);
-         logLasChange(previousId, activeLas.id);
-         updateElo();
       }
+
+      def previousId = activeLas.id;
+      missionModel.setSelectedLas(selectedLas);
+      this.activeLas = missionUtils.getLasFX(selectedLas);
+      logger.debug("new activeLas {activeLas}");
+      missionModel.setSelectedLas(activeLas);
+      logLasChange(previousId, activeLas.id);
+      updateElo();
    }
 
    function logLasChange(oldLasId: String, newLasId: String): Void {
@@ -245,16 +263,6 @@ public class MissionModelFX extends MissionModel {
 
    override public function getLoEloUris(): List {
       return missionModel.getLoEloUris()
-   }
-
-   override public function setSelectedLas(selectedLas: Las): Void {
-      def previousId = activeLas.id;
-      missionModel.setSelectedLas(selectedLas);
-      this.activeLas = missionUtils.getLasFX(selectedLas);
-      logger.debug("new activeLas {activeLas}");
-      missionModel.setSelectedLas(activeLas);
-      logLasChange(previousId, activeLas.id);
-      updateElo();
    }
 
    override public function getEloUris(allElos: Boolean): List {
