@@ -54,7 +54,7 @@ public class FlyingSaucerBrowser extends CustomNode, Resizable, ScyToolGetter {
    def spacing = 5.0;
 
    public override function create(): Node {
-      println("showTitle: {showTitle}");
+//      println("showTitle: {showTitle}");
       var content;
       if (showTitle) {
          content = [drawerDescription, createBrowserComponent()];
