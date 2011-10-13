@@ -38,6 +38,10 @@ public function removeModalDialog(node: Node): Void {
     removeModalDialog(node, false, false);
 }
 
+public function removeModalDialog(node: Node, animated: Boolean): Void {
+    removeModalDialog(node, animated, false);
+}
+
 public function removeModalDialog(node: Node, animated: Boolean, reallyRemove: Boolean): Void {
     modalDialogLayer.removeModalDialogNode(node, animated, reallyRemove);
 }

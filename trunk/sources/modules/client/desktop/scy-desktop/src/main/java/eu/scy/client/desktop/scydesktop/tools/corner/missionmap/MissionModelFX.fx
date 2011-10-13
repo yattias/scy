@@ -21,10 +21,10 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.desktoputils.XFX;
 import java.util.Collection;
 import eu.scy.client.desktop.scydesktop.scywindows.ShowMoreInfo;
-import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoTypes;
 import eu.scy.common.mission.ArchivedElo;
 import java.util.concurrent.locks.ReentrantLock;
 import java.lang.Thread;
+import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoTypes;
 
 /**
  * @author SikkenJ
@@ -121,6 +121,10 @@ public class MissionModelFX extends MissionModel {
          updateElo();
          scyDesktop.edgesManager.findLinks(null);
       }
+   }
+
+   public function selectLas(lasId: String): Void {
+       selectLas(getLasById(lasId));
    }
 
    public function selectLas(las: LasFX): Void {
@@ -326,6 +330,15 @@ public class MissionModelFX extends MissionModel {
          }
       }
       return null
+   }
+
+   public function getLasById(lasId:String):LasFX{
+       for(las in lasses){
+           if(las.id.equals(lasId)){
+               return las;
+           }
+       }
+       return null;
    }
 
    public function showWebNews(eloUri: URI): Void {

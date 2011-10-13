@@ -10,7 +10,6 @@ import eu.scy.notification.api.INotification;
 import eu.scy.client.desktop.scydesktop.remotecontrol.api.ScyDesktopRemoteCommand;
 import java.net.URI;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
-import eu.scy.client.desktop.desktoputils.XFX;
 
 /**
  * @author sven
@@ -46,20 +45,8 @@ public class CollaborationResponseCommand extends ScyDesktopRemoteCommand {
             }
             //change las if not the right
             if((not (lasId.equals(""))) and (not (lasId.equals(myLasId)))){
-               XFX.deferActionAndWait(function() :Void {
-                   scyDesktop.bigMissionMapControl.bigMissionMapVisible=true;
-               });
-               XFX.runActionAfter(function() : Void {
-                     def oldAnchorDisplay = scyDesktop.scyWindowControl.missionMap.getAnchorDisplay(scyDesktop.missionModelFX.activeLas);
-                     oldAnchorDisplay.selected = false;
-                     def newAnchorDisplay = scyDesktop.scyWindowControl.missionMap.getAnchorDisplayFromLasId(lasId);
-                     newAnchorDisplay.selected = true;
-               }, 1s);
-               XFX.runActionAfter(function() : Void {
-                     scyDesktop.missionModelFX.activeLas.id = lasId;
-                     scyDesktop.bigMissionMapControl.bigMissionMapVisible=false;
-               }, 1s);
-            }
+                scyDesktop.bigMissionMapControl.teleportToLas(lasId, true);
+            } 
             def mucid: String = notification.getFirstProperty("mucid");
             var collaborationWindow: ScyWindow = scyDesktop.scyWindowControl.windowManager.findScyWindow(eloUri);
             if (collaborationWindow == null) {
