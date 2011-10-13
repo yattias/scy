@@ -129,8 +129,8 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       } else {
          colorScheme = windowStyler.getWindowColorScheme(activeLas.mainAnchor.scyElo);
          if (runPhase and activeLas.nrOfTimesInstructionShowed < 1) {
-            //            FX.deferAction(showInstructionWindow);
-            showInstructionWindow();
+              FX.deferAction(showInstructionWindow);
+//            showInstructionWindow();
             ++activeLas.nrOfTimesInstructionShowed;
          }
       }

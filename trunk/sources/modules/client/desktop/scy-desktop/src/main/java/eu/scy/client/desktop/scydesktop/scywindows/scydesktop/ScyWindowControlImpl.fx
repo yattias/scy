@@ -16,7 +16,6 @@ import eu.scy.client.desktop.desktoputils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.LasFX;
 import javafx.util.Sequences;
 import java.lang.Void;
-import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.client.desktop.desktoputils.StringUtils;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowPositionsState;
@@ -30,17 +29,15 @@ public class ScyWindowControlImpl extends ScyWindowControl {
    def logger = Logger.getLogger(this.getClass());
    public var showEloInfoDisplay = false;
    var firstNewLas = true;
-   def techniocalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
    def activeLas = bind missionModel.activeLas on replace oldActiveLas {
               activeLasChanged(oldActiveLas);
-              if (firstNewLas and activeLas != null) {
-                 FX.deferAction(function() {
-                    activeLasChanged(activeLas);
-                 });
-                 firstNewLas = false;
-              }
+//              if (firstNewLas and activeLas != null) {
+//                 FX.deferAction(function() {
+//                    activeLasChanged(oldActiveLas);
+//                 });
+//                 firstNewLas = false;
+//              }
            }
-   var activeAnchorWindow: ScyWindow;
    /**
     * as the uri of a window can change (when saving the elo content, this always result is an other uri),
     * a simple Map does not work (unless the uris are updated)
