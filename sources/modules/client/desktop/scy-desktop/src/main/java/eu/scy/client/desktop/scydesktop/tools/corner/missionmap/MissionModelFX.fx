@@ -18,7 +18,6 @@ import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
-import eu.scy.client.desktop.desktoputils.XFX;
 import java.util.Collection;
 import eu.scy.client.desktop.scydesktop.scywindows.ShowMoreInfo;
 import eu.scy.common.mission.ArchivedElo;
@@ -71,12 +70,7 @@ public class MissionModelFX extends MissionModel {
    }
 
    public function initActiveLas(): Void {
-      def previousId = activeLas.id;
-      activeLas = missionUtils.getLasFX(missionModel.getSelectedLas());
-      logger.info("new activeLas {activeLas}");
-      missionModel.setSelectedLas(activeLas);
-      logLasChange(previousId, activeLas.id);
-      updateElo();
+      setSelectedLas(missionModel.getSelectedLas());
    }
 
    function createAllFxVersions() {
@@ -111,31 +105,11 @@ public class MissionModelFX extends MissionModel {
          } else {
             las.selectedAnchor = anchor;
          }
-         def previousId = activeLas.id;
-         XFX.deferActionAndWait(function(): Void {
-            activeLas = las;
-         });
-         logger.debug("new activeLas {activeLas}");
-         missionModel.setSelectedLas(activeLas);
-         logLasChange(previousId, activeLas.id);
-         updateElo();
+         setSelectedLas(las);
          scyDesktop.edgesManager.findLinks(null);
       }
    }
 
-//   public function selectLas(las: LasFX): Void {
-//      if (las == activeLas) {
-//         // nothing changed
-//         return;
-//      } else {
-//         def previousId = activeLas.id;
-//         activeLas = las;
-//         logger.debug("new activeLas {activeLas}");
-//         missionModel.setSelectedLas(activeLas);
-//         logLasChange(previousId, activeLas.id);
-//         updateElo();
-//      }
-//   }
    public function setSelectedLas(lasId: String): Void {
        setSelectedLas(getLasById(lasId));
    }
@@ -145,7 +119,8 @@ public class MissionModelFX extends MissionModel {
    }
 
    override public function setSelectedLas(selectedLas: Las): Void {
-      if (activeLas==selectedLas){
+      println("activeLas: {activeLas}");
+      if (activeLas.las==selectedLas){
          // noting changed
          return;
       }
@@ -153,8 +128,8 @@ public class MissionModelFX extends MissionModel {
       def previousId = activeLas.id;
       missionModel.setSelectedLas(selectedLas);
       this.activeLas = missionUtils.getLasFX(selectedLas);
+      saveUpdatedModel = true;
       logger.debug("new activeLas {activeLas}");
-      missionModel.setSelectedLas(activeLas);
       logLasChange(previousId, activeLas.id);
       updateElo();
    }

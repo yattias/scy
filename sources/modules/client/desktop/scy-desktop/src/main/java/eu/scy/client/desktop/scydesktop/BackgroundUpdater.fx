@@ -25,7 +25,9 @@ public class BackgroundUpdater {
 
    function updateBackground():Void{
       def eloIcon = windowStyler.getScyEloIcon(activeLas.mainAnchor.scyElo);
-      background.eloIcon = eloIcon;
+      FX.deferAction(function():Void{
+            background.eloIcon = eloIcon;
+         });
    }
 
 }
