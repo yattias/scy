@@ -27,6 +27,7 @@ import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleManager;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleLayer;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleKey;
+import java.awt.EventQueue;
 
 /**
  * @author SikkenJ
@@ -58,8 +59,8 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
               tooltipManager: tooltipManager
               bubbleManager: bubbleManager
               bubbleLayerId: lasCurtainBubbleLayerId
-              closeBubbleKey:BubbleKey.LAS_CURTAIN_CONTROL
-              openCloseBubbleKey:BubbleKey.LAS_CURTAIN_CONTROL
+              closeBubbleKey: BubbleKey.LAS_CURTAIN_CONTROL
+              openCloseBubbleKey: BubbleKey.LAS_CURTAIN_CONTROL
            }
    var instructionTool: ShowInfoUrl;
    def moreInfoWindow: MoreInfoWindow = MoreInfoWindow {
@@ -129,8 +130,11 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       } else {
          colorScheme = windowStyler.getWindowColorScheme(activeLas.mainAnchor.scyElo);
          if (runPhase and activeLas.nrOfTimesInstructionShowed < 1) {
-              FX.deferAction(showInstructionWindow);
-//            showInstructionWindow();
+            if (EventQueue.isDispatchThread()) {
+               showInstructionWindow();
+            } else {
+               FX.deferAction(showInstructionWindow);
+            }
             ++activeLas.nrOfTimesInstructionShowed;
          }
       }
