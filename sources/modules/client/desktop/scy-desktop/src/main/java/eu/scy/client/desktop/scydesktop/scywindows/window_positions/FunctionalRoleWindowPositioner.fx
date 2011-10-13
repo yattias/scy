@@ -365,7 +365,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
         def shift = area.width / (columns + 1);
         for (window in windowList) {
             if (window.isClosed and not window.isManuallyRepositioned) { // window.layoutX == 0 and window.layoutY == 0 and window.relativeLayoutCenterX == 0 and window.relativeLayoutCenterY == 0) {
-                
+
                 window.layoutX = area.layoutX + (column * shift) + ((column-1) * 25) - (window.width / 2);
                 window.layoutY = area.layoutY + topOffset + (row * padding);
                 if (window.closedPosition == null) {
@@ -438,7 +438,6 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
                 nextWindow.openWindow(newX, newY, newWidth, newHeight, angle);
             }
             insert topWindow into mainWindows;
-            topWindow.toFront();
         }
         // then we open the last (latest) mainWindow
         topWindow.openWindow(newX, newY, newWidth, newHeight, 0);
