@@ -2,10 +2,7 @@
 <metadata>
   <agents>
     <evaluation>
-      <hypoValue>
-        <key>2</key>
-        <value>3</value>
-      </hypoValue>
+      <hypoValue>(4,2)</hypoValue>
     </evaluation>
   </agents>
   <lom>

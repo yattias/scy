@@ -2,14 +2,8 @@
 <metadata>
   <agents>
     <evaluation>
-      <hypoValue>
-        <key>0</key>
-        <value>1</value>
-      </hypoValue>
-      <hypoValue>
-        <key>1</key>
-        <value>3</value>
-      </hypoValue>
+      <hypoValue>(0,1)</hypoValue>
+      <hypoValue>(2,3)</hypoValue>
     </evaluation>
   </agents>
   <lom>
