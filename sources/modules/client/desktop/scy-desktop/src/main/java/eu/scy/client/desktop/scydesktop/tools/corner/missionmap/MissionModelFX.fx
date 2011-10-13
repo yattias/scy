@@ -269,6 +269,10 @@ public class MissionModelFX extends MissionModel {
    }
 
    override public function setWindowStatesXml(lasId: String, xml: String): Void {
+      if (scyDesktop.initializer.dontUseMissionRuntimeElos){
+         // we are running on the mission specification, don't save the window states
+         return
+      }
       if (xml != missionModel.getWindowStatesXml(lasId)) {
          storedWindowStatesXmlsChanged = true
       }
