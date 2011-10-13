@@ -174,8 +174,18 @@ public class MissionMap extends CustomNode {
       links
    }
 
-   function getAnchorDisplay(las: LasFX): AnchorDisplay {
+   public function getAnchorDisplay(las: LasFX): AnchorDisplay {
       return anchorMap.get(las) as AnchorDisplay;
+   }
+
+   public function getAnchorDisplayFromLasId(lasId: String) : AnchorDisplay {
+       for (lasObject in anchorMap.keySet()) {
+           def las = lasObject as LasFX;
+           if (las.id.equals(lasId)) {
+               return anchorMap.get(las) as AnchorDisplay;
+           }
+       }
+       return null;
    }
 
    public function anchorSelected(anchorDisplay: AnchorDisplay, anchor: MissionAnchorFX): Void {
