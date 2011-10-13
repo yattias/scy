@@ -123,17 +123,7 @@ public class MissionLocator {
         return missionModel;
       }, function(missionModel): Void {
          initializer.launchTimer.startActivity("creating MissionModelFX");
-//         missionMapModel = MissionModelFX {
-//                    tbi: tbi
-//                    missionModel: missionModel as MissionModel
-//                    saveUpdatedModel: not initializer.dontUseMissionRuntimeElos
-//                 }
          startTheMission(missionRuntimeModel,null,missionSpecificationElo);
-//         startMission(MissionRunConfigs {
-//            tbi: tbi
-//            missionRuntimeModel: missionRuntimeModel
-//            missionMapModel: missionMapModel
-//         });
          ProgressOverlay.stopShowWorking();
       });
 
@@ -166,11 +156,6 @@ public class MissionLocator {
                     saveUpdatedModel: true
                  }
          startTheMission(missionRuntimeModel,null,missions.findMissionSpecificationEloByUri(missionRuntimeElo.getTypedContent().getMissionSpecificationEloUri()));
-//         startMission(MissionRunConfigs {
-//            tbi: tbi
-//            missionRuntimeModel: missionRuntimeModel
-//            missionMapModel: missionMapModel
-//         });
          ProgressOverlay.stopShowWorking();
       });
 
@@ -239,11 +224,6 @@ public class MissionLocator {
          return new BasicMissionRuntimeModel(missionRuntimeElo, null, tbi, missionMapModelElo, null, null, runtimeSettingsElo, null);
       }, function(missionRuntimeModel): Void {
          startTheMission(missionRuntimeModel as MissionRuntimeModel,null,null);
-//         startMission(MissionRunConfigs {
-//            tbi: tbi
-//            missionRuntimeModel: missionRuntimeModel as MissionRuntimeModel
-//            missionMapModel: missionMapModel
-//         });
          ProgressOverlay.stopShowWorking();
       });
    }
@@ -324,11 +304,6 @@ public class MissionLocator {
             missionRuntimeModel = missionRuntimeElo.getMissionRuntimeModel();
          }
          startTheMission(missionRuntimeModel,scyElo,null);
-//         startMission(MissionRunConfigs {
-//            tbi: tbi
-//            missionRuntimeModel: missionRuntimeModel
-//            scyEloToLoad: scyElo
-//         });
       } else {
          logger.warn("Cannot find product with uri: {eloUri}");
          DialogBox.showMessageDialog(String.format(##"Cannot find product with url:%n%s%nSCY-Lab will quit.", eloUri), ##"Cannot find product", null, function(): Void {

@@ -319,44 +319,6 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
                   doEloUpdate();
                   finishEloUpdate()
                }
-//               XFX.runActionInBackgroundAndCallBack(function() : Object {
-//                   updateTags(elo);
-//                   // it is (also) my elo
-//                   var dateFirstUserSaveSet = false;
-//                   var creatorSet = false;
-//                   if (scyElo.getDateFirstUserSave() == null) {
-//                      scyElo.setDateFirstUserSave(System.currentTimeMillis());
-//                      dateFirstUserSaveSet = true;
-//                   }
-//                   if (scyElo.getCreator() == null) {
-//                      scyElo.setCreator(loginName);
-//                      creatorSet = true;
-//                   }
-//                   if (myElo) {
-//                      try {
-//                         scyElo.updateElo();
-//                      } catch (e: ELONotLastVersionException) {
-//                         logger.error("unexpected ELONotLastVersionException for elo: {e.getURI()}, now doing a save as");
-//                         if (dateFirstUserSaveSet) {
-//                            scyElo.getMetadata().deleteMetatadata(dateFirstUserSaveKey);
-//                         }
-//                         if (creatorSet) {
-//                            scyElo.getMetadata().deleteMetatadata(creatorKey);
-//                         }
-//                         eloSaveAs(elo, eloSaverCallBack);
-//                      }
-//                   } else {
-//                      // it is not my, but as this window is being quit, i may not ask the user anything
-//                      scyElo.saveAsForkedElo();
-//                   }
-//                   scyToolActionLogger.eloSaved(elo);
-//                   myEloChanged.myEloChanged(scyElo);
-//                   return null;
-//               }, function (o :Object) {
-//                   eloSaverCallBack.eloSaved(scyElo.getElo());
-//                   ProgressOverlay.stopShowWorking();
-//                   showEloSaved();
-//               });
             } else {
                // it is not my elo, do a save as
                eloSaveAs(elo, eloSaverCallBack);
