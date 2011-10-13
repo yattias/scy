@@ -36,6 +36,9 @@
             <value>
                 /app/eportfolio/EPortfolioIndex.html=eportfolioIndexController
                 /app/eportfolio/dnaIndex.html=dnaIndexController
+                /app/eportfolio/dnaIndex_no.html=dnaIndexController
+                /app/eportfolio/dnaIndex_en.html=dnaIndexController
+                /app/eportfolio/dnaIndex_fr.html=dnaIndexController
                 /app/eportfolio/xml/toolURLProvider.html=toolURLProvider
                 /app/eportfolio/xml/currentMissionProgressOverview.html=currentMissionProgressOverview
                 /app/eportfolio/xml/eportfolioELOSearch.html=eportfolioELOSearchController
