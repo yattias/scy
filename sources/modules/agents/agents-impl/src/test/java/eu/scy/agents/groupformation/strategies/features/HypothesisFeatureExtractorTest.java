@@ -1,12 +1,27 @@
 package eu.scy.agents.groupformation.strategies.features;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
+import eu.scy.agents.Mission;
+import eu.scy.agents.api.parameter.AgentParameter;
+import eu.scy.agents.hypothesis.HypothesisEvaluationAgent2;
+import eu.scy.agents.impl.ActionConstants;
+import eu.scy.agents.impl.AgentProtocol;
+import eu.scy.agents.impl.AgentRooloServiceImpl;
+import eu.scy.agents.impl.parameter.AgentParameterAPIImpl;
+import eu.scy.agents.keywords.ExtractKeyphrasesAgent;
+import eu.scy.agents.keywords.ExtractTopicModelKeywordsAgent;
+import eu.scy.agents.keywords.OntologyKeywordsAgent;
+import eu.scy.agents.session.SessionAgent;
 import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import roolo.elo.api.IMetadata;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import roolo.elo.content.BasicContent;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,26 +29,9 @@ import java.net.URI;
 import java.rmi.dgc.VMID;
 import java.util.HashMap;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import roolo.elo.api.IMetadata;
-import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-import roolo.elo.content.BasicContent;
-
-import eu.scy.agents.Mission;
-import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.hypothesis.HypothesisEvaluationAgent;
-import eu.scy.agents.impl.ActionConstants;
-import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.agents.impl.AgentRooloServiceImpl;
-import eu.scy.agents.keywords.ExtractKeyphrasesAgent;
-import eu.scy.agents.keywords.ExtractTopicModelKeywordsAgent;
-import eu.scy.agents.keywords.OntologyKeywordsAgent;
-import eu.scy.agents.session.SessionAgent;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class HypothesisFeatureExtractorTest extends AbstractFeatureExtractorTest {
 
@@ -48,6 +46,7 @@ public class HypothesisFeatureExtractorTest extends AbstractFeatureExtractorTest
     private String eloPath;
 
     private URI eloUri;
+    private AgentParameterAPIImpl agentParameterAPI;
 
     @BeforeClass
     public static void startTS() {
@@ -72,7 +71,7 @@ public class HypothesisFeatureExtractorTest extends AbstractFeatureExtractorTest
         params.put(AgentProtocol.TS_PORT, TSPORT);
         this.agentMap.put(ExtractTopicModelKeywordsAgent.NAME, params);
         this.agentMap.put(ExtractKeyphrasesAgent.NAME, params);
-        this.agentMap.put(HypothesisEvaluationAgent.NAME, params);
+        this.agentMap.put(HypothesisEvaluationAgent2.NAME, params);
         this.agentMap.put(OntologyKeywordsAgent.NAME, params);
         this.agentMap.put(SessionAgent.NAME, params);
         this.startAgentFramework(this.agentMap);
@@ -84,25 +83,33 @@ public class HypothesisFeatureExtractorTest extends AbstractFeatureExtractorTest
         IMetadata metadata = this.repository.addNewELO(this.elo);
         eloUri = (URI) metadata.getMetadataValueContainer(this.typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER)).getValue();
         this.eloPath = eloUri.toString();
+        agentParameterAPI = new AgentParameterAPIImpl(getCommandSpace());
 
     }
 
     @Override
     @After
     public void tearDown() {
-        try {
-            this.stopAgentFrameWork();
+//        try {
+//            this.stopAgentFrameWork();
             super.tearDown();
-        } catch (AgentLifecycleException e) {
-            e.printStackTrace();
-        }
+//        } catch (AgentLifecycleException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Test
-    public void testRun() throws TupleSpaceException, IOException, ClassNotFoundException {
+    public void testRun() throws TupleSpaceException, IOException, ClassNotFoundException, InterruptedException {
+        AgentParameter agentParameter = new AgentParameter(Mission.MISSION1.getName(),
+                AgentProtocol.GLOBAL_SCAFFOLDING_LEVEL);
+        agentParameter.setParameterValue(Integer.toString(AgentProtocol.SCAFFOLD_LEVEL_HIGH));
+        agentParameterAPI.setParameter("global", agentParameter);
+
         this.login("testUser",
                    "roolo://memory/0/0/Design+a+CO2-friendly+house.scymissionspecification",
                    Mission.MISSION1.getName(), "en", "co2_2");
+
+        Thread.sleep(100);
 
         Tuple tuple = new Tuple("action", UUID1234, TIME_IN_MILLIS,
                                 ActionConstants.ACTION_ELO_SAVED, "testUser", "SomeTool", MISSION1,
@@ -111,7 +118,7 @@ public class HypothesisFeatureExtractorTest extends AbstractFeatureExtractorTest
         this.getActionSpace().write(tuple);
 
         Tuple response = this.getCommandSpace().waitToTake(new Tuple(
-                                                                     HypothesisEvaluationAgent.EVAL,
+                                                                     HypothesisEvaluationAgent2.EVAL,
                                                                      String.class, String.class,
                                                                      String.class, String.class,
                                                                      String.class,
@@ -125,7 +132,7 @@ public class HypothesisFeatureExtractorTest extends AbstractFeatureExtractorTest
                                                                                       null,
                                                                                       this.elo);
         assertEquals(4, features.length);
-        assertArrayEquals(new double[] { 1.0, 3.0, 0.0, 0.0 }, features, 0.000001);
+        assertArrayEquals(new double[] { 1.0, 0.0, 3.0, 0.0 }, features, 0.000001);
 
     }
 }
