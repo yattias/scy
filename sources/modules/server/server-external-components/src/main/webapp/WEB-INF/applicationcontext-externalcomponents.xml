@@ -68,7 +68,7 @@
 				<ref bean="generalELOSavedAgent" />
 				<ref bean="scysim" />
 				<ref bean="votat" />
-				<ref bean="toolexperience" />
+				<!--ref bean="toolexperience" /-->
 				<ref bean="collaboration" />
 				<ref bean="keywordsTfIdf" />
 				<ref bean="keywordsTopic" />
