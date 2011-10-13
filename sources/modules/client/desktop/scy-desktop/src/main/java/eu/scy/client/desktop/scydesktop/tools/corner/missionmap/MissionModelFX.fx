@@ -119,7 +119,7 @@ public class MissionModelFX extends MissionModel {
    }
 
    override public function setSelectedLas(selectedLas: Las): Void {
-      println("activeLas: {activeLas}");
+//      println("activeLas: {activeLas}");
       if (activeLas.las==selectedLas){
          // noting changed
          return;
