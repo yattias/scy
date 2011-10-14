@@ -9,22 +9,22 @@
         </role>
         <entity>jakob</entity>
         <date>
-          <dateTime>2011-09-29T15:37:11.577+0300</dateTime>
+          <dateTime>2011-10-14T22:13:38.745+0200</dateTime>
         </date>
       </contribute>
       <version>0</version>
     </lifecycle>
     <technical>
       <customElements>
-        <dateCreated>1317299831577</dateCreated>
-        <dateLastModified>1317299831577</dateLastModified>
+        <dateCreated>1318623218745</dateCreated>
+        <dateLastModified>1318623218745</dateLastModified>
       </customElements>
-      <format>scy/pedagogicalplansettings</format>
+      <format>scy/runtimesettings</format>
     </technical>
     <general>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/40696/0/Forensic+mission.scy</entry>
+        <entry>roolo://memory/40710/0/Forensic+mission.runtimesettings</entry>
       </identifier>
       <las />
       <missionId>forensic</missionId>
@@ -44,8 +44,8 @@
   </lom>
   <template>TRUE</template>
 </metadata>
-<content languageIndependent="true">
-
+<content languages="en" contentType="xml">
+<runtimeSettings />
 </content>
 <resources>
 </resources>
