@@ -59,6 +59,7 @@ public class ListSelectionTool extends CustomNode, Resizable {
                  }
               }
            }
+   var actionInProgress = false;
 
    function selectAction(): Void {
       if (listView.selectedIndex >= 0) {
@@ -67,6 +68,7 @@ public class ListSelectionTool extends CustomNode, Resizable {
    }
 
    public override function create(): Node {
+      var okButton: Button;
       mainVBox = VBox {
                  managed: false
                  spacing: spacing
@@ -93,8 +95,9 @@ public class ListSelectionTool extends CustomNode, Resizable {
                        content: [
                           Button {
                              text: okButtonLabel
-                             disable: bind listView.selectedItem == null
+                             disable: bind listView.selectedItem == null or actionInProgress
                              action: function() {
+                                actionInProgress = true;
                                 selectAction()
                              }
                           }
