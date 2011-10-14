@@ -284,7 +284,7 @@ public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX
 
 	// show the notification button
 	function addNotificationInTitleBar(message: String): Void {
-		notificationText = message;
+		notificationText = StringWrapper.wrapString(message, 100);
 	    scyMapperTitleBarButtonManager.titleBarButtons = [
 	                    saveTitleBarButton,
 	                    saveAsTitleBarButton,
