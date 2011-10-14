@@ -33,6 +33,8 @@ import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.client.desktop.scydesktop.tools.DrawerUIIndicator;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleKey;
+import java.lang.Runnable;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -57,6 +59,7 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel implements ScyTool
    private UrlSource urlSource;
    private DrawerUIIndicator drawerUIIndicator = null;
    private BubbleKey bubbleKey = null;
+   private ScyElo scyElo;
 
    public EloFlyingSaucerPanel(UrlSource urlSource, DrawerUIIndicator drawerUIIndicator, BubbleKey bubbleKey)
    {
@@ -137,7 +140,8 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel implements ScyTool
    }
 
    @Override
-   public DrawerUIIndicator getDrawerUIIndicator(){
+   public DrawerUIIndicator getDrawerUIIndicator()
+   {
       return drawerUIIndicator;
    }
 
@@ -147,44 +151,91 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel implements ScyTool
       return bubbleKey;
    }
 
-   public void setHomeElo(URI uri)
+   public void setHomeElo(final URI uri)
    {
-      ScyElo scyElo = ScyElo.loadElo(uri, toolBrokerAPI);
-      if (scyElo == null)
+      // load the elo in the background
+      new Thread(new Runnable()
       {
-         logger.error("the home elo does not exists: " + uri);
-         return;
-      }
-      setEloUri(uri);
-      String homeUrl = null;
-      URI homeUri = null;
-      switch (urlSource)
-      {
-         case ASSIGNMENT:
-            homeUri = scyElo.getAssignmentUri();
-            break;
-         case RESOURCES:
-            homeUri = scyElo.getResourcesUri();
-            break;
-         default:
-            homeUrl = getUrlFromContent(scyElo.getContent());
-      }
-      if (homeUrl == null && homeUri != null)
-      {
-         homeUrl = homeUri.toString();
-      }
-      if (homeUrl != null)
-      {
-         String localizedHomeUrl = getLocalizedUri(homeUrl);
-         setHomeUrl(localizedHomeUrl);
-      }
+
+         @Override
+         public void run()
+         {
+            scyElo = ScyElo.loadElo(uri, toolBrokerAPI);
+            if (scyElo == null)
+            {
+               logger.error("the home elo does not exists: " + uri);
+               return;
+            }
+            // and do the displaying in the EDT
+            SwingUtilities.invokeLater(new Runnable()
+            {
+
+               @Override
+               public void run()
+               {
+                  setEloUri(uri);
+                  String homeUrl = null;
+                  URI homeUri = null;
+                  switch (urlSource)
+                  {
+                     case ASSIGNMENT:
+                        homeUri = scyElo.getAssignmentUri();
+                        break;
+                     case RESOURCES:
+                        homeUri = scyElo.getResourcesUri();
+                        break;
+                     default:
+                        homeUrl = getUrlFromContent(scyElo.getContent());
+                  }
+                  if (homeUrl == null && homeUri != null)
+                  {
+                     homeUrl = homeUri.toString();
+                  }
+                  if (homeUrl != null)
+                  {
+                     String localizedHomeUrl = getLocalizedUri(homeUrl);
+                     setHomeUrl(localizedHomeUrl);
+                  }
+               }
+            });
+         }
+      }).start();
+//      if (scyElo == null)
+//      {
+//         logger.error("the home elo does not exists: " + uri);
+//         return;
+//      }
+//      setEloUri(uri);
+//      String homeUrl = null;
+//      URI homeUri = null;
+//      switch (urlSource)
+//      {
+//         case ASSIGNMENT:
+//            homeUri = scyElo.getAssignmentUri();
+//            break;
+//         case RESOURCES:
+//            homeUri = scyElo.getResourcesUri();
+//            break;
+//         default:
+//            homeUrl = getUrlFromContent(scyElo.getContent());
+//      }
+//      if (homeUrl == null && homeUri != null)
+//      {
+//         homeUrl = homeUri.toString();
+//      }
+//      if (homeUrl != null)
+//      {
+//         String localizedHomeUrl = getLocalizedUri(homeUrl);
+//         setHomeUrl(localizedHomeUrl);
+//      }
    }
 
    @Override
    public void loadUrl(final String url)
    {
       String localizedUrl = url;
-      if (url!=null){
+      if (url != null)
+      {
          localizedUrl = getLocalizedUri(url);
       }
       super.loadUrl(localizedUrl);
@@ -196,7 +247,7 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel implements ScyTool
       {
          long startNanos = System.nanoTime();
          URL url = uriLocalizer.localizeUrlwithChecking(new URL(urlString));
-         long millisUsed = (System.nanoTime()-startNanos)/1000000;
+         long millisUsed = (System.nanoTime() - startNanos) / 1000000;
          logger.debug("found localized url for " + urlString + " in " + millisUsed + " ms");
          return url.toString();
       }
@@ -250,9 +301,9 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel implements ScyTool
    @Override
    public void initialize(boolean windowContent)
    {
-       repository = toolBrokerAPI.getRepository();
-       eloFactory = toolBrokerAPI.getELOFactory();
-       metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
+      repository = toolBrokerAPI.getRepository();
+      eloFactory = toolBrokerAPI.getELOFactory();
+      metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
    }
 
    @Override
