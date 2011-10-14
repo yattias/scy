@@ -148,16 +148,18 @@ public class BigMissionMap extends MissionMap, Resizable {
    }
 
    public override function anchorSelected(anchorDisplay: AnchorDisplay, anchor: MissionAnchorFX): Void {
-      ProgressOverlay.startShowWorking();
-      XFX.runActionInBackgroundAndCallBack(function(): Object {
-         super.anchorSelected(anchorDisplay, anchor);
-         return null;
-      }, function(obj) {
-         FX.deferAction(function() {
-            anchorClicked();
-            ProgressOverlay.stopShowWorking();
-         });
-      });
+//      ProgressOverlay.startShowWorking();
+//      XFX.runActionInBackgroundAndCallBack(function(): Object {
+//         super.anchorSelected(anchorDisplay, anchor);
+//         return null;
+//      }, function(obj) {
+//         FX.deferAction(function() {
+//            anchorClicked();
+//            ProgressOverlay.stopShowWorking();
+//         });
+//      });
+      super.anchorSelected(anchorDisplay, anchor);
+      anchorClicked();
    }
 
 }
