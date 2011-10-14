@@ -24,6 +24,8 @@ import eu.scy.common.mission.ArchivedElo;
 import java.util.concurrent.locks.ReentrantLock;
 import java.lang.Thread;
 import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoTypes;
+import java.awt.EventQueue;
+import eu.scy.client.desktop.desktoputils.XFX;
 
 /**
  * @author SikkenJ
@@ -111,7 +113,7 @@ public class MissionModelFX extends MissionModel {
    }
 
    public function setSelectedLas(lasId: String): Void {
-       setSelectedLas(getLasById(lasId));
+      setSelectedLas(getLasById(lasId));
    }
 
    function setSelectedLas(selectedLas: LasFX): Void {
@@ -119,8 +121,8 @@ public class MissionModelFX extends MissionModel {
    }
 
    override public function setSelectedLas(selectedLas: Las): Void {
-//      println("activeLas: {activeLas}");
-      if (activeLas.las==selectedLas){
+      //      println("activeLas: {activeLas}");
+      if (activeLas.las == selectedLas) {
          // noting changed
          return;
       }
@@ -212,11 +214,19 @@ public class MissionModelFX extends MissionModel {
          if (updateEloLock.isLocked()) {
             logger.error("trying to update mission model, while an update is in progress. My thread name: {Thread.currentThread().getName()}");
          }
-         updateEloLock.lock();
-         try{
-            missionModel.updateElo();
-         } finally {
-            updateEloLock.unlock();
+         def updateMissionModelElo = function(): Void {
+                    updateEloLock.lock();
+                    try {
+                       missionModel.updateElo();
+                    } finally {
+                       updateEloLock.unlock();
+                    }
+                 }
+
+         if (EventQueue.isDispatchThread()) {
+            XFX.runActionInBackground(updateMissionModelElo);
+         } else {
+            updateMissionModelElo();
          }
       }
       contentChanged = false;
@@ -269,7 +279,7 @@ public class MissionModelFX extends MissionModel {
    }
 
    override public function setWindowStatesXml(lasId: String, xml: String): Void {
-      if (scyDesktop.initializer.dontUseMissionRuntimeElos){
+      if (scyDesktop.initializer.dontUseMissionRuntimeElos) {
          // we are running on the mission specification, don't save the window states
          return
       }
@@ -319,13 +329,13 @@ public class MissionModelFX extends MissionModel {
       return null
    }
 
-   public function getLasById(lasId:String):LasFX{
-       for(las in lasses){
-           if(las.id.equals(lasId)){
-               return las;
-           }
-       }
-       return null;
+   public function getLasById(lasId: String): LasFX {
+      for (las in lasses) {
+         if (las.id.equals(lasId)) {
+            return las;
+         }
+      }
+      return null;
    }
 
    public function showWebNews(eloUri: URI): Void {
