@@ -919,6 +919,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
 
    function saveAndCloseEverything(): Void {
       showingQuitDialog = false;
+      ProgressOverlay.startShowWorking();
       println("Scy desktop is shutting down....");
       logger.info("Scy desktop is shutting down....");
       if (not initializer.globalReadOnlyMode) {
