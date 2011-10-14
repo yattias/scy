@@ -46,8 +46,15 @@ public class ScyWindowControlImpl extends ScyWindowControl {
    var scyWindows: ScyWindow[];
    def windowPositionStates = new HashMap();
 
+   function loadScyElo(eloUri: URI): ScyElo{
+//      var scyElo:ScyElo;
+//      XFX.deferActionAndWait(function():Void {scyElo = ScyElo.loadMetadata(eloUri, tbi);});
+//      return scyElo;
+      return ScyElo.loadMetadata(eloUri, tbi)
+   }
+
    public override function newEloSaved(eloUri: URI) {
-      def scyElo = ScyElo.loadMetadata(eloUri, tbi);
+      def scyElo = loadScyElo(eloUri);
       newEloSaved(scyElo)
    }
 
@@ -94,7 +101,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
    }
 
    public override function addOtherScyWindow(eloUri: URI): ScyWindow {
-      def scyElo = ScyElo.loadMetadata(eloUri, tbi);
+      def scyElo = loadScyElo(eloUri);
       addOtherScyWindow(scyElo)
    }
 
@@ -111,7 +118,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
    }
 
    public override function addOtherCollaborativeScyWindow(eloUri: URI, mucid: String): ScyWindow {
-      def scyElo = ScyElo.loadMetadata(eloUri, tbi);
+      def scyElo = loadScyElo(eloUri);
       addOtherCollaborativeScyWindow(scyElo, mucid)
    }
 
@@ -211,7 +218,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
             windowManager.addScyWindow(loEloWindow);
          }
       }
-      var mainAnchorWindow = getScyWindow(activeLas.mainAnchor.eloUri);
+      var mainAnchorWindow = getScyWindow(activeLas.mainAnchor.scyElo);
       if (windowPositioner.setAnchorWindow(mainAnchorWindow)) {
          windowManager.addScyWindow(mainAnchorWindow);
       }
@@ -219,7 +226,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       addAnchorRelated(activeLas.mainAnchor);
       for (intermediateAnchor in activeLas.intermediateAnchors) {
          if (intermediateAnchor.exists) {
-            var intermediateAnchorWindow = getScyWindow(intermediateAnchor.eloUri);
+            var intermediateAnchorWindow = getScyWindow(intermediateAnchor.scyElo);
             if (windowPositioner.addIntermediateWindow(intermediateAnchorWindow)) {
                windowManager.addScyWindow(intermediateAnchorWindow);
                addAnchorRelated(intermediateAnchor);
@@ -228,7 +235,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       }
       for (las in activeLas.nextLasses) {
          if (las.exists) {
-            var anchorWindow = getScyWindow(las.mainAnchor.eloUri);
+            var anchorWindow = getScyWindow(las.mainAnchor.scyElo);
             if (windowPositioner.addNextAnchorWindow(anchorWindow, getAnchorDirection(las))) {
                windowManager.addScyWindow(anchorWindow);
             }
@@ -236,7 +243,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       }
       for (las in activeLas.previousLasses) {
          if (las.exists) {
-            var anchorWindow = getScyWindow(las.mainAnchor.eloUri);
+            var anchorWindow = getScyWindow(las.mainAnchor.scyElo);
             if (windowPositioner.addPreviousAnchorWindow(anchorWindow, getAnchorDirection(las))) {
                windowManager.addScyWindow(anchorWindow);
             }
@@ -257,14 +264,14 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       } else {
          // no old position information
          // find the initial to open anchor elo
-         var initialToopenAnchorEloUri: URI = null;
+         var initialToopenAnchor: MissionAnchorFX = null;
          if (activeLas.initialAnchorToOpen != null) {
-            initialToopenAnchorEloUri = activeLas.initialAnchorToOpen.eloUri;
+            initialToopenAnchor = activeLas.initialAnchorToOpen;
          } else if (sizeof activeLas.intermediateAnchors == 0) {
-            initialToopenAnchorEloUri = activeLas.mainAnchor.eloUri;
+            initialToopenAnchor = activeLas.mainAnchor;
          }
-         if (initialToopenAnchorEloUri != null) {
-            def initialToOpenAnchorWindow = getScyWindow(initialToopenAnchorEloUri);
+         if (initialToopenAnchor != null) {
+            def initialToOpenAnchorWindow = getScyWindow(initialToopenAnchor.scyElo);
             windowPositioner.makeMainWindow(initialToOpenAnchorWindow);
          }
          windowPositioner.positionWindows();
@@ -303,7 +310,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
    function getScyWindow(eloUri: URI): ScyWindow {
       var scyWindow = findScyWindow(eloUri);
       if (scyWindow == null) {
-         def scyElo = ScyElo.loadMetadata(eloUri, tbi);
+         def scyElo = loadScyElo(eloUri);
          scyWindow = createScyWindow(scyElo);
       }
       return scyWindow;

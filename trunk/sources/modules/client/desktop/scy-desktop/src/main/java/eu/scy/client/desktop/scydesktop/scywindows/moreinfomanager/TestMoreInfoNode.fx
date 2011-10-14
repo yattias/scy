@@ -16,6 +16,7 @@ import eu.scy.common.scyelo.ScyElo;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import javafx.scene.control.Label;
 import roolo.api.IRepository;
+import eu.scy.client.desktop.desktoputils.XFX;
 
 /**
  * @author SikkenJ
@@ -40,35 +41,41 @@ public class TestMoreInfoNode extends CustomNode, ScyToolFX {
                text: "More assignment"
                action: function() {
                   showMoreInfo.showMoreInfo(new URI("http://www.scy-lab.eu/content/en/mission1/LAS_Build_design/Assignments/A_House_drawings.html"), MoreInfoTypes.ASSIGNMENT, scyElo);
-                  }
+               }
             }
             Button {
                text: "More resources"
                action: function() {
                   showMoreInfo.showMoreInfo(new URI("http://www.scy-lab.eu/content/en/mission1/LAS_Conceptualization_design/Resources/R_CO2_houses.html"), MoreInfoTypes.RESOURCES, scyElo);
-                  }
+               }
             }
          ]
       }
-       }
+   }
 
    public override function loadElo(eloUri: URI): Void {
       eloUriChanged(eloUri)
 
-       }
+   }
 
    public override function loadedEloChanged(eloUri: URI): Void {
       eloUriChanged(eloUri)
-       }
+   }
 
    function eloUriChanged(eloUri: URI) {
       this.eloUri = eloUri;
       if (eloUri != null) {
-         scyElo = ScyElo.loadMetadata(eloUri, toolBrokerAPI);
-          } else {
+         def loadElo = function():Object{
+            ScyElo.loadMetadata(eloUri, toolBrokerAPI)
+         }
+         def setElo = function(object: Object):Void{
+            scyElo = object as ScyElo;
+         }
+         XFX.runActionInBackgroundAndCallBack(loadElo, setElo);
+      } else {
          scyElo = null;
-          }
+      }
 
-       }
+   }
 
 }
