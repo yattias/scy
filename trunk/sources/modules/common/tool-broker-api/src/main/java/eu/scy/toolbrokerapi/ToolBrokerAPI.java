@@ -77,7 +77,7 @@ public interface ToolBrokerAPI extends RooloServices {
      *            notification call to the tool.
      * @return the mucid if the user accepted the invitation, null otherwise
      */
-    public String answerCollaborationProposal(boolean accept, String proposingUser, String elouri);
+    public String answerCollaborationProposal(boolean accept, String proposingUser, String elouri, String lasId);
 
     /**
      * Returns the name of the mission the user is currently working on.

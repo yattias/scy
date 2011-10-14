@@ -224,7 +224,7 @@ public class LocalToolBrokerAPI implements ToolBrokerAPI,ToolBrokerAPIRuntimeSet
    }
 
    @Override
-   public String answerCollaborationProposal(boolean accept, String proposingUser, String elouri)
+   public String answerCollaborationProposal(boolean accept, String proposingUser, String elouri, String lasId)
    {
       return "false";
    }

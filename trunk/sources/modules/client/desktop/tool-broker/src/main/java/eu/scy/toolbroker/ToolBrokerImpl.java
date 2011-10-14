@@ -505,7 +505,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
     }
 
     @Override
-    public String answerCollaborationProposal(boolean accept, String proposingUser, String elouri) {
+    public String answerCollaborationProposal(boolean accept, String proposingUser, String elouri, String lasId) {
         LinkedBlockingQueue<INotification> queue = new LinkedBlockingQueue<INotification>();
         String proposedUser = org.jivesoftware.smack.util.StringUtils.parseBareAddress(connection.getUser());
         collaborationAnswers.put(proposingUser + "#" + proposedUser + "#" + elouri, queue);
@@ -518,6 +518,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
         collaborationResponseAction.addAttribute("proposing_user", proposingUser);
         collaborationResponseAction.addAttribute("proposed_user", proposedUser);
         collaborationResponseAction.addAttribute("proposed_elo", elouri);
+        collaborationResponseAction.addAttribute("las_id", lasId);
         log.log(collaborationResponseAction);
         if (accept) {
             try {
