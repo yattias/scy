@@ -306,11 +306,19 @@ public class MissionModelFX extends MissionModel {
    }
 
    override public function removeArchivedElo(archivedElo: ArchivedElo): Void {
+      if (scyDesktop.initializer.dontUseMissionRuntimeElos) {
+         // we are running on the mission specification, don't save the archived elos
+         return
+      }
       missionModel.removeArchivedElo(archivedElo);
       archivedElosChanged = true
    }
 
    override public function addArchivedElo(archivedElo: ArchivedElo): Void {
+      if (scyDesktop.initializer.dontUseMissionRuntimeElos) {
+         // we are running on the mission specification, don't save the archived elos
+         return
+      }
       missionModel.addArchivedElo(archivedElo);
       archivedElosChanged = true
    }
