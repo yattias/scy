@@ -30,6 +30,8 @@ import eu.scy.common.scyelo.ScyElo;
 import javafx.scene.control.ListCell;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.client.desktop.scydesktop.tools.search.ExtendedScyEloDisplayNode;
+import eu.scy.client.desktop.desktoputils.XFX;
+import roolo.elo.api.IMetadata;
 
 /**
  * @author SikkenJ
@@ -197,13 +199,13 @@ public class VersionViewer extends CustomNode, Resizable, ScyToolFX {
       delete  versionElos;
       delete  forkedElos;
       if (loadedEloUri != null) {
-         def metadatas = repository.retrieveMetadataAllVersions(loadedEloUri);
-         versionElos =
-                 for (metadata in metadatas) {
-                    new ScyElo(metadata, toolBrokerAPI)
-                 }
+            def metadatas = repository.retrieveMetadataAllVersions(loadedEloUri);
+            versionElos =
+                    for (metadata in metadatas) {
+                       new ScyElo(metadata, toolBrokerAPI)
+                    }
+         }
       }
-   }
 
    function updateVersionsDisplay() {
       versionListViewer.items = versionElos;
@@ -248,9 +250,10 @@ public class VersionViewer extends CustomNode, Resizable, ScyToolFX {
 
    public override function loadedEloChanged(eloUri: URI): Void {
       loadedEloUri = eloUri;
-      loadEloLists();
-      versionsRadioButton.selected = true;
-      updateVersionsDisplay();
+      XFX.runActionInBackgroundAndCallBack(loadEloLists, function(o:Object):Void{
+            versionsRadioButton.selected = true;
+            updateVersionsDisplay();
+         });
    }
 
    function sizeChanged(): Void {
