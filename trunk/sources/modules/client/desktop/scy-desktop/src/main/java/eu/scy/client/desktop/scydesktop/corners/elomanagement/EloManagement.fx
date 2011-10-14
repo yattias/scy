@@ -198,11 +198,11 @@ public class EloManagement extends CustomNode {
 
    function createArchivedElo(uri: URI): ArchivedElo {
       def scyElo = ScyElo.loadElo(uri, tbi);
-      if (scyElo==null){
+      if (scyElo == null) {
          logger.warn("could not find template elo: {uri}");
          return null;
       }
-      if (not scyDesktop.newEloCreationRegistry.containsEloType(scyElo.getTechnicalFormat())){
+      if (not scyDesktop.newEloCreationRegistry.containsEloType(scyElo.getTechnicalFormat())) {
          logger.warn("skipped template elo, because the type ({scyElo.getTechnicalFormat()}) ) is not configured for the user: {uri}");
          return null;
       }
@@ -240,12 +240,20 @@ public class EloManagement extends CustomNode {
    function createNewEloFromTemplate(templateDisplay: Object): Void {
       def archivedElo = templateDisplay as ArchivedElo;
       if (archivedElo != null) {
-         def newScyElo = new ScyElo(archivedElo.getScyElo().getElo().clone(),tbi);
-         setTitleAndLanguage(newScyElo.getElo(),scyDesktop.newTitleGenerator.generateNewTitleFromName(newScyElo.getTitle()));
-         newScyElo.setTemplate(true);
-         newScyElo.setCreator(tbi.getLoginUserName());
-         newScyElo.saveAsForkedElo();
-         scyWindowControl.addOtherScyWindow(newScyElo);
+         ProgressOverlay.startShowWorking();
+         def createNewElo = function(): Object {
+                    def newScyElo = new ScyElo(archivedElo.getScyElo().getElo().clone(), tbi);
+                    setTitleAndLanguage(newScyElo.getElo(), scyDesktop.newTitleGenerator.generateNewTitleFromName(newScyElo.getTitle()));
+                    newScyElo.setTemplate(true);
+                    newScyElo.setCreator(tbi.getLoginUserName());
+                    newScyElo
+                 }
+         def showNewElo = function(object: Object): Void {
+                    def newScyElo = object as ScyElo;
+                    scyWindowControl.addOtherScyWindow(newScyElo);
+                    ProgressOverlay.stopShowWorking();
+                 }
+         XFX.runActionInBackgroundAndCallBack(createNewElo, showNewElo);
       }
       closeCreateNewEloFromTemplateModalDialogBox()
    }
@@ -276,7 +284,7 @@ public class EloManagement extends CustomNode {
 
    function createNewBlankEloAction(): Void {
       createBlankEloButton.turnedOn = true;
-      var typeNames = scyDesktop.newEloCreationRegistry.getEloTypeNames();
+      def typeNames = scyDesktop.newEloCreationRegistry.getEloTypeNames();
       def typeListSelectectionNode = ListSelectionTool {
                  listItems: Sequences.sort(typeNames)
                  titleLabel: ##"Select type"
@@ -289,14 +297,16 @@ public class EloManagement extends CustomNode {
    }
 
    function createNewBlankElo(typeNameDisplay: Object): Void {
-      var eloTypeName = typeNameDisplay as String;
+      def eloTypeName = typeNameDisplay as String;
       if (eloTypeName != null) {
-         var eloType = scyDesktop.newEloCreationRegistry.getEloType(eloTypeName);
+         def eloType = scyDesktop.newEloCreationRegistry.getEloType(eloTypeName);
          if (eloType != null) {
-            var title = scyDesktop.newTitleGenerator.generateNewTitleFromType(eloType);
-            var scyWindow = scyWindowControl.addOtherScyWindow(eloType);
+            ProgressOverlay.startShowWorking();
+            def title = scyDesktop.newTitleGenerator.generateNewTitleFromType(eloType);
+            def scyWindow = scyWindowControl.addOtherScyWindow(eloType);
             scyWindow.title = title;
             scyWindowControl.makeMainScyWindow(scyWindow);
+            ProgressOverlay.stopShowWorking();
          }
       }
       closeCreateNewBlankModalDialogBox();
