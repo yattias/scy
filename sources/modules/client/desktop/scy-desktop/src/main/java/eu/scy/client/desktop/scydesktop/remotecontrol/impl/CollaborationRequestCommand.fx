@@ -42,7 +42,7 @@ public class CollaborationRequestCommand extends ScyDesktopRemoteCommand {
             XFX.runActionInBackgroundAndCallBack(function() : Object {
                 logger.debug(" => accepting collaboration");
                 pendingCollaborationRequestDialogs.remove(eloUri);
-                scyDesktop.config.getToolBrokerAPI().answerCollaborationProposal(true, user, eloUriString);
+                scyDesktop.config.getToolBrokerAPI().answerCollaborationProposal(true, user, eloUriString, lasId);
                 return null;
             }, function(o : Object){
                 ProgressOverlay.stopShowWorking();
@@ -53,7 +53,7 @@ public class CollaborationRequestCommand extends ScyDesktopRemoteCommand {
             XFX.runActionInBackgroundAndCallBack(function() : Object {
                 logger.debug(" => denying collaboration");
                 pendingCollaborationRequestDialogs.remove(eloUri);
-                scyDesktop.config.getToolBrokerAPI().answerCollaborationProposal(false, user, eloUriString);
+                scyDesktop.config.getToolBrokerAPI().answerCollaborationProposal(false, user, eloUriString, lasId);
             }, function(o : Object){
                 ProgressOverlay.stopShowWorking();
             });
