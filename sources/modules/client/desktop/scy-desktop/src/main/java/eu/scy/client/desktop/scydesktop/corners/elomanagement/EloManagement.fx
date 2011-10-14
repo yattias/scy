@@ -128,7 +128,7 @@ public class EloManagement extends CustomNode {
                  action: createNewEloFromTemplateAction
                  tooltipManager: tooltipManager
                  tooltip: ##"create new ELO"
-                 disable: true
+                 disableButton: true
               }
       searcher = Searcher {
                  tbi: scyDesktop.config.getToolBrokerAPI()
@@ -191,7 +191,7 @@ public class EloManagement extends CustomNode {
       eloTemplateUriDisplays = Sequences.sort(eloTemplateUriDisplays, new ArchivedEloTitleComparator()) as ArchivedElo[];
       if (sizeof eloTemplateUris > 0) {
          FX.deferAction(function(): Void {
-            newFromEloTemplateButton.disable = false;
+            newFromEloTemplateButton.disableButton = false;
          })
       }
    }
