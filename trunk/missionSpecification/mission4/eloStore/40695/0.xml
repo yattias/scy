@@ -7,17 +7,17 @@
           <source>LOMv1.0</source>
           <value>author</value>
         </role>
-        <entity>rachel</entity>
+        <entity>jakob</entity>
         <date>
-          <dateTime>2011-09-29T15:14:54.976+0200</dateTime>
+          <dateTime>2011-09-29T15:37:11.573+0300</dateTime>
         </date>
       </contribute>
       <version>0</version>
     </lifecycle>
     <technical>
       <customElements>
-        <dateCreated>1317302094976</dateCreated>
-        <dateLastModified>1317302094976</dateLastModified>
+        <dateCreated>1317299831573</dateCreated>
+        <dateLastModified>1317299831573</dateLastModified>
       </customElements>
       <format>scy/runtimesettings</format>
     </technical>
@@ -26,12 +26,8 @@
         <catalog>memory</catalog>
         <entry>roolo://memory/40695/0/Forensic+mission.runtimesettings</entry>
       </identifier>
-      <las>Biologie: Espace d'information</las>
+      <las />
       <missionId>forensic</missionId>
-      <missionRunning>
-        <catalog>memory</catalog>
-        <entry>roolo://memory/40652/0/Le+laboratoire+de+police+scientifique.scymissionspecification</entry>
-      </missionRunning>
       <title>
         <string language="en">Forensic mission</string>
       </title>

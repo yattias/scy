@@ -9,27 +9,27 @@
         </role>
         <entity>jakob</entity>
         <date>
-          <dateTime>2011-09-29T15:37:11.570+0300</dateTime>
+          <dateTime>2011-10-14T22:14:31.643+0200</dateTime>
         </date>
       </contribute>
       <version>0</version>
     </lifecycle>
     <technical>
       <customElements>
-        <dateCreated>1317299831570</dateCreated>
-        <dateLastModified>1317299831570</dateLastModified>
+        <dateCreated>1318623271643</dateCreated>
+        <dateLastModified>1318623271643</dateLastModified>
       </customElements>
       <format>scy/templateelos</format>
     </technical>
     <general>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/40694/0/Forensic+mission.scytemplateelos</entry>
+        <entry>roolo://memory/40714/0/Le+laboratoire+de+police+scientifique.scytemplateelos</entry>
       </identifier>
       <las />
       <missionId>forensic</missionId>
       <title>
-        <string language="en">Forensic mission</string>
+        <string language="fr">Le laboratoire de police scientifique</string>
       </title>
     </general>
     <relation>
@@ -44,7 +44,7 @@
   </lom>
   <template>TRUE</template>
 </metadata>
-<content languages="en" contentType="xml">
+<content languages="fr" contentType="xml">
 <templateElosEloUris>
   <templateElosEloUri>roolo://memory/409/0/Empty_plain_text.text</templateElosEloUri>
   <templateElosEloUri>roolo://memory/412/0/Word_document.doc</templateElosEloUri>
