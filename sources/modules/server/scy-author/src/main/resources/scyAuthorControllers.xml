@@ -43,6 +43,7 @@
                    /app/scyauthor/eportfolioStudentMission.html=eportfolioStudentMissionController
                    /app/scyauthor/eportfolioTeacherMission.html=eportfolioTeacherMissionController
                    /app/scyauthor/eportfolioTeacherElo.html=eportfolioTeacherEloController
+                   /app/scyauthor/showcaseMissionDescription.html=showcaseMissionDescriptionController
                    /app/scyauthor/ScaffoldingLevel.html=scaffoldingLevelController
                    /app/scyauthor/LearningGoals.html=learningGoalsController
                    /app/scyauthor/clearAllPortfolios.html=clearAllPortfolios
@@ -161,6 +162,15 @@
     </bean>
 
     <bean id="eportfolioTeacherEloController" class="eu.scy.server.controllers.EPortfolioTeacherEloController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="transferObjectServiceCollection" ref="transferObjectServiceCollection"/>
+        <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
+    </bean>
+
+    <bean id="showcaseMissionDescriptionController" class="eu.scy.server.controllers.ShowcaseMissionDescriptionController">
         <property name="serverService" ref="serverService"/>
         <property name="urlInspector" ref="urlInspector"/>
         <property name="missionELOService" ref="missionELOService"/>
