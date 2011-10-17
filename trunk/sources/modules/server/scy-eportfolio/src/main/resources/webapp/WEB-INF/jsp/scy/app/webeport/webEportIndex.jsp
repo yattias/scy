@@ -355,16 +355,16 @@ FB.init({
                        FB.ui(
                           {
                             method: 'stream.publish',
-     message: "I have just published my showcase ePortfolio. Click on the link to have a look....",
+     message: "I have just published to my SCY Showcase portfolio. Click on the link to have a look",
      attachment: {
-       name: 'My showcase ePortfolio',
+       name: 'My SCY Showcase',
        caption: '',
        description: (
-         'I have just published my showcase ePortfolio. Click on the link to have a look.'
+         'I have just published to my SCY Showcase portfolio. Click on the link to have a look'
        ),
        href: '${serverPath}'
      },
-     user_message_prompt: 'I have just published my showcase ePortfolio. Click on the link to have a look....................'
+     user_message_prompt: 'I have just published to my SCY Showcase portfolio. Click on the link to have a look'
    },
    function(response) {
      if (response && response.post_id) {
