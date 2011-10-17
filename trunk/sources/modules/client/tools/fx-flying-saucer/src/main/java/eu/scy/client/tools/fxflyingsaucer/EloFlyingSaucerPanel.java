@@ -154,7 +154,7 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel implements ScyTool
    public void setHomeElo(final URI uri)
    {
       // load the elo in the background
-      new Thread(new Runnable()
+       Thread thread = new Thread(new Runnable()
       {
 
          @Override
@@ -199,7 +199,9 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel implements ScyTool
                }
             });
          }
-      }).start();
+      });
+      thread.setName("flying saucer load ELO");
+      thread.start();
 //      if (scyElo == null)
 //      {
 //         logger.error("the home elo does not exists: " + uri);
