@@ -103,6 +103,7 @@ public class Initializer {
    public-init var globalReadOnlyMode = false;
    public-init var showHelpBubbles = true;
    public-init var showQuitConfirmation = true;
+   public-init var useRepositoryTimer = false;
    public-read var languages: String[];
    public-read var localLoggingDirectory: File = null;
    public-read var toolBrokerLogin: ToolBrokerLogin;
@@ -163,6 +164,7 @@ public class Initializer {
    def showOnlyStartedMissionsOption = "showOnlyStartedMissions";
    def globalReadOnlyModeOption = "globalReadOnlyMode";
    def showHelpBubblesOption = "showHelpBubbles";
+   def useRepositoryTimerOption = "useRepositoryTimer";
    public def exceptionCatcher = new FilteringExceptionCatcher("SCY-Lab");
    var setupLoggingToFiles: SetupLoggingToFiles;
    package var background: DynamicTypeBackground;
@@ -353,9 +355,12 @@ public class Initializer {
             } else if (option == globalReadOnlyModeOption.toLowerCase()) {
                globalReadOnlyMode = argumentsList.nextBooleanValue(globalReadOnlyModeOption);
                logger.info("app: {globalReadOnlyModeOption}: {globalReadOnlyMode}");
-            } else if (option == globalReadOnlyModeOption.toLowerCase()) {
+            } else if (option == showHelpBubblesOption.toLowerCase()) {
                showHelpBubbles = argumentsList.nextBooleanValue(showHelpBubblesOption);
                logger.info("app: {showHelpBubblesOption}: {showHelpBubbles}");
+            } else if (option == useRepositoryTimerOption.toLowerCase()) {
+               useRepositoryTimer = argumentsList.nextBooleanValue(useRepositoryTimerOption);
+               logger.info("app: {useRepositoryTimerOption}: {useRepositoryTimer}");
             } else {
                logger.info("Unknown option: {option}");
             }
@@ -412,6 +417,7 @@ public class Initializer {
       printWriter.println("- showOnlyStartedMissions: {showOnlyStartedMissions}");
       printWriter.println("- globalReadOnlyMode: {globalReadOnlyMode}");
       printWriter.println("- showHelpBubbles: {showHelpBubbles}");
+      printWriter.println("- useRepositoryTimer: {useRepositoryTimer}");
    }
 
    public function isEmpty(string: String): Boolean {

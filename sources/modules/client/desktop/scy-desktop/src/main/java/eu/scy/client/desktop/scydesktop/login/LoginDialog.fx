@@ -22,8 +22,6 @@ import javafx.animation.Interpolator;
 import javafx.scene.shape.Rectangle;
 import eu.scy.toolbrokerapi.ServerNotRespondingException;
 import eu.scy.toolbrokerapi.LoginFailedException;
-import javax.swing.JOptionPane;
-import java.awt.Component;
 import java.lang.System;
 import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 import eu.scy.client.desktop.desktoputils.art.ScyColors;
@@ -43,6 +41,7 @@ import java.util.Locale;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.DialogBox;
 import java.lang.Exception;
 import eu.scy.client.desktop.desktoputils.StringUtils;
+import eu.scy.client.desktop.scydesktop.hacks.RepositoryTimer;
 
 /**
  * @author sikken
@@ -214,7 +213,12 @@ public class LoginDialog extends CustomNode, TbiReady {
          initializer.setupLogging(userName);
       }
       ProgressOverlay.startShowWorking();
-      def backgroundGetReadyForUser = new BackgroundGetReadyForUser(initializer.toolBrokerLogin, loginResult, this);
+      var repositoryTimer:RepositoryTimer = null;
+      if (initializer.useRepositoryTimer){
+         repositoryTimer = new RepositoryTimer();
+      }
+
+      def backgroundGetReadyForUser = new BackgroundGetReadyForUser(initializer.toolBrokerLogin, loginResult, this, repositoryTimer);
       backgroundGetReadyForUser.start();
    }
 
