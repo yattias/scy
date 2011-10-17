@@ -64,6 +64,11 @@ public class RepositoryWrapper implements IRepository
       return "RepositoryWrapper{" + "missionRuntimeEloUri=" + missionRuntimeEloUri + ", missionId=" + missionId + ", lasId=" + lasId + ", userId=" + userId + ", anchorEloUri=" + anchorEloUri + "\nrepository=" + repository + '}';
    }
 
+   public void setRepositoryTimer(RepositoryTimer repositoryTimer){
+      repositoryTimer.setRepository(repository);
+      repository = repositoryTimer;
+   }
+
    public void addEloSavedListener(EloSavedListener eloSavedListener)
    {
       if (!eloSavedListeners.contains(eloSavedListener))
