@@ -24,16 +24,16 @@ public class KeyphraseExtraction {
 
 	public static void main(String[] args) throws Throwable {
 
-//		URI corpus = ClassLoader.getSystemResource("mission1_texts/English").toURI();
-//		URI document = ClassLoader.getSystemResource("mission1_texts/English/new02.txt").toURI();
-		
-//        URI corpus = ClassLoader.getSystemResource("mission2_texts/English").toURI();
-//        URI document = ClassLoader.getSystemResource("mission2_texts/English/acid.rain.txt").toURI();
-		
-        URI corpus = ClassLoader.getSystemResource("mission3/en/texts/").toURI();
-        URI document = ClassLoader.getSystemResource("mission3/en/texts/wikipedia.Fat.txt").toURI();
+		// URI corpus = ClassLoader.getSystemResource("mission1_texts/English").toURI();
+		// URI document = ClassLoader.getSystemResource("mission1_texts/English/new02.txt").toURI();
 
-      Workflow workflow = new Workflow(), keyphraseWorkflow;      
+		// URI corpus = ClassLoader.getSystemResource("mission2_texts/English").toURI();
+		// URI document = ClassLoader.getSystemResource("mission2_texts/English/acid.rain.txt").toURI();
+
+		URI corpus = ClassLoader.getSystemResource("mission2/et/texts/").toURI();
+		URI document = ClassLoader.getSystemResource("mission2/et/texts/text003").toURI();
+
+		Workflow workflow = new Workflow(), keyphraseWorkflow;
 		File corpusDirectory = (args.length > 0) ? new File(args[0]) : new File(corpus);
 		File documentFile = (args.length > 1) ? new File(args[1]) : new File(document);
 
@@ -46,9 +46,9 @@ public class KeyphraseExtraction {
 		Properties workflowProperties = new Properties();
 
 		workflowProperties.setProperty(WikiParameters.DIRECTORY, corpusDirectory.getAbsolutePath());
-		
+
 		/* PROPERTIES ------------------------ */
-		
+
 		/** file type for documents (WikiValues.FILE_TYPE_CAS or WikiValues.FILE_TYPE_TXT) */
 		workflowProperties.setProperty(WikiParameters.FILE_TYPE, WikiValues.FILE_TYPE_CAS);
 
@@ -75,7 +75,6 @@ public class KeyphraseExtraction {
 		/** square phraseness values to avoid negative values */
 		workflowProperties.setProperty(WikiParameters.SQUARE_PHRASENESS, Boolean.FALSE.toString());
 
-
 		/** default value for informativeness, if the n-gram does not appear in the corpus */
 		workflowProperties.setProperty(WikiParameters.DEFAULT_VALUE, new Float(0.0f).toString());
 		/** normalize all informativeness values */
@@ -83,12 +82,11 @@ public class KeyphraseExtraction {
 		/** square informativeness values to avoid negative values */
 		workflowProperties.setProperty(WikiParameters.SQUARE_INFORMATIVENESS, Boolean.FALSE.toString());
 
-
 		/** phraseness weight in the final score */
 		workflowProperties.setProperty(WikiParameters.PHRASENESS_WEIGHT, new Float(0.5f).toString());
 		/** informativeness weight in the final score */
 		workflowProperties.setProperty(WikiParameters.INFORMATIVENESS_WEIGHT, new Float(0.5f).toString());
-		
+
 		workflowProperties.setProperty(WikiParameters.DOCUMENT_LINK, documentFile.getAbsolutePath());
 		keyphraseWorkflow = new ProvideKeyphrasesOnSeparateDocument(workflowProperties);
 
@@ -103,7 +101,7 @@ public class KeyphraseExtraction {
 
 		Document d = (Document) output.getObject(ObjectIdentifiers.DOCUMENT);
 		System.out.println(d.toString());
-		
+
 		System.err.println("Done!");
 	}
 
