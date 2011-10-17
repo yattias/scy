@@ -29,7 +29,7 @@
             attributes.name = "Main";
             attributes.align = "middle";
             swfobject.embedSWF(
-                "/webapp/themes/scy/dna/DNA.swf", "flashContent",
+                "/webapp/themes/scy/dna/DNA_simulation_en.swf", "flashContent",
                 "800", "600",
                 swfVersionStr, xiSwfUrlStr,
                 flashvars, params, attributes);
@@ -51,13 +51,13 @@
 
        	<noscript>
                <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="1024" height="768" id="index">
-                   <param name="movie" value="/webapp/themes/scy/dna/DNA.swf" />
+                   <param name="movie" value="/webapp/themes/scy/dna/DNA_simulation_en.swf" />
                    <param name="quality" value="high" />
                    <param name="bgcolor" value="#ffffff" />
                    <param name="allowScriptAccess" value="always" />
                    <param name="allowFullScreen" value="true" />
                    <!--[if !IE]>-->
-                   <object type="application/x-shockwave-flash" data="/webapp/themes/scy/dna/DNA.swf" width="1024" height="768">
+                   <object type="application/x-shockwave-flash" data="/webapp/themes/scy/dna/DNA_simulation_en.swf" width="1024" height="768">
                        <param name="quality" value="high" />
                        <param name="bgcolor" value="#ffffff" />
                        <param name="allowScriptAccess" value="always" />
