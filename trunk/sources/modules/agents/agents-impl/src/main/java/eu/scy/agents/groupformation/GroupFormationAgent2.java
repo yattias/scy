@@ -132,6 +132,12 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
             return;
         } else {
             IAction action = ActionTupleTransformer.getActionFromTuple(afterTuple);
+
+            int scaffoldLevel = getScaffoldLevel(action.getUser());
+            if ( scaffoldLevel == AgentProtocol.SCAFFOLD_LEVEL_OFF ) {
+                return;
+            }
+
             String missionUri = action.getContext(ContextConstants.mission);
             String type = action.getType();
 
@@ -260,7 +266,7 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
             groupFormationStrategy.setRooloServices(rooloServices);
 
             Collection<Group> formedGroups = groupFormationStrategy.formGroup(referenceElo);
-            for(Group group : formedGroups) {
+            for ( Group group : formedGroups ) {
                 group.setId(notificationHelper.createId());
             }
             missionGroupsCache.addGroups(mission, las, formedGroups);
@@ -343,4 +349,15 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
     public void setFactory(GroupFormationStrategyFactory factory) {
         this.factory = factory;
     }
+
+    private int getScaffoldLevel(String user) {
+        String missionName = getSession().getMission(user).getName();
+        String scaffoldLevelAsString = (String) configuration.getParameter(missionName, AgentProtocol.GLOBAL_SCAFFOLDING_LEVEL);
+        if ( scaffoldLevelAsString == null ) {
+            logger.warn("Scaffold level not set assuming 1");
+            scaffoldLevelAsString = "1";
+        }
+        return Integer.parseInt(scaffoldLevelAsString);
+    }
+
 }
