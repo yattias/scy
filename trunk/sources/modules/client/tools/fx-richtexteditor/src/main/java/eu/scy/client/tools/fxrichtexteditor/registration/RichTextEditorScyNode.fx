@@ -42,6 +42,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
 import eu.scy.client.desktop.desktoputils.EmptyBorderNode;
 import javafx.scene.Group;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.ModalDialogNode;
+
 /**
  * @author kaido
  */
@@ -253,12 +254,12 @@ public class RichTextEditorScyNode extends INotifiable, RichTextEditorNode, ScyT
     }
 
     public override function processNotification(notification: INotification): Boolean {
-        //if (notification.getSender().equals("eu.scy.agents.hypothesis.HypothesisDecisionMakerAgent")) {
-        var messageFromAgent = notification.getFirstProperty("message");
-        if (not messageFromAgent.equals("")) {
-            javafx.stage.Alert.inform(messageFromAgent);
+        if (notification.getFirstProperty("message") != null) {
+            logger.info("processing notification in Richttext Tool.");
+            addNotificationInTitleBar(notification.getFirstProperty("message"));
             return true;
         }
+        logger.info("notification not processed, notification-message == null.");
         return false;
     }
 
