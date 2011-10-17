@@ -340,6 +340,48 @@
                         </c:forEach>
                     </c:when>
                 </c:choose>
+            <tr>
+                <td  style="text-align:right;vertical-align:top;width:40%;">
+                    <strong>Include in showcase portfolio</strong>
+                </td>
+                <td>
+                    <script type="text/javascript">
+
+                        function hideshow(which){
+                            if (!document.getElementById)
+                            return
+                            if (which.style.visibility=="visible") {
+                                which.style.display="hidden";
+                            } else{
+                                which.style.display="visible";
+                            }
+
+                        }
+
+
+                         function validate(chk){
+                             //alert("HWWW");
+                              if (chk.checked == 1) {
+                                hideshow(document.getElementById('portfolioTextField'));
+                                //alert("Thank You");
+                              } else {
+                                  //alert("You didn't check it! Let me check it for you.")
+                                  //chk.checked = 1;
+                                  hideshow(document.getElementById('portfolioTextField'));
+                              }
+                            }
+                    </script>
+                    <input type="checkbox" name="includeInShowcasePortfolio"  onclick="return validate(this);"/>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:right;vertical-align:top;width:40%;">
+                    <strong>Showcase portfolio text</strong>
+                </td>
+                <td>
+                    <textarea rows="4" cols="30" style="width:100%;" name="portfolioText" id="portfolioTextField"></textarea>
+                </td>
+            </tr>
                 <input type="hidden" name="missionRuntimeURI" value="${missionRuntimeURI}"/>
                 <input type="hidden" name="eloURI" value="${eloURI}"/>
                 <input type="hidden" name="anchorEloURI" value="${anchorEloURI}"/>

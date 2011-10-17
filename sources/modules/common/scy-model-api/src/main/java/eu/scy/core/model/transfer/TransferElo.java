@@ -56,6 +56,8 @@ public class TransferElo extends BaseXMLTransfer {
     private String snippeturl = "";
 
     private FeedbackEloTransfer feedbackEloTransfer = null;
+    private Boolean includeInShowcasePortfolio = Boolean.FALSE;
+    private String portfolioText;
 
 
     public TransferElo() {
@@ -411,5 +413,21 @@ public class TransferElo extends BaseXMLTransfer {
 
     public void setFeedbackEloTransfer(FeedbackEloTransfer feedbackEloTransfer) {
         this.feedbackEloTransfer = feedbackEloTransfer;
+    }
+
+    public Boolean getIncludeInShowcasePortfolio() {
+        return includeInShowcasePortfolio;
+    }
+
+    public void setIncludeInShowcasePortfolio(Boolean includeInShowcasePortfolio) {
+        this.includeInShowcasePortfolio = includeInShowcasePortfolio;
+    }
+
+    public String getPortfolioText() {
+        return portfolioText;
+    }
+
+    public void setPortfolioText(String portfolioText) {
+        this.portfolioText = portfolioText;
     }
 }

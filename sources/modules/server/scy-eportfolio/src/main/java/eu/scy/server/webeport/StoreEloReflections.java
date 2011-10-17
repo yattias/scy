@@ -37,6 +37,8 @@ public class StoreEloReflections extends BaseController {
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
         String generalLearningGoals = request.getParameter("generalLearningGoals");
         String specificLearningGoals = request.getParameter("specificLearningGoals");
+        String includeInShowcasePortfolio = request.getParameter("includeInShowcasePortfolio");
+        String portfolioText = request.getParameter("portfolioText");
 
         String eloReflectionDescription = request.getParameter("eloReflectionDescription");
 
@@ -48,13 +50,18 @@ public class StoreEloReflections extends BaseController {
         MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(missionRuntimeUri, getRuntimeELOService());
         Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo, getCurrentUserName(request));
 
+
         ScyElo eloToBeAdded = ScyElo.loadLastVersionElo(eloURI, getMissionELOService());
         ScyElo ae = ScyElo.loadElo(anchorEloURI, getMissionELOService());
         TransferElo anchorElo = new TransferElo(ae);
         TransferElo elotoBeAddedTransfer = new TransferElo(eloToBeAdded);
-
+        elotoBeAddedTransfer.setPortfolioText(portfolioText);
+        if(includeInShowcasePortfolio != null && includeInShowcasePortfolio.equals("on")) {
+            elotoBeAddedTransfer.setIncludeInShowcasePortfolio(true);
+        }
         TransferElo toBeAddedToPortfolio = new TransferElo(eloToBeAdded);
         toBeAddedToPortfolio.setReflectionComment(eloReflectionDescription);
+
         portfolio.addElo(elotoBeAddedTransfer, anchorElo);
 
         addReflectionAnswers(request, toBeAddedToPortfolio, portfolio);
