@@ -16,9 +16,9 @@ public class NotificationDialog extends ModalDialogNode {
     init {
 		label = javafx.scene.control.Label {
             layoutX: 0.0
-            layoutY: 3.0
+            layoutY: 24.0
             width: 500.0
-            height: 22.0
+            height: 49.0
             layoutInfo: javafx.scene.layout.LayoutInfo {
                 width: bind label.width
                 height: bind label.height
@@ -34,7 +34,7 @@ public class NotificationDialog extends ModalDialogNode {
         okayButton = javafx.scene.control.Button {
             //disable: true
             layoutX: 20.0
-            layoutY: 40.0
+            layoutY: 114.0
             text: ##"Okay"
             action: okayButtonAction
             strong: true
