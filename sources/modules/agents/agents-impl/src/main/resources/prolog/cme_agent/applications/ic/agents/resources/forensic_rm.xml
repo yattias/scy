@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<reference_model name="forensic" notation="cmap">
+  <nodes>
+    <node term="TLC" fill_in="true"/>
+    <node term="Mobile phase" fill_in="true"/>
+    <node term="Distillation" fill_in="true"/>
+    <node term="Chromatography" fill_in="true"/>
+    <node term="Hydrodistillation" fill_in="true"/>
+    <node term="Static phase" fill_in="true"/>
+    <node term="Solution" fill_in="true"/>
+    <node term="Extraction" fill_in="true"/>
+    <node term="Filtration" fill_in="true"/>
+    <node term="Solubility" fill_in="true"/>
+    <node term="Identification technique" fill_in="true"/>
+    <node term="Decantation" fill_in="true"/>
+    <node term="Rf"/>
+    <node term="Separation technique"/>
+    <node term="Solvant"/>
+    <node term="Chemical tests"/>
+    <node term="Column chromatography"/>
+    <node term="Spectroscopy"/>
+    <node term="HPLC"/>
+    <node term="Controls"/>
+    <node term="Physico-chemical properties"/>
+    <node term="Chemical substance"/>
+  </nodes>
+  <links>
+    <link term="is composed of"/>
+    <link term="is a"/>
+    <link term="has a"/>
+    <link term="necessitates"/>
+    <link term="depends on"/>
+    <link term="characterizes"/>
+  </links>
+  <edges>
+    <edge tail="Solution" head="Solvant" link="is composed of"/>
+    <edge
+	tail="Column chromatography"
+	head="Chromatography"
+	link="is a"/>
+    <edge
+	tail="Solution"
+	head="Chemical substance"
+	link="is composed of"/>
+    <edge
+	tail="Hydrodistillation"
+	head="Separation technique"
+	link="is a"/>
+    <edge tail="Extraction" head="Separation technique" link="is a"/>
+    <edge
+	tail="Chromatography"
+	head="Separation technique"
+	link="is a"/>
+    <edge tail="Chromatography" head="Static phase" link="has a"/>
+    <edge
+	tail="Chromatography"
+	head="Identification technique"
+	link="is a"/>
+    <edge tail="HPLC" head="Chromatography" link="is a"/>
+    <edge
+	tail="Identification technique"
+	head="Controls"
+	link="necessitates"/>
+    <edge tail="Distillation" head="Separation technique" link="is a"/>
+    <edge tail="Rf" head="Mobile phase" link="depends on"/>
+    <edge tail="Filtration" head="Separation technique" link="is a"/>
+    <edge tail="Mobile phase" head="Solvant" link="is a"/>
+    <edge tail="Chromatography" head="Mobile phase" link="has a"/>
+    <edge
+	tail="Physico-chemical properties"
+	head="Identification technique"
+	link="is a"/>
+    <edge tail="Rf" head="Solubility" link="depends on"/>
+    <edge tail="Rf" head="Static phase" link="depends on"/>
+    <edge
+	tail="Spectroscopy"
+	head="Identification technique"
+	link="is a"/>
+    <edge
+	tail="Chemical tests"
+	head="Identification technique"
+	link="is a"/>
+    <edge tail="TLC" head="Chromatography" link="is a"/>
+    <edge tail="Rf" head="Chemical substance" link="characterizes"/>
+    <edge tail="Solubility" head="Solution" link="characterizes"/>
+    <edge tail="Decantation" head="Separation technique" link="is a"/>
+  </edges>
+</reference_model>

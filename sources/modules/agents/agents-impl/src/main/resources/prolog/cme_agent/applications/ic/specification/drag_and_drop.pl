@@ -23,14 +23,14 @@
 
 :- use_module(load).
 
-:- use_module(library(lists), [subtract/3]).
 :- use_module(library(option), [option/2]).
 
 :- use_module(gls(model), [gls_node_label/3, gls_node_term/3,
 			   gls_apply_term_set/3, gls_node/2,
 			   gls_node_visualchk/3, gls_node_propchk/3,
 			   gls_node_replace_by/3, gls_node_delete/2,
-			   gls_edge_head/3, gls_edge_tail/3]).   
+			   gls_edge_head/3, gls_edge_tail/3]).
+:- use_module(gls(evaluation), [gls_node_perfect_match/3]).
 :- use_module(specification(reference_model), [reference_model_propchk/2,
 			   reference_model_node_propchk/3, reference_model_edge/3]). 
 
@@ -96,35 +96,10 @@ node_dropped([NA|NAs], Node,Area, G, [NA|Rest]) :-
 
 correctly_dropped([], _, _, [], []).
 correctly_dropped([Node|Nodes], G, RM, [Node|Correct], Wrong) :-
-	perfect_match(Node, G, RM), !,
+	gls_node_perfect_match(G, Node, RM), !,
 	correctly_dropped(Nodes, G, RM, Correct, Wrong).
 correctly_dropped([Node|Nodes], G, RM, Correct, [Node|Wrong]) :-
 	correctly_dropped(Nodes, G, RM, Correct, Wrong).
-
-
-perfect_match(Node, G, RM) :-
-	findall(e(Tail,Node),
-		(gls_edge_tail(G, Edge, Tail), gls_edge_head(G, Edge, Node)), SEs1),
-	findall(e(Node,Head),
-		(gls_edge_tail(G, Edge, Node), gls_edge_head(G, Edge, Head)), SEs2),
-	gls_node_term(G, Node, Term),
-	findall(e(Tail,Node),
-		(reference_model_edge(RM, TailTerm, Term),
-		 gls_node_term(G, Tail, TailTerm)), REs1),
-	findall(e(Node,Head),
-		(reference_model_edge(RM, Term, HeadTerm),
-		 gls_node_term(G, Head, HeadTerm)), REs2),
-	subtract(SEs1, REs1, TailDiff),
-	subtract(SEs2, REs2, HeadDiff),
-	(   TailDiff == [],
-	    HeadDiff == []
-	->  format('********* ~w perfect match ********~n', [Term])
-	;   format('DIFFS for ~w~n', [Term]),
-	    format('tail ~w~n', [TailDiff]),
-	    format('head ~w~n', [HeadDiff]),
-	    fail
-	).
-
 
 
 /*------------------------------------------------------------

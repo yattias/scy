@@ -27,10 +27,16 @@
 :- use_module(library(broadcast), [broadcast/1]).
 :- use_module(library(debug), [debug/1, debug/3]).
 
+:- use_module(eco_mission, [eco_mission_contains_topic/2,
+			    eco_mission_set_topic/2,
+			    eco_mission_topic/2,
+			    eco_mission_evaluation/3,
+			    eco_mission_find_peer/5
+			   ]).
+
 :- use_module(find_tuple, [ts_find_cmap_saved_tuple/3, ts_find_cmap_tuple/3]).
 :- use_module(evaluate, [cmap_evaluate/4]).
-:- use_module(config, [anchor_properties/3]).
-:- use_module(config, [method_anchor_evaluation/5]).
+:- use_module(config, [anchor_properties/3, anchor_evaluation_feedback/4]).
 
 :- use_module(sqlspaces(tspl), [tspl_read/3, tspl_write/2,
 				tspl_event_register/5, tspl_formal_field/2,
@@ -50,6 +56,7 @@
 :- use_module(specification(term_set), [term_set/1, term_set_parse/3]).
 :- use_module(specification(rule_set), [rule_set/1, rule_set_parse/3]).
 :- use_module(specification(drag_and_drop), [drag_and_drop_evaluation/3]).
+:- use_module(specification(fill_in), [fill_in_evaluation/3]).
 
 
 
@@ -71,8 +78,8 @@ action_monitor(Options) :-
 	agent_connect(Server, actions, TS),
 	assert(cme_tuple_space(actions,TS,Server)),
 	agent_query(action, Query,
-		    [ action(elo_saved),
-		      tool(conceptmap)
+		    [ action(elo_saved)
+%		      tool(conceptmap)
 		    ]),
 	Call = cme_action_callback,
 	tspl_event_register(TS, write, Query, Call, _).
@@ -239,8 +246,17 @@ cme_action_callback(write, _SeqId, [], [Tuple]) :-
 
 cme_action(elo_saved, Tuple) :-
 	agent_tuple(action, Tuple,
+		    [ tool(Tool),
+		      attributes(Attributes)
+		    ]),
+	option(mission_anchor_id(Anchor), Attributes),
+	debug(cme(dev), 'tool = ~w, anchor = ~w~n', [Tool,Anchor]),
+	tool_anchor_action(Tool, Anchor, Tuple).
+
+tool_anchor_action(conceptmap, Anchor, Tuple) :-
+	memberchk(Anchor, [energyFactSheet, chimConceptMap]), !,
+	agent_tuple(action, Tuple,
 		    [ user(User),
-%		      tool(Tool),
 		      mission(Mission),
 		      session(Session),
 		      elo(Elo),
@@ -248,13 +264,11 @@ cme_action(elo_saved, Tuple) :-
 		    ]),
 	cme_tuple_space(session, SessionSpace, _),
 	scy_session_user_language(SessionSpace, User, Language, [default(el)]),
-	option(mission_anchor_id(Anchor), Attributes, 'energyFactSheet'),	% TBD -- default
 	memberchk(elo_uri(NewElo), Attributes),		% For notification
-	memberchk(old_uri(OldElo), Attributes),		% For notification
 	debug(cme(dev), '  elo = ~w~n', [Elo]),
-	debug(cme(dev), '  old elo = ~w~n', [OldElo]),
 	debug(cme(dev), '  new elo = ~w~n', [NewElo]),
 	debug(cme(dev), '  mission = ~w~n', [Mission]),
+	debug(cme(dev), '  user = ~w~n', [User]),
 	debug(cme(dev), '  anchor = ~w~n', [Anchor]),
 	anchor_properties(Anchor, Language, AnchorProps),
 	memberchk(term_set(TS), AnchorProps),
@@ -269,7 +283,7 @@ cme_action(elo_saved, Tuple) :-
 	),
 	cmap_create(Map, Nodes, Edges, [cmap_xml(XML)]),
 	debug(cme(dev), 'created cmap ~w~n', [Map]),
-	(   Anchor == chimConceptMap
+	(   Anchor == chimConceptMap		% TBD -- remove this test
 	->  broadcast(show_gls(Map))
 	;   debug(cme(dev), '******** ONLY SHOWING chimConceptMap ********~n', [])
 	),
@@ -283,13 +297,104 @@ cme_action(elo_saved, Tuple) :-
 	tspl_actual_field(string, cme_agent, F4),
 	tspl_actual_field(string, Mission, F5),
 	tspl_actual_field(string, Session, F6),
-	method_anchor_evaluation(Method, Language, Anchor, Evaluation, Msg),
+	anchor_evaluation_feedback(Anchor, Language, Evaluation, Msg),
 	atom_concat('message=', Msg, MsgAtt),
 	tspl_actual_field(string, MsgAtt, F7),
 	tspl_tuple([F0,F1,F2,F3,F4,F5,F6,F7], Notification),
 	cme_tuple_space(command, CommandSpace, _),
+	tspl_write(CommandSpace, Notification).
+tool_anchor_action(conceptmap, Anchor, Tuple) :-
+	Anchor == conceptMap, !,
+	agent_tuple(action, Tuple,
+		    [ user(User),
+		      mission(Mission),
+		      session(Session),
+		      elo(Elo),
+		      attributes(Attributes)
+		    ]),
+	cme_tuple_space(session, SessionSpace, _),
+	scy_session_user_language(SessionSpace, User, Language, [default(el)]),
+	memberchk(elo_uri(NewElo), Attributes),		% For notification
+	debug(cme(dev), '  elo = ~w~n', [Elo]),
+	debug(cme(dev), '  new elo = ~w~n', [NewElo]),
+	debug(cme(dev), '  mission = ~w~n', [Mission]),
+	debug(cme(dev), '  user = ~w~n', [User]),
+	debug(cme(dev), '  anchor = ~w~n', [Anchor]),
+	anchor_properties(Anchor, Language, AnchorProps),
+	memberchk(term_set(TS), AnchorProps),
+	memberchk(reference_model(RM), AnchorProps),
+	memberchk(rule_set(RS), AnchorProps),
+	cme_tuple_space(command, CommandSpace, _),
+	ts_elo_fetch(CommandSpace, NewElo, XML),
+	cmap_parse(XML, Nodes, Edges, []),
+	cmap_create(Map, Nodes, Edges, [cmap_xml(XML)]),
+	debug(cme(dev), 'created cmap ~w~n', [Map]),
+	broadcast(show_gls(Map)),		% TBD -- not in final version
+	agent_resource_required(term_set, TS),
+	agent_resource_required(reference_model, RM),
+	agent_resource_required(rule_set, RS),
+	eco_mission_evaluation(Map, Evaluation,
+			       [ term_set(TS),
+				 reference_model(RM),
+				 rule_set(RS),
+				 user(User),
+				 elo(NewElo)
+			       ]),
+	debug(cme(dev), '  eval = ~w~n', [Evaluation]),
+	(   memberchk(status(find_peer), Evaluation),
+	    memberchk(topic(Topic), Evaluation),
+	    memberchk(no_correct(Correct), Evaluation),
+	    eco_mission_find_peer(User, Topic, Correct, Peer, PeerElo)
+	->  propose_concept_map(Tuple, Peer, PeerElo)
+	;   anchor_evaluation_feedback(Anchor, Language, Evaluation, Msg),
+	    tspl:uid(Id),
+	    tspl_actual_field(string, notification, F0),
+	    tspl_actual_field(string, Id, F1),
+	    tspl_actual_field(string, User, F2),
+	    tspl_actual_field(string, NewElo, F3),
+	    tspl_actual_field(string, cme_agent, F4),
+	    tspl_actual_field(string, Mission, F5),
+	    tspl_actual_field(string, Session, F6),
+	    atom_concat('message=', Msg, MsgAtt),
+	    tspl_actual_field(string, MsgAtt, F7),
+	    tspl_tuple([F0,F1,F2,F3,F4,F5,F6,F7], Notification),
+	    cme_tuple_space(command, CommandSpace, _),
+	    tspl_write(CommandSpace, Notification),
+	    debug(cme(dev), '   notification ~w written', [Notification])
+	).
+tool_anchor_action(_Tool, Anchor, Tuple) :- !,
+	(   eco_mission_contains_topic(Anchor, Topic)
+	->  agent_tuple(action, Tuple, [user(User)]),
+	    eco_mission_set_topic(User, Topic),
+	    debug(cme(dev), 'ECO mission topic ~w for ~w~n', [Topic,User])
+	;   true
+	).
+
+
+propose_concept_map(Tuple, Peer, PeerElo) :-
+	tspl:uid(Id),
+	tspl_tuple_field(Tuple, 3, Elo),
+	tspl_tuple_field(Tuple, 4, User),
+	tspl_tuple_field(Tuple, 5, Mission),
+	tspl_tuple_field(Tuple, 6, Session),
+	atom_concat('proposing_user=', Peer, PeerF8),
+	atom_concat('proposed_elo=', PeerElo, PeerEloF9),
+	tspl_actual_field(string, notification, F0),
+	tspl_actual_field(string, Id, F1),
+	tspl_actual_field(string, User, F2),
+	tspl_actual_field(string, Elo, F3),
+	tspl_actual_field(string, cme_agent, F4),
+	tspl_actual_field(string, Mission, F5),
+	tspl_actual_field(string, Session, F6),
+	tspl_actual_field(string, 'type=proposed_elo', F7),
+	tspl_actual_field(string, PeerF8, F8),
+	tspl_actual_field(string, PeerEloF9, F9),
+	cme_tuple_space(command, CommandSpace, _),
+	tspl_tuple([F0,F1,F2,F3,F4,F5,F6,F7,F8,F9], Notification),
 	tspl_write(CommandSpace, Notification),
-	debug(cme(dev), '   notification ~w written', [F7]).
+	debug(cme(dev), '  written ~w~n', [Notification]),
+	forall(member(X, [F0,F1,F2,F3,F4,F5,F6,F7,F8,F9]),
+	       debug(cme(dev), '  F - ~w~n', [X])).
 
 
 /*------------------------------------------------------------
@@ -300,4 +405,9 @@ cme_evaluate(drag_and_drop, Map, TS, RM, _, Evaluation) :-
 	agent_resource_required(term_set, TS),
 	agent_resource_required(reference_model, RM),
 	drag_and_drop_evaluation(Map, Evaluation,
+				 [term_set(TS), reference_model(RM)]).
+cme_evaluate(fill_in, Map, TS, RM, _, Evaluation) :-
+	agent_resource_required(term_set, TS),
+	agent_resource_required(reference_model, RM),
+	fill_in_evaluation(Map, Evaluation,
 				 [term_set(TS), reference_model(RM)]).

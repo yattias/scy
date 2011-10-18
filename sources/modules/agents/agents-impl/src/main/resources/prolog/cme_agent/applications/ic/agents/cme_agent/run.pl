@@ -24,7 +24,9 @@
 
 :- use_module(load).
 
-:- use_module(dac(atom_to_csv)).		% Force loading
+:- use_module(library(debug), [debug/1]).
+
+:- use_module(dac(atom_to_csv)). % Force loading
 
 :- use_module(cme_agent, [cme_agent_start/1]).
 
@@ -32,6 +34,7 @@
 
 
 cme_run :-
+	debug(cme(dev)),
 	cme_agent_start([server(collide)]).
 
 
