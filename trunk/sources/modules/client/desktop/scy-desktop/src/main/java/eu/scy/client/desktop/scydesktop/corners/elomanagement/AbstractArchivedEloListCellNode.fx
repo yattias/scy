@@ -36,7 +36,9 @@ public abstract class AbstractArchivedEloListCellNode extends CustomNode {
 
    function newArchivedElo(): Void {
       if (archivedElo==null){
-         hBox.content = []
+//         hBox.content = [];
+         hBox.content = emptyDisplay;
+         return
       }
 
       hBox.content = [

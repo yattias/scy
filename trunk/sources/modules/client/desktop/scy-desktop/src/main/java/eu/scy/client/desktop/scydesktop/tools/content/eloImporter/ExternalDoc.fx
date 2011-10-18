@@ -38,6 +38,7 @@ import javafx.scene.paint.Color;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
+import eu.scy.client.desktop.desktoputils.XFX;
 
 /**
  * @author sikken
@@ -46,10 +47,10 @@ public class ExternalDoc extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
 
    def logger = Logger.getLogger(this.getClass());
    public var toolBrokerAPI: ToolBrokerAPI on replace {
-         eloFactory = toolBrokerAPI.getELOFactory();
-         metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
-         repository = toolBrokerAPI.getRepository();
-      };
+              eloFactory = toolBrokerAPI.getELOFactory();
+              metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
+              repository = toolBrokerAPI.getRepository();
+           };
    public var eloFactory: IELOFactory;
    public var metadataTypeManager: IMetadataTypeManager;
    public var repository: IRepository;
@@ -76,81 +77,87 @@ public class ExternalDoc extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
    def spacing = 5.0;
    var fileNameTextBox: TextBox;
    def font = Font {
-         size: 12
-      };
+              size: 12
+           };
    var mainContent: Group = Group {
-         content: [
-            VBox {
-               layoutX: spacing
-               layoutY: spacing
-               spacing: spacing
-               content: [
-                  //                  Text {
-                  //                     font : Font {
-                  //                        size: 12
-                  //                     }
-                  //                     x: 10, y: 10
-                  //                     content: "Here you can import and export a document, which is the content of this ELO."
-                  //                  }
-                  Group {
-                     content: [
-                        Label {
-                           layoutY: labelOffset
-                           text: ##"Assignment"
-                        }
-                        Group {
-                           layoutX: valueOffset
-                           content: [
-                              TextBox {
-                                 text: bind assignment with inverse
-                                 columns: nrOfColumns
-                                 multiline: true
-                                 selectOnFocus: true
-                                 editable: bind elo == null
-                              }
-                           ]
-                        }
-                     ]
-                  }
-                  Group {
-                     content: [
-                        Label {
-                           layoutY: labelOffset
-                           text: ##"File name"
-                        }
-                        fileNameTextBox = TextBox {
-                              layoutX: valueOffset
-                              text: bind fileName
-                              columns: nrOfColumns
-                              selectOnFocus: true
-                              editable: false
-                           }
-                     ]
-                  }
-                  Group {
-                     content: [
-                        Label {
-                           layoutY: labelOffset
-                           text: ##"File path"
-                        }
-                        TextBox {
-                           layoutX: valueOffset
-                           text: bind filePath
-                           columns: nrOfColumns
-                           selectOnFocus: true
-                           editable: false
-                        }
-                     ]
-                  }
-                  Group {
-                     content: [
-                        Label {
-                           layoutY: labelOffset
-                           text: ##"Last modified"
-                        }
-                        TextBox {
-                           layoutX: valueOffset
-                           text: bind if (file != null) "{%tD fileLastModified}, {%tT fileLastModified}" else ""
+              content: [
+                 VBox {
+                    layoutX: spacing
+                    layoutY: spacing
+                    spacing: spacing
+                    content: [
+                       //                  Text {
+                       //                     font : Font {
+                       //                        size: 12
+                       //                     }
+                       //                     x: 10, y: 10
+                       //                     content: "Here you can import and export a document, which is the content of this ELO."
+                       //                  }
+                       Group {
+                          content: [
+                             Label {
+                                layoutY: labelOffset
+                                text: ##"Assignment"
+                             }
+                             Group {
+                                layoutX: valueOffset
+                                content: [
+                                   TextBox {
+                                      text: bind assignment with inverse
+                                      columns: nrOfColumns
+                                      multiline: true
+                                      selectOnFocus: true
+                                      editable: bind elo == null
+                                   }
+                                ]
+                             }
+                          ]
+                       }
+                       Group {
+                          content: [
+                             Label {
+                                layoutY: labelOffset
+                                text: ##"File name"
+                             }
+                             fileNameTextBox = TextBox {
+                                        layoutX: valueOffset
+                                        text: bind fileName
+                                        columns: nrOfColumns
+                                        selectOnFocus: true
+                                        editable: false
+                                     }
+                          ]
+                       }
+                       Group {
+                          content: [
+                             Label {
+                                layoutY: labelOffset
+                                text: ##"File path"
+                             }
+                             TextBox {
+                                layoutX: valueOffset
+                                text: bind filePath
+                                columns: nrOfColumns
+                                selectOnFocus: true
+                                editable: false
+                             }
+                          ]
+                       }
+                       Group {
+                          content: [
+                             Label {
+                                layoutY: labelOffset
+                                text: ##"Last modified"
+                             }
+                             TextBox {
+                                layoutX: valueOffset
+                                text: bind if (file != null) "{
+
+
+
+
+
+             %tD fileLastModified}, {%tT fileLastModified}" else ""
                            columns: nrOfColumns
                            selectOnFocus: true
                            editable:false
@@ -221,11 +228,11 @@ public class ExternalDoc extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
          keyFrames : [
             KeyFrame {
                time : 1s
-               canSkip: true
-               action: updateSyncState
-            }
-         ]
-      }
+                    canSkip: true
+                    action: updateSyncState
+                 }
+              ]
+           }
    def saveTitleBarButton = TitleBarButton {
               actionId: "save"
               action: doSaveElo
@@ -244,7 +251,7 @@ public class ExternalDoc extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
               actionId: "export"
               iconType: "export"
               action: exportFile
-              tooltip:  ##"Download file"
+              tooltip: ##"Download file"
               enabled: bind file != null
            }
 
@@ -296,7 +303,9 @@ public class ExternalDoc extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
    }
 
    public override function loadElo(uri: URI) {
-      doLoadElo(uri);
+      XFX.runActionInBackground(function(): Void {
+         doLoadElo(uri)
+      });
    }
 
    public override function newElo() {
@@ -316,37 +325,38 @@ public class ExternalDoc extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
 
    public override function create(): Node {
       contentGroup = Group {
-            blocksMouse: true;
-            content: [
-               mainContent
-            ]
-         };
+                 blocksMouse: true;
+                 content: [
+                    mainContent
+                 ]
+              };
       contentGroup.layout();
       contentGroup;
    }
 
-   function doLoadElo(eloUri: URI) {
+   function doLoadElo(eloUri: URI): Void {
       logger.info("Trying to load elo {eloUri}");
       var newElo = repository.retrieveELO(eloUri);
       if (newElo != null) {
-         var metadata = newElo.getMetadata();
          var externalDocAnnotation: ExternalDocAnnotation;
          if (externalDocAnnotationKey != null) {
             externalDocAnnotation = newElo.getMetadata().getMetadataValueContainer(externalDocAnnotationKey).getValue() as ExternalDocAnnotation;
          }
          if (externalDocAnnotation != null) {
-            assignment = externalDocAnnotation.getAssignment();
-            fileName = externalDocAnnotation.getFileName();
-            filePath = externalDocAnnotation.getFilePath();
-            fileLastModified = externalDocAnnotation.getFileLastModified();
-            fileSize = externalDocAnnotation.getFileSize();
-            if (fileSize >= 0) {
-               fileContent.setBytes(newElo.getContent().getBytes());
-               file = new File(filePath, fileName);
-            } else {
-               file = null;
-            }
-            logger.info("externalDocAnnotation retrieved: {externalDocAnnotation}, with {if (fileContent.getBytes() != null) fileContent.getBytes().length else "null"} bytes");
+            FX.deferAction(function(): Void {
+               assignment = externalDocAnnotation.getAssignment();
+               fileName = externalDocAnnotation.getFileName();
+               filePath = externalDocAnnotation.getFilePath();
+               fileLastModified = externalDocAnnotation.getFileLastModified();
+               fileSize = externalDocAnnotation.getFileSize();
+               if (fileSize >= 0) {
+                  fileContent.setBytes(newElo.getContent().getBytes());
+                  file = new File(filePath, fileName);
+               } else {
+                  file = null;
+               }
+               logger.info("externalDocAnnotation retrieved: {externalDocAnnotation}, with {if (fileContent.getBytes() != null) fileContent.getBytes().length else "null"} bytes");
+            })
          } else {
             logger.warn("there is no externalDocAnnotation found");
          }
@@ -469,13 +479,13 @@ public class ExternalDoc extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
 
 function run() {
    var externalDoc = ExternalDoc {
-      }
+           }
    //externalDoc.layout();
    var prefSizeDsiplay = Rectangle {
-         x: 0, y: 0
-         width: 0, height: 0
-         fill: Color.YELLOW
-      }
+              x: 0, y: 0
+              width: 0, height: 0
+              fill: Color.YELLOW
+           }
    Timeline {
       repeatCount: 1
       keyFrames: [
