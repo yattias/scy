@@ -21,8 +21,6 @@ import javafx.util.Sequences;
 import java.net.URI;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-import java.lang.System;
-import roolo.elo.metadata.keys.Contribute;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 import eu.scy.client.desktop.desktoputils.FpsDisplay;
 import eu.scy.common.scyelo.ScyElo;
@@ -38,6 +36,7 @@ import eu.scy.common.mission.ArchivedElo;
 import eu.scy.client.desktop.desktoputils.XFX;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 import eu.scy.common.mission.ArchivedEloTitleComparator;
+import eu.scy.common.scyelo.MultiScyEloLoader;
 
 /**
  * @author sikken
@@ -62,10 +61,6 @@ public class EloManagement extends CustomNode {
    public var buttonSize = -1.0;
    public var buttonActionScheme = -1;
    def showCreateBlankElo = scyDesktop.initializer.authorMode;
-   def authorKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR);
-   def creatorKey = metadataTypeManager.getMetadataKey(ScyRooloMetadataKeyIds.CREATOR);
-   def templateKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TEMPLATE);
-   def userId = scyDesktop.config.getToolBrokerAPI().getLoginUserName();
    def tbi = scyDesktop.config.getToolBrokerAPI();
    var newFromEloTemplateButton: EloIconButton;
    var searcher: Searcher;
@@ -185,8 +180,9 @@ public class EloManagement extends CustomNode {
             insert uri as URI into eloTemplateUris;
          }
       }
+      def multiScyEloLoader = new MultiScyEloLoader(templateEloUris, false, tbi);
       eloTemplateUriDisplays = for (uri in eloTemplateUris) {
-                 createArchivedElo(uri)
+                 createArchivedElo(uri, multiScyEloLoader)
               }
       eloTemplateUriDisplays = Sequences.sort(eloTemplateUriDisplays, new ArchivedEloTitleComparator()) as ArchivedElo[];
       if (sizeof eloTemplateUris > 0) {
@@ -196,8 +192,8 @@ public class EloManagement extends CustomNode {
       }
    }
 
-   function createArchivedElo(uri: URI): ArchivedElo {
-      def scyElo = ScyElo.loadElo(uri, tbi);
+   function createArchivedElo(uri: URI, multiScyEloLoader: MultiScyEloLoader): ArchivedElo {
+      def scyElo = multiScyEloLoader.getScyElo(uri);
       if (scyElo == null) {
          logger.warn("could not find template elo: {uri}");
          return null;
