@@ -38,19 +38,19 @@ agent_resource_required(reference_model, Domain) :-
 	(   reference_model(Domain)
 	->  true
 	;   agent_resource(reference_model, Domain, Source),
-	    reference_model_parse(file(Source), Domain, [])
+	    reference_model_parse(file(Source), _, [reference_model(Domain)])
 	).
 agent_resource_required(term_set, Domain) :-
 	(   term_set(Domain)
 	->  true
 	;   agent_resource(term_set, Domain, Source),
-	    term_set_parse(file(Source), Domain, [])
+	    term_set_parse(file(Source), _, [term_set(Domain)])
 	).
 agent_resource_required(rule_set, Domain) :-
 	(   rule_set(Domain)
 	->  true
 	;   agent_resource(rule_set, Domain, Source),
-	    rule_set_parse(file(Source), Domain, [])
+	    rule_set_parse(file(Source), _, [rule_set(Domain)])
 	).
 
 
@@ -74,7 +74,7 @@ agent_resource(term_set,        eco_en,   agents('resources/eco_ts_en.xml')).
 agent_resource(term_set,        eco_et,   agents('resources/eco_ts_et.xml')).
 agent_resource(rule_set,        eco,      agents('resources/eco_rs.xml')).
 
-agent_resource(reference_model, forensic, agents('resources/eco_rm.xml')).
+agent_resource(reference_model, forensic, agents('resources/forensic_rm.xml')).
 agent_resource(term_set,        forensic_en, agents('resources/forensic_ts_en.xml')).
 agent_resource(term_set,        forensic_fr, agents('resources/forensic_ts_fr.xml')).
 

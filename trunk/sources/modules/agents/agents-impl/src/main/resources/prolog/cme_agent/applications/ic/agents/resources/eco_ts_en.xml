@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<term_set name="eco" word_order="any">
-  <term name="">
-    <string></string>
-  </term>
+<term_set name="eco_en">
   <term name="Air">
     <string>Air</string>
   </term>

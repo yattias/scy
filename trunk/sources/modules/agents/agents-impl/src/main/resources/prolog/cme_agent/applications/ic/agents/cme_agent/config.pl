@@ -18,12 +18,14 @@
 
 :- module(config_cme_agent_ic,
 	  [ anchor_properties/3,	% Anchor x Language -> Properties
-	    method_anchor_evaluation/5	% Method x Language x Anchor x Evaluation -> Fs
+	    anchor_evaluation_feedback/4% Anchor x Language x Evaluation -> Feedback
 	  ]).
 
 :- use_module(load).
 
-:- use_module(sqlspaces(tspl), [tspl_actual_field/3, tspl_wildcard_field/1]).
+:- use_module(pizza_mission, [pizza_mission_feedback/3]).
+:- use_module(forensic_mission, [forensic_mission_feedback/3]).
+:- use_module(eco_mission, [eco_mission_feedback/3]).
 
 
 /*------------------------------------------------------------
@@ -51,7 +53,7 @@ anchor_properties(energyFactSheet, Language, Props) :-	% Pizza mission
 		    ]
 	).
 anchor_properties(chimConceptMap, Language, Props) :-	% Forensic science mission
-	(   Language == gr
+	(   Language == fr
 	->  Props = [ term_set(forensic_fr),
 		      reference_model(forensic),
 		      rule_set(''),
@@ -68,13 +70,13 @@ anchor_properties(conceptMap, Language, Props) :-	% ECO mission
 	(   Language == et
 	->  Props = [ term_set(eco_et),
 		      reference_model(eco),
-		      rule_set(''),
+		      rule_set(eco),
 		      method(open_ended)
 		    ]
 	; % Language == en
 	    Props = [ term_set(eco_en),
 		      reference_model(eco),
-		      rule_set(''),
+		      rule_set(eco),
 		      method(open_ended)
 		    ]
 	).
@@ -82,62 +84,12 @@ anchor_properties(conceptMap, Language, Props) :-	% ECO mission
 
 
 /*------------------------------------------------------------
- *  Anchor method evaluation
+ *  Anchor specific feedback message
  *------------------------------------------------------------*/
 
-feedback_message(all_dropped, Lang, Props, Msg) :-
-	memberchk(correct(Correct), Props),
-	memberchk(wrong(Wrong), Props),
-	fmt(all_dropped(Correct,Wrong), Lang, Msg).
-	
-feedback_message(not_all_dropped, Lang, Props, Msg) :-
-	memberchk(not_dropped(NotDropped), Props),
-	fmt(not_dropped(NotDropped), Lang, Msg).
-
-
-method_anchor_evaluation(drag_and_drop, Language, _Anchor, Evaluation, Msg) :-
-	memberchk(not_dropped(NotDropped), Evaluation),
-%	memberchk(dropped(Drop), Evaluation),		// Not used
-	memberchk(correct_drop(Correct), Evaluation),
-	memberchk(wrong_drop(Wrong), Evaluation),
-	length(Correct, CorrectLen),
-	length(Wrong, WrongLen),
-	(   NotDropped == 0
-	->  feedback_message(all_dropped, Language,
-			     [ correct(CorrectLen),
-			       wrong(WrongLen)
-			     ], Msg)
-	;   feedback_message(not_all_dropped, Language,
-			     [ not_dropped(NotDropped)
-			     ], Msg)
-	).
-
-
-fmt(all_dropped(Correct,Wrong), Lang, Msg) :-
-	(   Wrong == 0
-	->  (   Lang == el
-	    ->  M = 'GREEK FOR: You have placed all concepts correctly.  Congratulations'
-	    ;   M = 'You have placed all concepts correctly.  Congratulations'
-	    ),
-	    format(atom(Msg), M, [])
-	;   (   Lang == el
-	    ->  M = 'GREEK FOR: You have ~w concepts correct and ~w are wrong'
-	    ;   M = 'You have ~w concepts correct and ~w are wrong'
-	    ),
-	    format(atom(Msg), M, [Correct, Wrong])
-	).
-
-
-fmt(not_dropped(NotDropped), Lang, Msg) :-
-    (   NotDropped == 1
-    ->  (   Lang == el
-	->  M = 'GREEK FOR: There is still one concept that needs to be dragged to an empty spot'
-	;   M = 'There is still one concept that needs to be dragged to an empty spot'
-	),
-	format(atom(Msg), M, [])
-    ;   (   Lang == el
-	->  M = 'GREEK FOR: There are still ~w concepts that need to be dragged to an empty spot'
-	;   M = 'There are still ~w concepts that need to be dragged to an empty spot'
-	),
-	format(atom(Msg), M, [NotDropped])
-    ).
+anchor_evaluation_feedback(conceptMap, Language, Evaluation, Feedback) :-
+	eco_mission_feedback(Language, Evaluation, Feedback).
+anchor_evaluation_feedback(energyFactSheet, Language, Evaluation, Feedback) :-
+	pizza_mission_feedback(Language, Evaluation, Feedback).
+anchor_evaluation_feedback(chimConceptMap, Language, Evaluation, Feedback) :-
+	forensic_mission_feedback(Language, Evaluation, Feedback).
