@@ -157,6 +157,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
                 FX.deferAction(positionMainWindows);
                 (window as StandardScyWindow).reorganizeOtherMainWindows = null;
             }
+            FX.deferAction(window.toFront);
         }
     }
 
