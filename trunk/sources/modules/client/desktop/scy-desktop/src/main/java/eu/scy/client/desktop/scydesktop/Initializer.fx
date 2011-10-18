@@ -48,6 +48,7 @@ import eu.scy.client.desktop.scydesktop.uicontrols.MouseOverDisplay;
 import java.net.InetAddress;
 import eu.scy.client.desktop.scydesktop.hacks.TransparencyFixer;
 import eu.scy.client.desktop.desktoputils.StringUtils;
+import javafx.scene.paint.Color;
 //import javax.swing.UIManager.LookAndFeelInfo;
 
 /**
@@ -425,27 +426,30 @@ public class Initializer {
    }
 
    public function getScene(createScyDesktop: function(missionRunConfigs: MissionRunConfigs): ScyDesktop): Scene {
+      background = DynamicTypeBackground {};
       var scene = Scene {
+          fill: Color.web("#EAEAEA");
+          content: [background];
          };
-      background = DynamicTypeBackground {
-         };
-      // add all component groups to the scene, as adding them dynamicly later might case problems
-      scene.content = [
-            background,
-            LoginDialog {
-               createScyDesktop: createScyDesktop
-               initializer: this;
-            }
-            ScyDesktop.scyDektopGroup,
-            ModalDialogLayer.layer,
-            MouseBlocker.mouseBlockNode,
-            MouseOverDisplay.mouseOverGroup,
-            SimpleTooltipManager.tooltipGroup,
-            SimpleDragAndDropManager.dragAndDropLayer,
-            ProgressOverlay.showProgressNode
-         ];
-//      scene.stylesheets = "{__DIR__}css/scy-desktop.css";
-      scene
+      FX.deferAction(function() : Void {
+          
+          // add all component groups to the scene, as adding them dynamicly later might case problems
+          scene.content = [
+                background,
+                LoginDialog {
+                   createScyDesktop: createScyDesktop
+                   initializer: this;
+                }
+                ScyDesktop.scyDektopGroup,
+                ModalDialogLayer.layer,
+                MouseBlocker.mouseBlockNode,
+                MouseOverDisplay.mouseOverGroup,
+                SimpleTooltipManager.tooltipGroup,
+                SimpleDragAndDropManager.dragAndDropLayer,
+                ProgressOverlay.showProgressNode
+             ];
+      });
+      return scene;
    }
 
    function setupLanguages(): Void {
