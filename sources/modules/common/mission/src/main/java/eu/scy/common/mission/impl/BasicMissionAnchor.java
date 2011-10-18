@@ -11,6 +11,7 @@ import eu.scy.common.scyelo.ScyElo;
 
 public class BasicMissionAnchor implements MissionAnchor
 {
+
    private URI eloUri;
    private String id;
    private List<MissionAnchor> inputMissionAnchors = new ArrayList<MissionAnchor>();
@@ -41,6 +42,14 @@ public class BasicMissionAnchor implements MissionAnchor
    @Override
    public void setEloUri(URI eloUri)
    {
+      if (this.eloUri == eloUri)
+      {
+         return;
+      }
+      if (this.eloUri != null && this.eloUri.equals(eloUri))
+      {
+         return;
+      }
       this.eloUri = eloUri;
       if (scyElo != null)
       {
@@ -200,15 +209,17 @@ public class BasicMissionAnchor implements MissionAnchor
       this.iconType = iconType;
    }
 
-    @Override
-    public void setObligatoryInPorfolio(Boolean obligatoryInPorfolio) {
-        getScyElo().setObligatoryInPortfolio(obligatoryInPorfolio);
-    }
+   @Override
+   public void setObligatoryInPorfolio(Boolean obligatoryInPorfolio)
+   {
+      getScyElo().setObligatoryInPortfolio(obligatoryInPorfolio);
+   }
 
-    @Override
-    public Boolean getObligatoryInPortfolio() {
-        return getScyElo().getObligatoryInPortfolio();
-    }
+   @Override
+   public Boolean getObligatoryInPortfolio()
+   {
+      return getScyElo().getObligatoryInPortfolio();
+   }
 
    @Override
    public URI getHelpUri()
