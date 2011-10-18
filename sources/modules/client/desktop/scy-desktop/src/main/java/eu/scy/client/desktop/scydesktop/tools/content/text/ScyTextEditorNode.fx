@@ -112,55 +112,13 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSave
    def spacing = 5.0;
 
    public override function create(): Node {
-      //      resizeContent();
-      //      FX.deferAction(resizeContent);
       textBox
-   //      nodeBox = VBox {
-   //            blocksMouse: true
-   //            managed: false
-   //            spacing: spacing;
-   //            content: [
-   //               buttonBox = HBox {
-   //                     spacing: spacing;
-   //                     padding: Insets {
-   //                        left: spacing
-   //                        top: spacing
-   //                        right: spacing
-   //                     }
-   //                     content: [
-   //                        Button {
-   //                           text: "Save"
-   //                           action: function() {
-   //                              doSaveElo();
-   //                           }
-   //                        }
-   //                        Button {
-   //                           text: "Save as"
-   //                           action: function() {
-   //                              doSaveAsElo();
-   //                           }
-   //                        }
-   //                     ]
-   //                  }
-   //               textBox
-   //            ]
-   //         }
    }
 
    function doLoadElo(eloUri: URI) {
       XFX.runActionInBackground(function(): Void {
          realLoadElo(eloUri)
       });
-   //      logger.info("Trying to load elo {eloUri}");
-   //      var newElo = repository.retrieveELO(eloUri);
-   //      if (newElo != null) {
-   //         var text = eloContentXmlToText(newElo.getContent().getXmlString());
-   //         logger.info("elo text loaded");
-   //         elo = newElo;
-   //         FX.deferAction(function(): Void {
-   //            textBox.text = text;
-   //         });
-   //      }
    }
 
    function realLoadElo(eloUri: URI) {
