@@ -26,6 +26,7 @@ import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 import eu.scy.client.desktop.desktoputils.EmptyBorderNode;
 import eu.scy.common.mission.ColorScheme;
+import eu.scy.client.desktop.desktoputils.XFX;
 
 /**
  * @author SikkenJ
@@ -34,10 +35,10 @@ public class ColorSchemeEditorNode extends CustomNode, ScyToolFX, EloSaverCallBa
 
    def logger = Logger.getLogger(this.getClass());
    public var toolBrokerAPI: ToolBrokerAPI on replace {
-         eloFactory = toolBrokerAPI.getELOFactory();
-         metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
-         repository = toolBrokerAPI.getRepository();
-      };
+              eloFactory = toolBrokerAPI.getELOFactory();
+              metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
+              repository = toolBrokerAPI.getRepository();
+           };
    public var eloFactory: IELOFactory;
    public var metadataTypeManager: IMetadataTypeManager;
    public var repository: IRepository;
@@ -48,9 +49,9 @@ public class ColorSchemeEditorNode extends CustomNode, ScyToolFX, EloSaverCallBa
    var eloUri: URI;
    var colorSchemesElo: ColorSchemesElo;
    def windowColorSchemeEditorNode: WindowColorSchemeEditorNode = WindowColorSchemeEditorNode {
-         eloIconFactory: eloIconFactory
-         colorChanged: colorChanged
-      }
+              eloIconFactory: eloIconFactory
+              colorChanged: colorChanged
+           }
    var technicalFormatKey: IMetadataKey;
    var titleBarButtonManager: TitleBarButtonManager;
    var windowContent: Boolean;
@@ -75,7 +76,7 @@ public class ColorSchemeEditorNode extends CustomNode, ScyToolFX, EloSaverCallBa
       eloFactory = toolBrokerAPI.getELOFactory();
       metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
       repository = toolBrokerAPI.getRepository();
-      FX.deferAction(function():Void{
+      FX.deferAction(function(): Void {
          windowColorSchemeEditorNode.selectDefaults();
          colorChanged();
 
@@ -83,16 +84,16 @@ public class ColorSchemeEditorNode extends CustomNode, ScyToolFX, EloSaverCallBa
    }
 
    public override function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
-//      println("setTitleBarButtonManager({titleBarButtonManager},{windowContent})");
-//      println("saveTitleBarButton: {saveTitleBarButton}, saveAsTitleBarButton: {saveAsTitleBarButton}");
-//      if (windowContent) {
-//         setTitleBarButtons();
-//      }
+      //      println("setTitleBarButtonManager({titleBarButtonManager},{windowContent})");
+      //      println("saveTitleBarButton: {saveTitleBarButton}, saveAsTitleBarButton: {saveAsTitleBarButton}");
+      //      if (windowContent) {
+      //         setTitleBarButtons();
+      //      }
       this.titleBarButtonManager = titleBarButtonManager;
       this.windowContent = windowContent;
    }
 
-   function setTitleBarButtons():Void{
+   function setTitleBarButtons(): Void {
       if (windowContent) {
          titleBarButtonManager.titleBarButtons = [
                     saveTitleBarButton,
@@ -117,7 +118,9 @@ public class ColorSchemeEditorNode extends CustomNode, ScyToolFX, EloSaverCallBa
    }
 
    public override function loadElo(uri: URI) {
-      doLoadElo(uri);
+      XFX.runActionInBackground(function(): Void {
+         doLoadElo(uri)
+      });
    }
 
    public override function newElo() {
@@ -137,44 +140,10 @@ public class ColorSchemeEditorNode extends CustomNode, ScyToolFX, EloSaverCallBa
    }
 
    public override function create(): Node {
-      //      resizeContent();
-      //      FX.deferAction(resizeContent);
-//      VBox {
-//         blocksMouse: true
-//         managed: false
-//         spacing: spacing;
-//         content: [
-//            buttonBox = HBox {
-//                  spacing: spacing;
-//                  padding: Insets {
-//                     left: spacing
-//                     top: spacing
-//                     right: spacing
-//                  }
-//                  content: [
-//                     Button {
-//                        text: "Save"
-//                        action: function() {
-//                           doSaveElo();
-//                        }
-//                     }
-//                     Button {
-//                        text: "Save as"
-//                        action: function() {
-//                           doSaveAsElo();
-//                        }
-//                     }
-//                  ]
-//               }
-//            windowColorSchemeEditorNode
-//         ]
-//      }
-      EmptyBorderNode{
+      EmptyBorderNode {
          borderSize: 5.0
-         content:windowColorSchemeEditorNode
+         content: windowColorSchemeEditorNode
       }
-//
-//      windowColorSchemeEditorNode
    }
 
    function doLoadElo(eloUri: URI) {
@@ -183,8 +152,10 @@ public class ColorSchemeEditorNode extends CustomNode, ScyToolFX, EloSaverCallBa
       if (newColorSchemesElo != null) {
          def colorSchemes = newColorSchemesElo.getTypedContent().getColorSchemes();
          def windowColorSchemes = WindowColorSchemes.getWindowColorSchemes(colorSchemes);
-         windowColorSchemeEditorNode.windowColorSchemes = windowColorSchemes;
-         colorSchemesElo = newColorSchemesElo;
+         FX.deferAction(function(): Void {
+            windowColorSchemeEditorNode.windowColorSchemes = windowColorSchemes;
+            colorSchemesElo = newColorSchemesElo;
+         })
       }
    }
 
@@ -213,25 +184,19 @@ public class ColorSchemeEditorNode extends CustomNode, ScyToolFX, EloSaverCallBa
 
    }
 
-   function exportWindowColorSchemesInit():Void{
+   function exportWindowColorSchemesInit(): Void {
       def colorSchemes = windowColorSchemeEditorNode.windowColorSchemes.getColorSchemes();
       def windowColorSchemesInitCode =
-      for (colorSchemeObject in colorSchemes){
-         def colorScheme = colorSchemeObject as ColorScheme;
-         def colorSchemeId = "{colorScheme.getColorSchemeId().getClass().getName()}.{colorScheme.getColorSchemeId()}";
-         "addWindowColorScheme({colorSchemeId},\nWindowColorScheme\{\n"
-         "colorSchemeId: {colorSchemeId}\n"
-         "mainColor: {createColorDef(colorScheme.getMainColor())}\n"
-         "mainColorLight: {createColorDef(colorScheme.getMainColorLight())}\n"
-         "secondColor: {createColorDef(colorScheme.getSecondColor())}\n"
-         "secondColorLight: {createColorDef(colorScheme.getSecondColorLight())}\n"
-         "thirdColor: {createColorDef(colorScheme.getThirdColor())}\n"
-         "thirdColorLight: {createColorDef(colorScheme.getThirdColorLight())}\n"
-         "backgroundColor: {createColorDef(colorScheme.getBackgroundColor())}\n"
-         "emptyBackgroundColor: {createColorDef(colorScheme.getEmptyBackgroundColor())}\n"
-         "\});"
-      }
-      for (line in windowColorSchemesInitCode){
+              for (colorSchemeObject in colorSchemes) {
+                 def colorScheme = colorSchemeObject as ColorScheme;
+                 def colorSchemeId = "{colorScheme.getColorSchemeId().getClass().getName()}.{colorScheme.getColorSchemeId()}";
+                 "addWindowColorScheme({colorSchemeId},\nWindowColorScheme\{\n""colorSchemeId: {colorSchemeId}\n""mainColor: {createColorDef(colorScheme.getMainColor())}\n""mainColorLight: {createColorDef(colorScheme.getMainColorLight())}\n""secondColor: {createColorDef(colorScheme.getSecondColor())}\n""secondColorLight: {createColorDef(colorScheme.getSecondColorLight())}\n""thirdColor: {createColorDef(colorScheme.getThirdColor())}\n""thirdColorLight: {createColorDef(colorScheme.getThirdColorLight())}\n""backgroundColor: {createColorDef(colorScheme.getBackgroundColor())}\n""emptyBackgroundColor: {createColorDef(colorScheme.getEmptyBackgroundColor())}\n"
+
+
+      "\});"
+         }
+
+for (line in windowColorSchemesInitCode){
          println(line);
       }
    }

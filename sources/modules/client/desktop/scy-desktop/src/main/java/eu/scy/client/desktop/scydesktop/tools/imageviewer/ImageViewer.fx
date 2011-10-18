@@ -30,6 +30,7 @@ import javafx.scene.layout.Resizable;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import java.io.File;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import eu.scy.client.desktop.desktoputils.XFX;
 
 /**
  * @author sikken
@@ -40,10 +41,10 @@ public class ImageViewer extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
 
    def logger = Logger.getLogger(this.getClass());
    public var toolBrokerAPI: ToolBrokerAPI on replace {
-         eloFactory = toolBrokerAPI.getELOFactory();
-         metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
-         repository = toolBrokerAPI.getRepository();
-      };
+              eloFactory = toolBrokerAPI.getELOFactory();
+              metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
+              repository = toolBrokerAPI.getRepository();
+           };
    public var eloFactory: IELOFactory;
    public var metadataTypeManager: IMetadataTypeManager;
    public var repository: IRepository;
@@ -61,14 +62,14 @@ public class ImageViewer extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
    def imageUrlTagName = "imageUrl";
    def scyImageype = "scy/image";
    def contentGroup = Group {
-      }
+           }
 
    override protected function create(): Node {
       contentGroup.content =
-         Button {
-            text: "Load"
-            action: askUserForFile
-         };
+              Button {
+                 text: "Load"
+                 action: askUserForFile
+              };
       contentGroup
    }
 
@@ -103,11 +104,11 @@ public class ImageViewer extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
    function showImage(imageUrl: String) {
       //      println("showImage({imageUrl})");
       image = ImageView {
-            image: Image {
-               url: imageUrl
-            }
-            preserveRatio: preserveRatio
-         }
+                 image: Image {
+                    url: imageUrl
+                 }
+                 preserveRatio: preserveRatio
+              }
       contentGroup.content = image;
       scyWindow.open();
    }
@@ -122,12 +123,20 @@ public class ImageViewer extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
    }
 
    public override function loadElo(uri: URI) {
+      XFX.runActionInBackground(function(): Void {
+         doLoadElo(uri)
+      });
+   }
+
+   function doLoadElo(uri: URI) {
       elo = repository.retrieveELO(uri);
       if (elo == null) {
          logger.error("the elo does not exists: {uri}");
          return;
       }
-      showImage(getUrlFromContent(elo.getContent()));
+      FX.deferAction(function(): Void {
+         showImage(getUrlFromContent(elo.getContent()));
+      })
    }
 
    function getUrlFromContent(content: IContent): String {
@@ -144,8 +153,8 @@ public class ImageViewer extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
    public override function onOpened(): Void {
       if (elo != null) {
          image.image = Image {
-               url: getUrlFromContent(elo.getContent())
-            }
+                    url: getUrlFromContent(elo.getContent())
+                 }
       //         showImage(getUrlFromContent(elo.getContent()));
       }
    }

@@ -50,6 +50,7 @@ import javafx.scene.layout.VBox;
 import java.lang.StringBuilder;
 import javafx.scene.control.CheckBox;
 import javafx.scene.input.MouseEvent;
+import eu.scy.client.desktop.desktoputils.XFX;
 
 /**
  * @author SikkenJ
@@ -115,7 +116,7 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
            //              }
 
            }
-   def suggestionsAndHistoryNode:SuggestionsAndHistoryNode = SuggestionsAndHistoryNode {
+   def suggestionsAndHistoryNode: SuggestionsAndHistoryNode = SuggestionsAndHistoryNode {
               entrySelected: historySelected
            }
    def baseEloInfo = ExtendedScyEloDisplayNode {
@@ -190,7 +191,9 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
    }
 
    public override function loadElo(uri: URI) {
-      doLoadElo(uri);
+      XFX.runActionInBackground(function(): Void {
+         doLoadElo(uri)
+      });
    }
 
    public override function onQuit(): Void {
@@ -499,7 +502,7 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
    function openElo(): Void {
       def newWindow = scyDesktop.scyWindowControl.addOtherScyWindow(selectedSearchResult.getScyElo());
       scyDesktop.scyWindowControl.makeMainScyWindow(newWindow);
-//      eloOpenedAction(newWindow)
+   //      eloOpenedAction(newWindow)
    }
 
    public function searchBasedOnElo(scyElo: ScyElo): Void {
@@ -526,8 +529,10 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
       logger.info("Trying to load elo {eloUri}");
       var newScyElo = ScyElo.loadElo(eloUri, toolBrokerAPI);
       if (newScyElo != null) {
-         loadEloContent(newScyElo.getContent().getXmlString());
-         scyElo = newScyElo;
+         FX.deferAction(function(): Void {
+            loadEloContent(newScyElo.getContent().getXmlString());
+            scyElo = newScyElo;
+         })
       }
    }
 
