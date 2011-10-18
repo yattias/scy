@@ -1,0 +1,29 @@
+The API consists of this classes and methods:
+
+Class LPV
+- the main class encapsulating LPV. 
+
+methods and constructors:
+LPV() - parameter free constructor
+void connectSQLSpaces(String server,int port) - connects to the SQLSpaces server at the given port
+void disconnectSQLSpaces() - disconnects from the server
+ArrayList<String> getUserNames() - returns list of users with logs on the server
+void setActiveUser(int id) - Selects which user is to be shown on the visualisation panel. The users are indexed as in the result of getUserNames()
+LPVPanel getCanvas() -  Returns the an ancestor of JPanel on which the visualisation takes place.
+int getActiveHeight() - Returns the preferred height of the LPVPanel
+int getActiveWidth() - Returns the preferred width of the LPVPanel
+void addEventListener(LPVEventListener listener)
+void removeEventListener(LPVEventListener listener)
+
+Interface LPVEventListener
+
+methods
+handleLPVEvent(LPVEvent e) - handles event e
+
+Class LPVEvent
+- fires when a new action tuple with a new user is stored in the tuple space of the server
+
+methods
+boolean isNewUser() - true if a new (previously not stored) user has stored an action tuple into the tuple space
+String getNewUserName() - returns the name of the user
+int getNewUserIndex() - returns the index of the new user in the next call of getUserNames()
