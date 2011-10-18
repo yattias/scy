@@ -2,8 +2,8 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package eu.scy.client.tools.fxformauthor;
+
 import javafx.scene.CustomNode;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import roolo.api.IRepository;
@@ -21,157 +21,155 @@ import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import eu.scy.client.desktop.desktoputils.XFX;
 
 /**
  * @author pg
  */
+public class FormAuthorNode extends CustomNode, Resizable, ScyToolFX, ILoadXML, EloSaverCallBack {
 
-public class FormAuthorNode extends CustomNode, Resizable, ScyToolFX, ILoadXML, EloSaverCallBack  {
-    public-init var formAuthorRepositoryWrapper:FormAuthorRepositoryWrapper;
-    public var toolBrokerAPI:ToolBrokerAPI;
-    public var repository:IRepository;
-    public var eloFactory:IELOFactory;
-    public var metadataTypeManager:IMetadataTypeManager;
-    public var technicalFormatKey: IMetadataKey;
-    public var scyWindow:ScyWindow on replace {
-        formList.setScyWindow(scyWindow);
-    };
-    public var spacing:Number on replace { requestLayout() }
+   public-init var formAuthorRepositoryWrapper: FormAuthorRepositoryWrapper;
+   public var toolBrokerAPI: ToolBrokerAPI;
+   public var repository: IRepository;
+   public var eloFactory: IELOFactory;
+   public var metadataTypeManager: IMetadataTypeManager;
+   public var technicalFormatKey: IMetadataKey;
+   public var scyWindow: ScyWindow on replace {
+              formList.setScyWindow(scyWindow);
+           };
+   public var spacing: Number on replace { requestLayout() }
+   public override var width = bind scyWindow.width;
+   public override var height = bind scyWindow.height;
+   var formList: FormList;
+   var viewer: FormViewer;
+   var scyFormAuthorType = "scy/formauthor";
+   var elo: IELO;
+   var eloUri: String = "n/a";
+   public var windowTitle: String;
 
-    public override var width = bind scyWindow.width;
-    public override var height = bind scyWindow.height;
+   public override function create(): Node {
+      formList = FormList { formNode: this };
+      return formList;
+   }
 
-    var formList:FormList;
-    var viewer:FormViewer;
+   public function loadViewer(): Void {
+      delete formList from children;
+      viewer = FormViewer {
+                 scyWindow: scyWindow;
+                 repository: repository;
+                 eloFactory: eloFactory;
+                 metadataTypeManager: metadataTypeManager;
+                 formNode: this;
+              }
+      var fdm = DataHandler.getInstance().getLastFDM();
+      if (fdm != null) {
+         viewer.loadFDM(fdm);
+      } else {
+         fdm = formList.createFDM();
+         viewer.loadFDM(fdm);
+      }
 
-    var scyFormAuthorType = "scy/formauthor";
-    var elo:IELO;
-    var eloUri:String = "n/a";
+      //viewer.loadFDM(DataHandler.getInstance().getLastFDM());
+      insert viewer into children;
+   }
 
-    public var windowTitle:String;
+   public function loadAuthor(): Void {
+      delete viewer from children;
+      insert formList into children;
+   //formList.loadFDM(DataHandler.getInstance().getLastFDM());
+   }
 
-    public override function create() : Node {
-        formList = FormList{formNode: this};
-        return formList;
-    }
+   override function getPrefWidth(height: Number): Number {
+      return 600;
+   }
 
-    public function loadViewer():Void {
-        delete formList from children;
-        viewer = FormViewer {
-            scyWindow: scyWindow;
-            repository: repository;
-            eloFactory: eloFactory;
-            metadataTypeManager: metadataTypeManager;
-            formNode: this;
-        }
-        var fdm = DataHandler.getInstance().getLastFDM();
-        if(fdm != null) {
-            viewer.loadFDM(fdm);
-        }
-        else { 
-            fdm = formList.createFDM();
-            viewer.loadFDM(fdm);
-        }
+   override function getPrefHeight(width: Number): Number {
+      return 400;
+   }
 
-        //viewer.loadFDM(DataHandler.getInstance().getLastFDM());
-        insert viewer into children;
-    }
+   override function setTitle(title: String): Void {
+      windowTitle = title;
+   }
 
-    public function loadAuthor():Void {
-        delete viewer from children;
-        insert formList into children;
-        //formList.loadFDM(DataHandler.getInstance().getLastFDM());
-    }
+   public function setFormAuthorRepositoryWrapper(wrapper: FormAuthorRepositoryWrapper): Void {
+      formAuthorRepositoryWrapper = wrapper;
+   }
 
-    override function getPrefWidth(height:Number):Number {
-        return 600;
-    }
+   override function loadXML(xml: String): Void {
+      formList.createFromString(xml);
+   }
 
-    override function getPrefHeight(width:Number):Number {
-        return 400;
-    }
+   override function getDescription(): String {
+      return formList.description;
+   }
 
-    override function setTitle(title:String):Void {
-        windowTitle = title;
-    }
+   override function getXML(): String {
+      return formList.getXMLString();
+   }
 
-    public function setFormAuthorRepositoryWrapper(wrapper:FormAuthorRepositoryWrapper):Void {
-        formAuthorRepositoryWrapper = wrapper;
-    }
+   public override function postInitialize(): Void {
+      formAuthorRepositoryWrapper = new FormAuthorRepositoryWrapper(this);
+      formAuthorRepositoryWrapper.setRepository(repository);
+      formAuthorRepositoryWrapper.setMetadataTypeManager(metadataTypeManager);
+      formAuthorRepositoryWrapper.setEloFactory(eloFactory);
+      formAuthorRepositoryWrapper.setDocName(scyWindow.title);
+   }
 
-    override function loadXML(xml:String):Void {
-        formList.createFromString(xml);
-    }
+   public override function initialize(windowContent: Boolean): Void {
+      repository = toolBrokerAPI.getRepository();
+      metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
+      eloFactory = toolBrokerAPI.getELOFactory();
+      technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
+   }
 
-    override function getDescription() : String {
-        return formList.description;
-    }
+   public function browseElos(): Void {
+      formAuthorRepositoryWrapper.loadFormAction();
+   }
 
+   public function saveElo(): Void {
+      //formAuthorRepositoryWrapper.saveFormAction();
+      doSaveELO();
+   }
 
-    override function getXML():String {
-        return formList.getXMLString();
-    }
+   public function saveAsElo(): Void {
+      doSaveAsELO();
+   }
 
-    public override function postInitialize(): Void {
-        formAuthorRepositoryWrapper = new FormAuthorRepositoryWrapper(this);
-        formAuthorRepositoryWrapper.setRepository(repository);
-        formAuthorRepositoryWrapper.setMetadataTypeManager(metadataTypeManager);
-        formAuthorRepositoryWrapper.setEloFactory(eloFactory);
-        formAuthorRepositoryWrapper.setDocName(scyWindow.title);
-    }
+   public override function loadElo(uri: URI) {
+      XFX.runActionInBackground(function(): Void {
+         doLoadELO(uri);
+      })
+   }
 
-
-    public override function initialize(windowContent: Boolean):Void {
-        repository = toolBrokerAPI.getRepository();
-        metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
-        eloFactory = toolBrokerAPI.getELOFactory();
-        technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
-    }
-    
-    public function browseElos():Void {
-        formAuthorRepositoryWrapper.loadFormAction();
-    }
-
-    public function saveElo():Void {
-        //formAuthorRepositoryWrapper.saveFormAction();
-        doSaveELO();
-    }
-
-    public function saveAsElo():Void {
-        doSaveAsELO();
-    }
-
-    public override function loadElo(uri:URI) {
-        doLoadELO(uri);
-    }
- 
-    function doLoadELO(eloUri:URI) {
-        var newElo = repository.retrieveELO(eloUri);
-        if(newElo != null) {
+   function doLoadELO(eloUri: URI): Void {
+      var newElo = repository.retrieveELO(eloUri);
+      if (newElo != null) {
+         FX.deferAction(function(): Void {
             loadXML(newElo.getContent().getXmlString());
             this.eloUri = eloUri.toString();
             //logger.info("youtubeR: elo loaded");
             elo = newElo;
-        }
-    }
-    
-    function doSaveELO() {
-        eloSaver.eloUpdate(getELO(), this);
-        this.eloUri = elo.getUri().toString(); // stolen from filtex, dont know why (:
-    }
+         })
+      }
+   }
 
-    function doSaveAsELO() {
-        eloSaver.eloSaveAs(getELO(), this);
-    }
+   function doSaveELO() {
+      eloSaver.eloUpdate(getELO(), this);
+      this.eloUri = elo.getUri().toString(); // stolen from filtex, dont know why (:
+   }
 
-    function getELO():IELO {
-        if(elo == null) {
-            elo = eloFactory.createELO();
-            elo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(scyFormAuthorType);
-        }
-        elo.getContent().setXmlString(getXML()); 
-        return elo;
-    }
+   function doSaveAsELO() {
+      eloSaver.eloSaveAs(getELO(), this);
+   }
+
+   function getELO(): IELO {
+      if (elo == null) {
+         elo = eloFactory.createELO();
+         elo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(scyFormAuthorType);
+      }
+      elo.getContent().setXmlString(getXML());
+      return elo;
+   }
 
    public override function onQuit(): Void {
       if (elo != null) {
@@ -185,15 +183,12 @@ public class FormAuthorNode extends CustomNode, Resizable, ScyToolFX, ILoadXML, 
       doSaveELO();
    }
 
-    override public function eloSaveCancelled (elo : IELO) : Void {
-    }
+   override public function eloSaveCancelled(elo: IELO): Void {
+   }
 
-    override public function eloSaved (elo : IELO) : Void {
-        this.elo = elo;
-        eloUri = elo.getUri().toString();
-    }
-
-
-
+   override public function eloSaved(elo: IELO): Void {
+      this.elo = elo;
+      eloUri = elo.getUri().toString();
+   }
 
 }

@@ -49,8 +49,8 @@ public class DrawingNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
    public var eloFactory: IELOFactory;
    public var metadataTypeManager: IMetadataTypeManager;
    public var repository: IRepository;
-   public override var width on replace {sizeChanged()};
-   public override var height on replace {sizeChanged()};
+   public override var width on replace { sizeChanged() };
+   public override var height on replace { sizeChanged() };
    var wrappedWhiteboardPanel: Node;
    var technicalFormatKey: IMetadataKey;
    var elo: IELO;
@@ -71,9 +71,9 @@ public class DrawingNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
 //         println("changed wrappedWhiteboardPanel.cache to {wrappedWhiteboardPanel.cache}");
 //      }
    public override function initialize(windowContent: Boolean): Void {
-       metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
-       repository = toolBrokerAPI.getRepository();
-       eloFactory = toolBrokerAPI.getELOFactory();
+      metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
+      repository = toolBrokerAPI.getRepository();
+      eloFactory = toolBrokerAPI.getELOFactory();
 
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
    }
@@ -88,14 +88,16 @@ public class DrawingNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
    }
 
    public override function loadElo(uri: URI) {
-      doLoadElo(uri);
+      XFX.runActionInBackground(function(): Void {
+         doLoadElo(uri);
+      })
    }
 
-   public override function onQuit():Void{
-      if (elo!=null){
+   public override function onQuit(): Void {
+      if (elo != null) {
          def oldContentXml = elo.getContent().getXmlString();
          def newContentXml = getElo().getContent().getXmlString();
-         if (oldContentXml==newContentXml){
+         if (oldContentXml == newContentXml) {
             // nothing changed
             return;
          }
@@ -104,8 +106,8 @@ public class DrawingNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
    }
 
    public override function getThumbnail(width: Integer, height: Integer): BufferedImage {
-        return UiUtils.createThumbnail(whiteboardPanel, whiteboardPanel.getSize(), new Dimension(width, height));
-    }
+      return UiUtils.createThumbnail(whiteboardPanel, whiteboardPanel.getSize(), new Dimension(width, height));
+   }
 
    public override function create(): Node {
       wrappedWhiteboardPanel = ScySwingWrapper.wrap(whiteboardPanel);
@@ -113,14 +115,16 @@ public class DrawingNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
       wrappedWhiteboardPanel
    }
 
-   function doLoadElo(eloUri: URI) {
+   function doLoadElo(eloUri: URI): Void {
       logger.info("Trying to load elo {eloUri}");
       var newElo = repository.retrieveELO(eloUri);
       if (newElo != null) {
-         whiteboardPanel.deleteAllWhiteboardContainers();
-         whiteboardPanel.setContentStatus(jdomStringConversion.stringToXml(newElo.getContent().getXmlString()));
-         logger.info("elo loaded");
-         elo = newElo;
+         FX.deferAction(function(): Void {
+            whiteboardPanel.deleteAllWhiteboardContainers();
+            whiteboardPanel.setContentStatus(jdomStringConversion.stringToXml(newElo.getContent().getXmlString()));
+            logger.info("elo loaded");
+            elo = newElo;
+         })
       }
    }
 
