@@ -30,6 +30,7 @@ import roolo.elo.api.IELO;
 import eu.scy.common.scyelo.ScyElo;
 import java.lang.IllegalArgumentException;
 import eu.scy.client.desktop.scydesktop.tools.DrawerUIIndicator;
+import eu.scy.client.desktop.desktoputils.XFX;
 
 /**
  * @author SikkenJ
@@ -142,16 +143,25 @@ public class EloXmlViewerNode extends CustomNode, Resizable, ScyToolFX, EloSaver
       } else if (eloUri == null) {
          savedXml = "ELO uri is not defined";
       } else {
-         scyElo = ScyElo.loadElo(eloUri, toolBrokerAPI);
+         XFX.runActionInBackground(realLoadXml);
+         savedXml = "Loading ELO, please wait";
+      }
+      editCheckBox.disable = not showingEloXml;
+      textBox.text = savedXml;
+   }
+
+   function realLoadXml(): Void {
+      scyElo = ScyElo.loadElo(eloUri, toolBrokerAPI);
+      FX.deferAction(function(): Void {
          if (scyElo == null) {
             savedXml = "ELO does not exists.\n\nURI: {eloUri}";
          } else {
             savedXml = scyElo.getElo().getXml();
             showingEloXml = true;
          }
-      }
-      editCheckBox.disable = not showingEloXml;
-      textBox.text = savedXml;
+         editCheckBox.disable = not showingEloXml;
+         textBox.text = savedXml;
+      })
    }
 
    function saveXml(): Void {
@@ -181,12 +191,12 @@ public class EloXmlViewerNode extends CustomNode, Resizable, ScyToolFX, EloSaver
       textBox.positionCaret(0);
    }
 
-   function copyAll():Void{
+   function copyAll(): Void {
       textBox.selectAll();
       textBox.copy();
    }
 
-   public override function getDrawerUIIndicator(): DrawerUIIndicator{
+   public override function getDrawerUIIndicator(): DrawerUIIndicator {
       return DrawerUIIndicator.XML_VIEWER;
    }
 
