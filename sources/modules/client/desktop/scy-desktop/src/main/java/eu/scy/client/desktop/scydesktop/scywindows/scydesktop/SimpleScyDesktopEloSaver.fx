@@ -244,16 +244,18 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
          // the elo is not yet stored, so there is nothing to update
          return
       }
-      var lastestElo = repository.retrieveELOLastVersion(elo.getUri());
-      var latestMetadata: IMetadata = lastestElo.getMetadata();
-      var mvc = latestMetadata.getMetadataValueContainer(socialtagsKey);
-      var st: SocialTags = mvc.getValue() as SocialTags;
-      if (st == null) {
-         st = new SocialTags();
-         mvc.setValue(st);
-      }
-      var currentMetadata: IMetadata = elo.getMetadata();
-      currentMetadata.getMetadataValueContainer(socialtagsKey).setValue(st);
+      XFX.runActionInBackground(function() {
+          var lastestElo = repository.retrieveELOLastVersion(elo.getUri());
+          var latestMetadata: IMetadata = lastestElo.getMetadata();
+          var mvc = latestMetadata.getMetadataValueContainer(socialtagsKey);
+          var st: SocialTags = mvc.getValue() as SocialTags;
+          if (st == null) {
+             st = new SocialTags();
+             mvc.setValue(st);
+          }
+          var currentMetadata: IMetadata = elo.getMetadata();
+          currentMetadata.getMetadataValueContainer(socialtagsKey).setValue(st);
+      }, "UpdateLatestELOForSocialTagUpdateThread");
    }
 
    public override function eloUpdate(elo: IELO, eloSaverCallBack: EloSaverCallBack): Void {
@@ -365,30 +367,32 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
    }
 
    function showEloSaved(): Void {
-      def showEloSavedMassegaeTime = 1s;
-      var targetNode: Node = window;
-      if (window instanceof StandardScyWindow){
-         targetNode = (window as StandardScyWindow).windowTitleBar.eloIcon;
-      }
+       if (not window.isQuiting) {
+          def showEloSavedMassegaeTime = 1s;
+          var targetNode: Node = window;
+          if (window instanceof StandardScyWindow){
+             targetNode = (window as StandardScyWindow).windowTitleBar.eloIcon;
+          }
 
-      def eloSavedBubbled = TextBubble {
-                 bubbleText: ##"ELO saved"
-                 windowColorScheme: window.windowColorScheme
-                 targetNode: targetNode
-              }
-      BubbleShower {
-//         simpleBubbleManager: this
-         bubble: eloSavedBubbled
-         tooltipGroup: SimpleTooltipManager.tooltipGroup
-         bubbleContent: eloSavedBubbled.getBubbleContent()
-         windowColorScheme: eloSavedBubbled.windowColorScheme
-         sourceNode: eloSavedBubbled.targetNode
-         showArrow: false
-         startAppearingTime: 10ms
-         fullAppearingTime: AnimationTiming.appearTime
-         startDisappearingTime: AnimationTiming.appearTime + showEloSavedMassegaeTime
-         fullDisappearingTime: AnimationTiming.appearTime + showEloSavedMassegaeTime + AnimationTiming.disappearTime
-      }
+          def eloSavedBubbled = TextBubble {
+                     bubbleText: ##"ELO saved"
+                     windowColorScheme: window.windowColorScheme
+                     targetNode: targetNode
+                  }
+          BubbleShower {
+    //         simpleBubbleManager: this
+             bubble: eloSavedBubbled
+             tooltipGroup: SimpleTooltipManager.tooltipGroup
+             bubbleContent: eloSavedBubbled.getBubbleContent()
+             windowColorScheme: eloSavedBubbled.windowColorScheme
+             sourceNode: eloSavedBubbled.targetNode
+             showArrow: false
+             startAppearingTime: 10ms
+             fullAppearingTime: AnimationTiming.appearTime
+             startDisappearingTime: AnimationTiming.appearTime + showEloSavedMassegaeTime
+             fullDisappearingTime: AnimationTiming.appearTime + showEloSavedMassegaeTime + AnimationTiming.disappearTime
+          }
+       }
    }
 
 }
