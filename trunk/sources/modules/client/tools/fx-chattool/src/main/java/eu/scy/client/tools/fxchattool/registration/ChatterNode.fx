@@ -31,11 +31,17 @@ import eu.scy.client.desktop.scydesktop.tools.DrawerUIIndicator;
  */
 public class ChatterNode extends CustomNode, Resizable, ScyToolFX, IChat {
 
-    public-init var chatController: ChatController;
     public-init var scyWindow: ScyWindow;
+    public var chatController: ChatController on replace {
+        if (chatController != null) {
+            messageBox.disable = false;
+            sendButton.disable = false;
+        }
+    };
     var sv: ScrollView;
     var messageBox: TextBox;
     var content: VBox;
+    var sendButton: Button;
     var chatLines: VBox = VBox {
                 spacing: 3
             }
@@ -61,11 +67,21 @@ public class ChatterNode extends CustomNode, Resizable, ScyToolFX, IChat {
                             sendMessage();
                         }
                     }
+                    disable: true
                     layoutInfo: LayoutInfo {
                         hfill: true
                         hgrow: Priority.ALWAYS
                     }
                 }
+        sendButton = Button {
+            text: "##Send"
+            disable: true
+            action: function(): Void {
+                if (messageBox.text.trim().length() != 0) {
+                    sendMessage();
+                }
+            }
+        }
         content = VBox {
                     managed: false;
                     spacing: 5.0;
@@ -82,14 +98,7 @@ public class ChatterNode extends CustomNode, Resizable, ScyToolFX, IChat {
                             spacing: 2.0;
                             content: [
                                 messageBox,
-                                Button {
-                                    text: "Send"
-                                    action: function(): Void {
-                                        if (messageBox.text.trim().length() != 0) {
-                                            sendMessage();
-                                        }
-                                    }
-                                }
+                                sendButton
                             ]
                             layoutInfo: LayoutInfo {
                                 hfill: true
@@ -125,8 +134,10 @@ public class ChatterNode extends CustomNode, Resizable, ScyToolFX, IChat {
     public override var height on replace { sizeChanged() };
 
     function sendMessage(): Void {
-        chatController.sendMessage(messageBox.text);
-        messageBox.text = "";
+        if (chatController != null) {
+            chatController.sendMessage(messageBox.text);
+            messageBox.text = "";
+        }
     }
 
     public override function addMessage(time: String, name: String, text: String): Void {
@@ -180,5 +191,4 @@ public class ChatterNode extends CustomNode, Resizable, ScyToolFX, IChat {
         } into chatLines.content;
         sv.vvalue = sv.vmax;
     }
-
 }
