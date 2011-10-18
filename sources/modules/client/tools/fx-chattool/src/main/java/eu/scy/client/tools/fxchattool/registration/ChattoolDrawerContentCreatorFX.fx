@@ -22,7 +22,7 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorFX;
 import roolo.elo.metadata.keys.Contribute;
-import java.net.URLEncoder;
+import eu.scy.client.desktop.desktoputils.XFX;
 
 
 /**
@@ -49,66 +49,67 @@ public class ChattoolDrawerContentCreatorFX extends ScyToolCreatorFX {
     function createChatToolNode(scyWindow:ScyWindow) : Node {
         var eloUri:URI = scyWindow.eloUri;
         
-        if(eloUri != null) {
-            var metadataFirstVersion = repository.retrieveMetadataFirstVersion(eloUri);
+        def chattool = ChatterNode{
+            scyWindow: scyWindow
+        };
 
-            var identifierKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId());
-            var firstVersionELOURI = metadataFirstVersion.getMetadataValueContainer(identifierKey).getValue() as URI;
+        XFX.runActionInBackground(function(): Void {
+            if(eloUri != null) {
+                var metadataFirstVersion = repository.retrieveMetadataFirstVersion(eloUri);
 
-            var roomId = firstVersionELOURI.toString();
+                var identifierKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId());
+                var firstVersionELOURI = metadataFirstVersion.getMetadataValueContainer(identifierKey).getValue() as URI;
 
-            roomId = StringUtils.remove(roomId, "/");
-            roomId = StringUtils.remove(roomId, ".");
-            roomId = StringUtils.remove(roomId, ":");
-            chatController = chatControllerMap.get(roomId) as ChatController;
+                var roomId = firstVersionELOURI.toString();
 
-            if( chatController == null ) {
-                chatController = new MUCChatController(awarenessService, roomId);
-                chatControllerMap.put(roomId, chatController);
-            }
-            def chattool = ChatterNode{
-                chatController: chatController
-                scyWindow: scyWindow
-            };
-            chatController.registerChat(chattool);
+                roomId = StringUtils.remove(roomId, "/");
+                roomId = StringUtils.remove(roomId, ".");
+                roomId = StringUtils.remove(roomId, ":");
+                chatController = chatControllerMap.get(roomId) as ChatController;
 
-            def presenceListener = PresenceListener {
-                ownershipManager: scyWindow.ownershipManager;
-                chattool: chattool;
-                roomId: roomId;
-            };
+                if( chatController == null ) {
+                    chatController = new MUCChatController(awarenessService, roomId);
+                    chatControllerMap.put(roomId, chatController);
+                }
 
-            chatController.getAwarenessService().addAwarenessPresenceListener(presenceListener);
-            chatController.connectToRoom();
+                def presenceListener = PresenceListener {
+                    ownershipManager: scyWindow.ownershipManager;
+                    chattool: chattool;
+                    roomId: roomId;
+                };
 
-            var metadata = repository.retrieveMetadata(eloUri);
+                chatController.getAwarenessService().addAwarenessPresenceListener(presenceListener);
+                chatController.connectToRoom();
+                chattool.chatController = chatController;
+                chatController.registerChat(chattool);
 
-            def technicalFormat = metadata.getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT)).getValue() as String;
+                var metadata = repository.retrieveMetadata(eloUri);
 
-            if ("scy/chat".equals(technicalFormat)) {
-                var buddies:String[];
-                var authors = (metadata.getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR)).getValueList()) as List;
-                if (authors != null) {
-                    for (author in authors) {
-                        if (author instanceof String) {
-                            insert (author as String) into buddies;
-                        } else if (author instanceof Contribute) {
-                            insert ((author as Contribute).getVCard()) into buddies;
+                def technicalFormat = metadata.getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT)).getValue() as String;
+
+                if ("scy/chat".equals(technicalFormat)) {
+                    var buddies:String[];
+                    var authors = (metadata.getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR)).getValueList()) as List;
+                    if (authors != null) {
+                        for (author in authors) {
+                            FX.deferAction(function() : Void {
+                                if (author instanceof String) {
+                                    insert (author as String) into buddies;
+                                } else if (author instanceof Contribute) {
+                                    insert ((author as Contribute).getVCard()) into buddies;
+                                }
+                            });
+                        }
+                    }
+                    for (buddy in buddies) {
+                        if (not buddy.equals(toolBrokerAPI.getLoginUserName())) {
+                            // todo check if user is already in mission
+                            chatController.sendInvitation(buddy);
                         }
                     }
                 }
-                for (buddy in buddies) {
-                    if (not buddy.equals(toolBrokerAPI.getLoginUserName())) {
-                        // todo check if user is already in mission
-                        chatController.sendInvitation(buddy);
-                    }
-                }
             }
-
-            return chattool;
-        }
-        else {
-            return null;
-        }
+        }, "ChatInitializationThread");
+        return chattool;
    }
 }
