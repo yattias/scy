@@ -3,7 +3,6 @@ package eu.scy.client.desktop.scydesktop.scywindows.window;
 import javafx.stage.Stage;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import java.lang.IllegalStateException;
 import java.lang.System;
 import java.lang.IllegalArgumentException;
 import javafx.scene.Group;
@@ -24,7 +23,7 @@ var theStage: Stage on replace {
     };
 var showWorkingActive = false;
 var showWorkingActiveWhenPossible = false;
-def progressIndicator = ProgressIndicator {
+def progressIndicator: ProgressIndicator = ProgressIndicator {
       cursor: Cursor.WAIT
       scaleX: 10
       scaleY: 10
@@ -88,6 +87,7 @@ public function initOverlay(stage: Stage): Void {
    //throw new IllegalArgumentException("stage may not be null");
    } else {
       theStage = stage;
+      placeNodes();
    }
 }
 
