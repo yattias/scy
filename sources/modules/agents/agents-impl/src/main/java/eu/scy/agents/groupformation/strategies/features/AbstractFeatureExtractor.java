@@ -6,28 +6,22 @@
  */
 package eu.scy.agents.groupformation.strategies.features;
 
-import info.collide.sqlspaces.client.TupleSpace;
-
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import eu.scy.common.scyelo.RooloServices;
-
-import roolo.api.IRepository;
+import info.collide.sqlspaces.client.TupleSpace;
 import roolo.elo.api.IELO;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.search.ISearchResult;
 import roolo.search.MetadataQueryComponent;
 import roolo.search.Query;
 
+import java.util.HashSet;
+import java.util.List;
+
 public abstract class AbstractFeatureExtractor implements FeatureExtractor {
 
     protected TupleSpace commandSpace;
     protected RooloServices repository;
-    
+
 
     @Override
     public void setCommandSpace(TupleSpace commandSpace) {
@@ -36,7 +30,7 @@ public abstract class AbstractFeatureExtractor implements FeatureExtractor {
 
     @Override
     public void setRepository(RooloServices repository) {
-        this.repository = repository;      
+        this.repository = repository;
     }
 
     @Override
@@ -49,19 +43,26 @@ public abstract class AbstractFeatureExtractor implements FeatureExtractor {
 
 
     protected abstract double[] getFeatures(String user, String mission, IELO elo,
-                                     IELO userELO);
+                                            IELO userELO);
 
     protected IELO retrieveEloFromRepository(String user, String eloType) {
         MetadataQueryComponent mcq = new MetadataQueryComponent(
-                                                                CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId(),
-                                                                eloType);
+                CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId(),
+                eloType);
         Query q = new Query(mcq);
         HashSet<String> allowedUsers = new HashSet<String>();
-        allowedUsers.add(user);
+        allowedUsers.add(clean(user));
         q.setIncludedUsers(allowedUsers);
         List<ISearchResult> res = repository.getRepository().search(q);
+        if ( res.isEmpty() ) {
+            return null;
+        }
         IELO elo = repository.getRepository().retrieveELO(res.get(0).getUri());
         return elo;
+    }
+
+    private String clean(String user) {
+        return user.substring(0, user.indexOf('@'));
     }
 
 }

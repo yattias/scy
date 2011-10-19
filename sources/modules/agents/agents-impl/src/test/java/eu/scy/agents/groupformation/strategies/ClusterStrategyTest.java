@@ -94,14 +94,6 @@ public class ClusterStrategyTest extends AbstractTestFixture {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
-//        addEloToRepository("/hypoTestElos/Copex1.xml", "scy/xproc", "copex1", "TestUser1");
-//        addEloToRepository("/hypoTestElos/Copex2.xml", "scy/xproc", "copex2", "TestUser2");
-//        addEloToRepository("/hypoTestElos/Copex3.xml", "scy/xproc", "copex3", "TestUser3");
-//        addEloToRepository("/hypoTestElos/Copex1.xml", "scy/xproc", "copex4", "TestUser4");
-//        addEloToRepository("/hypoTestElos/Copex2.xml", "scy/xproc", "copex2", "TestUser5");
-//        addEloToRepository("/hypoTestElos/Copex3.xml", "scy/xproc", "copex3", "TestUser6");
-//        addEloToRepository("/hypoTestElos/Copex1.xml", "scy/xproc", "copex4", "TestUser7");
     }
 
     @Test
