@@ -15,6 +15,7 @@ import eu.scy.common.datasync.ISyncObject;
 import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.common.datasync.SyncObject;
 import javafx.util.Sequences;
+import eu.scy.client.desktop.desktoputils.XFX;
 
 public class ELOInterface extends ISyncListener {
 
@@ -153,13 +154,13 @@ public class ELOInterface extends ISyncListener {
             }
             return tag;
         } else {
-        	elo = tbi.getRepository().retrieveELOLastVersion(eloUri);
+            elo = tbi.getRepository().retrieveELOLastVersion(eloUri);
             var oldMetadata : IMetadata = elo.getMetadata();
             var mvc = oldMetadata.getMetadataValueContainer(socialtagsKey);
             var st: SocialTags = mvc.getValue() as SocialTags;
             if (st == null) {
                 st = new SocialTags();
-                mvc.setValue(st);
+                mvc.setValue( st);
             }
             var userLikes = st.getLikingUsers(tag.tagname).contains(user);
             var userNotLikes = st.getUnlikingUsers(tag.tagname).contains(user);
@@ -190,17 +191,19 @@ public class ELOInterface extends ISyncListener {
             tbi.getRepository().addMetadata(elo.getUri(), oldMetadata);
 
             if (syncSession != null and syncSession.isConnected()) {
-                var object : ISyncObject = new SyncObject();
-                object.setID("{tag.tagname}_{user}");
-                object.setToolname("socialtagging");
-                object.setProperty("tag", tag.tagname);
-                object.setProperty("user", user);
-                object.setProperty("like", Boolean.toString(like));
-                if (newTag) {
-                    syncSession.addSyncObject(object);
-                } else {
-                    syncSession.changeSyncObject(object);
-                }
+                XFX.runActionInBackground(function() : Void {
+                    var object : ISyncObject = new SyncObject();
+                    object.setID("{tag.tagname}_{user}");
+                    object.setToolname("socialtagging");
+                    object.setProperty("tag", tag.tagname);
+                    object.setProperty("user", user);
+                    object.setProperty("like", Boolean.toString(like));
+                    if (newTag) {
+                        syncSession.addSyncObject(object);
+                    } else {
+                        syncSession.changeSyncObject(object);
+                    }
+                }, "SendAddedTagSyncObjectThread");
             }
             return tag;
         }
@@ -211,7 +214,7 @@ public class ELOInterface extends ISyncListener {
             insert tag into this.testTags;
             return tag;
         } else {
-     		elo = tbi.getRepository().retrieveELOLastVersion(eloUri);
+            elo = tbi.getRepository().retrieveELOLastVersion(eloUri);
             var mvc = elo.getMetadata().getMetadataValueContainer(socialtagsKey);
             var st: SocialTags = mvc.getValue() as SocialTags;
             st.removeLikingUser(tag.tagname, getCurrentUser());
@@ -219,14 +222,15 @@ public class ELOInterface extends ISyncListener {
             tbi.getRepository().addMetadata(elo.getUri(), elo.getMetadata());
 
             if (syncSession != null and syncSession.isConnected()) {
-                var object : ISyncObject = new SyncObject();
-                object.setID("{tag.tagname}_{getCurrentUser()}");
-                object.setToolname("socialtagging");
-                object.setProperty("tag", tag.tagname);
-                object.setProperty("user", getCurrentUser());
-                syncSession.removeSyncObject(object);
+                XFX.runActionInBackground(function() : Void {
+                    var object : ISyncObject = new SyncObject();
+                    object.setID("{tag.tagname}_{getCurrentUser()}");
+                    object.setToolname("socialtagging");
+                    object.setProperty("tag", tag.tagname);
+                    object.setProperty("user", getCurrentUser());
+                    syncSession.removeSyncObject(object);
+                }, "SendRemovedTagSyncObjectThread");
             }
-
             return tag;
         }
     }

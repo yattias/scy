@@ -25,6 +25,7 @@ import javafx.scene.layout.Container;
 import javafx.geometry.Insets;
 import eu.scy.collaboration.api.CollaborationStartable;
 import eu.scy.client.desktop.scydesktop.tools.DrawerUIIndicator;
+import eu.scy.client.desktop.desktoputils.XFX;
 
 public class SocialTaggingDrawer
         extends
@@ -41,6 +42,7 @@ public class SocialTaggingDrawer
     var mainBox: VBox;
     var tagLines: Node[];
     var newTagBox: TextBox;
+    var newTagButton: Button;
     def spacing = 5.0;
 
 
@@ -89,8 +91,10 @@ public class SocialTaggingDrawer
                                         onMouseClicked: function(e) {
                                             // Remove a vote first (this should really be handled
                                             // in the eloInterface
-                                            eloInterface.addVoteForTag(true, tag);
-                                            this.updateTagLines();
+                                            XFX.runActionInBackground(function() : Void {
+                                                eloInterface.addVoteForTag(true, tag);
+                                                updateTagLines();
+                                            }, "AddVoteForTagThread");
                                         }
                                     }
 
@@ -105,8 +109,10 @@ public class SocialTaggingDrawer
                                         onMouseClicked: function(e) {
                                             // Remove a vote first (this should really be handled
                                             // in the eloInterface
-                                            eloInterface.addVoteForTag(false, tag);
-                                            this.updateTagLines();
+                                            XFX.runActionInBackground(function() : Void {
+                                                eloInterface.addVoteForTag(false, tag);
+                                                updateTagLines();
+                                            }, "AddVoteForTagThread")
                                         }
                                     }
                                     Label {
@@ -146,7 +152,9 @@ public class SocialTaggingDrawer
 
     public function updateTagLines(): Void {
         def tags : Tag[] = eloInterface.getAllTags();
-        tagLines = createTagLines(tags);
+        FX.deferAction(function() : Void {
+            tagLines = createTagLines(tags);
+        });
     }
 
 
@@ -186,16 +194,16 @@ public class SocialTaggingDrawer
                     action: addTag
                 }
 
-        def newTagButton = Button {
+        newTagButton = Button {
                     text: "Add"
                     tooltip: Tooltip {
                         text: "Adds a tag, and your vote for that tag"
                     }
-                    disable: bind newTagBox.rawText==""
+                    disable: bind newTagBox.disabled or newTagBox.rawText=="";
                     action: addTag
                 }
 
-        this.updateTagLines();
+      XFX.runActionInBackground(updateTagLines, "TagLineUpdateThread");
 
       var scrollView = ScrollView {
         style: "-fx-background-color: white; -fx-border-color: grey;"
@@ -237,11 +245,17 @@ public class SocialTaggingDrawer
     }
     
     function addTag() : Void {
-        eloInterface.addVoteForString(true, newTagBox.text);
-        this.updateTagLines();
-        newTagBox.text = "";
+        def tagText = newTagBox.text;
+        newTagBox.disable = true;
+        XFX.runActionInBackgroundAndCallBack(function() : Object {
+            eloInterface.addVoteForString(true, tagText);
+            updateTagLines();
+            return null;
+        }, function(o: Object) : Void {
+            newTagBox.text = "";
+            newTagBox.disable = false;
+        }, "AddVoteForTagThread");
     }
-    
 
     function sizeChanged(): Void {
       Container.resizeNode(mainBox, width, height);
