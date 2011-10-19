@@ -61,7 +61,7 @@ public class Cluster {
 		return center;
 	}
 
-	public Object size() {
+	public int size() {
 		return assignedMembers.size();
 	}
 

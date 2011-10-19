@@ -77,4 +77,32 @@ public class Group implements Iterable<String> {
     public void setId(String id) {
         this.id = id;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if ( this == o ) {
+            return true;
+        }
+        if ( o == null || getClass() != o.getClass() ) {
+            return false;
+        }
+
+        Group group1 = (Group) o;
+
+        if ( group != null ? !group.equals(group1.group) : group1.group != null ) {
+            return false;
+        }
+        if ( id != null ? !id.equals(group1.id) : group1.id != null ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = group != null ? group.hashCode() : 0;
+        result = 31 * result + ( id != null ? id.hashCode() : 0 );
+        return result;
+    }
 }
