@@ -84,7 +84,7 @@ public class ELOInterface extends ISyncListener {
          */
         if (this.demoMode == true) {
             return this.testTags;
-        } else {
+        } else if (eloUri != null){
             var tags: Tag[] = [];
             elo = tbi.getRepository().retrieveELOLastVersion(eloUri);
             var socialTags: SocialTags = elo.getMetadata().getMetadataValueContainer(socialtagsKey).getValue() as SocialTags;
@@ -108,6 +108,8 @@ public class ELOInterface extends ISyncListener {
                 }
             }
             return Sequences.sort(tags, tagComparator);
+        } else {
+            return [];
         }
     }
 
@@ -153,7 +155,7 @@ public class ELOInterface extends ISyncListener {
                 delete tagToUpdate from this.testTags;
             }
             return tag;
-        } else {
+        } else if (eloUri != null) {
             elo = tbi.getRepository().retrieveELOLastVersion(eloUri);
             var oldMetadata : IMetadata = elo.getMetadata();
             var mvc = oldMetadata.getMetadataValueContainer(socialtagsKey);
@@ -206,6 +208,8 @@ public class ELOInterface extends ISyncListener {
                 }, "SendAddedTagSyncObjectThread");
             }
             return tag;
+        } else {
+            return tag;
         }
     }
 
@@ -213,7 +217,7 @@ public class ELOInterface extends ISyncListener {
         if (this.demoMode) {
             insert tag into this.testTags;
             return tag;
-        } else {
+        } else if (eloUri != null) {
             elo = tbi.getRepository().retrieveELOLastVersion(eloUri);
             var mvc = elo.getMetadata().getMetadataValueContainer(socialtagsKey);
             var st: SocialTags = mvc.getValue() as SocialTags;
@@ -231,6 +235,8 @@ public class ELOInterface extends ISyncListener {
                     syncSession.removeSyncObject(object);
                 }, "SendRemovedTagSyncObjectThread");
             }
+            return tag;
+        } else {
             return tag;
         }
     }
