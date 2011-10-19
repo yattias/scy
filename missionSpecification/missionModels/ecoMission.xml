@@ -635,7 +635,7 @@
                 </bean>
                 <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                     <property name="id" value="experimentalProcedureB3"/>
-                    <property name="uri" value="roolo://memory/20072/0/Trophic+levels+Experimental+procedure.scyxproc"/>
+                    <property name="uri" value="roolo://memory/20210/0/Experimental+procedure+-+trophic+level.scyxproc"/>
                     <property name="iconType" value="Exp_design"/>
                     <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/b3lasexp.txt"/>
                     <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_copex_b3.html"/>

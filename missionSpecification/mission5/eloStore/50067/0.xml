@@ -75,7 +75,7 @@
   <agentModelsEloUri />
   <pedagogicalPlanSettingsEloUri>roolo://memory/50066/0/Run+for+your+life%21.scy</pedagogicalPlanSettingsEloUri>
   <colorSchemesEloUri>roolo://memory/50010/0/colorschemes1.colorschemes</colorSchemesEloUri>
-  <missionDescriptionUri>http://www.scy-lab.eu/content/en/mission5/curtain_MISSION.html</missionDescriptionUri>
+  <missionDescriptionUri>http://www.scy-lab.eu/content/en/mission5/curtain_MISSIONMAP.html</missionDescriptionUri>
   <missionId>mini1</missionId>
   <xhtmlVersionId />
 </missionSpeicification>
