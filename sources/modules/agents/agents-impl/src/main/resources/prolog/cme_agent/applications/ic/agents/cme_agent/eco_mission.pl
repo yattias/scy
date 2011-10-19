@@ -203,19 +203,10 @@ select_random_element(List, Element) :-
 eco_mission_feedback(Language, Evaluation, Feedback) :-
 	memberchk(topic(Topic), Evaluation),
 	feedback_message(topic(Topic), Language, Evaluation, Feedback1),
-/*	(   memberchk(at_least(AtLeast), Evaluation)
-	->  feedback_message(at_least(AtLeast), Language, Props, Feedback2)
-	;   Feedback2 = ''
-	),
-	(   memberchk(no_nodes(NoNodes), Evaluation)
-	->  feedback_message(no_nodes(NoNodes), Language, Props, Feedback3)
-	;   Feedback3 = ''
-	),
-*/
 	(   memberchk(no_correct(NoNodes), Evaluation)
 	->  feedback_message(no_correct(NoNodes), Language, Evaluation, Feedback2)
 	;   Feedback2 = ''
-	),
+	), !,
 	atomic_list_concat([Feedback1,Feedback2], '   ', Feedback).
 
 
@@ -243,41 +234,35 @@ feedback_message(no_correct(Correct), Lang, Props, Msg) :-
 	    ),
 	    format(atom(Msg), Fmt, [Still])
 	).
-feedback_message(at_least(AtLeast), Lang, _Props, Msg) :-
-	m(at_least(AtLeast), Lang, Fmt),
-	format(atom(Msg), Fmt, [AtLeast]).
-feedback_message(no_nodes(Nodes), Lang, _Props, Msg) :-
-	m(no_nodes(Nodes), Lang, Fmt),
-	format(atom(Msg), Fmt, [Nodes]).
 
 
-m(none_correct, et, 'Sinu mõistekaardil ei ole ühtegi mõistet, mis seostuvad läbitud uurimusliku töö teemaga.') :- !.
+m(none_correct, et, 'Sinu mõistekaardil ei ole ühtegi mõistet mis seostuvad läbitud uurimusliku töö teemaga.') :- !.
 m(none_correct, _, 'You do not have any concepts related to this topic in your map.').
 
-m(all_correct, et, 'Your concept map for this topic is complete.  Congratulations').
-m(all_correct, _, 'Sinu mõistekaart seonduvalt läbitud uurimusliku töö teemaga on valmis. Palju õnne!').
+m(all_correct, et, 'Sinu mõistekaart seonduvalt läbitud uurimusliku töö teemaga on valmis. Palju õnne!').
+m(all_correct, _, 'Your concept map for this topic is complete.  Congratulations').
 
-m(some_correct(initial), et, 'That is a good start but you still miss ~w concepts.').
-m(some_correct(initial), _, 'Tehtud on hea algus, kuid puuduvad veel ~w olulist mõistet.').
+m(some_correct(initial), et, 'Tehtud on hea algus kuid puuduvad veel ~w olulist mõistet.').
+m(some_correct(initial), _, 'That is a good start but you still miss ~w concepts.').
 
-m(some_correct(one_missing), et, 'That is a good start but you still miss one concepts.').
-m(some_correct(one_missing), _, 'Tehtud on hea algus, kuid puudub veel vähemalt üks oluline mõiste.').
+m(some_correct(one_missing), et, 'Tehtud on hea algus kuid puudub veel vähemalt üks oluline mõiste.').
+m(some_correct(one_missing), _, 'That is a good start but you still miss one concepts.').
 
-m(some_correct(better), et, 'The concept map has improved.  ~w concepts are still missing.').
-m(some_correct(better), _, 'Mõistekaart on täiuslikum, kuid ~w mõistet on ikka puudus.').
+m(some_correct(better), et, 'Mõistekaart on täiuslikum kuid ~w mõistet on ikka puudus.').
+m(some_correct(better), _, 'The concept map has improved.  ~w concepts are still missing.').
 
-m(some_correct(worse), et, 'The previous concept map had more correct concepts.').
-m(some_correct(worse), _, 'Mõistekaardi eelmisel versioonil oli rohkem korrektseid mõisteid.').
+m(some_correct(worse), et, 'Mõistekaardi eelmisel versioonil oli rohkem korrektseid mõisteid.').
+m(some_correct(worse), _, 'The previous concept map had more correct concepts.').
 
-m(some_correct(same), et, 'Your concept map has not improved.  If you want me to look for a good concept map from a class mate then click the save button again').
-m(some_correct(same), _, 'Sinu mõistekaart ei ole täiuslikum kui varem. Kui Sa soovid, et ma aitaks leida hea näite Su klassikaaslaste mõistekaartide seast, siis klõpsa uuesti salvestamisnuppu.').
+m(some_correct(same), et, 'Sinu mõistekaart ei ole täiuslikum kui varem. Kui Sa soovid et ma aitaks leida hea näite Su klassikaaslaste mõistekaartide seast siis klõpsa uuesti salvestamisnuppu.').
+m(some_correct(same), _, 'Your concept map has not improved.  If you want me to look for a good concept map from a class mate then click the save button again').
 
-m(some_correct(find_peer), et, 'I did not find any class mate with a better concept map.').
-m(some_correct(find_peer), _, 'Ma ei leidnud ühtegi klassikaaslast, kellel oleks Sinuga võrreldes täiuslikum mõistekaart.').
+m(some_correct(find_peer), et, 'Ma ei leidnud ühtegi klassikaaslast kellel oleks Sinuga võrreldes täiuslikum mõistekaart.').
+m(some_correct(find_peer), _, 'I did not find any class mate with a better concept map.').
 
-m(topic(not_available), et, 'I could not determine the topic you are working on.') :- !.
-m(topic(not_available), _, 'Ma ei suutnud leida, millise uurimusliku teemaga Sa viimati tegelesid. ').
+m(topic(not_available), et, 'Ma ei suutnud leida millise uurimusliku teemaga Sa viimati tegelesid. ').
+m(topic(not_available), _, 'I could not determine the topic you are working on.') :- !.
 
-m(topic(_), et, 'Evaluation for topic ~w') :- !.
-m(topic(_), _, 'Hindamine teemal ~w. ').
+m(topic(_), et, 'Hindamine teemal ~w. ').
+m(topic(_), _, 'Evaluation for topic ~w').
 	
