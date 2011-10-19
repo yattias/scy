@@ -2,125 +2,142 @@
 <project
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<parent>
-		<artifactId>parent</artifactId>
-		<groupId>eu.scy.client.desktop</groupId>
-		<version>35-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>eu.scy.client.desktop</groupId>
+        <version>35-SNAPSHOT</version>
+    </parent>
 
-	<modelVersion>4.0.0</modelVersion>
-	<artifactId>local-tool-broker</artifactId>
-	<packaging>jar</packaging>
-	<name>local-tool-broker</name>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>local-tool-broker</artifactId>
+    <packaging>jar</packaging>
+    <name>local-tool-broker</name>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.roolo</groupId>
-			<artifactId>elo-api</artifactId>
-			<version>${project.version}</version>
-		</dependency>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.10</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.surefire</groupId>
+                        <artifactId>surefire-junit4</artifactId>
+                        <version>2.10</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
 
-		<dependency>
-			<groupId>org.roolo</groupId>
-			<artifactId>roolo-api</artifactId>
-			<version>${project.version}</version>
-		</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>org.roolo</groupId>
+            <artifactId>elo-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.roolo</groupId>
-			<artifactId>elo-impl</artifactId>
-			<version>${project.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>org.roolo</groupId>
+            <artifactId>roolo-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>eu.scy.common</groupId>
-			<artifactId>action-logging-api</artifactId>
-			<version>${pom.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>org.roolo</groupId>
+            <artifactId>elo-impl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>eu.scy.common</groupId>
-			<artifactId>scy-sessionmanager-api</artifactId>
-			<version>${pom.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>action-logging-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>eu.scy.common</groupId>
-			<artifactId>notification-api</artifactId>
-			<version>${pom.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>scy-sessionmanager-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>eu.scy.common</groupId>
-			<artifactId>tool-broker-api</artifactId>
-			<version>${pom.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>notification-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>eu.scy.common</groupId>
-			<artifactId>awareness-api</artifactId>
-			<version>${pom.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>tool-broker-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>eu.scy.client.desktop</groupId>
-			<artifactId>action-logging-client</artifactId>
-			<version>${pom.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>awareness-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>eu.scy.common</groupId>
-			<artifactId>data-sync-api</artifactId>
-			<version>${pom.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>eu.scy.client.desktop</groupId>
+            <artifactId>action-logging-client</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>eu.scy.client.desktop</groupId>
-			<artifactId>notification-receiver</artifactId>
-			<version>${pom.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>data-sync-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>eu.scy.common</groupId>
-			<artifactId>configuration</artifactId>
-			<version>${pom.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>eu.scy.client.desktop</groupId>
+            <artifactId>notification-receiver</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>eu.scy.common</groupId>
-			<artifactId>pedagogical-plan-service-api</artifactId>
-			<version>${pom.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>configuration</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>eu.scy.common</groupId>
-			<artifactId>scy-model-api</artifactId>
-			<version>${pom.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>pedagogical-plan-service-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>eu.scy.common</groupId>
-			<artifactId>action-logging-commons</artifactId>
-			<version>${pom.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>scy-model-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring</artifactId>
-			<scope>test</scope>
-		</dependency>
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>action-logging-commons</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.roolo</groupId>
-			<artifactId>roolo-mock</artifactId>
-			<version>${project.version}</version>
-			<scope>test</scope>
-		</dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring</artifactId>
+            <scope>test</scope>
+        </dependency>
 
-	</dependencies>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.roolo</groupId>
+            <artifactId>roolo-mock</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
 
 </project>
