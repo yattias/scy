@@ -35,6 +35,8 @@ import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.exceptions.ELODoesNotExistException;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import eu.scy.client.common.scyi18n.UrlUtils;
+import eu.scy.client.common.scyi18n.UriLocalizer;
 
 /**
  *
@@ -121,6 +123,7 @@ public class BasicMissionConfigInput implements MissionConfigInput
    @Override
    public URI getMissionDescriptionUri()
    {
+      checkUri(missionDescriptionUri, true, "missionDescriptionUri");
       return missionDescriptionUri;
    }
 
@@ -236,17 +239,36 @@ public class BasicMissionConfigInput implements MissionConfigInput
       this.basicMissionMap = basicMissionMap;
    }
 
+   private UriLocalizer uriLocalizer = new UriLocalizer();
+   private void checkUri(URI uri, boolean mustExist, String label)
+   {
+      if (uri == null || uri.toString().length() == 0)
+      {
+         if (mustExist)
+         {
+            logger.info(addError(label + " is not defined"));
+         }
+      }
+      else
+      {
+         // localize the uri, this also handles the redirecting to a local version of the web pages
+         URI localizedUri = uriLocalizer.localizeUri(uri);
+         if (!UrlUtils.uriExisits(localizedUri))
+         {
+            logger.info(addError(label + " cannot be found: " + uri));
+         }
+      }
+   }
+
    @Override
    public MissionModelEloContent getMissionModelEloContent()
    {
       final BasicMissionModelEloContent missionModelEloContent = new BasicMissionModelEloContent();
       missionModelEloContent.setMissionMapBackgroundImageUri(getBasicMissionMap().getMissionMapBackgroundImageUri());
+      checkUri(missionModelEloContent.getMissionMapBackgroundImageUri(), false, "missionMapBackgroundImageUri");
       missionModelEloContent.setMissionMapInstructionUri(getBasicMissionMap().getMissionMapInstructionUri());
+      checkUri(missionModelEloContent.getMissionMapInstructionUri(), false, "missionMapInstructionUri");
       missionModelEloContent.setMissionMapButtonIconType(getBasicMissionMap().getMissionMapButtonIconType());
-      if (missionModelEloContent.getMissionMapBackgroundImageUri() == null || missionModelEloContent.getMissionMapBackgroundImageUri().toString().length() == 0)
-      {
-         logger.info(addError("MissionMapBackgroundImageUri is not defined"));
-      }
       missionModelEloContent.setLoEloUris(getBasicMissionMap().getLoEloUris());
       missionModelEloContent.setLasses(getLasses());
 
@@ -287,6 +309,7 @@ public class BasicMissionConfigInput implements MissionConfigInput
          las.setLoEloUris(basicLas.getLoEloUris());
          las.setToolTip(basicLas.getTooltip());
          las.setInstructionUri(basicLas.getInstructionUri());
+         checkUri(las.getInstructionUri(),true,"instructionUri for las " + las.getId());
          las.setLasType(basicLas.getLasType());
          if (!lasIdMap.containsKey(las.getId()))
          {
@@ -332,9 +355,13 @@ public class BasicMissionConfigInput implements MissionConfigInput
          missionAnchor.setLoEloUris(basicMissionAnchor.getLoEloUris());
          missionAnchor.setTargetDescriptionUri(basicMissionAnchor.getTargetDescriptionUri());
          missionAnchor.setAssignmentUri(basicMissionAnchor.getAssignmentUri());
+         checkUri(missionAnchor.getAssignmentUri(),false,"assignmentUri for missionAnchor " + missionAnchor.getId());
          missionAnchor.setResourcesUri(basicMissionAnchor.getResourcesUri());
+         checkUri(missionAnchor.getResourcesUri(),false,"resourcesUri for missionAnchor " + missionAnchor.getId());
          missionAnchor.setHelpUri(basicMissionAnchor.getHelpUri());
+         checkUri(missionAnchor.getHelpUri(),false,"helpUri for missionAnchor " + missionAnchor.getId());
          missionAnchor.setWebNewsUri(basicMissionAnchor.getWebNewsUri());
+         checkUri(missionAnchor.getWebNewsUri(),false,"webNewsUri for missionAnchor " + missionAnchor.getId());
          missionAnchor.setColorSchemeId(basicMissionAnchor.getColorScheme());
          missionAnchor.setRelationNames(basicMissionAnchor.getRelationNames());
          missionAnchor.setDependingOnMissionAnchorIds(basicMissionAnchor.getDependingOnMissionAnchorIds());
@@ -395,9 +422,11 @@ public class BasicMissionConfigInput implements MissionConfigInput
             }
          }
          las.setIntermediateAnchors(intermediateAnchors);
-         if (!StringUtils.isEmpty(basicLas.getInitialAnchorEloIdToOpen())){
+         if (!StringUtils.isEmpty(basicLas.getInitialAnchorEloIdToOpen()))
+         {
             las.setInitialMissionAnchorToOpen(MissionModelEloContentXmlUtils.findMissionAnchorInLas(basicLas.getInitialAnchorEloIdToOpen(), las));
-            if (las.getInitialMissionAnchorToOpen()==null){
+            if (las.getInitialMissionAnchorToOpen() == null)
+            {
                logger.error(addError("Cannot find initial mission anchor to open with id '" + basicLas.getInitialAnchorEloIdToOpen() + "' in las with id '" + basicLas.getId() + "'"));
             }
          }
