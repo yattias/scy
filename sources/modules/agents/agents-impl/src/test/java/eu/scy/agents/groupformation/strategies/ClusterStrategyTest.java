@@ -1,7 +1,5 @@
 package eu.scy.agents.groupformation.strategies;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertNotNull;
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.groupformation.GroupFormationStrategy;
 import eu.scy.agents.groupformation.cache.Group;
@@ -22,6 +20,9 @@ import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class ClusterStrategyTest extends AbstractTestFixture {
 
@@ -107,15 +108,13 @@ public class ClusterStrategyTest extends AbstractTestFixture {
     public void testFormGroup() {
         Collection<Group> groups = strategy.formGroup(referenceElo1);
         Group group = new Group();
+        group.add("TestUser3");
+        group.add("TestUser4");
         group.add("TestUser5");
         assertTrue(groups.contains(group));
         group.clear();
-        group.add("TestUser1");
         group.add("TestUser2");
-        group.add("TestUser3");
-        group.add("TestUser4");
-        assertTrue(groups.contains(group));
-        group.clear();
+        group.add("TestUser1");
         group.add("TestUser6");
         group.add("TestUser7");
         assertTrue(groups.contains(group));

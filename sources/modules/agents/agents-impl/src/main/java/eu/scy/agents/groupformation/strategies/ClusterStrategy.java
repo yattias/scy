@@ -3,8 +3,10 @@ package eu.scy.agents.groupformation.strategies;
 import eu.scy.agents.groupformation.GroupFormationStrategy;
 import eu.scy.agents.groupformation.cache.Group;
 import eu.scy.agents.groupformation.strategies.algorithms.Cluster;
+import eu.scy.agents.groupformation.strategies.algorithms.DistanceMeasure;
 import eu.scy.agents.groupformation.strategies.algorithms.FeatureVector;
 import eu.scy.agents.groupformation.strategies.algorithms.KMeansAlgorithm;
+import eu.scy.agents.groupformation.strategies.features.CMapFeatureExtractor;
 import eu.scy.agents.groupformation.strategies.features.FeatureExtractor;
 import roolo.elo.api.IELO;
 
@@ -30,6 +32,7 @@ public class ClusterStrategy extends AbstractGroupFormationStrategy {
 
     public ClusterStrategy() {
         extractors = new ArrayList<FeatureExtractor>();
+        extractors.add(new CMapFeatureExtractor());
     }
 
     @Override
@@ -71,15 +74,35 @@ public class ClusterStrategy extends AbstractGroupFormationStrategy {
     }
 
     private List<Group> transformClusterToGroups(List<Cluster> clusters) {
+        List<Cluster> clusterToReassign = new ArrayList<Cluster>();
         List<Group> groups = new ArrayList<Group>();
         for ( Cluster cluster : clusters ) {
+            if ( cluster.size() < minimumGroupSize ) {
+                clusterToReassign.add(cluster);
+                continue;
+            }
             Group group = new Group();
             for ( FeatureVector featureVector : cluster.getMembers() ) {
                 group.add(featureVector.getId());
             }
             group.setData(cluster.getCenter());
             groups.add(group);
+        }
 
+        DistanceMeasure distanceMeasure = clusterAlgorithm.getDistanceMeasure();
+        for ( Cluster cluster : clusterToReassign ) {
+            for ( FeatureVector featureVector : cluster.getMembers() ) {
+                double minDistance = Double.MAX_VALUE;
+                Group minGroup = null;
+                for ( Group group : groups ) {
+                    double distance = distanceMeasure.distance((double[]) group.getData(), featureVector.getVector());
+                    if ( distance < minDistance ) {
+                        minGroup = group;
+                        minDistance = distance;
+                    }
+                }
+                minGroup.add(featureVector.getId());
+            }
         }
         return groups;
     }
