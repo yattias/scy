@@ -22,6 +22,7 @@ import eu.scy.common.mission.impl.BasicMissionModelEloContent;
 import eu.scy.common.mission.impl.jdom.MissionModelEloContentXmlUtils;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -238,8 +239,8 @@ public class BasicMissionConfigInput implements MissionConfigInput
    {
       this.basicMissionMap = basicMissionMap;
    }
-
    private UriLocalizer uriLocalizer = new UriLocalizer();
+
    private void checkUri(URI uri, boolean mustExist, String label)
    {
       if (uri == null || uri.toString().length() == 0)
@@ -249,13 +250,31 @@ public class BasicMissionConfigInput implements MissionConfigInput
             logger.info(addError(label + " is not defined"));
          }
       }
+      else if (!"http".equalsIgnoreCase(uri.getScheme()))
+      {
+         logger.info(addError(label + " must use the http protocal: " + uri));
+      }
+      else if (!uri.isAbsolute())
+      {
+         logger.info(addError(label + " may not be relative: " + uri));
+      }
       else
       {
-         // localize the uri, this also handles the redirecting to a local version of the web pages
-         URI localizedUri = uriLocalizer.localizeUri(uri);
-         if (!UrlUtils.uriExisits(localizedUri))
+         try
          {
-            logger.info(addError(label + " cannot be found: " + uri));
+            // just some calls to validate the uri
+            new URI(uri.getScheme(), uri.getUserInfo(), uri.getHost(), uri.getPort(), uri.getPath(), uri.getQuery(), uri.getFragment());
+            uri.toURL();
+            // localize the uri, this also handles the redirecting to a local version of the web pages
+            URI localizedUri = uriLocalizer.localizeUri(uri);
+            if (!UrlUtils.uriExisits(localizedUri))
+            {
+               logger.info(addError(label + " cannot be found: " + uri));
+            }
+         }
+         catch (Exception ex)
+         {
+            logger.info(addError(label + " (" + uri + ") is not valid: " + ex.getMessage()));
          }
       }
    }
@@ -309,7 +328,7 @@ public class BasicMissionConfigInput implements MissionConfigInput
          las.setLoEloUris(basicLas.getLoEloUris());
          las.setToolTip(basicLas.getTooltip());
          las.setInstructionUri(basicLas.getInstructionUri());
-         checkUri(las.getInstructionUri(),true,"instructionUri for las " + las.getId());
+         checkUri(las.getInstructionUri(), true, "instructionUri for las " + las.getId());
          las.setLasType(basicLas.getLasType());
          if (!lasIdMap.containsKey(las.getId()))
          {
@@ -355,13 +374,13 @@ public class BasicMissionConfigInput implements MissionConfigInput
          missionAnchor.setLoEloUris(basicMissionAnchor.getLoEloUris());
          missionAnchor.setTargetDescriptionUri(basicMissionAnchor.getTargetDescriptionUri());
          missionAnchor.setAssignmentUri(basicMissionAnchor.getAssignmentUri());
-         checkUri(missionAnchor.getAssignmentUri(),false,"assignmentUri for missionAnchor " + missionAnchor.getId());
+         checkUri(missionAnchor.getAssignmentUri(), false, "assignmentUri for missionAnchor " + missionAnchor.getId());
          missionAnchor.setResourcesUri(basicMissionAnchor.getResourcesUri());
-         checkUri(missionAnchor.getResourcesUri(),false,"resourcesUri for missionAnchor " + missionAnchor.getId());
+         checkUri(missionAnchor.getResourcesUri(), false, "resourcesUri for missionAnchor " + missionAnchor.getId());
          missionAnchor.setHelpUri(basicMissionAnchor.getHelpUri());
-         checkUri(missionAnchor.getHelpUri(),false,"helpUri for missionAnchor " + missionAnchor.getId());
+         checkUri(missionAnchor.getHelpUri(), false, "helpUri for missionAnchor " + missionAnchor.getId());
          missionAnchor.setWebNewsUri(basicMissionAnchor.getWebNewsUri());
-         checkUri(missionAnchor.getWebNewsUri(),false,"webNewsUri for missionAnchor " + missionAnchor.getId());
+         checkUri(missionAnchor.getWebNewsUri(), false, "webNewsUri for missionAnchor " + missionAnchor.getId());
          missionAnchor.setColorSchemeId(basicMissionAnchor.getColorScheme());
          missionAnchor.setRelationNames(basicMissionAnchor.getRelationNames());
          missionAnchor.setDependingOnMissionAnchorIds(basicMissionAnchor.getDependingOnMissionAnchorIds());
