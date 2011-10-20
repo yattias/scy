@@ -35,7 +35,7 @@
                             <c:forEach var="eloAnchorEloPair" items="${userActivityInfo.portfolio.eloAnchorEloPairs}">
                                 <!--span style="width:80px;height:90px;float:left;"-->
                                 <span style="width:40px;height:40px;float:left;">
-                                    <a href="javascript:loadDialog('/webapp/components/openEloInScyLabDialog.html?eloURI=${eloAnchorEloPair.elo.uri}', '${eloAnchorEloPair.elo.myname}');">
+                                    <a href="javascript:loadDialog('/webapp/components/openEloInScyLabDialog.html?eloURI=' +  encodeURIComponent('${eloAnchorEloPair.elo.uri}'), '${eloAnchorEloPair.elo.myname}');">
                                         <img src="${eloAnchorEloPair.elo.thumbnail}" width="60%" style="background-color:#cccccc;padding:2px;border:1px solid #cccccc;border-radius:3px;"/>
                                     </a>
                                 </span>

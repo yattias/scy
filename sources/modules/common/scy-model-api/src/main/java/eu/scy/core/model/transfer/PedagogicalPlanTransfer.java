@@ -21,6 +21,7 @@ public class PedagogicalPlanTransfer extends BaseXMLTransfer {
     private String pedagogicalPlanURI;
     private Boolean trimSearchResultsInEportfolioToContainElosWithEqualTechnicalFormat = Boolean.TRUE;
     private String missionShowcaseDescription;
+    private String missionScaffoldingExplanations;
 
     public AssessmentSetupTransfer getAssessmentSetup() {
         if (assessmentSetup == null) setAssessmentSetup(new AssessmentSetupTransfer());
@@ -131,5 +132,13 @@ public class PedagogicalPlanTransfer extends BaseXMLTransfer {
 
     public void setMissionShowcaseDescription(String missionShowcaseDescription) {
         this.missionShowcaseDescription = missionShowcaseDescription;
+    }
+
+    public String getMissionScaffoldingExplanations() {
+        return missionScaffoldingExplanations;
+    }
+
+    public void setMissionScaffoldingExplanations(String missionScaffoldingExplanations) {
+        this.missionScaffoldingExplanations = missionScaffoldingExplanations;
     }
 }

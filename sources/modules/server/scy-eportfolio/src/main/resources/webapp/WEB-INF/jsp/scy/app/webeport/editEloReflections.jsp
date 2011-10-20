@@ -35,7 +35,7 @@
                                     <td align="left" style="width:150px;">
 
                                        <div style="width:80px;height:90px;float:left;">
-                                            <a href="javascript:loadDialog('/webapp/components/openEloInScyLabDialog.html?eloURI=${elo.uri}', '${eno.myname}');">
+                                            <a href="javascript:loadDialog('/webapp/components/openEloInScyLabDialog.html?eloURI=' +  encodeURIComponent('${elo.uri}'), '${eno.myname}');">
                                                 <img src="${elo.thumbnail}" style="background-color:#cccccc;padding:2px;border:1px solid #cccccc;border-radius:3px;"/>
                                             </a>
                                         </div>
