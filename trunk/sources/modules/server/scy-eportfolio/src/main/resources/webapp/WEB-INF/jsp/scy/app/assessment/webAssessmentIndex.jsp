@@ -127,7 +127,9 @@
         <div style="border:4px solid #7e2b32;border-bottom-left-radius:40px;width:786px;height:95%;padding:4px;" class="brownBorders">
                     <!--img src="/webapp/themes/scy/default/images/feedback_header.png" alt="" class="greenBackgrounds" /-->
                     <div class="assessmentHeader" >Assess Portfolio for ${portfolioOwner}</div>
-                    
+                       <br/>
+                       <center><h2>Assess obligatory ELOs</h2></center>
+        <br/>
                 <div dojoType="dojox.layout.ContentPane" style="width:100%;height:90%;" id="eportfolioPane" parseOnLoad="true" executeScripts="true">
                    <div dojoType="dojox.widget.FisheyeList"
 		itemWidth="80" itemHeight="80"
@@ -139,6 +141,7 @@
 		labelEdge="bottom"
 		id="assessmentFisheye"
         conservativeTrigger="true">
+
                     <c:choose>
                         <c:when test="${fn:length(elos) > 0}">
                             <!--table-->
@@ -158,7 +161,9 @@
                     </c:choose>
 
         </div>
-                    <a href="assessMission.html?missionRuntimeURI=${missionRuntimeURI}"><spring:message code="ASSESS_PORTFOLIO"/> </a>
+                    <br/>
+                    <br/>
+                    <center><a href="assessMission.html?missionRuntimeURI=${missionRuntimeURI}"><spring:message code="ASSESS_PORTFOLIO"/> </a></center>
         </div>
 
     </tiles:putAttribute>

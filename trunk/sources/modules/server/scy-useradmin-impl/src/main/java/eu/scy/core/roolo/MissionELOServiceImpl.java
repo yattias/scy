@@ -409,7 +409,10 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
                 FeedbackEloTransfer feedbackTransfer = (FeedbackEloTransfer) getXmlTransferObjectService().getObject(xmlString);
                 URI parent = scyELO.getFeedbackOnEloUri();
                 ScyElo parentElo = ScyElo.loadLastVersionElo(parent, this);
-                newestElos.addElo(new TransferElo(parentElo));
+                if(parentElo.getAuthors().contains(currentUserName)) {
+                    newestElos.addElo(new TransferElo(parentElo));
+                }
+
             }
 
         }
