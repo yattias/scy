@@ -1,13 +1,14 @@
 <%@ include file="common-taglibs.jsp" %>
 <div id="studentsForPedagogicalPlan">
         <p>
-            Currently ${fn:length(users)} are assigned to this mission. Click link below to assign additional students.
+            Currently ${fn:length(users)} student(s) are assigned to this Mission. Click link below to assign additional students.
+            <br/>
         </p>
 
             
 
-        <s:dialog url="selectStudentsForPedagogicalPlan.html" title="Click to assign existing student" dialogHeader="Select students" extraParameters="eloURI=${eloURI}"/>
-        <s:dialog url="addNewStudent.html" title="Click to create new student" dialogHeader="Add student" extraParameters="eloURI=${eloURI}"/>
+        <s:dialog url="selectStudentsForPedagogicalPlan.html" title="Assign existing student" dialogHeader="Select students" extraParameters="eloURI=${eloURI}"/> |
+        <s:dialog url="addNewStudent.html" title="Create new student" dialogHeader="Add student" extraParameters="eloURI=${eloURI}"/> |
         <a href="/webapp/teacher/studentList.html">User admin</a>
 
         <c:choose>

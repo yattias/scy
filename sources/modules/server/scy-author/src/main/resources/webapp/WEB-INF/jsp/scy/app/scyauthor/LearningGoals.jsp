@@ -24,7 +24,7 @@
                 </a>
         </td>
         <td>
-            Add scorable learning goals
+            Have student reflect over whether they have low, medium or high achievement of a goal
         </td>
     </tr>
     <tr>
@@ -39,7 +39,7 @@
             </a>
         </td>
         <td>
-            Add learning goals with criteria
+            Have the student chose the achievement criteria for a goal
         </td>
     </tr>
 </table>
@@ -49,7 +49,7 @@
 
 <c:choose>
     <c:when test="${fn:length(pedagogicalPlan.assessmentSetup.generalLearningGoals) == 0}">
-        <i><spring:message code="NO_GENERAL_LEARNING_GOALS_ADDED"/></i>
+        <i><spring:message code="NO_GENERAL_LEARNING_GOALS_ADDED"/></i> <br>
     </c:when>
     <c:when test="${fn:length(pedagogicalPlan.assessmentSetup.generalLearningGoals) > 0}">
             <c:forEach var="learningGoal" items="${pedagogicalPlan.assessmentSetup.generalLearningGoals}">
@@ -157,7 +157,7 @@
 
 <c:choose>
     <c:when test="${fn:length(pedagogicalPlan.assessmentSetup.specificLearningGoals) == 0}">
-        <i><spring:message code="NO_SPECIFIC_LEARNING_GOALS_ADDED"/></i>
+        <i><spring:message code="NO_SPECIFIC_LEARNING_GOALS_ADDED"/></i><br/>
     </c:when>
 
 
