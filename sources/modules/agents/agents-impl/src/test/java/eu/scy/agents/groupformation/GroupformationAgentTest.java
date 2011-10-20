@@ -22,7 +22,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 /** @author fschulz */
-public class GroupformationAgent2Test extends AbstractTestFixture {
+public class GroupformationAgentTest extends AbstractTestFixture {
 
     private static final String REFERENCE_MAP = "roolo://memory/13/0/eco_reference_map.mapping";
 
@@ -47,7 +47,7 @@ public class GroupformationAgent2Test extends AbstractTestFixture {
         params.put(AgentProtocol.TS_PORT, TSPORT);
         this.agentMap.put(RooloAccessorAgent.NAME, params);
         this.agentMap.put(SessionAgent.NAME, params);
-        this.agentMap.put(GroupFormationAgent2.NAME, params);
+        this.agentMap.put(GroupFormationAgent.NAME, params);
         this.startAgentFramework(this.agentMap);
     }
 
@@ -70,7 +70,7 @@ public class GroupformationAgent2Test extends AbstractTestFixture {
                 this.lasChangeTuple("user2", MISSION1, "conceptualisatsionConceptMap", "some", REFERENCE_MAP));
         Tuple response = this.getCommandSpace().waitToTake(
                 new Tuple(AgentProtocol.NOTIFICATION, String.class, "user2", String.class,
-                        "eu.scy.agents.groupformation.GroupFormationAgent2", String.class, String.class, String.class,
+                        "GroupFormationAgent", String.class, String.class, String.class,
                         Field.createWildCardField()));
         assertNotNull("no response received", response);
         assertEquals("text=please wait for other users to be available", response.getField(7).getValue());
