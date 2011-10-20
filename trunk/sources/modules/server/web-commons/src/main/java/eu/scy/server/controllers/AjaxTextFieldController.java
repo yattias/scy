@@ -1,11 +1,16 @@
 package eu.scy.server.controllers;
 
+import eu.scy.agents.api.parameter.AgentParameter;
+import eu.scy.agents.api.parameter.AgentParameterAPI;
+import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.core.model.ScyBase;
+import eu.scy.core.roolo.MissionELOService;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
+import java.net.URLDecoder;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,6 +20,9 @@ import java.lang.reflect.Method;
  * To change this template use File | Settings | File Templates.
  */
 public class AjaxTextFieldController extends AbstractAjaxController {
+
+
+
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         String clazz = httpServletRequest.getParameter(CLASS);
@@ -22,6 +30,9 @@ public class AjaxTextFieldController extends AbstractAjaxController {
         String property = httpServletRequest.getParameter(PROPERTY);
         String value = httpServletRequest.getParameter("value");
         logger.info("VALUE:"  + value);
+
+        
+
 
         if(clazz != null && id != null && property != null) {
             Class c = Class.forName(clazz);
@@ -52,5 +63,4 @@ public class AjaxTextFieldController extends AbstractAjaxController {
        }
        throw new RuntimeException("NOOO");
    }
-
 }

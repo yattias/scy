@@ -46,7 +46,7 @@ public class ScaffoldingLevelController extends BaseController{
 
     private List getScaffoldingLevels() {
         List agentLevels = new LinkedList();
-        agentLevels.add("No");
+        agentLevels.add("Off");
         agentLevels.add("Medium");
         agentLevels.add("High");
         return agentLevels;
