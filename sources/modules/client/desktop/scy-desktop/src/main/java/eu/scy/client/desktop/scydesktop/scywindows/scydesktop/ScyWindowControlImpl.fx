@@ -47,21 +47,15 @@ public class ScyWindowControlImpl extends ScyWindowControl {
    def windowPositionStates = new HashMap();
 
    function loadScyElo(eloUri: URI): ScyElo {
-      //      var scyElo:ScyElo;
-      //      XFX.deferActionAndWait(function():Void {scyElo = ScyElo.loadMetadata(eloUri, tbi);});
-      //      return scyElo;
+      def scyWindow = findScyWindow(eloUri);
+      if (scyWindow != null) {
+         return scyWindow.scyElo
+      }
       return ScyElo.loadMetadata(eloUri, tbi)
    }
 
    public override function newEloSaved(eloUri: URI) {
-      var scyElo: ScyElo = null;
-      def scyWindow = findScyWindow(eloUri);
-      if (scyWindow!=null){
-         scyElo = scyWindow.scyElo
-      }
-      if (scyElo!=null){
-         scyElo = loadScyElo(eloUri);
-      }
+      def scyElo = loadScyElo(eloUri);
       newEloSaved(scyElo)
    }
 
@@ -117,7 +111,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
    public override function addOtherScyWindow(scyElo: ScyElo): ScyWindow {
       logger.debug("trying to add another scy-windows with uri: {scyElo.getUri()}");
       def presentWindow = windowManager.findScyWindow(scyElo.getUri());
-      if (presentWindow!=null){
+      if (presentWindow != null) {
          // it is already on screen, nothing more to do
          return presentWindow
       }
@@ -148,7 +142,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
    public override function addOtherCollaborativeScyWindow(scyElo: ScyElo, mucid: String): ScyWindow {
       logger.debug("trying to add another collaborative scy-window with uri: {scyElo.getUri()}");
       def presentWindow = windowManager.findScyWindow(scyElo.getUri());
-      if (presentWindow!=null){
+      if (presentWindow != null) {
          presentWindow.scyElo.setMucId(mucid);
          // it is already on screen, nothing more to do
          return presentWindow
@@ -211,14 +205,14 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       logger.info("new active las: {activeLas.id}");
       repositoryWrapper.setLasId(activeLas.id);
       updateWindowStateXml(oldActiveLas);
-//      if (oldActiveLas != null) {
-//         // store window state of the old active las
-//         def windowPositionsState = windowPositioner.getWindowPositionsState();
-//         if (windowPositionsState != null) {
-//            windowPositionStates.put(oldActiveLas.id, windowPositionsState);
-//         }
-//         missionModel.setWindowStatesXml(oldActiveLas.id, windowPositionsState.getXml());
-//      }
+      //      if (oldActiveLas != null) {
+      //         // store window state of the old active las
+      //         def windowPositionsState = windowPositioner.getWindowPositionsState();
+      //         if (windowPositionsState != null) {
+      //            windowPositionStates.put(oldActiveLas.id, windowPositionsState);
+      //         }
+      //         missionModel.setWindowStatesXml(oldActiveLas.id, windowPositionsState.getXml());
+      //      }
       if (activeLas != null) {
          // remove all windows from the desktop
          windowManager.removeAllScyWindows();
