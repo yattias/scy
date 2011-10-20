@@ -102,14 +102,17 @@ public class SessionServiceImpl extends BaseELOServiceImpl implements SessionSer
     }
 
     private Portfolio getPortfolio(MissionRuntimeElo missionRuntimeElo) {
-        URI portfolioURI = missionRuntimeElo.getTypedContent().getEPortfolioEloUri();
-        ScyElo scyElo = ScyElo.loadLastVersionElo(portfolioURI, this);
-        if (scyElo != null) {
-            String xml = scyElo.getContent().getXmlString();
-            if (xml != null && xml.length() > 0) {
-                return (Portfolio) getXmlTransferObjectService().getObject(xml);
+        if (missionRuntimeElo != null) {
+            URI portfolioURI = missionRuntimeElo.getTypedContent().getEPortfolioEloUri();
+            ScyElo scyElo = ScyElo.loadLastVersionElo(portfolioURI, this);
+            if (scyElo != null) {
+                String xml = scyElo.getContent().getXmlString();
+                if (xml != null && xml.length() > 0) {
+                    return (Portfolio) getXmlTransferObjectService().getObject(xml);
+                }
             }
         }
+
 
         return null;
     }
