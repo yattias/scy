@@ -178,17 +178,17 @@ public class GroupFormationAgent extends AbstractRequestAgent implements IReposi
     }
 
     private void collectParameter(Mission mission, GroupFormationActivation.GroupFormationInfo groupFormationInfo) {
-        Integer minUsers = configuration.getParameter(mission.getName(), MIN_GROUP_SIZE_PARAMETER);
-        Integer maxUsers = configuration.getParameter(mission.getName(), MAX_GROUP_SIZE_PARAMETER);
-        Float percentage = configuration.getParameter(mission.getName(), PERCENTAGE_AVAILABLE);
+        String minUsers = configuration.getParameter(mission.getName(), MIN_GROUP_SIZE_PARAMETER);
+        String maxUsers = configuration.getParameter(mission.getName(), MAX_GROUP_SIZE_PARAMETER);
+        String percentage = configuration.getParameter(mission.getName(), PERCENTAGE_AVAILABLE);
         if ( minUsers != null ) {
-            groupFormationInfo.setMinimumUsers(minUsers);
+            groupFormationInfo.setMinimumUsers(Integer.parseInt(minUsers));
         }
         if ( maxUsers != null ) {
-            groupFormationInfo.setMaximumUsers(maxUsers);
+            groupFormationInfo.setMaximumUsers(Integer.parseInt(maxUsers));
         }
         if ( percentage != null ) {
-            neededPercentOfPresentUsers = percentage;
+            neededPercentOfPresentUsers = Integer.parseInt(percentage) / 100.0;
         }
     }
 
