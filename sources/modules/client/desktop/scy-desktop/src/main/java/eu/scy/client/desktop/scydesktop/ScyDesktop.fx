@@ -83,6 +83,7 @@ import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.BigMissionMap;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.BigMissionMapControl;
 import eu.scy.client.desktop.scydesktop.scywindows.window_positions.FunctionalRoleWindowPositioner;
 import eu.scy.client.desktop.desktoputils.ShutdownHook;
+import eu.scy.client.desktop.desktoputils.OSXAdapter;
 import eu.scy.client.desktop.desktoputils.BareBonesBrowserLaunch;
 import eu.scy.common.configuration.Configuration;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
@@ -262,6 +263,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
               shutdownFunction: scyDesktopShutdownAction
               preventShutdown: preventShutdown
            }
+   def runningOnMac : Boolean = System.getProperty("os.name").toLowerCase().startsWith("mac os x");
    public var scyFeedbackGiveButton: EloIconButton;
    public var scyFeedbackGetButton: EloIconButton;
    public var eportfolioButton: EportfolioButton;
@@ -279,6 +281,12 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       if (config.isRedirectSystemStreams() and config.getLoggingDirectory() != null) {
          RedirectSystemStreams.redirect(config.getLoggingDirectory());
       }
+
+      // for Mac OS X CMD-Q
+      if (runningOnMac) {
+         OSXAdapter.setQuitHandler(this, getClass().getDeclaredMethod("quitFromMacOSXQuitHandler"));
+      }
+      
       DialogBox.windowStyler = windowStyler;
       ModalDialogBox.bubbleManager = bubbleManager;
       scyWindowControl.missionModel = missionModelFX;
@@ -298,12 +306,17 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
          repositoryWrapper.setMissionId(missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getTypedContent().getMissionId());
          logger.info("Added eloSavedActionHandler as EloSavedListener to the repositoryWrapper");
       }
-      //      FX.addShutdownAction(scyDesktopShutdownAction);
       create();
       if (initializer.singleEloMode) {
          loadSingleScyElo();
       }
    }
+
+   public function quitFromMacOSXQuitHandler() : Boolean {
+       FX.deferAction(scyDesktopShutdownAction);
+       return false;
+   }
+
 
    function initMouseBlocker(): Void {
       var theStage = scene.stage;
