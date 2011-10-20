@@ -353,11 +353,11 @@ public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX
       return notificationText;
    }
 
-   override public function newEloSaved(eloURI: URI): Void { }
+   override public function newEloSaved(eloURI: URI, elo: IELO, metadata: IMetadata): Void { }
 
-   override public function forkedEloSaved(eloURI: URI): Void { }
+   override public function forkedEloSaved(eloURI: URI, elo: IELO, metadata: IMetadata): Void { }
 
-   override public function eloUpdated(eloURI: URI): Void { }
+   override public function eloUpdated(eloURI: URI, elo: IELO, metadata: IMetadata): Void { }
 
    override public function metadataChanged(eloURI: URI, metadata: IMetadata): Void {
       if (eloURI.equals(currentELO.getUri())) {
