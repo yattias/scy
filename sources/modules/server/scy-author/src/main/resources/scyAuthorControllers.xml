@@ -71,6 +71,7 @@
                    /app/scyauthor/missionPlanner.html=missionPlannerController
                    /app/scyauthor/viewTechnicalConfigurationForPedagogicalPlan.html=viewTechnicalConfigurationForPedagogicalPlanController
                    /app/scyauthor/startFeedbackToolForTeacher.html=startFeedbackToolForTeacherController
+                   /app/scyauthor/editGroupingAgent.html=editGroupingAgentController
                    /app/scyauthor/tabs/MissionDescription.html=missionDescriptionController
                    /app/scyauthor/tabs/Finetune.html=fineTuneController
 
@@ -452,6 +453,15 @@
 	</bean>
 
     <bean id="startFeedbackToolForTeacherController" class="eu.scy.server.controllers.StartFeedbackToolForTeacherController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="userService" ref="userService"/>
+        <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="transferObjectServiceCollection" ref="transferObjectServiceCollection"/>
+	</bean>
+
+    <bean id="editGroupingAgentController" class="eu.scy.server.controllers.EditGroupingAgentController">
         <property name="serverService" ref="serverService"/>
         <property name="urlInspector" ref="urlInspector"/>
         <property name="userService" ref="userService"/>

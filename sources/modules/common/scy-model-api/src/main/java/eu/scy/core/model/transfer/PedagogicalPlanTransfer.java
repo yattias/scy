@@ -23,6 +23,10 @@ public class PedagogicalPlanTransfer extends BaseXMLTransfer {
     private String missionShowcaseDescription;
     private String missionScaffoldingExplanations;
 
+    private String groupingAgentMinimumUsers;
+    private String groupingAgentMaximumUsers;
+    private String groupingAgentPercent;
+
     public AssessmentSetupTransfer getAssessmentSetup() {
         if (assessmentSetup == null) setAssessmentSetup(new AssessmentSetupTransfer());
         return assessmentSetup;
@@ -140,5 +144,29 @@ public class PedagogicalPlanTransfer extends BaseXMLTransfer {
 
     public void setMissionScaffoldingExplanations(String missionScaffoldingExplanations) {
         this.missionScaffoldingExplanations = missionScaffoldingExplanations;
+    }
+
+    public String getGroupingAgentMinimumUsers() {
+        return groupingAgentMinimumUsers;
+    }
+
+    public void setGroupingAgentMinimumUsers(String groupingAgentMinimumUsers) {
+        this.groupingAgentMinimumUsers = groupingAgentMinimumUsers;
+    }
+
+    public String getGroupingAgentMaximumUsers() {
+        return groupingAgentMaximumUsers;
+    }
+
+    public void setGroupingAgentMaximumUsers(String groupingAgentMaximumUsers) {
+        this.groupingAgentMaximumUsers = groupingAgentMaximumUsers;
+    }
+
+    public String getGroupingAgentPercent() {
+        return groupingAgentPercent;
+    }
+
+    public void setGroupingAgentPercent(String groupingAgentPercent) {
+        this.groupingAgentPercent = groupingAgentPercent;
     }
 }

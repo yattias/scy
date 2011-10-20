@@ -1,5 +1,8 @@
 package eu.scy.server.controllers;
 
+import eu.scy.agents.api.parameter.AgentParameter;
+import eu.scy.agents.api.parameter.AgentParameterAPI;
+import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.XMLTransferObjectService;
 import eu.scy.core.model.transfer.BaseXMLTransfer;
@@ -29,6 +32,7 @@ public class AjaxTransferObjectTextFieldController extends AbstractController {
     private XMLTransferObjectService xmlTransferObjectService;
     private MissionELOService missionELOService;
     private TransferObjectMapService transferObjectMapService;
+    private AgentParameterAPI agentParameterAPI;
 
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -41,6 +45,16 @@ public class AjaxTransferObjectTextFieldController extends AbstractController {
         transferEloURI = URLDecoder.decode(transferEloURI, "UTF-8");
         
         URI uri = new URI(transferEloURI);
+
+
+        if(property.equals("groupingAgentMinimumUsers")) {
+            doTheCrazyHackMinGroupSize(uri.toString(), value);
+        } else if(property.equals("groupingAgentMaximumUsers"))  {
+            doTheCrazyHackMaxGroupSize(uri.toString(), value);
+        } else if(property.equals("groupingAgentPercent")) {
+            doTheCrazyHackPercentageAvailable(uri.toString(), value);
+        }
+
 
 
         ScyElo scyElo = ScyElo.loadLastVersionElo(uri, getMissionELOService());
@@ -105,4 +119,54 @@ public class AjaxTransferObjectTextFieldController extends AbstractController {
     public void setTransferObjectMapService(TransferObjectMapService transferObjectMapService) {
         this.transferObjectMapService = transferObjectMapService;
     }
+
+    private void doTheCrazyHackPercentageAvailable(String uri, String value) {
+        try {
+            uri = URLDecoder.decode(uri, "utf-8");
+            java.net.URI _uri = new java.net.URI(uri);
+            MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(_uri, getMissionELOService());
+            AgentParameter agentParameter = new AgentParameter(missionSpecificationElo.getTitle(), "PercentageAvailable");
+            agentParameter.setParameterValue(value);
+            getAgentParameterAPI().setParameter("GroupFormationAgent", agentParameter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void doTheCrazyHackMinGroupSize(String uri, String value) {
+        try {
+            uri = URLDecoder.decode(uri, "utf-8");
+            java.net.URI _uri = new java.net.URI(uri);
+            MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(_uri, getMissionELOService());
+            AgentParameter agentParameter = new AgentParameter(missionSpecificationElo.getTitle(), "MinGroupSize");
+            agentParameter.setParameterValue(value);
+            getAgentParameterAPI().setParameter("GroupFormationAgent", agentParameter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void doTheCrazyHackMaxGroupSize(String uri, String value) {
+        try {
+            uri = URLDecoder.decode(uri, "utf-8");
+            java.net.URI _uri = new java.net.URI(uri);
+            MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(_uri, getMissionELOService());
+            AgentParameter agentParameter = new AgentParameter(missionSpecificationElo.getTitle(), "MaxGroupSize");
+            agentParameter.setParameterValue(value);
+            getAgentParameterAPI().setParameter("GroupFormationAgent", agentParameter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public AgentParameterAPI getAgentParameterAPI() {
+        return agentParameterAPI;
+    }
+
+    public void setAgentParameterAPI(AgentParameterAPI agentParameterAPI) {
+        this.agentParameterAPI = agentParameterAPI;
+    }
+
+
+
 }

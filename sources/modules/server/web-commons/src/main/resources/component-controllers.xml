@@ -151,6 +151,7 @@
     <bean id="ajaxELOTextFieldController" class="eu.scy.server.controllers.AjaxELOTextFieldController">
         <property name="rooloServices" ref="missionELOService"/>
         <property name="actionLoggingService" ref="actionLoggingService"/>
+        <property name="agentParameterAPI" ref="agentParameterAPI"/>
 	</bean>
 
     <bean id="ajaxELOSliderController" class="eu.scy.server.controllers.AjaxELOSliderController">
@@ -169,6 +170,7 @@
         <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
         <property name="missionELOService" ref="missionELOService"/>
         <property name="transferObjectMapService" ref="transferObjectMapService"/>
+        <property name="agentParameterAPI" ref="agentParameterAPI"/>
 	</bean>
 
     <bean id="ajaxTransferObjectCheckBoxController" class="eu.scy.server.controllers.AjaxTransferObjectCheckBoxController">
