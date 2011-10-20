@@ -60,6 +60,8 @@ public interface MissionELOService extends BaseELOService {
 
     List<TransferElo> getElosForFeedback(MissionRuntimeElo missionRuntimeElo, String username, FeedbackEloSearchFilter feedbackEloSearchFilter);
 
+    List<TransferElo> getElosForFeedback(MissionSpecificationElo missionSpecificationElo, FeedbackEloSearchFilter feedbackEloSearchFilter);
+
     List <ISearchResult> getFeedback();
 
     NewestElos getMyElosWithFeedback(MissionRuntimeElo missionRuntimeElo, String currentUserName);
@@ -78,4 +80,6 @@ public interface MissionELOService extends BaseELOService {
     FeedbackEloSearchFilter createFeedbackEloSearchFilter();
 
     void deleteAllFeedbackFeedback();
+
+
 }

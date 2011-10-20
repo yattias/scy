@@ -1,6 +1,7 @@
 package eu.scy.server.controllers.scyfeedback.webversion;
 
 import eu.scy.common.mission.MissionRuntimeElo;
+import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.core.model.User;
 import eu.scy.core.model.transfer.TransferElo;
 import eu.scy.core.roolo.FeedbackEloSearchFilter;
@@ -28,65 +29,133 @@ public class FBController extends BaseController {
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
         String uri = request.getParameter(ELO_URI);
-        URI runtimeURI = getURI(uri);
-        MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(runtimeURI, getMissionELOService());
+        boolean teacherMode = false;
+        if(request.getSession().getAttribute("teacherMode") != null) {
+            teacherMode= true;
+        }
+        if(! teacherMode) {
 
-        String criteria = request.getParameter("criteria");
-        String anchorElo = request.getParameter("anchorElo");
-        String user = request.getParameter("user");
-        String action = request.getParameter("action");
 
-        if(criteria == null) criteria = "NEWEST";
+            URI runtimeURI = getURI(uri);
+            MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(runtimeURI, getMissionELOService());
 
-        FeedbackEloSearchFilter filter = getMissionELOService().createFeedbackEloSearchFilter();
-        if(user != null && user.equalsIgnoreCase("MINE")) user = getCurrentUserName(request);
-        if(action != null && action.equals("get")) {
-            //A request has been sent from SCYLab, the student wants to view feedback given to his elos'
-            user = getCurrentUserName(request);
+            String criteria = request.getParameter("criteria");
+            String anchorElo = request.getParameter("anchorElo");
+            String user = request.getParameter("user");
+            String action = request.getParameter("action");
+
+            if(criteria == null) criteria = "NEWEST";
+
+            FeedbackEloSearchFilter filter = getMissionELOService().createFeedbackEloSearchFilter();
+            if(user != null && user.equalsIgnoreCase("MINE")) user = getCurrentUserName(request);
+            if(action != null && action.equals("get")) {
+                //A request has been sent from SCYLab, the student wants to view feedback given to his elos'
+                user = getCurrentUserName(request);
+            } else {
+                action = "give";
+            }
+            filter.setCriteria(criteria);
+            filter.setCategory(anchorElo);
+            filter.setOwner(user);
+
+            List<TransferElo> elos = getMissionELOService().getElosForFeedback(missionRuntimeElo, getCurrentUserName(request), filter);
+            logger.info("ELOS: " + elos.size());
+
+            if(user == null) user = "ALL";
+            if(user.equals(getCurrentUserName(request))) user = "MINE";
+
+            List<TransferElo> allElos = getMissionELOService().getElosForFeedback(missionRuntimeElo, getCurrentUserName(request), null);
+            List<String> allUserNames = new LinkedList<String>();
+            List<String> allEloNames = new LinkedList<String>();
+            for (int i = 0; i < allElos.size(); i++) {
+                TransferElo transferElo = allElos.get(i);
+                if(!allUserNames.contains(transferElo.getCreatedBy())) {
+                    allUserNames.add(transferElo.getCreatedBy());
+                }
+                if(!allEloNames.contains(transferElo.getMyname())) {
+                    allEloNames.add(transferElo.getMyname());
+                }
+            }
+
+            List <User> users = new LinkedList<User>();
+            for (int i = 0; i < allUserNames.size(); i++) {
+                String s = allUserNames.get(i);
+                User uzz = getUserService().getUser(s);
+                users.add(uzz);
+            }
+
+
+
+            modelAndView.addObject("elos", elos);
+            //modelAndView.addObject("anchorElos", getMissionELOService().getAnchorELOs(getMissionELOService().getMissionSpecificationELOForRuntume(missionRuntimeElo)));
+            modelAndView.addObject(ELO_URI, getEncodedUri(runtimeURI.toString()));
+            modelAndView.addObject("criteria", criteria);
+            modelAndView.addObject("uzer", user);
+            modelAndView.addObject("uzers", users);
+            modelAndView.addObject("allEloNames", allEloNames);
+            modelAndView.addObject("anchorElo", anchorElo);
+            modelAndView.addObject("action", action);
         } else {
-            action = "give";
-        }
-        filter.setCriteria(criteria);
-        filter.setCategory(anchorElo);
-        filter.setOwner(user);
+            URI missionSpecificationURI = getURI(uri);
+            MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(missionSpecificationURI, getMissionELOService());
 
-        List<TransferElo> elos = getMissionELOService().getElosForFeedback(missionRuntimeElo, getCurrentUserName(request), filter);
-        logger.info("ELOS: " + elos.size());
+            String criteria = request.getParameter("criteria");
+            String anchorElo = request.getParameter("anchorElo");
+            String user = request.getParameter("user");
+            String action = request.getParameter("action");
 
-        if(user == null) user = "ALL";
-        if(user.equals(getCurrentUserName(request))) user = "MINE";
+            if(criteria == null) criteria = "NEWEST";
 
-        List<TransferElo> allElos = getMissionELOService().getElosForFeedback(missionRuntimeElo, getCurrentUserName(request), null);
-        List<String> allUserNames = new LinkedList<String>();
-        List<String> allEloNames = new LinkedList<String>();
-        for (int i = 0; i < allElos.size(); i++) {
-            TransferElo transferElo = allElos.get(i);
-            if(!allUserNames.contains(transferElo.getCreatedBy())) {
-                allUserNames.add(transferElo.getCreatedBy());
+            FeedbackEloSearchFilter filter = getMissionELOService().createFeedbackEloSearchFilter();
+            if(user != null && user.equalsIgnoreCase("MINE")) user = getCurrentUserName(request);
+            if(action != null && action.equals("get")) {
+                //A request has been sent from SCYLab, the student wants to view feedback given to his elos'
+                user = getCurrentUserName(request);
+            } else {
+                action = "give";
             }
-            if(!allEloNames.contains(transferElo.getMyname())) {
-                allEloNames.add(transferElo.getMyname());
+            filter.setCriteria(criteria);
+            filter.setCategory(anchorElo);
+            filter.setOwner(user);
+
+            List<TransferElo> elos = getMissionELOService().getElosForFeedback(missionSpecificationElo, filter);
+            logger.info("ELOS: " + elos.size());
+
+            if(user == null) user = "ALL";
+            if(user.equals(getCurrentUserName(request))) user = "MINE";
+
+            List<TransferElo> allElos = getMissionELOService().getElosForFeedback(missionSpecificationElo, null);
+            List<String> allUserNames = new LinkedList<String>();
+            List<String> allEloNames = new LinkedList<String>();
+            for (int i = 0; i < allElos.size(); i++) {
+                TransferElo transferElo = allElos.get(i);
+                if(!allUserNames.contains(transferElo.getCreatedBy())) {
+                    allUserNames.add(transferElo.getCreatedBy());
+                }
+                if(!allEloNames.contains(transferElo.getMyname())) {
+                    allEloNames.add(transferElo.getMyname());
+                }
             }
+
+            List <User> users = new LinkedList<User>();
+            for (int i = 0; i < allUserNames.size(); i++) {
+                String s = allUserNames.get(i);
+                User uzz = getUserService().getUser(s);
+                users.add(uzz);
+            }
+
+
+
+            modelAndView.addObject("elos", elos);
+            modelAndView.addObject(ELO_URI, getEncodedUri(missionSpecificationElo.getUri().toString()));
+            modelAndView.addObject("criteria", criteria);
+            modelAndView.addObject("uzer", user);
+            modelAndView.addObject("uzers", users);
+            modelAndView.addObject("allEloNames", allEloNames);
+            modelAndView.addObject("anchorElo", anchorElo);
+            modelAndView.addObject("action", action);
+
         }
-
-        List <User> users = new LinkedList<User>();
-        for (int i = 0; i < allUserNames.size(); i++) {
-            String s = allUserNames.get(i);
-            User uzz = getUserService().getUser(s);
-            users.add(uzz);
-        }
-
-
-
-        modelAndView.addObject("elos", elos);
-        //modelAndView.addObject("anchorElos", getMissionELOService().getAnchorELOs(getMissionELOService().getMissionSpecificationELOForRuntume(missionRuntimeElo)));
-        modelAndView.addObject(ELO_URI, getEncodedUri(runtimeURI.toString()));
-        modelAndView.addObject("criteria", criteria);
-        modelAndView.addObject("uzer", user);
-        modelAndView.addObject("uzers", users);
-        modelAndView.addObject("allEloNames", allEloNames);
-        modelAndView.addObject("anchorElo", anchorElo);
-        modelAndView.addObject("action", action);
     }
 
     public MissionELOService getMissionELOService() {
