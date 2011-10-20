@@ -6,6 +6,7 @@ import java.util.List;
 
 import eu.scy.common.mission.Las;
 import eu.scy.common.mission.MissionAnchor;
+import eu.scy.common.mission.UriScyElo;
 import eu.scy.common.scyelo.ColorSchemeId;
 import eu.scy.common.scyelo.ScyElo;
 
@@ -17,7 +18,7 @@ public class BasicMissionAnchor implements MissionAnchor
    private List<MissionAnchor> inputMissionAnchors = new ArrayList<MissionAnchor>();
    private List<String> relationNames = new ArrayList<String>();
    private List<String> dependingOnMissionAnchorIds = new ArrayList<String>();
-   private List<URI> loEloUris = new ArrayList<URI>();
+   private List<UriScyElo> loEloUris = new ArrayList<UriScyElo>();
    private boolean existing;
    private Las las;
    private ScyElo scyElo;
@@ -105,13 +106,13 @@ public class BasicMissionAnchor implements MissionAnchor
    }
 
    @Override
-   public List<URI> getLoEloUris()
+   public List<UriScyElo> getLoEloUris()
    {
       return loEloUris;
    }
 
    @Override
-   public void setLoEloUris(List<URI> loEloUris)
+   public void setLoEloUris(List<UriScyElo> loEloUris)
    {
       assert loEloUris != null;
       this.loEloUris = loEloUris;

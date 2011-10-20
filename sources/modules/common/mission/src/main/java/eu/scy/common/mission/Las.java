@@ -9,12 +9,12 @@ public interface Las
    
    public float getXPos();
    public float getYPos();
-   public List<URI> getLoEloUris();
+   public List<UriScyElo> getLoEloUris();
    public List<Las> getNextLasses();
    public List<Las> getPreviousLasses();
    public MissionAnchor getMissionAnchor();
    public List<MissionAnchor> getIntermediateAnchors();
-   public List<URI> getOtherEloUris();
+   public List<UriScyElo> getOtherEloUris();
    public URI getInstructionUri();
    public boolean isExisting();
    public LasType getLasType();
@@ -26,8 +26,8 @@ public interface Las
    public void setSelectedMissionAnchor(MissionAnchor missionAnchor);
 
    public void setNextLasses(List<Las> nextLasses);
-   public void setLoEloUris(List<URI> loEloUris);
-   public void setOtherEloUris(List<URI> otherEloUris);
+   public void setLoEloUris(List<UriScyElo> loEloUris);
+   public void setOtherEloUris(List<UriScyElo> otherEloUris);
    public void setXPos(float x);
    public void setYPos(float y);
    public void setExisting(boolean existing);

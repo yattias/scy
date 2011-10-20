@@ -14,7 +14,7 @@ public interface MissionAnchor
    public List<String> getRelationNames();
    public List<String> getDependingOnMissionAnchorIds();
    public boolean isExisting();
-   public List<URI> getLoEloUris();
+   public List<UriScyElo> getLoEloUris();
    public Las getLas();
    public ScyElo getScyElo();
    public URI getTargetDescriptionUri();
@@ -31,7 +31,7 @@ public interface MissionAnchor
    public void setAssignmentUri(URI uri);
    public void setScyElo(ScyElo scyElo);
    public void setEloUri(URI eloUri);
-   public void setLoEloUris(List<URI> loEloUris);
+   public void setLoEloUris(List<UriScyElo> loEloUris);
 
    public void setObligatoryInPorfolio(Boolean obligatoryInPorfolio);
    public Boolean getObligatoryInPortfolio();

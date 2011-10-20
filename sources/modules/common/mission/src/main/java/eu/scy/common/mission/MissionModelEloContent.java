@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface MissionModelEloContent
 {
-   public List<URI> getLoEloUris();
+   public List<UriScyElo> getLoEloUris();
 
    public List<Las> getLasses();
 

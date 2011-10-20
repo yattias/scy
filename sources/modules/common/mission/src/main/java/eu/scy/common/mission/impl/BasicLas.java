@@ -7,18 +7,19 @@ import java.util.List;
 import eu.scy.common.mission.Las;
 import eu.scy.common.mission.LasType;
 import eu.scy.common.mission.MissionAnchor;
+import eu.scy.common.mission.UriScyElo;
 
 public class BasicLas implements Las
 {
    private String Id;
    private float xPos;
    private float yPos;
-   private List<URI> loEloUris = new ArrayList<URI>();
+   private List<UriScyElo> loEloUris = new ArrayList<UriScyElo>();
    private List<Las> nextLasses = new ArrayList<Las>();
    private List<Las> previousLasses = new ArrayList<Las>();
    private MissionAnchor missionAnchor;
    private List<MissionAnchor> intermediateAnchors = new ArrayList<MissionAnchor>();
-   private List<URI> otherEloUris = new ArrayList<URI>();
+   private List<UriScyElo> otherEloUris = new ArrayList<UriScyElo>();
    private URI instructionUri;
    private boolean existing;
    private LasType lasType;
@@ -27,6 +28,12 @@ public class BasicLas implements Las
    private MissionAnchor initialMissionAnchorToOpen;
    
    private MissionAnchor selectedMissionAnchor;
+
+   @Override
+   public String toString()
+   {
+      return "BasicLas{" + "Id=" + Id + ",loEloUris=" + loEloUris + ",missionAnchor=" + missionAnchor + ",intermediateAnchors=" + intermediateAnchors + ",otherEloUris=" + otherEloUris + '}';
+   }
 
    @Override
    public String getId()
@@ -59,12 +66,12 @@ public class BasicLas implements Las
       this.yPos = yPos;
    }
 
-   public List<URI> getLoEloUris()
+   public List<UriScyElo> getLoEloUris()
    {
       return loEloUris;
    }
 
-   public void setLoEloUris(List<URI> loEloUris)
+   public void setLoEloUris(List<UriScyElo> loEloUris)
    {
       assert loEloUris!=null;
       this.loEloUris = loEloUris;
@@ -113,12 +120,12 @@ public class BasicLas implements Las
       this.intermediateAnchors = intermediateAnchors;
    }
 
-   public List<URI> getOtherEloUris()
+   public List<UriScyElo> getOtherEloUris()
    {
       return otherEloUris;
    }
 
-   public void setOtherEloUris(List<URI> otherEloUris)
+   public void setOtherEloUris(List<UriScyElo> otherEloUris)
    {
       assert otherEloUris!=null;
       this.otherEloUris = otherEloUris;

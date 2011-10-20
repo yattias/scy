@@ -8,6 +8,7 @@ import java.util.List;
 
 import eu.scy.common.mission.Las;
 import eu.scy.common.mission.MissionModelEloContent;
+import eu.scy.common.mission.UriScyElo;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -16,7 +17,7 @@ import java.util.Map;
 public class BasicMissionModelEloContent implements MissionModelEloContent
 {
 
-   private List<URI> loEloUris = new ArrayList<URI>();
+   private List<UriScyElo> loEloUris = new ArrayList<UriScyElo>();
    private List<Las> lasses = new ArrayList<Las>();
    private Las selectedLas;
    private URI missionMapBackgroundImageUri;
@@ -26,7 +27,7 @@ public class BasicMissionModelEloContent implements MissionModelEloContent
    private LinkedList<ArchivedElo> archivedElos = new LinkedList<ArchivedElo>();
 
    @Override
-   public List<URI> getLoEloUris()
+   public List<UriScyElo> getLoEloUris()
    {
       return loEloUris;
    }
@@ -49,7 +50,7 @@ public class BasicMissionModelEloContent implements MissionModelEloContent
       this.selectedLas = selectedLas;
    }
 
-   public void setLoEloUris(List<URI> loEloUris)
+   public void setLoEloUris(List<UriScyElo> loEloUris)
    {
       assert loEloUris != null;
       this.loEloUris = loEloUris;

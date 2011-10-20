@@ -17,52 +17,54 @@ import eu.scy.common.mission.MissionAnchor;
 import eu.scy.common.mission.MissionModel;
 import eu.scy.common.mission.MissionModelElo;
 import eu.scy.common.mission.MissionModelEloContent;
+import eu.scy.common.mission.UriScyElo;
+import eu.scy.common.scyelo.MultiScyEloLoader;
 import eu.scy.common.scyelo.RooloServices;
 import eu.scy.common.scyelo.ScyElo;
 
 public class BasicMissionModel implements MissionModel
 {
-	private final static Logger logger = Logger.getLogger(BasicMissionModel.class);
 
-	private MissionModelElo missionModelElo;
-	private MissionModelEloContent missionModelEloContent;
+   private final static Logger logger = Logger.getLogger(BasicMissionModel.class);
+   private MissionModelElo missionModelElo;
+   private MissionModelEloContent missionModelEloContent;
 
-	public BasicMissionModel(MissionModelElo missionModelElo)
-	{
-		super();
-		this.missionModelElo = missionModelElo;
-		missionModelEloContent = missionModelElo.getTypedContent();
-	}
+   public BasicMissionModel(MissionModelElo missionModelElo)
+   {
+      super();
+      this.missionModelElo = missionModelElo;
+      missionModelEloContent = missionModelElo.getTypedContent();
+   }
 
-	@Override
-	public List<Las> getLasses()
-	{
-		return missionModelEloContent.getLasses();
-	}
+   @Override
+   public List<Las> getLasses()
+   {
+      return missionModelEloContent.getLasses();
+   }
 
-	@Override
-	public List<URI> getLoEloUris()
-	{
-		return missionModelEloContent.getLoEloUris();
-	}
+   @Override
+   public List<UriScyElo> getLoEloUris()
+   {
+      return missionModelEloContent.getLoEloUris();
+   }
 
-	@Override
-	public Las getSelectedLas()
-	{
-		return missionModelEloContent.getSelectedLas();
-	}
+   @Override
+   public Las getSelectedLas()
+   {
+      return missionModelEloContent.getSelectedLas();
+   }
 
-	@Override
-	public void setSelectedLas(Las selectedLas)
-	{
-		missionModelEloContent.setSelectedLas(selectedLas);
-	}
+   @Override
+   public void setSelectedLas(Las selectedLas)
+   {
+      missionModelEloContent.setSelectedLas(selectedLas);
+   }
 
-	@Override
-	public URI getMissionMapBackgroundImageUri()
-	{
-		return missionModelEloContent.getMissionMapBackgroundImageUri();
-	}
+   @Override
+   public URI getMissionMapBackgroundImageUri()
+   {
+      return missionModelEloContent.getMissionMapBackgroundImageUri();
+   }
 
    @Override
    public String getMissionMapButtonIconType()
@@ -76,123 +78,159 @@ public class BasicMissionModel implements MissionModel
       return missionModelEloContent.getMissionMapInstructionUri();
    }
 
-	@Override
-	public List<URI> getEloUris(boolean allElos)
-	{
-		Set<URI> allEloUris = new HashSet<URI>();
-		if (allElos)
-		{
-			addAllUris(allEloUris, missionModelEloContent.getLoEloUris());
-		}
-		for (Las las : missionModelEloContent.getLasses())
-		{
-			if (allElos)
-			{
-				addAllUris(allEloUris, las.getLoEloUris());
-			}
-			addMissionAnchorEloUris(allEloUris, las.getMissionAnchor(), allElos);
-			if (las.getIntermediateAnchors() != null)
-			{
-				for (MissionAnchor intermediateAnchor : las.getIntermediateAnchors())
-				{
-					addMissionAnchorEloUris(allEloUris, intermediateAnchor, allElos);
-				}
-			}
-		}
-		return new ArrayList<URI>(allEloUris);
-	}
+   @Override
+   public List<URI> getEloUris(boolean allElos)
+   {
+      Set<URI> allEloUris = new HashSet<URI>();
+      if (allElos)
+      {
+         addAllUriScyElos(allEloUris, missionModelEloContent.getLoEloUris());
+      }
+      for (Las las : missionModelEloContent.getLasses())
+      {
+         if (allElos)
+         {
+            addAllUriScyElos(allEloUris, las.getLoEloUris());
+         }
+         addMissionAnchorEloUris(allEloUris, las.getMissionAnchor(), allElos);
+         if (las.getIntermediateAnchors() != null)
+         {
+            for (MissionAnchor intermediateAnchor : las.getIntermediateAnchors())
+            {
+               addMissionAnchorEloUris(allEloUris, intermediateAnchor, allElos);
+            }
+         }
+      }
+      return new ArrayList<URI>(allEloUris);
+   }
 
-	private void addAllUris(Set<URI> allEloUris, List<URI> eloUris)
-	{
-		if (eloUris != null)
-		{
-			allEloUris.addAll(eloUris);
-		}
-	}
+   private void addAllUris(Set<URI> allEloUris, List<URI> eloUris)
+   {
+      if (eloUris != null)
+      {
+         allEloUris.addAll(eloUris);
+      }
+   }
 
-	private void addMissionAnchorEloUris(Set<URI> allEloUris, MissionAnchor missionAnchor,
-				boolean allElos)
-	{
-		if (missionAnchor.getEloUri() != null)
-		{
-			allEloUris.add(missionAnchor.getEloUri());
-			if (allElos)
-			{
-				addAllUris(allEloUris, missionAnchor.getLoEloUris());
-			}
-		}
-	}
+   private void addAllUriScyElos(Set<URI> allEloUris, List<UriScyElo> eloUris)
+   {
+      if (eloUris != null)
+      {
+         for (UriScyElo uriScyElo : missionModelEloContent.getLoEloUris())
+         {
+            allEloUris.add(uriScyElo.getUri());
+         }
+      }
+   }
 
-	@Override
-	public void loadMetadata(RooloServices rooloServices)
-	{
-		List<URI> uris = getAllUris();
-		List<IMetadata> metadatas = rooloServices.getRepository().retrieveMetadatas(uris);
-		// we are walking in the same sequence though the lasses
-		int i = 0;
-		for (Las las : missionModelEloContent.getLasses())
-		{
-			loadMetadata(las.getMissionAnchor(), metadatas.get(i++), rooloServices);
-			las.setExisting(las.getMissionAnchor().isExisting());
-			for (MissionAnchor intermediateAnchor : las.getIntermediateAnchors())
-			{
-				loadMetadata(intermediateAnchor, metadatas.get(i++), rooloServices);
-			}
-		}
-	}
+   private void addMissionAnchorEloUris(Set<URI> allEloUris, MissionAnchor missionAnchor,
+      boolean allElos)
+   {
+      if (missionAnchor.getEloUri() != null)
+      {
+         allEloUris.add(missionAnchor.getEloUri());
+         if (allElos)
+         {
+            addAllUriScyElos(allEloUris, missionAnchor.getLoEloUris());
+         }
+      }
+   }
 
-	private List<URI> getAllUris()
-	{
-		List<URI> uris = new ArrayList<URI>();
-		for (Las las : missionModelEloContent.getLasses())
-		{
-			uris.add(las.getMissionAnchor().getEloUri());
-			for (MissionAnchor intermediateAnchor : las.getIntermediateAnchors())
-			{
-				uris.add(intermediateAnchor.getEloUri());
-			}
-		}
-		return uris;
-	}
+   @Override
+   public void loadMetadata(RooloServices rooloServices)
+   {
+      MultiScyEloLoader multiScyEloLoader = new MultiScyEloLoader(getAllUris(), true, rooloServices);
+      for (Las las : missionModelEloContent.getLasses())
+      {
+         loadMetadata(las, multiScyEloLoader);
+      }
+      loadMetadata(getLoEloUris(), multiScyEloLoader);
+   }
 
-	private void loadMetadata(MissionAnchor missionAnchor, IMetadata metadata,
-				RooloServices rooloServices)
-	{
-		if (metadata != null)
-		{
-			ScyElo scyElo = new ScyElo(metadata, rooloServices);
-			missionAnchor.setScyElo(scyElo);
-			missionAnchor.setExisting(true);
-		}
-		else
-		{
-			missionAnchor.setExisting(false);
-			logger.warn("failed to load metadata for mission anchor: " + missionAnchor.getEloUri());
-		}
-	}
+   private List<URI> getAllUris()
+   {
+      List<URI> uris = new ArrayList<URI>();
 
-	private void loadMetadata(MissionAnchor missionAnchor, RooloServices rooloServices)
-	{
-		ScyElo scyElo = ScyElo.loadMetadata(missionAnchor.getEloUri(), rooloServices);
-		missionAnchor.setScyElo(scyElo);
-		missionAnchor.setExisting(scyElo != null);
-		if (scyElo == null)
-		{
-			logger.warn("failed to load metadata for mission anchor: " + missionAnchor.getEloUri());
-		}
-	}
+      for (Las las : missionModelEloContent.getLasses())
+      {
+         addLasUris(las, uris);
+      }
+      uris.addAll(UriScyElo.getUris(getLoEloUris()));
+      return uris;
+   }
 
-	@Override
-	public void updateElo()
-	{
-		missionModelElo.updateElo();
-	}
+   private void addLasUris(Las las, List<URI> uris)
+   {
+      addMissionAnchorUris(las.getMissionAnchor(), uris);
+      for (MissionAnchor intermediateAnchor : las.getIntermediateAnchors())
+      {
+         addMissionAnchorUris(intermediateAnchor, uris);
+      }
+      uris.addAll(UriScyElo.getUris(las.getLoEloUris()));
+      uris.addAll(UriScyElo.getUris(las.getOtherEloUris()));
+   }
 
-	@Override
-	public MissionModelElo getMissionModelElo()
-	{
-		return missionModelElo;
-	}
+   private void addMissionAnchorUris(MissionAnchor missionAnchor, List<URI> uris)
+   {
+      uris.add(missionAnchor.getEloUri());
+      uris.addAll(UriScyElo.getUris(missionAnchor.getLoEloUris()));
+   }
+
+   private void loadMetadata(Las las, MultiScyEloLoader multiScyEloLoader)
+   {
+      loadMetadata(las.getMissionAnchor(), multiScyEloLoader);
+      las.setExisting(las.getMissionAnchor().isExisting());
+      for (MissionAnchor intermediateAnchor : las.getIntermediateAnchors())
+      {
+         loadMetadata(intermediateAnchor, multiScyEloLoader);
+      }
+      loadMetadata(las.getLoEloUris(), multiScyEloLoader);
+      loadMetadata(las.getOtherEloUris(), multiScyEloLoader);
+   }
+
+   private void loadMetadata(MissionAnchor missionAnchor, MultiScyEloLoader multiScyEloLoader)
+   {
+      final ScyElo scyElo = multiScyEloLoader.getScyElo(missionAnchor.getEloUri());
+      if (scyElo != null)
+      {
+         missionAnchor.setScyElo(scyElo);
+         missionAnchor.setExisting(true);
+         loadMetadata(missionAnchor.getLoEloUris(), multiScyEloLoader);
+      }
+      else
+      {
+         missionAnchor.setExisting(false);
+         logger.warn("failed to load metadata for mission anchor: " + missionAnchor.getEloUri());
+      }
+   }
+
+   private void loadMetadata(List<UriScyElo> uriScyElos, MultiScyEloLoader multiScyEloLoader)
+   {
+      for (UriScyElo uriScyElo : uriScyElos)
+      {
+         final ScyElo scyElo = multiScyEloLoader.getScyElo(uriScyElo.getUri());
+         if (scyElo != null)
+         {
+            uriScyElo.setScyElo(scyElo);
+         }
+         else
+         {
+            logger.warn("failed to load metadata for elo: " + uriScyElo.getUri());
+         }
+      }
+   }
+
+   @Override
+   public void updateElo()
+   {
+      missionModelElo.updateElo();
+   }
+
+   @Override
+   public MissionModelElo getMissionModelElo()
+   {
+      return missionModelElo;
+   }
 
    @Override
    public String getWindowStatesXml(String lasId)
@@ -247,5 +285,4 @@ public class BasicMissionModel implements MissionModel
    {
       missionModelEloContent.removeArchivedElo(archivedElo);
    }
-
 }
