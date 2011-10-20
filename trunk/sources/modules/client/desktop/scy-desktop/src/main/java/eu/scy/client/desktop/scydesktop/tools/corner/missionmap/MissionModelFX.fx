@@ -55,7 +55,7 @@ public class MissionModelFX extends MissionModel {
    public var archivedElosChanged = false;
    public var showMoreInfo: ShowMoreInfo;
    var contentChanged = false;
-   def updateEloLock = new ReentrantLock();
+   def updateEloLock = new ReentrantLock(true);
 
    function newMissionModel(): Void {
       createAllFxVersions();
