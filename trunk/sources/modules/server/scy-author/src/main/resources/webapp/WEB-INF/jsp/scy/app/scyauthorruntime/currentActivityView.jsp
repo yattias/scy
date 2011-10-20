@@ -1,5 +1,6 @@
 <%@ include file="common-taglibs.jsp" %>
 
+<h2><spring:message code="MISSION_PROGRESS_BY_STUDENT"/> </h2>
 
 <c:choose>
     <c:when test="${fn:length(userActivityList) > 0}">
@@ -13,7 +14,7 @@
                     <spring:message code="LAS"/>
                 </th>
                 <th>
-                    ELOs in ePortfolio   
+                    ELOs submitted to ePortfolio
                 </th>
                 <th>
                     ELOs added to ePortfolio

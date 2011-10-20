@@ -1,5 +1,6 @@
 <%@ include file="common-taglibs.jsp" %>
 <div id="addReflectionQuestionOnEloForTeacher">
+    <h2><spring:message code="ELO_ASSESSMENT_INSTRUMENTS"/></h2>
 <p>
     <spring:message code="EPORTFOLIO_TEACHER_HELP"/>
 </p>

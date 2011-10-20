@@ -6,6 +6,7 @@
 </script>
 <div dojoType="dojox.layout.ContentPane" id="teacherQuestionsForMission" executeScripts="true" parseOnLoad="true">
 
+    <h2><spring:message code="MISSION_ASSESSMENT_INSTRUMENTS"/></h2>
 <p>
     <spring:message code="EPORTFOLIO_TEACHER_HELPX"/>
    </p>
