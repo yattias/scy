@@ -298,6 +298,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
          var repositoryWrapper = config.getRepository() as RepositoryWrapper;
          var eloSavedActionHandler = EloSavedActionHandler {
                     scyDesktop: this;
+                    tbi: missionRunConfigs.tbi
                  }
          repositoryWrapper.addEloSavedListener(eloSavedActionHandler);
          repositoryWrapper.setUserId(config.getToolBrokerAPI().getLoginUserName());

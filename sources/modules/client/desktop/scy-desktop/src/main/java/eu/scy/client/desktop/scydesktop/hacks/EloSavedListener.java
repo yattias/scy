@@ -6,6 +6,7 @@
 package eu.scy.client.desktop.scydesktop.hacks;
 
 import java.net.URI;
+import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadata;
 
 /**
@@ -14,8 +15,8 @@ import roolo.elo.api.IMetadata;
  */
 public interface EloSavedListener {
 
-	 void newEloSaved(URI eloURI);
-	 void forkedEloSaved(URI eloURI);
-	 void eloUpdated(URI eloURI);
+	 void newEloSaved(URI eloURI, IELO elo, IMetadata metadata);
+	 void forkedEloSaved(URI eloURI, IELO elo, IMetadata metadata);
+	 void eloUpdated(URI eloURI, IELO elo, IMetadata metadata);
 	 void metadataChanged(URI eloURI, IMetadata metadata);
 }
