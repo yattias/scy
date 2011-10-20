@@ -26,6 +26,8 @@ import java.lang.Thread;
 import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoTypes;
 import java.awt.EventQueue;
 import eu.scy.client.desktop.desktoputils.XFX;
+import eu.scy.common.mission.UriScyElo;
+import eu.scy.common.scyelo.ScyElo;
 
 /**
  * @author SikkenJ
@@ -41,7 +43,7 @@ public class MissionModelFX extends MissionModel {
    def missionUtils = MissionUtils {};
    public var tbi: ToolBrokerAPI;
    public var missionModel: MissionModel on replace { newMissionModel() };
-   public var loEloUris: URI[];
+   public var loEloUris: UriScyElo[];
    public var lasses: LasFX[];
    public-read var activeLas: LasFX;
    public-read var missionMapBackgroundImageUri: URI;
@@ -58,7 +60,7 @@ public class MissionModelFX extends MissionModel {
    function newMissionModel(): Void {
       createAllFxVersions();
       // all FX versions are now created, now put them in the fx properties
-      loEloUris = missionUtils.getUriSequence(missionModel.getLoEloUris());
+      loEloUris = missionUtils.getUriScyEloSequence(missionModel.getLoEloUris());
       delete  lasses;
       if (missionModel.getLasses() != null) {
          lasses = for (lasObject in missionModel.getLasses()) {
@@ -152,25 +154,30 @@ public class MissionModelFX extends MissionModel {
 
    public function removeElo(eloUri: URI): Void {
       if (activeLas != null) {
-         delete eloUri from activeLas.otherEloUris;
+         var uriScyEloToDelete:UriScyElo = null;
+         for (uriScyElo in activeLas.otherEloUris){
+            if (uriScyElo.getUri().equals(eloUri)){
+               uriScyEloToDelete = uriScyElo;
+            }
+         }
+         delete uriScyEloToDelete from activeLas.otherEloUris;
          updateElo();
       }
    }
 
-   public function eloUriChanged(oldEloUri: URI, newEloUri: URI) {
-      logger.info("eloUri changed from {oldEloUri} to {newEloUri}");
-      if (oldEloUri == null) {
+   public function eloUriChanged(oldScyElo: ScyElo, newScyElo: ScyElo) {
+      logger.info("eloUri changed from {oldScyElo} to {newScyElo}");
+      if (oldScyElo == null) {
          // it's a new elo, being saved
          if (activeLas != null) {
-            insert newEloUri into activeLas.otherEloUris;
+            activeLas.otherEloUris = addIfNotPresent(activeLas.otherEloUris,newScyElo)
          } else {
-            insert newEloUri into loEloUris;
+            loEloUris = addIfNotPresent(loEloUris,newScyElo)
          }
-         contentChanged = true;
       } else {
-         loEloUris = updateEloUris(loEloUris, oldEloUri, newEloUri);
+         loEloUris = updateEloUris(loEloUris, oldScyElo, newScyElo);
          for (las in lasses) {
-            updateLasEloUri(las, oldEloUri, newEloUri)
+            updateLasEloUri(las, oldScyElo, newScyElo)
          }
       }
       if (contentChanged) {
@@ -178,34 +185,44 @@ public class MissionModelFX extends MissionModel {
       }
    }
 
-   function updateEloUris(uris: URI[], oldEloUri: URI, newEloUri: URI): URI[] {
-      var updatedUris: URI[];
-      for (uri in uris) {
-         if (uri == oldEloUri) {
-            insert newEloUri into updatedUris;
-            contentChanged = true;
-         } else {
-            insert uri into updatedUris;
+   function addIfNotPresent(uriScyElos: UriScyElo[], newScyElo: ScyElo ): UriScyElo[]{
+      for (uriScyElo in uriScyElos){
+         if (uriScyElo.getUri()==newScyElo.getUri()){
+            return uriScyElos
          }
       }
-      return updatedUris;
+      var updatedUriScyElos = uriScyElos;
+      insert new UriScyElo(newScyElo) into updatedUriScyElos;
+          contentChanged = true;
+     return updatedUriScyElos
    }
 
-   function updateLasEloUri(las: LasFX, oldEloUri: URI, newEloUri: URI) {
-      updateAnchorEloUri(las.mainAnchor, oldEloUri, newEloUri);
-      for (intermediateAnchor in las.intermediateAnchors) {
-         updateAnchorEloUri(intermediateAnchor, oldEloUri, newEloUri);
+   function updateEloUris(uriScyElos: UriScyElo[], oldScyElo: ScyElo, newScyElo: ScyElo): UriScyElo[] {
+//      var updatedUriScyElos: UriScyElo[];
+      for (uriScyElo in uriScyElos) {
+         if (uriScyElo.getUri() == oldScyElo.getUri()) {
+            uriScyElo.setScyElo(newScyElo);
+            contentChanged = true;
+         } 
       }
-      las.loEloUris = updateEloUris(las.loEloUris, oldEloUri, newEloUri);
-      las.otherEloUris = updateEloUris(las.otherEloUris, oldEloUri, newEloUri);
+      return uriScyElos;
    }
 
-   function updateAnchorEloUri(anchor: MissionAnchorFX, oldEloUri: URI, newEloUri: URI) {
-      if (anchor.eloUri == oldEloUri) {
-         anchor.eloUri = newEloUri;
+   function updateLasEloUri(las: LasFX, oldScyElo: ScyElo, newScyElo: ScyElo) {
+      updateAnchorEloUri(las.mainAnchor, oldScyElo, newScyElo);
+      for (intermediateAnchor in las.intermediateAnchors) {
+         updateAnchorEloUri(intermediateAnchor, oldScyElo, newScyElo);
+      }
+      las.loEloUris = updateEloUris(las.loEloUris, oldScyElo, newScyElo);
+      las.otherEloUris = updateEloUris(las.otherEloUris, oldScyElo, newScyElo);
+   }
+
+   function updateAnchorEloUri(anchor: MissionAnchorFX, oldScyElo: ScyElo, newScyElo: ScyElo) {
+      if (anchor.eloUri == oldScyElo.getUri()) {
+         anchor.eloUri = newScyElo.getUri();
          contentChanged = true;
       }
-      anchor.loEloUris = updateEloUris(anchor.loEloUris, oldEloUri, newEloUri);
+      anchor.loEloUris = updateEloUris(anchor.loEloUris, oldScyElo, newScyElo);
    }
 
    override public function updateElo(): Void {

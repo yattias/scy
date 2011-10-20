@@ -11,6 +11,7 @@ import java.util.List;
 import eu.scy.common.mission.MissionAnchor;
 import java.net.URI;
 import javafx.scene.paint.Color;
+import eu.scy.common.mission.UriScyElo;
 
 /**
  * @author SikkenJ
@@ -22,14 +23,14 @@ public class LasFX extends Las {
    public var id = "?";
    public var xPos: Number = 0 on replace { las.setXPos(xPos) };
    public var yPos: Number = 0 on replace { las.setYPos(yPos) };
-   public var loEloUris: URI[] on replace { las.setLoEloUris(missionUtils.getUriList(loEloUris)) };
+   public var loEloUris: UriScyElo[] on replace { las.setLoEloUris(missionUtils.getUriScyEloList(loEloUris)) };
    public var nextLasses: LasFX[];
    public var previousLasses: LasFX[];
    public var mainAnchor: MissionAnchorFX;
    public var initialAnchorToOpen: MissionAnchorFX;
    public var intermediateAnchors: MissionAnchorFX[];
-   public var otherEloUris: URI[] on replace {
-              las.setOtherEloUris(missionUtils.getUriList(otherEloUris))
+   public var otherEloUris: UriScyElo[] on replace {
+              las.setOtherEloUris(missionUtils.getUriScyEloList(otherEloUris))
            };
    public var color = Color.LIGHTGRAY;
    public var toolTip: String;
@@ -48,12 +49,12 @@ public class LasFX extends Las {
       id = las.getId();
       xPos = las.getXPos();
       yPos = las.getYPos();
-      loEloUris = missionUtils.getUriSequence(las.getLoEloUris());
+      loEloUris = missionUtils.getUriScyEloSequence(las.getLoEloUris());
       nextLasses = missionUtils.getLasFXSequence(las.getNextLasses());
       previousLasses = missionUtils.getLasFXSequence(las.getPreviousLasses());
       mainAnchor = missionUtils.getMissionAnchorFX(las.getMissionAnchor());
       intermediateAnchors = missionUtils.getMissionAnchorFXSequence(las.getIntermediateAnchors());
-      otherEloUris = missionUtils.getUriSequence(las.getOtherEloUris());
+      otherEloUris = missionUtils.getUriScyEloSequence(las.getOtherEloUris());
       toolTip = las.getToolTip();
       title = las.getTitle();
       exists = las.isExisting();
@@ -118,7 +119,7 @@ public class LasFX extends Las {
 
    override public function setOtherEloUris(otherEloUris: List): Void {
       las.setOtherEloUris(otherEloUris);
-      this.otherEloUris = missionUtils.getUriSequence(otherEloUris);
+      this.otherEloUris = missionUtils.getUriScyEloSequence(otherEloUris);
    }
 
    override public function setSelectedMissionAnchor(missionAnchor: MissionAnchor): Void {
@@ -158,7 +159,7 @@ public class LasFX extends Las {
 
    override public function setLoEloUris(loEloUris: List): Void {
       las.setLoEloUris(loEloUris);
-      this.loEloUris = missionUtils.getUriSequence(loEloUris);
+      this.loEloUris = missionUtils.getUriScyEloSequence(loEloUris);
    }
 
    override public function getInitialMissionAnchorToOpen(): MissionAnchor {
