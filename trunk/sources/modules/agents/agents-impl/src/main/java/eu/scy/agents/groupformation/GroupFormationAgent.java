@@ -27,6 +27,7 @@ import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataTypeManager;
 
 import java.net.URI;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -34,12 +35,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepositoryAgent {
+public class GroupFormationAgent extends AbstractRequestAgent implements IRepositoryAgent {
 
-    static final String NAME = GroupFormationAgent2.class.getName();
+    static final String NAME = "GroupFormationAgent";
 
     private static final Logger LOGGER = Logger
-            .getLogger(GroupFormationAgent2.class);
+            .getLogger(GroupFormationAgent.class);
 
     private static final String GROUPFORMATION_SETTING = "groupformation";
     private static final String GROUPFORMATION_STRATEGY_SETTING = "groupformation.strategy";
@@ -48,24 +49,25 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
     private static final String GROUPFORMATION_MAXUSER_SETTING = "groupformation.maxUsers";
 
     private static final String LAS = "newLasId";
-    private static final String OLD_LAS = "oldLasId";
 
     private static final String MIN_GROUP_SIZE_PARAMETER = "MinGroupSize";
     private static final String MAX_GROUP_SIZE_PARAMETER = "MaxGroupSize";
-    private static final double NEEDED_PERCENT_OF_PRESENT_USERS = 2.0 / 3.0;
+    private static final String PERCENTAGE_AVAILABLE = "PercentageAvailable";
+
+    private double neededPercentOfPresentUsers = 2.0 / 3.0;
 
     private int listenerId;
     private AgentRooloServiceImpl rooloServices;
+
     private GroupFormationStrategyFactory factory;
 
     private GroupFormationNotificationHelper notificationHelper;
 
     private final Object lock;
-
     private MissionGroupCache missionGroupsCache;
     private Map<Mission, GroupFormationActivation> missionSpecsMap;
 
-    public GroupFormationAgent2(Map<String, Object> params) {
+    public GroupFormationAgent(Map<String, Object> params) {
         super(NAME, params);
 
         lock = new Object();
@@ -141,15 +143,22 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
             String missionUri = action.getContext(ContextConstants.mission);
             String type = action.getType();
 
+
             // las was changed groupformation could become active
             if ( type.equals(ActionConstants.ACTION_LAS_CHANGED) ) {
                 String las = action.getAttribute(LAS);
-                GroupFormationActivation groupFormationActivation = getGroupFormationActivation(URI.create(missionUri), action.getUser());
+                Mission mission = getSession().getMission(action.getUser());
+                GroupFormationActivation groupFormationActivation = getGroupFormationActivation(URI.create(missionUri), mission);
 
                 if ( groupFormationActivation.shouldActivate(las) ) {
+                    // collect parameters
+                    GroupFormationActivation.GroupFormationInfo groupFormationInfo = groupFormationActivation.getGroupFormationInfo
+                            (las);
+                    collectParameter(mission, groupFormationInfo);
+
                     // groupformation should be triggered for this las
                     try {
-                        runGroupFormation(action, groupFormationActivation.getGroupFormationInfo(las));
+                        runGroupFormation(action, groupFormationInfo);
                     } catch ( TupleSpaceException e ) {
                         LOGGER.warn("", e);
                     }
@@ -168,8 +177,22 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
         }
     }
 
-    private GroupFormationActivation getGroupFormationActivation(URI missionUri, String user) {
-        Mission mission = getSession().getMission(user);
+    private void collectParameter(Mission mission, GroupFormationActivation.GroupFormationInfo groupFormationInfo) {
+        Integer minUsers = configuration.getParameter(mission.getName(), MIN_GROUP_SIZE_PARAMETER);
+        Integer maxUsers = configuration.getParameter(mission.getName(), MAX_GROUP_SIZE_PARAMETER);
+        Float percentage = configuration.getParameter(mission.getName(), PERCENTAGE_AVAILABLE);
+        if ( minUsers != null ) {
+            groupFormationInfo.setMinimumUsers(minUsers);
+        }
+        if ( maxUsers != null ) {
+            groupFormationInfo.setMaximumUsers(maxUsers);
+        }
+        if ( percentage != null ) {
+            neededPercentOfPresentUsers = percentage;
+        }
+    }
+
+    private GroupFormationActivation getGroupFormationActivation(URI missionUri, Mission mission) {
         String missionSpecification = getSession().getMissionSpecification(missionUri.toString());
 
         GroupFormationActivation groupformationActivation = missionSpecsMap
@@ -250,7 +273,7 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
                                         double numberOfUsersInMission) {
         // no groups formed yet
         double fractionOfPresentUsers = (double) availableUsers.size() / numberOfUsersInMission;
-        if ( ( fractionOfPresentUsers < NEEDED_PERCENT_OF_PRESENT_USERS )
+        if ( ( fractionOfPresentUsers < neededPercentOfPresentUsers )
                 || ( availableUsers.size() < groupFormationInfo.getMinimumUsers() ) ) {
             // to few user available to assign to a group  -> wait
             notificationHelper.sendWaitNotification(action, language);
@@ -358,6 +381,12 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements IRepos
             scaffoldLevelAsString = "1";
         }
         return Integer.parseInt(scaffoldLevelAsString);
+    }
+
+    @Override
+    protected Tuple getListParameterTuple(String queryId) {
+        return AgentProtocol.getListParametersTupleResponse(getName(), queryId,
+                Arrays.asList(MIN_GROUP_SIZE_PARAMETER, MAX_GROUP_SIZE_PARAMETER, PERCENTAGE_AVAILABLE));
     }
 
 }
