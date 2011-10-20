@@ -330,6 +330,39 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
     }
 
     @Override
+    public List<TransferElo> getElosForFeedback(MissionSpecificationElo missionSpecificationElo, FeedbackEloSearchFilter feedbackEloSearchFilter) {
+        List<TransferElo> returnList = new LinkedList<TransferElo>();
+        List<ISearchResult> feedbackList = getFeedback();
+        for (int i = 0; i < feedbackList.size(); i++) {
+            ISearchResult searchResult = feedbackList.get(i);
+            ScyElo feedbackElo = ScyElo.loadLastVersionElo(searchResult.getUri(), this);
+            URI uri = feedbackElo.getFeedbackOnEloUri();
+            ScyElo commentedOn = ScyElo.loadLastVersionElo(uri, this);
+            if (commentedOn.getMissionSpecificationEloUri().equals(missionSpecificationElo.getUri())) {
+                FeedbackEloTransfer feedbackEloTransfer = (FeedbackEloTransfer) getXmlTransferObjectService().getObject(feedbackElo.getContent().getXmlString());
+
+                TransferElo transferElo = new TransferElo(commentedOn);
+                transferElo.setFeedbackEloTransfer(feedbackEloTransfer);
+                /*if (!transferElo.getCreatedBy().trim().equals(username)) {
+                    transferElo.setFeedbackELO(feedbackElo);
+                } */
+                returnList.add(transferElo);
+            }
+
+
+        }
+
+        FeedbackEloSearchResultFilter filter = new FeedbackEloSearchResultFilter();
+        filter.setFeedbackEloSearchFilter(feedbackEloSearchFilter);
+
+        returnList = filter.filter(returnList);
+        returnList = filter.sort(returnList);
+
+
+        return returnList;
+    }
+
+    @Override
     public void deleteAllFeedbackFeedback() {
         List<ISearchResult> results = getFeedback();
 
