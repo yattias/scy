@@ -172,20 +172,15 @@ public class EloManagement extends CustomNode {
    }
 
    function findTemplateEloInformation(): Void {
-      var eloTemplateUris: URI[];
-      if (templateEloUris != null) {
-         for (uri in templateEloUris) {
-            insert uri as URI into eloTemplateUris;
-         }
-      }
       def multiScyEloLoader = new MultiScyEloLoader(templateEloUris, false, tbi);
-      eloTemplateUriDisplays = for (uri in eloTemplateUris) {
+      eloTemplateUriDisplays = for (uri in templateEloUris) {
                  createArchivedElo(uri, multiScyEloLoader)
               }
       eloTemplateUriDisplays = Sequences.sort(eloTemplateUriDisplays, new ArchivedEloTitleComparator()) as ArchivedElo[];
-      if (sizeof eloTemplateUris > 0) {
+      if (sizeof eloTemplateUriDisplays > 0) {
          FX.deferAction(function(): Void {
             newFromEloTemplateButton.disableButton = false;
+//            println("enabled newFromEloTemplateButton.disableButton, with {sizeof eloTemplateUriDisplays} templates")
          })
       }
    }
@@ -240,6 +235,7 @@ public class EloManagement extends CustomNode {
                     setTitleAndLanguage(newScyElo.getElo(), scyDesktop.newTitleGenerator.generateNewTitleFromName(newScyElo.getTitle()));
                     newScyElo.setTemplate(true);
                     newScyElo.setCreator(tbi.getLoginUserName());
+                    newScyElo.saveAsForkedElo();
                     newScyElo
                  }
          def showNewElo = function(object: Object): Void {
@@ -328,11 +324,13 @@ public class EloManagement extends CustomNode {
    function undoArchiveElo(archiveEloObject: Object): Void {
       def archivedElo = archiveEloObject as ArchivedElo;
       if (archivedElo != null) {
-         FX.deferAction(function(): Void {
+         XFX.runActionInBackground(function(): Void {
             def lastVersionScyElo = ScyElo.loadLastVersionMetadata(archivedElo.getEloUri(), tbi);
-            var scyWindow = scyWindowControl.addOtherScyWindow(lastVersionScyElo);
-            scyWindowControl.makeMainScyWindow(scyWindow);
-            scyDesktop.missionModelFX.removeArchivedElo(archivedElo);
+            FX.deferAction(function(): Void {
+               def scyWindow = scyWindowControl.addOtherScyWindow(lastVersionScyElo);
+               scyWindowControl.makeMainScyWindow(scyWindow);
+               scyDesktop.missionModelFX.removeArchivedElo(archivedElo);
+            })
          })
       }
       closeUndoArchiveModalDialogBox();

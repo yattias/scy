@@ -10,6 +10,7 @@ import eu.scy.common.mission.MissionAnchor;
 import java.net.URI;
 import java.util.List;
 import java.util.ArrayList;
+import eu.scy.common.mission.UriScyElo;
 
 /**
  * @author SikkenJ
@@ -67,6 +68,24 @@ public class MissionUtils {
          uriList.add(uri);
       }
       return uriList
+   }
+
+   public function getUriScyEloSequence(uriList: List): UriScyElo[] {
+      var uriScyElos: UriScyElo[];
+      if (uriList != null) {
+         uriScyElos = for (uriObject in uriList) {
+               uriObject as UriScyElo
+            }
+      }
+      return uriScyElos
+   }
+
+   public function getUriScyEloList(uriScyElos: UriScyElo[]): List {
+      def uriScyEloList = new ArrayList();
+      for (uriScyElo in uriScyElos) {
+         uriScyEloList.add(uriScyElo);
+      }
+      return uriScyEloList
    }
 
    public function getLasFXSequence(lasList: List): LasFX[] {

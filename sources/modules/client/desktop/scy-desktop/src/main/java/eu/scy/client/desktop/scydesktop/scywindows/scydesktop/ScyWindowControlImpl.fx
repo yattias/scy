@@ -14,12 +14,12 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowControl;
 import java.util.HashMap;
 import eu.scy.client.desktop.desktoputils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.LasFX;
-import javafx.util.Sequences;
 import java.lang.Void;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.client.desktop.desktoputils.StringUtils;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowPositionsState;
 import java.lang.Exception;
+import eu.scy.common.mission.UriScyElo;
 
 /**
  * @author sikken
@@ -31,12 +31,12 @@ public class ScyWindowControlImpl extends ScyWindowControl {
    var firstNewLas = true;
    def activeLas = bind missionModel.activeLas on replace oldActiveLas {
               activeLasChanged(oldActiveLas);
-//              if (firstNewLas and activeLas != null) {
-//                 FX.deferAction(function() {
-//                    activeLasChanged(oldActiveLas);
-//                 });
-//                 firstNewLas = false;
-//              }
+           //              if (firstNewLas and activeLas != null) {
+           //                 FX.deferAction(function() {
+           //                    activeLasChanged(oldActiveLas);
+           //                 });
+           //                 firstNewLas = false;
+           //              }
            }
    /**
     * as the uri of a window can change (when saving the elo content, this always result is an other uri),
@@ -46,20 +46,27 @@ public class ScyWindowControlImpl extends ScyWindowControl {
    var scyWindows: ScyWindow[];
    def windowPositionStates = new HashMap();
 
-   function loadScyElo(eloUri: URI): ScyElo{
-//      var scyElo:ScyElo;
-//      XFX.deferActionAndWait(function():Void {scyElo = ScyElo.loadMetadata(eloUri, tbi);});
-//      return scyElo;
+   function loadScyElo(eloUri: URI): ScyElo {
+      //      var scyElo:ScyElo;
+      //      XFX.deferActionAndWait(function():Void {scyElo = ScyElo.loadMetadata(eloUri, tbi);});
+      //      return scyElo;
       return ScyElo.loadMetadata(eloUri, tbi)
    }
 
    public override function newEloSaved(eloUri: URI) {
-      def scyElo = loadScyElo(eloUri);
+      var scyElo: ScyElo = null;
+      def scyWindow = findScyWindow(eloUri);
+      if (scyWindow!=null){
+         scyElo = scyWindow.scyElo
+      }
+      if (scyElo!=null){
+         scyElo = loadScyElo(eloUri);
+      }
       newEloSaved(scyElo)
    }
 
    public override function newEloSaved(scyElo: ScyElo) {
-      var scyWindow = findScyWindow(scyElo.getUri());
+      def scyWindow = findScyWindow(scyElo.getUri());
       if (scyWindow == null) {
          // the elo is not yet in a window on the desktop, add it
          logger.info("new elo, is not yet on the desktop, {scyElo.getUri()}");
@@ -77,14 +84,15 @@ public class ScyWindowControlImpl extends ScyWindowControl {
    }
 
    public override function removeOtherScyWindow(eloUri: URI): Void {
-      missionModel.removeElo(eloUri);
       def scyWindow = findScyWindow(eloUri);
       if (scyWindow != null) {
          scyWindow.isQuiting = true;
          scyWindow.scyToolsList.onQuit();
          windowManager.removeScyWindow(scyWindow);
          windowPositioner.removeOtherWindow(scyWindow);
+         updateWindowStateXml(activeLas);
       }
+      missionModel.removeElo(eloUri);
    }
 
    public override function removeOtherScyWindow(scyElo: ScyElo): Void {
@@ -97,6 +105,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       } else {
          windowManager.removeScyWindow(scyWindow);
          windowPositioner.removeOtherWindow(scyWindow);
+         updateWindowStateXml(activeLas);
       }
    }
 
@@ -107,14 +116,28 @@ public class ScyWindowControlImpl extends ScyWindowControl {
 
    public override function addOtherScyWindow(scyElo: ScyElo): ScyWindow {
       logger.debug("trying to add another scy-windows with uri: {scyElo.getUri()}");
-      if (Sequences.indexOf(activeLas.otherEloUris, scyElo.getUri()) <= 0) {
-         missionModel.eloUriChanged(null, scyElo.getUri());
-      //         insert eloUri into activeLas.otherEloUris;
+      def presentWindow = windowManager.findScyWindow(scyElo.getUri());
+      if (presentWindow!=null){
+         // it is already on screen, nothing more to do
+         return presentWindow
       }
       var scyWindow = getScyWindow(scyElo);
       windowManager.addScyWindow(scyWindow);
       windowPositioner.placeOtherWindow(scyWindow);
+      updateWindowStateXml(activeLas);
+      if (not containsScyElo(activeLas.otherEloUris, scyElo)) {
+         missionModel.eloUriChanged(null, scyElo);
+      }
       return scyWindow;
+   }
+
+   function containsScyElo(uriScyElos: UriScyElo[], scyElo: ScyElo): Boolean {
+      for (uriScyElo in uriScyElos) {
+         if (uriScyElo.getUri() == scyElo.getUri()) {
+            return true
+         }
+      }
+      return false
    }
 
    public override function addOtherCollaborativeScyWindow(eloUri: URI, mucid: String): ScyWindow {
@@ -124,13 +147,20 @@ public class ScyWindowControlImpl extends ScyWindowControl {
 
    public override function addOtherCollaborativeScyWindow(scyElo: ScyElo, mucid: String): ScyWindow {
       logger.debug("trying to add another collaborative scy-window with uri: {scyElo.getUri()}");
-      if (Sequences.indexOf(activeLas.otherEloUris, scyElo.getUri()) <= 0) {
-         missionModel.eloUriChanged(null, scyElo.getUri());
+      def presentWindow = windowManager.findScyWindow(scyElo.getUri());
+      if (presentWindow!=null){
+         presentWindow.scyElo.setMucId(mucid);
+         // it is already on screen, nothing more to do
+         return presentWindow
       }
       var scyWindow = getScyWindow(scyElo);
       scyWindow.scyElo.setMucId(mucid);
       windowManager.addScyWindow(scyWindow);
       windowPositioner.placeOtherWindow(scyWindow);
+      updateWindowStateXml(activeLas);
+      if (not containsScyElo(activeLas.otherEloUris, scyElo)) {
+         missionModel.eloUriChanged(null, scyElo);
+      }
       return scyWindow;
    }
 
@@ -180,14 +210,15 @@ public class ScyWindowControlImpl extends ScyWindowControl {
    function activeLasChanged(oldActiveLas: LasFX) {
       logger.info("new active las: {activeLas.id}");
       repositoryWrapper.setLasId(activeLas.id);
-      if (oldActiveLas != null) {
-         // store window state of the old active las
-         def windowPositionsState = windowPositioner.getWindowPositionsState();
-         if (windowPositionsState != null) {
-            windowPositionStates.put(oldActiveLas.id, windowPositionsState);
-         }
-         missionModel.setWindowStatesXml(oldActiveLas.id, windowPositionsState.getXml());
-      }
+      updateWindowStateXml(oldActiveLas);
+//      if (oldActiveLas != null) {
+//         // store window state of the old active las
+//         def windowPositionsState = windowPositioner.getWindowPositionsState();
+//         if (windowPositionsState != null) {
+//            windowPositionStates.put(oldActiveLas.id, windowPositionsState);
+//         }
+//         missionModel.setWindowStatesXml(oldActiveLas.id, windowPositionsState.getXml());
+//      }
       if (activeLas != null) {
          // remove all windows from the desktop
          windowManager.removeAllScyWindows();
@@ -204,16 +235,26 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       }
    }
 
+   function updateWindowStateXml(las: LasFX): Void {
+      if (las != null) {
+         def windowPositionsState = windowPositioner.getWindowPositionsState();
+         if (windowPositionsState != null) {
+            windowPositionStates.put(las.id, windowPositionsState);
+         }
+         missionModel.setWindowStatesXml(las.id, windowPositionsState.getXml());
+      }
+   }
+
    function placeWindowsOnDesktop(windowPositionsState: WindowPositionsState) {
       var mainWindow: ScyWindow;
       for (loEloUri in missionModel.loEloUris) {
-         var loEloWindow = getScyWindow(loEloUri);
+         var loEloWindow = getScyWindow(loEloUri.getScyElo());
          if (windowPositioner.addGlobalLearningObjectWindow(loEloWindow)) {
             windowManager.addScyWindow(loEloWindow);
          }
       }
       for (loEloUri in activeLas.loEloUris) {
-         var loEloWindow = getScyWindow(loEloUri);
+         var loEloWindow = getScyWindow(loEloUri.getScyElo());
          if (windowPositioner.addGlobalLearningObjectWindow(loEloWindow)) {
             windowManager.addScyWindow(loEloWindow);
          }
@@ -250,7 +291,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
          }
       }
       for (otherEloUri in activeLas.otherEloUris) {
-         var otherEloWindow = getScyWindow(otherEloUri);
+         var otherEloWindow = getScyWindow(otherEloUri.getScyElo());
          if (windowPositioner.addGlobalLearningObjectWindow(otherEloWindow)) {
             windowManager.addScyWindow(otherEloWindow);
          }
@@ -281,14 +322,14 @@ public class ScyWindowControlImpl extends ScyWindowControl {
    function addAnchorRelated(missionAnchor: MissionAnchorFX) {
       for (anchor in missionAnchor.inputAnchors) {
          if (anchor.exists) {
-            var anchorWindow = getScyWindow(anchor.eloUri);
+            var anchorWindow = getScyWindow(anchor.scyElo);
             if (windowPositioner.addInputAnchorWindow(anchorWindow, getAnchorDirection(anchor.las))) {
                windowManager.addScyWindow(anchorWindow);
             }
          }
       }
       for (loEloUri in missionAnchor.loEloUris) {
-         var loEloWindow = getScyWindow(loEloUri);
+         var loEloWindow = getScyWindow(loEloUri.getScyElo());
          if (windowPositioner.addLearningObjectWindow(loEloWindow)) {
             windowManager.addScyWindow(loEloWindow);
          }

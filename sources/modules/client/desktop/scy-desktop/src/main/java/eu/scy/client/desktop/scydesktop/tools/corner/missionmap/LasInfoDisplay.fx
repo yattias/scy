@@ -221,10 +221,9 @@ public class LasInfoDisplay extends CustomNode {
             }
          }
          if (not showOnlyAnchorElos) {
-            for (eloUri in las.otherEloUris) {
-               def scyElo = ScyElo.loadMetadata(eloUri, tbi);
-               if (scyElo.getDateFirstUserSave() != null) {
-                  insert scyElo into scyElos;
+            for (uriScyElo in las.otherEloUris) {
+               if (uriScyElo.getScyElo().getDateFirstUserSave() != null) {
+                  insert uriScyElo.getScyElo() into scyElos;
                }
             }
          }

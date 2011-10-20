@@ -13,7 +13,7 @@ import eu.scy.common.scyelo.ScyElo;
 import eu.scy.common.scyelo.ColorSchemeId;
 import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 import eu.scy.client.desktop.desktoputils.art.ScyColors;
-import java.lang.UnsupportedOperationException;
+import eu.scy.common.mission.UriScyElo;
 
 /**
  * @author SikkenJ
@@ -31,7 +31,7 @@ public class MissionAnchorFX extends MissionAnchor {
    public var exists = false;
    public var iconCharacter = "?";
    public var title = "?";
-   public var loEloUris: URI[] on replace { missionAnchor.setLoEloUris(missionUtils.getUriList(loEloUris)) };
+   public var loEloUris: UriScyElo[] on replace { missionAnchor.setLoEloUris(missionUtils.getUriScyEloList(loEloUris)) };
    public var las: LasFX;
    public var targetDescriptionUri: URI;
    public var assignmentUri: URI;
@@ -54,7 +54,7 @@ public class MissionAnchorFX extends MissionAnchor {
       relationNames = missionUtils.getStringSequence(missionAnchor.getRelationNames());
       exists = missionAnchor.isExisting();
       title = scyElo.getTitle();
-      loEloUris = missionUtils.getUriSequence(missionAnchor.getLoEloUris());
+      loEloUris = missionUtils.getUriScyEloSequence(missionAnchor.getLoEloUris());
       las = missionUtils.getLasFX(missionAnchor.getLas());
       targetDescriptionUri = missionAnchor.getTargetDescriptionUri();
       assignmentUri = missionAnchor.getAssignmentUri();
@@ -153,7 +153,7 @@ public class MissionAnchorFX extends MissionAnchor {
 
    override public function setLoEloUris(loEloUris: List): Void {
       missionAnchor.setLoEloUris(loEloUris);
-      this.loEloUris = missionUtils.getUriSequence(loEloUris);
+      this.loEloUris = missionUtils.getUriScyEloSequence(loEloUris);
    }
 
    override public function getColorSchemeId(): ColorSchemeId {

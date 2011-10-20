@@ -22,7 +22,6 @@ import eu.scy.common.mission.impl.BasicMissionModelEloContent;
 import eu.scy.common.mission.impl.jdom.MissionModelEloContentXmlUtils;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,6 +37,7 @@ import roolo.elo.api.exceptions.ELODoesNotExistException;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.client.common.scyi18n.UrlUtils;
 import eu.scy.client.common.scyi18n.UriLocalizer;
+import eu.scy.common.mission.UriScyElo;
 
 /**
  *
@@ -288,7 +288,7 @@ public class BasicMissionConfigInput implements MissionConfigInput
       missionModelEloContent.setMissionMapInstructionUri(getBasicMissionMap().getMissionMapInstructionUri());
       checkUri(missionModelEloContent.getMissionMapInstructionUri(), false, "missionMapInstructionUri");
       missionModelEloContent.setMissionMapButtonIconType(getBasicMissionMap().getMissionMapButtonIconType());
-      missionModelEloContent.setLoEloUris(getBasicMissionMap().getLoEloUris());
+      missionModelEloContent.setLoEloUris(UriScyElo.createUriScyElos(getBasicMissionMap().getLoEloUris()));
       missionModelEloContent.setLasses(getLasses());
 
       final String initialActiveLasId = getBasicMissionMap().getInitialLasId();
@@ -325,7 +325,7 @@ public class BasicMissionConfigInput implements MissionConfigInput
          las.setId(basicLas.getId());
          las.setXPos(basicLas.getxPosition());
          las.setYPos(basicLas.getyPosition());
-         las.setLoEloUris(basicLas.getLoEloUris());
+         las.setLoEloUris(UriScyElo.createUriScyElos(basicLas.getLoEloUris()));
          las.setToolTip(basicLas.getTooltip());
          las.setInstructionUri(basicLas.getInstructionUri());
          checkUri(las.getInstructionUri(), true, "instructionUri for las " + las.getId());
@@ -371,7 +371,7 @@ public class BasicMissionConfigInput implements MissionConfigInput
          missionAnchor.setIconType(basicMissionAnchor.getIconType());
          missionAnchor.setScyElo(basicMissionAnchor.getScyElo());
          missionAnchor.setExisting(basicMissionAnchor.getScyElo() != null);
-         missionAnchor.setLoEloUris(basicMissionAnchor.getLoEloUris());
+         missionAnchor.setLoEloUris(UriScyElo.createUriScyElos(basicMissionAnchor.getLoEloUris()));
          missionAnchor.setTargetDescriptionUri(basicMissionAnchor.getTargetDescriptionUri());
          missionAnchor.setAssignmentUri(basicMissionAnchor.getAssignmentUri());
          checkUri(missionAnchor.getAssignmentUri(), false, "assignmentUri for missionAnchor " + missionAnchor.getId());
