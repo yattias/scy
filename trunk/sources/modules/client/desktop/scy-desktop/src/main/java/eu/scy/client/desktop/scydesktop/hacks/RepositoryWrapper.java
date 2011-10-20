@@ -54,7 +54,6 @@ public class RepositoryWrapper implements IRepository
 //	private IMetadataKey typeKey;
 //	private IMetadataKey annotatesRelationKey;
    private List<EloSavedListener> eloSavedListeners = new CopyOnWriteArrayList<EloSavedListener>();
-
    // to enable the EDT check start SCY-Lab with -DEDTCheck=true
    private boolean edtCheck = Boolean.getBoolean("EDTCheck");
 
@@ -64,7 +63,8 @@ public class RepositoryWrapper implements IRepository
       return "RepositoryWrapper{" + "missionRuntimeEloUri=" + missionRuntimeEloUri + ", missionId=" + missionId + ", lasId=" + lasId + ", userId=" + userId + ", anchorEloUri=" + anchorEloUri + "\nrepository=" + repository + '}';
    }
 
-   public void setRepositoryTimer(RepositoryTimer repositoryTimer){
+   public void setRepositoryTimer(RepositoryTimer repositoryTimer)
+   {
       repositoryTimer.setRepository(repository);
       repository = repositoryTimer;
    }
@@ -85,35 +85,35 @@ public class RepositoryWrapper implements IRepository
       }
    }
 
-   private void sendNewEloSavedEvent(URI eloURI)
+   private void sendNewEloSavedEvent(URI eloURI, IELO elo, IMetadata metadata)
    {
       if (sendEloSavedEvents)
       {
          for (EloSavedListener eloSavedListener : eloSavedListeners)
          {
-            eloSavedListener.newEloSaved(eloURI);
+            eloSavedListener.newEloSaved(eloURI, elo, metadata);
          }
       }
    }
 
-   private void sendForkedEloSavedEvent(URI eloURI)
+   private void sendForkedEloSavedEvent(URI eloURI, IELO elo, IMetadata metadata)
    {
       if (sendEloSavedEvents)
       {
          for (EloSavedListener eloSavedListener : eloSavedListeners)
          {
-            eloSavedListener.forkedEloSaved(eloURI);
+            eloSavedListener.forkedEloSaved(eloURI, elo, metadata);
          }
       }
    }
 
-   private void sendEloUpdatedEvent(URI eloURI)
+   private void sendEloUpdatedEvent(URI eloURI, IELO elo, IMetadata metadata)
    {
       if (sendEloSavedEvents)
       {
          for (EloSavedListener eloSavedListener : eloSavedListeners)
          {
-            eloSavedListener.eloUpdated(eloURI);
+            eloSavedListener.eloUpdated(eloURI, elo, metadata);
          }
       }
    }
@@ -129,10 +129,11 @@ public class RepositoryWrapper implements IRepository
       }
    }
 
-    //XXX maybe we shouldnt implement this method here, because it is just used in the exporter
-    public List<Map<Integer, URI>> getAllVersionLists() {
-        throw new UnsupportedOperationException("Not supported yet. Just for the roolo-jpa Exporter!");
-    }
+   //XXX maybe we shouldnt implement this method here, because it is just used in the exporter
+   public List<Map<Integer, URI>> getAllVersionLists()
+   {
+      throw new UnsupportedOperationException("Not supported yet. Just for the roolo-jpa Exporter!");
+   }
 
    public void setAnchorEloUri(URI anchorEloUri)
    {
@@ -278,7 +279,7 @@ public class RepositoryWrapper implements IRepository
       IMetadata metadata = repository.addNewELO(elo);
       if (uriKey != null)
       {
-         sendNewEloSavedEvent((URI) metadata.getMetadataValueContainer(uriKey).getValue());
+         sendNewEloSavedEvent((URI) metadata.getMetadataValueContainer(uriKey).getValue(), elo, metadata);
       }
       return metadata;
    }
@@ -291,7 +292,7 @@ public class RepositoryWrapper implements IRepository
       IMetadata metadata = repository.addForkedELO(elo);
       if (uriKey != null)
       {
-         sendForkedEloSavedEvent((URI) metadata.getMetadataValueContainer(uriKey).getValue());
+         sendForkedEloSavedEvent((URI) metadata.getMetadataValueContainer(uriKey).getValue(), elo, metadata);
       }
       return metadata;
    }
@@ -304,7 +305,7 @@ public class RepositoryWrapper implements IRepository
       IMetadata metadata = repository.addForkedELO(elo, parentUri);
       if (uriKey != null)
       {
-         sendForkedEloSavedEvent((URI) metadata.getMetadataValueContainer(uriKey).getValue());
+         sendForkedEloSavedEvent((URI) metadata.getMetadataValueContainer(uriKey).getValue(), elo, metadata);
       }
       return metadata;
    }
@@ -331,7 +332,7 @@ public class RepositoryWrapper implements IRepository
       IMetadata metadata = repository.updateELO(elo);
       if (uriKey != null)
       {
-         sendEloUpdatedEvent((URI) metadata.getMetadataValueContainer(uriKey).getValue());
+         sendEloUpdatedEvent((URI) metadata.getMetadataValueContainer(uriKey).getValue(), elo, metadata);
       }
       return metadata;
    }
@@ -344,7 +345,7 @@ public class RepositoryWrapper implements IRepository
       IMetadata metadata = repository.updateELO(elo, parentUri);
       if (uriKey != null)
       {
-         sendEloUpdatedEvent((URI) metadata.getMetadataValueContainer(uriKey).getValue());
+         sendEloUpdatedEvent((URI) metadata.getMetadataValueContainer(uriKey).getValue(), elo, metadata);
       }
       return metadata;
    }
@@ -366,8 +367,8 @@ public class RepositoryWrapper implements IRepository
    @Override
    public List<ISearchResult> search(IQuery arg0)
    {
-       throwExceptionIfOnEDT();
-       return repository.search(arg0);
+      throwExceptionIfOnEDT();
+      return repository.search(arg0);
    }
 
    @Override
@@ -447,61 +448,73 @@ public class RepositoryWrapper implements IRepository
    @Override
    public List<IELO> retrieveAllELOs()
    {
-       //shouldnt be used from within client
+      //shouldnt be used from within client
       throw new UnsupportedOperationException("Not supported yet.");
    }
 
-    @Override
-    public List<ISearchResult> listAllElos() {
-        //shouldnt be used from within client
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+   @Override
+   public List<ISearchResult> listAllElos()
+   {
+      //shouldnt be used from within client
+      throw new UnsupportedOperationException("Not supported yet.");
+   }
 
-	@Override
-	public IMetadata updateWithMinorChange(IELO elo) {
-		throw new UnsupportedOperationException("Not yet implemented...");
-	}
+   @Override
+   public IMetadata updateWithMinorChange(IELO elo)
+   {
+      throw new UnsupportedOperationException("Not yet implemented...");
+   }
 
    private void clearTemplateIfNeeded(IELO elo)
    {
-      if (elo.getMetadata().metadataKeyExists(templateKey)){
+      if (elo.getMetadata().metadataKeyExists(templateKey))
+      {
          final String templateValue = (String) elo.getMetadata().getMetadataValueContainer(templateKey).getValue();
-         if (Boolean.valueOf(templateValue)){
-            if ("TRUE".equals(templateValue)){
+         if (Boolean.valueOf(templateValue))
+         {
+            if ("TRUE".equals(templateValue))
+            {
                elo.getMetadata().getMetadataValueContainer(templateKey).setValue("false");
             }
-            else{
+            else
+            {
                elo.getMetadata().getMetadataValueContainer(templateKey).setValue("TRUE");
             }
          }
       }
    }
 
-    @Override
-    public int getHits(IQuery query) {
-        return repository.getHits(query);
-    }
+   @Override
+   public int getHits(IQuery query)
+   {
+      return repository.getHits(query);
+   }
 
-    private void throwExceptionIfOnEDT() {
-        if (edtCheck && EventQueue.isDispatchThread()) {
-            try {
-                throw new RuntimeException("ROOLO ACCESS ON EDT IS FORBIDDEN!");
-            } catch (RuntimeException e) {
-                System.err.println("ROOLO ACCESS ON EDT IS FORBIDDEN!\n"
-                                 + "RoOLO is a remote component. If you ever want to access it,\n"
-                                 + "do it on an extra thread, as access on the EDT will freeze\n"
-                                 + "the UI and make SCY-Lab look crashed for the user. This will\n"
-                                 + "create a very bad user experience and users will not like it.\n"
-                                 + "You can use FX.deferAction() for \"fire and forget\" operations\n"
-                                 + "or XFX.runActionInBackgroundAndCallBack(f, f) to pass a\n"
-                                 + "function into the background and get a callback on the EDT\n"
-                                 + "to complete the result. You should always give feedback to\n"
-                                 + "the user, that something is happening by indicating progress.\n"
-                                 + "The simple solution is to use ProgressOverlay.startShowWorking();\n"
-                                 + "and ProgressOverlay.stopShowWorking();. From now on, no excuses\n"
-                                 + "for a laggy UI!");
-                e.printStackTrace();
-            }
-        }
-    }
+   private void throwExceptionIfOnEDT()
+   {
+      if (edtCheck && EventQueue.isDispatchThread())
+      {
+         try
+         {
+            throw new RuntimeException("ROOLO ACCESS ON EDT IS FORBIDDEN!");
+         }
+         catch (RuntimeException e)
+         {
+            System.err.println("ROOLO ACCESS ON EDT IS FORBIDDEN!\n"
+               + "RoOLO is a remote component. If you ever want to access it,\n"
+               + "do it on an extra thread, as access on the EDT will freeze\n"
+               + "the UI and make SCY-Lab look crashed for the user. This will\n"
+               + "create a very bad user experience and users will not like it.\n"
+               + "You can use FX.deferAction() for \"fire and forget\" operations\n"
+               + "or XFX.runActionInBackgroundAndCallBack(f, f) to pass a\n"
+               + "function into the background and get a callback on the EDT\n"
+               + "to complete the result. You should always give feedback to\n"
+               + "the user, that something is happening by indicating progress.\n"
+               + "The simple solution is to use ProgressOverlay.startShowWorking();\n"
+               + "and ProgressOverlay.stopShowWorking();. From now on, no excuses\n"
+               + "for a laggy UI!");
+            e.printStackTrace();
+         }
+      }
+   }
 }
