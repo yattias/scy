@@ -17,17 +17,21 @@ public class JavaFXBackgroundRunner extends Runnable {
    public var threadName: String;
 
    override public function run(): Void {
-      def result = runner();
-      if (finished != null) {
-         FX.deferAction(function(): Void {
-            finished(result)
-         });
+      var result: Object = null;
+      try {
+         result = runner();
+      } finally {
+         if (finished != null) {
+            FX.deferAction(function(): Void {
+               finished(result)
+            });
+         }
       }
    }
 
    public function start() {
       def thread = new Thread(this);
-      if (threadName!=null){
+      if (threadName != null) {
          thread.setName(threadName);
       }
       thread.start();
