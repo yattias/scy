@@ -1,5 +1,6 @@
 package eu.scy.common.mission.impl.jdom;
 
+import eu.scy.common.mission.UriScyElo;
 import eu.scy.common.mission.ArchivedElo;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -87,7 +88,7 @@ public class MissionModelEloContentXmlUtils
       root.addContent(createElement(missionMapBackgroundImageUriName, missionModel.getMissionMapBackgroundImageUri()));
       root.addContent(createElement(missionMapInstructionUriName, missionModel.getMissionMapInstructionUri()));
       root.addContent(createElement(missionMapButtonIconTypeName, missionModel.getMissionMapButtonIconType()));
-      root.addContent(createElement(loElosName, eloUriName, missionModel.getLoEloUris()));
+      root.addContent(createElement(loElosName, eloUriName, UriScyElo.getUris(missionModel.getLoEloUris())));
       Element lasses = new Element(lassesName);
       root.addContent(lasses);
       for (Las las : missionModel.getLasses())
@@ -109,8 +110,8 @@ public class MissionModelEloContentXmlUtils
       lasRoot.addContent(createElement(titleName, las.getTitle()));
       lasRoot.addContent(createElement(instructionUriName, las.getInstructionUri()));
       lasRoot.addContent(createElement(lasTypeName, las.getLasType()));
-      lasRoot.addContent(createElement(loElosName, eloUriName, las.getLoEloUris()));
-      lasRoot.addContent(createElement(otherElosName, eloUriName, las.getOtherEloUris()));
+      lasRoot.addContent(createElement(loElosName, eloUriName,  UriScyElo.getUris(las.getLoEloUris())));
+      lasRoot.addContent(createElement(otherElosName, eloUriName,  UriScyElo.getUris(las.getOtherEloUris())));
       if (las.getInitialMissionAnchorToOpen() != null)
       {
          lasRoot.addContent(createElement(initialMissionAnchorToOpenName, las.getInitialMissionAnchorToOpen().getId()));
@@ -140,7 +141,7 @@ public class MissionModelEloContentXmlUtils
       root.addContent(createElement(idName, missionAnchor.getId()));
       root.addContent(createElement(iconTypeName, missionAnchor.getIconType()));
       // root.addContent(createElement(mainAnchorName, missionAnchor.mainAnchor));
-      root.addContent(createElement(loElosName, eloUriName, missionAnchor.getLoEloUris()));
+      root.addContent(createElement(loElosName, eloUriName,  UriScyElo.getUris(missionAnchor.getLoEloUris())));
       root.addContent(createAnchorListXml(inputAnchorsName, missionAnchor.getInputMissionAnchors()));
       root.addContent(createElement(relationsName, eloUriName, missionAnchor.getRelationNames()));
       root.addContent(createElement(targetDescriptionUriName, missionAnchor.getTargetDescriptionUri()));
@@ -203,7 +204,7 @@ public class MissionModelEloContentXmlUtils
          return null;
       }
       BasicMissionModelEloContent missionModel = new BasicMissionModelEloContent();
-      missionModel.setLoEloUris(getUriListValue(root.getChild(loElosName), eloUriName));
+      missionModel.setLoEloUris(UriScyElo.createUriScyElos(getUriListValue(root.getChild(loElosName), eloUriName)));
       HashMap<String, Las> lassesMap = new HashMap<String, Las>();
       HashMap<URI, MissionAnchor> anchorsMap = new HashMap<URI, MissionAnchor>();
       List<Las> lasses = new ArrayList<Las>();
@@ -249,8 +250,8 @@ public class MissionModelEloContentXmlUtils
       las.setYPos(Float.parseFloat(root.getChildTextTrim(yPosName)));
       las.setToolTip(root.getChildTextTrim(toolTipName));
       las.setTitle(root.getChildTextTrim(titleName));
-      las.setLoEloUris(getUriListValue(root.getChild(loElosName), eloUriName));
-      las.setOtherEloUris(getUriListValue(root.getChild(otherElosName), eloUriName));
+      las.setLoEloUris(UriScyElo.createUriScyElos(getUriListValue(root.getChild(loElosName), eloUriName)));
+      las.setOtherEloUris(UriScyElo.createUriScyElos(getUriListValue(root.getChild(otherElosName), eloUriName)));
       las.setMissionAnchor(createMissionAnchor(root.getChild(mainAnchorName)));
       las.setInstructionUri(getUriValue(root, instructionUriName));
       las.setLasType(getEnumValue(LasType.class, root, lasTypeName));
@@ -324,7 +325,7 @@ public class MissionModelEloContentXmlUtils
       missionAnchor.setEloUri(getUriValue(root, eloUriName));
       missionAnchor.setId(root.getChildText(idName));
       missionAnchor.setIconType(root.getChildText(iconTypeName));
-      missionAnchor.setLoEloUris(getUriListValue(root.getChild(loElosName), eloUriName));
+      missionAnchor.setLoEloUris(UriScyElo.createUriScyElos(getUriListValue(root.getChild(loElosName), eloUriName)));
       missionAnchor.setRelationNames(getStringListValue(root, relationsName, relationName));
       missionAnchor.setTargetDescriptionUri(getUriValue(root, targetDescriptionUriName));
       missionAnchor.setAssignmentUri(getUriValue(root, assignmentUriName));
