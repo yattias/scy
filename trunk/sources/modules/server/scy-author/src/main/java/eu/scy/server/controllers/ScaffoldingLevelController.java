@@ -4,6 +4,8 @@ import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.model.transfer.PedagogicalPlanTransfer;
 import eu.scy.core.roolo.MissionELOService;
+import eu.scy.core.roolo.PedagogicalPlanELOService;
+import eu.scy.server.util.TransferObjectServiceCollection;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +24,8 @@ import java.util.List;
 public class ScaffoldingLevelController extends BaseController{
 
     private MissionELOService missionELOService;
+    private TransferObjectServiceCollection transferObjectServiceCollection;
+    private PedagogicalPlanELOService pedagogicalPlanELOService;
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
@@ -41,6 +45,9 @@ public class ScaffoldingLevelController extends BaseController{
         modelAndView.addObject("scaffoldingLevel", globalScaffoldingLevel);
         modelAndView.addObject("rooloServices", getMissionELOService());
         modelAndView.addObject("missionSpecificationTransporter", getMissionELOService().getWebSafeTransporter(missionSpecificationElo));
+        modelAndView.addObject("transferObjectServiceCollection", getTransferObjectServiceCollection());
+        modelAndView.addObject("pedagogicalPlanTransfer", getPedagogicalPlanELOService().getPedagogicalPlanForMission(missionSpecificationElo));
+
 
     }
 
@@ -65,5 +72,21 @@ public class ScaffoldingLevelController extends BaseController{
 
     public void setMissionELOService(MissionELOService missionELOService) {
         this.missionELOService = missionELOService;
+    }
+
+    public TransferObjectServiceCollection getTransferObjectServiceCollection() {
+        return transferObjectServiceCollection;
+    }
+
+    public void setTransferObjectServiceCollection(TransferObjectServiceCollection transferObjectServiceCollection) {
+        this.transferObjectServiceCollection = transferObjectServiceCollection;
+    }
+
+    public PedagogicalPlanELOService getPedagogicalPlanELOService() {
+        return pedagogicalPlanELOService;
+    }
+
+    public void setPedagogicalPlanELOService(PedagogicalPlanELOService pedagogicalPlanELOService) {
+        this.pedagogicalPlanELOService = pedagogicalPlanELOService;
     }
 }

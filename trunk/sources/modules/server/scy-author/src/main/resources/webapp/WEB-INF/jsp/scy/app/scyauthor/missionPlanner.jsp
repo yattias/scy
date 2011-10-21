@@ -16,9 +16,9 @@
                 <th>
                     <spring:message code="ANCHOR_ELO"/>
                 </th>
-                <th>
+                <!--th>
                     <spring:message code="LAS"/>
-                </th>
+                </th-->
                 <th>
                     <spring:message code="OBLIGATORY_IN_PORTFOLIO"/>
                 </th>
@@ -32,9 +32,9 @@
                     <td>
                         ${anchorEloWrapper.name} 
                     </td>
-                    <td>
+                    <!--td>
                         ${anchorEloWrapper.lasName}
-                    </td>
+                    </td-->
                     <td>
                         <center>
                             <a href="javascript:openPage(document.getElementById('missionPlanner').parentNode.id, 'missionPlanner.html?eloURI=' + encodeURIComponent('${eloURI}') + '&action=setAnchorEloObligatory&anchorEloUri=' + encodeURIComponent('${anchorEloWrapper.encodedUri}'));">
