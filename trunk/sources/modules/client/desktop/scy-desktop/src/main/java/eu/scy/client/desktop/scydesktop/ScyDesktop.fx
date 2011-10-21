@@ -938,6 +938,8 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       logger.info("Scy desktop is shutting down....");
       if (not initializer.globalReadOnlyMode) {
          XFX.runActionInBackgroundAndCallBack(saveAll, function(o:Object){ logAndExit() });
+      } else {
+         logAndExit();
       }
    }
 
