@@ -19,8 +19,12 @@
       <level value="warn" />
    </logger>
 
+   <logger name="eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX">
+      <level value="info" />
+   </logger>
+
    <logger name="eu.scy.client.desktop.scydesktop.tooltips">
-      <level value="debug" />
+      <level value="warn" />
    </logger>
 
    <logger name="eu.scy.client.desktop.scydesktop.scywindows">

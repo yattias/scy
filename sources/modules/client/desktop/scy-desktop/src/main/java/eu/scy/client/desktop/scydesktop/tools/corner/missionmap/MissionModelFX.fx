@@ -28,6 +28,8 @@ import java.awt.EventQueue;
 import eu.scy.client.desktop.desktoputils.XFX;
 import eu.scy.common.mission.UriScyElo;
 import eu.scy.common.scyelo.ScyElo;
+import eu.scy.client.desktop.desktoputils.ExceptionCatcher;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * @author SikkenJ
@@ -41,8 +43,8 @@ public class MissionModelFX extends MissionModel {
 
    def logger = Logger.getLogger(this.getClass());
    def missionUtils = MissionUtils {};
-   public var tbi: ToolBrokerAPI;
-   public var missionModel: MissionModel on replace { newMissionModel() };
+   public-init var tbi: ToolBrokerAPI;
+   public-init var missionModel: MissionModel on replace { newMissionModel() };
    public var loEloUris: UriScyElo[];
    public var lasses: LasFX[];
    public-read var activeLas: LasFX;
@@ -55,7 +57,6 @@ public class MissionModelFX extends MissionModel {
    public var archivedElosChanged = false;
    public var showMoreInfo: ShowMoreInfo;
    var contentChanged = false;
-   def updateEloLock = new ReentrantLock(true);
 
    function newMissionModel(): Void {
       createAllFxVersions();
@@ -225,18 +226,21 @@ public class MissionModelFX extends MissionModel {
       anchor.loEloUris = updateEloUris(anchor.loEloUris, oldScyElo, newScyElo);
    }
 
+   var busyLatch = new CountDownLatch(0);
    override public function updateElo(): Void {
       if (saveUpdatedModel or storedWindowStatesXmlsChanged or archivedElosChanged) {
          logger.info("saving mission model because: saveUpdatedModel={saveUpdatedModel} or storedWindowStatesXmlsChanged={storedWindowStatesXmlsChanged} or archivedElosChanged={archivedElosChanged}");
-         if (updateEloLock.isLocked()) {
+         logger.info("updateElo on thread: {Thread.currentThread().getName()}");
+         if (busyLatch.getCount()>0) {
             logger.error("trying to update mission model, while an update is in progress. My thread name: {Thread.currentThread().getName()}");
          }
+         busyLatch.await();
+         busyLatch = new CountDownLatch(1);
          def updateMissionModelElo = function(): Void {
-                    updateEloLock.lock();
                     try {
                        missionModel.updateElo();
                     } finally {
-                       updateEloLock.unlock();
+                       busyLatch.countDown();
                     }
                  }
 
