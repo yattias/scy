@@ -166,7 +166,9 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
                     actionInProgress = true;
                     XFX.runActionInBackground(function(): Void {
                        askFeedbackQuestion();
-                       actionInProgress = false;
+                       FX.deferAction(function(): Void {
+                          actionInProgress = false;
+                       })
                     })
                  }
          submitButton.text = "Ask feedback";
