@@ -13,9 +13,14 @@
     </table>
     <br/>
 
-    <sec:authorize ifAllGranted="ROLE_AUTHOR">
+    <c:if test="${showEditor}">
         <s:ajaxTransferObjectTextField transferObjectServiceCollection="${transferObjectServiceCollection}" transferObject="${pedagogicalPlanTransfer}" transferEloURI="${pedagogicalPlanTransfer.pedagogicalPlanURI}" id="${pedagogicalPlanTransfer.id}" property="missionScaffoldingExplanations"/>
-    </sec:authorize>
+    </c:if>
+    <c:if test="${!showEditor}">
+        ${pedagogicalPlanTransfer.missionScaffoldingExplanations}
+    </c:if>
+
+
 
 
 

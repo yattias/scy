@@ -187,6 +187,7 @@
         <property name="missionELOService" ref="missionELOService"/>
         <property name="transferObjectServiceCollection" ref="transferObjectServiceCollection"/>
         <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
+        <property name="userService" ref="userService"/>
     </bean>
 
     <bean id="learningGoalsController" class="eu.scy.server.controllers.LearningGoalsController">
