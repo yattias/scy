@@ -1060,10 +1060,10 @@ public class StandardScyWindow extends ScyWindow {
                     tooltipManager: tooltipManager
                     windowColorScheme: windowColorScheme
                     windowStyler: windowStyler
-                    globalTitleBarButtons: globalTitleBarButtons
                     isReadOnly: function(): Boolean {
-                        scyToolsList.readOnly
+                       windowManager.scyDesktop.initializer.globalReadOnlyMode
                     }
+                    globalTitleBarButtons: globalTitleBarButtons
                 }
         titleBarButtonManager = titleBarButtons;
         //      scyToolsList.setTitleBarButtonManager(titleBarButtons);

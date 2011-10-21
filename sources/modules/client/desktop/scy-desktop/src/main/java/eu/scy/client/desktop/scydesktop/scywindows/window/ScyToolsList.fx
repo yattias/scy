@@ -164,12 +164,14 @@ public class ScyToolsList extends ScyToolFX {
    }
 
    override public function setEloSaver(eloSaver: EloSaver): Void {
+      this.eloSaver = eloSaver;
       applyOnScyTools(function(scyTool: ScyTool) {
          scyTool.setEloSaver(eloSaver)
       });
    }
 
    override public function setMyEloChanged(myEloChanged: MyEloChanged): Void {
+      this.myEloChanged = myEloChanged;
       applyOnScyTools(function(scyTool: ScyTool) {
          scyTool.setMyEloChanged(myEloChanged)
       });
@@ -203,6 +205,7 @@ public class ScyToolsList extends ScyToolFX {
    }
 
    override public function setRuntimeSettingsRetriever(runtimeSettingsRetriever: RuntimeSettingsRetriever): Void {
+      this.runtimeSettingsRetriever = runtimeSettingsRetriever;
       applyOnScyTools(function(scyTool: ScyTool) {
          scyTool.setRuntimeSettingsRetriever(runtimeSettingsRetriever)
       });
@@ -232,12 +235,14 @@ public class ScyToolsList extends ScyToolFX {
    }
 
    public override function setReadOnly(readOnly: Boolean): Void {
+      this.readOnly = readOnly;
       applyOnScyTools(function(scyTool: ScyTool) {
          scyTool.setReadOnly(readOnly)
       });
    }
 
    public override function setWindowColorScheme(windowColorScheme: WindowColorScheme): Void {
+      this.windowColorScheme = windowColorScheme;
       applyOnScyTools(function(scyTool: ScyTool) {
          if (scyTool instanceof ScyToolFX) {
             (scyTool as ScyToolFX).setWindowColorScheme(windowColorScheme);

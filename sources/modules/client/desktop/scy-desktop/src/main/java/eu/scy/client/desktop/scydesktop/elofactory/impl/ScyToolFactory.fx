@@ -21,6 +21,7 @@ import java.io.CharArrayWriter;
 import java.io.PrintWriter;
 import java.lang.Exception;
 import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorRegistryFX;
+import java.lang.Thread;
 
 /**
  * @author sikken
@@ -128,7 +129,7 @@ public class ScyToolFactory extends ContentFactory {
          }
       }
       var nanosUsed = System.nanoTime()-startNanos;
-      println("Created {toolTypeCreated} for id {id} in {if (drawer) 'drawer' else 'content'} in {nanosUsed/1e6} ms");
+      println("Created {toolTypeCreated} for id {id} in {if (drawer) 'drawer' else 'content'} in {nanosUsed/1e6} ms on thread {Thread.currentThread().getName()}");
       return toolNode;
    }
 

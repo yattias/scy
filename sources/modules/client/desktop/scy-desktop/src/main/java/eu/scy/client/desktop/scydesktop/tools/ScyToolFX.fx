@@ -16,11 +16,11 @@ import eu.scy.client.desktop.scydesktop.tooltips.BubbleKey;
  */
 public mixin class ScyToolFX extends ScyTool {
 
-   public-read var eloSaver: EloSaver;
-   public-read var myEloChanged: MyEloChanged;
-   public-read var runtimeSettingsRetriever: RuntimeSettingsRetriever;
-   public-read var readOnly: Boolean;
-   public-read var windowColorScheme: WindowColorScheme;
+   public-read protected var eloSaver: EloSaver;
+   public-read protected var myEloChanged: MyEloChanged;
+   public-read protected var runtimeSettingsRetriever: RuntimeSettingsRetriever;
+   public-read protected var readOnly: Boolean;
+   public-read protected var windowColorScheme: WindowColorScheme;
 
    public override function initialize(windowContent: Boolean): Void {
    }
