@@ -11,4 +11,12 @@
             </td>
         </tr>
     </table>
+    <br/>
+
+    <sec:authorize ifAllGranted="ROLE_AUTHOR">
+        <s:ajaxTransferObjectTextField transferObjectServiceCollection="${transferObjectServiceCollection}" transferObject="${pedagogicalPlanTransfer}" transferEloURI="${pedagogicalPlanTransfer.pedagogicalPlanURI}" id="${pedagogicalPlanTransfer.id}" property="missionScaffoldingExplanations"/>
+    </sec:authorize>
+
+
+
 </fieldset>
