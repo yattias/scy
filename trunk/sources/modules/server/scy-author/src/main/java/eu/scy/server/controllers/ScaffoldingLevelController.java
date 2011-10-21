@@ -2,6 +2,7 @@ package eu.scy.server.controllers;
 
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyElo;
+import eu.scy.core.model.SCYGrantedAuthority;
 import eu.scy.core.model.transfer.PedagogicalPlanTransfer;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.core.roolo.PedagogicalPlanELOService;
@@ -47,8 +48,24 @@ public class ScaffoldingLevelController extends BaseController{
         modelAndView.addObject("missionSpecificationTransporter", getMissionELOService().getWebSafeTransporter(missionSpecificationElo));
         modelAndView.addObject("transferObjectServiceCollection", getTransferObjectServiceCollection());
         modelAndView.addObject("pedagogicalPlanTransfer", getPedagogicalPlanELOService().getPedagogicalPlanForMission(missionSpecificationElo));
+        modelAndView.addObject("showEditor", showEditor(request));
+        
 
 
+
+    }
+
+    private boolean showEditor(HttpServletRequest request) {
+        List ScyGrandedAuthorities = getUserService().getGrantedAuthorities();
+        for (int i = 0; i < ScyGrandedAuthorities.size(); i++) {
+            SCYGrantedAuthority scyGrantedAuthority = (SCYGrantedAuthority) ScyGrandedAuthorities.get(i);
+            if(scyGrantedAuthority.getAuthority().equals("ROLE_AUTHOR") && userHasRole(scyGrantedAuthority, request)) return true;
+        }
+        return false;
+    }
+
+    private boolean userHasRole(SCYGrantedAuthority grantedAuthority, HttpServletRequest request) {
+        return getCurrentUser(request).getUserDetails().hasGrantedAuthority(grantedAuthority.getAuthority());
     }
 
     private List getScaffoldingLevels() {
