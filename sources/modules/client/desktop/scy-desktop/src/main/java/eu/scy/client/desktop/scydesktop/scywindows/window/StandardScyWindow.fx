@@ -298,7 +298,10 @@ public class StandardScyWindow extends ScyWindow {
                     }
                 }
             }
-        }
+        } else {
+			// object is not a ContactFrame, do a "plain" acceptDrop
+			scyToolsList.acceptDrop(object);
+		}
     }
 
     function addBuddyAsOwner(contactFrame: ContactFrame): Void {
