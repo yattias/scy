@@ -13,7 +13,7 @@ import cc.mallet.topics.ParallelTopicModel;
 import cc.mallet.topics.TopicInferencer;
 import cc.mallet.types.Instance;
 import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.impl.AbstractRequestAgent;
+import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.ModelStorage;
 import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
@@ -26,7 +26,7 @@ import eu.scy.agents.util.Preprocessor;
  * 
  * @author fschulz_2
  */
-public class TopicDetector extends AbstractRequestAgent {
+public class TopicDetector extends AbstractThreadedAgent {
 
 	static final String NAME = TopicDetector.class.getName();
 
@@ -37,7 +37,7 @@ public class TopicDetector extends AbstractRequestAgent {
 	private int listenerId;
 
 	public TopicDetector(Map<String, Object> params) {
-		super(NAME, params);
+	        super(NAME, (String) params.get(AgentProtocol.PARAM_AGENT_ID));
 		if (params.containsKey(AgentProtocol.TS_HOST)) {
 			host = (String) params.get(AgentProtocol.TS_HOST);
 		}

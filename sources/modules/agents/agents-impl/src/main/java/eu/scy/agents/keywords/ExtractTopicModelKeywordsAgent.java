@@ -17,14 +17,14 @@ import de.fhg.iais.kd.tm.obwious.operator.Operator;
 import de.fhg.iais.kd.tm.obwious.system.documentfrequency.DocumentFrequencyModel;
 import de.fhg.iais.kd.tm.obwious.type.Container;
 import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.impl.AbstractRequestAgent;
+import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.ModelStorage;
 import eu.scy.agents.keywords.workflow.ExtractTopicModelKeywordsWorkflow;
 import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
 import eu.scy.agents.util.Utilities;
 
-public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
+public class ExtractTopicModelKeywordsAgent extends AbstractThreadedAgent {
 
 	public static final String EXTRACT_TOPIC_MODEL_KEYWORDS = "ExtractTopicModelKeywords";
 
@@ -41,7 +41,7 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 	private ModelStorage modelStorage;
 
 	public ExtractTopicModelKeywordsAgent(Map<String, Object> params) {
-		super(NAME, params);
+	        super(NAME, (String) params.get(AgentProtocol.PARAM_AGENT_ID));
 		if (params.containsKey(AgentProtocol.TS_HOST)) {
 			host = (String) params.get(AgentProtocol.TS_HOST);
 		}

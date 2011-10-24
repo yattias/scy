@@ -1,7 +1,7 @@
 package eu.scy.agents.authoring;
 
 import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.impl.AbstractRequestAgent;
+import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
 import info.collide.sqlspaces.commons.Callback;
 import info.collide.sqlspaces.commons.Tuple;
@@ -10,7 +10,7 @@ import info.collide.sqlspaces.commons.TupleSpaceException;
 import java.rmi.dgc.VMID;
 import java.util.Map;
 
-public class NotifyUserAgent extends AbstractRequestAgent implements Callback {
+public class NotifyUserAgent extends AbstractThreadedAgent implements Callback {
 
 	public static final String SEND_NOTIFICATION = "send_notification";
 	public static final String NAME = NotifyUserAgent.class.getName();

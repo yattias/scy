@@ -15,7 +15,7 @@ import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.metadata.keys.KeyValuePair;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IRepositoryAgent;
-import eu.scy.agents.impl.AbstractRequestAgent;
+import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
 import roolo.search.IQuery;
 import roolo.search.IQueryComponent;
@@ -32,7 +32,7 @@ import roolo.search.SearchOperation;
  * 
  * @author Florian Schulz
  */
-public class RetrieveEloForGivenTopic extends AbstractRequestAgent implements
+public class RetrieveEloForGivenTopic extends AbstractThreadedAgent implements
 		IRepositoryAgent {
 
 	static final String NAME = RetrieveEloForGivenTopic.class.getName();
