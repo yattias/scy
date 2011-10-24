@@ -18,14 +18,20 @@ ont_connect(TS, OntName, NS) :-
 	ts_host(Server),
 	ts_port(Port),
 	tspl_connect_to_ts(OntName, TS, [host(Server), port(Port)]),
+	assert(ont(TS, OntName, NS)),
 	id(type, Type),
 	id(ontology, Ontology),
 	rdf(ont(TS, _, _), NS1, Type, Ontology),
 	string_concat(NS1, '#', NS),
 %	retractall(ont(_,_,_)),
 	retractall(current_ont(_)),
-	assert(ont(TS, OntName, NS)),
-	assert(current_ont(OntName)).
+	assert(current_ont(OntName)),
+	!.
+
+ont_connect(_, OntName, NS) :-
+	retract(ont(TS, OntName, NS)),
+	tspl_disconnect(TS),
+	fail.
 
 rdf(S, P, O) :-
 	current_ont(Ont),
@@ -39,8 +45,9 @@ rdf(ont(TS, _, _), S, P, O) :-
 	tspl_formal_field(string, F),
 	tspl_tuple([F,SF,PF,OF], T),
 	tspl_read_all(TS, T, Tuples),
-	!,
+	Tuples \== [],
 	member(Tuple,Tuples),
+	!,
 	field_to_var(Tuple, 1, S),
 	field_to_var(Tuple, 2, P),
 	field_to_var(Tuple, 3, O).
