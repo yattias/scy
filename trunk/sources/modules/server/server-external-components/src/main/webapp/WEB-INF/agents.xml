@@ -246,4 +246,51 @@
         </constructor-arg>
     </bean>
 
+	<bean id="agentFrameworkComponent"
+          class="eu.scy.server.externalcomponents.agentframework.AgentFrameworkComponent"
+          singleton="true">
+        <property name="initialAgents">
+            <set>
+                <!-- ref local="supervisor" / -->
+                <ref local="canonical"/>
+                <ref local="ontologylookup"/>
+                <ref local="generalELOSavedAgent"/>
+                <ref local="scysim"/>
+                <ref local="votat"/>
+                <!--ref local="toolexperience" /-->
+                <ref local="collaboration"/>
+                <ref local="keywordsTfIdf"/>
+                <ref local="keywordsTopic"/>
+                <ref local="keywordsOntology"/>
+                <ref local="keyphrasesAgent"/>
+                <ref local="keywords"/>
+                <ref local="keywordsDecisionMaker"/>
+                <ref local="addKeywordsToMetadataAgent"/>
+                <ref local="notifyUserAgent"/>
+                <ref local="hypothesisDecisionAgent"/>
+                <ref local="hypothesisEvalAgent"/>
+                <!--<ref local="userLocationAgent" /> -->
+                <ref local="portfolioNotificator"/>
+                <ref local="feedbackNotificator"/>
+                <ref local="groupFormation"/>
+                <ref local="rooloAccessor"/>
+                <ref local="sessionAgent"/>
+                <ref local="cmEnricher"/>
+                <ref local="cmProposer"/>
+                <ref local="cmModeller"/>
+                <!--<ref local="pga"/>-->
+                <ref local="scaffoldNotificator"/>
+                <ref local="conceptMapEvaluation"/>
+                <!--ref local="searchEnricher"/-->
+                <ref local="eloProposer"/>
+            </set>
+        </property>
+        <property name="repository">
+            <ref bean="repository"/>
+        </property>
+        <property name="metadataTypeManager">
+            <ref bean="metadataTypeManager"/>
+        </property>
+    </bean>
+
 </beans>
