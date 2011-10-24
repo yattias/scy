@@ -90,11 +90,6 @@ public class ELOProposalAgent extends AbstractThreadedAgent {
     }
 
     @Override
-    protected Tuple getIdentifyTuple(String queryId) {
-        return null;
-    }
-
-    @Override
     public boolean isStopped() {
         return isStopped;
     }

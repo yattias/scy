@@ -71,11 +71,6 @@ public class CMEnricherAgent extends AbstractThreadedAgent {
         return false;
     }
 
-    @Override
-    protected Tuple getIdentifyTuple(String arg0) {
-        return null;
-    }
-
     private String[] askForProposals(String elouri, String user) throws TupleSpaceException {
         String id = new VMID().toString();
         Tuple proposalRequestTuple = new Tuple(id, "CMProposer", "cm proposal", user, elouri, 3, "degree");

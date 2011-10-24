@@ -1,4 +1,4 @@
-package eu.scy.agents.api;
+package eu.scy.agents;
 
 /**
  * An interface to allow access to the Agent Database (ADB).

@@ -7,7 +7,6 @@ import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.User;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -18,9 +17,9 @@ import org.apache.log4j.Logger;
 import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.ActionTupleTransformer;
 import eu.scy.actionlogging.api.ContextConstants;
+import eu.scy.agents.ActionConstants;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractThreadedAgent;
-import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
 
 public class ProcessGuidanceAgent extends AbstractThreadedAgent {
@@ -314,11 +313,6 @@ public class ProcessGuidanceAgent extends AbstractThreadedAgent {
     protected void doStop() throws AgentLifecycleException {
 	// TODO Auto-generated method stub
 
-    }
-
-    @Override
-    protected Tuple getIdentifyTuple(String queryId) {
-	return null;
     }
 
     @Override

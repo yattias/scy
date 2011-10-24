@@ -6,7 +6,7 @@ import de.fhg.iais.kd.tm.graphmatching.editdistance.EditDistanceApproximator;
 import de.fhg.iais.kd.tm.graphmatching.graph.Edge;
 import de.fhg.iais.kd.tm.graphmatching.graph.Graph;
 import de.fhg.iais.kd.tm.graphmatching.graph.Vertex;
-import eu.scy.agents.impl.EloTypes;
+import eu.scy.agents.EloTypes;
 import eu.scy.common.scyelo.ScyElo;
 import org.jaxen.JaxenException;
 import org.jdom.JDOMException;

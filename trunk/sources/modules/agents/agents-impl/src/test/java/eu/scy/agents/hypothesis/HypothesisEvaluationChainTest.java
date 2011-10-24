@@ -1,10 +1,10 @@
 package eu.scy.agents.hypothesis;
 
 import eu.scy.agents.AbstractTestFixture;
+import eu.scy.agents.ActionConstants;
 import eu.scy.agents.Mission;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.parameter.AgentParameter;
-import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.parameter.AgentParameterAPIImpl;
 import eu.scy.agents.keywords.ExtractKeyphrasesAgent;

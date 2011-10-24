@@ -418,8 +418,4 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
 		return t;
 	}
 
-	@Override
-	protected Tuple getIdentifyTuple(String queryId) {
-		return null;
-	}
 }

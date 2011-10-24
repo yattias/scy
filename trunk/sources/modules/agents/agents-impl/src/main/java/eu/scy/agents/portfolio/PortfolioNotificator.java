@@ -1,19 +1,21 @@
 package eu.scy.agents.portfolio;
 
-import eu.scy.actionlogging.ActionTupleTransformer;
-import eu.scy.actionlogging.api.ContextConstants;
-import eu.scy.actionlogging.api.IAction;
-import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.impl.AbstractThreadedAgent;
-import eu.scy.agents.impl.ActionConstants;
-import eu.scy.agents.impl.AgentProtocol;
 import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
-import org.apache.log4j.Logger;
 
 import java.rmi.dgc.VMID;
 import java.util.Map;
+
+import org.apache.log4j.Logger;
+
+import eu.scy.actionlogging.ActionTupleTransformer;
+import eu.scy.actionlogging.api.ContextConstants;
+import eu.scy.actionlogging.api.IAction;
+import eu.scy.agents.ActionConstants;
+import eu.scy.agents.SCYAbstractThreadedAgent;
+import eu.scy.agents.api.AgentLifecycleException;
+import eu.scy.agents.impl.AgentProtocol;
 
 /**
  * An agent that listens for e-portfolio events and writes notification tuples for the webfrontend. It reacts on three events <ol> <li>ELO
@@ -24,7 +26,7 @@ import java.util.Map;
  *
  * @author fschulz
  */
-public class PortfolioNotificator extends AbstractThreadedAgent {
+public class PortfolioNotificator extends SCYAbstractThreadedAgent {
 
     private static final String PORTFOLIO_ASSESSED = "portfolio_assessed";
     private static final String ELO_ASSESSMENT_FINISHED = "elo_assessment_finished";
@@ -89,11 +91,6 @@ public class PortfolioNotificator extends AbstractThreadedAgent {
                     "Could not deregister tuple space listener: "
                             + e.getMessage(), e);
         }
-    }
-
-    @Override
-    protected Tuple getIdentifyTuple(String queryId) {
-        return null;
     }
 
     @Override

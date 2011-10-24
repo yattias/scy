@@ -1,19 +1,21 @@
 package eu.scy.agents.session;
 
-import eu.scy.actionlogging.ActionTupleTransformer;
-import eu.scy.actionlogging.api.ContextConstants;
-import eu.scy.actionlogging.api.IAction;
-import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.impl.AbstractThreadedAgent;
-import eu.scy.agents.impl.ActionConstants;
-import eu.scy.agents.impl.AgentProtocol;
 import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
-import org.apache.log4j.Logger;
 
 import java.rmi.dgc.VMID;
 import java.util.Map;
+
+import org.apache.log4j.Logger;
+
+import eu.scy.actionlogging.ActionTupleTransformer;
+import eu.scy.actionlogging.api.ContextConstants;
+import eu.scy.actionlogging.api.IAction;
+import eu.scy.agents.ActionConstants;
+import eu.scy.agents.SCYAbstractThreadedAgent;
+import eu.scy.agents.api.AgentLifecycleException;
+import eu.scy.agents.impl.AgentProtocol;
 
 /**
  * An agent that tracks the locations of users. Which mission and which las they are in.
@@ -26,7 +28,7 @@ import java.util.Map;
  *
  * @author fschulz
  */
-public class SessionAgent extends AbstractThreadedAgent {
+public class SessionAgent extends SCYAbstractThreadedAgent {
 
     private static final int SESSION_TUPLE_EXPIRATION = AgentProtocol.HOUR * 4;
 
@@ -74,11 +76,6 @@ public class SessionAgent extends AbstractThreadedAgent {
     @Override
     protected void doStop() throws AgentLifecycleException {
         status = Status.Stopping;
-    }
-
-    @Override
-    protected Tuple getIdentifyTuple(String queryId) {
-        return null;
     }
 
     @Override

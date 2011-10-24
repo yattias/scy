@@ -17,7 +17,6 @@ import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.keywords.ExtractKeywordsAgent;
 import eu.scy.agents.keywords.ExtractTfIdfKeywordsAgent;
 import eu.scy.agents.keywords.ExtractTopicModelKeywordsAgent;
-import eu.scy.agents.roolo.rooloaccessor.RooloAccessorAgent;
 
 public class AbstractExtractorTest extends AbstractTestFixture {
 

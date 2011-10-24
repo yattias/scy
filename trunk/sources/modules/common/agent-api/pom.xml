@@ -1,32 +1,26 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>eu.scy.common</groupId>
 	<artifactId>agent-api</artifactId>
-	<version>35-SNAPSHOT</version>
 	<name>agent-api</name>
 	<packaging>jar</packaging>
-	
- 	<parent>
+	<parent>
 		<artifactId>parent</artifactId>
 		<groupId>eu.scy.common</groupId>
 		<version>35-SNAPSHOT</version>
-	</parent> 	
-
+	</parent>
 	<dependencies>
-					
 		<dependency>
-			<groupId>org.roolo</groupId>
-			<artifactId>elo-api</artifactId>
-			<version>${project.version}</version>
+			<groupId>info.collide</groupId>
+			<artifactId>sqlspaces-client</artifactId>
 		</dependency>
-		
 		<dependency>
-			<groupId>org.roolo</groupId>
-			<artifactId>roolo-api</artifactId>
-			<version>${project.version}</version>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
 		</dependency>
-		
+		<dependency>
+			<groupId>info.collide</groupId>
+			<artifactId>sqlspaces-server</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
-
 </project>

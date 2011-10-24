@@ -119,11 +119,6 @@ public class ExtractKeywordsAgent extends AbstractThreadedAgent {
     }
 
     @Override
-    protected Tuple getIdentifyTuple(String queryId) {
-        return null;
-    }
-
-    @Override
     public boolean isStopped() {
         return status == Status.Stopping;
     }

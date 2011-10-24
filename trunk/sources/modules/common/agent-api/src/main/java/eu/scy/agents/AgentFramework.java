@@ -4,7 +4,6 @@ import info.collide.sqlspaces.commons.Configuration;
 import info.collide.sqlspaces.commons.Configuration.Database;
 import info.collide.sqlspaces.server.Server;
 import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.impl.manager.AgentManager;
 
 public class AgentFramework {
 

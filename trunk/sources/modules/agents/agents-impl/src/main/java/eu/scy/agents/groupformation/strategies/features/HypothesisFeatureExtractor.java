@@ -6,7 +6,7 @@
  */
 package eu.scy.agents.groupformation.strategies.features;
 
-import eu.scy.agents.impl.EloTypes;
+import eu.scy.agents.EloTypes;
 import eu.scy.common.scyelo.EloFunctionalRole;
 import eu.scy.common.scyelo.ScyElo;
 import roolo.elo.api.IELO;

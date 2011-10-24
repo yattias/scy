@@ -20,11 +20,11 @@ import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.KeyValuePair;
+import eu.scy.agents.EloTypes;
+import eu.scy.agents.IRepositoryAgent;
 import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.api.IRepositoryAgent;
 import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.agents.impl.EloTypes;
 
 /**
  * Detects topics in text . ("topicDetector":String, <ELOUri>:String) ->
@@ -149,12 +149,6 @@ public class DetectTopicForElos extends AbstractThreadedAgent implements
 	@Override
 	protected void doStop() {
 		status = Status.Stopping;
-	}
-
-	@Override
-	protected Tuple getIdentifyTuple(String queryId) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

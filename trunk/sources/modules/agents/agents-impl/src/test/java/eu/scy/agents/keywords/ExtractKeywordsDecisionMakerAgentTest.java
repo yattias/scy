@@ -27,11 +27,11 @@ import roolo.elo.api.IMetadata;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.content.BasicContent;
 import eu.scy.agents.AbstractTestFixture;
+import eu.scy.agents.ActionConstants;
+import eu.scy.agents.EloTypes;
 import eu.scy.agents.Mission;
 import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.agents.impl.EloTypes;
 import eu.scy.agents.roolo.rooloaccessor.RooloAccessorAgent;
 import eu.scy.agents.session.SessionAgent;
 

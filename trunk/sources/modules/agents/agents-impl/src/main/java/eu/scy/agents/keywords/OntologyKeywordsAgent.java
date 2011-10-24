@@ -180,11 +180,6 @@ public class OntologyKeywordsAgent extends AbstractThreadedAgent {
 	}
 
 	@Override
-	protected Tuple getIdentifyTuple(String queryId) {
-		return null;
-	}
-
-	@Override
 	public boolean isStopped() {
 		return this.status == Status.Stopping;
 	}

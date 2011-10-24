@@ -33,15 +33,15 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import eu.scy.agents.Mission;
+import eu.scy.agents.SCYAbstractThreadedAgent;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.conceptmap.Edge;
 import eu.scy.agents.conceptmap.Graph;
 import eu.scy.agents.conceptmap.Node;
 import eu.scy.agents.conceptmap.RankedKeywordList;
-import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
 
-public class CMProposerAgent extends AbstractThreadedAgent {
+public class CMProposerAgent extends SCYAbstractThreadedAgent {
 
     public enum EnrichmentStrategy {
         SUB,
@@ -237,11 +237,6 @@ public class CMProposerAgent extends AbstractThreadedAgent {
         } catch (TupleSpaceException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    protected Tuple getIdentifyTuple(String queryId) {
-        return null;
     }
 
     @Override

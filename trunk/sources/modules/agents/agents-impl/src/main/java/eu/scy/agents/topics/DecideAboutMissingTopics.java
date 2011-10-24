@@ -13,8 +13,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import eu.scy.agents.SCYAbstractThreadedAgent;
 import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.impl.AbstractDecisionAgent;
 import eu.scy.agents.impl.AgentProtocol;
 
 /**
@@ -23,7 +23,7 @@ import eu.scy.agents.impl.AgentProtocol;
  * 
  * @author Florian Schulz
  */
-public class DecideAboutMissingTopics extends AbstractDecisionAgent {
+public class DecideAboutMissingTopics extends SCYAbstractThreadedAgent {
 
   private static final double MINIMUM_TOPIC_PROBABILITY = 0.5;
 
@@ -109,11 +109,6 @@ public class DecideAboutMissingTopics extends AbstractDecisionAgent {
   @Override
   protected void doStop() {
     status = Status.Stopping;
-  }
-
-  @Override
-  protected Tuple getIdentifyTuple(String queryId) {
-    return null;
   }
 
   @Override

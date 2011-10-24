@@ -1,23 +1,8 @@
 package eu.scy.agents.keywords;
 
-import eu.scy.actionlogging.ActionTupleTransformer;
-import eu.scy.actionlogging.api.ContextConstants;
-import eu.scy.actionlogging.api.IAction;
-import eu.scy.agents.Mission;
-import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.api.IRepositoryAgent;
-import eu.scy.agents.impl.AbstractDecisionAgent;
-import eu.scy.agents.impl.ActionConstants;
-import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.agents.keywords.extractors.KeywordExtractor;
-import eu.scy.agents.keywords.extractors.WebresourceExtractor;
 import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
-import org.apache.log4j.Logger;
-import roolo.api.IRepository;
-import roolo.elo.api.IELO;
-import roolo.elo.api.IMetadataTypeManager;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -29,7 +14,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
+import org.apache.log4j.Logger;
+
+import roolo.api.IRepository;
+import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadataTypeManager;
+import eu.scy.actionlogging.ActionTupleTransformer;
+import eu.scy.actionlogging.api.ContextConstants;
+import eu.scy.actionlogging.api.IAction;
+import eu.scy.agents.ActionConstants;
+import eu.scy.agents.IRepositoryAgent;
+import eu.scy.agents.Mission;
+import eu.scy.agents.SCYAbstractThreadedAgent;
+import eu.scy.agents.api.AgentLifecycleException;
+import eu.scy.agents.impl.AgentProtocol;
+import eu.scy.agents.keywords.extractors.KeywordExtractor;
+import eu.scy.agents.keywords.extractors.WebresourceExtractor;
+
+public class ExtractKeywordsDecisionMakerAgent extends SCYAbstractThreadedAgent
         implements IRepositoryAgent {
 
     private static final String UNSAVED_ELO = "unsavedELO";
@@ -410,13 +412,6 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
         } catch (TupleSpaceException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    protected Tuple getIdentifyTuple(String queryId) {
-        return new Tuple(AgentProtocol.RESPONSE, queryId, getId(), getName(),
-                AgentProtocol.MESSAGE_IDENTIFY, IDLE_TIME_INMS,
-                MINIMUM_NUMBER_OF_CONCEPTS, TIME_AFTER_USERS_ARE_REMOVED);
     }
 
     @Override

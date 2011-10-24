@@ -1,22 +1,25 @@
 package eu.scy.agents.general;
 
-import eu.scy.actionlogging.ActionTupleTransformer;
-import eu.scy.actionlogging.api.IAction;
-import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.api.parameter.AgentParameter;
-import eu.scy.agents.impl.AbstractThreadedAgent;
-import eu.scy.agents.impl.ActionConstants;
-import eu.scy.agents.impl.AgentProtocol;
 import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
-import org.apache.log4j.Logger;
 
 import java.rmi.dgc.VMID;
 import java.util.Map;
 import java.util.Set;
 
-public class ScaffoldingNotificatorAgent extends AbstractThreadedAgent {
+import org.apache.log4j.Logger;
+
+import eu.scy.actionlogging.ActionTupleTransformer;
+import eu.scy.actionlogging.api.IAction;
+import eu.scy.agents.ActionConstants;
+import eu.scy.agents.SCYAbstractThreadedAgent;
+import eu.scy.agents.api.AgentLifecycleException;
+import eu.scy.agents.api.parameter.AgentParameter;
+import eu.scy.agents.impl.AbstractThreadedAgent;
+import eu.scy.agents.impl.AgentProtocol;
+
+public class ScaffoldingNotificatorAgent extends SCYAbstractThreadedAgent {
 
     public static final String NAME = ScaffoldingNotificatorAgent.class.getName();
 
@@ -57,11 +60,6 @@ public class ScaffoldingNotificatorAgent extends AbstractThreadedAgent {
     @Override
     protected void doStop() throws AgentLifecycleException {
         // do nothing
-    }
-
-    @Override
-    protected Tuple getIdentifyTuple(String queryId) {
-        return null;
     }
 
     @Override
