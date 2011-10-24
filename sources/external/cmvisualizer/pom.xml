@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>eu.scy.agents</groupId>
 	<artifactId>cmvisualizer</artifactId>
-	<version>31-SNAPSHOT</version>
+	<version>35-SNAPSHOT</version>
 	<dependencies>
 		<dependency>
 			<groupId>info.collide</groupId>
