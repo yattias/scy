@@ -22,6 +22,11 @@ public class TextHighlightingPanel extends JPanel {
 
     public TextHighlightingPanel(int rows) {
         super(new GridLayout(1, 1));
+        reset(rows);
+    }
+
+    private void reset(int rows) {
+        removeAll();
         StyleContext context = new StyleContext();
         DefaultStyledDocument doc = new DefaultStyledDocument(context);
         textPane = new JTextPane(doc);
@@ -64,7 +69,14 @@ public class TextHighlightingPanel extends JPanel {
     }
 
     public void clearText() {
-        textPane.setText(emptyText);
+//        textPane.setText(emptyText);
+        Document doc = textPane.getDocument();
+        try {
+            doc.remove(0, doc.getLength());
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
+        reset(1);
     }
 
     public String getText() {
