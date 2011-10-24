@@ -28,7 +28,7 @@ import eu.scy.agents.impl.AgentProtocol;
 
 public class UserConceptMapAgent extends AbstractThreadedAgent {
 
-    private static final String TOOL = "scymapper";
+    private static final String TOOL = "conceptmap";
 
     private static final String AGENT_NAME = "userconceptmapagent";
 
