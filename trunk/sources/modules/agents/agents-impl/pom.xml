@@ -211,7 +211,11 @@
             <artifactId>xstream</artifactId>
             <version>1.2.2</version>
         </dependency>
-
+        <dependency>
+        	<groupId>eu.scy.common</groupId>
+        	<artifactId>mission</artifactId>
+			<version>${project.version}</version>
+        </dependency>
 	</dependencies>
 
 	<!-- <scm> <connection>scm:svn:http://scy.googlecode.com/svn/trunk/roolo-agents</connection> 
