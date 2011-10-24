@@ -1,7 +1,7 @@
 package eu.scy.agents.keywords;
 
 import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.impl.AbstractRequestAgent;
+import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 
-public class ExtractKeywordsAgent extends AbstractRequestAgent {
+public class ExtractKeywordsAgent extends AbstractThreadedAgent {
 
     public static final String NAME = ExtractKeywordsAgent.class.getName();
 
@@ -27,7 +27,7 @@ public class ExtractKeywordsAgent extends AbstractRequestAgent {
     private int listenerId = -1;
 
     public ExtractKeywordsAgent(Map<String, Object> params) {
-        super(NAME, params);
+        super(NAME, (String) params.get(AgentProtocol.PARAM_AGENT_ID));
         if (params.containsKey(AgentProtocol.TS_HOST)) {
             host = (String) params.get(AgentProtocol.TS_HOST);
         }

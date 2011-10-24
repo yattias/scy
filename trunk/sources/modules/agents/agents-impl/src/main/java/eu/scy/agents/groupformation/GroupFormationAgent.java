@@ -8,7 +8,7 @@ import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IRepositoryAgent;
 import eu.scy.agents.groupformation.cache.Group;
 import eu.scy.agents.groupformation.cache.MissionGroupCache;
-import eu.scy.agents.impl.AbstractRequestAgent;
+import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.AgentRooloServiceImpl;
@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class GroupFormationAgent extends AbstractRequestAgent implements IRepositoryAgent {
+public class GroupFormationAgent extends AbstractThreadedAgent implements IRepositoryAgent {
 
     static final String NAME = "GroupFormationAgent";
 
@@ -68,7 +68,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements IReposi
     private Map<Mission, GroupFormationActivation> missionSpecsMap;
 
     public GroupFormationAgent(Map<String, Object> params) {
-        super(NAME, params);
+        super(NAME, (String) params.get(AgentProtocol.PARAM_AGENT_ID));
 
         lock = new Object();
         if ( params.containsKey(AgentProtocol.TS_HOST) ) {

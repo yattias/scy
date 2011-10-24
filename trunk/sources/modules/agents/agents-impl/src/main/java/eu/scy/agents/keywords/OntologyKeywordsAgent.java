@@ -15,10 +15,10 @@ import org.apache.log4j.Logger;
 
 import eu.scy.agents.Mission;
 import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.impl.AbstractRequestAgent;
+import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
 
-public class OntologyKeywordsAgent extends AbstractRequestAgent {
+public class OntologyKeywordsAgent extends AbstractThreadedAgent {
 
 	private static final Logger logger = Logger
 			.getLogger(OntologyKeywordsAgent.class.getName());
@@ -34,7 +34,7 @@ public class OntologyKeywordsAgent extends AbstractRequestAgent {
 	private Pattern p;
 
 	public OntologyKeywordsAgent(Map<String, Object> params) {
-		super(NAME, params);
+	        super(NAME, (String) params.get(AgentProtocol.PARAM_AGENT_ID));
 		if (params.containsKey(AgentProtocol.TS_HOST)) {
 			this.host = (String) params.get(AgentProtocol.TS_HOST);
 		}

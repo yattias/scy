@@ -4,7 +4,7 @@ import eu.scy.actionlogging.ActionTupleTransformer;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.impl.AbstractRequestAgent;
+import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
 import info.collide.sqlspaces.commons.Field;
@@ -26,7 +26,7 @@ import java.util.Map;
  *
  * @author fschulz
  */
-public class SessionAgent extends AbstractRequestAgent {
+public class SessionAgent extends AbstractThreadedAgent {
 
     private static final int SESSION_TUPLE_EXPIRATION = AgentProtocol.HOUR * 4;
 
@@ -37,7 +37,7 @@ public class SessionAgent extends AbstractRequestAgent {
     private int actionTupleListenerId;
 
     public SessionAgent(Map<String, Object> params) {
-        super(NAME, params);
+        super(NAME, (String) params.get(AgentProtocol.PARAM_AGENT_ID));
         if (params.containsKey(AgentProtocol.TS_HOST)) {
             host = (String) params.get(AgentProtocol.TS_HOST);
         }

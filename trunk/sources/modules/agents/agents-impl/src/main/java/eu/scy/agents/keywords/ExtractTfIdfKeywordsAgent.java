@@ -15,7 +15,7 @@ import de.fhg.iais.kd.tm.obwious.operator.Operator;
 import de.fhg.iais.kd.tm.obwious.system.documentfrequency.DocumentFrequencyModel;
 import de.fhg.iais.kd.tm.obwious.type.Container;
 import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.impl.AbstractRequestAgent;
+import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.ModelStorage;
 import eu.scy.agents.keywords.workflow.ExtractTfIdfKeywordsWorkflow;
@@ -29,7 +29,7 @@ import eu.scy.agents.util.Utilities;
  * 
  * @author fschulz
  */
-public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
+public class ExtractTfIdfKeywordsAgent extends AbstractThreadedAgent {
 
 	public static final String EXTRACT_TFIDF_KEYWORDS = "ExtractTfIdfKeywords";
 
@@ -45,7 +45,7 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 	private ModelStorage modelStorage;
 
 	public ExtractTfIdfKeywordsAgent(Map<String, Object> params) {
-		super(NAME, params);
+	        super(NAME, (String) params.get(AgentProtocol.PARAM_AGENT_ID));
 		if (params.containsKey(AgentProtocol.TS_HOST)) {
 			host = (String) params.get(AgentProtocol.TS_HOST);
 		}

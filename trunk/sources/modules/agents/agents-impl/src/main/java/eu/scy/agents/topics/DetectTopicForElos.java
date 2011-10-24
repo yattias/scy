@@ -22,7 +22,7 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.KeyValuePair;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IRepositoryAgent;
-import eu.scy.agents.impl.AbstractRequestAgent;
+import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.EloTypes;
 
@@ -32,7 +32,7 @@ import eu.scy.agents.impl.EloTypes;
  * 
  * @author Florian Schulz
  */
-public class DetectTopicForElos extends AbstractRequestAgent implements
+public class DetectTopicForElos extends AbstractThreadedAgent implements
 		IRepositoryAgent {
 
 	public static final String NAME = DetectTopicForElos.class.getName();

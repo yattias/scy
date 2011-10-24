@@ -9,7 +9,7 @@ import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
 import de.fhg.iais.kd.tm.obwious.operator.Operator;
 import de.fhg.iais.kd.tm.obwious.type.Container;
 import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.impl.AbstractRequestAgent;
+import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.ModelStorage;
 import eu.scy.agents.keywords.workflow.ExtractKeyphrasesWorkflow;
@@ -32,7 +32,7 @@ import java.util.Set;
  *
  * @author Jörg Kindermann
  */
-public class ExtractKeyphrasesAgent extends AbstractRequestAgent {
+public class ExtractKeyphrasesAgent extends AbstractThreadedAgent {
 
     public static final String EXTRACT_KEYPHRASES = "ExtractKeyphrases";
 
@@ -48,7 +48,7 @@ public class ExtractKeyphrasesAgent extends AbstractRequestAgent {
 
     // private PersistentStorage storage = null;
     public ExtractKeyphrasesAgent(Map<String, Object> params) {
-        super(NAME, params);
+        super(NAME, (String) params.get(AgentProtocol.PARAM_AGENT_ID));
         if ( params.containsKey(AgentProtocol.TS_HOST) ) {
             host = (String) params.get(AgentProtocol.TS_HOST);
         }
