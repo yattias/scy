@@ -83,7 +83,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>${project.groupId}</groupId>
+			<groupId>eu.scy.common</groupId>
 			<artifactId>agent-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>
