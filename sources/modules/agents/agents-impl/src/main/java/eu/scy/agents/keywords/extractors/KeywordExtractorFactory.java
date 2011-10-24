@@ -2,7 +2,7 @@ package eu.scy.agents.keywords.extractors;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-import eu.scy.agents.impl.EloTypes;
+import eu.scy.agents.EloTypes;
 
 /**
  * Provides a keyword extractor for each mimetype. Until now there are

@@ -5,7 +5,7 @@ import info.collide.sqlspaces.commons.TupleSpaceException;
 
 import java.util.Map;
 
-import eu.scy.agents.impl.AbstractELOSavedAgent;
+import eu.scy.agents.AbstractELOSavedAgent;
 import eu.scy.agents.impl.AgentProtocol;
 
 public class TextForTopicSaved extends AbstractELOSavedAgent {

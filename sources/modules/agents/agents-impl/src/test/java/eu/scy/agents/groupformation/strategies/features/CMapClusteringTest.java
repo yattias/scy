@@ -11,10 +11,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import roolo.elo.api.IELO;
+import eu.scy.agents.AgentRooloServiceImpl;
 import eu.scy.agents.groupformation.strategies.algorithms.Cluster;
 import eu.scy.agents.groupformation.strategies.algorithms.FeatureVector;
 import eu.scy.agents.groupformation.strategies.algorithms.KMeansAlgorithm;
-import eu.scy.agents.impl.AgentRooloServiceImpl;
 
 public class CMapClusteringTest extends AbstractFeatureExtractorTest {
 

@@ -1,7 +1,8 @@
 package eu.scy.agents.util;
 
 import eu.scy.agents.AbstractTestFixture;
-import eu.scy.agents.impl.EloTypes;
+import eu.scy.agents.EloTypes;
+
 import org.junit.Before;
 import org.junit.Test;
 import roolo.elo.api.IELO;

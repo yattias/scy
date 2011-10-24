@@ -56,9 +56,6 @@ public class ScySimAgent extends AbstractThreadedAgent implements Callback {
 		}
 	}
 
-	// TODO fill in TupleDoc
-	private String tupleDoc = "To be filled....";
-
 	private double tolerance = 10;
 
 	private String examinedVarName;
@@ -99,13 +96,6 @@ public class ScySimAgent extends AbstractThreadedAgent implements Callback {
 			}
 		}
 		LOGGER.log(Level.FINE, NAME + " stopped");
-	}
-
-	@Override
-	protected Tuple getIdentifyTuple(String queryId) {
-		Tuple t = new Tuple(AgentProtocol.RESPONSE, queryId, getId(),
-				getName(), AgentProtocol.MESSAGE_IDENTIFY, tupleDoc);
-		return t;
 	}
 
 	@Override

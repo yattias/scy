@@ -12,10 +12,10 @@ import java.util.Map;
 import cc.mallet.topics.ParallelTopicModel;
 import cc.mallet.topics.TopicInferencer;
 import cc.mallet.types.Instance;
+import eu.scy.agents.ModelStorage;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.agents.impl.ModelStorage;
 import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
 import eu.scy.agents.util.Preprocessor;
 
@@ -93,11 +93,6 @@ public class TopicDetector extends AbstractThreadedAgent {
 					e);
 		}
 		status = Status.Stopping;
-	}
-
-	@Override
-	protected Tuple getIdentifyTuple(String queryId) {
-		return null;
 	}
 
 	@Override

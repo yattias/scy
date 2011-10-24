@@ -1,11 +1,11 @@
 package eu.scy.agents.groupformation.strategies.features;
 
+import eu.scy.agents.ActionConstants;
+import eu.scy.agents.AgentRooloServiceImpl;
 import eu.scy.agents.Mission;
 import eu.scy.agents.api.parameter.AgentParameter;
 import eu.scy.agents.hypothesis.HypothesisEvaluationAgent2;
-import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.agents.impl.AgentRooloServiceImpl;
 import eu.scy.agents.impl.parameter.AgentParameterAPIImpl;
 import eu.scy.agents.keywords.ExtractKeyphrasesAgent;
 import eu.scy.agents.keywords.ExtractTopicModelKeywordsAgent;

@@ -1,13 +1,9 @@
 package eu.scy.agents.hypothesis;
 
-import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.impl.AbstractDecisionAgent;
-import eu.scy.agents.impl.AgentProtocol;
 import info.collide.sqlspaces.commons.Callback;
 import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
-import org.apache.log4j.Logger;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -20,6 +16,12 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
+
+import org.apache.log4j.Logger;
+
+import eu.scy.agents.SCYAbstractThreadedAgent;
+import eu.scy.agents.api.AgentLifecycleException;
+import eu.scy.agents.impl.AgentProtocol;
 
 /**
  * related tool: COPEX
@@ -35,7 +37,7 @@ import java.util.Set;
  *
  * @author Jörg Kindermann
  */
-public class HypothesisDecisionMakerAgent extends AbstractDecisionAgent implements Callback {
+public class HypothesisDecisionMakerAgent extends SCYAbstractThreadedAgent implements Callback {
 
     static class ContextInformation {
 
@@ -198,11 +200,6 @@ public class HypothesisDecisionMakerAgent extends AbstractDecisionAgent implemen
     @Override
     protected void doStop() {
         this.status = Status.Stopping;
-    }
-
-    @Override
-    protected Tuple getIdentifyTuple(String queryId) {
-        return null;
     }
 
     @Override

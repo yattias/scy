@@ -268,12 +268,6 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
     }
 
     @Override
-    protected Tuple getIdentifyTuple(String queryId) {
-        // This agent is just a sensor and therefore it don't need to identify....
-        return null;
-    }
-
-    @Override
     public boolean isStopped() {
         return isStopped;
     }

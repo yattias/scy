@@ -58,11 +58,6 @@ public class NotifyUserAgent extends AbstractThreadedAgent implements Callback {
 	}
 
 	@Override
-	protected Tuple getIdentifyTuple(String queryId) {
-		return null;
-	}
-
-	@Override
 	protected Tuple getListParameterTuple(String queryId) {
 		return super.getListParameterTuple(queryId);
 	}

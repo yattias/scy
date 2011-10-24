@@ -124,12 +124,6 @@ public class UserConceptMapAgent extends AbstractThreadedAgent {
     }
 
     @Override
-    protected Tuple getIdentifyTuple(String queryId) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     public boolean isStopped() {
         return (status != Status.Running);
     }

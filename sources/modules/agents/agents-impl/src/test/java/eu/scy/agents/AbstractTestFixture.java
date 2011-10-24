@@ -1,9 +1,7 @@
 package eu.scy.agents;
 
 import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.agents.impl.manager.AgentManager;
 import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Configuration;
 import info.collide.sqlspaces.commons.Configuration.Database;
@@ -59,7 +57,7 @@ public class AbstractTestFixture {
 
 	protected Map<String, Map<String, Object>> agentMap = new HashMap<String, Map<String, Object>>();
 
-	private AgentManager agentFramework;
+	private SCYAgentManager agentFramework;
 
 	private ArrayList<String> agentList;
 
@@ -169,7 +167,7 @@ public class AbstractTestFixture {
 
 	public void startAgentFramework(Map<String, Map<String, Object>> agents) {
 		this.agentList.clear();
-		this.agentFramework = new AgentManager(TSHOST, TSPORT);
+		this.agentFramework = new SCYAgentManager(TSHOST, TSPORT);
 		this.agentFramework.setRepository(this.repository);
 		this.agentFramework.setMetadataTypeManager(this.typeManager);
 		for (String agentName : agents.keySet()) {

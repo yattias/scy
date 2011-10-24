@@ -23,8 +23,8 @@ import roolo.search.ISearchResult;
 import roolo.search.MetadataQueryComponent;
 import roolo.search.Query;
 import roolo.search.util.SearchResultUtils;
+import eu.scy.agents.IRepositoryAgent;
 import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.api.IRepositoryAgent;
 import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
 
@@ -90,11 +90,6 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements IReposi
             throw new AgentLifecycleException("Could not deregister listener", e);
         }
         status = Status.Stopping;
-    }
-
-    @Override
-    protected Tuple getIdentifyTuple(String arg0) {
-        return null;
     }
 
     @Override

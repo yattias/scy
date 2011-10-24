@@ -13,8 +13,8 @@ import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.metadata.keys.KeyValuePair;
+import eu.scy.agents.IRepositoryAgent;
 import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.api.IRepositoryAgent;
 import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
 import roolo.search.IQuery;
@@ -121,11 +121,6 @@ public class RetrieveEloForGivenTopic extends AbstractThreadedAgent implements
 	@Override
 	protected void doStop() {
 		status = Status.Stopping;
-	}
-
-	@Override
-	protected Tuple getIdentifyTuple(String queryId) {
-		return new Tuple();
 	}
 
 	@Override

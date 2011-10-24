@@ -2,7 +2,6 @@ package eu.scy.agents.keywords;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
 import java.io.IOException;
@@ -11,8 +10,6 @@ import java.net.URI;
 import java.rmi.dgc.VMID;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -26,10 +23,10 @@ import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.content.BasicContent;
 import eu.scy.agents.AbstractTestFixture;
+import eu.scy.agents.ActionConstants;
+import eu.scy.agents.EloTypes;
 import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.agents.impl.EloTypes;
 import eu.scy.agents.roolo.rooloaccessor.RooloAccessorAgent;
 import eu.scy.agents.session.SessionAgent;
 import roolo.elo.metadata.keys.KeyValuePair;

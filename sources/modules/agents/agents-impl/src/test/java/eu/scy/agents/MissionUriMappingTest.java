@@ -13,7 +13,6 @@ import org.junit.Test;
 
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.agents.impl.MissionUriMapping;
 import eu.scy.agents.roolo.rooloaccessor.RooloAccessorAgent;
 
 public class MissionUriMappingTest extends AbstractTestFixture {

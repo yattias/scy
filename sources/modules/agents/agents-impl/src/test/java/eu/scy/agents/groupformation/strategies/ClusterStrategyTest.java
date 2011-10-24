@@ -1,13 +1,13 @@
 package eu.scy.agents.groupformation.strategies;
 
 import eu.scy.agents.AbstractTestFixture;
+import eu.scy.agents.AgentRooloServiceImpl;
 import eu.scy.agents.groupformation.GroupFormationStrategy;
 import eu.scy.agents.groupformation.cache.Group;
 import eu.scy.agents.groupformation.cache.GroupCache;
 import eu.scy.agents.groupformation.strategies.features.CMapFeatureExtractor;
 import eu.scy.agents.groupformation.strategies.features.HypothesisFeatureExtractor;
 import eu.scy.agents.helper.ELOFiller;
-import eu.scy.agents.impl.AgentRooloServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import roolo.elo.api.IELO;

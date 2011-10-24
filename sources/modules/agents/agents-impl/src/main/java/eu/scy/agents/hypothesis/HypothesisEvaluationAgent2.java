@@ -8,15 +8,15 @@ import de.fhg.iais.kd.tm.obwious.type.Container;
 import eu.scy.actionlogging.ActionTupleTransformer;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
+import eu.scy.agents.AbstractELOSavedAgent;
+import eu.scy.agents.ActionConstants;
+import eu.scy.agents.AgentRooloServiceImpl;
+import eu.scy.agents.EloTypes;
+import eu.scy.agents.IRepositoryAgent;
+import eu.scy.agents.ModelStorage;
 import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.api.IRepositoryAgent;
 import eu.scy.agents.hypothesis.workflow.EvalHypothesisWorkflow;
-import eu.scy.agents.impl.AbstractELOSavedAgent;
-import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.agents.impl.AgentRooloServiceImpl;
-import eu.scy.agents.impl.EloTypes;
-import eu.scy.agents.impl.ModelStorage;
 import eu.scy.agents.keywords.ExtractKeyphrasesAgent;
 import eu.scy.agents.keywords.ExtractTopicModelKeywordsAgent;
 import eu.scy.agents.keywords.KeywordConstants;
@@ -109,11 +109,6 @@ public class HypothesisEvaluationAgent2 extends AbstractELOSavedAgent implements
         } catch ( TupleSpaceException e ) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    protected Tuple getIdentifyTuple(String queryId) {
-        return null;
     }
 
     @Override

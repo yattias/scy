@@ -16,10 +16,10 @@ import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
 import de.fhg.iais.kd.tm.obwious.operator.Operator;
 import de.fhg.iais.kd.tm.obwious.system.documentfrequency.DocumentFrequencyModel;
 import de.fhg.iais.kd.tm.obwious.type.Container;
+import eu.scy.agents.ModelStorage;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.agents.impl.ModelStorage;
 import eu.scy.agents.keywords.workflow.ExtractTopicModelKeywordsWorkflow;
 import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
 import eu.scy.agents.util.Utilities;
@@ -141,11 +141,6 @@ public class ExtractTopicModelKeywordsAgent extends AbstractThreadedAgent {
 					e);
 		}
 		status = Status.Stopping;
-	}
-
-	@Override
-	protected Tuple getIdentifyTuple(String queryId) {
-		return null;
 	}
 
 	@Override

@@ -1,30 +1,8 @@
 package eu.scy.agents.groupformation;
 
-import eu.scy.actionlogging.ActionTupleTransformer;
-import eu.scy.actionlogging.api.ContextConstants;
-import eu.scy.actionlogging.api.IAction;
-import eu.scy.agents.Mission;
-import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.api.IRepositoryAgent;
-import eu.scy.agents.groupformation.cache.Group;
-import eu.scy.agents.groupformation.cache.MissionGroupCache;
-import eu.scy.agents.impl.AbstractThreadedAgent;
-import eu.scy.agents.impl.ActionConstants;
-import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.agents.impl.AgentRooloServiceImpl;
-import eu.scy.common.mission.GroupformationStrategyType;
-import eu.scy.common.mission.MissionSpecificationElo;
-import eu.scy.common.mission.RuntimeSetting;
-import eu.scy.common.mission.RuntimeSettingKey;
-import eu.scy.common.mission.RuntimeSettingsElo;
-import eu.scy.common.mission.RuntimeSettingsEloContent;
 import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
-import org.apache.log4j.Logger;
-import roolo.api.IRepository;
-import roolo.elo.api.IELO;
-import roolo.elo.api.IMetadataTypeManager;
 
 import java.net.URI;
 import java.util.Arrays;
@@ -35,7 +13,31 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class GroupFormationAgent extends AbstractThreadedAgent implements IRepositoryAgent {
+import org.apache.log4j.Logger;
+
+import roolo.api.IRepository;
+import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadataTypeManager;
+import eu.scy.actionlogging.ActionTupleTransformer;
+import eu.scy.actionlogging.api.ContextConstants;
+import eu.scy.actionlogging.api.IAction;
+import eu.scy.agents.ActionConstants;
+import eu.scy.agents.AgentRooloServiceImpl;
+import eu.scy.agents.IRepositoryAgent;
+import eu.scy.agents.Mission;
+import eu.scy.agents.SCYAbstractThreadedAgent;
+import eu.scy.agents.api.AgentLifecycleException;
+import eu.scy.agents.groupformation.cache.Group;
+import eu.scy.agents.groupformation.cache.MissionGroupCache;
+import eu.scy.agents.impl.AgentProtocol;
+import eu.scy.common.mission.GroupformationStrategyType;
+import eu.scy.common.mission.MissionSpecificationElo;
+import eu.scy.common.mission.RuntimeSetting;
+import eu.scy.common.mission.RuntimeSettingKey;
+import eu.scy.common.mission.RuntimeSettingsElo;
+import eu.scy.common.mission.RuntimeSettingsEloContent;
+
+public class GroupFormationAgent extends SCYAbstractThreadedAgent implements IRepositoryAgent {
 
     static final String NAME = "GroupFormationAgent";
 
@@ -113,11 +115,6 @@ public class GroupFormationAgent extends AbstractThreadedAgent implements IRepos
     @Override
     protected void doStop() throws AgentLifecycleException {
         status = Status.Stopping;
-    }
-
-    @Override
-    protected Tuple getIdentifyTuple(String queryId) {
-        return null;
     }
 
     @Override

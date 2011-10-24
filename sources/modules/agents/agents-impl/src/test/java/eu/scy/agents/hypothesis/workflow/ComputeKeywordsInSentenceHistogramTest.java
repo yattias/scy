@@ -22,8 +22,8 @@ import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
 import de.fhg.iais.kd.tm.obwious.operator.Operator;
 import de.fhg.iais.kd.tm.obwious.type.Container;
 import eu.scy.agents.AbstractTestFixture;
+import eu.scy.agents.EloTypes;
 import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.impl.EloTypes;
 import eu.scy.agents.keywords.KeywordConstants;
 import eu.scy.agents.util.Utilities;
 

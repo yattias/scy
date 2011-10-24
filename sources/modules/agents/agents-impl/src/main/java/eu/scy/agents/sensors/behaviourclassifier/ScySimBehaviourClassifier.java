@@ -14,11 +14,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-import javax.swing.AbstractAction;
-
 import edu.emory.mathcs.backport.java.util.concurrent.locks.ReentrantLock;
 import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.api.parameter.AgentConfiguration;
 import eu.scy.agents.api.parameter.AgentParameter;
 import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
@@ -94,12 +91,6 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements 
             e.printStackTrace();
         }
         isStopped = true;
-    }
-
-    @Override
-    protected Tuple getIdentifyTuple(String queryId) {
-        // This agent is just a sensor and therefore it don't need to identify....
-        return null;
     }
 
     @Override

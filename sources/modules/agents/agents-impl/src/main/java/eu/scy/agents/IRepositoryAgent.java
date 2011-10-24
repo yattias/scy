@@ -1,4 +1,4 @@
-package eu.scy.agents.api;
+package eu.scy.agents;
 
 import roolo.api.IRepository;
 import roolo.elo.api.IMetadataTypeManager;
