@@ -5,14 +5,6 @@
 
     <bean id="scyHub" class="eu.scy.scyhub.SCYHubComponent" lazy-init="true"></bean>
 
-    <bean id="scyAuthorRuntimeModule" class="eu.scy.core.openfire.ScyAuthorRuntimeModule"
-          lazy-init="true">
-        <constructor-arg>
-            <ref bean="scyHub"/>
-        </constructor-arg>
-        <property name="runtimeService" ref="runtimeService"/>
-    </bean>
-
     <bean id="notificator" class="eu.scy.server.notification.Notificator"
           lazy-init="true">
         <constructor-arg>
