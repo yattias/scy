@@ -121,6 +121,8 @@ public class CMProposerAgent extends AbstractThreadedAgent {
 
     private TupleSpace commandSpace;
 
+    private static final boolean RUNNING_IN_SCYLAB = true;
+
     private CMProposerObserver observer;
 
     public static void main(String[] args) throws Exception {
@@ -129,7 +131,7 @@ public class CMProposerAgent extends AbstractThreadedAgent {
         for (Tuple t : tuples) {
             String s = t.getField(3).getValue().toString();
             s = s.substring(0, s.length() - "^^http://www.w3.org/2001/XMLSchema#string".length());
-             System.out.println(s);
+            System.out.println(s);
             t.getField(3).setValue(s);
             ts.update(t.getTupleID(), t);
         }
@@ -138,10 +140,10 @@ public class CMProposerAgent extends AbstractThreadedAgent {
             String s = t.getField(3).getValue().toString();
             if (!s.startsWith("\"")) {
                 s = "\"" + s.substring(0, s.length() - "^^http://www.w3.org/2001/XMLSchema#string".length()) + "\"^^http://www.w3.org/2001/XMLSchema#string";
-                 System.out.println(s);
+                System.out.println(s);
                 t.getField(3).setValue(s);
                 ts.update(t.getTupleID(), t);
-    }
+            }
         }
         tuples = ts.readAll(new Tuple(Field.createWildCardField(), Field.createSemiformalField("*de")));
         for (Tuple t : tuples) {
@@ -171,7 +173,7 @@ public class CMProposerAgent extends AbstractThreadedAgent {
 
         Arrays.sort(strategies);
         // default, but will adapt at each call
-        con = new SWATConnection("en", "http://www.scy.eu/ecosystem#");
+        con = new SWATConnection("en", "http://www.scy.eu/co2house#");
     }
 
     @Override
@@ -371,37 +373,38 @@ public class CMProposerAgent extends AbstractThreadedAgent {
     }
 
     private String getText(String user) {
-        try {
-            Tuple t = getSessionSpace().read(new Tuple("tool", user, "webresource", String.class));
-            if (t == null) {
-                // dude, no webresourcer open!
-                return null;
+        if (RUNNING_IN_SCYLAB) {
+            try {
+                Tuple t = getSessionSpace().read(new Tuple("tool", user, "webresource", String.class));
+                if (t == null) {
+                    // dude, no webresourcer open!
+                    return null;
+                }
+                String eloUri = t.getField(3).getValue().toString();
+                String id = new VMID().toString();
+                commandSpace.write(new Tuple(id, "roolo-agent", "elo", eloUri));
+                t = commandSpace.waitToTakeFirst(new Tuple(id, "roolo-response", String.class));
+                Document doc = XMLUtils.parseString(t.getField(2).getValue().toString());
+                XPath xPath = XPathFactory.newInstance().newXPath();
+                NodeList highlights = (NodeList) xPath.evaluate("/elo/content/webresource/annotations/document/quotes/quote", doc, XPathConstants.NODESET);
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < highlights.getLength(); i++) {
+                    sb.append(highlights.item(i).getTextContent());
+                }
+                return sb.toString();
+            } catch (XPathExpressionException e) {
+                e.printStackTrace();
+            } catch (DOMException e) {
+                e.printStackTrace();
+            } catch (SAXException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (TupleSpaceException e) {
+                e.printStackTrace();
             }
-            String eloUri = t.getField(3).getValue().toString();
-            String id = new VMID().toString();
-            commandSpace.write(new Tuple(id, "roolo-agent", "elo", eloUri));
-            t = commandSpace.waitToTakeFirst(new Tuple(id, "roolo-response", String.class));
-            Document doc = XMLUtils.parseString(t.getField(2).getValue().toString());
-            XPath xPath = XPathFactory.newInstance().newXPath();
-            NodeList highlights = (NodeList) xPath.evaluate("/elo/content/webresource/annotations/document/quotes/quote", doc, XPathConstants.NODESET);
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < highlights.getLength(); i++) {
-                sb.append(highlights.item(i).getTextContent());
-            }
-            return sb.toString();
-        } catch (XPathExpressionException e) {
-            e.printStackTrace();
-        } catch (DOMException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (TupleSpaceException e) {
-            e.printStackTrace();
         }
-        // some error
-        return "";
+        return TEXT_EN;
     }
 
     private Graph getUserGraph(String elouri, String user) {
@@ -419,13 +422,9 @@ public class CMProposerAgent extends AbstractThreadedAgent {
             for (int i = 0; userEdgesTuple == null && i < 30; i++) {
                 userEdgesTuple = commandSpace.waitToTake(new Tuple(eid, "response", Field.createWildCardField()), 1000);
             }
-            Field[] nodeFields = (userNodesTuple == null) 
-            				? new Field[0]
-            				: new Field[userNodesTuple.getNumberOfFields() - 2];
+            Field[] nodeFields = (userNodesTuple == null) ? new Field[0] : new Field[userNodesTuple.getNumberOfFields() - 2];
             System.arraycopy(userNodesTuple.getFields(), 2, nodeFields, 0, nodeFields.length);
-            Field[] edgesFields = (userEdgesTuple == null) 
-            				? new Field[0] 
-            	            : new Field[userEdgesTuple.getNumberOfFields() - 2]; 
+            Field[] edgesFields = (userEdgesTuple == null) ? new Field[0] : new Field[userEdgesTuple.getNumberOfFields() - 2];
             System.arraycopy(userEdgesTuple.getFields(), 2, edgesFields, 0, edgesFields.length);
             g.fillFromFields(edgesFields, nodeFields);
         } catch (TupleSpaceException e) {
@@ -435,27 +434,33 @@ public class CMProposerAgent extends AbstractThreadedAgent {
     }
 
     private String getOntologyNamespace(String user) {
-        try {
-            Tuple t = getSessionSpace().read(new Tuple("mission", user, String.class, String.class));
-            if (t != null) {
-                String missionString = (String) t.getField(3).getValue();
-                return Mission.getForName(missionString).getNamespace();
+        if (RUNNING_IN_SCYLAB) {
+            try {
+                Tuple t = getSessionSpace().read(new Tuple("mission", user, String.class, String.class));
+                if (t != null) {
+                    String missionString = (String) t.getField(3).getValue();
+                    return Mission.getForName(missionString).getNamespace();
+                }
+            } catch (TupleSpaceException e) {
+                e.printStackTrace();
             }
-        } catch (TupleSpaceException e) {
-            e.printStackTrace();
+            return Mission.UNKNOWN_MISSION.getNamespace();
+        } else {
+            return Mission.MISSION1.getNamespace();
         }
-        return Mission.UNKNOWN_MISSION.getNamespace();
     }
 
     private String determineLanguage(String user) {
-        try {
-            Tuple t = getSessionSpace().read(new Tuple("language", user, String.class));
-            if (t != null) {
-                String languageString = (String) t.getField(2).getValue();
-                return languageString;
+        if (RUNNING_IN_SCYLAB) {
+            try {
+                Tuple t = getSessionSpace().read(new Tuple("language", user, String.class));
+                if (t != null) {
+                    String languageString = (String) t.getField(2).getValue();
+                    return languageString;
+                }
+            } catch (TupleSpaceException e) {
+                e.printStackTrace();
             }
-        } catch (TupleSpaceException e) {
-            e.printStackTrace();
         }
         return "en";
     }
@@ -463,7 +468,7 @@ public class CMProposerAgent extends AbstractThreadedAgent {
     public Map<String, Double> getKeywordsFromText(String text, String namespace) {
         HashSet<String> stopwords = new HashSet<String>();
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/ger_stopwords.txt")));
+            BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/en_stopwords.txt")));
             String buffer = null;
             while ((buffer = br.readLine()) != null) {
                 try {
