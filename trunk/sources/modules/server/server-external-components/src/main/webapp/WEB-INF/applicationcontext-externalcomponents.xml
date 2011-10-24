@@ -32,7 +32,6 @@
         <property name="externalComponents">
             <list>
                 <ref local="sqlSpacesComponent"/>
-                <!-- ref local="swatComponent"/ -->
                 <ref local="scyHubExternalComponent"/>
                 <ref local="agentFrameworkComponent"/>
             </list>
@@ -41,8 +40,6 @@
 
     <bean id="sqlSpacesComponent"
           class="eu.scy.server.externalcomponents.sqlspaces.SQLSpacesComponent"
-          singleton="true"/>
-    <bean id="swatComponent" class="eu.scy.server.externalcomponents.swat.SWATComponent"
           singleton="true"/>
     <bean id="scyHubExternalComponent"
           class="eu.scy.server.externalcomponents.scyhub.SCYHubExternalComponent"
