@@ -1,4 +1,4 @@
-/*  $Id: tspl.pl,v 1.4 2011-03-24 08:53:46 weinbrenner Exp $
+/*  $Id: tspl.pl,v 1.9 2011-08-11 06:31:24 weinbrenner Exp $
  *  
  *  File       tspl.pl
  *  Part of    SQLSpaces
@@ -467,10 +467,12 @@ tspl_connect_to_ts(Space, TS, Options) :-
 %       Disconnects from TS.
 
 tspl_disconnect(TS) :-
-        uid(UID),
-        xml_to_string_([element(disconnect, [id=UID], [])], XMLString),
-        send_receive_xml_(XMLString, UID, _, TS).
-
+      uid(UID),
+      xml_to_string_([element(disconnect, [id=UID], [])], XMLString),
+      send_receive_xml_(XMLString, UID, _, TS),
+	retract(mqueue(Q, TS)),
+	retract(tspl_ts_spacename_id(TS, _, _)),
+	message_queue_destroy(Q).
 
 /*------------------------------------------------------------
  *  Defining fields for a query
@@ -671,7 +673,7 @@ tspl_count(TS, Query, TupleCount) :-
 %%     tspl_wait_to_read(+TS:term, +Query:term, +TimeOut:int, -Tuple:term) is semidet.
 %
 %     Succeeds when a Tuple matching Query appears in TS.  The maximum
-%     number of seconds to wait is given by TimeOut.
+%     number of milliseconds to wait is given by TimeOut.
 
 tspl_wait_to_read(TS, Query, Tuple) :-
         query_tuple_(Query, [Tuple|_], TS, waittoread, 0, true, true).
@@ -684,7 +686,7 @@ tspl_wait_to_read(TS, Query, Timeout, Tuple) :-
 %%     tspl_wait_to_read_first(+TS:term, +Query:term, +TimeOut:int, -Tuple:term) is semidet.
 %
 %     Succeeds when a Tuple matching Query appears in TS.  The maximum
-%     number of seconds to wait is given by TimeOut. In spaces with many tuples, this will 
+%     number of milliseconds to wait is given by TimeOut. In spaces with many tuples, this will 
 %     be faster than the randomized version tspl_wait_to_read/3 or tspl_wait_to_read/4.
 
 tspl_wait_to_read_first(TS, Query, Tuple) :-
@@ -698,7 +700,7 @@ tspl_wait_to_read_first(TS, Query, Timeout, Tuple) :-
 %%     tspl_wait_to_take(+TS:term, +Query:term, +TimeOut:int, -Tuple:term) is semidet.
 %
 %     Succeeds when a Tuple matching Query appears in TS and removes it.  The maximum
-%     number of seconds to wait is given by TimeOut.
+%     number of milliseconds to wait is given by TimeOut.
 
 tspl_wait_to_take(TS, Query, Timeout, Tuple) :-
         query_tuple_(Query, [Tuple|_], TS, waittotake, Timeout, true, true).
@@ -710,7 +712,7 @@ tspl_wait_to_take(TS, Query, Tuple) :-
 %%     tspl_wait_to_take_first(+TS:term, +Query:term, +TimeOut:int, -Tuple:term) is semidet.
 %
 %     Succeeds when a Tuple matching Query appears in TS and removes it.  The maximum
-%     number of seconds to wait is given by TimeOut. In spaces with many tuples, this will 
+%     number of milliseconds to wait is given by TimeOut. In spaces with many tuples, this will 
 %     be faster than the randomized version tspl_wait_to_take/3 or tspl_wait_to_take/4.
 
 tspl_wait_to_take_first(TS, Query, Timeout, Tuple) :-
@@ -834,12 +836,14 @@ connect_ts_(LoginData, Host, Port, TS, SpaceId) :-
                 )
         ),
         tcp_open_socket(TS, ReadFd, WriteFd),
+        set_stream(ReadFd, encoding(utf8)),
+        set_stream(WriteFd, encoding(utf8)),
         asserta(ts_reader_(ReadFd, TS)),
         asserta(ts_writer_(WriteFd, TS)),
         uid(UID),
-	uid(Mutex),
-	mutex_create(Mutex),
-	assert(mutex_name(TS, Mutex)),
+	  uid(Mutex),
+  	  mutex_create(Mutex),
+	  assert(mutex_name(TS, Mutex)),
         message_queue_create(Q),
         assert(mqueue(Q, TS)),
         thread_create(responsethread(TS), _, []),
@@ -928,26 +932,10 @@ query_tuple_(Query, Tuple, TS, Mode, TimeOut, Returning, Randomize) :-
         tspl_ts_spacename_id(TS, _, SpaceId),
         XMLRequest = [element(query, [id=UID,type=Mode,timeout=TimeOut,space=SpaceId,returning=Returning,randomize=Randomize], [QueryXML])],
         xml_to_string_(XMLRequest, XMLString),
-        (   TimeOut > 0
-	->  thread_create((produce_timed_response(UID, TimeOut, TS)), _, [])
-        ;   true
-        ),
         send_receive_xml_(XMLString, UID, XMLResponse, TS),
         XMLResponse = [element(response, AttrList, Tuple)],
         memberchk(id=UID, AttrList),
         memberchk(type=answer, AttrList), !.
-
-produce_timed_response(UID, TimeOut, TS) :-
-	flush_output,
-	Secs is TimeOut / 1000,
-	sleep(Secs),
-	mqueue(Q, TS),
-	thread_send_message(Q, event(UID, [])),
-	sleep(5),
-	(   thread_peek_message(Q, event(UID, []))
-	->  thread_get_message(Q, event(UID, []))
-	;   true
-	).
 
 /*	Slightly akward because parse_query_/2 can be called with
 	a list and a single query.
@@ -987,8 +975,10 @@ send_receive_xml_(XMLString, UID, XMLResponse, TS) :-
         mqueue(Q, TS),
         ts_writer_(WriteFd, TS),
         mutex_name(TS, Mutex),
+	    escape_newlines(XMLString, XMLString1),
+	    escape_newlines(XMLString1, XMLString2),
         with_mutex(Mutex, (
-	      write(WriteFd, XMLString),
+	      write(WriteFd, XMLString2),
 	      nl(WriteFd),
 	      flush_output(WriteFd))
 	    ),
@@ -1012,6 +1002,20 @@ xml_to_string_(XML, String) :-
         close(ReadMem),
         free_memory_file(MemFile).
 
+newline_code(10, [38,35,49,48,59|T], T).
+newline_code(13, [38,35,49,51,59|T], T).
+
+escape_newlines(In, Out) :-
+	atom_codes(In, Codes0),
+	escape_newline_codes(Codes0, Codes),
+	atom_codes(Out, Codes).
+
+escape_newline_codes([], []).
+escape_newline_codes([Code|Codes], Escape) :-
+	newline_code(Code, Escape, Rest), !,
+	escape_newline_codes(Codes, Rest).
+escape_newline_codes([Code|Codes], [Code|Rest]) :-
+	escape_newline_codes(Codes, Rest).
 
 callback_handler(Q) :-
 	repeat,
@@ -1049,15 +1053,14 @@ responsethread(TS) :-
 	    ),
 	    fail
 	),
-	retract(mqueue(Q, TS)),
 	retract(mutex_name(TS, Mutex)),
-        retract(ts_writer_(_, TS)),
+    retract(ts_writer_(_, TS)),
 	retract(ts_reader_(_, TS)),
-        retractall(callback(_, TS, _)),
-	message_queue_destroy(Q),
+    retractall(callback(_, TS, _)),
 	mutex_destroy(Mutex),
 	thread_send_message(CallbackQ, []),
 	tcp_close_socket(TS).
 
 xml_attribute_value_(element(_,AttrList,_), Attr, Value) :-
 	memberchk(Attr=Value, AttrList).
+	
