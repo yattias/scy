@@ -152,6 +152,8 @@ public class BasicMissionAnchor implements MissionAnchor
    public void setScyElo(ScyElo scyElo)
    {
       this.scyElo = scyElo;
+      this.eloUri = scyElo.getUri();
+      setExisting(this.eloUri!=null);
    }
 
    @Override
