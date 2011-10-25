@@ -62,7 +62,8 @@ public class StandardScyWindow extends ScyWindow {
 //                titleBarBuddies.buddiesChanged();
 //            };
     public override var scyElo on replace oldScyElo {
-                missionModelFX.eloUriChanged(oldScyElo, scyElo);
+                this.eloUri = scyElo.getUri();
+                missionModelFX.scyEloChanged(oldScyElo, scyElo);
                 titleBarBuddies.buddiesChanged();
             };
     public override var width = 150 on replace oldWidth {

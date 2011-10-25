@@ -120,7 +120,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       windowPositioner.placeOtherWindow(scyWindow);
       updateWindowStateXml(activeLas);
       if (not containsScyElo(activeLas.otherEloUris, scyElo)) {
-         missionModel.eloUriChanged(null, scyElo);
+         missionModel.scyEloChanged(null, scyElo);
       }
       return scyWindow;
    }
@@ -153,7 +153,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       windowPositioner.placeOtherWindow(scyWindow);
       updateWindowStateXml(activeLas);
       if (not containsScyElo(activeLas.otherEloUris, scyElo)) {
-         missionModel.eloUriChanged(null, scyElo);
+         missionModel.scyEloChanged(null, scyElo);
       }
       return scyWindow;
    }

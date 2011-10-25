@@ -27,6 +27,7 @@ public class SimpleMyEloChanged extends MyEloChanged {
       window.title = scyElo.getTitle();
       window.eloType = scyElo.getTechnicalFormat();
       window.eloUri = scyElo.getUri();
+      window.scyElo = scyElo;
       window.scyToolsList.loadedEloChanged(window.eloUri);
       logger.info("set title and uri of window: {scyElo.getUri()}");
    }
