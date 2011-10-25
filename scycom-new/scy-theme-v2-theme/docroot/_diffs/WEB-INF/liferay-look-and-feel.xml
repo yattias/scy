@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE look-and-feel PUBLIC "-//Liferay//DTD Look and Feel 6.0.0//EN" "http://www.liferay.com/dtd/liferay-look-and-feel_6_0_0.dtd">
+
+<look-and-feel>
+	<compatibility>
+		<version>6.0.6+</version>
+	</compatibility>
+	<theme id="scy-v2" name="SCY Theme V2">
+		<color-scheme name="Violet" id="01">
+			<css-class>violet</css-class>
+		</color-scheme>
+		<color-scheme name="Orange" id="02">
+			<css-class>orange</css-class>
+		</color-scheme>
+		<color-scheme name="Green" id="03">
+			<css-class>green</css-class>
+		</color-scheme>
+		<color-scheme name="Blue" id="04">
+			<css-class>blue</css-class>
+		</color-scheme>
+		<color-scheme name="Pink" id="05">
+			<css-class>pink</css-class>
+		</color-scheme>
+		<color-scheme name="Red" id="06">
+			<css-class>red</css-class>
+		</color-scheme>
+	</theme>
+</look-and-feel>
