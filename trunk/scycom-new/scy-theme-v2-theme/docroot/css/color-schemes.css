@@ -1,0 +1,129 @@
+/* Violet */
+.violet .portlet {
+	border-color: #6c4cdd;
+}
+
+.violet .journal-content-article h1 {
+	background-color: #6c4cdd;
+	color: #FFF;
+}
+
+.violet .exit-button-anchor {
+	background-image: url("../images/close_btn_violet.gif")
+}
+
+.violet input[type="submit"], .violet input[type="button"], .violet input[type="reset"], .violet button, .violet .lfr-actions, .violet .lfr-actions ul {
+	border-color: #6c4cdd;
+}
+
+.violet .portlet-title {
+    background: none repeat scroll 0 0 #6c4cdd;
+}
+
+/* Orange */
+.orange .portlet {
+	border-color: #ff4001;
+}
+
+.orange .journal-content-article h1 {
+	background-color: #ff4001;
+	color: #FFF;
+}
+
+.orange .exit-button-anchor {
+	background-image: url("../images/close_btn_orange.gif")
+}
+
+.orange input[type="submit"], .orange input[type="button"], .orange input[type="reset"], .orange button, .orange .lfr-actions, .orange .lfr-actions ul {
+	border-color: #ff4001;
+}
+
+.orange .portlet-title {
+    background: none repeat scroll 0 0 #ff4001;
+}
+/* Green */
+.green .portlet {
+	border-color: #6eae00;
+}
+
+.green .journal-content-article h1 {
+	background-color: #6eae00;
+	color: #FFF;
+}
+
+.green .exit-button-anchor {
+	background-image: url("../images/close_btn_green.gif")
+}
+
+.green input[type="submit"], .green input[type="button"], .green input[type="reset"], .green button, .green .lfr-actions, .green .lfr-actions ul {
+	border-color: #6eae00;
+}
+
+.green .portlet-title {
+	background: none repeat scroll 0 0 #6eae00;
+}
+
+/* Blue */
+.blue .portlet {
+	border-color: #0052f6;
+}
+
+.blue .journal-content-article h1 {
+	background-color: #0052f6;
+	color: #FFF;
+}
+
+.blue .exit-button-anchor {
+	background-image: url("../images/close_btn_blue.gif")
+}
+
+.blue input[type="submit"], .blue input[type="button"], .blue input[type="reset"], .blue button, .blue .lfr-actions, .blue .lfr-actions ul {
+	border-color: #0052f6;
+}
+
+.blue .portlet-title {
+	background: none repeat scroll 0 0 #0052f6;
+}
+
+/* Pink */
+.pink .portlet {
+	border-color: #ff0198;
+}
+
+.pink .journal-content-article h1 {
+	background-color: #ff0198;
+	color: #FFF;
+}
+
+.pink .exit-button-anchor {
+	background-image: url("../images/close_btn_violet.gif")
+}
+
+.pink input[type="submit"], .pink input[type="button"], .pink input[type="reset"], .pink button, .pink .lfr-actions, .pink .lfr-actions ul {
+	border-color: #ff0198;
+}
+
+.pink .portlet-title {
+	background: none repeat scroll 0 0 #ff0198;
+}
+/* Red */
+.red .portlet {
+	border-color: indianRed;
+}
+
+.red .journal-content-article h1 {
+	background-color: indianRed; 
+	color: #FFF;
+}
+
+.red .exit-button-anchor {
+	background-image: url("../images/close_btn_orange.gif")
+}
+
+.red input[type="submit"], .red input[type="button"], .red input[type="reset"], .red button, .red .lfr-actions, .red .lfr-actions ul {
+	border-color: indianRed;
+}
+
+.red  .portlet-title {
+	background: none repeat scroll 0 0 indianRed;
+}
