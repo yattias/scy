@@ -171,11 +171,6 @@
 		</dependency>
 		<dependency>
 			<groupId>eu.scy.agents</groupId>
-			<artifactId>agents-base</artifactId>
-			<version>${parent.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>eu.scy.agents</groupId>
 			<artifactId>agents-impl</artifactId>
 			<version>${parent.version}</version>
 		</dependency>
