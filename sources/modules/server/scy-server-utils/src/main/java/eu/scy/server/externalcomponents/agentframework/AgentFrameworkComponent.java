@@ -1,9 +1,7 @@
 package eu.scy.server.externalcomponents.agentframework;
 
-import eu.scy.core.AgentService;
 import info.collide.sqlspaces.commons.Configuration;
 
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -15,9 +13,9 @@ import org.springframework.context.ApplicationContextAware;
 import roolo.api.IRepository;
 import roolo.elo.api.IMetadataTypeManager;
 
+import eu.scy.agents.SCYAgentManager;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AgentStartConfiguration;
-import eu.scy.agents.impl.manager.AgentManager;
 import eu.scy.server.externalcomponents.ExternalComponentFailedException;
 import eu.scy.server.externalcomponents.IExternalComponent;
 
@@ -25,7 +23,7 @@ public class AgentFrameworkComponent implements IExternalComponent, ApplicationC
 
 	private Logger log = Logger.getLogger("AgentFrameworkComponent.class");
 
-	private AgentManager agentFramework;
+	private SCYAgentManager agentFramework;
 
 	private Set<AgentStartConfiguration> initialAgents;
 
@@ -41,7 +39,7 @@ public class AgentFrameworkComponent implements IExternalComponent, ApplicationC
 
 		String tsHost = "localhost"; // will this ever be something different?
 		int tsPort = Configuration.getConfiguration().getNonSSLPort();
-		agentFramework = new AgentManager(tsHost, tsPort);
+		agentFramework = new SCYAgentManager(tsHost, tsPort);
 		agentFramework.setRepository(repository);
 		agentFramework.setMetadataTypeManager(metadataTypeManager);
 
