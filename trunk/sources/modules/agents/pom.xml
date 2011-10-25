@@ -16,7 +16,6 @@
 
 	<modules>
 		<module>agents-impl</module>
-		<module>agents-base</module>
 	</modules>
 
 	<properties>
