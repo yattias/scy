@@ -22,7 +22,6 @@
 		<module>action-logging</module>
 		-->
 		<module>configuration</module>
-		<module>agent-commons</module>
 		<module>data-sync-api</module>
 		<module>data-sync-common</module>
 		<module>packet-transformer</module>
