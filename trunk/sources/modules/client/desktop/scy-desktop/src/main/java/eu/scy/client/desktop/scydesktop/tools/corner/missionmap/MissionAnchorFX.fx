@@ -24,7 +24,7 @@ public class MissionAnchorFX extends MissionAnchor {
    public var missionAnchor: MissionAnchor on replace { newMissionAnchor() };
    public var eloUri: URI on replace { eloUriChanged() };
    public-read var id: String;
-   public var scyElo: ScyElo;
+   public var scyElo: ScyElo on replace { scyEloChanged() };
    public var iconType: String;
    public var inputAnchors: MissionAnchorFX[];
    public var relationNames: String[];
@@ -68,6 +68,10 @@ public class MissionAnchorFX extends MissionAnchor {
       missionAnchor.setEloUri(eloUri);
       scyElo = missionAnchor.getScyElo();
       exists = missionAnchor.isExisting();
+   }
+
+   function scyEloChanged() {
+      missionAnchor.setScyElo(scyElo);
    }
 
    override public function getInputMissionAnchors(): List {

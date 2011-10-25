@@ -56,6 +56,7 @@ import javafx.scene.Node;
 import eu.scy.client.desktop.desktoputils.art.AnimationTiming;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 import java.awt.EventQueue;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * @author sikken
@@ -119,6 +120,11 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
    }
 
    public override function eloSaveAs(elo: IELO, eloSaverCallBack: EloSaverCallBack): Void {
+      waitIfPreviousSaveStillBusyAndStartSave();
+      startEloSaveAs(elo, eloSaverCallBack);
+   }
+
+   function startEloSaveAs(elo: IELO, eloSaverCallBack: EloSaverCallBack): Void {
       var forking = elo.getUri() != null;
       var currentEloTitle = elo.getMetadata().getMetadataValueContainer(titleKey).getValue() as String;
       var suggestedEloTitle = currentEloTitle;
@@ -133,27 +139,26 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
 
    var eloSaveAsPanel: EloSaveAsMixin;
 
-   function showEloSaveAsPanel(elo: IELO, suggestedEloTitle: String, myElo: Boolean, authorUpdate: Boolean, eloSaverCallBack: EloSaverCallBack): Void {
-      println("showEloSaveAsPanel");
+   function showEloSaveAsPanel(elo: IELO, suggestedEloTitle: String, isMyEloTo: Boolean, authorUpdate: Boolean, eloSaverCallBack: EloSaverCallBack): Void {
       def scyElo = new ScyElo(elo, config.getToolBrokerAPI());
       if (authorMode) {
          eloSaveAsPanel = MultiLanguageAuthorSaveAsNodeDesign {
                     tbi: toolBrokerAPI
-                    saveAction: saveAction
+                    saveAction: saveAsAction
                     cancelAction: cancelAction
                     elo: elo
                     scyElo: scyElo
-                    myElo: myElo
+                    myElo: isMyEloTo
                     eloSaverCallBack: eloSaverCallBack
                     authorUpdate: authorUpdate
                  }
       } else {
          eloSaveAsPanel = SimpleSaveAsNodeDesign {
-                    saveAction: saveAction
+                    saveAction: saveAsAction
                     cancelAction: cancelAction
                     elo: elo
                     scyElo: scyElo
-                    myElo: myElo
+                    myElo: isMyEloTo
                     eloSaverCallBack: eloSaverCallBack
                  }
       }
@@ -185,58 +190,58 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
       XFX.runActionAfter(eloSaveAsPanel.correctButtonPositions, 500ms);
    }
 
-   function saveAction(eloSaveAsPanel: EloSaveAsMixin): Void {
-       saveAction(eloSaveAsPanel, false);
-   }
-   
-   function saveAction(eloSaveAsPanel: EloSaveAsMixin, showBubbleAfterSaving: Boolean): Void {
+   function saveAsAction(eloSaveAsPanel: EloSaveAsMixin, showBubbleAfterSaving: Boolean): Void {
       def elo = eloSaveAsPanel.elo;
       def scyElo = eloSaveAsPanel.scyElo;
       addThumbnail(scyElo);
 
       ProgressOverlay.startShowWorking();
 
-      XFX.runActionInBackgroundAndCallBack(function() : Object {
-          updateTags(elo);
-          eloSaveAsPanel.setTitleAndLanguagesInElo();
-          scyElo.setFunctionalRole(eloSaveAsPanel.getFunctionalRole());
-          scyElo.setDateFirstUserSave(System.currentTimeMillis());
-          if (eloSaveAsPanel.authorUpdate) {
-             // the call is  caused by an update action, so that the author can modify the titles
-             // so do not create a new elo, but do just an update
-                 scyElo.updateElo();
-          } else if (elo.getUri() != null) {
-             if (scyElo.getAuthors().size() > 1) {
-                scyElo.setAuthor(loginName);
-                FX.deferAction(function() :Void {
-                    window.windowManager.scyDesktop.uninstallCollaborationTools(window);
-                    window.ownershipManager.update();
-                });
-             }
-                scyElo.saveAsForkedElo();
-          } else {
-                scyElo.setCreator(loginName);
-                scyElo.saveAsNewElo();
-          }
-          if (eloSaveAsPanel.myElo or eloSaveAsPanel.authorUpdate) {
-             myEloChanged.myEloChanged(scyElo);
-          }
-          scyToolActionLogger.eloSaved(elo);
-          return null;
-      }, function (o : Object) {
-          def elo = eloSaveAsPanel.elo;
-          eloSaveAsPanel.eloSaverCallBack.eloSaved(elo);
-          eloSaveAsPanel.modalDialogBox.close();
-          ProgressOverlay.stopShowWorking();
-          if (showBubbleAfterSaving) {
+      XFX.runActionInBackgroundAndCallBack(function(): Object {
+         updateTags(elo);
+         eloSaveAsPanel.setTitleAndLanguagesInElo();
+         scyElo.setFunctionalRole(eloSaveAsPanel.getFunctionalRole());
+         if (eloSaveAsPanel.authorUpdate) {
+            // the call is  caused by an update action, so that the author can modify the titles
+            // so do not create a new elo, but do just an update
+            scyElo.updateElo();
+         } else {
+            scyElo.setDateFirstUserSave(System.currentTimeMillis());
+            if (elo.getUri() != null) {
+               if (scyElo.getAuthors().size() > 1) {
+                  scyElo.setAuthor(loginName);
+                  FX.deferAction(function(): Void {
+                     window.windowManager.scyDesktop.uninstallCollaborationTools(window);
+                     window.ownershipManager.update();
+                  });
+               }
+               scyElo.saveAsForkedElo();
+            } else {
+               scyElo.setCreator(loginName);
+               scyElo.saveAsNewElo();
+            }
+         }
+         if (eloSaveAsPanel.myElo or eloSaveAsPanel.authorUpdate) {
+            myEloChanged.myEloChanged(scyElo);
+         }
+         scyToolActionLogger.eloSaved(elo);
+         return null;
+      }, function(o: Object) {
+         def elo = eloSaveAsPanel.elo;
+         eloSaveAsPanel.eloSaverCallBack.eloSaved(elo);
+         eloSaveAsPanel.modalDialogBox.close();
+         saveEnded();
+         ProgressOverlay.stopShowWorking();
+         if (showBubbleAfterSaving) {
             showEloSaved();
-          }
+         }
       });
    }
 
    function cancelAction(eloSaveAsPanel: EloSaveAsMixin): Void {
       eloSaveAsPanel.eloSaverCallBack.eloSaveCancelled(eloSaveAsPanel.elo);
       eloSaveAsPanel.modalDialogBox.close();
+      saveEnded();
    }
 
    function updateTags(elo: IELO): Void {
@@ -245,16 +250,16 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
          return
       }
       XFX.runActionInBackground(function() {
-          var lastestElo = repository.retrieveELOLastVersion(elo.getUri());
-          var latestMetadata: IMetadata = lastestElo.getMetadata();
-          var mvc = latestMetadata.getMetadataValueContainer(socialtagsKey);
-          var st: SocialTags = mvc.getValue() as SocialTags;
-          if (st == null) {
-             st = new SocialTags();
-             mvc.setValue(st);
-          }
-          var currentMetadata: IMetadata = elo.getMetadata();
-          currentMetadata.getMetadataValueContainer(socialtagsKey).setValue(st);
+         var lastestElo = repository.retrieveELOLastVersion(elo.getUri());
+         var latestMetadata: IMetadata = lastestElo.getMetadata();
+         var mvc = latestMetadata.getMetadataValueContainer(socialtagsKey);
+         var st: SocialTags = mvc.getValue() as SocialTags;
+         if (st == null) {
+            st = new SocialTags();
+            mvc.setValue(st);
+         }
+         var currentMetadata: IMetadata = elo.getMetadata();
+         currentMetadata.getMetadataValueContainer(socialtagsKey).setValue(st);
       }, "UpdateLatestELOForSocialTagUpdateThread");
    }
 
@@ -263,71 +268,83 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
          throw new IllegalArgumentException("elo may not be null");
       }
 
-      if (elo.getUri() != null) {
-         def scyElo = new ScyElo(elo, config.getToolBrokerAPI());
-         if (authorMode and not window.isQuiting) {
-            // force a save as dialog box, so that new titles can entered or existing ones modified
-            showEloSaveAsPanel(elo, scyElo.getTitle(), true, true, eloSaverCallBack);
-         } else {
-            def myElo = scyElo.getAuthors().contains(config.getToolBrokerAPI().getLoginUserName());
-            if (myElo or window.isQuiting) {
-               ProgressOverlay.startShowWorking();
-               addThumbnail(scyElo);
-               def doEloUpdate = function():Void{
-                   updateTags(elo);
-                   // it is (also) my elo
-                   var dateFirstUserSaveSet = false;
-                   var creatorSet = false;
-                   if (scyElo.getDateFirstUserSave() == null) {
-                      scyElo.setDateFirstUserSave(System.currentTimeMillis());
-                      dateFirstUserSaveSet = true;
-                   }
-                   if (scyElo.getCreator() == null) {
-                      scyElo.setCreator(loginName);
-                      creatorSet = true;
-                   }
-                   if (myElo) {
-                      try {
-                         scyElo.updateElo();
-                      } catch (e: ELONotLastVersionException) {
-                         logger.error("unexpected ELONotLastVersionException for elo: {e.getURI()}, now doing a save as");
-                         if (dateFirstUserSaveSet) {
-                            scyElo.getMetadata().deleteMetatadata(dateFirstUserSaveKey);
-                         }
-                         if (creatorSet) {
-                            scyElo.getMetadata().deleteMetatadata(creatorKey);
-                         }
-                         FX.deferAction(function():Void{
-                               eloSaveAs(elo, eloSaverCallBack);
-                            });
-                      }
-                   } else {
-                      // it is not mine, but as this window is being quit, i may not ask the user anything
-                      scyElo.saveAsForkedElo();
-                   }
-                   scyToolActionLogger.eloSaved(elo);
-                   myEloChanged.myEloChanged(scyElo);
-               }
-               def finishEloUpdate = function():Void{
-                   eloSaverCallBack.eloSaved(scyElo.getElo());
-                   ProgressOverlay.stopShowWorking();
-                   showEloSaved();
-               }
-               // run it only in a background thread, if we are ruuning on the EDT
-               // during the close of scy-lab, all save actions are done in a background thread
-               if (EventQueue.isDispatchThread()){
-                  XFX.runActionInBackgroundAndCallBack(doEloUpdate,function(o:Object):Void{finishEloUpdate()});
-               } else {
-                  doEloUpdate();
-                  finishEloUpdate()
-               }
-            } else {
-               // it is not my elo, do a save as
-               eloSaveAs(elo, eloSaverCallBack);
-            }
-         }
+      waitIfPreviousSaveStillBusyAndStartSave();
+      if (elo.getUri() == null or elo.getUri().toString().length() == 0) {
+         startEloSaveAs(elo, eloSaverCallBack);
+         return
+      }
+
+      def scyElo = new ScyElo(elo, config.getToolBrokerAPI());
+      if (authorMode and not window.isQuiting) {
+         // force a save as dialog box, so that new titles can entered or existing ones modified
+         showEloSaveAsPanel(elo, scyElo.getTitle(), true, true, eloSaverCallBack);
+         return
+      }
+
+      def isMyEloTo = scyElo.getAuthors().contains(config.getToolBrokerAPI().getLoginUserName());
+      if (not isMyEloTo and not window.isQuiting) {
+         startEloSaveAs(elo, eloSaverCallBack);
+         return
+      }
+
+      ProgressOverlay.startShowWorking();
+
+      addThumbnail(scyElo);
+      var eloUpdated = false;
+      def doEloUpdate = function(): Void {
+                 updateTags(elo);
+                 // it is (also) my elo
+                 var dateFirstUserSaveSet = false;
+                 var creatorSet = false;
+                 if (scyElo.getDateFirstUserSave() == null) {
+                    scyElo.setDateFirstUserSave(System.currentTimeMillis());
+                    dateFirstUserSaveSet = true;
+                 }
+                 if (scyElo.getCreator() == null) {
+                    scyElo.setCreator(loginName);
+                    creatorSet = true;
+                 }
+                 if (isMyEloTo) {
+                    try {
+                       scyElo.updateElo();
+                       scyToolActionLogger.eloSaved(elo);
+                       eloUpdated = true;
+                    } catch (e: ELONotLastVersionException) {
+                       logger.error("unexpected ELONotLastVersionException for elo: {e.getURI()}, now doing a save as");
+                       if (dateFirstUserSaveSet) {
+                          scyElo.getMetadata().deleteMetatadata(dateFirstUserSaveKey);
+                       }
+                       if (creatorSet) {
+                          scyElo.getMetadata().deleteMetatadata(creatorKey);
+                       }
+                       FX.deferAction(function(): Void {
+                          startEloSaveAs(elo, eloSaverCallBack);
+                       });
+                    }
+                 } else {
+                    // it is not mine, but as this window is being quit, i may not ask the user anything
+                    scyElo.saveAsForkedElo();
+                 }
+              }
+      def finishEloUpdate = function(): Void {
+                 if (eloUpdated) {
+                    myEloChanged.myEloChanged(scyElo);
+                    eloSaverCallBack.eloSaved(scyElo.getElo());
+                    ProgressOverlay.stopShowWorking();
+                    showEloSaved();
+                    saveEnded();
+                 }
+              }
+      // run it only in a background thread, if we are ruuning on the EDT
+      // during the close of scy-lab, all save actions are done in a background thread
+      if (EventQueue.isDispatchThread()) {
+         XFX.runActionInBackgroundAndCallBack(doEloUpdate, function(o: Object): Void {
+            finishEloUpdate()
+         });
       } else {
-         eloSaveAs(elo, eloSaverCallBack);
+         doEloUpdate();
+         FX.deferAction(finishEloUpdate);
+      //         finishEloUpdate()
       }
    }
 
@@ -367,32 +384,43 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
    }
 
    function showEloSaved(): Void {
-       if (not window.isQuiting) {
-          def showEloSavedMassegaeTime = 1s;
-          var targetNode: Node = window;
-          if (window instanceof StandardScyWindow){
-             targetNode = (window as StandardScyWindow).windowTitleBar.eloIcon;
-          }
+      if (not window.isQuiting) {
+         def showEloSavedMassegaeTime = 1s;
+         var targetNode: Node = window;
+         if (window instanceof StandardScyWindow) {
+            targetNode = (window as StandardScyWindow).windowTitleBar.eloIcon;
+         }
 
-          def eloSavedBubbled = TextBubble {
-                     bubbleText: ##"ELO saved"
-                     windowColorScheme: window.windowColorScheme
-                     targetNode: targetNode
-                  }
-          BubbleShower {
-    //         simpleBubbleManager: this
-             bubble: eloSavedBubbled
-             tooltipGroup: SimpleTooltipManager.tooltipGroup
-             bubbleContent: eloSavedBubbled.getBubbleContent()
-             windowColorScheme: eloSavedBubbled.windowColorScheme
-             sourceNode: eloSavedBubbled.targetNode
-             showArrow: false
-             startAppearingTime: 10ms
-             fullAppearingTime: AnimationTiming.appearTime
-             startDisappearingTime: AnimationTiming.appearTime + showEloSavedMassegaeTime
-             fullDisappearingTime: AnimationTiming.appearTime + showEloSavedMassegaeTime + AnimationTiming.disappearTime
-          }
-       }
+         def eloSavedBubbled = TextBubble {
+                    bubbleText: ##"ELO saved"
+                    windowColorScheme: window.windowColorScheme
+                    targetNode: targetNode
+                 }
+         BubbleShower {
+            //         simpleBubbleManager: this
+            bubble: eloSavedBubbled
+            tooltipGroup: SimpleTooltipManager.tooltipGroup
+            bubbleContent: eloSavedBubbled.getBubbleContent()
+            windowColorScheme: eloSavedBubbled.windowColorScheme
+            sourceNode: eloSavedBubbled.targetNode
+            showArrow: false
+            startAppearingTime: 10ms
+            fullAppearingTime: AnimationTiming.appearTime
+            startDisappearingTime: AnimationTiming.appearTime + showEloSavedMassegaeTime
+            fullDisappearingTime: AnimationTiming.appearTime + showEloSavedMassegaeTime + AnimationTiming.disappearTime
+         }
+      }
+   }
+
+   var busyLatch = new CountDownLatch(0);
+
+   function waitIfPreviousSaveStillBusyAndStartSave(): Void {
+      busyLatch.await();
+      busyLatch = new CountDownLatch(1);
+   }
+
+   function saveEnded(): Void {
+      busyLatch.countDown();
    }
 
 }

@@ -13,6 +13,7 @@ import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadata;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.common.scyelo.ScyElo;
+import eu.scy.client.desktop.desktoputils.XFX;
 
 /**
  * @author sikkenj
@@ -46,13 +47,8 @@ public class EloSavedActionHandler extends EloSavedListener {
    function reportNewEloSaved(eloUri: URI, elo: IELO, metadata: IMetadata): Void {
       tbi.getELOFactory().updateELOWithResult(elo, metadata);
       def scyElo = new ScyElo(elo,tbi);
-      FX.deferAction(getNewEloSaved(scyElo));
-   }
-
-   function getNewEloSaved(eloUri: URI): function() {
-      function() {
-         scyDesktop.scyWindowControl.newEloSaved(eloUri);
-      }
+      // make sure that the elo administration is updated, before reporting that a new elo has been saved
+      XFX.runActionAfter(getNewEloSaved(scyElo), 5);
    }
 
    function getNewEloSaved(scyElo: ScyElo): function() {
