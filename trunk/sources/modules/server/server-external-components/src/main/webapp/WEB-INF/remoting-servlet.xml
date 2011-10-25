@@ -40,16 +40,4 @@
 		<property name="service" ref="extensionManager"/>
 		<property name="serviceInterface" value="roolo.api.IExtensionManager"/>
 	</bean>
-
-    <bean id="pedPlanInvoker" name="/pedagogicalPlan-httpinvoker" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
-        <property name="service" ref="pedagogicalPlanService"/>
-        <property name="serviceInterface" value="eu.scy.server.pedagogicalplan.PedagogicalPlanService"/>
-    </bean>
-
-    <bean id="studentPlanInvoker" name="/studentPlan-httpinvoker" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
-        <property name="service" ref="studentPpedagogicalPlanService"/>
-        <property name="serviceInterface" value="eu.scy.server.pedagogicalplan.StudentPedagogicalPlanService"/>
-    </bean>
-	<!-- the RoOLO ELOFactory should be accessed remotely, it can run locally -->
-
 </beans>
