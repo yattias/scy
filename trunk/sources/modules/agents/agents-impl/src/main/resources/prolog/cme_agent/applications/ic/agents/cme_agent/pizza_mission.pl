@@ -61,14 +61,14 @@ feedback_message(not_all_dropped, Lang, Props, Msg) :-
 	).
 
 
-m(congratulations, gr, 'EL: You have placed all concepts correctly.  Congratulations!').
+m(congratulations, el, 'Έχεις τοποθετήσει όλες τις έννοιες σωστά. Συγχαρητήρια!').
 m(congratulations, _, 'You have placed all concepts correctly.  Congratulations!').
 
-m(correct_wrong, gr, 'EL: You have ~w concepts correct and ~w are wrong').
+m(correct_wrong, el, 'Έχεις ~w έννοιες σωστές και ~w έννοιες λάθος.').
 m(correct_wrong, _, 'You have ~w concepts correct and ~w are wrong').
 
-m(not_dropped_single, gr, 'EL: There is still one concept that needs to be dragged to an empty spot').
+m(not_dropped_single, el, 'Υπάρχει ακόμα μια έννοια που πρέπει να μεταφερθεί σε ένα άδειο πεδίο.').
 m(not_dropped_single, _, 'There is still one concept that needs to be dragged to an empty spot').
 
-m(not_dropped_multiple, gr, 'EL: There are still ~w concepts that need to be dragged to an empty spot').
+m(not_dropped_multiple, el, 'Υπάρχουν ακόμα ~w έννοιες που πρέπει να μεταφερθούν σε ένα άδειο πεδίο.').
 m(not_dropped_multiple, _, 'There are still ~w concepts that need to be dragged to an empty spot').

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<term_set name="efs">
+  <term name="ENERGY">
+    <string>ΕΝΕΡΓΕΙΑ</string>
+  </term>
+
+  <term name="Joule">
+    <string>Joule</string>
+  </term>
+
+  <term name="explain weight">
+    <string>[εξηγήστε για το βάρος]</string>
+  </term>
+
+  <term name="explain age">
+    <string>[εξηγήστε για την ηλικία]</string>
+  </term>
+
+  <term name="explain gender">
+    <string>[εξηγήστε για το φύλο]</string>
+  </term>
+
+  <term name="activities">
+    <string>δραστηριότητες</string>
+  </term>
+
+  <term name="age">
+    <string>ηλικία</string>
+  </term>
+
+  <term name="because">
+    <string>γιατί</string>
+  </term>
+
+  <term name="calorie">
+    <string>θερμίδα</string>
+  </term>
+
+  <term name="depend on">
+    <string>εξαρτάται από</string>
+  </term>
+
+  <term name="energy needs body" word_order="true">
+    <string>ενεργειακές ανάγκες του σώματός σου</string>
+  </term>
+
+  <term name="energy used body" word_order="true">
+    <string>ενέργεια που χρησιμοποιείται από το σώμα σου</string>
+  </term>
+
+  <term name="for">
+    <string>για</string>
+  </term>
+
+  <term name="for example">
+    <string>για παράδειγμα</string>
+  </term>
+
+  <term name="gender">
+    <string>φύλο</string>
+  </term>
+
+  <term name="is 4.18">
+    <string>είναι 4.18</string>
+  </term>
+
+  <term name="is defined as">
+    <string>ορίζεται ως</string>
+  </term>
+
+  <term name="is measured in">
+    <string>μετριέται σε</string>
+  </term>
+
+  <term name="heart beat" word_order="true">
+    <string>κτύποι καρδιάς</string>
+  </term>
+
+  <term name="making new cells">
+    <string>δημιουργία νέων κυττάρων</string>
+  </term>
+
+  <term name="muscle contraction">
+    <string>κίνηση μυών</string>
+  </term>
+
+  <term name="other body processes">
+    <string>άλλες λειτουργίες του σώματος</string>
+  </term>
+
+  <term name="running">
+    <string>τρέξιμο</string>
+  </term>
+
+  <term name="saliva production">
+    <string>παραγωγή σάλιου</string>
+  </term>
+
+  <term name="talking">
+    <string>ομιλία</string>
+  </term>
+
+  <term name="definition calorie" word_order="true">
+    <string>το ποσό της ενέργειας που απαιτείται για να αυξηθεί η θερμοκρασία 1 γραμμαρίου καθαρού νερού κατά 1 βαθμό Κελσίου</string>
+  </term>
+
+  <term name="definition Joule"
+word_order="true">
+    <string>το ποσό της ενέργειας που καταναλώνεται για παραγωγή δύναμης 1 Watt για 1 δευτερόλεπτο</string>
+  </term>
+
+  <term name="physical work" word_order="true">
+    <string>όσο πιο πολύ ακσήστε, τόσο περισσότερη ενέργεια χρειάζεστε</string>
+  </term>
+
+  <term name="thinking">
+    <string>σκέψη</string>
+  </term>
+
+  <term name="weight">
+    <string>βάρος</string>
+  </term>
+
+</term_set>

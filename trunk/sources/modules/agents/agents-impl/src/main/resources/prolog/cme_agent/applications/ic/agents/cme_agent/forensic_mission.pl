@@ -27,6 +27,7 @@
 forensic_mission_feedback(Language, Evaluation, Feedback) :-
 	memberchk(empty(Empty), Evaluation),
 	memberchk(not_understood(NotUnderstood), Evaluation),
+	memberchk(duplicates(Dups), Evaluation),
 %	memberchk(correct(Correct), Evaluation),
 %	memberchk(perfect(Perfect), Evaluation),
 	memberchk(dislocated(Dislocated), Evaluation),
@@ -38,17 +39,29 @@ forensic_mission_feedback(Language, Evaluation, Feedback) :-
 	->  feedback_message(not_understood, Language, Evaluation, Feedback2)
 	;   Feedback2 = ''
 	),
-	(   Dislocated == [], Empty == [], NotUnderstood == []
-	->  feedback_message(congratulations, Language, Evaluation, Feedback3)
+	(   Dups \== []
+	->  feedback_message(duplicates, Language, Evaluation, Feedback3)
 	;   Feedback3 = ''
 	),
-	(   Dislocated \== []
-	->  feedback_message(dislocated, Language, Evaluation, Feedback4)
+	(   Dislocated == [], Empty == [], NotUnderstood == []
+	->  feedback_message(congratulations, Language, Evaluation, Feedback4)
 	;   Feedback4 = ''
 	),
-	atomic_list_concat([Feedback1,Feedback2,Feedback3,Feedback4], '   ', Feedback).
+	(   Dislocated \== [], Dups == []
+	->  feedback_message(dislocated, Language, Evaluation, Feedback5)
+	;   Feedback5 = ''
+	),
+	atomic_list_concat([Feedback1,Feedback2,Feedback3,Feedback4,Feedback5],
+			   '   ', FeedbackAll),
+	normalize_space(atom(Feedback), FeedbackAll).
 
-
+feedback_message(duplicates, Lang, Props, Msg) :-
+	memberchk(duplicates(Dups), Props),
+	memberchk(gls(G), Props),
+	m(conjunction, Lang, Conj),
+	dups_to_labels(Dups, G, Conj, Txt),
+	m(duplicates, Lang, Fmt),
+	format(atom(Msg), Fmt, [Txt]).
 feedback_message(empty, Lang, Props, Msg) :-
 	memberchk(empty(Empty), Props),
 	length(Empty, LenEmpty),
@@ -83,6 +96,9 @@ feedback_message(congratulations, Lang, _Props, Msg) :-
 	m(congratulations, Lang, Fmt),
 	format(atom(Msg), Fmt, []).
 
+
+m(duplicates, fr, 'DUPLICATE MESSAGE IN FRENCH').
+m(duplicates, _, 'Your map contains duplicate concepts or concepts that look very similar: ~w.  Each concept can only appear once.').
 
 m(congratulations, fr, 'Bravo! Votre carte conceptuelle est parfaite.').
 m(congratulations, _, 'Congratulations: your concept map is perfect!').
@@ -124,3 +140,16 @@ quote_nodes([Node|Nodes], G, [Quote|Quotes]) :-
 	gls_node_label(G, Node, Label),
 	format(atom(Quote), '"~w"', [Label]),
 	quote_nodes(Nodes, G, Quotes).
+
+
+dups_to_labels(Dups, G, Conj, Txt) :-
+	dups_to_labels(Dups, G, Conj, '', Txt).
+
+dups_to_labels([], _, _, Txt, Txt).
+dups_to_labels([Dup|Dups], G, Conj, Txt0, Txt) :-
+	nodes_to_labels(Dup, G, Conj, Labels),
+	(   Txt0 == ''
+	->  dups_to_labels(Dups, G, Conj, Labels, Txt)
+	;   format(atom(Txt1), '~w; ~w', [Txt0,Labels]),
+	    dups_to_labels(Dups, G, Conj, Txt1, Txt)
+	).

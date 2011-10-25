@@ -40,13 +40,13 @@
 
 anchor_properties(energyFactSheet, Language, Props) :-	% Pizza mission
 	(   Language == el
-	->  Props = [ term_set(efs),
+	->  Props = [ term_set(efs_el),
 		      reference_model(efs),
 		      rule_set(''),
 		      method(drag_and_drop)
 		    ]
 	; % Language == en
-	    Props = [ term_set(efs),
+	    Props = [ term_set(efs_en),
 		      reference_model(efs),
 		      rule_set(''),
 		      method(drag_and_drop)

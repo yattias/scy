@@ -34,6 +34,7 @@
 %	the reference model.
 
 gls_node_perfect_match(G, Node, RM) :-
+	gls_node_term(G, Node, Term),
 	findall(e(Tail,Node),
 		(gls_edge_tail(G, Edge, Tail),
 		 gls_edge_head(G, Edge, Node),
@@ -42,16 +43,20 @@ gls_node_perfect_match(G, Node, RM) :-
 		(gls_edge_tail(G, Edge, Node),
 		 gls_edge_head(G, Edge, Head),
 		 gls_node_term(G, Head, Term)), SEs2),
-	gls_node_term(G, Node, Term),
 	findall(e(Tail,Node),
 		(reference_model_edge(RM, TailTerm, Term),
 		 gls_node_term(G, Tail, TailTerm)), REs1),
 	findall(e(Node,Head),
 		(reference_model_edge(RM, Term, HeadTerm),
 		 gls_node_term(G, Head, HeadTerm)), REs2),
+	subset(SEs1, REs1),
+	subset(REs1, SEs1),
+	subset(SEs2, REs2),
+	subset(REs2, SEs2).
+/*
 	subtract(SEs1, REs1, TailDiff),
 	subtract(SEs2, REs2, HeadDiff),
-/*	filter_wrong_nodes(TailDiff0, G, Node, TailDiff),
+	filter_wrong_nodes(TailDiff0, G, Node, TailDiff),
 	filter_wrong_nodes(HeadDiff0, G, Node, HeadDiff),
   format('gls_node_perfect_match for ~w~n', [Node]),
   format('tail diff = ~w~n', [TailDiff]),
@@ -70,8 +75,9 @@ gls_node_perfect_match(G, Node, RM) :-
 		     gls_node_label(G, T, L2),
 		     format('head diff ~w -> ~w~n', [L2,L1])))
 	),
-*/	TailDiff == [],
+	TailDiff == [],
 	HeadDiff == [].
+*/
 
 
 filter_wrong_nodes([], _, []).

@@ -40,6 +40,8 @@ fill_in_evaluation(G, Evaluation, Options) :-
 	option(term_set(TS), Options),
 	option(reference_model(RM), Options),
 	gls_apply_term_set(G, TS, []),
+	findall(nt(N,T), gls_node_term(G, N, T), NTs),
+	duplicate_terms(NTs, Dups),
 	findall(E, gls_node_label(G,E,''), Es),		% Empty -- not filled in
 	findall(C, ( gls_node(G,C),
 		     gls_node_term(G, C, Term),
@@ -53,8 +55,22 @@ fill_in_evaluation(G, Evaluation, Options) :-
 	subtract(Cs, Ps, Ds),
 	Evaluation = [ gls(G),
 		       empty(Es),		% Empty nodes
+		       duplicates(Dups),	% Duplicate nodes
 		       not_understood(Ns),	% Not recognised by agent
 		       correct(Cs),		% Correct
 		       perfect(Ps),		% In the correct location
 		       dislocated(Ds)		% At the wrong location
 		     ].
+
+
+duplicate_terms([], []).
+duplicate_terms([nt(N1,T)|NTs], [[N1|Ns]|Dups]) :-
+	findall(N2, member(nt(N2,T), NTs), Ns),
+	Ns \== [], !,
+	delete(NTs, nt(_,T), Rest),
+	duplicate_terms(Rest, Dups).
+duplicate_terms([_|NTs], Dups) :-
+	duplicate_terms(NTs, Dups).
+
+
+	

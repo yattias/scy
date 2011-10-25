@@ -28,7 +28,7 @@
 	    item2_import_term/1,	% Item x TimeStamp x Type x Properties
 
 		% Assessors
-%	    item2/4,			% Item -> TimeStamp x Type x Properties
+	    item2/4,			% Item -> TimeStamp x Type x Properties
 	    item2/1,			% Item
 	    item2_time_stamp/2,		% Item -> TimeStamp
 	    item2_type/2,		% Item -> Type

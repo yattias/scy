@@ -36,8 +36,9 @@
 	agent:server/3.
 
 agent:server(local, 'localhost', 2525).
+agent:server(twente1, 'scyserver1.gw.utwente.nl', 2525).
 agent:server(twente2, 'scyserver2.gw.utwente.nl', 2525).
-agent:server(twente3, 'scyserver3.gw.utwente.nl', 2525).
+agent:server(twente3, 'gw-scyserver3.gw.utwente.nl', 2525).
 agent:server(collide, 'scy.collide.info', 2525).
 agent:server(review, 'scy-review.collide.info', 2525).
 

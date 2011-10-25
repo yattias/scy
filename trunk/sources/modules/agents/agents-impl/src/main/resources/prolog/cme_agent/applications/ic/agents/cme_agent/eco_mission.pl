@@ -246,7 +246,7 @@ m(some_correct(initial), et, 'Tehtud on hea algus kuid puuduvad veel ~w olulist 
 m(some_correct(initial), _, 'That is a good start but you still miss ~w concepts.').
 
 m(some_correct(one_missing), et, 'Tehtud on hea algus kuid puudub veel vähemalt üks oluline mõiste.').
-m(some_correct(one_missing), _, 'That is a good start but you still miss one concepts.').
+m(some_correct(one_missing), _, 'That is a good start but you still miss one concept.').
 
 m(some_correct(better), et, 'Mõistekaart on täiuslikum kuid ~w mõistet on ikka puudus.').
 m(some_correct(better), _, 'The concept map has improved.  ~w concepts are still missing.').
@@ -263,6 +263,6 @@ m(some_correct(find_peer), _, 'I did not find any class mate with a better conce
 m(topic(not_available), et, 'Ma ei suutnud leida millise uurimusliku teemaga Sa viimati tegelesid. ').
 m(topic(not_available), _, 'I could not determine the topic you are working on.') :- !.
 
-m(topic(_), et, 'Hindamine teemal ~w. ').
-m(topic(_), _, 'Evaluation for topic ~w').
+m(topic(_), et, 'Hindamine teemal ~w.').
+m(topic(_), _, 'Evaluation for topic ~w.').
 	
