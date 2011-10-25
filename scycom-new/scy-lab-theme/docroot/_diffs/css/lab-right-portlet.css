@@ -1,0 +1,12 @@
+#layout-column_column-2 .portlet {
+	border-radius: 0 !important;
+	margin-left: -13px;
+	min-width: 200px;
+	max-width: 250px;
+	position: relative;
+	top: 120px;
+}
+
+#layout-column_column-2 li {
+	margin-bottom: 7px;
+}
