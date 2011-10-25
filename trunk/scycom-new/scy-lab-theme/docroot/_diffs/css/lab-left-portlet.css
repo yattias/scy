@@ -1,0 +1,14 @@
+#layout-column_column-1 .portlet {
+	margin-top: 55px;
+	float: right;
+	width: 450px;
+	margin-right: 0;
+}
+
+.scy-lab-article-content {
+	display: block;
+	height: 420px;
+	overflow-y: scroll;
+	overflow-x: visible;
+	line-height: 1.5;
+}
