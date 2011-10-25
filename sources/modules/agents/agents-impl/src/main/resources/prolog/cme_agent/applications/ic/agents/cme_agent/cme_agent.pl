@@ -18,7 +18,9 @@
 
 :- module(cme_agent_ic,
 	  [ cme_agent_start/1,	% Options		// [server(Server)]
-	    cme_tuple_space/3	% Space -> TS x Server
+	    cme_tuple_space/3,	% Space -> TS x Server
+
+	    cme_evaluate/6	% TBD -- remove as exported
 	  ]).
 
 :- use_module(load).
@@ -277,16 +279,10 @@ tool_anchor_action(conceptmap, Anchor, Tuple) :-
 	memberchk(method(Method), AnchorProps),
 	cme_tuple_space(command, CommandSpace, _),
 	ts_elo_fetch(CommandSpace, NewElo, XML),
-	(   Anchor == energyFactSheet
-	->  cmap_parse(XML, Nodes, Edges, [empty_link_label('for example')])
-	;   cmap_parse(XML, Nodes, Edges, [])
-	),
+	cmap_parse(XML, Nodes, Edges, []),
 	cmap_create(Map, Nodes, Edges, [cmap_xml(XML)]),
 	debug(cme(dev), 'created cmap ~w~n', [Map]),
-	(   Anchor == chimConceptMap		% TBD -- remove this test
-	->  broadcast(show_gls(Map))
-	;   debug(cme(dev), '******** ONLY SHOWING chimConceptMap ********~n', [])
-	),
+	broadcast(show_gls(Map)),
 	cme_evaluate(Method, Map, TS, RM, RS, Evaluation),
 	debug(cme(dev), '  eval = ~w~n', [Evaluation]),
 	tspl:uid(Id),
@@ -298,6 +294,7 @@ tool_anchor_action(conceptmap, Anchor, Tuple) :-
 	tspl_actual_field(string, Mission, F5),
 	tspl_actual_field(string, Session, F6),
 	anchor_evaluation_feedback(Anchor, Language, Evaluation, Msg),
+	debug(cme(dev), 'Feedback ~w~n', [Msg]),
 	atom_concat('message=', Msg, MsgAtt),
 	tspl_actual_field(string, MsgAtt, F7),
 	tspl_tuple([F0,F1,F2,F3,F4,F5,F6,F7], Notification),

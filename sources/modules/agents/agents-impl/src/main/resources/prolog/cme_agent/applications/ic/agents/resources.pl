@@ -67,7 +67,8 @@ agent_resource(reference_model, co2house, agents('resources/co2house_rm.xml')).
 agent_resource(term_set,        co2house, agents('resources/co2house_ts.xml')).
 
 agent_resource(reference_model, efs,      agents('resources/efs_rm.xml')).
-agent_resource(term_set,        efs,      agents('resources/efs_ts.xml')).
+agent_resource(term_set,        efs_en,   agents('resources/efs_ts_en.xml')).
+agent_resource(term_set,        efs_el,   agents('resources/efs_ts_el.xml')).
 
 agent_resource(reference_model, eco,      agents('resources/eco_rm.xml')).
 agent_resource(term_set,        eco_en,   agents('resources/eco_ts_en.xml')).

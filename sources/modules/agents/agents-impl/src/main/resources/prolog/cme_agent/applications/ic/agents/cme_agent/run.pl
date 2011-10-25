@@ -19,6 +19,7 @@
 
 :- module(run_cme_agent_ic,
 	  [ cme_run/0,
+	    cme_run/1,			% Server
 	    cme_svn_files/0
 	  ]).
 
@@ -37,16 +38,16 @@ cme_run :-
 	debug(cme(dev)),
 	cme_agent_start([server(collide)]).
 
+cme_run(Server) :-
+	debug(cme(dev)),
+	cme_agent_start([server(Server)]).
+
 
 cme_svn_files :-
 	Dst = '/home/anjo/scy/agents/src/main/resources/prolog/cme_agent',
 %	Dst = '/home/anjo/test_cme_agent',
 	source_files_required(Files, [pce_autoload(false)]),
 	source_files_copy(Files, Dst,
-			  [root('/home/anjo/cute2'),
-			   preserve(true)
+			  [ root('/home/anjo/cute2'),
+			    preserve(true)
 			  ]).
-
-
-
-
