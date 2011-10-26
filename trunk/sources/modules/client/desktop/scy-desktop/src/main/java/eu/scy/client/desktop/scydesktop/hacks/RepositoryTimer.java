@@ -15,6 +15,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import roolo.api.IRepository;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadata;
@@ -27,7 +30,7 @@ import roolo.search.ISearchResult;
  */
 public class RepositoryTimer implements IRepository
 {
-
+   private final static Logger logger = Logger.getLogger(RepositoryTimer.class);
    private IRepository repository;
    private final String dateFormatString = "HH:mm:ss.SSS";
    private final DateFormat dateFomat = new SimpleDateFormat(dateFormatString);
@@ -37,6 +40,9 @@ public class RepositoryTimer implements IRepository
    private int nrOfCalls = 0;
    private PrintStream logStream = System.out;
    private QueryUtils queryUtils = new QueryUtils();
+   private long minimumSleepTime = 0;
+   private long maximumSleepTime = 0;
+   private Random random = new Random(0);
 
    public RepositoryTimer() throws FileNotFoundException
    {
@@ -56,6 +62,41 @@ public class RepositoryTimer implements IRepository
    public void setRepository(IRepository repository)
    {
       this.repository = repository;
+   }
+
+   public long getMaximumSleepTime()
+   {
+      return maximumSleepTime;
+   }
+
+   public void setMaximumSleepTime(long maximumSleepTime)
+   {
+      this.maximumSleepTime = maximumSleepTime;
+   }
+
+   public long getMinimumSleepTime()
+   {
+      return minimumSleepTime;
+   }
+
+   public void setMinimumSleepTime(long minimumSleepTime)
+   {
+      this.minimumSleepTime = minimumSleepTime;
+   }
+
+   private void sleep(){
+      if (maximumSleepTime>0){
+         int maxRandomSleepTime = (int)( maximumSleepTime-minimumSleepTime);
+         long sleepTime = minimumSleepTime+random.nextInt(maxRandomSleepTime);
+         try
+         {
+            Thread.sleep(sleepTime);
+         }
+         catch (InterruptedException ex)
+         {
+            logger.info("RepositoryTimer.sleep() intererupted ");
+         }
+      }
    }
 
    private void logCall(long startNanos, String callName, String... params)
@@ -81,6 +122,7 @@ public class RepositoryTimer implements IRepository
          }
       }
       logStream.flush();
+      sleep();
    }
 
    private void logCall(long startNanos, String callName, URI... uris)
