@@ -409,6 +409,7 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
          }
          def searchQuery = new Query(query);
          searchQuery.setIncludedEloTypes(scyDesktop.newEloCreationRegistry.getEloTypes());
+         searchQuery.setFindTemplateElos(false);
          if (advancedSearch) {
             setSelecterFilters(searchQuery);
          }
