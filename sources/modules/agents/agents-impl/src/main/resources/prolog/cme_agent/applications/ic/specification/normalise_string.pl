@@ -28,7 +28,9 @@
 
 
 normalise_string(String, Normalised, Options) :-
-	ns_options(Options, Down, Diacritics, Punct),
+	option(downcase(Down), Options, true),
+	option(punctuation(Punct), Options, true),
+	option(diacritics(Diacritics), Options, true),
 	normalise_string(String, Down,Diacritics,Punct, Normalised).
 
 normalise_string(String, Down,Diacritics,Punct, Normalised) :-
@@ -36,19 +38,6 @@ normalise_string(String, Down,Diacritics,Punct, Normalised) :-
 	ns_punctuation(Punct, String1, String2),
 	ns_diacritics(Diacritics, String2, String3),
 	ns_space(String3, Normalised).
-
-ns_options([], Down, Diacritics, Punct) :-
-	(var(Down) -> Down = true; true),
-	(var(Diacritics) -> Diacritics = true; true),
-	(var(Punct) -> Punct = true; true).
-ns_options([downcase(Down)|Options], _, Diacritics, Punct) :- !,
-	ns_options(Options, Down, Diacritics, Punct).
-ns_options([diacritics(Diacritics)|Options], Down, _, Punct) :- !,
-	ns_options(Options, Down, Diacritics, Punct).
-ns_options([punctuation(Punct)|Options], Down, Diacritics, _) :- !,
-	ns_options(Options, Down, Diacritics, Punct).
-ns_options([_|Options], Down, Stop, Punct) :-
-	ns_options(Options, Down, Stop, Punct).
 
 
 /*------------------------------------------------------------
@@ -73,12 +62,13 @@ ns_downcase(false, String, String).
 :- dynamic
 	di/2.		% String -> Diacritics
 
+ns_diacritics(false, String0, String) :-
+	String0 = String.
 ns_diacritics(true, String, Normalised) :-
 	(   di(String, Normalised)
 	;   no_diacritics_atom(String, Normalised),
 	    assert(di(String,Normalised))
 	), !.
-ns_diacritics(false, String, String).
 
 
 /*------------------------------------------------------------

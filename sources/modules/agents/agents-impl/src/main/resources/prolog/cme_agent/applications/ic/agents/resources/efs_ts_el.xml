@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<term_set name="efs">
+<term_set name="efs" diacritics="false">
   <term name="ENERGY">
     <string>ΕΝΕΡΓΕΙΑ</string>
   </term>
@@ -105,8 +105,7 @@
     <string>το ποσό της ενέργειας που απαιτείται για να αυξηθεί η θερμοκρασία 1 γραμμαρίου καθαρού νερού κατά 1 βαθμό Κελσίου</string>
   </term>
 
-  <term name="definition Joule"
-word_order="true">
+  <term name="definition Joule" word_order="true">
     <string>το ποσό της ενέργειας που καταναλώνεται για παραγωγή δύναμης 1 Watt για 1 δευτερόλεπτο</string>
   </term>
 

@@ -180,6 +180,8 @@ wno_diacritics(const wchar_t* ws, unsigned int len, wchar_t* t)
 { while (len--)
   { if (*ws < 256)
       *t = latin1_diacritics[*ws];
+    else
+      *t = *ws;
     t++, ws++;
   }
   *t = '\0';

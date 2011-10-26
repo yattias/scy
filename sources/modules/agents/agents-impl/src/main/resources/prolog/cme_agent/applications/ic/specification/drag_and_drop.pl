@@ -38,7 +38,7 @@
 drag_and_drop_evaluation(G, Evaluation, Options) :-
 	option(term_set(TS), Options),
 	option(reference_model(RM), Options),
-	gls_apply_term_set(G, TS, []),
+	gls_apply_term_set(G, TS, Options),
 	findall(N, gls_node(G,N), Nodes),
 	findall(D, ( gls_node(G,D),
 		     gls_node_term(G, D, Term),

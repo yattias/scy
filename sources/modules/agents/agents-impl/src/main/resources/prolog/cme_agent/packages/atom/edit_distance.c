@@ -18,6 +18,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <wchar.h>
 #include <ctype.h>
 #include <string.h>
 #include <SWI-Prolog.h>
@@ -41,6 +42,44 @@ static int
 levenshtein(const char* s1, const char* s2)
 { int len1 = strlen(s1);
   int len2 = strlen(s2);
+  int i, j, cost;
+  int** d;
+  
+  d = PL_malloc(sizeof(int*)*(len1+1));
+  for (i=0; i<=len1; i++)
+    d[i] = PL_malloc(sizeof(int)*(len2+1));
+
+  for (i=0; i<=len1; i++)
+    d[i][0] = i;
+  for (j=0; j<=len2; j++)
+    d[0][j] = j;
+
+  for (j=1; j<=len2; j++)
+  { for (i=1; i<=len1; i++)
+    { if (s1[i-1] == s2[j-1])
+      { d[i][j] = d[i-1][j-1];
+	continue;
+      }
+      d[i][j] = minimum3(d[i-1][j  ] + 1,
+                         d[i  ][j-1] + 1,
+                         d[i-1][j-1] + 1);
+    }
+  }
+
+  cost = d[len1][len2];
+
+  for (i=0; i<=len1; i++)
+    PL_free(d[i]);
+  PL_free(d);
+
+  return cost;
+}
+
+
+static int
+wlevenshtein(const wchar_t *s1, const wchar_t *s2)
+{ size_t len1 = wcslen(s1);
+  size_t len2 = wcslen(s2);
   int i, j, cost;
   int** d;
   
@@ -112,12 +151,57 @@ damerau(const char* s1, const char* s2)
 }
 
 
+static int
+wdamerau(const wchar_t* s1, const wchar_t* s2)
+{ size_t len1 = wcslen(s1);
+  size_t len2 = wcslen(s2);
+  int i, j, cost;
+  int** d;
+  
+  d = PL_malloc(sizeof(int*)*(len1+1));
+  for (i=0; i<=len1; i++)
+    d[i] = PL_malloc(sizeof(int)*(len2+1));
+
+  for (i=0; i<=len1; i++)
+    d[i][0] = i;
+  for (j=0; j<=len2; j++)
+    d[0][j] = j;
+
+  for (i=1; i<=len1; i++)
+  { for (j=1; j<=len2; j++)
+    { cost = (s1[i-1] == s2[j-1] ? 0 : 1);
+      d[i][j] = minimum3(d[i-1][j  ] + 1,
+                         d[i  ][j-1] + 1,
+                         d[i-1][j-1] + cost);
+      if (i>1 && j>1 && s1[i-1] == s2[j-1-1] && s1[i-1-1] == s2[j-1])
+        d[i][j] = minimum2(d[i][j], d[i-2][j-2]+cost);
+    }
+  }
+
+  cost = d[len1][len2];
+
+  for (i=0; i<=len1; i++)
+    PL_free(d[i]);
+  PL_free(d);
+
+  return cost;
+}
+
+
 static foreign_t
 levenshtein3(term_t tatom1, term_t tatom2, term_t tdist)
 { char *s1, *s2;
+  wchar_t *ws1, *ws2;
+  size_t len1, len2;
 
-  if (PL_get_atom_chars(tatom1, &s1) && PL_get_atom_chars(tatom2, &s2))
+  if (   PL_get_nchars(tatom1, &len1, &s1, CVT_ATOMIC)
+	 && PL_get_nchars(tatom2, &len2, &s2, CVT_ATOMIC))
     return PL_unify_integer(tdist, levenshtein(s1,s2));
+
+  if (   PL_get_wchars(tatom1, &len1, &ws1, CVT_ATOMIC)
+	 && PL_get_wchars(tatom2, &len2, &ws2, CVT_ATOMIC))
+    return PL_unify_integer(tdist, wlevenshtein(ws1,ws2));
+    
   return FALSE;
 }
 
@@ -125,9 +209,17 @@ levenshtein3(term_t tatom1, term_t tatom2, term_t tdist)
 static foreign_t
 damerau3(term_t tatom1, term_t tatom2, term_t tdist)
 { char *s1, *s2;
+  wchar_t *ws1, *ws2;
+  size_t len1, len2;
 
-  if (PL_get_atom_chars(tatom1, &s1) && PL_get_atom_chars(tatom2, &s2))
+  if (   PL_get_nchars(tatom1, &len1, &s1, CVT_ATOMIC)
+	 && PL_get_nchars(tatom2, &len2, &s2, CVT_ATOMIC))
     return PL_unify_integer(tdist, damerau(s1,s2));
+
+  if (   PL_get_wchars(tatom1, &len1, &ws1, CVT_ATOMIC)
+	 && PL_get_wchars(tatom2, &len2, &ws2, CVT_ATOMIC))
+    return PL_unify_integer(tdist, wdamerau(ws1,ws2));
+    
   return FALSE;
 }
 

@@ -46,18 +46,18 @@ feedback_message(all_dropped, Lang, Props, Msg) :-
 	memberchk(wrong(Wrong), Props),
 	(   Wrong == 0
 	->  m(congratulations, Lang, Fmt),
-	    format(atom(Msg), M, [])
+	    format(atom(Msg), Fmt, [])
 	;   m(correct_wrong, Lang, Fmt),
-	    format(atom(Msg), M, [Correct, Wrong])
+	    format(atom(Msg), Fmt, [Correct, Wrong])
 	).
 	
 feedback_message(not_all_dropped, Lang, Props, Msg) :-
 	memberchk(not_dropped(NotDropped), Props),
 	(   NotDropped == 1
 	->  m(not_dropped(single), Lang, Fmt),
-	    format(atom(Msg), M, [])
+	    format(atom(Msg), Fmt, [])
 	;   m(not_dropped(multiple), Lang, Fmt),
-	    format(atom(Msg), M, [NotDropped])
+	    format(atom(Msg), Fmt, [NotDropped])
 	).
 
 

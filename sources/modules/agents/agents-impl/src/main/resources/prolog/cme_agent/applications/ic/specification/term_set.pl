@@ -49,7 +49,7 @@
 :- use_module(library(lists), [append/3, delete/3, list_to_set/2, member/2,
 			       subtract/3]).
 :- use_module(library(sgml), [load_structure/3]).
-:- use_module(library(option), [option/2, option/3, merge_options/3]).
+:- use_module(library(option), [option/2, option/3, select_option/4, merge_options/3]).
 
 :- use_module(normalise_string, [normalise_string/3, normalise_string_manage/1]).
 
@@ -63,7 +63,7 @@
 /**	<module> Term sets
 
 A term set defines a set of terms and the corresponding syntactic strings learners
-might use for these term.  The basic functionality is to take a name provided
+might use for these terms.  The basic functionality is to take a name provided
 by a learner and map it to one of the terms in the set.
 
 @author	Anjo Anjewierden
@@ -85,10 +85,13 @@ term_set_parse(Source, Set, Options) :-
 			 syntax_errors(quiet),
 			 space(remove)
 		       ]),
-	(   option(term_set(Set), Options)
+	(   nonvar(Set)
 	->  true
-	;   xml_memberchk(element(term_set,As,_), XML),
-	    memberchk(name=Set, As)
+	;   (   option(term_set(Set), Options)
+	    ->  true
+	    ;   xml_memberchk(element(term_set,As,_), XML),
+		memberchk(name=Set, As)
+	    )
 	),
 	term_set_module(Set, Module),
 	dynamic(Module:string_term/4),
@@ -114,12 +117,13 @@ parse([H|T], Verbose, Set, Module, Options) :-
 
 parse_h(element(T,As,C), Verbose, Set, Module, Options) :- !,
 	parse_t(T,As,C, Verbose, Set, Module, Options).
-parse_h(_, _, _, _).
+parse_h(_, _, _, _, _).
 
-parse_t(term_set,As,C, Verbose, Set, Module, Options) :- !,
+parse_t(term_set,As,C, Verbose, Set, Module, Options0) :- !,
 	xml_avs_to_terms(As, Props0),
 	semi_colon_in_type_props(Props0, Props),
 	term_set_create(Set, Props),
+	merge_options(Props, Options0, Options),
 	parse(C, Verbose, Set, Module, Options).
 parse_t(term,As,C, Verbose, Set, Module, Options) :- !,
 	memberchk(name=Term, As),
@@ -166,18 +170,25 @@ add_term_string(Term, String, Set,Module, Options) :-
 	option(word_order(WO), Options, false),
 	assert_term_set_term_string_properties(Set, Term, String, Options),
 	(   option(method(sub_string), Options)
-	->  assert(Module:string_term(String,Term,String,Options))
+	->  atomic_list_concat(Words, ' ', String),
+	    atomic_list_concat(Words, String1),
+	    assert_string_term(Module, String1, Term, String, Options)
 	;   term_set_normalise_string(String, Norm, Options),
 	    (   WO == true
-	    ->  assert(Module:string_term(String,Term,String,Options))
+	    ->  atomic_list_concat(Words, ' ', String),
+		atomic_list_concat(Words, String1),
+		assert_string_term(Module,String1,Term,String,Options)
 	    ;   term_set_normalise_string(String, Norm, Options),
 		atomic_list_concat(Words, ' ', Norm),
 		forall(permutation(Words,Perm),
-		       ( %atomic_list_concat(Perm, ' ', T),
-			 atomic_list_concat(Perm, '', T),
-			 assert(Module:string_term(T,Term,String,Options))))
+		       ( atomic_list_concat(Perm, '', T),
+			 assert_string_term(Module, T, Term, String, Options)))
 	    )
 	).
+
+
+assert_string_term(Module, String, Term, BaseString, Options) :-
+	assert(Module:string_term(String,Term,BaseString,Options)).
 
 
 
@@ -244,12 +255,15 @@ term_set_manage_option(language(Language), _Set) :-
 %	  If Bool is =true= (default), all punctuation characters are removed
 %	  from String.  Punctuation characters are those for which char_type/2
 %	  succeeds with =punct=.
+%
+%	* diacritics(Bool)
+%	  If Bool is =true= (default), all diacritics are replaced by their
+%	  more simple variants (see no_diacritics_atom/2).
 
 term_set_normalise_string(String, Normalised, Options) :-
-	normalise_string(String, Normalised, Options).
-
-
-
+	normalise_string(String, Norm, Options),
+	atomic_list_concat(Words, ' ', Norm),
+	atomic_list_concat(Words, Normalised).
 
 
 /*------------------------------------------------------------
@@ -434,6 +448,7 @@ export_matches([S|Ss], Model, Stream) :-
 
 term_set_string_similarity(String1, String2, Similarity) :-
 	atomic_list_concat([String1,String2], '-', BothStrings),
+	retractall(tss(_,_)),		% TBD - remove this line
 	(   tss(BothStrings, KnownSimilarity)
 	->  Similarity = KnownSimilarity
 	;   atom_length(String1, Len1),
@@ -475,9 +490,10 @@ term_set_matches(Set, String0, Terms, Options) :-
  *------------------------------------------------------------*/
 
 term_set_match_string(Set, String0, Term, Options) :-
-	option(threshold(Threshold), Options, 0.5),
+	String0 \== '',
+	select_option(threshold(Threshold), Options, RestOptions, 0.5),
 	pre_string_terms(Set, PreTerms),
-	term_set_normalise_string(String0, String, []),
+	term_set_normalise_string(String0, String, RestOptions),
 	match_sts(PreTerms, String, STSs),
 	compound_terms_sort(STSs, Sorted, [arg(3), functor(sts), order(descending)]),
 	memberchk(sts(_,Term,Similarity), Sorted),
@@ -503,186 +519,4 @@ matches_above_threshold([stb(Match,Term,Base)|STs], String, Threshold,
 	matches_above_threshold(STs, String, Threshold, STSs).
 matches_above_threshold([_|STs], String, Threshold, STSs) :-
 	matches_above_threshold(STs, String, Threshold, STSs).
-
-end_of_file.
-	
-
-%%	term_set_match_string(+Set:atom, +String:atom, -Term:atom, +Options) is semidet.
-%
-%	Options are:
-%
-%	* exclude(Terms)
-%	  Exclude the terms in the list of Terms from a possible match.
-%	  This can be used to prevent that a single string maps on multiple
-%	  terms in a given model.
-%
-%	* type(Type)
-%	  Type of the element corresponding to Term.  Type can be an atom or a list of types.
-%
-term_set_match_string(Set, String, Term, Options) :-
-	option(exclude(Exclude), Options, []),
-	match_relevant_options(Options, MatchOptions),
-	term_set_module(Set, Module),
-	(   Exclude == [],
-	    Module:string_term_cache(String,Term,_,Value,MatchOptions)
-	->  ignore(memberchk(score(Value), Options))
-	;   find_tcdos(Set, Exclude, String, TCDOs),
-	    findall(tcdo(T,C,pre(X),Opts), member(tcdo(T,C,pre(X),Opts), TCDOs), Pres0),
-	    findall(tcdo(T,C,post(X),Opts), member(tcdo(T,C,post(X),Opts), TCDOs), Posts0),
-	    compound_terms_sort(Pres0, Pres, [arg(3), order(descending)]),
-	    compound_terms_sort(Posts0, Posts, [arg(3), order(descending)]),
-	    append(Pres, Posts, Sorted),
-	    select_best(Sorted, Matched,Value, Term,Opts, MatchOptions),
-	    ignore(option(score(Value), Options)),
-	    term_set_module(Set, Module),
-	    assert(Module:string_term_cache(String,Term,Matched,Value,MatchOptions))
-	).
-
-
-match_relevant_options(All, Relevant) :-
-	match_relevant_options2(All, Tmp),
-	sort(Tmp, Relevant).
-
-match_relevant_options2([], []).
-match_relevant_options2([Opt|Opts], [Opt|More]) :-
-	match_relevant_option(Opt), !,
-	match_relevant_options2(Opts, More).
-match_relevant_options2([_|Opts], More) :-
-	match_relevant_options2(Opts, More).
-
-match_relevant_option(type(_)).
-
-
-find_tcdos(Set, Exclude, String, TCDOs) :-
-	term_set_module(Set, Module),
-	findall(C, term_set_term(Set,C), Terms0),
-	subtract(Terms0, Exclude, Terms1),
-	remove_accept_false(Terms1, Set,Module,String, Terms),
-	findall(tcdo(S,T,Score,Opts),
-		( member(T, Terms),
-		  Module:string_term(S, T, _, Opts),
-		  term_set_normalise_string(String, Norm, Opts),
-		  term_options_score(Norm, S, Opts, Score)), TCDOs).
-
-
-remove_accept_false([], _,_,_, []).
-remove_accept_false([T|Terms], Set,Module,String, More) :-
-	Module:string_term(S, T, _, Options),
-	term_set_normalise_string(String, Norm, Options),
-	memberchk(method(sub_string), Options),
-	memberchk(accept(false), Options),
-	sub_atom(Norm, _,_,_, S), !,
-	remove_accept_false(Terms, Set,Module,String, More).
-remove_accept_false([T|Terms], Set,Module,String, [T|More]) :-
-	remove_accept_false(Terms, Set,Module,String, More).
-
-
-term_options_score(String, Known, Options, Score) :-
-	memberchk(method(sub_string), Options), !,
-	(   sub_atom(String, _,_,_, Known)
-	->  atom_length(Known, Len),
-	    Score0 is 0.51 + Len / 100		% 0.51 is larger than the threshold of 0.5
-	;   Score0 = 0.0
-	),
-	when_score(Options, post, Score0, Score).
-term_options_score(String, Known, Options, Score) :-
-	memberchk(method(words), Options), !,
-	words(String, Words1),
-	words(Known, Words2),
-	match_words(Words2, Words1, Score0),
-	when_score(Options, pre, Score0, Score).
-term_options_score(String, Known, Options, Score) :-
-	term_set_string_similarity(String, Known, Score0),
-	when_score(Options, pre, Score0, Score).
-
-
-when_score(Options, Default, Score0, Score) :-
-	(   memberchk(when(When), Options)
-	->  true
-	;   When = Default
-	),
-	(   When == pre
-	->  Score = pre(Score0)
-	;   Score = post(Score0)
-	).
-
-
-words(String, Words) :-
-	atomic_list_concat(Words, ' ', String).
-	    
-	
-match_words(KnownWords, StringWords, Score) :-
-	match_words(KnownWords, StringWords, 1, Score).
-match_words(_, _, 0).
-
-match_words([], _, Score, Score).
-match_words([Known|KnownWords], StringWords, Score0, Score) :-
-	(   Score0 < 0				% Already negative, don't search further
-	->  Score = Score0
-	;   best_term_word(StringWords, Known, Best, Score1),
-	    Score2 is Score0 * Score1,		% If both negative, then score becomes positive
-	    delete(StringWords, Best, StringRest),
-	    match_words(KnownWords, StringRest, Score2, Score)
-	).
-
-best_term_word([String|StringWords], Known, Best, Score) :-
-	term_set_string_similarity(String, Known, Value),
-	best_term_word(StringWords, Known, String,Value, Best,Score).
-
-best_term_word([], _, Best,Score, Best,Score).
-best_term_word([String|StringWords], Known, Best0,Score0, Best,Score) :-
-	term_set_string_similarity(String, Known, Value),
-	(   Value > Score0
-	->  best_term_word(StringWords, Known, String,Value, Best,Score)
-	;   best_term_word(StringWords, Known, Best0,Score0, Best,Score)
-	).
-
-
-select_best([tcdo(String,Term,Score,Opts)|_], String,Value, Term,Opts, Options) :-
-	check_type(Options, Opts),
-	arg(1, Score, Value),		% pre(Value) or post(Value)
-	Value > 0.5, !.
-select_best([_|More], String,Score, Term,Opts, Options) :-
-	select_best(More, String,Score, Term,Opts, Options).
-
-
-check_type(OptionsCaller, OptionsString) :-
-	memberchk(type(Type0), OptionsCaller),
-	memberchk(type(Type1), OptionsString), !,
-	(   atom(Type1)
-	->  Type0 == Type1
-	;   is_list(Type1),
-	    memberchk(Type0, Type1)
-	).
-check_type(_, _).
-
-
-/*------------------------------------------------------------
- *  Consistency
- *------------------------------------------------------------*/
-
-%%	term_set_consistency(+Set:atom) is det.
-%
-%	Checks the consistency of the Set and prints results on the terminal.
-%	Currently input terms that would match on several concepts are reported.
-
-term_set_consistency(Set) :-
-	term_set_module(Set, Module),
-	findall(tbc(String,Base,Concept,Opts),
-		Module:string_term(String, Concept, Base, Opts), TBCs),
-	sort(TBCs, Sorted),
-	consistent(Sorted).
-
-consistent([]).
-consistent([_]) :- !.
-consistent([tbc(String,Base1,Concept1,Opts1), tbc(String,Base2,Concept2,Opts2)|TBCs]) :- !,
-	option(type(Type1), Opts1, ''),
-	option(type(Type2), Opts2, ''),
-	format('~n', []),
-	format('~w~40|~t ~w (~w) ~w~n', [String,Base1,Concept1,Type1]),
-	format('  ~40|~t ~w (~w) ~w~n', [     Base2,Concept2,Type2]),
-	consistent([tbc(String,Base2,Concept2,Opts2)|TBCs]).
-consistent([_|TBCs]) :-
-	consistent(TBCs).
-
 
