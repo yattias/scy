@@ -18,10 +18,13 @@
 
 :- module(edit_distance_atom,
 	  [ edit_distance/3,		% Atom x Atom -> Distance
-	    damerau_edit_distance/3	% Atom x Atom -> Distance
+	    damerau_edit_distance/3,	% Atom x Atom -> Distance
+
+	    edit_distance_pl/3		% Atom x Atom -> Distance
 	  ]).
 
 :- use_module(load).
+
 
 /*------------------------------------------------------------
  *  Register related files
@@ -94,16 +97,24 @@ init_d2(J,Max, I) :-
 
 
 edit_distance_pl(A1, A2, Dist) :-
+% format('edit_distance_pl:~n', []),
+% format('  "~q"~n', [A1]),
+% format('  "~q"~n', [A2]),
 	atom_length(A1, L1),
 	atom_length(A2, L2),
-	init_d(L1, L2),
-	atom_codes(A1, C1),
-	atom_codes(A2, C2),
-	T1 =.. [c|C1],
-	T2 =.. [c|C2],
+	(   abs(L1-L2) > max(L1,L2) / 2
+	->  Dist is abs(L1-L2)
+	;   init_d(L1, L2),
+	    atom_codes(A1, C1),
+	    atom_codes(A2, C2),
+	    T1 =.. [c|C1],
+	    T2 =.. [c|C2],
 
-	iterate(L2, L1, T1, T2),
-	d(L1, L2, Dist).
+	    iterate(L2, L1, T1, T2),
+	    d(L1, L2, Dist),
+% format('    ~w~n', [Dist]).
+	    true
+	).
 	       
 
 iterate(L2, L1, A1,A2) :-
@@ -133,8 +144,6 @@ iterate2(I,L1, J, C1,C2) :-
 	),
 	Next is I + 1,
 	iterate2(Next,L1, J, C1,C2).
-	
-
 
 
 /*------------------------------------------------------------
