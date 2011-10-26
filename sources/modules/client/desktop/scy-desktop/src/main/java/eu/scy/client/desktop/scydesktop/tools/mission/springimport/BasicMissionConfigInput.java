@@ -77,6 +77,10 @@ public class BasicMissionConfigInput implements MissionConfigInput
          {
             logger.error(addError("Duplicate template ELO uri: " + uri));
          }
+         else if (tbi.getRepository().retrieveMetadata(uri) == null)
+         {
+            logger.error(addError("Cannot find template ELO uri: " + uri));
+         }
          else
          {
             setTemplateFlag(uri);
