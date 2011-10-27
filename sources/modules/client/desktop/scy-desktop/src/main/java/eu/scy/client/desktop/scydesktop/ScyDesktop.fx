@@ -972,6 +972,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
    function saveAll(): Void {
       println("Now saving all ELOs....");
       logger.info("Now saving all ELOs....");
+      missionModelFX.autoUpdateMissionModelElo = false;
       try {
          scyWindowControl.saveBeforeQuit();
       } catch (e: Exception) {
