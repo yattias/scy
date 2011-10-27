@@ -6,7 +6,7 @@ import eu.scy.agents.Mission;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.parameter.AgentParameter;
 import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.agents.parameter.AgentParameterAPIImpl;
+import eu.scy.agents.impl.parameter.AgentParameterAPIImpl;
 import eu.scy.agents.keywords.ExtractKeyphrasesAgent;
 import eu.scy.agents.keywords.ExtractTopicModelKeywordsAgent;
 import eu.scy.agents.keywords.KeywordConstants;

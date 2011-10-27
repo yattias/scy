@@ -1,9 +1,10 @@
-package eu.scy.agents.parameter;
+package eu.scy.agents.impl.parameter;
 
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.parameter.AgentParameter;
 import eu.scy.agents.api.parameter.AgentParameterAPI;
 import eu.scy.agents.impl.AgentProtocol;
+import eu.scy.agents.impl.ThreadedAgentMock;
 import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Configuration;
 import info.collide.sqlspaces.commons.Configuration.Database;
