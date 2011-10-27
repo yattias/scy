@@ -46,6 +46,8 @@
                     </c:when>
                 </c:choose>
 
+                <br/>
+
 
                 <form action="storeMissionReflection.html">
                 <c:choose>
@@ -55,55 +57,55 @@
                                 <c:forEach var="answer" items="${teacherReflectionOnMisionAnswers}">
                                     <tr>
                                         <td>
-                                            ${answer.teacherQuestionToMission} - ${answer.answer}
+                                            ${answer.teacherQuestionToMission}
                                         </td>
                                         <td>
-                                            <textarea rows="3" cols="30" name="teacherReflection-${answer.id}">${answer.answer}</textarea>
+                                            <!--textarea rows="3" cols="30" name="teacherReflection-${answer.id}">${answer.answer}</textarea-->
                                         </td>
                                     </tr>
                                 </c:forEach>
+                                <tr>
+                                    <td colspan="2" >
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <h2><spring:message code="COMMENTS_ON_PORTFOLIO"/></h2>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <textarea rows="3" cols="50" name="commentsOnPortfolio"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <h2><spring:message code="RATING_ON_PORTFOLIO"/></h2>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                   <input type="radio" name="rating" value="1"><spring:message code="POOR"></spring:message><br/>
+                                                   <input type="radio" name="rating" value="2"><spring:message code="FAIR"></spring:message><br/>
+                                                   <input type="radio" name="rating" value="3"><spring:message code="GOOD"></spring:message><br/>
+                                                   <input type="radio" name="rating" value="4"><spring:message code="EXCELLENT"></spring:message><br/>
+                                                    <input type="hidden" value="${missionRuntimeURI}" name="missionRuntimeURI"/>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input type="submit" value="<spring:message code="SAVE"/>"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
                             </table>
                     </c:when>
                 </c:choose>
 
 
 
-            <div>
-
-                    <table>
-                        <tr>
-                            <td>
-                                <h2><spring:message code="COMMENTS_ON_PORTFOLIO"/></h2>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <textarea rows="3" cols="30" name="commentsOnPortfolio"></textarea>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <h2><spring:message code="RATING_ON_PORTFOLIO"/></h2>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                               <input type="radio" name="rating" value="1"><spring:message code="POOR"></spring:message><br/>
-                               <input type="radio" name="rating" value="2"><spring:message code="FAIR"></spring:message><br/>
-                               <input type="radio" name="rating" value="3"><spring:message code="GOOD"></spring:message><br/>
-                               <input type="radio" name="rating" value="4"><spring:message code="EXCELLENT"></spring:message><br/>
-                                <input type="hidden" value="${missionRuntimeURI}" name="missionRuntimeURI"/>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="submit" value="<spring:message code="SAVE"/>"/>
-                            </td>
-                        </tr>
-                    </table>
-
-                </div>
             </form>
             </div>
 
