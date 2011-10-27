@@ -37,4 +37,6 @@ public interface MissionModelEloContent
    public void addArchivedElo(ArchivedElo archivedElo);
 
    public void removeArchivedElo(ArchivedElo archivedElo);
+
+   public List<URI> getEloUris(boolean allElos);
 }

@@ -52,9 +52,17 @@ public class BasicMissionAnchor implements MissionAnchor
          return;
       }
       this.eloUri = eloUri;
-      if (scyElo != null)
+      if (eloUri != null)
       {
-         setExisting(scyElo.reloadFrom(eloUri));
+         if (scyElo != null)
+         {
+            if (!eloUri.equals(scyElo.getUri()))
+            {
+               setExisting(scyElo.reloadFrom(eloUri));
+            }
+         }
+      } else {
+         scyElo = null;
       }
    }
 

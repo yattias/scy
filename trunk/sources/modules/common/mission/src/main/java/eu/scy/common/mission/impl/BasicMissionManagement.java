@@ -29,6 +29,7 @@ import eu.scy.common.mission.MissionSpecificationEloContent;
 import eu.scy.common.mission.RuntimeSettingsElo;
 import eu.scy.common.mission.TemplateElosElo;
 import eu.scy.common.mission.utils.ActivityTimer;
+import eu.scy.common.scyelo.MultiScyEloLoader;
 import eu.scy.common.scyelo.QueryFactory;
 import eu.scy.common.scyelo.RooloServices;
 import eu.scy.common.scyelo.ScyElo;
@@ -283,6 +284,7 @@ public class BasicMissionManagement implements MissionManagement
    {
       long usedNanos = 0;
       int nrOfAnchorsCreated = 0;
+      MultiScyEloLoader multiScyEloLoader = new MultiScyEloLoader(missionModel.getEloUris(false), false, rooloServices);
       for (Las las : missionModel.getLasses())
       {
          if (las.getMissionAnchor().isExisting())
@@ -295,12 +297,12 @@ public class BasicMissionManagement implements MissionManagement
          }
          long startNanos = System.nanoTime();
          makePersonalMissionAnchor(las.getMissionAnchor(), userName, missionRuntimeEloUri,
-            missionSpecificationEloUri, eloToolConfigs);
+            missionSpecificationEloUri, eloToolConfigs, multiScyEloLoader);
          ++nrOfAnchorsCreated;
          for (MissionAnchor anchor : las.getIntermediateAnchors())
          {
             makePersonalMissionAnchor(anchor, userName, missionRuntimeEloUri,
-               missionSpecificationEloUri, eloToolConfigs);
+               missionSpecificationEloUri, eloToolConfigs, multiScyEloLoader);
             ++nrOfAnchorsCreated;
          }
          usedNanos += System.nanoTime() - startNanos;
@@ -337,7 +339,7 @@ public class BasicMissionManagement implements MissionManagement
 
    private void makePersonalMissionAnchor(MissionAnchor missionAnchor, String userName,
       URI missionRuntimeEloUri, URI missionSpecificationEloUri,
-      EloToolConfigsEloContent eloToolConfigs)
+      EloToolConfigsEloContent eloToolConfigs, MultiScyEloLoader multiScyEloLoader)
    {
       if (missionAnchor.isExisting())
       {
@@ -348,6 +350,11 @@ public class BasicMissionManagement implements MissionManagement
          if (!eloConfig.isContentStatic())
          {
             timer.startActivity("L");
+            final ScyElo loadedScyElo = multiScyEloLoader.getScyElo(missionAnchor.getEloUri());
+            if (loadedScyElo != null)
+            {
+               missionAnchor.setScyElo(loadedScyElo);
+            }
             missionAnchor.getScyElo().setLasId(missionAnchor.getLas().getId());
             timer.startActivity("setIconType");
             if (!isEmpty(missionAnchor.getIconType()))
@@ -460,7 +467,6 @@ public class BasicMissionManagement implements MissionManagement
       }
       return allMissionRuntimeModels;
    }
-
    private MissionModelElo missionModelElo;
 
    @Override
@@ -468,7 +474,8 @@ public class BasicMissionManagement implements MissionManagement
    {
       if (specificationContentEloUris == null)
       {
-         if (missionModelElo==null){
+         if (missionModelElo == null)
+         {
             missionModelElo = MissionModelElo.loadElo(missionSpecificationElo.getTypedContent().getMissionMapModelEloUri(), rooloServices);
          }
          specificationContentEloUris = new HashSet<URI>(missionModelElo.getMissionModel().getEloUris(false));

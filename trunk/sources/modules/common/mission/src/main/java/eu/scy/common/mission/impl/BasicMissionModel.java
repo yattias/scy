@@ -81,59 +81,7 @@ public class BasicMissionModel implements MissionModel
    @Override
    public List<URI> getEloUris(boolean allElos)
    {
-      Set<URI> allEloUris = new HashSet<URI>();
-      if (allElos)
-      {
-         addAllUriScyElos(allEloUris, missionModelEloContent.getLoEloUris());
-      }
-      for (Las las : missionModelEloContent.getLasses())
-      {
-         if (allElos)
-         {
-            addAllUriScyElos(allEloUris, las.getLoEloUris());
-         }
-         addMissionAnchorEloUris(allEloUris, las.getMissionAnchor(), allElos);
-         if (las.getIntermediateAnchors() != null)
-         {
-            for (MissionAnchor intermediateAnchor : las.getIntermediateAnchors())
-            {
-               addMissionAnchorEloUris(allEloUris, intermediateAnchor, allElos);
-            }
-         }
-      }
-      return new ArrayList<URI>(allEloUris);
-   }
-
-   private void addAllUris(Set<URI> allEloUris, List<URI> eloUris)
-   {
-      if (eloUris != null)
-      {
-         allEloUris.addAll(eloUris);
-      }
-   }
-
-   private void addAllUriScyElos(Set<URI> allEloUris, List<UriScyElo> eloUris)
-   {
-      if (eloUris != null)
-      {
-         for (UriScyElo uriScyElo : missionModelEloContent.getLoEloUris())
-         {
-            allEloUris.add(uriScyElo.getUri());
-         }
-      }
-   }
-
-   private void addMissionAnchorEloUris(Set<URI> allEloUris, MissionAnchor missionAnchor,
-      boolean allElos)
-   {
-      if (missionAnchor.getEloUri() != null)
-      {
-         allEloUris.add(missionAnchor.getEloUri());
-         if (allElos)
-         {
-            addAllUriScyElos(allEloUris, missionAnchor.getLoEloUris());
-         }
-      }
+      return missionModelEloContent.getEloUris(allElos);
    }
 
    @Override
