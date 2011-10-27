@@ -449,7 +449,6 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       for (window in scyWindows) {
          if (window.eloUri != null) {
             try {
-               println("saveBeforeQuit window {window.eloUri}");
                window.isQuiting = true;
                window.scyToolsList.onQuit();
             } catch (e: Exception) {
