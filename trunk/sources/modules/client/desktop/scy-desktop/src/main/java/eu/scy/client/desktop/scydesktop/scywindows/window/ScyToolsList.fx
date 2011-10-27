@@ -38,6 +38,7 @@ public class ScyToolsList extends ScyToolFX {
    public var leftDrawerTools: Node[] on replace { buildToolList() };
    public var actionLoggerTool: Node on replace { buildToolList() };
    var scyToolList: ScyTool[];
+   var quiting = false;
 
    function buildToolList(): Void {
       delete  scyToolList;
@@ -106,6 +107,7 @@ public class ScyToolsList extends ScyToolFX {
    }
 
    override public function loadedEloChanged(eloUri: URI): Void {
+      if (quiting) return;
       applyOnScyTools(function(scyTool: ScyTool) {
          scyTool.loadedEloChanged(eloUri)
       });
@@ -158,6 +160,7 @@ public class ScyToolsList extends ScyToolFX {
    }
 
    override public function onQuit(): Void {
+      quiting = true;
       applyOnScyTools(function(scyTool: ScyTool) {
          scyTool.onQuit()
       });

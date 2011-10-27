@@ -54,6 +54,7 @@ public class MissionModelFX extends MissionModel {
    public var storedWindowStatesXmlsChanged = false;
    public var archivedElosChanged = false;
    public var showMoreInfo: ShowMoreInfo;
+   public var autoUpdateMissionModelElo = true;
    var contentChanged = false;
 
    function newMissionModel(): Void {
@@ -179,7 +180,7 @@ public class MissionModelFX extends MissionModel {
             updateLasScyEloUri(las, oldScyElo, newScyElo)
          }
       }
-      if (contentChanged) {
+      if (contentChanged and autoUpdateMissionModelElo) {
          updateElo();
       }
    }

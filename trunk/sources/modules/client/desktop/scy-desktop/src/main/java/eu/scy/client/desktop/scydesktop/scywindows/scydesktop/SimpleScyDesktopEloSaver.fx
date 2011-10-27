@@ -201,25 +201,33 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
          updateTags(elo);
          eloSaveAsPanel.setTitleAndLanguagesInElo();
          scyElo.setFunctionalRole(eloSaveAsPanel.getFunctionalRole());
+         def doSaveAs = function(): Void {
+                    scyElo.setDateFirstUserSave(System.currentTimeMillis());
+                    if (elo.getUri() != null) {
+                       if (scyElo.getAuthors().size() > 1) {
+                          scyElo.setAuthor(loginName);
+                          FX.deferAction(function(): Void {
+                             window.windowManager.scyDesktop.uninstallCollaborationTools(window);
+                             window.ownershipManager.update();
+                          });
+                       }
+                       scyElo.saveAsForkedElo();
+                    } else {
+                       scyElo.setCreator(loginName);
+                       scyElo.saveAsNewElo();
+                    }
+                 }
          if (eloSaveAsPanel.authorUpdate) {
             // the call is  caused by an update action, so that the author can modify the titles
             // so do not create a new elo, but do just an update
-            scyElo.updateElo();
-         } else {
-            scyElo.setDateFirstUserSave(System.currentTimeMillis());
-            if (elo.getUri() != null) {
-               if (scyElo.getAuthors().size() > 1) {
-                  scyElo.setAuthor(loginName);
-                  FX.deferAction(function(): Void {
-                     window.windowManager.scyDesktop.uninstallCollaborationTools(window);
-                     window.ownershipManager.update();
-                  });
-               }
-               scyElo.saveAsForkedElo();
-            } else {
-               scyElo.setCreator(loginName);
-               scyElo.saveAsNewElo();
+            try {
+               scyElo.updateElo();
+            } catch (e: ELONotLastVersionException) {
+               logger.error("unexpected ELONotLastVersionException for elo: {e.getURI()}, now doing a save as");
+               doSaveAs();
             }
+         } else {
+            doSaveAs();
          }
          if (eloSaveAsPanel.myElo or eloSaveAsPanel.authorUpdate) {
             myEloChanged.myEloChanged(scyElo);
