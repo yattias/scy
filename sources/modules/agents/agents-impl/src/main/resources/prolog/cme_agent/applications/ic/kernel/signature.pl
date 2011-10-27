@@ -31,7 +31,8 @@
 :- use_module(library(lists), [select/3]).
 
 :- use_module(item2, [item2_assignment/2, item2_properties/2, item2/1,
-		      item2_sender_code/2, item2_type/2, item2_chat_sender_text/3]).
+		      item2_sender_code/2, item2_type/2, item2_chat_sender_text/3,
+		      item2_propchk/2]).
 :- use_module(sdm(model), [sdm_element_by_name/5,
 			   sdm_element_by_name/3, sdm_element/4]).
 
@@ -436,6 +437,8 @@ signature_simquest5(remove_hypothesis, Item, remove_hypothesis(Ass,Args)) :- !,
 	item2_assignment(Item, Ass),
 	item2_properties(Item, Args).
 signature_simquest5(start, _Item, start) :- !.
+signature_simquest5(logging, Item, logging(Status)) :- !,
+	item2_propchk(Item, status(Status)).
 signature_simquest5(Type, _Atts, _Sig) :-
 	format('signature_simquest5/3 ~w~n', [Type]),
 	fail.
