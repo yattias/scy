@@ -4,9 +4,11 @@ import eu.scy.agents.ActionConstants;
 import eu.scy.agents.AgentRooloServiceImpl;
 import eu.scy.agents.Mission;
 import eu.scy.agents.api.parameter.AgentParameter;
+import eu.scy.agents.api.parameter.AgentParameterAPI;
 import eu.scy.agents.hypothesis.HypothesisEvaluationAgent2;
 import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.agents.impl.parameter.AgentParameterAPIImpl;
+import eu.scy.agents.parameter.AgentParameterAPIImpl;
+import eu.scy.agents.parameter.AgentParameterAPIImpl2;
 import eu.scy.agents.keywords.ExtractKeyphrasesAgent;
 import eu.scy.agents.keywords.ExtractTopicModelKeywordsAgent;
 import eu.scy.agents.keywords.OntologyKeywordsAgent;
@@ -46,7 +48,7 @@ public class HypothesisFeatureExtractorTest extends AbstractFeatureExtractorTest
     private String eloPath;
 
     private URI eloUri;
-    private AgentParameterAPIImpl agentParameterAPI;
+    private AgentParameterAPI agentParameterAPI;
 
     @BeforeClass
     public static void startTS() {

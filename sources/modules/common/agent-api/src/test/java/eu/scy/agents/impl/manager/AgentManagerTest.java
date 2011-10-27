@@ -2,6 +2,8 @@ package eu.scy.agents.impl.manager;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import eu.scy.agents.impl.ThreadedAgentMock;
 import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Configuration;
 import info.collide.sqlspaces.commons.Field;
@@ -21,7 +23,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import eu.scy.agents.AgentManager;
-import eu.scy.agents.ThreadedAgentMock;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
