@@ -97,7 +97,7 @@ feedback_message(congratulations, Lang, _Props, Msg) :-
 	format(atom(Msg), Fmt, []).
 
 
-m(duplicates, fr, 'DUPLICATE MESSAGE IN FRENCH').
+m(duplicates, fr, 'Votre carte contient des concepts en double ou des concepts qui semblent similaires. Chaque concept peut seulement apparaitre une seule fois.').
 m(duplicates, _, 'Your map contains duplicate concepts or concepts that look very similar: ~w.  Each concept can only appear once.').
 
 m(congratulations, fr, 'Bravo! Votre carte conceptuelle est parfaite.').
