@@ -663,6 +663,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
    }
 
    function fillScyWindowNow(window: ScyWindow): Void {
+      def startNanos = System.nanoTime();
       window.isScyContentSet = true;
       var mucid = window.scyElo.getMucId();
       if (mucid == null) {
@@ -675,6 +676,8 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
          realFillNewScyWindow2(window, false);
       }
       window.scyToolsList.onOpened();
+      def usedNanos = System.nanoTime()-startNanos;
+      println("fillScyWindowNow({window.eloUri}) took {usedNanos/1e6} ms.");
    }
 
    public function uninstallCollaborationTools(window: ScyWindow): Void {
