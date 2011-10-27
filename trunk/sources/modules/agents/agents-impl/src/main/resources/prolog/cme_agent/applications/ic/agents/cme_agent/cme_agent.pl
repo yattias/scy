@@ -270,7 +270,7 @@ tool_anchor_action(conceptmap, Anchor, Tuple) :-
 	debug(cme(dev), '  elo = ~w~n', [Elo]),
 	debug(cme(dev), '  new elo = ~w~n', [NewElo]),
 	debug(cme(dev), '  mission = ~w~n', [Mission]),
-	debug(cme(dev), '  user = ~w~n', [User]),
+	debug(cme(dev), '  user = ~w (language = ~w)~n', [User,Language]),
 	debug(cme(dev), '  anchor = ~w~n', [Anchor]),
 	anchor_properties(Anchor, Language, AnchorProps),
 	memberchk(term_set(TS), AnchorProps),
@@ -295,6 +295,11 @@ tool_anchor_action(conceptmap, Anchor, Tuple) :-
 	tspl_actual_field(string, Session, F6),
 	anchor_evaluation_feedback(Anchor, Language, Evaluation, Msg),
 	debug(cme(dev), 'Feedback ~w~n', [Msg]),
+	(   Language == en
+	->  true
+	;   anchor_evaluation_feedback(Anchor, en, Evaluation, English),
+	    debug(cme(dev), 'English ~w~n', [English])
+	),
 	atom_concat('message=', Msg, MsgAtt),
 	tspl_actual_field(string, MsgAtt, F7),
 	tspl_tuple([F0,F1,F2,F3,F4,F5,F6,F7], Notification),

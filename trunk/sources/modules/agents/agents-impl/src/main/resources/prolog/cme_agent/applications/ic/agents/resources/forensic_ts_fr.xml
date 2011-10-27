@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<term_set name="forensic" word_order="any">
+<term_set name="forensic">
   <term name="Chemical substance">
     <string>Substance chimique</string>
   </term>
