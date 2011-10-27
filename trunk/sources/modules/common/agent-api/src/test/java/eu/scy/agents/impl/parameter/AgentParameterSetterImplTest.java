@@ -27,6 +27,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+@Ignore
 public class AgentParameterSetterImplTest {
 
     private static final String TEST_AGENT = "TestAgent";
