@@ -432,6 +432,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                  repositoryWrapper: if (config.getRepository() instanceof RepositoryWrapper) config.getRepository() as RepositoryWrapper else null;
                  showEloInfoDisplay: initializer.debugMode
                  eloConfigManager: eloConfigManager
+                 exceptionCatcher: initializer.exceptionCatcher
               }
       missionMap.scyWindowControl = scyWindowControl;
       bigMissionMapControl.scyWindowControl = scyWindowControl;

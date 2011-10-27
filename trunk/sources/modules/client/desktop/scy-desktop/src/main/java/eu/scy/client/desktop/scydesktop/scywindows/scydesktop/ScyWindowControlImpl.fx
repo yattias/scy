@@ -20,6 +20,7 @@ import eu.scy.client.desktop.desktoputils.StringUtils;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowPositionsState;
 import java.lang.Exception;
 import eu.scy.common.mission.UriScyElo;
+import eu.scy.client.desktop.desktoputils.ExceptionCatcher;
 
 /**
  * @author sikken
@@ -28,6 +29,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
 
    def logger = Logger.getLogger(this.getClass());
    public var showEloInfoDisplay = false;
+   public var exceptionCatcher: ExceptionCatcher;
    var firstNewLas = true;
    def activeLas = bind missionModel.activeLas on replace oldActiveLas {
               activeLasChanged(oldActiveLas);
@@ -377,6 +379,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
                  windowControl: this
                  windowStyler: windowStyler
               }
+      scyWindow.scyToolsList.exceptionCatcher = exceptionCatcher;
       windowStyler.style(scyWindow);
       var anchorAttribute = missionMap.getAnchorAttribute(scyElo.getUri());
       if (anchorAttribute != null) {
@@ -409,6 +412,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
                  windowControl: this
                  windowStyler: windowStyler
               }
+      scyWindow.scyToolsList.exceptionCatcher = exceptionCatcher;
       windowStyler.style(scyWindow);
       if (showEloInfoDisplay) {
          insert getEloInfoDisplayAttribute(scyWindow) into scyWindow.scyWindowAttributes;
@@ -445,6 +449,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       for (window in scyWindows) {
          if (window.eloUri != null) {
             try {
+               println("saveBeforeQuit window {window.eloUri}");
                window.isQuiting = true;
                window.scyToolsList.onQuit();
             } catch (e: Exception) {
