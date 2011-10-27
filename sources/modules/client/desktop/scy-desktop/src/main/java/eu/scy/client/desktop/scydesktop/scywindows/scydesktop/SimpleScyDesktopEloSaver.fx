@@ -57,6 +57,8 @@ import eu.scy.client.desktop.desktoputils.art.AnimationTiming;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 import java.awt.EventQueue;
 import java.util.concurrent.CountDownLatch;
+import java.lang.Thread;
+import java.lang.Exception;
 
 /**
  * @author sikken
@@ -388,7 +390,11 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
    function addThumbnail(scyElo: ScyElo): Void {
       var thumbnailImage: BufferedImage;
       if (window.scyContent instanceof ScyTool) {
-         thumbnailImage = (window.scyContent as ScyTool).getThumbnail(ArtSource.thumbnailWidth, ArtSource.thumbnailHeight);
+         try {
+            thumbnailImage = (window.scyContent as ScyTool).getThumbnail(ArtSource.thumbnailWidth, ArtSource.thumbnailHeight);
+         } catch (e: Exception) {
+            logger.error("exception in getThumbnail() from window.scyContent {window.scyContent.getClass().getName()}", e);
+         }
       }
       if (thumbnailImage == null) {
          // no thumbnail returned by the tool, try to use an image of window content
@@ -396,8 +402,12 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
                     width: ArtSource.thumbnailWidth
                     height: ArtSource.thumbnailHeight
                  }
-         thumbnailImage = ImageUtils.nodeToImage(window.scyContent, bounds);
-         window.requestLayout();
+         try {
+            thumbnailImage = ImageUtils.nodeToImage(window.scyContent, bounds);
+            window.requestLayout();
+         } catch (e: Exception) {
+            logger.error("failed to create thumbnail image from window.scyContent {window.scyContent.getClass().getName()}", e);
+         }
       }
       scyElo.setThumbnail(thumbnailImage);
    }

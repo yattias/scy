@@ -30,7 +30,7 @@ import java.lang.Thread;
 public class ScyToolsList extends ScyToolFX {
 
    def logger = Logger.getLogger(this.getClass());
-   public-init var exceptionCatcher: ExceptionCatcher;
+   public var exceptionCatcher: ExceptionCatcher;
    public var windowContentTool: Node on replace { buildToolList() };
    public var topDrawerTool: Node on replace { buildToolList() };
    public var rightDrawerTool: Node on replace { buildToolList() };
