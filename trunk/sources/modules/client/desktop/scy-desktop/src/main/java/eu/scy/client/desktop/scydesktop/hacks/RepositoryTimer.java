@@ -30,6 +30,7 @@ import roolo.search.ISearchResult;
  */
 public class RepositoryTimer implements IRepository
 {
+
    private final static Logger logger = Logger.getLogger(RepositoryTimer.class);
    private IRepository repository;
    private final String dateFormatString = "HH:mm:ss.SSS";
@@ -43,6 +44,7 @@ public class RepositoryTimer implements IRepository
    private long minimumSleepTime = 0;
    private long maximumSleepTime = 0;
    private Random random = new Random(0);
+   private final Object logLock = new Object();
 
    public RepositoryTimer() throws FileNotFoundException
    {
@@ -84,10 +86,12 @@ public class RepositoryTimer implements IRepository
       this.minimumSleepTime = minimumSleepTime;
    }
 
-   private void sleep(){
-      if (maximumSleepTime>0){
-         int maxRandomSleepTime = (int)( maximumSleepTime-minimumSleepTime);
-         long sleepTime = minimumSleepTime+random.nextInt(maxRandomSleepTime);
+   private void sleep()
+   {
+      if (maximumSleepTime > 0)
+      {
+         int maxRandomSleepTime = (int) (maximumSleepTime - minimumSleepTime);
+         long sleepTime = minimumSleepTime + random.nextInt(maxRandomSleepTime);
          try
          {
             Thread.sleep(sleepTime);
@@ -109,19 +113,22 @@ public class RepositoryTimer implements IRepository
          return;
       }
       String logLine = String.format("%s\t%4.1f\t%s\t%s", dateFomat.format(new Date()), usedNanosInCall / 1e6, callName, Thread.currentThread().getName());
-      if (params.length == 0)
+      synchronized (logLock)
       {
-         logStream.println(logLine);
-      }
-      else
-      {
-         logStream.printf("%s\t%s\n", logLine, params[0]);
-         for (int i = 1; i < params.length; i++)
+         if (params.length == 0)
          {
-            logStream.printf("\t\t\t\t%s\n", params[i]);
+            logStream.println(logLine);
          }
+         else
+         {
+            logStream.printf("%s\t%s\n", logLine, params[0]);
+            for (int i = 1; i < params.length; i++)
+            {
+               logStream.printf("\t\t\t\t%s\n", params[i]);
+            }
+         }
+         logStream.flush();
       }
-      logStream.flush();
       sleep();
    }
 
@@ -352,5 +359,4 @@ public class RepositoryTimer implements IRepository
       logCall(startNanos, "getAllVersionLists()", new String[0]);
       return versionLists;
    }
-
 }

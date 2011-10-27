@@ -227,11 +227,14 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
          scyToolActionLogger.eloSaved(elo);
          return null;
       }, function(o: Object) {
-         def elo = eloSaveAsPanel.elo;
-         eloSaveAsPanel.eloSaverCallBack.eloSaved(elo);
-         eloSaveAsPanel.modalDialogBox.close();
-         saveEnded();
-         ProgressOverlay.stopShowWorking();
+         try {
+            def elo = eloSaveAsPanel.elo;
+            eloSaveAsPanel.eloSaverCallBack.eloSaved(elo);
+            eloSaveAsPanel.modalDialogBox.close();
+         } finally {
+            saveEnded();
+            ProgressOverlay.stopShowWorking();
+         }
          if (showBubbleAfterSaving) {
             showEloSaved();
          }
@@ -239,9 +242,12 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
    }
 
    function cancelAction(eloSaveAsPanel: EloSaveAsMixin): Void {
-      eloSaveAsPanel.eloSaverCallBack.eloSaveCancelled(eloSaveAsPanel.elo);
-      eloSaveAsPanel.modalDialogBox.close();
-      saveEnded();
+      try {
+         eloSaveAsPanel.eloSaverCallBack.eloSaveCancelled(eloSaveAsPanel.elo);
+         eloSaveAsPanel.modalDialogBox.close();
+      } finally {
+         saveEnded();
+      }
    }
 
    function updateTags(elo: IELO): Void {
@@ -328,11 +334,14 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
               }
       def finishEloUpdate = function(): Void {
                  if (eloUpdated) {
-                    myEloChanged.myEloChanged(scyElo);
-                    eloSaverCallBack.eloSaved(scyElo.getElo());
-                    ProgressOverlay.stopShowWorking();
-                    showEloSaved();
-                    saveEnded();
+                    try {
+                       myEloChanged.myEloChanged(scyElo);
+                       eloSaverCallBack.eloSaved(scyElo.getElo());
+                       showEloSaved();
+                    } finally {
+                       ProgressOverlay.stopShowWorking();
+                       saveEnded();
+                    }
                  }
               }
       // run it only in a background thread, if we are ruuning on the EDT
@@ -342,9 +351,11 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
             finishEloUpdate()
          });
       } else {
-         doEloUpdate();
-         FX.deferAction(finishEloUpdate);
-      //         finishEloUpdate()
+         try {
+            doEloUpdate();
+         } finally {
+            FX.deferAction(finishEloUpdate);
+         }
       }
    }
 
