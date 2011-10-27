@@ -80,8 +80,12 @@ public class StudentIndexController extends BaseController {
         String content = "";
         try {
             URL u = new URL(xdescriptionURI);
+            String charset = "UTF-8";
+
             URLConnection connection = u.openConnection();
+            connection.setRequestProperty("Accept-Charset", charset);
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
                 content = content + inputLine;
@@ -93,6 +97,7 @@ public class StudentIndexController extends BaseController {
         }
 
         modelAndView.addObject("content", content);
+        modelAndView.addObject("xdescriptionURI", xdescriptionURI);
     }
 
     private String localizeDescriptionURI(String descriptionURI, String locale) {

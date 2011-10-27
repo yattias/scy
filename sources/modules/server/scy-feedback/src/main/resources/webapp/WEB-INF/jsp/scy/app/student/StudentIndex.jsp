@@ -71,7 +71,7 @@
             <tr  class="${oddEven.oddEven}">
                 <td colspan="2">
                     <br/><br/>
-                    ${content}
+                    <iframe src="${xdescriptionURI}" width="100%" height="700px"></iframe>
                 </td>
             </tr>
         </table>
