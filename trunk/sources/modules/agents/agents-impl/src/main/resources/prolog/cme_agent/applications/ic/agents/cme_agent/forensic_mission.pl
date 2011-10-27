@@ -109,10 +109,10 @@ m(empty(single), _, 'You still have to fill one empty concept.').
 m(empty(multiple), fr, 'Il vous manque ~w concepts.').
 m(empty(multiple), _, 'You still have to fill ~w empty concepts.').
 
-m(not_understood(single), fr, 'Le concept ~w ne fait pas partie de la liste des concepts attendus. Afin de le remplacer par un autre concept, relisez le manuel de laboratoire ou bien cherchez un synonyme.').
+m(not_understood(single), fr, 'Le concept ~w ne fait pas partie de la liste des concepts attendus. Afin de le remplacer par un autre concept; relisez le manuel de laboratoire ou bien cherchez un synonyme.').
 m(not_understood(single), _, 'Concept ~w is not one of the expected concepts.  Check the handbook and change it to the appropriate term or think of a different name for the concept you have in mind.').
 
-m(not_understood(multiple), fr, 'Les concepts ~w ne font pas partie de la liste des concepts attendus. Afin de les remplacer par d\'autres concepts, relisez le manuel de laboratoire ou bien cherchez des synonymes.').
+m(not_understood(multiple), fr, 'Les concepts ~w ne font pas partie de la liste des concepts attendus. Afin de les remplacer par d\'autres concepts; relisez le manuel de laboratoire ou bien cherchez des synonymes.').
 m(not_understood(multiple), _, 'The concepts ~w are not expected concepts.  Check the handbook and change them to the appropriate terms or think of different names for the concepts you have in mind.').
 
 m(dislocated(single), fr, 'Le concept ~w n\'est pas bien placé. Relisez le manuel de laboratoire afin de lui trouver une autre place.').
