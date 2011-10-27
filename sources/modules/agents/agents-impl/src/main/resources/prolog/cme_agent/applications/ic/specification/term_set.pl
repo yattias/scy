@@ -170,13 +170,11 @@ add_term_string(Term, String, Set,Module, Options) :-
 	option(word_order(WO), Options, false),
 	assert_term_set_term_string_properties(Set, Term, String, Options),
 	(   option(method(sub_string), Options)
-	->  atomic_list_concat(Words, ' ', String),
-	    atomic_list_concat(Words, String1),
+	->  remove_spaces(String, String1),
 	    assert_string_term(Module, String1, Term, String, Options)
 	;   term_set_normalise_string(String, Norm, Options),
 	    (   WO == true
-	    ->  atomic_list_concat(Words, ' ', String),
-		atomic_list_concat(Words, String1),
+	    ->  remove_spaces(String, String1),
 		assert_string_term(Module,String1,Term,String,Options)
 	    ;   term_set_normalise_string(String, Norm, Options),
 		atomic_list_concat(Words, ' ', Norm),
@@ -261,9 +259,7 @@ term_set_manage_option(language(Language), _Set) :-
 %	  more simple variants (see no_diacritics_atom/2).
 
 term_set_normalise_string(String, Normalised, Options) :-
-	normalise_string(String, Norm, Options),
-	atomic_list_concat(Words, ' ', Norm),
-	atomic_list_concat(Words, Normalised).
+	normalise_string(String, Normalised, Options).
 
 
 /*------------------------------------------------------------
@@ -479,10 +475,15 @@ term_set_matches(Set, String0, Terms, Options) :-
 	option(threshold(Threshold), Options, 0.5),
 	pre_string_terms(Set, PreTerms),
 	term_set_normalise_string(String0, String, []),
-	atomic_list_concat(Words, ' ', String),
-	atomic_list_concat(Words, '', String1),
+	remove_spaces(String, String1),
 	matches_above_threshold(PreTerms, String1, Threshold, STSs),
-	compound_terms_sort(STSs, Terms, [arg(3), functor(sts), order(descending)]).
+	compound_terms_sort(STSs, Terms, [arg(3), functor(sts),
+	order(descending)]).
+
+
+remove_spaces(Atom0, Atom) :-
+	atomic_list_concat(Words, ' ', Atom0),
+	atomic_list_concat(Words, '', Atom).
 
 
 /*------------------------------------------------------------
@@ -494,7 +495,8 @@ term_set_match_string(Set, String0, Term, Options) :-
 	select_option(threshold(Threshold), Options, RestOptions, 0.5),
 	pre_string_terms(Set, PreTerms),
 	term_set_normalise_string(String0, String, RestOptions),
-	match_sts(PreTerms, String, STSs),
+	remove_spaces(String, String1),
+	match_sts(PreTerms, String1, STSs),
 	compound_terms_sort(STSs, Sorted, [arg(3), functor(sts), order(descending)]),
 	memberchk(sts(_,Term,Similarity), Sorted),
 	Similarity > Threshold.

@@ -862,6 +862,16 @@ gls_dump(GLS) :-
 	listing(Module:edge_visuals/2),
 	listing(Module:edge_properties/2).
 
+gls_dump_edges(G) :-
+	gls_edge(G, E),
+	gls_edge_tail(G, E, Tail),
+	gls_edge_head(G, E, Head),
+	gls_node_label(G, Tail, TL),
+	gls_node_label(G, Head, HL),
+	format('~w -> ~w~n', [TL,HL]),
+	fail.
+gls_node_label(_).
+
 
 
 

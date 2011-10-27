@@ -27,6 +27,7 @@
 :- use_module(model, [gls_edge_tail/3, gls_edge_head/3, gls_node_term/3, gls_node_label/3]). 
 :- use_module(specification(reference_model), [reference_model_edge/3]).
 
+
 %%	gls_node_perfect_match(+GLS:gls_hdl, +Node:atom, +RM:atom) is semidet.
 %
 %	Succeeds if Node in GLS is perfectly placed according to the reference
@@ -34,15 +35,15 @@
 %	the reference model.
 
 gls_node_perfect_match(G, Node, RM) :-
-	gls_node_term(G, Node, Term),
 	findall(e(Tail,Node),
 		(gls_edge_tail(G, Edge, Tail),
 		 gls_edge_head(G, Edge, Node),
-		 gls_node_term(G, Tail, Term)), SEs1),
+		 gls_node_term(G, Tail, T)), SEs1),
 	findall(e(Node,Head),
 		(gls_edge_tail(G, Edge, Node),
 		 gls_edge_head(G, Edge, Head),
-		 gls_node_term(G, Head, Term)), SEs2),
+		 gls_node_term(G, Head, T)), SEs2),
+	gls_node_term(G, Node, Term),
 	findall(e(Tail,Node),
 		(reference_model_edge(RM, TailTerm, Term),
 		 gls_node_term(G, Tail, TailTerm)), REs1),
