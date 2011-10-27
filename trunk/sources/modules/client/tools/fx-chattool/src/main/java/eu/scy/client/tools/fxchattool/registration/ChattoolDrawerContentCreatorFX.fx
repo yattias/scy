@@ -23,6 +23,7 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorFX;
 import roolo.elo.metadata.keys.Contribute;
 import eu.scy.client.desktop.desktoputils.XFX;
+import javafx.util.StringLocalizer;
 
 
 /**
@@ -31,6 +32,10 @@ import eu.scy.client.desktop.desktoputils.XFX;
 
 public class ChattoolDrawerContentCreatorFX extends ScyToolCreatorFX {
 
+   init {
+      StringLocalizer.associate("languages.fxchattool", "eu.scy.client.tools.fxchattool");
+	}
+	
    public override function createScyToolNode(eloType:String, creatorId:String, scyWindow:ScyWindow,windowContent:Boolean):Node{
         repository = toolBrokerAPI.getRepository();
         awarenessService = toolBrokerAPI.getAwarenessService();

@@ -74,7 +74,7 @@ public class ChatterNode extends CustomNode, Resizable, ScyToolFX, IChat {
                     }
                 }
         sendButton = Button {
-            text: "Send"
+            text: ##"Send"
             disable: true
             action: function(): Void {
                 if (messageBox.text.trim().length() != 0) {
