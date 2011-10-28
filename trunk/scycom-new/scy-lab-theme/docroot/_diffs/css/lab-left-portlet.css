@@ -12,3 +12,15 @@
 	overflow-x: visible;
 	line-height: 1.5;
 }
+
+.exit-button-anchor {
+    background-position: center center;
+    background-repeat: no-repeat;
+    display: block;
+    height: 18px;
+    left: 97%;
+    position: relative;
+    text-decoration: none;
+    top: -7px;
+    width: 18px;
+}

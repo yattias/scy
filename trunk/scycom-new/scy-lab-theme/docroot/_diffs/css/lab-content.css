@@ -1,11 +1,3 @@
-#content {
-	padding: 0px 15px;
-	background-image: url(../images/scy_splash_bg.jpg);
-	background-repeat: no-repeat;
-	background-position: 57px 7px;
-	min-height: 695px;
-}
-
 .portlet-title {
 	display: none;
 }
@@ -30,4 +22,8 @@ a {
 
 .nav-menu li a.selected {
 	font-weight: normal;
+}
+
+.title-close-area {
+	display: none;
 }
