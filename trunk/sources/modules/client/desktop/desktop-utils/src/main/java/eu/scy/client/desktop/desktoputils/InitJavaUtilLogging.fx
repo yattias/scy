@@ -6,19 +6,25 @@
 package eu.scy.client.desktop.desktoputils;
 
 import java.util.logging.LogManager;
+import java.net.URL;
 
 /**
  * @author sikken
  */
 def configFileName = "/config/scy-lab-java-util-logging.properties";
 
-public function initJavaUtilLogging() {
-   initJavaUtilLogging(configFileName);
+public function initJavaUtilLogging():Void{
+   initJavaUtilLogging("",false)
 }
 
-public function initJavaUtilLogging(fileName: String) {
+public function initJavaUtilLogging(fileName: String, debugging: Boolean) {
+   def fileNameToUse = if (fileName.length() > 0) {
+              fileName
+           } else {
+              configFileName
+           }
    try {
-      var configUrl = ResourceAccessor.getResourceUrl(fileName);
+      var configUrl = findConfigUrl(fileNameToUse, debugging);
       if (configUrl != null) {
          println("reading java util logging config from {configUrl}");
          var logManager = LogManager.getLogManager();
@@ -32,7 +38,15 @@ public function initJavaUtilLogging(fileName: String) {
       println("Problems with loading java util logging config, from {fileName}");
       e.printStackTrace();
    }
-
 }
 
-
+function findConfigUrl(fileName: String, debugging: Boolean): URL {
+   var configUrl: URL;
+   if (debugging) {
+      configUrl = ResourceAccessor.getResourceUrl(ResourceAccessor.addDebugToFileName(fileName));
+   }
+   if (configUrl == null) {
+      configUrl = ResourceAccessor.getResourceUrl(fileName);
+   }
+   configUrl
+}
