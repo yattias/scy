@@ -86,7 +86,7 @@ public class TestMultiImageButton extends CustomNode {
 }
 
 function run() {
-   InitLog4JFX.initLog4J("/config/log4j.xml");
+   InitLog4JFX.initLog4J("/config/log4j.xml", false);
 
    Stage {
       title: "Test multi image button"
