@@ -64,7 +64,7 @@ public class SyncObject implements ISyncObject {
 	private void parseContext(Element contextElement) {
 		this.id = getElementContentAsString(contextElement, "id");
 		this.creator = getElementContentAsString(contextElement, "creator");
-		this.creator = getElementContentAsString(contextElement, "lastmodificator");
+		this.lastModificator = getElementContentAsString(contextElement, "lastmodificator");
 		this.toolname = getElementContentAsString(contextElement, "toolname");
 		this.creationTimestamp = getElementContentAsLong(contextElement,"creationtimestamp");
 		this.lastModificationTimestamp = getElementContentAsLong(contextElement, "lastmodificationtimestamp");
@@ -107,7 +107,7 @@ public class SyncObject implements ISyncObject {
 		context.add(elem);
 
 		elem = DocumentHelper.createElement("lastmodificator");
-		elem.setText(this.creator);
+		elem.setText(this.lastModificator);
 		context.add(elem);
 		
 		elem = DocumentHelper.createElement("toolname");
