@@ -19,7 +19,6 @@ import roolo.elo.api.IELOFactory;
 import eu.scy.client.desktop.scydesktop.tools.ScyTool;
 import java.awt.image.BufferedImage;
 import eu.scy.client.desktop.desktoputils.art.ArtSource;
-import eu.scy.client.desktop.desktoputils.ImageUtils;
 import javafx.geometry.BoundingBox;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.design.EloSaveAsMixin;
 import eu.scy.common.scyelo.EloFunctionalRole;
@@ -29,36 +28,39 @@ import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 import org.apache.log4j.Logger;
 import roolo.elo.api.IMetadataKey;
-import roolo.elo.metadata.keys.SocialTags;
-import roolo.elo.api.IMetadata;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.design.MultiLanguageAuthorSaveAsNodeDesign;
 import eu.scy.client.desktop.desktoputils.art.ImageLoader;
+import eu.scy.common.scyelo.ScyElo;
+import java.util.concurrent.CountDownLatch;
+import javafx.lang.FX;
 import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.layout.Resizable;
 import javafx.util.StringLocalizer;
+import eu.scy.client.desktop.desktoputils.ImageUtils;
 import eu.scy.client.desktop.desktoputils.XFX;
+import eu.scy.client.desktop.desktoputils.art.AnimationTiming;
 import eu.scy.client.desktop.desktoputils.art.EloIcon;
 import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 import eu.scy.client.desktop.desktoputils.i18n.Composer;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.design.SimpleSaveAsNodeDesign;
+import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
 import eu.scy.client.desktop.scydesktop.tooltips.impl.BubbleShower;
 import eu.scy.client.desktop.scydesktop.tooltips.impl.SimpleTooltipManager;
 import eu.scy.client.desktop.scydesktop.tooltips.impl.TextBubble;
-import eu.scy.common.scyelo.ScyElo;
+import java.awt.EventQueue;
+import java.lang.Exception;
 import java.lang.IllegalArgumentException;
+import java.lang.Object;
 import java.lang.String;
 import java.lang.System;
-import java.lang.Void;
 import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadata;
 import roolo.elo.api.exceptions.ELONotLastVersionException;
-import javafx.scene.Node;
-import eu.scy.client.desktop.desktoputils.art.AnimationTiming;
-import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
-import java.awt.EventQueue;
-import java.util.concurrent.CountDownLatch;
-import java.lang.Thread;
-import java.lang.Exception;
+import roolo.elo.metadata.keys.SocialTags;
+import eu.scy.client.desktop.scydesktop.ScyDesktop;
 
 /**
  * @author sikken
@@ -101,6 +103,7 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
    public var functionalRoles: EloFunctionalRole[];
    public var loginName: String;
    public-init var imageLoader: ImageLoader;
+   public-init var scyDesktop: ScyDesktop;
    var socialtagsKey = config.getMetadataTypeManager().getMetadataKey("socialTags");
 //   def authorKey = config.getMetadataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR);
    var dateFirstUserSaveKey = config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.DATE_FIRST_USER_SAVE);
@@ -356,7 +359,14 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
               }
       // run it only in a background thread, if we are ruuning on the EDT
       // during the close of scy-lab, all save actions are done in a background thread
-      if (EventQueue.isDispatchThread()) {
+      if (scyDesktop.quiting){
+         try {
+            doEloUpdate();
+            myEloChanged.myEloChanged(scyElo);
+         } finally {
+            saveEnded()
+         }
+      } else if (EventQueue.isDispatchThread()) {
          XFX.runActionInBackgroundAndCallBack(doEloUpdate, function(o: Object): Void {
             finishEloUpdate()
          });
@@ -403,13 +413,31 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
                     height: ArtSource.thumbnailHeight
                  }
          try {
+            if (window.scyContent instanceof Resizable){
+               def resizableScyContent = window.scyContent as Resizable;
+               if (resizableScyContent.width<=0){
+                  def newWidth = ArtSource.thumbnailWidth;
+                  logger.warn("changing {window.scyContent.getClass().getName()}.wdith from {resizableScyContent.width} to {newWidth}");
+                  resizableScyContent.width = newWidth
+               }
+               if (resizableScyContent.height<=0){
+                  def newHeight = ArtSource.thumbnailHeight;
+                  logger.warn("changing {window.scyContent.getClass().getName()}.height from {resizableScyContent.height} to {newHeight}");
+                  resizableScyContent.height = newHeight
+               }
+            }
             thumbnailImage = ImageUtils.nodeToImage(window.scyContent, bounds);
             window.requestLayout();
          } catch (e: Exception) {
             logger.error("failed to create thumbnail image from window.scyContent {window.scyContent.getClass().getName()}", e);
          }
       }
-      scyElo.setThumbnail(thumbnailImage);
+      if (thumbnailImage!=null){
+         scyElo.setThumbnail(thumbnailImage);
+      } else {
+         logger.warn("there is no thumbnail image to write for scyElo {scyElo.getUri()}");
+      }
+
    }
 
    function showEloSaved(): Void {
