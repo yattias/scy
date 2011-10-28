@@ -96,7 +96,7 @@
 }
 
 .pink .exit-button-anchor {
-	background-image: url("../images/close_btn_violet.gif")
+	background-image: url("../images/close_btn_pink.gif")
 }
 
 .pink input[type="submit"], .pink input[type="button"], .pink input[type="reset"], .pink button, .pink .lfr-actions, .pink .lfr-actions ul {
@@ -117,7 +117,7 @@
 }
 
 .red .exit-button-anchor {
-	background-image: url("../images/close_btn_orange.gif")
+	background-image: url("../images/close_btn_red.gif")
 }
 
 .red input[type="submit"], .red input[type="button"], .red input[type="reset"], .red button, .red .lfr-actions, .red .lfr-actions ul {
