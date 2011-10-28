@@ -15,7 +15,7 @@
    </appender>
 
    <logger name="eu.scy">
-      <level value="warn" />
+      <level value="info" />
    </logger>
 
    <logger name="eu.scy.client.desktop.desktoputils.InjectObjectsUtils">

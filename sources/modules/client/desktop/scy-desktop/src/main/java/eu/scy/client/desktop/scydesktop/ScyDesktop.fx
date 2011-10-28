@@ -272,6 +272,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
    public def desktopButtonActionScheme = 1;
    public var bigMissionMapControl: BigMissionMapControl;
    public var eloManagement: EloManagement;
+   public-read var quiting = false;
 
    public function getActiveLasId():String{
        return missionModelFX.activeLas.id;
@@ -822,6 +823,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
          authorMode: initializer.authorMode
          functionalRoles: functionalRoles
          loginName: config.getToolBrokerAPI().getLoginUserName()
+         scyDesktop: this
       };
 
       def runtimeSettingsRetriever = EloRuntimeSettingsRetriever {
@@ -937,6 +939,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
 
    function saveAndCloseEverything(): Void {
       showingQuitDialog = false;
+      quiting = true;
       ProgressOverlay.startShowWorking();
       println("Scy desktop is shutting down....");
       logger.info("Scy desktop is shutting down....");
