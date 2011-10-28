@@ -39,6 +39,7 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 import eu.scy.client.desktop.desktoputils.XFX;
+import java.util.Arrays;
 
 /**
  * @author sikken
@@ -313,9 +314,17 @@ public class ExternalDoc extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
 
    public override function onQuit(): Void {
       if (elo != null) {
-         def oldContentXml = elo.getContent().getXmlString();
-         def newContentXml = getElo().getContent().getXmlString();
-         if (oldContentXml == newContentXml) {
+         def oldContentBytes = elo.getContent().getBytes();
+         def oldExternalDocAnnotation = elo.getMetadata().getMetadataValueContainer(externalDocAnnotationKey).getValue() as ExternalDocAnnotation;
+         def newContentBytes = getElo().getContent().getBytes();
+         def newExternalDocAnnotation = elo.getMetadata().getMetadataValueContainer(externalDocAnnotationKey).getValue() as ExternalDocAnnotation;
+         var externalDocAnnotationSame = true;
+         if (oldExternalDocAnnotation!=null and newExternalDocAnnotation==null){
+            externalDocAnnotationSame = false;
+         } else if (oldExternalDocAnnotation!=null and newExternalDocAnnotation!=null){
+            externalDocAnnotationSame = oldExternalDocAnnotation.equals(newExternalDocAnnotation);
+         }
+         if (externalDocAnnotationSame and Arrays.equals(oldContentBytes,newContentBytes)) {
             // nothing changed
             return;
          }
