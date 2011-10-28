@@ -25,8 +25,9 @@
 :- use_module(library(debug), [debug/3]).
 
 :- use_module(model, [gls_edge_tail/3, gls_edge_head/3, gls_node_term/3,
-		      gls_node_label/3, gls_node/2]). 
-:- use_module(specification(reference_model), [reference_model_edge/3]).
+		      gls_node_label/3, gls_node/2, gls_set_property/2,
+		      gls_propchk/2]).
+:- use_module(specification(reference_model), [reference_model_edge/3, reference_model_node_propchk/3]).
 
 
 %%	gls_node_perfect_match(+GLS:gls_hdl, +Node:atom, +RM:atom) is semidet.
@@ -36,13 +37,29 @@
 %	the reference model.
 
 gls_node_perfect_match(G, Node, RM) :-
-	format('NODE = ~w~n', [Node]),
-	findall(N, ( gls_node(G,N),
-		     gls_node_term(G,N,_),
-		     node_perfect_match_first_pass(G,N,RM)), Perfect),
-	node_perfect_second_pass(G, Node, RM, Perfect).
+	gls_compute_dislocated(G, RM),
+	gls_propchk(G, dislocated(RM,Dislocated)),
+	\+ member(Node, Dislocated).
 
-node_perfect_match_first_pass(G, Node, RM) :-
+
+gls_compute_dislocated(G, RM) :-
+	gls_propchk(G, dislocated(RM,_)), !.
+gls_compute_dislocated(G, RM) :-
+	format('~ngls_compute_dislocated/2~n', []),
+	findall(N, ( gls_node_term(G,N,Term),
+		     reference_model_node_propchk(RM,Term,fill_in(true))), Ns),
+	dislocated(Ns, G,RM, Dislocated),
+	gls_set_property(G, dislocated(RM,Dislocated)).
+
+
+dislocated([], _G,_RM, []).
+dislocated([Node|Nodes], G,RM, [Node|Dislocated]) :-
+	is_dislocated(Node, G, RM), !,
+	dislocated(Nodes, G, RM, Dislocated).
+dislocated([_|Nodes], G,RM, Dislocated) :-
+	dislocated(Nodes, G, RM, Dislocated).
+
+is_dislocated(Node, G, RM) :-
 	findall(e(Tail,Node),
 		(gls_edge_tail(G, Edge, Tail),
 		 gls_edge_head(G, Edge, Node),
@@ -58,29 +75,28 @@ node_perfect_match_first_pass(G, Node, RM) :-
 	findall(e(Node,Head),
 		(reference_model_edge(RM, Term, HeadTerm),
 		 gls_node_term(G, Head, HeadTerm)), REs2),
-	subset(SEs1, REs1),
-	subset(REs1, SEs1),
-	subset(SEs2, REs2),
-	subset(REs2, SEs2).
-
-
-node_perfect_second_pass(G, Node, RM, Perfect) :-
-	findall(e(Tail,Node),
-		(gls_edge_tail(G, Edge, Tail),
-		 gls_edge_head(G, Edge, Node),
-		 member(Tail, Perfect)), SEs1),
-	findall(e(Node,Head),
-		(gls_edge_tail(G, Edge, Node),
-		 gls_edge_head(G, Edge, Head),
-		 member(Head, Perfect)), SEs2),
-	gls_node_term(G, Node, Term),
-	findall(e(Tail,Node),
-		(reference_model_edge(RM, TailTerm, Term),
-		 gls_node_term(G, Tail, TailTerm)), REs1),
-	findall(e(Node,Head),
-		(reference_model_edge(RM, Term, HeadTerm),
-		 gls_node_term(G, Head, HeadTerm)), REs2),
-	subset(SEs1, REs1),
-	subset(REs1, SEs1),
-	subset(SEs2, REs2),
-	subset(REs2, SEs2).
+	append(SEs1, SEs2, SEs),
+	append(REs1, REs2, REs),
+	length(SEs, LenGiven),
+	length(REs, LenExpected),
+	intersection(SEs, REs, Correct),
+	length(Correct, LenCorrect),
+	LenWrong is LenGiven - LenCorrect,
+/*
+	format('term ~w~n', [Term]),
+	format('  expected ~w ~n', [LenExpected]),
+	format('  correct  ~w ~n', [LenCorrect]),
+	format('  wrong    ~w ~n', [LenWrong]),
+*/	(   LenExpected \== LenGiven
+	->  format('    DISLOCATED~n', []),
+	    Status = dislocated
+	;   LenCorrect == 0
+	->  format('    DISLOCATED~n', []),
+	    Status = dislocated
+	;   LenWrong == 0
+	->  format('    PERFECT~n', []),
+	    Status = perfect
+	;   format('    CONSIDER~n', []),
+	    Status = consider
+	),
+	Status == dislocated.

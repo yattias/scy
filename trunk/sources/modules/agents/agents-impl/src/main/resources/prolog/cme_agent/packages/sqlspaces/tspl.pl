@@ -732,13 +732,25 @@ tspl_write(TS, Tuple) :-
 tspl_write(TS, Tuple, TupleID) :-
         uid(UID),
         tspl_ts_spacename_id(TS, _, SpaceId),
-	  xml_to_string_([element(write, [id=UID, space=SpaceId], [Tuple])], XMLString),
+	XML = [element(write, [id=UID, space=SpaceId], [Tuple])],
+	xml_to_string_(XML, XMLString),
         send_receive_xml_(XMLString, UID, XMLResponse, TS),
         XMLResponse = [element(response, AttrList, [RespTuple|_])],
         tspl_tuple_field(RespTuple, 0, TupleID),
         memberchk(id=UID, AttrList),
         memberchk(type=answer, AttrList).
 
+/*
+tspl_write(TS, Tuple, TupleID) :-
+        uid(UID),
+        tspl_ts_spacename_id(TS, _, SpaceId),
+	xml_to_string_([element(write, [id=UID, space=SpaceId], [Tuple])], XMLString),
+        send_receive_xml_(XMLString, UID, XMLResponse, TS),
+        XMLResponse = [element(response, AttrList, [RespTuple|_])],
+        tspl_tuple_field(RespTuple, 0, TupleID),
+        memberchk(id=UID, AttrList),
+        memberchk(type=answer, AttrList).
+*/
 
 %%     tspl_update(+TS:term, +TupleID:atom, +Tuple:term) is det.
 %
