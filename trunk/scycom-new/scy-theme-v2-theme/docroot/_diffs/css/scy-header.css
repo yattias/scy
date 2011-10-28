@@ -6,11 +6,8 @@
 	margin: 0px;
 }
 
-#sign-in {
-	font-size: 12pt;
-	font-weight: bold;
+#navigation a#sign-in {
 	float: right;
-	color: #fff;
 	padding-right: 5px;
 }
 
@@ -107,7 +104,7 @@
 	
 	display: block;
 	
-	background-image: url(../images/scy-header.png);
+	background-image: url(../images/scy-header.gif);
 	background-repeat: no-repeat;
 	background-attachment: initial;
 	background-position: left center;

@@ -7,3 +7,11 @@ body {
 	width: 998px;
 	margin: auto;
 }
+
+#content {
+	padding: 0 15px 0 95px;
+	background-image: url(../images/scy_splash_bg.jpg);
+	background-repeat: no-repeat;
+	background-position: 57px 7px;
+	min-height: 695px;
+}

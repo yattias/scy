@@ -1,3 +1,12 @@
+.portlet-topper-toolbar {
+	left: 3px;
+	right: auto;
+}
+
+.title-close-area {
+	position: relative;
+}
+
 div.portlet-body {
 	padding: 3px;
 }
@@ -16,9 +25,7 @@ div.portlet-body {
 	border: 3px solid #000;
 	border-radius: 0 0 0 15px;
 	background: #fff;
-	margin-left: auto;
-	margin-right: 1%;
-	width: 90%;
+	margin: 5px;
 }
 
 .portlet-borderless-container {
@@ -30,7 +37,7 @@ div.portlet-body {
     display: block;
     font-size: 26px;
     font-weight: normal;
-    margin-top: 20px;
+    margin-top: 30px;
     padding: 8px 0 26px 12px;
 }
 
@@ -45,9 +52,19 @@ div.portlet-body {
 	text-decoration: none;
     height: 18px;
     width: 18px;	
-    position: relative;
-    left: 97%;
-    top: -7px;
+    position: absolute;
+    left: auto;
+    right: 3px;
+    top: -24px;
+}
+
+.aui-field-label {
+	font-weight: normal;
+}
+
+textarea, textarea.aui-field-input {
+	height: 15ex;
+	width: 90%;
 }
 
 input[type="submit"], input[type="button"], input[type="reset"], button, .lfr-actions, .lfr-actions ul {

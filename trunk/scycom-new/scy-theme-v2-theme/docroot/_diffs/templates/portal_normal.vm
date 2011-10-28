@@ -19,10 +19,6 @@
 <div id="wrapper">
 	<a href="#main-content" id="skip-to-content">#language("skip-to-content")</a>
 
-	#if(!$is_signed_in)
-		<a href="$sign_in_url" id="sign-in" rel="nofollow">$sign_in_text</a>
-	#end
-	
 	<header id="banner" role="banner" class="title-bar">
 		<hgroup id="heading">
 			<h1 class="company-title">

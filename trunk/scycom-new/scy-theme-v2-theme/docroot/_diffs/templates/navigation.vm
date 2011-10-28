@@ -49,5 +49,10 @@
 				#end
 			</li>
 		#end
+		#if(!$is_signed_in)
+		<li>
+			<a href="$sign_in_url" id="sign-in" rel="nofollow">$sign_in_text</a>
+		</li>
+		#end
 	</ul>
 </nav>
