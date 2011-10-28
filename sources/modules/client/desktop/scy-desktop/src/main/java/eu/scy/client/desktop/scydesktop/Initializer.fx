@@ -58,7 +58,7 @@ import javafx.scene.paint.Color;
 public class Initializer {
 
    def logger = Logger.getLogger(this.getClass());
-   public-read def launchTimer = new ActivityTimer("launching","startup");
+   public-read def launchTimer = new ActivityTimer("launching", "startup");
    public-read def loadTimer = new ActivityTimer("loading");
    public-init var log4JInitFile = "";
    public-init var javaUtilLoggingInitFile = "";
@@ -216,15 +216,15 @@ public class Initializer {
 
    function parseApplicationParameters() {
       var argumentsList = ArgumentsList {
-         arguments: FX.getArguments()
-      }
+                 arguments: FX.getArguments()
+              }
       while (argumentsList.hasMoreArguments()) {
          var argument = argumentsList.nextArgument();
          var lcArg = argument.toLowerCase();
          if (lcArg.startsWith('-')) {
             var option = lcArg.substring(1);
             // 110112, temporary fix, because henrik uses a wrong option name
-            if ("mission"==option){
+            if ("mission" == option) {
                option = defaultMissionOption.toLowerCase();
             }
 
@@ -428,26 +428,26 @@ public class Initializer {
    public function getScene(createScyDesktop: function(missionRunConfigs: MissionRunConfigs): ScyDesktop): Scene {
       background = DynamicTypeBackground {};
       var scene = Scene {
-          fill: Color.web("#EAEAEA");
-          content: [background];
-         };
-      FX.deferAction(function() : Void {
-          
-          // add all component groups to the scene, as adding them dynamicly later might case problems
-          scene.content = [
-                background,
-                LoginDialog {
-                   createScyDesktop: createScyDesktop
-                   initializer: this;
-                }
-                ScyDesktop.scyDektopGroup,
-                ModalDialogLayer.layer,
-                MouseBlocker.mouseBlockNode,
-                MouseOverDisplay.mouseOverGroup,
-                SimpleTooltipManager.tooltipGroup,
-                SimpleDragAndDropManager.dragAndDropLayer,
-                ProgressOverlay.showProgressNode
-             ];
+                 fill: Color.web("#EAEAEA");
+                 content: [background];
+              };
+      FX.deferAction(function(): Void {
+
+         // add all component groups to the scene, as adding them dynamicly later might case problems
+         scene.content = [
+                    background,
+                    LoginDialog {
+                       createScyDesktop: createScyDesktop
+                       initializer: this;
+                    }
+                    ScyDesktop.scyDektopGroup,
+                    ModalDialogLayer.layer,
+                    MouseBlocker.mouseBlockNode,
+                    MouseOverDisplay.mouseOverGroup,
+                    SimpleTooltipManager.tooltipGroup,
+                    SimpleDragAndDropManager.dragAndDropLayer,
+                    ProgressOverlay.showProgressNode
+                 ];
       });
       return scene;
    }
@@ -463,23 +463,14 @@ public class Initializer {
    }
 
    function setupCodeLogging() {
-      if (log4JInitFile.length() > 0) {
-         InitLog4JFX.initLog4J(log4JInitFile);
-      } else {
-         InitLog4JFX.initLog4J();
-      }
-      if (javaUtilLoggingInitFile.length() > 0) {
-         InitJavaUtilLogging.initJavaUtilLogging(javaUtilLoggingInitFile);
-      } else {
-         InitJavaUtilLogging.initJavaUtilLogging();
-      }
+      InitLog4JFX.initLog4J(log4JInitFile, debugMode and not javaLoggingConfigFilesSet);
+      InitJavaUtilLogging.initJavaUtilLogging(javaUtilLoggingInitFile, debugMode and not javaLoggingConfigFilesSet);
       println("writeJavaLoggingToFile: {writeJavaLoggingToFile}");
       if (writeJavaLoggingToFile) {
          println("setupLoggingToFiles.setupJavaUtilLogFile(): {setupLoggingToFiles}");
          setupLoggingToFiles.setupJavaUtilLogFile();
          setupLoggingToFiles.setuplog4JLogFile();
       }
-
    }
 
    function findLocalLoggingDirectory(userName: String): File {
@@ -524,8 +515,7 @@ public class Initializer {
          }
          println("logDirectory: {logDirectory.getAbsolutePath()}");
          return logDirectory;
-      }
-      catch (e: Exception) {
+      } catch (e: Exception) {
          JOptionPane.showMessageDialog(null, "An exception occured during finding the logging directory. ""No logging will be written to the local disk.\n\nException: {e.getMessage()}",
          "Problems with logging directory", JOptionPane.ERROR_MESSAGE);
       }
@@ -565,8 +555,7 @@ public class Initializer {
             try {
                UIManager.setLookAndFeel(lookAndFeelClassName);
                logger.info("set lookAndFeel to {lookAndFeel}, class {lookAndFeelClassName}");
-            }
-            catch (e: Exception) {
+            } catch (e: Exception) {
                logger.error("problems with setting the look and feel: {lookAndFeel}", e);
             }
          }
@@ -592,7 +581,7 @@ public class Initializer {
    function setupScyServerHost() {
       var newScyServerHost: String;
       var newScyServerPort: Integer = -1;
-      if (useWebStartHost){
+      if (useWebStartHost) {
          try {
             var basicService = ServiceManager.lookup("javax.jnlp.BasicService") as javax.jnlp.BasicService;
             var webstartServiceNames = javax.jnlp.ServiceManager.getServiceNames();
@@ -602,13 +591,12 @@ public class Initializer {
                logger.info("webstart codeBase: {codeBase}");
                newScyServerHost = codeBase.getHost();
                newScyServerPort = codeBase.getPort();
-               if (newScyServerPort<0){
+               if (newScyServerPort < 0) {
                   newScyServerPort = 80;
                }
                logger.info("newScyServerHost: {newScyServerHost}, newScyServerPort: {newScyServerPort}");
             }
-         }
-         catch (e: javax.jnlp.UnavailableServiceException) {
+         } catch (e: javax.jnlp.UnavailableServiceException) {
             logger.info("cannot get scy server host from web start, as web start is not being used: {e}");
          }
       }
@@ -624,22 +612,20 @@ public class Initializer {
          System.setProperty(sqlspacesServerKey, newScyServerHost);
          Configuration.getInstance().setScyServerHost(newScyServerHost);
          scyServerHost = newScyServerHost;
-      }
-      else{
-         if (not offlineMode){
+      } else {
+         if (not offlineMode) {
             scyServerHost = Configuration.getInstance().getRooloServer();
          }
       }
 
-      if (newScyServerPort>0) {
+      if (newScyServerPort > 0) {
          logger.info("setting scy server port to {newScyServerPort}");
          System.setProperty(scyServerPortKey, "{newScyServerPort}");
          Configuration.getInstance().setScyServerPort(newScyServerPort);
       }
-      if (offlineMode){
+      if (offlineMode) {
          println("working offline");
-      }
-      else{
+      } else {
          println("working with server: {scyServerHost}")
       }
 
@@ -650,15 +636,14 @@ public class Initializer {
          System.setProperty(minimumRooloNewVersionListIdKey, minimumRooloNewVersionListId);
          System.setProperty(disableRooloVersioningKey, Boolean.toString(disableRooloVersioning));
          var localToolBrokerLogin = new LocalToolBrokerLogin();
-         if (localAuthorRootPath!=""){
+         if (localAuthorRootPath != "") {
             def localAuthorRoot = new File(localAuthorRootPath);
             localToolBrokerLogin = new LocalToolBrokerLogin(localAuthorRoot);
             // set the default directory, where to look for the mission model specification
-            def missionSpecificationDir = new File(localAuthorRoot.getParentFile(),"missionModels");
-            if (missionSpecificationDir.isDirectory()){
+            def missionSpecificationDir = new File(localAuthorRoot.getParentFile(), "missionModels");
+            if (missionSpecificationDir.isDirectory()) {
                EloXmlEditor.lastUsedDirectory = missionSpecificationDir;
-            }
-            else{
+            } else {
                EloXmlEditor.lastUsedDirectory = localAuthorRoot;
             }
          }
