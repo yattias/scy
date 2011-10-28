@@ -289,7 +289,9 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
 
       waitIfPreviousSaveStillBusyAndStartSave();
       if (elo.getUri() == null or elo.getUri().toString().length() == 0) {
-         startEloSaveAs(elo, eloSaverCallBack);
+         if (not window.isQuiting) {
+            startEloSaveAs(elo, eloSaverCallBack);
+         }
          return
       }
 
@@ -330,19 +332,25 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
                        eloUpdated = true;
                     } catch (e: ELONotLastVersionException) {
                        logger.error("unexpected ELONotLastVersionException for elo: {e.getURI()}, now doing a save as");
-                       if (dateFirstUserSaveSet) {
-                          scyElo.getMetadata().deleteMetatadata(dateFirstUserSaveKey);
+                       if (window.isQuiting) {
+                          scyElo.saveAsForkedElo();
+                          eloUpdated = true;
+                       } else {
+                          if (dateFirstUserSaveSet) {
+                             scyElo.getMetadata().deleteMetatadata(dateFirstUserSaveKey);
+                          }
+                          if (creatorSet) {
+                             scyElo.getMetadata().deleteMetatadata(creatorKey);
+                          }
+                          FX.deferAction(function(): Void {
+                             startEloSaveAs(elo, eloSaverCallBack);
+                          });
                        }
-                       if (creatorSet) {
-                          scyElo.getMetadata().deleteMetatadata(creatorKey);
-                       }
-                       FX.deferAction(function(): Void {
-                          startEloSaveAs(elo, eloSaverCallBack);
-                       });
                     }
                  } else {
                     // it is not mine, but as this window is being quit, i may not ask the user anything
                     scyElo.saveAsForkedElo();
+                    eloUpdated = true;
                  }
               }
       def finishEloUpdate = function(): Void {
@@ -359,10 +367,12 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
               }
       // run it only in a background thread, if we are ruuning on the EDT
       // during the close of scy-lab, all save actions are done in a background thread
-      if (scyDesktop.quiting){
+      if (scyDesktop.quiting) {
          try {
             doEloUpdate();
-            myEloChanged.myEloChanged(scyElo);
+            if (eloUpdated) {
+               myEloChanged.myEloChanged(scyElo);
+            }
          } finally {
             saveEnded()
          }
@@ -413,14 +423,14 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
                     height: ArtSource.thumbnailHeight
                  }
          try {
-            if (window.scyContent instanceof Resizable){
+            if (window.scyContent instanceof Resizable) {
                def resizableScyContent = window.scyContent as Resizable;
-               if (resizableScyContent.width<=0){
+               if (resizableScyContent.width <= 0) {
                   def newWidth = ArtSource.thumbnailWidth;
                   logger.warn("changing {window.scyContent.getClass().getName()}.wdith from {resizableScyContent.width} to {newWidth}");
                   resizableScyContent.width = newWidth
                }
-               if (resizableScyContent.height<=0){
+               if (resizableScyContent.height <= 0) {
                   def newHeight = ArtSource.thumbnailHeight;
                   logger.warn("changing {window.scyContent.getClass().getName()}.height from {resizableScyContent.height} to {newHeight}");
                   resizableScyContent.height = newHeight
@@ -432,7 +442,7 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
             logger.error("failed to create thumbnail image from window.scyContent {window.scyContent.getClass().getName()}", e);
          }
       }
-      if (thumbnailImage!=null){
+      if (thumbnailImage != null) {
          scyElo.setThumbnail(thumbnailImage);
       } else {
          logger.warn("there is no thumbnail image to write for scyElo {scyElo.getUri()}");
