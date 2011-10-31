@@ -126,12 +126,12 @@
 		</constructor-arg>
 		<constructor-arg index="1">
 			<bean class="eu.scy.actionlogging.MultiActionLogger">
-				<constructor-arg index="0">
-					<bean class="eu.scy.actionlogging.logger.ActionLogger" />
-				</constructor-arg>
-				<constructor-arg index="1">
-					<ref bean="contextservice" />
-				</constructor-arg>
+                            <constructor-arg>
+				<list>
+                                    <bean class="eu.scy.actionlogging.logger.ActionLogger" />
+                                    <ref bean="contextservice" />
+                                </list>
+                            </constructor-arg>
 			</bean>
 		</constructor-arg>
 	</bean>
