@@ -19,9 +19,18 @@ public class ArchivedEloListCellNode extends AbstractArchivedEloListCellNode {
 
    protected override function getDetailsList(): Node[] {
       var detailsList = super.getDetailsList();
-      archivedDateDisplay.text = "{removedWord} {LastModifiedDisplay.getLastModifiedDisplay(archivedElo.getArchievedMillis())}";
       insert archivedDateDisplay into detailsList;
       detailsList
+   }
+
+   protected override function updateForArchievedElo(): Void {
+      super.updateForArchievedElo();
+      archivedDateDisplay.text = "{removedWord} {LastModifiedDisplay.getLastModifiedDisplay(archivedElo.getArchievedMillis())}";
+   }
+
+   protected override function updateNotForArchievedElo(): Void {
+      super.updateNotForArchievedElo();
+      archivedDateDisplay.text = "";
    }
 
 }
