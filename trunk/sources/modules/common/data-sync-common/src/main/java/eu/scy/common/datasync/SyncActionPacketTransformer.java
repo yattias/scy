@@ -143,7 +143,7 @@ public class SyncActionPacketTransformer extends SCYPacketTransformer {
 		} else if (path.equals(syncObjectPath + "@creationtime")) {
 			pojo.getSyncObject().setCreationTime(Long.parseLong(value));
 		} else if (path.equals(syncObjectPath + "@lastmodificator")) {
-			pojo.getSyncObject().setCreator(value);
+			pojo.getSyncObject().setLastModificator(value);
 		} else if (path.equals(syncObjectPath + "@lastmodificationtime")) {
 			pojo.getSyncObject().setLastModificationTime(Long.parseLong(value));
 		} else if (path.startsWith(propertiesPath)) {
