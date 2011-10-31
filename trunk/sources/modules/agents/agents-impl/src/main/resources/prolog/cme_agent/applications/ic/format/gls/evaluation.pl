@@ -138,7 +138,7 @@ is_dislocated2(Node, Previous, G, RM) :-
 	length(Correct, LenCorrect),
 	LenWrong is LenGiven - LenCorrect,
 	eval(LenGiven, LenExpected, LenCorrect, LenWrong, Status),
-	debug(cme(dev), 'term ~w~30|~t  ~w ~w ~w ~w ~w ~w~n', [Term,LenGiven,LenExpected,LenCorrect,LenWrong,Status]),
+	debug(cme(dev), 'term ~w~30|~t  ~w ~w ~w ~w ~w~n', [Term,LenGiven,LenExpected,LenCorrect,LenWrong,Status]),
 	Status \== perfect.
 
 
@@ -147,10 +147,13 @@ is_dislocated2(Node, Previous, G, RM) :-
  *------------------------------------------------------------*/
 
 eval(G, E, C, _, Eval) :-
-	(   E == C
-	->  (   G > E
-	    ->  Eval = consider
-	    ;   Eval = perfect
+	(   C == 0			% Just to be sure
+	->  Eval = dislocated
+	;   (   E == C
+	    ->  (   G > E
+		->  Eval = consider
+		;   Eval = perfect
+		)
+	    ;   Eval = dislocated
 	    )
-	;   Eval = dislocated
 	).
