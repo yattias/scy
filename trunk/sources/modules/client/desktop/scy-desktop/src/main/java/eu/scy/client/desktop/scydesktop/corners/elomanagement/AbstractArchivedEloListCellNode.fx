@@ -71,7 +71,7 @@ public abstract class AbstractArchivedEloListCellNode extends CustomNode {
       eloIconGroup.content = Rectangle {
                  x: 0, y: 0
                  width: ArtSource.thumbnailWidth, height: ArtSource.thumbnailHeight
-                 fill: Color.GREEN
+                 fill: Color.TRANSPARENT
               }
       titleDisplay.text = "";
       typeDisplay.text = ""
