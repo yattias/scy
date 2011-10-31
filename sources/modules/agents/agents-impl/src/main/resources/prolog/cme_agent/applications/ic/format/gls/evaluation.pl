@@ -45,21 +45,27 @@ gls_node_perfect_match(G, Node, RM) :-
 gls_compute_dislocated(G, RM) :-
 	gls_propchk(G, dislocated(RM,_)), !.
 gls_compute_dislocated(G, RM) :-
-	format('~ngls_compute_dislocated/2~n', []),
+	debug(cme(dev), '~ngls_compute_dislocated/2~n', []),
 	findall(N, ( gls_node_term(G,N,Term),
 		     reference_model_node_propchk(RM,Term,fill_in(true))), Ns),
-	dislocated(Ns, G,RM, Dislocated),
+	debug(cme(dev), 'PASS 1~n', []),
+	dislocated1(Ns, G,RM, Dislocated1),
+	debug(cme(dev), 'PASS 2~n', []),
+	dislocated2(Dislocated1, Dislocated1, G,RM, Dislocated),
+	findall(T, ( member(N,Dislocated),
+		     gls_node_term(G, N, T)), Ts),
+	debug(cme(dev), 'dislocated ~w~n', [Ts]),
 	gls_set_property(G, dislocated(RM,Dislocated)).
 
 
-dislocated([], _G,_RM, []).
-dislocated([Node|Nodes], G,RM, [Node|Dislocated]) :-
-	is_dislocated(Node, G, RM), !,
-	dislocated(Nodes, G, RM, Dislocated).
-dislocated([_|Nodes], G,RM, Dislocated) :-
-	dislocated(Nodes, G, RM, Dislocated).
+dislocated1([], _G,_RM, []).
+dislocated1([Node|Nodes], G,RM, [Node|Dislocated]) :-
+	is_dislocated1(Node, G, RM), !,
+	dislocated1(Nodes, G, RM, Dislocated).
+dislocated1([_|Nodes], G,RM, Dislocated) :-
+	dislocated1(Nodes, G, RM, Dislocated).
 
-is_dislocated(Node, G, RM) :-
+is_dislocated1(Node, G, RM) :-
 	findall(e(Tail,Node),
 		(gls_edge_tail(G, Edge, Tail),
 		 gls_edge_head(G, Edge, Node),
@@ -82,21 +88,69 @@ is_dislocated(Node, G, RM) :-
 	intersection(SEs, REs, Correct),
 	length(Correct, LenCorrect),
 	LenWrong is LenGiven - LenCorrect,
-/*
-	format('term ~w~n', [Term]),
-	format('  expected ~w ~n', [LenExpected]),
-	format('  correct  ~w ~n', [LenCorrect]),
-	format('  wrong    ~w ~n', [LenWrong]),
-*/	(   LenExpected \== LenGiven
-	->  format('    DISLOCATED~n', []),
-	    Status = dislocated
+	(   LenExpected \== LenGiven
+	->  Status = dislocated
 	;   LenCorrect == 0
-	->  format('    DISLOCATED~n', []),
-	    Status = dislocated
+	->  Status = dislocated
 	;   LenWrong == 0
-	->  format('    PERFECT~n', []),
-	    Status = perfect
-	;   format('    CONSIDER~n', []),
-	    Status = consider
+	->  Status = perfect
+	;   Status = consider
 	),
+	eval(LenGiven, LenExpected, LenCorrect, LenWrong, Quick),
+	debug(cme(dev), 'term ~w~30|~t  ~w ~w ~w ~w ~w ~w', [Term,LenGiven,LenExpected,LenCorrect,LenWrong,Status,Quick]),
 	Status == dislocated.
+
+
+/*------------------------------------------------------------
+ *  Pass 2
+ *------------------------------------------------------------*/
+
+dislocated2([], _, _G,_RM, []).
+dislocated2([Node|Nodes], Previous, G,RM, [Node|Dislocated]) :-
+	is_dislocated2(Node, Previous, G, RM), !,
+	dislocated2(Nodes, Previous, G,RM, Dislocated).
+dislocated2([_|Nodes], Previous, G,RM, Dislocated) :-
+	dislocated2(Nodes, Previous, G,RM, Dislocated).
+
+is_dislocated2(Node, Previous, G, RM) :-
+	findall(e(Tail,Node),
+		(gls_edge_tail(G, Edge, Tail),
+		 gls_edge_head(G, Edge, Node),
+		 gls_node_term(G, Tail, _),
+		 \+ memberchk(Tail, Previous)), SEs1),
+	findall(e(Node,Head),
+		(gls_edge_tail(G, Edge, Node),
+		 gls_edge_head(G, Edge, Head),
+		 gls_node_term(G, Head, _),
+		 \+ memberchk(Head, Previous)), SEs2),
+	gls_node_term(G, Node, Term),
+	findall(e(Tail,Node),
+		(reference_model_edge(RM, TailTerm, Term),
+		 gls_node_term(G, Tail, TailTerm)), REs1),
+	findall(e(Node,Head),
+		(reference_model_edge(RM, Term, HeadTerm),
+		 gls_node_term(G, Head, HeadTerm)), REs2),
+	append(SEs1, SEs2, SEs),
+	append(REs1, REs2, REs),
+	length(SEs, LenGiven),
+	length(REs, LenExpected),
+	intersection(SEs, REs, Correct),
+	length(Correct, LenCorrect),
+	LenWrong is LenGiven - LenCorrect,
+	eval(LenGiven, LenExpected, LenCorrect, LenWrong, Status),
+	debug(cme(dev), 'term ~w~30|~t  ~w ~w ~w ~w ~w ~w~n', [Term,LenGiven,LenExpected,LenCorrect,LenWrong,Status]),
+	Status \== perfect.
+
+
+/*------------------------------------------------------------
+ *  Evaluation rule
+ *------------------------------------------------------------*/
+
+eval(G, E, C, _, Eval) :-
+	(   E == C
+	->  (   G > E
+	    ->  Eval = consider
+	    ;   Eval = perfect
+	    )
+	;   Eval = dislocated
+	).
