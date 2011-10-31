@@ -7,18 +7,17 @@ package eu.scy.client.desktop.scydesktop.scywindows.window;
 
 import javafx.scene.CustomNode;
 import javafx.scene.Node;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.Container;
 import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import eu.scy.client.desktop.desktoputils.EmptyBorderNode;
 import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
+import javafx.util.Math;
 
 /**
  * @author sikken
@@ -67,10 +66,12 @@ public class WindowContent extends CustomNode {
    def borderWidth = 0.5;
 
    public function resizeTheContent() {
-      contentGlassPane.width = width;
-      contentGlassPane.height = height;
-      Container.resizeNode(content, width, height);
-   //        println("content resized to {width}*{height}");
+//      println("about to resize the content to {width}*{height}");
+      def contentWidth = Math.max(width,0);
+      def contentHeight = Math.max(height,0);
+      contentGlassPane.width = contentWidth;
+      contentGlassPane.height = contentHeight;
+      Container.resizeNode(content, contentWidth, contentHeight);
    }
 
    var firstMouseEnter = false;
