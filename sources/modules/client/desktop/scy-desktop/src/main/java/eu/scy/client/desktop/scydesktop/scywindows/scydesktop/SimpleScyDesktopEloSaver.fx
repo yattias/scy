@@ -16,7 +16,6 @@ import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
 import roolo.api.IRepository;
 import roolo.elo.api.IELOFactory;
-import eu.scy.client.desktop.scydesktop.tools.ScyTool;
 import java.awt.image.BufferedImage;
 import eu.scy.client.desktop.desktoputils.art.ArtSource;
 import javafx.geometry.BoundingBox;
@@ -35,7 +34,6 @@ import java.util.concurrent.CountDownLatch;
 import javafx.lang.FX;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.layout.Resizable;
 import javafx.util.StringLocalizer;
 import eu.scy.client.desktop.desktoputils.ImageUtils;
 import eu.scy.client.desktop.desktoputils.XFX;
@@ -61,6 +59,7 @@ import roolo.elo.api.IMetadata;
 import roolo.elo.api.exceptions.ELONotLastVersionException;
 import roolo.elo.metadata.keys.SocialTags;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
+import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 
 /**
  * @author sikken
@@ -114,7 +113,8 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
       functionalRoleContainers = for (functionalRole in functionalRoles) {
                  FunctionalRoleContainer {
                     functionalRole: functionalRole
-                    displayText: resourceBundleWrapper.getString(functionalRole.toString())
+//                    displayText: resourceBundleWrapper.getString(functionalRole.toString())
+                    displayText: functionalRole.toString()
                  }
               }
       insert emptyFunctionalRoleContainer before functionalRoleContainers[0];
@@ -408,40 +408,7 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
    }
 
    function addThumbnail(scyElo: ScyElo): Void {
-      var thumbnailImage: BufferedImage;
-      if (window.scyContent instanceof ScyTool) {
-         try {
-            thumbnailImage = (window.scyContent as ScyTool).getThumbnail(ArtSource.thumbnailWidth, ArtSource.thumbnailHeight);
-         } catch (e: Exception) {
-            logger.error("exception in getThumbnail() from window.scyContent {window.scyContent.getClass().getName()}", e);
-         }
-      }
-      if (thumbnailImage == null) {
-         // no thumbnail returned by the tool, try to use an image of window content
-         def bounds = BoundingBox {
-                    width: ArtSource.thumbnailWidth
-                    height: ArtSource.thumbnailHeight
-                 }
-         try {
-            if (window.scyContent instanceof Resizable) {
-               def resizableScyContent = window.scyContent as Resizable;
-               if (resizableScyContent.width <= 0) {
-                  def newWidth = ArtSource.thumbnailWidth;
-                  logger.warn("changing {window.scyContent.getClass().getName()}.wdith from {resizableScyContent.width} to {newWidth}");
-                  resizableScyContent.width = newWidth
-               }
-               if (resizableScyContent.height <= 0) {
-                  def newHeight = ArtSource.thumbnailHeight;
-                  logger.warn("changing {window.scyContent.getClass().getName()}.height from {resizableScyContent.height} to {newHeight}");
-                  resizableScyContent.height = newHeight
-               }
-            }
-            thumbnailImage = ImageUtils.nodeToImage(window.scyContent, bounds);
-            window.requestLayout();
-         } catch (e: Exception) {
-            logger.error("failed to create thumbnail image from window.scyContent {window.scyContent.getClass().getName()}", e);
-         }
-      }
+      def thumbnailImage = ThumbnailGenerator.generateThumbnail(window);
       if (thumbnailImage != null) {
          scyElo.setThumbnail(thumbnailImage);
       } else {

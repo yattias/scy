@@ -10,7 +10,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import eu.scy.client.desktop.desktoputils.art.ArtSource;
 import eu.scy.client.desktop.desktoputils.art.EloIcon;
-import eu.scy.common.scyelo.ScyElo;
 import javafx.scene.image.ImageView;
 import eu.scy.client.desktop.desktoputils.art.javafx.NoThumbnailView;
 import javafx.scene.Scene;
@@ -23,6 +22,7 @@ import eu.scy.client.desktop.desktoputils.art.ScyColors;
 import javafx.ext.swing.SwingUtils;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.Cursor;
+import java.awt.image.BufferedImage;
 
 /**
  * @author SikkenJ
@@ -31,7 +31,7 @@ public def eloIconOffset = 10.0;
 
 public class ThumbnailView extends WindowElement {
 
-   public var scyElo: ScyElo on replace { newScyElo() };
+   public var thumbnail: BufferedImage on replace { newThumbnail() };
    public var eloIcon: EloIcon on replace oldEloIcon { eloIconChanged(oldEloIcon) };
    public-init var startDragIcon: function(e: MouseEvent): Void;
    public-init var doubleClickAction: function(e: MouseEvent): Void;
@@ -50,7 +50,7 @@ public class ThumbnailView extends WindowElement {
    var eloIconGroup: Group;
 
    public override function create(): Node {
-      newScyElo();
+      newThumbnail();
       eloIconChanged(eloIcon);
       Group {
          content: [
@@ -99,10 +99,9 @@ public class ThumbnailView extends WindowElement {
       }
    }
 
-   function newScyElo() {
-      def thumbnailImage = scyElo.getThumbnail();
-      if (thumbnailImage != null) {
-         thumbnailView.image = SwingUtils.toFXImage(scyElo.getThumbnail());
+   function newThumbnail() {
+      if (thumbnail != null) {
+         thumbnailView.image = SwingUtils.toFXImage(thumbnail);
          thumbnailView.visible = true;
          noThumbnailView.visible = false;
       } else {

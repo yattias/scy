@@ -24,6 +24,7 @@ import eu.scy.client.desktop.scydesktop.owner.OwnershipManager;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 import eu.scy.client.desktop.desktoputils.art.EloIcon;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleManager;
+import java.awt.image.BufferedImage;
 
 /**
  * @author sikkenj
@@ -99,6 +100,7 @@ public abstract class ScyWindow extends CustomNode, DropTarget {
     public var isCollaborative = false;
     public var isQuiting = false;
     public var isScyContentSet: Boolean = false;
+    public-read protected var thumbnail: BufferedImage;
 
     public function open(): Void {
         openWindow(minimumWidth, minimumHeight)

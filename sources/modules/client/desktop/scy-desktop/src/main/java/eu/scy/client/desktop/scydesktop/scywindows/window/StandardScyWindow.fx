@@ -5,48 +5,56 @@
  */
 package eu.scy.client.desktop.scydesktop.scywindows.window;
 
-import javafx.scene.Scene;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-import eu.scy.client.desktop.scydesktop.scywindows.TestAttribute;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import javafx.scene.control.Button;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
-import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.geometry.Point2D;
-import javafx.scene.Cursor;
 import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.effect.Effect;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Resizable;
-import javafx.scene.shape.Rectangle;
-import javafx.util.Math;
-import javafx.util.Sequences;
-import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowAttribute;
-import eu.scy.client.desktop.desktoputils.art.ScyColors;
-import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
-import javafx.scene.layout.Container;
-import javafx.scene.CacheHint;
 import eu.scy.client.desktop.scydesktop.owner.OwnershipManager;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
-import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
 import eu.scy.actionlogging.Action;
-import eu.scy.actionlogging.Context;
-import eu.scy.client.desktop.desktoputils.XFX;
 import org.apache.log4j.Logger;
-import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
-import eu.scy.client.desktop.scydesktop.tooltips.BubbleLayer;
-import eu.scy.client.desktop.scydesktop.tooltips.BubbleKey;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactFrame;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.OnlineState;
 import eu.scy.client.desktop.scydesktop.dialogs.DragBuddyDialog;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.actionlogging.api.ContextConstants;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
+import eu.scy.client.desktop.scydesktop.scywindows.window.TitleBarBuddies;
+import javafx.animation.Interpolator;
+import javafx.geometry.Point2D;
+import javafx.lang.FX;
+import javafx.scene.CacheHint;
+import javafx.scene.Cursor;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Container;
+import javafx.scene.layout.Resizable;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
+import javafx.util.Math;
+import javafx.util.Sequences;
+import eu.scy.actionlogging.Context;
+import eu.scy.client.desktop.desktoputils.art.ScyColors;
+import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowAttribute;
+import eu.scy.client.desktop.scydesktop.scywindows.TestAttribute;
+import eu.scy.client.desktop.scydesktop.scywindows.window.LeftDrawer;
+import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
+import eu.scy.client.desktop.scydesktop.scywindows.window.MouseEventInScene;
+import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
+import eu.scy.client.desktop.scydesktop.scywindows.window.ScyToolsList;
+import eu.scy.client.desktop.scydesktop.scywindows.window.TitleBarButtons;
+import eu.scy.client.desktop.scydesktop.scywindows.window.TitleBarWindowAttributes;
+import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
+import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleKey;
+import eu.scy.client.desktop.scydesktop.tooltips.BubbleLayer;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ThumbnailGenerator;
 
 /**
  * @author sikkenj
@@ -65,6 +73,7 @@ public class StandardScyWindow extends ScyWindow {
               this.eloUri = scyElo.getUri();
               missionModelFX.scyEloChanged(oldScyElo, scyElo);
               titleBarBuddies.buddiesChanged();
+              thumbnail = scyElo.getThumbnail();
            };
    public override var width = 150 on replace oldWidth {
               //                    println("before width from {oldWidth} size: {width}*{height}, content: {contentWidth}*{contentHeight} of {eloUri}");
@@ -287,7 +296,7 @@ public class StandardScyWindow extends ScyWindow {
                eloIconName: "collaboration_invitation"
                title: ##"Dragged buddy"
                message: "{##"You dragged"} {c.contact.name} {##"on this ELO. What do you want to do?"}"
-                               collaborative: scyToolsList.canAcceptDrop(object)
+                                collaborative: scyToolsList.canAcceptDrop(object)
                sendEloFunction: function(): Void {
                   sendEloToUser(c, scyElo);
                }
@@ -458,11 +467,11 @@ public class StandardScyWindow extends ScyWindow {
       isAnimating = true;
       hideDrawers = isClosed;
       isClosed = false;
-      FX.deferAction(function():Void{
-              checkScyContent();
-              ProgressOverlay.stopShowWorking();
-              openTimeline.play()
-         });
+      FX.deferAction(function(): Void {
+         checkScyContent();
+         ProgressOverlay.stopShowWorking();
+         openTimeline.play()
+      });
       def openTimeline = Timeline {
                  keyFrames: [
                     KeyFrame {
@@ -663,6 +672,7 @@ public class StandardScyWindow extends ScyWindow {
 
    function doClose(): Void {
       userDidSomething();
+      updateThumbnail();
       if (isMaximized) {
          resetMaximizedState();
       }
@@ -686,6 +696,13 @@ public class StandardScyWindow extends ScyWindow {
 
       toBack();
       logger.debug("closed {title}");
+   }
+
+   function updateThumbnail(): Void {
+      def thumbnailImage = ThumbnailGenerator.generateThumbnail(this);
+      if (thumbnailImage != null) {
+         thumbnail = thumbnailImage;
+      }
    }
 
    function doMaximize(): Void {
@@ -1131,7 +1148,7 @@ public class StandardScyWindow extends ScyWindow {
                     closedWindow = ClosedWindow {
                                window: this
                                windowColorScheme: windowColorScheme
-                               scyElo: bind scyElo
+                               thumbnail: bind thumbnail
                                buddiesDisplay: closedWindowBuddies
                                startDragIcon: startDragIcon
                                doubleClickAction: handleDoubleClick
