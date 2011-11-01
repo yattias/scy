@@ -158,10 +158,10 @@ public function nodeToImage(node: Node, bounds: Bounds): BufferedImage {
    // put node back to its original position
 //   Container.positionNode(node, originalLayoutX, originalLayoutY);
 
-   println("bufferedImage size: {bufferedImage.getWidth()}*{bufferedImage.getHeight()}");
+//   println("bufferedImage size: {bufferedImage.getWidth()}*{bufferedImage.getHeight()}");
 
    def resizedImage = UiUtils.resizeBufferedImage(bufferedImage, new Dimension(bounds.width,bounds.height));
-   println("resizedImage size: {resizedImage.getWidth()}*{resizedImage.getHeight()}");
+//   println("resizedImage size: {resizedImage.getWidth()}*{resizedImage.getHeight()}");
 
    return resizedImage;
 }
