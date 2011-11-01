@@ -10,10 +10,21 @@ import java.lang.IllegalStateException;
 import java.awt.image.BufferedImage;
 import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.tooltips.BubbleKey;
+import javafx.scene.Node;
 
 /**
  * @author sikken
  */
+public function getScyTool(node: Node): ScyTool {
+   var scyTool: ScyTool;
+   if (node instanceof ScyTool) {
+      scyTool = node as ScyTool
+   } else if (node instanceof ScyToolGetter) {
+      scyTool = (node as ScyToolGetter).getScyTool();
+   }
+   scyTool
+}
+
 public mixin class ScyToolFX extends ScyTool {
 
    public-read protected var eloSaver: EloSaver;
@@ -89,11 +100,11 @@ public mixin class ScyToolFX extends ScyTool {
    public function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
    }
 
-   public override function getDrawerUIIndicator(): DrawerUIIndicator{
+   public override function getDrawerUIIndicator(): DrawerUIIndicator {
       return null;
    }
 
-   public override function getBubbleKey(): BubbleKey{
+   public override function getBubbleKey(): BubbleKey {
       return null;
    }
 

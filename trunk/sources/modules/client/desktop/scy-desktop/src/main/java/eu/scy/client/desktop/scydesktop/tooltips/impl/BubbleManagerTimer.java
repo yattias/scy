@@ -26,7 +26,9 @@ public class BubbleManagerTimer implements Runnable
 
    public void start(){
       abort = false;
-      new Thread(this).start();
+      Thread thread = new Thread(this);
+      thread.setName("BubbleManagerTimer");
+      thread.start();
    }
 
    public void setBubbleWaitMillis(long bubbleWaitMillis)

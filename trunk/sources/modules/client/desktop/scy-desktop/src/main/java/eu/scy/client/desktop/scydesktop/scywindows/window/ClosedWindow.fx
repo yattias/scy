@@ -6,7 +6,6 @@ package eu.scy.client.desktop.scydesktop.scywindows.window;
 
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.desktoputils.art.EloIcon;
-import eu.scy.common.scyelo.ScyElo;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import eu.scy.client.desktop.desktoputils.art.ArtSource;
@@ -30,6 +29,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextOrigin;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.AnchorAttribute;
 import javafx.scene.text.TextBoundsType;
+import java.awt.image.BufferedImage;
 
 /**
  * @author SikkenJ
@@ -37,7 +37,7 @@ import javafx.scene.text.TextBoundsType;
 public class ClosedWindow extends WindowElement {
 
    public var window: ScyWindow;
-   public var scyElo: ScyElo;
+   public var thumbnail: BufferedImage;
    public var eloIcon: EloIcon;
    public var title = "elo title";
    public var activated = false on replace { activatedChanged() };
@@ -49,7 +49,7 @@ public class ClosedWindow extends WindowElement {
    def bgColor = bind if (activated) windowColorScheme.emptyBackgroundColor else windowColorScheme.mainColor;
    def thumbnailView = ThumbnailView {
       windowColorScheme: windowColorScheme
-      scyElo: bind scyElo
+      thumbnail: bind thumbnail
       eloIcon: bind eloIcon
       startDragIcon:startDragIcon
       doubleClickAction: doubleClickAction
