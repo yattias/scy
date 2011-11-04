@@ -444,7 +444,6 @@ export_matches([S|Ss], Model, Stream) :-
 
 term_set_string_similarity(String1, String2, Similarity) :-
 	atomic_list_concat([String1,String2], '-', BothStrings),
-	retractall(tss(_,_)),		% TBD - remove this line
 	(   tss(BothStrings, KnownSimilarity)
 	->  Similarity = KnownSimilarity
 	;   atom_length(String1, Len1),
