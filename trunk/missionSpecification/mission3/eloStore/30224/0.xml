@@ -1,0 +1,73 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-11-04T10:47:54.624+0100</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-11-04T10:47:54.624+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1320400074624</dateCreated>
+        <dateFirstUserSaveKey>1320400074624</dateFirstUserSaveKey>
+        <dateLastModified>1320400074624</dateLastModified>
+      </customElements>
+      <format>scy/missionspecification</format>
+    </technical>
+    <educational>
+      <learningResourceType>documentDesign</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30224/0/%CE%A5%CE%B3%CE%B9%CE%B5%CE%B9%CE%BD%CE%AE+%CF%80%CE%AF%CF%84%CF%83%CE%B1.scymissionspecification</entry>
+      </identifier>
+      <las />
+      <missionId>pizza2</missionId>
+      <title>
+        <string language="el">Υγιεινή πίτσα</string>
+      </title>
+    </general>
+    <relation />
+  </lom>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABCCAYAAADAD1E9AAAJrUlEQVR42u2b5Y8UTRDG+VeADwSCf8ACgYQgAUKAENzd3d3d3d3d3d3d3d3d682vkur07gnHcuTluK7kmN3ZmZ6Z6qqnnqd6SCPBfsvS8M++ffvk+vXrumPkyJFy9OhRd8C5c+fkxIkT7vvz58/l69ev8uzZs+A9c+D27dtl2bJlusOctXfvXt2uXbtWNm3aFHHSy5cvZevWrcF75sBgwYH/vwPBvvfv30v//v0V3/r06SMLFy7U30jhS5cu6WfwccOGDTJnzhz9/unTJ93WrVs3RGCw33QgkdetWzd59eqV27dz504pVqyY1KlTR0aMGCH16tXTqHvx4oV+z549u9SvX19Wr14tnTp10nO+fPkirVq1ksePH8uQIUOkYsWK+jvjU3wOHTokFy9edAWJyv7jxw959OiRfP78WfefPn064kZ37dql2+HDh0v79u1l0qRJUqhQIdm2bZs75ubNm7qdMmWK9OrVSzOIeyW7eK5s2bJJrVq1XIHEnjx5olt+57hRo0bJ3bt39dm4VoYMGaRNmzZy5MgRuXfvnh7Ls/9VEXj8+PGUHYFt27bVL6VLl5auXbtKxowZZdy4cREHVqtWzX0GJzGOXbBggSxatMj9NnnyZKlQoYKsXLkyzngPHjyIg5c3btzQbe3atTVqBw0a5H67cuWKOtdw9q9PYdIoOczGSa7xUlURATsSs/Pnz0d8B1s3b96csh0I2N65c0cyZcokvXv31pQhrQsXLqzpyEOTWseOHdOTAHuAFMB//fq124ccrFSpko739OlTLSIoGWzGjBkuXS09a9asKXny5NHrPXz4UM6ePav34ENCiopAq0gJme+AhNI2qft/Bxp+Nm4s9xLrfaYx2gGtyJUrl0bB9+/fZejQoUoXfCPaAHpoCbZkyRKlIaajS5YsqbTn3bt30rlzZ3fet2/fZOnSpW6MhIymBvbmzRv9w65evep+h0KVKVNGKcf69etdQ6Nnz55SsGBBdxza3owoJ6IpZjRGrOKTTZkzZ3bHTZs2zX1u0KCBnDx5UkaPHq2ZhOETCmMg0n8ihZs1a6ZfkGhgIDh0+/Ztd1Dfvn3jhDiyD+JJpBnp3bJli1y4cEFnjv3R49EGg8QyFlFphkyE8sycOdO11TZu3KikGzIbpNy/HoFWdZFsBqgtW7aU/fv3R1RNounMmTN6LBEEblJp+QOPwBsMKYSU6tixo4wZM0Yr8/Tp03U8qjUyjIhDhhGtYBhkm/1U45TEH10EkjJJMZRGclh0gUrxRBpsQmj7D4Z8A8cwopOKS4SAbzQHrAJi3bt3d+eZVAO/kHBELYLcKiqVGPycPXu2NiKI1nXr1ulvpUqVUhwl4itXrqwdcmskfPjwQcW+b+Dm2LFjFWN37Nih3JVWG203rg+O2tg+2V++fLl+JjPy588v7dq1kwMHDiipP3z4cJxmBlWYJgg2a9asuA6Mll9J5VzRXMqOtYvFd4yvq33DaRiQEEsax3fOz8aJ5Zw4EQj/Arfmz5+vOAbHwlatWiVTp07VKGQGmLkVK1a4aCMamjRpEjEgnJDxrl27plWZY6tUqaLYh5qBoxHF5cuXl927dzucBVOZWbZWiWN1mnFOMzLLjPYa1+C8tGnTysCBA11jxFpsv5zCOGHPnj2uCEBYMUhz2bJlXWHAEcWLF3erdqTK/fv3VbrRg7P0NadSiCDdjRs3VoLdsGFDd+FGjRrpdUhlS5GPHz/K+PHjtT/IxDGWTZbdExNAKrMfwusTZtKPcdDXXJMJy5EjhzRv3lzvE3FQrlw5PYZrZM2a1UECz1+kSJFAY5JDokWfk9gYTspFn9C6dWsFVoyII3pMhkFPJk6cqMdBgejl5c2b18k5SDYdXCLYNyLHaJONhezzu85+7y8a/LF+/fppVlDsqlev7vZTiAx6oo17zZcvnz6TXyQpbESl2du3b91n5B/Zg8jwe6PRUjQQ6eSgMeCFSbH4pNyAAQMUN3wjUkyyWY+PYoMsA9eI0ujxGIOiwdZPC+gNxBpaY9elDQamAfpmiH+oCdhIe4zfwWWuD0bTgGCNZvHixUpT2GfGeglFAqrCiiMRBsWho254TQSSbeB1ly5d9Hl+9gbGPxmBFKJYLBbdHeFASChVCSLZtGlTjSCqm1XbW7du6SoVkguCS5MBY8ZS67syEQ60VA4WowPBJeQahBlexzovnApjrRj5BpGmuiKhMCKVCLU1U7AJ7Jk3b14cGQVuwvWo1FREk5CMBVcDLw0bqdhEOdekOqNOzGiLocn9FbyqVavqlqUGWzXEeB6Mass6MtllrANO26NHD+Wk4KIZ94jNnTtXtzyzjVO0aNGkYSBENhazJdKkmHWg45OTrMXEx8MSeivsV+RmskcgUWQqAVwjoojALFmyKA5SnVAAVDFmD8nHb8yMcSPO4zvrJlRA+BrinhlPly6dVnIzFrAYj+has2aNjse5LDAhszgWLKYSAuwsHXBPVG+ilAaEsYbEDGxOyBgDvuo3deMrQCYLuS+WBKKxXh1ImhLipA2RZ5KuQIECrhNCynEMD2HpYg8CNfDxE50LAbUUQzJBS3C+rZUwHhTE0g9SPHjwYNdaMz1MJNKhsYywVy9IfSKYPyQdpNjIOMFAqiHbkHxQKvYxCVwHCOI7DqTLhA6m+0LqQrQppsg6/AJlOnXqlItcezkgwRQ2tfArFs0R/1S6/LVFhMiglURUQIJN7kBM6c2xMgW2McvDhg3TcG7RokVED9A3Us7vvXEeMGCvy/3M8eCcRTezj9lbsozHxFy+fFmB3dZzzFg5o/iVKFFCv0O26RARmTQQSHsKDYSeYgT00A2np+jDAtHIPVvxsmBAelqRCVIuuSLQXyGjrFMEAEu8zsyBNwDywYMHIyoo4G/rt7lz59b0h6JY68naT8w4Uc2MUxQoOmAmLSQi3JYTKBrINWswQEegK0QQYxqlMvCnxzhhwgRdd8Hs/W7kmJ8dyLicOXO6qKRQEMFgNZkF1aKIGY6mmHYWKfVPRGCNGjX0i737YoTYb7PTKrIZokIaNiHxoDe80QAZhnx26NBBoiM7VSiRYL/pQBqoRJaPBWAcPMnkEGkH8faPAU/ATqtiPn2xSP7nHeg/dEL04k+30lN8BKZPn969aWXNAjMqZrBEHMhSI4TSZByO5FUwJA9LlEgbOr8QU1t0Tux9wVSJgfGZL9hRLHAo++8EGDws1TuQlwshqv6CNOsdkE/Mf8mR1S0zOi4QaIqKrS2ECAwWHBgcGBwYHBgsODA4MDgwODBYcGBwYHBgcGCw4MDgwODA4MBgwYF/wv4DgSWfiHfAK20AAAAASUVORK5CYII=</base64>
+  </thumbnail>
+</metadata>
+<content languages="el" contentType="xml">
+<missionSpeicification>
+  <missionMapModelEloUri>roolo://memory/30219/0/%CE%A5%CE%B3%CE%B9%CE%B5%CE%B9%CE%BD%CE%AE+%CF%80%CE%AF%CF%84%CF%83%CE%B1.scymissionmapmodel</missionMapModelEloUri>
+  <eloToolConfigsEloUri>roolo://memory/30220/0/%CE%A5%CE%B3%CE%B9%CE%B5%CE%B9%CE%BD%CE%AE+%CF%80%CE%AF%CF%84%CF%83%CE%B1.scyelotoolconfiguration</eloToolConfigsEloUri>
+  <templateElosEloUri>roolo://memory/30221/0/%CE%A5%CE%B3%CE%B9%CE%B5%CE%B9%CE%BD%CE%AE+%CF%80%CE%AF%CF%84%CF%83%CE%B1.scytemplateelos</templateElosEloUri>
+  <runtimeSettingsEloUri>roolo://memory/30222/0/%CE%A5%CE%B3%CE%B9%CE%B5%CE%B9%CE%BD%CE%AE+%CF%80%CE%AF%CF%84%CF%83%CE%B1.runtimesettings</runtimeSettingsEloUri>
+  <agentModelsEloUri />
+  <pedagogicalPlanSettingsEloUri>roolo://memory/30223/0/%CE%A5%CE%B3%CE%B9%CE%B5%CE%B9%CE%BD%CE%AE+%CF%80%CE%AF%CF%84%CF%83%CE%B1.scy</pedagogicalPlanSettingsEloUri>
+  <colorSchemesEloUri>roolo://memory/30100/0/colorschemes1.colorschemes</colorSchemesEloUri>
+  <missionDescriptionUri>http://www.scy-lab.eu/content/en/mission3/curtain_MISSION.html</missionDescriptionUri>
+  <missionId>pizza2</missionId>
+  <xhtmlVersionId />
+</missionSpeicification>
+</content>
+<resources>
+</resources>
+</elo>

@@ -9,7 +9,7 @@
         </role>
         <entity>costas</entity>
         <date>
-          <dateTime>2011-06-21T16:19:01.453+0300</dateTime>
+          <dateTime>2011-06-21T15:19:01.453+0200</dateTime>
         </date>
       </contribute>
       <contribute>
@@ -19,10 +19,10 @@
         </role>
         <entity>costas</entity>
         <date>
-          <dateTime>2011-06-21T16:19:01.453+0300</dateTime>
+          <dateTime>2011-06-21T15:19:01.453+0200</dateTime>
         </date>
       </contribute>
-      <version>22</version>
+      <version>23</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -63,33 +63,21 @@
         </identifier>
       </resource>
     </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
-  <template>TRUE</template>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAABgUlEQVR42u3SsU7CUBTG8fsGRl/Kzd0X8QlcdHHR1AWIGiWRjQRJTNzUpSY6OJRGtBSLFnGROAjosfc2RdBIbnBw4P8lX9pzbiDNL1fFzyKt9lcPiqWxOZ8vjM02jR77M1OlAU+9rrjBQC6CXgJ4aOZz/9U8cwng4P1DFpeWzWyA4vQ3SimJOymannWrbksa0YuEUXcmagB3K5eysupI8fja3EA97x1dmae+gW+9vizMz5k5u2WFsmvmDFC/b+6fiFM6k7tGW4KwMxM1gGtOWda302rA0VkDbu1UhzuN9fAkw3P9rnfZvJGryE09lPrt/YQ2LXZNy7NJu2lr/33K9zypJfVH+n3+bTdtbf6/Znn239+nhPwpAAIIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAASQAAggggARAAAEEkAAIIIAAEgABBBBAAiCAAAIIIAEQQAABJAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAMnPfAJ85wP8smd96gAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
 <content languages="en el" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1\par
-\par
-\li0\ri0\fi0\ul0\par
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1\par&#xD;
+\par&#xD;
+\li0\ri0\fi0\ul0\par&#xD;
 }</RichText>
 </content>
 <resources>
