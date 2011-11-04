@@ -19,50 +19,50 @@ import java.util.List;
 
 public abstract class AbstractFeatureExtractor implements FeatureExtractor {
 
-    protected TupleSpace commandSpace;
-    protected RooloServices repository;
+	protected TupleSpace commandSpace;
+	protected RooloServices repository;
 
+	@Override
+	public void setCommandSpace(TupleSpace commandSpace) {
+		this.commandSpace = commandSpace;
+	}
 
-    @Override
-    public void setCommandSpace(TupleSpace commandSpace) {
-        this.commandSpace = commandSpace;
-    }
+	@Override
+	public void setRepository(RooloServices repository) {
+		this.repository = repository;
+	}
 
-    @Override
-    public void setRepository(RooloServices repository) {
-        this.repository = repository;
-    }
+	@Override
+	public TupleSpace getCommandSpace() {
+		return this.commandSpace;
+	}
 
-    @Override
-    public TupleSpace getCommandSpace() {
-        return this.commandSpace;
-    }
+	@Override
+	public abstract boolean canRun(IELO elo);
 
-    @Override
-    public abstract boolean canRun(IELO elo);
+	protected abstract double[] getFeatures(String user, String mission, IELO elo, IELO userELO);
 
+	protected IELO retrieveEloFromRepository(String user, String eloType) {
+		MetadataQueryComponent mcq = new MetadataQueryComponent(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId(),
+				eloType);
+		Query q = new Query(mcq);
+		HashSet<String> allowedUsers = new HashSet<String>();
+		allowedUsers.add(this.clean(user));
+		q.setIncludedUsers(allowedUsers);
+		List<ISearchResult> res = this.repository.getRepository().search(q);
+		if (res.isEmpty()) {
+			return null;
+		}
+		IELO elo = this.repository.getRepository().retrieveELO(res.get(0).getUri());
+		return elo;
+	}
 
-    protected abstract double[] getFeatures(String user, String mission, IELO elo,
-                                            IELO userELO);
-
-    protected IELO retrieveEloFromRepository(String user, String eloType) {
-        MetadataQueryComponent mcq = new MetadataQueryComponent(
-                CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId(),
-                eloType);
-        Query q = new Query(mcq);
-        HashSet<String> allowedUsers = new HashSet<String>();
-        allowedUsers.add(clean(user));
-        q.setIncludedUsers(allowedUsers);
-        List<ISearchResult> res = repository.getRepository().search(q);
-        if ( res.isEmpty() ) {
-            return null;
-        }
-        IELO elo = repository.getRepository().retrieveELO(res.get(0).getUri());
-        return elo;
-    }
-
-    private String clean(String user) {
-        return user.substring(0, user.indexOf('@'));
-    }
-
+	private String clean(String user) {
+		int idx = user.indexOf('@');
+		if (idx >= 0) {
+			return user.substring(0, idx);
+		} else {
+			return user;
+		}
+	}
 }
