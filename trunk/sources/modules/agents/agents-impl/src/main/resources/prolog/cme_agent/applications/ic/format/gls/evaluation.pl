@@ -146,14 +146,11 @@ is_dislocated2(Node, Previous, G, RM) :-
  *  Evaluation rule
  *------------------------------------------------------------*/
 
-eval(G, E, C, _, Eval) :-
-	(   C == 0			% Just to be sure
-	->  Eval = dislocated
-	;   (   E == C
-	    ->  (   G > E
-		->  Eval = consider
-		;   Eval = perfect
-		)
-	    ;   Eval = dislocated
+eval(G, E, C, _, Eval) :-	% If C == 0 it could still be at the
+	(   E == C
+	->  (   G > E
+	    ->  Eval = consider
+	    ;   Eval = perfect
 	    )
+	;   Eval = dislocated
 	).
