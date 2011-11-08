@@ -58,7 +58,8 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
     private String CONFERENCE_EXT = null;
     private final static Logger logger = Logger.getLogger(AwarenessServiceXMPPImpl.class.getName());
     private ArrayList<IAwarenessPresenceListener> presenceListeners = new ArrayList<IAwarenessPresenceListener>();
-    private List<IAwarenessMessageListener> messageListeners = new ArrayList<IAwarenessMessageListener>();
+
+    private ArrayList<IAwarenessMessageListener> messageListeners = new ArrayList<IAwarenessMessageListener>();
     private ArrayList<IAwarenessRosterListener> rosterListeners = new ArrayList<IAwarenessRosterListener>();
     private ArrayList<IChatPresenceToolListener> chatToolListeners = new ArrayList<IChatPresenceToolListener>();
     private ArrayList<IChatPresenceToolListener> presenceToolListeners = new ArrayList<IChatPresenceToolListener>();
@@ -143,7 +144,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 
     private void processPresence(Presence presence) {
         // System.out.println("presence of " + presence.toString());
-        for (IAwarenessPresenceListener presenceListener : presenceListeners) {
+        for (IAwarenessPresenceListener presenceListener : (ArrayList<IAwarenessPresenceListener>) presenceListeners.clone()) {
             if (presenceListener != null) {
                 String roomId = StringUtils.parseName(presence.getFrom());
                 IAwarenessUser aw = new AwarenessUser();
@@ -189,7 +190,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
         IAwarenessEvent awarenessEvent = new AwarenessEvent(this, aw, message.getBody(), timestamp);
         awarenessEvent.setRoomId(roomId);
 
-        for (IAwarenessMessageListener al : messageListeners) {
+        for (IAwarenessMessageListener al : (ArrayList<IAwarenessMessageListener>) messageListeners.clone()) {
             if (al != null) {
                 try {
                     al.handleAwarenessMessageEvent(awarenessEvent);
@@ -317,7 +318,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
             public void entriesAdded(Collection<String> addresses) {
                 logger.debug("init: entriesAdded: " + addresses);
 
-                for (IAwarenessRosterListener rosterListener : rosterListeners) {
+                for (IAwarenessRosterListener rosterListener : (ArrayList<IAwarenessRosterListener>) rosterListeners.clone()) {
                     if (rosterListener != null) {
                         IAwarenessRosterEvent rosterEvent = new AwarenessRosterEvent(
                                 AwarenessServiceXMPPImpl.this,
@@ -332,7 +333,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
             @Override
             public void entriesDeleted(Collection<String> addresses) {
                 logger.debug("init: entriesDeleted: " + addresses);
-                for (IAwarenessRosterListener rosterListener : rosterListeners) {
+                for (IAwarenessRosterListener rosterListener : (ArrayList<IAwarenessRosterListener>) rosterListeners.clone()) {
                     if (rosterListener != null) {
                         IAwarenessRosterEvent rosterEvent = new AwarenessRosterEvent(
                                 AwarenessServiceXMPPImpl.this,
@@ -346,7 +347,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
             @Override
             public void entriesUpdated(Collection<String> addresses) {
                 logger.debug("init: entriesUpdated: " + addresses);
-                for (IAwarenessRosterListener rosterListener : rosterListeners) {
+                for (IAwarenessRosterListener rosterListener : (ArrayList<IAwarenessRosterListener>) rosterListeners.clone()) {
                     if (rosterListener != null) {
                         IAwarenessRosterEvent rosterEvent = new AwarenessRosterEvent(
                                 AwarenessServiceXMPPImpl.this,
@@ -370,7 +371,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
                 IAwarePresenceEvent presenceEvent = new AwarenessPresenceEvent(
                         AwarenessServiceXMPPImpl.this, aw,
                         "updated from awareness service", presence.getType().toString(), presence.getStatus());
-                for (IAwarenessPresenceListener presenceListener : presenceListeners) {
+                for (IAwarenessPresenceListener presenceListener : (ArrayList<IAwarenessPresenceListener>) presenceListeners.clone()) {
                     if (presenceListener != null) {
                         presenceListener.handleAwarenessPresenceEvent(presenceEvent);
                     }
@@ -385,7 +386,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
                 try {
                     if ("p2p".equals(reason)) {
                         joinMUCRoom(room);
-                        for (IAwarenessInvitationListener listener : invitationListeners) {
+                        for (IAwarenessInvitationListener listener : (ArrayList<IAwarenessInvitationListener>) invitationListeners.clone()) {
                             inviter = StringUtils.parseName(inviter);
                             listener.handleInvitationEvent(inviter, room);
                         }
@@ -508,7 +509,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
     public void updateChatTool(List<IAwarenessUser> users) {
         IChatPresenceToolEvent icpte = new ChatPresenceToolEvent(users);
         icpte.setMessage("presence tool calling with updates");
-        for (IChatPresenceToolListener icptl : presenceToolListeners) {
+        for (IChatPresenceToolListener icptl : (ArrayList<IChatPresenceToolListener>) presenceToolListeners.clone()) {
             if (icptl != null) {
                 icptl.handleChatPresenceToolEvent(icpte);
             }
@@ -520,7 +521,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
         logger.debug("Received something from Chattool");
         IChatPresenceToolEvent icpte = new ChatPresenceToolEvent(users);
         icpte.setMessage("chat tool calling with updates");
-        for (IChatPresenceToolListener icptl : chatToolListeners) {
+        for (IChatPresenceToolListener icptl : (ArrayList<IChatPresenceToolListener>) chatToolListeners.clone()) {
             if (icptl != null) {
                 icptl.handleChatPresenceToolEvent(icpte);
             }
@@ -754,7 +755,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 
             logger.debug("PARSED room ID for AwarenessParticipantListener: " + participant + " and roomID: " + roomId);
 
-            for (IAwarenessRosterListener rosterListener : rosterListeners) {
+            for (IAwarenessRosterListener rosterListener : (ArrayList<IAwarenessRosterListener>) rosterListeners.clone()) {
                 if (rosterListener != null) {
                     List<String> addresses = new ArrayList<String>();
                     addresses.add(participant);
@@ -776,7 +777,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
             String roomId = StringUtils.parseName(participant);
 
             participant = participant.substring(participant.indexOf("/") + 1);
-            for (IAwarenessRosterListener rosterListener : rosterListeners) {
+            for (IAwarenessRosterListener rosterListener : (ArrayList<IAwarenessRosterListener>) rosterListeners.clone()) {
                 if (rosterListener != null) {
 
                     List<String> addresses = new ArrayList<String>();
