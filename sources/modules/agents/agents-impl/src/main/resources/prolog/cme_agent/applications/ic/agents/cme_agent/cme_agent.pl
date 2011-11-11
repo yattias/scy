@@ -412,4 +412,6 @@ cme_evaluate(fill_in, Map, TS, RM, _, Evaluation) :-
 	agent_resource_required(term_set, TS),
 	agent_resource_required(reference_model, RM),
 	fill_in_evaluation(Map, Evaluation,
-				 [term_set(TS), reference_model(RM)]).
+				 [term_set(TS),
+				  reference_model(RM),
+				  threshold(0.75)]).

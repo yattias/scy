@@ -10,7 +10,7 @@
  *  Notice	Copyright (c) 2011  University of Twente
  *  
  *  History	13/05/11  (Created)
- *  		23/09/11  (Last modified)
+ *  		08/11/11  (Last modified)
  */
 
 /*------------------------------------------------------------
@@ -91,6 +91,7 @@
 :- use_module(library(lists), [append/3, delete/3, member/2, reverse/2]).
 :- use_module(library(option), [option/2, option/3, select_option/3]).
 :- use_module(library(gensym), [gensym/2]).
+:- use_module(library(listing), [listing/1]).
 
 :- use_module(kernel(item2), [item2_propchk/2, item2_session/2]).
 :- use_module(kernel(seq), [seq_members/2]).
@@ -125,9 +126,36 @@ gls(Gls) :-
 %
 %	Creates a Gls with the given Properties.
 
-gls_create(Gls, Properties) :-
-	gls_handle(Gls),
-	assert(gls_properties(Gls,Properties)).
+gls_create(G, Properties) :-
+	var(G), !,
+	gensym(gls_, G),
+	gls_create2(G, Properties).
+gls_create(G, Properties) :-
+%	nonvar(G),
+	gls_delete(G),
+	gls_create2(G, Properties).
+
+gls_create2(Module, Properties) :-
+	assert(gls_properties(Module,Properties)),
+	
+	dynamic(Module:node/1),
+	dynamic(Module:node_label/2),
+	dynamic(Module:node_term/2),
+	dynamic(Module:node_term_status/2),
+	dynamic(Module:node_type/2),
+	dynamic(Module:node_visuals/2),
+	dynamic(Module:node_properties/2),
+
+	dynamic(Module:edge/1),
+	dynamic(Module:edge_label/2),
+	dynamic(Module:edge_term/2),
+	dynamic(Module:edge_term_status/2),
+	dynamic(Module:edge_type/2),
+	dynamic(Module:edge_tail/2),
+	dynamic(Module:edge_head/2),
+	dynamic(Module:edge_direction/2),
+	dynamic(Module:edge_visuals/2),
+	dynamic(Module:edge_properties/2).
 
 
 %%	gls_delete(+GLS:gls_handle) is det.
@@ -137,7 +165,7 @@ gls_create(Gls, Properties) :-
 gls_delete(G) :-
 	gls(G), !,
 	gls_clear(G),
-	clear_cache(G).
+	retractall(gls_properties(G,_)).
 gls_delete(_).
 
 
@@ -146,7 +174,6 @@ gls_delete(_).
 %	Clear the GLS by removing all nodes and edges.
 
 gls_clear(G) :-
-	gls(G),
 	gls_module(G, Module),
 	
 	retractall(Module:node(_)),
@@ -166,7 +193,6 @@ gls_clear(G) :-
 	retractall(Module:edge_direction(_,_)),
 	retractall(Module:edge_visuals(_,_)),
 	retractall(Module:edge_properties(_,_)).
-	
 
 
 gls_property(Gls, Prop) :-
@@ -215,11 +241,9 @@ clear_properties(Gls, Props) :-
 %	  gls_apply_term_set/3 succeeds silently if previously applied.  This
 %	  option forces re-execution.
 
-/*
 gls_apply_term_set(GLS, Set, Options) :-
 	gls_propchk(GLS, term_set(Set)),
 	\+ option(cache(clear), Options), !.
-  */
 gls_apply_term_set(G, Set, Options) :-
 	gls_clear_terms(G), 
 	findall(N, gls_node(G,N), Nodes),
@@ -351,11 +375,11 @@ last_only([_|Ss], Notation, Gs) :-
 :- dynamic
 	gls_properties/2.
 
-clear_cache(GLS) :-
-	retractall(gls_properties(GLS,_)).
-
 clear_cache_all :-
-	retractall(gls_properties(_,_)).
+	gls(G),
+	gls_delete(G),
+	fail.
+clear_cache_all.
 
 
 /*------------------------------------------------------------
@@ -367,10 +391,6 @@ post_import_hook :-
 	forall(gls_propchk(G, notation(sdm)), sdm_to_gls(G, [])).
 
 
-gls_handle(GLS) :-
-	var(GLS), !,
-	gensym(gls_, GLS).
-gls_handle(_).
 
 
 /*------------------------------------------------------------
@@ -623,29 +643,12 @@ add_edge_property(Edge, Prop, Module) :-
  *  Module
  *------------------------------------------------------------*/
 
-gls_module(GLS, GLS) :-
-	nonvar(GLS),
-	current_module(GLS), !.
-gls_module(Module, Module) :-
-	nonvar(Module),
-	dynamic(Module:node/1),
-	dynamic(Module:node_label/2),
-	dynamic(Module:node_term/2),
-	dynamic(Module:node_term_status/2),
-	dynamic(Module:node_type/2),
-	dynamic(Module:node_visuals/2),
-	dynamic(Module:node_properties/2),
+%%	gls_module(+G:gls_handle, -Module:atom) is semidet.
+%
+%	Module is the module associated with G.  Only used internally.
 
-	dynamic(Module:edge/1),
-	dynamic(Module:edge_label/2),
-	dynamic(Module:edge_term/2),
-	dynamic(Module:edge_term_status/2),
-	dynamic(Module:edge_type/2),
-	dynamic(Module:edge_tail/2),
-	dynamic(Module:edge_head/2),
-	dynamic(Module:edge_direction/2),
-	dynamic(Module:edge_visuals/2),
-	dynamic(Module:edge_properties/2).
+gls_module(G, G) :-
+	gls(G).
 
 
 /*------------------------------------------------------------

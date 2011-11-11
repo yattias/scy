@@ -21,7 +21,9 @@
 	  [ gls_node_perfect_match/3	% GLS x Node x RefMod
 	  ]).
 
-:- use_module(library(lists), [subtract/3]).
+:- use_module(load).
+
+:- use_module(library(lists), [append/3, intersection/3, member/2]).
 :- use_module(library(debug), [debug/3]).
 
 :- use_module(model, [gls_edge_tail/3, gls_edge_head/3, gls_node_term/3,

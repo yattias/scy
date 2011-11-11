@@ -67,6 +67,9 @@
 
        ]).
 
+:- use_module(library(lists), [member/2, nth0/3]).
+:- use_module(library(readutil), [read_line_to_codes/2]).
+
 /** <module> Prolog client library for SQLSpaces
 
 This module provides predicates to access an SQLSpaces server. The SQLSpaces are an implementation of the TupleSpaces concept. TupleSpaces are an elegant and easy way of creating distributed software systems that are robust and modular since they are loosely coupled. In addition to the original set of operations (in, out, rd) and to some typical features already known by other TupleSpaces implementations, SQLSpaces furthermore introduces some unique features like multi-language support, versioning, reverse structured naming and wildcard fields. This module allows programmers to connect, to define and execute read and write queries and to register for event notifications. More information on the SQLSpaces can be found at http://sqlspaces.collide.info .
