@@ -24,6 +24,8 @@
 
 :- use_module(load).
 
+:- use_module(library(option), [option/3]).
+
 :- use_module(atom(plaincase), [no_diacritics_atom/2]).
 
 

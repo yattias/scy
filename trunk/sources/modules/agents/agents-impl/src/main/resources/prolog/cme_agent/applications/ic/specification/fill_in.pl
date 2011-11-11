@@ -10,7 +10,7 @@
  *  Notice	Copyright (c) 2011  University of Twente
  *  
  *  History	05/10/11  (Created)
- *  		05/10/11  (Last modified)
+ *  		08/11/11  (Last modified)
  */
 
 /*------------------------------------------------------------
@@ -23,8 +23,8 @@
 
 :- use_module(load).
 
-:- use_module(library(lists), [subtract/3]).
-:- use_module(library(option), [option/2]).
+:- use_module(library(lists), [subtract/3, delete/3]).
+:- use_module(library(option), [option/2, option/3]).
 
 :- use_module(gls(model), [gls_node_label/3, gls_node_term/3,
 			   gls_apply_term_set/3, gls_node/2,
@@ -39,7 +39,8 @@
 fill_in_evaluation(G, Evaluation, Options) :-
 	option(term_set(TS), Options),
 	option(reference_model(RM), Options),
-	gls_apply_term_set(G, TS, []),
+	option(threshold(Threshold), Options, 0.5),
+	gls_apply_term_set(G, TS, [threshold(Threshold)]),
 	findall(nt(N,T), gls_node_term(G, N, T), NTs),
 	duplicate_terms(NTs, Dups),
 	findall(E, gls_node_label(G,E,''), Es),		% Empty -- not filled in

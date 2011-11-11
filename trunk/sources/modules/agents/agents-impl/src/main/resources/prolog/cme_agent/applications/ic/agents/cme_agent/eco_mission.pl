@@ -31,6 +31,11 @@
 
 :- use_module(load).
 
+:- use_module(library(debug), [debug/3]).
+:- use_module(library(lists), [nth0/3]).
+:- use_module(library(option), [option/2, option/3]).
+:- use_module(library(random), [random/3]).
+
 :- use_module(gls(model), [gls_apply_term_set/3, gls_node_term/3]).
 
 
