@@ -47,11 +47,11 @@ public class AjaxTransferObjectTextFieldController extends AbstractController {
         URI uri = new URI(transferEloURI);
 
 
-        if(property.equals("groupingAgentMinimumUsers")) {
+        if(property.equalsIgnoreCase("groupingAgentMinimumUsers")) {
             doTheCrazyHackMinGroupSize(uri.toString(), value);
-        } else if(property.equals("groupingAgentMaximumUsers"))  {
+        } else if(property.equalsIgnoreCase("groupingAgentMaximumUsers"))  {
             doTheCrazyHackMaxGroupSize(uri.toString(), value);
-        } else if(property.equals("groupingAgentPercent")) {
+        } else if(property.equalsIgnoreCase("groupingAgentPercent")) {
             doTheCrazyHackPercentageAvailable(uri.toString(), value);
         }
 
