@@ -4,7 +4,6 @@
  */
 package eu.scy.client.tools.fxsocialtaggingtool;
 
-import roolo.elo.api.IELO;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.net.URI;
 import roolo.elo.api.IMetadataKey;
@@ -16,6 +15,7 @@ import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.common.datasync.SyncObject;
 import javafx.util.Sequences;
 import eu.scy.client.desktop.desktoputils.XFX;
+import eu.scy.common.scyelo.ScyElo;
 
 public class ELOInterface extends ISyncListener {
 
@@ -24,7 +24,7 @@ public class ELOInterface extends ISyncListener {
     public-init var tbi: ToolBrokerAPI;
     public-init var eloUri: URI;
     public-init var view: SocialTaggingDrawer;
-    var elo: IELO;
+    var elo: ScyElo;
     var syncSession: ISyncSession;
     var socialtagsKey: IMetadataKey;
     def demoMode = false;
@@ -86,8 +86,9 @@ public class ELOInterface extends ISyncListener {
             return this.testTags;
         } else if (eloUri != null){
             var tags: Tag[] = [];
-            elo = tbi.getRepository().retrieveELOLastVersion(eloUri);
-            var socialTags: SocialTags = elo.getMetadata().getMetadataValueContainer(socialtagsKey).getValue() as SocialTags;
+//            elo = tbi.getRepository().retrieveELOLastVersion(eloUri);
+            elo = ScyElo.loadLastVersionMetadata(eloUri, tbi);
+            var socialTags: SocialTags = elo.getSocialTags();
 
             if (socialTags != null) {
                 for (st in socialTags.getSocialTags()) {
@@ -156,7 +157,8 @@ public class ELOInterface extends ISyncListener {
             }
             return tag;
         } else if (eloUri != null) {
-            elo = tbi.getRepository().retrieveELOLastVersion(eloUri);
+//            elo = tbi.getRepository().retrieveELOLastVersion(eloUri);
+            elo = ScyElo.loadLastVersionMetadata(eloUri, tbi);
             var oldMetadata : IMetadata = elo.getMetadata();
             var mvc = oldMetadata.getMetadataValueContainer(socialtagsKey);
             var st: SocialTags = mvc.getValue() as SocialTags;
@@ -218,7 +220,8 @@ public class ELOInterface extends ISyncListener {
             insert tag into this.testTags;
             return tag;
         } else if (eloUri != null) {
-            elo = tbi.getRepository().retrieveELOLastVersion(eloUri);
+//            elo = tbi.getRepository().retrieveELOLastVersion(eloUri);
+            elo = ScyElo.loadLastVersionMetadata(eloUri, tbi);
             var mvc = elo.getMetadata().getMetadataValueContainer(socialtagsKey);
             var st: SocialTags = mvc.getValue() as SocialTags;
             st.removeLikingUser(tag.tagname, getCurrentUser());
