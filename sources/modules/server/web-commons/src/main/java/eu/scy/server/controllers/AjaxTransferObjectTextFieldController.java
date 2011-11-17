@@ -2,6 +2,7 @@ package eu.scy.server.controllers;
 
 import eu.scy.agents.api.parameter.AgentParameter;
 import eu.scy.agents.api.parameter.AgentParameterAPI;
+import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.XMLTransferObjectService;
@@ -124,7 +125,11 @@ public class AjaxTransferObjectTextFieldController extends AbstractController {
         try {
             uri = URLDecoder.decode(uri, "utf-8");
             java.net.URI _uri = new java.net.URI(uri);
-            MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(_uri, getMissionELOService());
+            ScyElo someELo = ScyElo.loadElo(_uri, getMissionELOService());
+            URI missionRuntimeURI = someELo.getMissionRuntimeEloUri();
+            MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(missionRuntimeURI, getMissionELOService());
+            URI misselouri = missionRuntimeElo.getMissionSpecificationEloUri();
+            MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(misselouri, getMissionELOService());
             AgentParameter agentParameter = new AgentParameter(missionSpecificationElo.getTitle(), "PercentageAvailable");
             agentParameter.setParameterValue(value);
             getAgentParameterAPI().setParameter("GroupFormationAgent", agentParameter);
@@ -137,7 +142,11 @@ public class AjaxTransferObjectTextFieldController extends AbstractController {
         try {
             uri = URLDecoder.decode(uri, "utf-8");
             java.net.URI _uri = new java.net.URI(uri);
-            MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(_uri, getMissionELOService());
+            ScyElo someELo = ScyElo.loadElo(_uri, getMissionELOService());
+            URI missionRuntimeURI = someELo.getMissionRuntimeEloUri();
+            MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(missionRuntimeURI, getMissionELOService());
+            URI misselouri = missionRuntimeElo.getMissionSpecificationEloUri();
+            MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(misselouri, getMissionELOService());
             AgentParameter agentParameter = new AgentParameter(missionSpecificationElo.getTitle(), "MinGroupSize");
             agentParameter.setParameterValue(value);
             getAgentParameterAPI().setParameter("GroupFormationAgent", agentParameter);
@@ -150,7 +159,11 @@ public class AjaxTransferObjectTextFieldController extends AbstractController {
         try {
             uri = URLDecoder.decode(uri, "utf-8");
             java.net.URI _uri = new java.net.URI(uri);
-            MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(_uri, getMissionELOService());
+            ScyElo someELo = ScyElo.loadElo(_uri, getMissionELOService());
+            URI missionRuntimeURI = someELo.getMissionRuntimeEloUri();
+            MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(missionRuntimeURI, getMissionELOService());
+            URI misselouri = missionRuntimeElo.getMissionSpecificationEloUri();
+            MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(misselouri, getMissionELOService());
             AgentParameter agentParameter = new AgentParameter(missionSpecificationElo.getTitle(), "MaxGroupSize");
             agentParameter.setParameterValue(value);
             getAgentParameterAPI().setParameter("GroupFormationAgent", agentParameter);
