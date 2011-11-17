@@ -13,6 +13,7 @@ import eu.scy.server.util.TransferObjectMapService;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 import roolo.elo.api.IELO;
+import roolo.search.ISearchResult;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +21,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URLDecoder;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -44,18 +46,17 @@ public class AjaxTransferObjectTextFieldController extends AbstractController {
         String value = request.getParameter("value");
 
         transferEloURI = URLDecoder.decode(transferEloURI, "UTF-8");
-        
+
         URI uri = new URI(transferEloURI);
 
 
-        if(property.equalsIgnoreCase("groupingAgentMinimumUsers")) {
+        if (property.equalsIgnoreCase("groupingAgentMinimumUsers")) {
             doTheCrazyHackMinGroupSize(uri.toString(), value);
-        } else if(property.equalsIgnoreCase("groupingAgentMaximumUsers"))  {
+        } else if (property.equalsIgnoreCase("groupingAgentMaximumUsers")) {
             doTheCrazyHackMaxGroupSize(uri.toString(), value);
-        } else if(property.equalsIgnoreCase("groupingAgentPercent")) {
+        } else if (property.equalsIgnoreCase("groupingAgentPercent")) {
             doTheCrazyHackPercentageAvailable(uri.toString(), value);
         }
-
 
 
         ScyElo scyElo = ScyElo.loadLastVersionElo(uri, getMissionELOService());
@@ -125,12 +126,12 @@ public class AjaxTransferObjectTextFieldController extends AbstractController {
         try {
             uri = URLDecoder.decode(uri, "utf-8");
             java.net.URI _uri = new java.net.URI(uri);
-            ScyElo someELo = ScyElo.loadElo(_uri, getMissionELOService());
-            URI misselouri = someELo.getMissionSpecificationEloUri();
-            MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(misselouri, getMissionELOService());
-            AgentParameter agentParameter = new AgentParameter(missionSpecificationElo.getTitle(), "PercentageAvailable");
-            agentParameter.setParameterValue(value);
-            getAgentParameterAPI().setParameter("GroupFormationAgent", agentParameter);
+            MissionSpecificationElo missionSpecificationElo = getCorrectMissionSpecification(_uri);
+            if (missionSpecificationElo != null) {
+                AgentParameter agentParameter = new AgentParameter(missionSpecificationElo.getTitle(), "PercentageAvailable");
+                agentParameter.setParameterValue(value);
+                getAgentParameterAPI().setParameter("GroupFormationAgent", agentParameter);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -140,12 +141,12 @@ public class AjaxTransferObjectTextFieldController extends AbstractController {
         try {
             uri = URLDecoder.decode(uri, "utf-8");
             java.net.URI _uri = new java.net.URI(uri);
-            ScyElo someELo = ScyElo.loadElo(_uri, getMissionELOService());
-            URI misselouri = someELo.getMissionSpecificationEloUri();
-            MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(misselouri, getMissionELOService());
-            AgentParameter agentParameter = new AgentParameter(missionSpecificationElo.getTitle(), "MinGroupSize");
-            agentParameter.setParameterValue(value);
-            getAgentParameterAPI().setParameter("GroupFormationAgent", agentParameter);
+            MissionSpecificationElo missionSpecificationElo = getCorrectMissionSpecification(_uri);
+            if (missionSpecificationElo != null) {
+                AgentParameter agentParameter = new AgentParameter(missionSpecificationElo.getTitle(), "MinGroupSize");
+                agentParameter.setParameterValue(value);
+                getAgentParameterAPI().setParameter("GroupFormationAgent", agentParameter);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -155,12 +156,13 @@ public class AjaxTransferObjectTextFieldController extends AbstractController {
         try {
             uri = URLDecoder.decode(uri, "utf-8");
             java.net.URI _uri = new java.net.URI(uri);
-            ScyElo someELo = ScyElo.loadElo(_uri, getMissionELOService());
-            URI misselouri = someELo.getMissionSpecificationEloUri();
-            MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(misselouri, getMissionELOService());
-            AgentParameter agentParameter = new AgentParameter(missionSpecificationElo.getTitle(), "MaxGroupSize");
-            agentParameter.setParameterValue(value);
-            getAgentParameterAPI().setParameter("GroupFormationAgent", agentParameter);
+            MissionSpecificationElo missionSpecificationElo = getCorrectMissionSpecification(_uri);
+            if (missionSpecificationElo != null) {
+                AgentParameter agentParameter = new AgentParameter(missionSpecificationElo.getTitle(), "MaxGroupSize");
+                agentParameter.setParameterValue(value);
+                getAgentParameterAPI().setParameter("GroupFormationAgent", agentParameter);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -174,6 +176,19 @@ public class AjaxTransferObjectTextFieldController extends AbstractController {
         this.agentParameterAPI = agentParameterAPI;
     }
 
+    public MissionSpecificationElo getCorrectMissionSpecification(URI pedagogicalPlanSettingsURI) {
+        List<ISearchResult> searchResults = getMissionELOService().getMissionSpecifications();
+        for (int i = 0; i < searchResults.size(); i++) {
+            ISearchResult searchResult = searchResults.get(i);
+            URI missionSpecURI = searchResult.getUri();
+            MissionSpecificationElo fuckingMissionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(missionSpecURI, getMissionELOService());
+            if (fuckingMissionSpecificationElo.getTypedContent().getPedagogicalPlanSettingsEloUri() != null &&
+                    fuckingMissionSpecificationElo.getTypedContent().getPedagogicalPlanSettingsEloUri().equals(pedagogicalPlanSettingsURI))
+                return fuckingMissionSpecificationElo;
+        }
+
+        return null;
+    }
 
 
 }
