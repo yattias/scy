@@ -126,9 +126,7 @@ public class AjaxTransferObjectTextFieldController extends AbstractController {
             uri = URLDecoder.decode(uri, "utf-8");
             java.net.URI _uri = new java.net.URI(uri);
             ScyElo someELo = ScyElo.loadElo(_uri, getMissionELOService());
-            URI missionRuntimeURI = someELo.getMissionRuntimeEloUri();
-            MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(missionRuntimeURI, getMissionELOService());
-            URI misselouri = missionRuntimeElo.getMissionSpecificationEloUri();
+            URI misselouri = someELo.getMissionSpecificationEloUri();
             MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(misselouri, getMissionELOService());
             AgentParameter agentParameter = new AgentParameter(missionSpecificationElo.getTitle(), "PercentageAvailable");
             agentParameter.setParameterValue(value);
@@ -143,9 +141,7 @@ public class AjaxTransferObjectTextFieldController extends AbstractController {
             uri = URLDecoder.decode(uri, "utf-8");
             java.net.URI _uri = new java.net.URI(uri);
             ScyElo someELo = ScyElo.loadElo(_uri, getMissionELOService());
-            URI missionRuntimeURI = someELo.getMissionRuntimeEloUri();
-            MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(missionRuntimeURI, getMissionELOService());
-            URI misselouri = missionRuntimeElo.getMissionSpecificationEloUri();
+            URI misselouri = someELo.getMissionSpecificationEloUri();
             MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(misselouri, getMissionELOService());
             AgentParameter agentParameter = new AgentParameter(missionSpecificationElo.getTitle(), "MinGroupSize");
             agentParameter.setParameterValue(value);
@@ -160,9 +156,7 @@ public class AjaxTransferObjectTextFieldController extends AbstractController {
             uri = URLDecoder.decode(uri, "utf-8");
             java.net.URI _uri = new java.net.URI(uri);
             ScyElo someELo = ScyElo.loadElo(_uri, getMissionELOService());
-            URI missionRuntimeURI = someELo.getMissionRuntimeEloUri();
-            MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(missionRuntimeURI, getMissionELOService());
-            URI misselouri = missionRuntimeElo.getMissionSpecificationEloUri();
+            URI misselouri = someELo.getMissionSpecificationEloUri();
             MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(misselouri, getMissionELOService());
             AgentParameter agentParameter = new AgentParameter(missionSpecificationElo.getTitle(), "MaxGroupSize");
             agentParameter.setParameterValue(value);
