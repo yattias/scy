@@ -15,7 +15,7 @@
   </security>
 #end
   <resources>
-    <j2se version="$j2seVersion" java-vm-args="-Xms512m -Xmx512m"/>
+    <j2se version="$j2seVersion" java-vm-args="-Xms512m -Xmx768m"/>
     <extension name="JavaFX Runtime" href="$$site/javafx-libs/javafx-rt.jnlp"/>
     <!--property name="agenda" value="true"/-->
     <property name="jnlp.packEnabled" value="true"/>
