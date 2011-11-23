@@ -4,6 +4,9 @@ import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.User;
+import info.collide.sqlspaces.commons.util.Transformer;
+import info.collide.sqlspaces.commons.util.XMLUtils;
+import info.collide.sqlspaces.commons.util.XMLUtils.Protocol;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -31,8 +34,11 @@ public class ActionProcessModule extends SCYHubModule {
 
     private PrintWriter fileLogger; 
     
+    private Transformer transformer;
+    
     public ActionProcessModule(Component scyhub) {
         super(scyhub, new ActionPacketTransformer());
+        this.transformer = XMLUtils.createTransformer(Protocol.XML);
         String catalinaBase = System.getProperty("catalina.base");
         String logfile;
         if (catalinaBase != null) {
@@ -73,7 +79,9 @@ public class ActionProcessModule extends SCYHubModule {
     }
 
     private void dumpLogToFile(Tuple actionTuple) {
-        fileLogger.println(actionTuple.toXMLString());
+        transformer.newDocument();
+        actionTuple.serialize(transformer);
+        fileLogger.println(transformer.flushOutput());
         fileLogger.flush();
     }
 
