@@ -2,7 +2,6 @@ package eu.scy.client.desktop.scydesktop.feedbackquestion;
 
 import java.net.URI;
 import java.util.Date;
-import java.util.List;
 import java.text.SimpleDateFormat;
 import javafx.scene.CustomNode;
 import javafx.scene.Node;
@@ -62,9 +61,22 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
               font: Font.font("Verdana", FontWeight.BOLD, 12)
               fill: scyWindow.windowColorScheme.mainColor;
            };
-   def textBox = TextBox {
+   def questionEntryBox = TextBox {
               multiline: true
               selectOnFocus: true
+              managed: true
+              layoutInfo: LayoutInfo {
+                 hfill: true
+                 vfill: true
+                 hgrow: Priority.ALWAYS
+                 vgrow: Priority.ALWAYS
+                 minHeight:50
+                 maxHeight:106
+              }
+           };
+   def questionsAskedBox = TextBox {
+              multiline: true
+              editable: false
               managed: true
               layoutInfo: LayoutInfo {
                  hfill: true
@@ -74,13 +86,22 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
               }
            };
    def submitButton: Button = Button {
-              disable: bind eloUri == null or textBox.rawText.trim() == "" or actionInProgress
+              disable: bind eloUri == null or questionEntryBox.rawText.trim() == "" or actionInProgress
+              text: ##"Ask feedback"
+              action: function(): Void {
+                 actionInProgress = true;
+                 XFX.runActionInBackground(function(): Void {
+                    askFeedbackQuestion();
+                    FX.deferAction(function(): Void {
+                       actionInProgress = false;
+                    })
+                 })
+              }
            }
    var mainBox: VBox;
    var identifierKey: IMetadataKey;
 
    public override function create(): Node {
-      setFeedbackNotAsked();
       mainBox = VBox {
                  spacing: spacing
                  nodeHPos: HPos.CENTER
@@ -93,7 +114,8 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
                  managed: false
                  content: [
                     titleLabel,
-                    textBox,
+                    questionsAskedBox,
+                    questionEntryBox,
                     submitButton
                  ]
               };
@@ -101,78 +123,39 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
 
    public override function loadedEloChanged(eloUri: URI): Void {
       this.eloUri = eloUri;
-      XFX.runActionInBackground(eloUriChanged);
+      questionEntryBox.text = "";
+      questionsAskedBox.text = "";
+      if (eloUri != null) {
+         XFX.runActionInBackground(eloUriChanged);
+      }
    }
 
    function eloUriChanged(): Void {
-      def feedbackElo = findFeedbackElo(eloUri);
-      if (feedbackElo != null) {
-         if (feedbackElo.getContent().getXmlString() != null) {
-            setFeedbackAsked(getQuestionDisplay(feedbackElo));
-         } else {
-            logger.warn("unexpected null for feedbackElo.getContent().getXmlString(), eloUri: {eloUri}");
-            setFeedbackNotAsked()
+      def feedbackElos = findFeedbackElos(eloUri);
+      FX.deferAction(function(): Void {
+         for (feedbackElo in feedbackElos) {
+            addFeedbackQuestionToDisplay(feedbackElo)
          }
-      } else {
-         setFeedbackNotAsked()
-      }
+      });
    }
 
-   function findFeedbackElo(eloUri: URI): ScyElo {
+   function findFeedbackElos(eloUri: URI): ScyElo[] {
+      var feedbackElos: ScyElo[];
       if (eloUri != null) {
          def metadataAllVersions = toolBrokerAPI.getRepository().retrieveMetadataAllVersions(eloUri);
-         Collections.reverse(metadataAllVersions);
+//         Collections.reverse(metadataAllVersions);
          for (metadataObject in metadataAllVersions) {
             def metadata = metadataObject as IMetadata;
-            def feedbackElo = findFeedbackEloVersion(metadata.getMetadataValueContainer(identifierKey).getValue() as URI);
-            if (feedbackElo != null) {
-               return feedbackElo;
+            def versionEloUri = metadata.getMetadataValueContainer(identifierKey).getValue() as URI;
+            def query = QueryFactory.createFeedbackEloQuery(versionEloUri, technicalType);
+            def searchResults = toolBrokerAPI.getRepository().search(query);
+            for (searchResult in searchResults) {
+               def feedbackElo = ScyElo.loadMetadata(searchResult.getUri(), toolBrokerAPI);
+               insert feedbackElo into feedbackElos
             }
          }
       }
-      return null;
-   }
-
-   function findFeedbackEloVersion(eloUri: URI): ScyElo {
-      def query = QueryFactory.createFeedbackEloQuery(eloUri, technicalType);
-      var searchResults: List = toolBrokerAPI.getRepository().search(query);
-      if (searchResults.size() > 0) {
-         logger.debug("found {searchResults.size()} feedback ELO-s");
-         for (r in searchResults) {
-            def result: roolo.search.ISearchResult = r as roolo.search.ISearchResult;
-            def feedbackElo = ScyElo.loadMetadata(result.getUri(), toolBrokerAPI);
-            if (feedbackElo.getFeedbackOnEloUri() == eloUri) {
-               return feedbackElo;
-            }
-         }
-      }
-      return null;
-   }
-
-   function setFeedbackAsked(questionDisplay: String): Void {
-      FX.deferAction(function(): Void {
-         textBox.text = questionDisplay;
-         textBox.editable = false;
-         submitButton.action = scyDesktop.scyFeedbackGetButton.action;
-         submitButton.text = "View feedback";
-      })
-   }
-
-   function setFeedbackNotAsked(): Void {
-      FX.deferAction(function(): Void {
-         textBox.editable = true;
-         textBox.text = "";
-         submitButton.action = function(): Void {
-                    actionInProgress = true;
-                    XFX.runActionInBackground(function(): Void {
-                       askFeedbackQuestion();
-                       FX.deferAction(function(): Void {
-                          actionInProgress = false;
-                       })
-                    })
-                 }
-         submitButton.text = "Ask feedback";
-      })
+      return feedbackElos;
    }
 
    function askFeedbackQuestion(): Void {
@@ -196,7 +179,7 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
       calendartimeElement.setText(timeFormat.format(datetime));
       feedbackElement.addContent(calendartimeElement);
       def commentElement = new Element(commentTagName);
-      commentElement.setText(textBox.rawText);
+      commentElement.setText(questionEntryBox.rawText);
       feedbackElement.addContent(commentElement);
       def fbScyElo = ScyElo.createElo(technicalType, toolBrokerAPI);
       fbScyElo.setTitle(title);
@@ -204,7 +187,10 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
       fbScyElo.getContent().setXmlString(jdomStringConversion.xmlToString(feedbackElement));
       fbScyElo.saveAsNewElo();
       logFeedbackAsked(fbScyElo.getUri().toString());
-      setFeedbackAsked(getQuestionDisplay(fbScyElo));
+      FX.deferAction(function(): Void {
+         addFeedbackQuestionToDisplay(fbScyElo);
+         questionEntryBox.text = ""
+      });
    }
 
    function logFeedbackAsked(eloURI: String): Void {
@@ -218,13 +204,22 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
       toolBrokerAPI.getActionLogger().log(action);
    }
 
+   function addFeedbackQuestionToDisplay(elo: ScyElo): Void {
+      def questionDisplay = getQuestionDisplay(elo);
+      if (questionsAskedBox.text == "") {
+         questionsAskedBox.text = questionDisplay
+      } else {
+         questionsAskedBox.text = "{questionsAskedBox.text}\n\n{questionDisplay}"
+      }
+   }
+
    function getQuestionDisplay(elo: ScyElo): String {
       def contentXml = elo.getContent().getXmlString();
       def feedbackXml = jdomStringConversion.stringToXml(contentXml);
       def date = feedbackXml.getChildTextTrim(calendardateTagName);
       def time = feedbackXml.getChildTextTrim(calendartimeTagName);
       def question = feedbackXml.getChildTextTrim(commentTagName);
-      "You have asked for feedback.\nOn{date} at {time}\nQuestion:\n{question}"
+      "{date} {time}:\n{question}"
    }
 
    public override function getDrawerUIIndicator(): DrawerUIIndicator {
