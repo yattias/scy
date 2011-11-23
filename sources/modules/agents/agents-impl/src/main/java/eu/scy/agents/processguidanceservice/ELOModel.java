@@ -4,7 +4,6 @@ import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.util.XMLUtils;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -15,7 +14,6 @@ import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 
 import eu.scy.agents.processguidanceservice.ELORun.ActivityStatus;
 
@@ -77,7 +75,7 @@ public class ELOModel extends AbstractGuidanceObject {
         this.id = id;
         try {
             String elo_xml = loadELO(id);
-            Document doc = XMLUtils.parseString(elo_xml);
+            Document doc = XMLUtils.parseXMLString(elo_xml);
             XPath xPath = XPathFactory.newInstance().newXPath();
             this.title = (String) xPath.evaluate("/elo/metadata/lom/general/title/string", doc, XPathConstants.STRING);
             this.type = (String) xPath.evaluate("/elo/metadata/lom/technical/format", doc, XPathConstants.STRING);
@@ -103,10 +101,6 @@ public class ELOModel extends AbstractGuidanceObject {
         } catch (XPathExpressionException e) {
             e.printStackTrace();
         } catch (DOMException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
             e.printStackTrace();
         } catch (TupleSpaceException e) {
             e.printStackTrace();

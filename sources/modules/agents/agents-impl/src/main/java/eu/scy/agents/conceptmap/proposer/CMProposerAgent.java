@@ -30,7 +30,6 @@ import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import eu.scy.agents.Mission;
 import eu.scy.agents.SCYAbstractThreadedAgent;
@@ -379,7 +378,7 @@ public class CMProposerAgent extends SCYAbstractThreadedAgent {
                 String id = new VMID().toString();
                 commandSpace.write(new Tuple(id, "roolo-agent", "elo", eloUri));
                 t = commandSpace.waitToTakeFirst(new Tuple(id, "roolo-response", String.class));
-                Document doc = XMLUtils.parseString(t.getField(2).getValue().toString());
+                Document doc = XMLUtils.parseXMLString(t.getField(2).getValue().toString());
                 XPath xPath = XPathFactory.newInstance().newXPath();
                 NodeList highlights = (NodeList) xPath.evaluate("/elo/content/webresource/annotations/document/quotes/quote", doc, XPathConstants.NODESET);
                 StringBuilder sb = new StringBuilder();
@@ -390,10 +389,6 @@ public class CMProposerAgent extends SCYAbstractThreadedAgent {
             } catch (XPathExpressionException e) {
                 e.printStackTrace();
             } catch (DOMException e) {
-                e.printStackTrace();
-            } catch (SAXException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
                 e.printStackTrace();
             } catch (TupleSpaceException e) {
                 e.printStackTrace();

@@ -2,6 +2,11 @@ package eu.scy.agents.conceptmap;
 
 import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
+import info.collide.sqlspaces.commons.TupleSpaceException;
+import info.collide.sqlspaces.commons.util.Parser;
+import info.collide.sqlspaces.commons.util.Transformer;
+import info.collide.sqlspaces.commons.util.XMLUtils;
+import info.collide.sqlspaces.commons.util.XMLUtils.Protocol;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -172,18 +177,24 @@ public class Graph {
         Field[] edgeFields = getEdgesAsFields();
         Field[] nodeFields = getNodesAsFields();
         PrintWriter pw = new PrintWriter(file);
-        pw.println(new Tuple(nodeFields).toXMLString());
-        pw.println(new Tuple(edgeFields).toXMLString());
+        Transformer transformer = XMLUtils.createTransformer(Protocol.XML);
+        transformer.newDocument();
+        new Tuple(nodeFields).serialize(transformer);
+        pw.println(transformer.flushOutput());
+        transformer.newDocument();
+        new Tuple(edgeFields).serialize(transformer);
+        pw.println(transformer.flushOutput());
         pw.close();
     }
     
-    public static Graph loadFromFile(String file) throws IOException, SAXException {
+    public static Graph loadFromFile(String file) throws IOException, SAXException, TupleSpaceException {
+        Parser parser = XMLUtils.createParser(Protocol.XML);
         BufferedReader br = new BufferedReader(new FileReader(file));
         String nodesString = br.readLine();
         String edgesString = br.readLine();
         br.close();
-        Tuple nodeTuple = Tuple.parseFromXML(nodesString);
-        Tuple edgeTuple = Tuple.parseFromXML(edgesString);
+        Tuple nodeTuple = parser.parseTuple(nodesString);
+        Tuple edgeTuple = parser.parseTuple(edgesString);
         Graph g = new Graph();
         g.fillFromFields(edgeTuple.getFields(), nodeTuple.getFields());
         return g;
