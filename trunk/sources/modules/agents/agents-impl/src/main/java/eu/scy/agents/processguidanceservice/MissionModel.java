@@ -4,7 +4,6 @@ import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.util.XMLUtils;
 
-import java.io.IOException;
 import java.util.Arrays;
 
 import javax.xml.xpath.XPath;
@@ -16,7 +15,6 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 public class MissionModel extends AbstractGuidanceObject {
 
@@ -95,12 +93,12 @@ public class MissionModel extends AbstractGuidanceObject {
     public void buildMissionModel() {
 	try {
 	    String elo_xml = loadELO(id);
-	    Document doc = XMLUtils.parseString(elo_xml);
+	    Document doc = XMLUtils.parseXMLString(elo_xml);
 	    XPath xPath = XPathFactory.newInstance().newXPath();
 	    String model_URI = (String) xPath.evaluate("/elo/content/missionSpeicification/missionMapModelEloUri", doc, XPathConstants.STRING);
 
 	    elo_xml = loadELO(model_URI); // missionMapModelEloUri
-	    doc = XMLUtils.parseString(elo_xml);
+	    doc = XMLUtils.parseXMLString(elo_xml);
 	    xPath = XPathFactory.newInstance().newXPath();
 
 	    NodeList lasNodes = (NodeList) xPath.evaluate("/elo/content/missionModel/lasses/las", doc, XPathConstants.NODESET);
@@ -112,10 +110,6 @@ public class MissionModel extends AbstractGuidanceObject {
 	} catch (XPathExpressionException e) {
 	    e.printStackTrace();
 	} catch (DOMException e) {
-	    e.printStackTrace();
-	} catch (SAXException e) {
-	    e.printStackTrace();
-	} catch (IOException e) {
 	    e.printStackTrace();
 	} catch (TupleSpaceException e) {
 	    e.printStackTrace();

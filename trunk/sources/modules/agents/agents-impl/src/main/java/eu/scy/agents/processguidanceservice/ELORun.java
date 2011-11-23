@@ -7,8 +7,6 @@ import info.collide.sqlspaces.commons.TupleID;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.util.XMLUtils;
 
-import java.io.IOException;
-
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -18,7 +16,6 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 public class ELORun extends AbstractRun {
 
@@ -210,17 +207,13 @@ public class ELORun extends AbstractRun {
     public void renameELORun(String elo_uri) {
         try {
             String elo_xml = loadELO(elo_uri);
-            Document doc = XMLUtils.parseString(elo_xml);
+            Document doc = XMLUtils.parseXMLString(elo_xml);
             XPath xPath = XPathFactory.newInstance().newXPath();
             String title = (String) xPath.evaluate("/elo/metadata/lom/general/title/string", doc, XPathConstants.STRING);
             setTitle(title);
         } catch (XPathExpressionException e) {
             e.printStackTrace();
         } catch (DOMException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
             e.printStackTrace();
         } catch (TupleSpaceException e) {
             e.printStackTrace();
@@ -472,7 +465,7 @@ public class ELORun extends AbstractRun {
         try {
             String elo_xml = loadELO(elo_uri);
             if (elo_xml != null) {
-                Document doc = XMLUtils.parseString(elo_xml);
+                Document doc = XMLUtils.parseXMLString(elo_xml);
                 XPath xPath = XPathFactory.newInstance().newXPath();
                 if (title == null) {
                     title = (String) xPath.evaluate("/elo/metadata/lom/general/title/string", doc, XPathConstants.STRING);
@@ -523,10 +516,6 @@ public class ELORun extends AbstractRun {
         } catch (XPathExpressionException e) {
             e.printStackTrace();
         } catch (DOMException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
             e.printStackTrace();
         } catch (TupleSpaceException e) {
             e.printStackTrace();
