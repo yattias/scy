@@ -1,0 +1,71 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>scy</entity>
+        <date>
+          <dateTime>2011-11-28T13:49:25.329+0100</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>arle</entity>
+        <date>
+          <dateTime>2011-04-26T10:04:25.812+0200</dateTime>
+        </date>
+      </contribute>
+      <version>2</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1303805065812</dateCreated>
+        <dateFirstUserSaveKey>1322484565329</dateFirstUserSaveKey>
+        <dateLastModified>1322484789907</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <educational>
+      <learningResourceType>documentDesign</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40718/0/Esialgne+valdkonnaspetsiifiline+otsus+-+bioloog.rtf</entry>
+      </identifier>
+      <las>ConceptualisationBiologist</las>
+      <missionId>gmo</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40643/0/GMO+mission.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="et">Esialgne valdkonnaspetsiifiline otsus - bioloog</string>
+      </title>
+    </general>
+  </lom>
+  <template>true</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACBklEQVR42u3Sz4tSURjG8fufCLp2I4joxp0Laeki3NnChdDOhWAryVVBiwZdCdXCQAUrhSGbGwUWElhD2ybTRmgGp5HCCDJ9mntg5Box/VoE+X3g5T3vOeg998O1pnqj0/qksdzztn1vbXbX0+f22vx+PvjlOvry8z33fNbZWXt/Wr9zP8t5+Ye7h7p554lm2tfH2VfZLw5Mbe/cNd2yLH0+OTvWYHXmADr9/rN9nb94Te8+vN7IMoDXq4+0dfux+QIPj2ar2fkC81du6NLVWyeAYwPo7DvlAJ6uz124rLcHextZVre/o27/gX7c3bW+Nzx+uTbvDV5tZFn6T7JcLv/Jc61Wq2UWw+FQ5XJZHo9ndVir1VSpVMy62+2aHolE5PV6lUgklM1mFQqFlMvl1Gw2NRqNVCqVZNu2MpmMAoGA0um02u22isWi/H6/UqmU6vW6ptOpxuOx8vm8er2eFouF+X/n9+449wsGg/L5fCoUCur3+2vn0WhU4XBYjUZDnU7H7MViMdPj8bi5gzuTyUTValXJZFLz+fzvAUUABBBAAAmAAAIIIAEQQAABJAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABBJAACCCAABIAAQQQQAIggAACSAAEEEAACYAAAgggARBAAAEkAAIIIIDk+3wD4WrnrgQI7NgAAAAASUVORK5CYII=</base64>
+  </thumbnail>
+</metadata>
+<content languages="et" contentType="xml">
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+\margl1417\margr1417\margt1417\margb1417\widowctrl&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Kirjutage siia\b  ainult\b0  \b bioloogilistel argumentidel \b0 p\'f5hinev otsus, kas EL riikides oleks GM l\'f5he kasvatamine otstarbekas.\par&#xD;
+\li0\ri0\fi0\ul0\par&#xD;
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>

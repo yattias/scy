@@ -1,0 +1,82 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>scy</entity>
+        <date>
+          <dateTime>2011-11-28T13:42:53.704+0100</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>arle</entity>
+        <date>
+          <dateTime>2011-04-26T15:13:32.187+0200</dateTime>
+        </date>
+      </contribute>
+      <version>1</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1303822221125</dateCreated>
+        <dateFirstUserSaveKey>1322484173704</dateFirstUserSaveKey>
+        <dateLastModified>1322484173704</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <educational>
+      <learningResourceType>documentDesign</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40717/0/Esialgne+otsus.rtf</entry>
+      </identifier>
+      <las>Orientation</las>
+      <missionId>gmo</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40643/0/GMO+mission.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="et">Esialgne otsus</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/40520/0/Initial+decision.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+  </lom>
+  <template>true</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAB2ElEQVR42u3ST0tiURzG8fs+FHwBvg8XOht3rdu4GnCts2whNOCiwO00YIGrQAyC6zBFkxJZLVymCYmYZJfCuKMz8kznQNJlpr/Tzu8DP875nXO49/DhOFdqy9OZrVt1Z3NTbnUr0D+sxtFeoP/5q//i8ifPrz3sn9p7au2t9Zr7OQbw28mF1jZ/aKRz3Yx+q3rct+W6W3Z0HEf+3Z45e79nAM24fXCuhY95edfduSwLuLL+XasbO/YFXlyOZr15gdnlL/r0+esdYNcCmnVTBvB+/mFxSb1+Zy7LOWzs6rHab1Qf3bu8Og307fbpXJYj8l9xyuWynXQ6HRUKBUUikdlmqVSyo+d5CoVCCofDGo/HarVayuVyajabgY8Nh0MNBoNZP5lMlEgklM/n//nzXq+nbDarWq2m6XSqZDIZ2HddV6lUStFoNLBuztbrdWUyGcXjcbtWqVSUTqfl+37grLmD+X6xWLR3i8Vi7wvIGwIQQAABJAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAAQQQQAIggAACSAAEEEAACYAAAgggARBAAAEkAAIIIIAEQAABBJAACCCAAJK/8gcwew8Lf2OiiQAAAABJRU5ErkJggg==</base64>
+  </thumbnail>
+</metadata>
+<content languages="et" contentType="xml">
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Kirjutage siia oma argumendid, kas EL riikides oleks geneetiliselt muundatud l\'f5he kasvatamine otstarbekas.\ul0\par&#xD;
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>

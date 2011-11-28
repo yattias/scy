@@ -9,7 +9,7 @@
    <bean name="missionConfigInput" class="eu.scy.client.desktop.scydesktop.tools.mission.springimport.BasicMissionConfigInput">
 
       <property name="missionId" value="gmo"/>
-      <property name="missionTitle" value="GMO mission"/>
+      <property name="missionTitle" value="GMO missioon"/>
       <property name="languageId" value="et"/>
       <property name="xhtmlVersionId" value=""/>
 
@@ -287,7 +287,7 @@
          <list>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="InitialDecision"/>
-               <property name="uri" value="roolo://memory/40520/0/Initial+decision.rtf"/>
+               <property name="uri" value="roolo://memory/40717/0/Esialgne+otsus.rtf"/>
                <property name="iconType" value="Orientation2"/>
 			   <property name="colorScheme" value="SEVEN"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/GMO/OrientationLAS/targetDescription.txt"/>
@@ -302,7 +302,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="InitialFieldSpecificDecisionBiologist"/>
-               <property name="uri" value="roolo://memory/40521/0/Initial+field+specific+decision+biologist.rtf"/>
+               <property name="uri" value="roolo://memory/40718/0/Esialgne+valdkonnaspetsiifiline+otsus+-+bioloog.rtf"/>
                <property name="iconType" value="Concept_hypothese"/>
 			   <property name="colorScheme" value="ONE"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/GMO/ConceptualisationLAS/targetDescriptionBio.txt"/>
@@ -317,7 +317,7 @@
             </bean>        			            
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="InitialFieldSpecificDecisionEconomist"/>
-               <property name="uri" value="roolo://memory/40522/0/Initial+field+specific+decision+economist.rtf"/>
+               <property name="uri" value="roolo://memory/40719/0/Esialgne+valdkonnaspetsiifiline+otsus+-+majandusteadlane.rtf"/>
                <property name="iconType" value="Concept_hypothese"/>
 			   <property name="colorScheme" value="SIX"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/GMO/ConceptualisationLAS/targetDescriptionEco.txt"/>
@@ -332,7 +332,7 @@
             </bean>        			            
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="InitialFieldSpecificDecisionLawyer"/>
-               <property name="uri" value="roolo://memory/40523/0/Initial+field+specific+decision+lawyer.rtf"/>
+               <property name="uri" value="roolo://memory/40720/0/Esialgne+valdkonnaspetsiifiline+otsus+-+jurist.rtf"/>
                <property name="iconType" value="Concept_hypothese"/>
 			   <property name="colorScheme" value="FIVE"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/GMO/ConceptualisationLAS/targetDescriptionLaw.txt"/>
@@ -347,7 +347,7 @@
             </bean>        			            
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="InitialFieldSpecificDecisionProtector"/>
-               <property name="uri" value="roolo://memory/40524/0/Initial+field+specific+decision+protector.rtf"/>
+               <property name="uri" value="roolo://memory/40721/0/Esialgne+valdkonnaspetsiifiline+otsus+-+loomakaitsja.rtf"/>
                <property name="iconType" value="Concept_hypothese"/>
 			   <property name="colorScheme" value="THREE"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/GMO/ConceptualisationLAS/targetDescriptionPro.txt"/>
@@ -362,7 +362,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="RewisedFieldDecisionBiologist"/>
-               <property name="uri" value="roolo://memory/40525/0/Rewised+field+specific+decision+biologist.rtf"/>
+               <property name="uri" value="roolo://memory/40722/0/Parandatud+valdkonnaspetsiifiline+otsus+-+bioloog.rtf"/>
                <property name="iconType" value="Reflection"/>
 			   <property name="colorScheme" value="ONE"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/GMO/ReflectionLAS1/targetDescriptionBio.txt"/>
@@ -377,7 +377,7 @@
             </bean>			
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="RewisedFieldDecisionEconomist"/>
-               <property name="uri" value="roolo://memory/40526/0/Rewised+field+specific+decision+economist.rtf"/>
+               <property name="uri" value="roolo://memory/40723/0/Parandatud+valdkonnaspetsiifiline+otsus+-+majandusteadlane.rtf"/>
                <property name="iconType" value="Reflection"/>
 			   <property name="colorScheme" value="SIX"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/GMO/ReflectionLAS1/targetDescriptionEco.txt"/>
@@ -392,7 +392,7 @@
             </bean>					
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="RewisedFieldDecisionLawyer"/>
-               <property name="uri" value="roolo://memory/40527/0/Rewised+field+specific+decision+lawyer.rtf"/>
+               <property name="uri" value="roolo://memory/40724/0/Parandatud+valdkonnaspetsiifiline+otsus+-+jurist.rtf"/>
                <property name="iconType" value="Reflection"/>
 			   <property name="colorScheme" value="FIVE"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/GMO/ReflectionLAS1/targetDescriptionLaw.txt"/>
@@ -407,7 +407,7 @@
             </bean>					
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="RewisedFieldDecisionProtector"/>
-               <property name="uri" value="roolo://memory/40528/0/Rewised+field+specific+decision+protector.rtf"/>
+               <property name="uri" value="roolo://memory/40725/0/Parandatud+valdkonnaspetsiifiline+otsus+-+loomakaitsja.rtf"/>
                <property name="iconType" value="Reflection"/>
 			   <property name="colorScheme" value="THREE"/>
               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/GMO/ReflectionLAS1/targetDescriptionPro.txt"/>
@@ -422,7 +422,7 @@
             </bean>				
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="ExpertCouncilDecision"/>
-               <property name="uri" value="roolo://memory/40529/0/Expert+council+decision.rtf"/>
+               <property name="uri" value="roolo://memory/40726/0/Ekspertkogu+otsus.rtf"/>
                <property name="iconType" value="Debate_argument"/>
 			   <property name="colorScheme" value="SEVEN"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/GMO/DebateLAS/targetDescription.txt"/>
@@ -437,7 +437,7 @@
             </bean>				
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="Feedback"/>
-               <property name="uri" value="roolo://memory/40530/0/Final+decision.rtf"/>
+               <property name="uri" value="roolo://memory/40727/0/L%C3%B5plik+otsus.rtf"/>
                <property name="iconType" value="Reflection"/>
 			   <property name="colorScheme" value="EIGHT"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/GMO/ReflectionLAS2/targetDescription.txt"/>

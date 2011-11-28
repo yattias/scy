@@ -1,0 +1,82 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>scy</entity>
+        <date>
+          <dateTime>2011-11-28T14:00:01.829+0100</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>arle</entity>
+        <date>
+          <dateTime>2011-04-26T10:04:25.812+0200</dateTime>
+        </date>
+      </contribute>
+      <version>1</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1303805065812</dateCreated>
+        <dateFirstUserSaveKey>1322485201829</dateFirstUserSaveKey>
+        <dateLastModified>1322485201829</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <educational>
+      <learningResourceType>documentReflection</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40723/0/Parandatud+valdkonnaspetsiifiline+otsus+-+majandusteadlane.rtf</entry>
+      </identifier>
+      <las>ReflectionEconomist</las>
+      <missionId>gmo</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40643/0/GMO+mission.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="et">Parandatud valdkonnaspetsiifiline otsus - majandusteadlane</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/40526/0/Rewised+field+specific+decision+economist.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+  </lom>
+  <template>true</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAABtklEQVR42u3Tz0oCURTH8XkPF25c+QKir9DKVSCu2vcEtWtZtCl0W7Mo0E2gLrIx0gghtVqLyEARYwwN0sBEhqfmloOW2L9N4PcHh3vPuYuZ+XBHe5Y7GZWII+O9USlN9OPVujid6B8H1rfLe/p6Nt7POps1+2395P00/+OPr3qye3CmAPvuQCqXlqojo6RWTdPecXvBWfMV0F8Pz69lcXlTnP7NXJYC3No7ke39qkKy7Ieg92/gyvqOrG7oAaA/98u/gaP9wtKa3FrmXJbWaNWk0arKtLWp9rUPZ29l33cm+m63M5fl/5vkD9EKhYLamKYp2WxWwuFwcJjL5dTqOI6EQiGJRCKSSqXUTNd1sW1bhsOh1Ot1iUajkkgk1JlhGJJOpyUWi0k8HlezdrstnudJuVyWfD4/9WWSyaRkMhm1d11XisWieu6/BuQOAQgggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAgggARBAAAEkAAIIIIAEQAABBJAACCCAABIAAQQQQAIggAACSAAEEEAAyae8AM5jEv4CQzfFAAAAAElFTkSuQmCC</base64>
+  </thumbnail>
+</metadata>
+<content languages="et" contentType="xml">
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Kirjutage siia oma \b uus, ainult majanduslikel\b0  argumentidel p\'f5hinev otsus.\ul0\par&#xD;
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>

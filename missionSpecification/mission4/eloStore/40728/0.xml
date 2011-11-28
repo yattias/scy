@@ -9,38 +9,34 @@
         </role>
         <entity>jakob</entity>
         <date>
-          <dateTime>2011-09-09T16:28:35.403+0200</dateTime>
+          <dateTime>2011-11-28T14:20:42.282+0100</dateTime>
         </date>
       </contribute>
-      <version>2</version>
+      <version>0</version>
     </lifecycle>
     <technical>
       <customElements>
-        <dateCreated>1315578515403</dateCreated>
-        <dateLastModified>1322485980781</dateLastModified>
+        <dateCreated>1322486442282</dateCreated>
+        <dateLastModified>1322486442282</dateLastModified>
       </customElements>
       <format>scy/missionmapmodel</format>
     </technical>
     <general>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/40638/0/GMO+mission.scymissionmapmodel</entry>
+        <entry>roolo://memory/40728/0/GMO+missioon.scymissionmapmodel</entry>
       </identifier>
-      <las>Orientation</las>
+      <las />
       <missionId>gmo</missionId>
-      <missionRunning>
-        <catalog>memory</catalog>
-        <entry>roolo://memory/40643/0/GMO+mission.scymissionspecification</entry>
-      </missionRunning>
       <title>
-        <string language="en">GMO mission</string>
+        <string language="et">GMO missioon</string>
       </title>
     </general>
     <relation />
   </lom>
   <template>TRUE</template>
 </metadata>
-<content languages="en" contentType="xml">
+<content languages="et" contentType="xml">
 <missionModel>
   <activeLas>Orientation</activeLas>
   <missionMapBackgroundImageUri>http://www.scy-lab.eu/content/en/mission4/GMO/gmoBackground.fxz</missionMapBackgroundImageUri>
@@ -59,7 +55,7 @@
       <loElos />
       <otherElos />
       <mainAnchor>
-        <eloUri>roolo://memory/40520/0/Initial+decision.rtf</eloUri>
+        <eloUri>roolo://memory/40717/0/Esialgne+otsus.rtf</eloUri>
         <id>InitialDecision</id>
         <iconType>Orientation2</iconType>
         <loElos />
@@ -92,7 +88,7 @@
       <loElos />
       <otherElos />
       <mainAnchor>
-        <eloUri>roolo://memory/40521/0/Initial+field+specific+decision+biologist.rtf</eloUri>
+        <eloUri>roolo://memory/40718/0/Esialgne+valdkonnaspetsiifiline+otsus+-+bioloog.rtf</eloUri>
         <id>InitialFieldSpecificDecisionBiologist</id>
         <iconType>Concept_hypothese</iconType>
         <loElos />
@@ -122,7 +118,7 @@
       <loElos />
       <otherElos />
       <mainAnchor>
-        <eloUri>roolo://memory/40522/0/Initial+field+specific+decision+economist.rtf</eloUri>
+        <eloUri>roolo://memory/40719/0/Esialgne+valdkonnaspetsiifiline+otsus+-+majandusteadlane.rtf</eloUri>
         <id>InitialFieldSpecificDecisionEconomist</id>
         <iconType>Concept_hypothese</iconType>
         <loElos />
@@ -152,7 +148,7 @@
       <loElos />
       <otherElos />
       <mainAnchor>
-        <eloUri>roolo://memory/40523/0/Initial+field+specific+decision+lawyer.rtf</eloUri>
+        <eloUri>roolo://memory/40720/0/Esialgne+valdkonnaspetsiifiline+otsus+-+jurist.rtf</eloUri>
         <id>InitialFieldSpecificDecisionLawyer</id>
         <iconType>Concept_hypothese</iconType>
         <loElos />
@@ -182,7 +178,7 @@
       <loElos />
       <otherElos />
       <mainAnchor>
-        <eloUri>roolo://memory/40524/0/Initial+field+specific+decision+protector.rtf</eloUri>
+        <eloUri>roolo://memory/40721/0/Esialgne+valdkonnaspetsiifiline+otsus+-+loomakaitsja.rtf</eloUri>
         <id>InitialFieldSpecificDecisionProtector</id>
         <iconType>Concept_hypothese</iconType>
         <loElos />
@@ -212,7 +208,7 @@
       <loElos />
       <otherElos />
       <mainAnchor>
-        <eloUri>roolo://memory/40525/0/Rewised+field+specific+decision+biologist.rtf</eloUri>
+        <eloUri>roolo://memory/40722/0/Parandatud+valdkonnaspetsiifiline+otsus+-+bioloog.rtf</eloUri>
         <id>RewisedFieldDecisionBiologist</id>
         <iconType>Reflection</iconType>
         <loElos />
@@ -242,7 +238,7 @@
       <loElos />
       <otherElos />
       <mainAnchor>
-        <eloUri>roolo://memory/40526/0/Rewised+field+specific+decision+economist.rtf</eloUri>
+        <eloUri>roolo://memory/40723/0/Parandatud+valdkonnaspetsiifiline+otsus+-+majandusteadlane.rtf</eloUri>
         <id>RewisedFieldDecisionEconomist</id>
         <iconType>Reflection</iconType>
         <loElos />
@@ -272,7 +268,7 @@
       <loElos />
       <otherElos />
       <mainAnchor>
-        <eloUri>roolo://memory/40527/0/Rewised+field+specific+decision+lawyer.rtf</eloUri>
+        <eloUri>roolo://memory/40724/0/Parandatud+valdkonnaspetsiifiline+otsus+-+jurist.rtf</eloUri>
         <id>RewisedFieldDecisionLawyer</id>
         <iconType>Reflection</iconType>
         <loElos />
@@ -302,7 +298,7 @@
       <loElos />
       <otherElos />
       <mainAnchor>
-        <eloUri>roolo://memory/40528/0/Rewised+field+specific+decision+protector.rtf</eloUri>
+        <eloUri>roolo://memory/40725/0/Parandatud+valdkonnaspetsiifiline+otsus+-+loomakaitsja.rtf</eloUri>
         <id>RewisedFieldDecisionProtector</id>
         <iconType>Reflection</iconType>
         <loElos />
@@ -332,7 +328,7 @@
       <loElos />
       <otherElos />
       <mainAnchor>
-        <eloUri>roolo://memory/40529/0/Expert+council+decision.rtf</eloUri>
+        <eloUri>roolo://memory/40726/0/Ekspertkogu+otsus.rtf</eloUri>
         <id>ExpertCouncilDecision</id>
         <iconType>Debate_argument</iconType>
         <loElos />
@@ -362,7 +358,7 @@
       <loElos />
       <otherElos />
       <mainAnchor>
-        <eloUri>roolo://memory/40530/0/Final+decision.rtf</eloUri>
+        <eloUri>roolo://memory/40727/0/L%C3%B5plik+otsus.rtf</eloUri>
         <id>Feedback</id>
         <iconType>Reflection</iconType>
         <loElos />

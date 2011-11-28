@@ -1,0 +1,82 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>scy</entity>
+        <date>
+          <dateTime>2011-11-28T14:01:18.219+0100</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>arle</entity>
+        <date>
+          <dateTime>2011-04-26T10:04:25.812+0200</dateTime>
+        </date>
+      </contribute>
+      <version>1</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1303805065812</dateCreated>
+        <dateFirstUserSaveKey>1322485278219</dateFirstUserSaveKey>
+        <dateLastModified>1322485278219</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <educational>
+      <learningResourceType>documentReflection</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40724/0/Parandatud+valdkonnaspetsiifiline+otsus+-+jurist.rtf</entry>
+      </identifier>
+      <las>ReflectionLawyer</las>
+      <missionId>gmo</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40643/0/GMO+mission.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="et">Parandatud valdkonnaspetsiifiline otsus - jurist</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/40527/0/Rewised+field+specific+decision+lawyer.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+  </lom>
+  <template>true</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAByElEQVR42u3TvUtCURjH8ft/OIjgPyD6X7Q4GTg2OAiNTrU1Gi2FjpZDgi6BNmQv9EKDldUqRAhlWFy6pEFR4a/uqUQrel0Cvz94eM5zDhfu/XCu9aALvZbkqHdeWV3sm3urur/VN9/eN79dN3df7/XOn519tvfb+sn7We7Hrx2ea25h2wBeXd9r9aBpanll0XTLsl5wz7tne0+Abl/aOdHw6JScq9OBLAM4Pb+umdyGQWra7e7s3sCx5KzGJ7NdQHffLfcGvq6HRiZ01qwPZFm71U3tVjf0Ud8z6803Z89lXx71zcfHRwNZ7r9J/hCrWCyaRb1eVzqdltfr7R7m83nTHceRx+OR3+9XNBo1e9lsVrZtq9PpKJfLKRgMKpFIKJPJqFKpKB6PKxAIyOfzKZlMqlarmefK5bIKhYJZNxoN0yORiEKhkMLhsFKplHmXVqulWCymUqmkdrv9fwG5QwACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAAQSQAAgggAACSAAEEEAACYAAAgggARBAAAEkAAIIIIAEQAABBJAACCCAABIAAQQQQPIuj22xDKf8aQDHAAAAAElFTkSuQmCC</base64>
+  </thumbnail>
+</metadata>
+<content languages="et" contentType="xml">
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Kirjutage siia oma \b uus, ainult seadusandlikel \b0 argumentidel p\'f5hinev otsus.\ul0\par&#xD;
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>

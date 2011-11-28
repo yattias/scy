@@ -1,0 +1,84 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>scy</entity>
+        <date>
+          <dateTime>2011-11-28T13:58:36.673+0100</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>arle</entity>
+        <date>
+          <dateTime>2011-04-26T10:04:25.812+0200</dateTime>
+        </date>
+      </contribute>
+      <version>1</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1303805065812</dateCreated>
+        <dateFirstUserSaveKey>1322485116673</dateFirstUserSaveKey>
+        <dateLastModified>1322485116673</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <educational>
+      <learningResourceType>documentReflection</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40722/0/Parandatud+valdkonnaspetsiifiline+otsus+-+bioloog.rtf</entry>
+      </identifier>
+      <las>ReflectionBiologist</las>
+      <missionId>gmo</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40643/0/GMO+mission.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="et">Parandatud valdkonnaspetsiifiline otsus - bioloog</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/40525/0/Rewised+field+specific+decision+biologist.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+  </lom>
+  <template>true</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAABuUlEQVR42u3TP0tCURjH8fM+HATxTbi4OPYCAt0a3HJzqsnGsqXEte5Q4BSIQ6aRRgip1eggcaGIa1y6SEGR6VP3lBetsH9L4PcHD+c8z7ni9cNRPcm1DEvEkdG+VC6M9aPVPDkc6x961rfr/vHr2Wg/6WzS7Lf1k/dT7o/fP+vI5s6RBuze9aR8aunaKxX0qpR6w+14Z40XQHfdPb6Q2flVcbqXU1kacG3rQNa3KxrJsm+93r2BC8sbsrhieIDu3C33Bg73M3NLcmWZU1mq3qxKvVmRz9aG3lffnb2WfdMe68/P21NZ7n+T/CEqn8/rjWmaks1mxe/3e4e5XE6vjuOIz+eTYDAo0WhUzwzDENu2ZTAYSDKZlFgsJqFQSFc6nZZIJCL9fl9arZZkMhkJBAL6c8ViURKJhH4uHA7rWa1W874zlUrpdxkmHo//b0DuEIAAAgggARBAAAEkAAIIIIAEQAABBJAACCCAABIAAQQQQAIggAACSAAEEEAACYAAAgggARBAAAEkAAIIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAASQAAggggARAAAEEkHzIM001Da/AcuniAAAAAElFTkSuQmCC</base64>
+  </thumbnail>
+</metadata>
+<content languages="et" contentType="xml">
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Kirjutage siia oma \b uus, ainult bioloogilistel\b0  argumentidel p\'f5hinev otsus.\par&#xD;
+\par&#xD;
+\li0\ri0\fi0\ul0\par&#xD;
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>

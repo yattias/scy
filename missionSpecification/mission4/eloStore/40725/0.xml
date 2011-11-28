@@ -1,0 +1,82 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>scy</entity>
+        <date>
+          <dateTime>2011-11-28T14:02:52.532+0100</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>arle</entity>
+        <date>
+          <dateTime>2011-04-26T10:04:25.812+0200</dateTime>
+        </date>
+      </contribute>
+      <version>1</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1303805065812</dateCreated>
+        <dateFirstUserSaveKey>1322485372532</dateFirstUserSaveKey>
+        <dateLastModified>1322485372532</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <educational>
+      <learningResourceType>documentReflection</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40725/0/Parandatud+valdkonnaspetsiifiline+otsus+-+loomakaitsja.rtf</entry>
+      </identifier>
+      <las>ReflectionProtector</las>
+      <missionId>gmo</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40643/0/GMO+mission.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="et">Parandatud valdkonnaspetsiifiline otsus - loomakaitsja</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/40528/0/Rewised+field+specific+decision+protector.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+  </lom>
+  <template>true</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAABvElEQVR42u3Tv0sCYRzH8fs3xMFFcHNxcXfMxcXAscmlv6DAoUmKlgLXuqHAKRCHSI8yWlKrP0BEKeKMo0M6KLrwW/eUh1dhv5bA9we+PM/3+R7ivXhOe5IbGZeILZN9rV4N9JPVPjsO9A+u+e26f/z6bLKfNpt29tv6yf/TvJc3LgayvXeiAIeOK/VzU9VBrapWTdPecAf+rPUC6K37p5cyv7gu9vBqJksBbuwcyubukUIyrTu/927g0uqWLK/pPqB37pV3A8f7uYUVuTZ7M1las92QZvtIPltbat94N3st67YT6LvdzkyW922SP0SrVCpq0+v1pFQqSSQS8Yflclmttm1LOByWaDQquVxOnem6LpZlyWg0kmKxKIlEQmKxmKRSKTVPp9Piuq4YhiGFQkHi8bj0+33/t5PJpL/PZrNqzWQyEgqFAs/l83lxHOf/AnKHAAQQQAAJgAACCCABEEAAASQAAggggARAAAEEkAAIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCA5EOeAfKwDhIS+M/oAAAAAElFTkSuQmCC</base64>
+  </thumbnail>
+</metadata>
+<content languages="et" contentType="xml">
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Kirjutage siia oma \b uus, ainult eetilis-moraalsetel \b0 argumentidel p\'f5hinev otsus.\ul0\par&#xD;
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>

@@ -1,0 +1,83 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>scy</entity>
+        <date>
+          <dateTime>2011-11-28T14:04:55.469+0100</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>arle</entity>
+        <date>
+          <dateTime>2011-04-26T10:04:25.812+0200</dateTime>
+        </date>
+      </contribute>
+      <version>1</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1303805065812</dateCreated>
+        <dateFirstUserSaveKey>1322485495469</dateFirstUserSaveKey>
+        <dateLastModified>1322485495469</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <educational>
+      <learningResourceType>reportFinal</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40726/0/Ekspertkogu+otsus.rtf</entry>
+      </identifier>
+      <las>Debate</las>
+      <missionId>gmo</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40643/0/GMO+mission.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="et">Ekspertkogu otsus</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/40529/0/Expert+council+decision.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+  </lom>
+  <template>true</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACCUlEQVR42u3Tz4tSYRTG8ftviAt34kIEUReu3bgJt4G79u1cCLVqW6FQ4MJNBRa4SmyTpswMtWjsOi3cFYNQhD8GLiM0N6bRJ+9bijI1/RgCwe8Dh/eec0Du/fBqDU+mGrlnppypls9etVrP1vrV6h7srfVfvg7+uNzT389W+4t2F83+tf7m/azBHLD9dqiHT18ZwMnnU7UOBqZezAG907IsHc+k4cnZcmd398z5fP+Drl6/K+f441aW5d3Ae493dP/JrgEcHk2WvXcDb9x+oJt3HmniAc5vmjf3yruBi+cr127p06C/lWXZ3R29sefV3T13vtx//b1f3f2oI+fdWn94+H4ryxK5VKx6vW4e+v2+SqWSAoHAclmtVs3pOI78fr+azaZc1zWzYrGoXq+nWCymbDarSqWi0Wi09uPRaFTtdls+n0+JRMLMCoWCQqGQUqmUgsGgMpmMbNs2u1qtpnQ6rXA4rOl0amadTkeNRkPlclnxeFz5fF6z2WxzAL2X/lXG47GSyeS5+eIDvDMSifx0vwDYpI/9L4CrTS6X4z95GUACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAgggARBAAAEkAAIIIIAEQAABBJAACCCAABIAAQQQQAIggAACSAAEEEAACYAAAgggARDAjck3tJP+xBvEruIAAAAASUVORK5CYII=</base64>
+  </thumbnail>
+</metadata>
+<content languages="et" contentType="xml">
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Kirjutage siia oma eelnevalt koostatud \b Parandatud valdkonnaspetsiifiline otsus\b0 . \par&#xD;
+Lugege ka k\'f5ikide teiste valdkondade otsuseid.\ul0\par&#xD;
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>
