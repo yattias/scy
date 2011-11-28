@@ -1,0 +1,82 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>scy</entity>
+        <date>
+          <dateTime>2011-11-28T13:56:37.923+0100</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>arle</entity>
+        <date>
+          <dateTime>2011-04-26T10:04:25.812+0200</dateTime>
+        </date>
+      </contribute>
+      <version>1</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1303805065812</dateCreated>
+        <dateFirstUserSaveKey>1322484997923</dateFirstUserSaveKey>
+        <dateLastModified>1322484997923</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <educational>
+      <learningResourceType>documentDesign</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40721/0/Esialgne+valdkonnaspetsiifiline+otsus+-+loomakaitsja.rtf</entry>
+      </identifier>
+      <las>ConceptualisationProtector</las>
+      <missionId>gmo</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40643/0/GMO+mission.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="et">Esialgne valdkonnaspetsiifiline otsus - loomakaitsja</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/40524/0/Initial+field+specific+decision+protector.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+  </lom>
+  <template>true</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACDElEQVR42u3Sz4tSURjG8ft/iLh0JS7UP0AXItJGEG3dxlWC61pJ4CLBxQSulGpR6KoSHKIxCi0kmIrBjTSZNKPNyDRRGEGlT3MPKF6IaWp2+X3g5fx4L/ee++FYn/ROi/qqfa2uN1sPHOvVev6y5Vh//DE4cx19//Pe6vq03ml7/1p/cz7L/vnHrw91694zTbWnL9Ofar06MLW5dd+MlmXp20nvWINlzwa0x4cv9nTxckkfPr9dyzKAG3ee6Mbdp+YGHh5Nl2v7Bl65flNXi7dPAPcNoL1vlw24mF+4dE3vD3bXsqzO9pY624/0+3G1nHvD4x3HenfwZi3LEjlXrEajYSbD4VDlclkej2fZrNfrqlQqZt7pdMwYDAaVTCYVCoXU7/fl9/vldrtVLBYVi8VMv91um2fn87kikYhqtZrS6bR8Pp9yuZwmk4npj0Yj8/5UKrX8Zj6fVzgcNvNMJiOXy+U4cCKR0Gw2U7fbVbVa1Xg8NvvZbNaM9rnslEolxeNxBQIBcz470WhUXq/X8b5er6dCoWD+aZFms3l2QO7QOW8gBAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAAQSQAAgggAACSAAEEEAACYAAAgggARBAAAEkAAIIIIAEQAABBJAACCCAABIAAQTwf8wvBDbe+SBjZUwAAAAASUVORK5CYII=</base64>
+  </thumbnail>
+</metadata>
+<content languages="et" contentType="xml">
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Kirjutage siia \b ainult eetilis-moraalsetel argumentidel\b0  p\'f5hinev otsus, kas EL riikides oleks GM l\'f5he kasvatamine otstarbekas.\ul0\par&#xD;
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>

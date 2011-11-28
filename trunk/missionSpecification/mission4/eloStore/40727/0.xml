@@ -1,0 +1,83 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>scy</entity>
+        <date>
+          <dateTime>2011-11-28T14:06:35.094+0100</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>arle</entity>
+        <date>
+          <dateTime>2011-04-26T10:04:25.812+0200</dateTime>
+        </date>
+      </contribute>
+      <version>1</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1303805065812</dateCreated>
+        <dateFirstUserSaveKey>1322485595094</dateFirstUserSaveKey>
+        <dateLastModified>1322485595094</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <educational>
+      <learningResourceType>documentReflection</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40727/0/L%C3%B5plik+otsus.rtf</entry>
+      </identifier>
+      <las>Reflection</las>
+      <missionId>gmo</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40643/0/GMO+mission.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="et">Lõplik otsus</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/40530/0/Final+decision.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+  </lom>
+  <template>true</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAB7klEQVR42u3Uv0sbYRzH8fs/MgQC+QdC8i9k6ZIhoXv2kiVL0M1RMUML2ULbQSGTEBzEs/gDl+q1HTPIJaSmRJEckkCLmnz0uTZHTtRWHSrc+wNfnuf7PA/J3Yu7s650qmlJnmZ7e2s91M+W82Uv1P+67P9z/bz4+9ps/9DeQ2tPrcdcn2Vu/tO3E31Y2/cBz0eX2vra92vTXvdHy7L+4J4Ee4c3gGbc+Pxdr98syzs/jmT5gG9XtvVudcdH6p8Ng948gXOL7zW/9DEANOumzBM4nb8qLuhHvxPJsg6cXR04O7prPPTnu7f2ftfZ4CjUu+5RJMu8m+QZsZrNpj/pdDqq1WqKx+PBZqPR8EfP8xSLxZTL5ZRKpZRIJJTP59XtdtVqtZTJZFQul5XNZu/9I7OXTqdVLBZVKpU0GAzU6/VCZxzHUbVaVbvd1mg0km3bMtc3HA5D58bjsQqFgur1upLJ5P8FnE5c1733kLlZk8lkEqyZ+bQ3NzS7F6kn8Lk/UKlUov0K8xUDEEAAASQAAggggARAAAEEkAAIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAASQAAggggARAAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAAQSQAAjgi8w1tvUKK7MU4MUAAAAASUVORK5CYII=</base64>
+  </thumbnail>
+</metadata>
+<content languages="et" contentType="xml">
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Kirjutage siia oma \b l\'f5plik otsus\b0 , kas EL riikides oleks GM l\'f5he kasvatamine otstarbekas. \par&#xD;
+Andke oma poolt- ja vastuargumendid!\ul0\par&#xD;
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>

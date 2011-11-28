@@ -1,0 +1,82 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>scy</entity>
+        <date>
+          <dateTime>2011-11-28T13:54:54.782+0100</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>arle</entity>
+        <date>
+          <dateTime>2011-04-26T10:04:25.812+0200</dateTime>
+        </date>
+      </contribute>
+      <version>1</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1303805065812</dateCreated>
+        <dateFirstUserSaveKey>1322484894782</dateFirstUserSaveKey>
+        <dateLastModified>1322484894782</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <educational>
+      <learningResourceType>documentDesign</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40720/0/Esialgne+valdkonnaspetsiifiline+otsus+-+jurist.rtf</entry>
+      </identifier>
+      <las>ConceptualisationLawyer</las>
+      <missionId>gmo</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40643/0/GMO+mission.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="et">Esialgne valdkonnaspetsiifiline otsus - jurist</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/40523/0/Initial+field+specific+decision+lawyer.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+  </lom>
+  <template>true</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAB+0lEQVR42u3Sv2taURjG8ft3uAgOLg6CuDkIDk5dhbpmz19QF6VbIhUS0UVMOqQgDrUOoTSGFm4rBGJCJtFUJYk0kTSlxVJoC09zD+TiLSE/mq1+H3g55z3noOd+ONYXDXVV33Wi2X6z9crTz9aHTsvTf/41uHOd/7x9bba/ae+mtX+t+9zPcj5+e/9M6y/fa6pjfZv+Vmvv1NTmVsOMlmXpx+XehQbungPojK93jvV48Zk+ff04l2UAVzbeavXFO/MCz86nbu+8wCdLa8osP78EPDGAzrpTDuDV/NHCUx2dHs5lWfbuluzdN7p+nC3v2ujiwNMfDvpzWZbIg2I1m00zGY1GKpVK8vv97matVlOlUjFz27bNGI1GlUwm1Wg0NJlMFA6HFYvF5PP5lM1mzZl8Pq9gMGj2nN8tFosKBAIql8uePx+Px8pkMm7f6XTMHRKJhEKhkOfscDh055FIRKlUStVqVfF43KzV63V3v9/vq1AoKJ1Om77dbiuXy5n7/p1ut2vO9no98x33BuQNPfAFQgAggAACSAAEEEAACYAAAgggARBAAAEkAAIIIIAEQAABBJAACCCAABIAAQQQQAIggAACSAAEEEAACYAAAggggARAAAEEkAAIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAA/8f8AXCs6tWyR0KyAAAAAElFTkSuQmCC</base64>
+  </thumbnail>
+</metadata>
+<content languages="et" contentType="xml">
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Kirjutage siia \b ainult seadusandlikel argumentidel\b0  p\'f5hinev otsus, kas EL riikides oleks GM l\'f5he kasvatamine otstarbekas.\ul0\par&#xD;
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>
