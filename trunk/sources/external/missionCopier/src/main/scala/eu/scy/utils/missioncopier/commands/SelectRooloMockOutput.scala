@@ -14,9 +14,7 @@ class SelectRooloMockOutput(override val stateModel: StateModel) extends SelectR
     print("Do you want to create it (y|n) ?")
     val input = stateModel.readLine().trim().toLowerCase
     input match {
-      case "y" => if (eloStoreDirectory.mkdirs()) {
-        return eloStoreDirectory
-      } else {
+      case "y" => if (!eloStoreDirectory.mkdirs()) {
         println("failed to create eloStoreDirectory: " + eloStoreDirectory)
       }
       case _ =>
