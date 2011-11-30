@@ -22,10 +22,7 @@ class SelectRooloMockOutput(override val stateModel: StateModel) extends SelectR
   }
 
   override protected def setRepository(repository: IRepository, eloStoreDirectory: File) = {
-    stateModel.destinationRepository = repository
-    stateModel.destinationRooloServices = new SimpleRooloServices(stateModel.destinationRepository, stateModel.metadataTypeManager, stateModel.extensionManager, stateModel.eloFactory)
-    stateModel.destinationIsRooloMock = true
-    stateModel.destinationName = "eloStore in directory: " + eloStoreDirectory.getAbsolutePath
+    stateModel.setDestination(repository,"eloStore in directory: " + eloStoreDirectory.getAbsolutePath,true)
   }
 
 }

@@ -1,7 +1,7 @@
 package eu.scy.utils.missioncopier.commands
 
-import eu.scy.utils.missioncopier.{RealMissionCopier, StateModel}
 import eu.scy.common.scyelo.RooloServices
+import eu.scy.utils.missioncopier.{RepositoryDefinition, RealMissionCopier, StateModel}
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,19 +16,19 @@ class ListMissionsCommand(override val stateModel: StateModel) extends StateMode
   val description = "list mission"
 
   def execute(params: Seq[String]): Unit = {
-    listMissions(stateModel.sourceRooloServices, "Source")
-    listMissions(stateModel.destinationRooloServices, "Destination")
+    listMissions(stateModel.source, "Source")
+    listMissions(stateModel.destination, "Destination")
   }
 
-  private def listMissions(rooloServices: RooloServices, label: String): Unit = {
-    if (rooloServices == null) {
+  private def listMissions(repositoryDefinition: RepositoryDefinition, label: String): Unit = {
+    if (repositoryDefinition == null) {
       println(label + " is not defined")
     } else {
       val missionCopier = new RealMissionCopier(stateModel)
       println(label + ":")
-      val missionSpecificationElos = missionCopier.findMissionSpecificationElos(rooloServices)
+      val missionSpecificationElos = missionCopier.findMissionSpecificationElos(repositoryDefinition.rooloServices)
       for (missionSpecificationElo <- missionSpecificationElos) {
-        val allMissionSpecificationEloMetadatas = rooloServices.getRepository().retrieveMetadataAllVersions(missionSpecificationElo.getUri)
+        val allMissionSpecificationEloMetadatas = repositoryDefinition.repository.retrieveMetadataAllVersions(missionSpecificationElo.getUri)
         val nrOfVersions = allMissionSpecificationEloMetadatas.size()
         println("- " + missionSpecificationElo.getTitle + " (" + missionSpecificationElo.getContent().getLanguages + ", " + nrOfVersions + " versions)")
       }

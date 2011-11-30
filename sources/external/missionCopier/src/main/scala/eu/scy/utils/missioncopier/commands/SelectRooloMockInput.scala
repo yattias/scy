@@ -62,9 +62,6 @@ class SelectRooloMockInput(override val stateModel: StateModel) extends StateMod
   }
 
   protected def setRepository(repository: IRepository, eloStoreDirectory: File) = {
-    stateModel.sourceRepository = repository
-    stateModel.sourceRooloServices = new SimpleRooloServices(stateModel.sourceRepository, stateModel.metadataTypeManager, stateModel.extensionManager, stateModel.eloFactory)
-    stateModel.sourceIsRooloMock = true
-    stateModel.sourceName = "eloStore in directory: " + eloStoreDirectory.getAbsolutePath
+    stateModel.setSource(repository,"eloStore in directory: " + eloStoreDirectory.getAbsolutePath,true)
   }
 }

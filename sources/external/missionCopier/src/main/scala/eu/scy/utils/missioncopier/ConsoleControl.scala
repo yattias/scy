@@ -8,7 +8,10 @@ class ConsoleControl {
 
   private val name = "mission copier"
   private val prompt = ">";
-  private val stateModel = new StateModel
+
+
+  private val stateModelVals = createStateModelVals()
+  private val stateModel = new StateModel(stateModelVals._1,stateModelVals._2,stateModelVals._3)
   private val consoleController = new ConsoleController(name, prompt, stateModel)
   private var showShortSummary = true
 
@@ -31,15 +34,15 @@ class ConsoleControl {
   }
 
   def intialize():Unit = {
-    initStateModel
     createCommandHandlers
     consoleController.showState = showState
   }
 
-  private def initStateModel() = {
-    stateModel.metadataTypeManager = SpringLoader.getMetadataTypeManager()
-    stateModel.extensionManager = SpringLoader.getExtensionManager()
-    stateModel.eloFactory = new JDomBasicELOFactory(stateModel.metadataTypeManager)
+  def createStateModelVals() = {
+    val metadataTypeManager = SpringLoader.getMetadataTypeManager()
+    val extensionManager = SpringLoader.getExtensionManager()
+    val eloFactory = new JDomBasicELOFactory(metadataTypeManager)
+    (metadataTypeManager,extensionManager,eloFactory)
   }
 
   def createCommandHandlers() = {
@@ -47,9 +50,13 @@ class ConsoleControl {
     consoleController.addCommandHandler(new SetShortSummaryCommand())
     consoleController.addCommandHandler(new SelectRooloMockInput(stateModel))
     consoleController.addCommandHandler(new SelectRooloMockOutput(stateModel))
+    consoleController.addCommandHandler(new SelectRooloJpaInput(stateModel))
+    consoleController.addCommandHandler(new SelectRooloJpaOutput(stateModel))
     consoleController.addCommandHandler(new ListMissionsCommand(stateModel))
     consoleController.addCommandHandler(new ListElosCommand(stateModel))
     consoleController.addCommandHandler(new CopyMissionCommand(stateModel))
+    consoleController.addCommandHandler(new CopyElosCommand(stateModel))
+    consoleController.addCommandHandler(new SwapSourceDestinationCommand(stateModel))
   }
 
   def start() = {
@@ -57,7 +64,7 @@ class ConsoleControl {
   }
 
   private def showState(): Unit = {
-    println("Source     : " + stateModel.sourceName)
-    println("Destination: " + stateModel.destinationName)
+    println("Source     : " + (if (stateModel.source==null) "" else stateModel.source.name))
+    println("Destination: " + (if (stateModel.destination==null) "" else stateModel.destination.name))
   }
 }

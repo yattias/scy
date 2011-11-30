@@ -14,7 +14,7 @@ import eu.scy.common.scyelo.RooloServices
 
 class RealMissionCopier(val stateModel: StateModel) {
    private val technicalFormatKey = stateModel.metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT)
-   val missionSpecificationElos = findMissionSpecificationElos(stateModel.sourceRooloServices)
+   val missionSpecificationElos = findMissionSpecificationElos(stateModel.source.rooloServices)
 
    def findMissionSpecificationElos(rooloServices: RooloServices): Seq[MissionSpecificationElo] = {
       val missionSpecificationQueryComponent = new MetadataQueryComponent(technicalFormatKey,
@@ -58,7 +58,7 @@ class RealMissionCopier(val stateModel: StateModel) {
    }
 
    private def findOldMissionSpecificationElo(newMissionSpecificationElo: MissionSpecificationElo): MissionSpecificationElo = {
-      def presentMissionSpecificationElos = findMissionSpecificationElos(stateModel.destinationRooloServices)
+      def presentMissionSpecificationElos = findMissionSpecificationElos(stateModel.destination.rooloServices)
       for (missionSpecificationElo <- presentMissionSpecificationElos) {
          if (missionSpecificationElo.getMissionId() == newMissionSpecificationElo.getMissionId() &&
             missionSpecificationElo.getContent.getLanguages() == newMissionSpecificationElo.getContent.getLanguages()) {
@@ -70,7 +70,7 @@ class RealMissionCopier(val stateModel: StateModel) {
 
    private def getAllEloUris(missionSpecificationElo: MissionSpecificationElo): Seq[URI] = {
       def missionSpecificationEloContent = missionSpecificationElo.getTypedContent()
-      val missionMapModelElo = MissionModelElo.loadElo(missionSpecificationEloContent.getMissionMapModelEloUri(), stateModel.sourceRooloServices);
+      val missionMapModelElo = MissionModelElo.loadElo(missionSpecificationEloContent.getMissionMapModelEloUri(), stateModel.source.rooloServices);
       val eloUris = ArrayBuffer[URI]()
       eloUris += missionSpecificationEloContent.getMissionMapModelEloUri()
       eloUris += missionSpecificationEloContent.getEloToolConfigsEloUri()

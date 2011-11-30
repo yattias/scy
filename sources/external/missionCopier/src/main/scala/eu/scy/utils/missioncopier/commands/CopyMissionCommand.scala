@@ -10,11 +10,11 @@ class CopyMissionCommand(override val stateModel: StateModel) extends StateModel
    val description = "copy mission"
    override val paramDescription = "mission names"
    def execute(params: Seq[String]): Unit = {
-      if (stateModel.sourceRepository == null) {
+      if (stateModel.source == null) {
          println("cannot copy missions if the source repository is not defined")
          return
       }
-      if (stateModel.destinationRepository == null) {
+      if (stateModel.destination == null) {
          println("cannot copy missions if the destination repository is not defined")
          return
       }
