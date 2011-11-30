@@ -4,7 +4,7 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds
 import java.net.URI
 import roolo.elo.api.IELO
 import collection.JavaConversions._
-import collection.mutable.HashMap
+import collection.mutable.{ArrayBuffer, HashMap}
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,6 +24,7 @@ class EloCopier(val stateModel: StateModel) {
   var sourceMissionSpecificationElo: IELO = null
   var destinationMissionSpecificationElo: IELO = null
   var missionSpecificationXml: String = null
+  var copyAllVersions = false
 
   def copyElos(): Unit = {
     var sourceElos = loadElos(eloUris)
@@ -49,19 +50,28 @@ class EloCopier(val stateModel: StateModel) {
 
   private def createNewTemporyMissionSpecificationElo(destinationMissionSpecificationElo: IELO): IELO = {
     val newElo: IELO = createNewElo(destinationMissionSpecificationElo)
-    val newMetadata = stateModel.destinationRepository.updateELO(newElo, destinationMissionSpecificationElo.getUri)
+    val newMetadata = stateModel.destination.repository.updateELO(newElo, destinationMissionSpecificationElo.getUri)
     stateModel.eloFactory.updateELOWithResult(newElo, newMetadata)
     newElo
   }
 
   private def loadElos(eloUris: scala.collection.Seq[URI]): Seq[IELO] = {
-    val elos = stateModel.sourceRepository.retrieveELOs(eloUris)
+    val elos = stateModel.source.repository.retrieveELOs(eloUris)
     elos.filter(_ != null)
   }
 
+  private def LoadAllVersionsElos(eloUris: Seq[URI]): Seq[IELO] = {
+    val elos = ArrayBuffer[IELO]()
+    for (eloUri <- eloUris){
+      val allVersions = stateModel.source.repository.retrieveELOAllVersions(eloUri)
+      elos++allVersions
+    }
+    elos.filter(_ != null)
+   }
+
   private def createNewElo(sourceElo: IELO): IELO = {
     val newElo = stateModel.eloFactory.createELO()
-    val technicalType = if (stateModel.destinationIsRooloMock) sourceElo.getMetadata().getMetadataValueContainer(technicalFormatKey).getValue() else temporaryTechnicalFormat
+    val technicalType = if (stateModel.destination.isRooloMock) sourceElo.getMetadata().getMetadataValueContainer(technicalFormatKey).getValue() else temporaryTechnicalFormat
     newElo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(technicalType)
     newElo.getMetadata().getMetadataValueContainer(titleKey).setValuesI18n(sourceElo.getMetadata().getMetadataValueContainer(titleKey).getValuesI18n())
     newElo.getMetadata().getMetadataValueContainer(templateKey).setValue("true")
@@ -70,7 +80,7 @@ class EloCopier(val stateModel: StateModel) {
 
   def createNewTemporaryElo(sourceElo: IELO): IELO = {
     val newElo: IELO = createNewElo(sourceElo)
-    val newMetadata = stateModel.destinationRepository.addNewELO(newElo)
+    val newMetadata = stateModel.destination.repository.addNewELO(newElo)
     stateModel.eloFactory.updateELOWithResult(newElo, newMetadata)
     newElo
   }
@@ -83,7 +93,7 @@ class EloCopier(val stateModel: StateModel) {
 
   private def storeElos(destinationElos: Seq[IELO]) = {
     for (elo <- destinationElos) {
-      stateModel.destinationRepository.updateWithMinorChange(elo)
+      stateModel.destination.repository.updateWithMinorChange(elo)
     }
   }
 

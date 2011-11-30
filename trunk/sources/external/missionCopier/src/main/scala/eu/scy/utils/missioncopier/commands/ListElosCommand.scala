@@ -1,8 +1,7 @@
 package eu.scy.utils.missioncopier.commands
 
-import eu.scy.utils.missioncopier.StateModel
-import eu.scy.common.scyelo.RooloServices
 import roolo.search.ISearchResult
+import eu.scy.utils.missioncopier.{RepositoryDefinition, StateModel}
 import scala.collection.JavaConversions._
 
 /**
@@ -18,16 +17,16 @@ class ListElosCommand (override val stateModel: StateModel) extends StateModelCo
    val description = "list elos"
   
    def execute(params: Seq[String]): Unit = {
-     listElos(stateModel.sourceRooloServices,"Source")
-     listElos(stateModel.destinationRooloServices,"Destination")
+     listElos(stateModel.source,"Source")
+     listElos(stateModel.destination,"Destination")
    }
 
-  private def listElos(rooloServices: RooloServices, label: String): Unit = {
-    if (rooloServices == null) {
+  private def listElos(repositoryDefinition: RepositoryDefinition, label: String): Unit = {
+    if (repositoryDefinition == null) {
       println(label + " is not defined")
     } else {
       println(label + ": all ELOs")
-      val allElosSearchResults:Seq[ISearchResult] = rooloServices.getRepository().listAllElos()
+      val allElosSearchResults:Seq[ISearchResult] = repositoryDefinition.repository.listAllElos()
       for (searchResult <- allElosSearchResults){
         println("- " + searchResult.getUri + ", " + searchResult.getTitles + ", " + searchResult.getTechnicalFormat + ", " + searchResult.getVersion)
       }
