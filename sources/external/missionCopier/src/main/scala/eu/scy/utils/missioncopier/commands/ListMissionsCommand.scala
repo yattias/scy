@@ -26,11 +26,11 @@ class ListMissionsCommand(override val stateModel: StateModel) extends StateMode
     } else {
       val missionCopier = new RealMissionCopier(stateModel)
       println(label + ":")
-      val missionSpecificationElos = missionCopier.findMissionSpecificationElos(repositoryDefinition.rooloServices)
+      val missionSpecificationElos = missionCopier.findMissionSpecificationElos(repositoryDefinition)
       for (missionSpecificationElo <- missionSpecificationElos) {
         val allMissionSpecificationEloMetadatas = repositoryDefinition.repository.retrieveMetadataAllVersions(missionSpecificationElo.getUri)
         val nrOfVersions = allMissionSpecificationEloMetadatas.size()
-        println("- " + missionSpecificationElo.getTitle + " (" + missionSpecificationElo.getContent().getLanguages + ", " + nrOfVersions + " versions)")
+        println("- " + Utils.getEloDisplayDescription(missionSpecificationElo,stateModel) + ", (" + nrOfVersions + " versions)")
       }
     }
   }

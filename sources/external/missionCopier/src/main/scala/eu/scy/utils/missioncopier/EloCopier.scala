@@ -60,18 +60,10 @@ class EloCopier(val stateModel: StateModel) {
     elos.filter(_ != null)
   }
 
-  private def LoadAllVersionsElos(eloUris: Seq[URI]): Seq[IELO] = {
-    val elos = ArrayBuffer[IELO]()
-    for (eloUri <- eloUris){
-      val allVersions = stateModel.source.repository.retrieveELOAllVersions(eloUri)
-      elos++allVersions
-    }
-    elos.filter(_ != null)
-   }
-
   private def createNewElo(sourceElo: IELO): IELO = {
     val newElo = stateModel.eloFactory.createELO()
-    val technicalType = if (stateModel.destination.isRooloMock) sourceElo.getMetadata().getMetadataValueContainer(technicalFormatKey).getValue() else temporaryTechnicalFormat
+//    val technicalType = if (stateModel.destination.isRooloMock) sourceElo.getMetadata().getMetadataValueContainer(technicalFormatKey).getValue() else temporaryTechnicalFormat
+    val technicalType = sourceElo.getMetadata().getMetadataValueContainer(technicalFormatKey).getValue()
     newElo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(technicalType)
     newElo.getMetadata().getMetadataValueContainer(titleKey).setValuesI18n(sourceElo.getMetadata().getMetadataValueContainer(titleKey).getValuesI18n())
     newElo.getMetadata().getMetadataValueContainer(templateKey).setValue("true")
