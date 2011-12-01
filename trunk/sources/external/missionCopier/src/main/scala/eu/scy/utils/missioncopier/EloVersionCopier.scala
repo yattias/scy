@@ -22,7 +22,7 @@ class EloVersionCopier(val stateModel: StateModel) {
 
   var eloUris: Seq[URI] = null
 
-  private case class EloPair(val sourceElo: IELO, val destinationElo: IELO)
+  private case class EloPair(val sourceElo: IELO, var destinationElo: IELO)
 
   private var eloPairs = ArrayBuffer[Buffer[EloPair]]()
   private var uriTranslationMap = HashMap[URI, URI]()
@@ -30,7 +30,7 @@ class EloVersionCopier(val stateModel: StateModel) {
   def copyElos() = {
     loadEloPairs()
     fillAndStoreDestinationElos()
-//    storeDestinationElos()
+    storeDestinationElos()
   }
 
   private def loadEloPairs() = {
@@ -102,8 +102,7 @@ class EloVersionCopier(val stateModel: StateModel) {
   private def fillDestinationElo(eloPair: EloPair) = {
     val sourceEloXml = eloPair.sourceElo.getXml
     val destinationEloXml = replaceUris(sourceEloXml)
-    val destinationElo = stateModel.eloFactory.createELOFromXml(destinationEloXml)
-    stateModel.destination.repository.updateWithMinorChange(destinationElo)
+    eloPair.destinationElo = stateModel.eloFactory.createELOFromXml(destinationEloXml)
   }
 
   def replaceUris(eloXml: String): String = {
