@@ -9,7 +9,7 @@ object MissionCopier {
     InitLog4J.initLog4J("missionCopier-log4j.xml")
     val consoleControl = new ConsoleControl
     consoleControl.intialize
-    consoleControl.start
+    consoleControl.start(args)
   }
 
 }

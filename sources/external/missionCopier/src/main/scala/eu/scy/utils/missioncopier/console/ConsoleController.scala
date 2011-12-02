@@ -6,7 +6,6 @@ package eu.scy.utils.missioncopier.console
  * User: sikken
  * Date: 27-11-11
  * Time: 15:11
- * To change this template use File | Settings | File Templates.
  */
 
 class ConsoleController(val name: String, val prompt: String, val consoleModel: ConsoleModel) {
@@ -18,6 +17,7 @@ class ConsoleController(val name: String, val prompt: String, val consoleModel: 
   private var lastLine = "";
   private var originalForLastLine = ""
   private var originalLastLine = ""
+  private var initialArguments = ""
 
   class RepeatCommand extends CommandHandler {
     val commands = Seq("repeat", "r")
@@ -39,8 +39,9 @@ class ConsoleController(val name: String, val prompt: String, val consoleModel: 
 
   def addCommandHandler(commandHandler: CommandHandler) = commandExecutor.registerCommandHandler(commandHandler)
 
-  def start() = {
+  def start(args : Array[String]) = {
     println("Welcome to " + name)
+    handleArguments(args)
     do {
       if (showState != null) {
         showState()
@@ -60,6 +61,25 @@ class ConsoleController(val name: String, val prompt: String, val consoleModel: 
       }
     } while (!consoleModel.exit)
     println("Thank you for using " + name)
+  }
+
+  private def handleArguments(args : Array[String]) = {
+    if (args!=null && !args.isEmpty){
+      initialArguments = args.foldLeft("")((a,b) => a + " " + b)
+      consoleModel.readLine = readLineFromArguments
+    }
+  }
+
+  private def readLineFromArguments():String = {
+    if (initialArguments.isEmpty){
+      consoleModel.readLine = Predef.readLine
+      consoleModel.readLine()
+    } else {
+      val line = initialArguments
+      initialArguments = ""
+      println(line)
+      line
+    }
   }
 
 
