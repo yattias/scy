@@ -6,6 +6,7 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds
 import java.util.Locale
 import collection.JavaConversions._
 import eu.scy.common.scyelo.ScyElo
+import roolo.search.ISearchResult
 
 /**
  * Created by IntelliJ IDEA.
@@ -42,5 +43,18 @@ object Utils {
       display.append(")")
     }
     display.toString()
+  }
+
+  def printSearchResults(searchResults:Seq[ISearchResult], showRelevance: Boolean=true) = {
+    var i:java.lang.Integer = 1;
+    val indexFormat = "%3d: "
+    val formatString = if (showRelevance) indexFormat + "%1.2f, " else indexFormat
+    for (searchResult <- searchResults){
+      val index = String.format(Locale.UK,formatString,i,searchResult.getRelevance().asInstanceOf[java.lang.Double])
+      val relevance = if (showRelevance) searchResult.getRelevance + ", " else ""
+      println(index + searchResult.getTitles + ", " + searchResult.getTechnicalFormat + ", " + searchResult.getVersion)
+      i+=1
+    }
+
   }
 }

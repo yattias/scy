@@ -27,9 +27,7 @@ class ListElosCommand (override val stateModel: StateModel) extends StateModelCo
     } else {
       println(label + ": all ELOs")
       val allElosSearchResults:Seq[ISearchResult] = repositoryDefinition.repository.listAllElos()
-      for (searchResult <- allElosSearchResults){
-        println("- " + searchResult.getUri + ", " + searchResult.getTitles + ", " + searchResult.getTechnicalFormat + ", " + searchResult.getVersion)
-      }
+      Utils.printSearchResults(allElosSearchResults,false)
     }
   }
 }

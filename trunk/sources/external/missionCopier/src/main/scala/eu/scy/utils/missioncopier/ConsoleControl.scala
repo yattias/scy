@@ -54,15 +54,18 @@ class ConsoleControl {
     consoleController.addCommandHandler(new SelectRooloJpaMemoryOutput(stateModel))
     consoleController.addCommandHandler(new SelectRooloJpaMySqlInput(stateModel))
     consoleController.addCommandHandler(new SelectRooloJpaMySqlOutput(stateModel))
+    consoleController.addCommandHandler(new SelectRooloRemoteInput(stateModel))
+    consoleController.addCommandHandler(new SelectRooloRemoteOutput(stateModel))
     consoleController.addCommandHandler(new ListMissionsCommand(stateModel))
     consoleController.addCommandHandler(new ListElosCommand(stateModel))
+    consoleController.addCommandHandler(new SearchSourceElosCommand(stateModel))
     consoleController.addCommandHandler(new CopyMissionCommand(stateModel))
     consoleController.addCommandHandler(new CopyElosCommand(stateModel))
     consoleController.addCommandHandler(new SwapSourceDestinationCommand(stateModel))
   }
 
-  def start() = {
-    consoleController.start()
+  def start(args : Array[String]) = {
+    consoleController.start(args)
   }
 
   private def showState(): Unit = {
