@@ -48,7 +48,7 @@ class SelectRooloMockInput(override val stateModel: StateModel) extends StateMod
   }
 
   protected def handleNonExistingEloStoreDirectory(eloStoreDirectory: File): Unit = {
-    println("eloStoreDirectory does not exist or is not a directory: " + eloStoreDirectory.getAbsolutePath())
+    println("eloStoreDirectory does not exist or is not a directory: " + eloStoreDirectory.getCanonicalPath())
   }
 
   private def loadRooloMock(eloStoreDirectory: File): IRepository = {
@@ -62,6 +62,6 @@ class SelectRooloMockInput(override val stateModel: StateModel) extends StateMod
   }
 
   protected def setRepository(repository: IRepository, eloStoreDirectory: File) = {
-    stateModel.setSource(repository,"eloStore in directory: " + eloStoreDirectory.getAbsolutePath,true)
+    stateModel.setSource(repository,"eloStore in directory: " + eloStoreDirectory.getCanonicalPath,true)
   }
 }

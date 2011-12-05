@@ -10,7 +10,7 @@ class SelectRooloMockOutput(override val stateModel: StateModel) extends SelectR
   override val description = "select roolo mock output"
 
   override protected def handleNonExistingEloStoreDirectory(eloStoreDirectory: File): Unit = {
-    println("eloStoreDirectory does not exist or is not a directory: " + eloStoreDirectory.getAbsolutePath())
+    println("eloStoreDirectory does not exist or is not a directory: " + eloStoreDirectory.getCanonicalPath())
     print("Do you want to create it (y|n) ?")
     val input = stateModel.readLine().trim().toLowerCase
     input match {
@@ -22,7 +22,7 @@ class SelectRooloMockOutput(override val stateModel: StateModel) extends SelectR
   }
 
   override protected def setRepository(repository: IRepository, eloStoreDirectory: File) = {
-    stateModel.setDestination(repository,"eloStore in directory: " + eloStoreDirectory.getAbsolutePath,true)
+    stateModel.setDestination(repository,"eloStore in directory: " + eloStoreDirectory.getCanonicalPath,true)
   }
 
 }
