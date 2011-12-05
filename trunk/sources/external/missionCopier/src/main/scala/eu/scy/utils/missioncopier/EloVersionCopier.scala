@@ -11,14 +11,12 @@ import collection.mutable.{Buffer, ArrayBuffer, HashMap}
  * User: SikkenJ
  * Date: 30-11-11
  * Time: 15:46
- * To change this template use File | Settings | File Templates.
  */
 
 class EloVersionCopier(val stateModel: StateModel) {
   private val technicalFormatKey = stateModel.metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT)
   private val titleKey = stateModel.metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE)
   private val templateKey = stateModel.metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TEMPLATE)
-  private val temporaryTechnicalFormat = "empty"
 
   var eloUris: Seq[URI] = null
 
@@ -28,9 +26,13 @@ class EloVersionCopier(val stateModel: StateModel) {
   private var uriTranslationMap = HashMap[URI, URI]()
 
   def copyElos() = {
+    print("Loading ELOs and creating new temporary")
     loadEloPairs()
-    fillAndStoreDestinationElos()
+    print("\nUpdating URIs in new ELOs")
+    fillDestinationElos()
+    print("\nStoring new ELOs")
     storeDestinationElos()
+    println("\nFinished copying ELOs")
   }
 
   private def loadEloPairs() = {
@@ -39,6 +41,7 @@ class EloVersionCopier(val stateModel: StateModel) {
         val versionList: Buffer[IELO] = stateModel.source.repository.retrieveELOAllVersions(eloUri)
         if (!versionList.isEmpty) {
           loadEloPairsForVersionList(versionList)
+          print(".")
         }
       }
     }
@@ -64,7 +67,7 @@ class EloVersionCopier(val stateModel: StateModel) {
 
   private def createNewElo(sourceElo: IELO): IELO = {
     val newElo = stateModel.eloFactory.createELO()
-    val technicalType = if (stateModel.destination.isRooloMock) sourceElo.getMetadata().getMetadataValueContainer(technicalFormatKey).getValue() else temporaryTechnicalFormat
+    val technicalType = sourceElo.getMetadata().getMetadataValueContainer(technicalFormatKey).getValue()
     newElo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(technicalType)
     newElo.getMetadata().getMetadataValueContainer(titleKey).setValuesI18n(sourceElo.getMetadata().getMetadataValueContainer(titleKey).getValuesI18n())
     newElo.getMetadata().getMetadataValueContainer(templateKey).setValue("true")
@@ -91,10 +94,11 @@ class EloVersionCopier(val stateModel: StateModel) {
      stateModel.eloFactory.createELOFromXml(xml)
   }
 
-  private def fillAndStoreDestinationElos() = {
+  private def fillDestinationElos() = {
     for (eloPairList <- eloPairs) {
       for (eloPair <- eloPairList) {
         fillDestinationElo(eloPair)
+        print(".")
       }
     }
   }
@@ -117,6 +121,7 @@ class EloVersionCopier(val stateModel: StateModel) {
     for (eloPairList <- eloPairs) {
       for (eloPair <- eloPairList) {
         stateModel.destination.repository.updateWithMinorChange(eloPair.destinationElo)
+        print(".")
       }
     }
   }
