@@ -7,19 +7,9 @@
           <source>LOMv1.0</source>
           <value>author</value>
         </role>
-        <entity>arle</entity>
+        <entity>scy</entity>
         <date>
-          <dateTime>2011-04-26T14:50:21.125+0200</dateTime>
-        </date>
-      </contribute>
-      <contribute>
-        <role>
-          <source>LOMv1.0</source>
-          <value>author</value>
-        </role>
-        <entity>arle</entity>
-        <date>
-          <dateTime>2011-04-26T14:50:21.125+0200</dateTime>
+          <dateTime>2011-12-01T12:23:46.921+0200</dateTime>
         </date>
       </contribute>
       <contribute>
@@ -29,21 +19,21 @@
         </role>
         <entity>arle</entity>
         <date>
-          <dateTime>2011-04-26T15:13:32.187+0200</dateTime>
+          <dateTime>2011-04-26T16:13:32.187+0300</dateTime>
         </date>
       </contribute>
-      <version>5</version>
+      <version>6</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1303822221125</dateCreated>
         <dateFirstUserSaveKey>1303822221125</dateFirstUserSaveKey>
-        <dateLastModified>1303823612187</dateLastModified>
+        <dateLastModified>1322735026921</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
     <educational>
-      <learningResourceType>problemStatement</learningResourceType>
+      <learningResourceType>documentDesign</learningResourceType>
     </educational>
     <general>
       <identifier>
@@ -51,29 +41,32 @@
         <entry>roolo://memory/40520/0/Initial+decision.rtf</entry>
       </identifier>
       <las>Orientation</las>
+      <missionId>gmo</missionId>
       <missionRunning>
         <catalog>memory</catalog>
-        <entry>roolo://memory/40543/0/GMO+SCY-Lab.scymissionspecification</entry>
+        <entry>roolo://memory/40643/0/GMO+mission.scymissionspecification</entry>
       </missionRunning>
       <title>
         <string language="en">Initial decision</string>
       </title>
     </general>
+    <relation />
   </lom>
-  <template>true</template>
+  <template>TRUE</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAFD0lEQVR42u2X/UubVxTH8w9s7Gd/nChOHLMIwn6LbyETdf4gFK3S4S+DzSHb1DnfcRZD8YcSY6NVE6FOTZ06X6pDmZis0s3Nl9aXWlupROOMje/REVM98xx5bp+YpB2dwhjnC1/ufc499zzP/Xif+0SF0WiE1+no6IjtxwoE6HA4YH19Hex2O7XyvtPphJGREZ+enp4Gl8vlZZS/OS0tLT7jnZ2dfueMj4/7jJvNZrBYLH7r+Xq287YHQF9GgDs7Oyfb8AUcC7vBaLoLy8vLsLGxAZubm8IrKytweHhIfcyTz8HYxMQEjR/L6rkPXTA5OUm1POe8gL29XfpDeY+5YXt7G9xuz3y0RtcMvb29sL+/f+EWAJV5jyFV+xy2T1hpb817ATTP7cKfWy5wnIx/+MUfkF2qI4AI5dP6CbBuumFr6xTgwcEBxe/N78HwQwcMP3BQH2O4mwCO6do8u30y9hxGZrYEQIxHXHof6m93Uf+vA6cAiNdohUJBrQRw7KlTjKHj0vIJID73RVsATCx+Ct+1bcDX9Xb42ACQkTPpAbB9+DF0TLrg+/sHEFtshS/LbgqAuhtVYGi4BTabjQDu7u5SvMv8hBaLxr60A1Fdlifw1tvvUPvD8LwAiHlqVQzcNNyhMTlAHNPo2+HnB6d9CeBPvz6Dq5/lQ51phObEXfkW+vr66H5n3xC5XzX2T/MUTU1NBDA2bx5+fAaQqXXCux/NeO1AbYsF8ppsYLY8BHXeI/iqXC8Aaq6Vg762nh4aAUrFa9tHwdAzDsbeCerLAWIcY+ga0y8CIF4HhV6C9z6IhKrGux4AcUx/556YJwG83fc7Xdd3/gZ1HfdBdaWAngXP8Yu2AGhbtcOKZJvdC2BMej5EXf6GrLycBzpjhwB49gzEwtjHPPkc6RUuut4g4mjV1QIBUB5H7zv3CCCCPFtPAqj+pNBjzudFNwggvhEXbQHwVR+RtrY2MJlMwtL12toaWK1WL2NheZ6839zc7FFLGmttbfWaI3lpaclvPV/5GBsbG/P5bOdthU6ng4GBAb8eHByExcVFth8rCq/XwUvX+umf9f8xr+6N8hTA+lcigA0NJ4d6VBSUl5eDUqmEoqIiGqyoqKB+ZGSkiKFKS0shLS1NXJeUlEB6ejoUFxdDeHj46VfWYKC2srISqqqqICIigvJQwcHB9CMUPxxYF++DeTg/JCSEcpKTk6mWNAfPYzzfMAdzUXi8FBQUQFlZGZ3HWA9jKPk68Hk1Go24rqmpEXnS82Ft/IhVV1eDVqul+6JnZmYor7CwkOJYS6/XUyw7O/vlDpyamqI2ICAAYmNjqY8/OVQqFS0EWxR+EZOSkuiglpSVlUU3jouLg9HRUYpFR0dTm5ubS21oaCjEx8eLOaurqzSG90pJSYHu7m5Qq9UEFxUYGEj3TUhIEHNmZ2dpUVJNhIbCPx7Ww18LUgzXERMTQ/3+/n5qcQ1hYWEec6VaCwsL1OI68F/EjIwMyMnJ8dhtqampkJiYSN8GaQ38Cp/HK4yvUGZmJgQFBVGwsbGRybwJwKGhIbFVUXNzc9DT08OUXgeQxQAZIANkgCwGyAAZIANkMUAGyAAZIIsBMkAGyABZDJABMkAGyGKADJABMkAWA2SADJABshggA2SADJDFABkgA2SALAbIABkgA2SALAbIABkgA2QxQAbIABkgiwEyQAbIAFkMkAEyQAbIYoAMkAEyQBYDZID/af0NUqIlGNWLUNcAAAAASUVORK5CYII=</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAB6klEQVR42u3SsYoaURTG8XkVn8DCzioEEYtACHmBaBHYB3DBwpDGSrBLQCGlJD5AKkmKFFtEMGuRJlnXsA5kBomiywYnil+4h2XIJDtuYbr9f3A4c+693sv+WG+hidLq9MtJ6t6V/MQ8357rx+av+nVdt61t9pxLu+OQtzZ73k/rKeW5P/79aagnR8cGsdNPm999Cg3Q9ZevXuvR02e27+bu24EBbrbSveJDWwsuz/V9Ob5zZYAv3nywct9SFM8O0PX8/Qd6fPRcf551gOtoG8/+bKyL8CxZwXXdthbuOZd2xyFvhXveT+sp5XU6HaXV528frbc77Rt6O3F2cnGm8eTrnStP5KB4o9FIy+VSjUbDFsrlcuLAbrdTt9vVdDq1uVKpJPb7/b71xWIR3+Hi+378nclkVKvV7Hs4HCoIAq3Xa7VaLa1WK1WrVQ0GA9uv1+vK5XKaz+cqFovxHdls1vby+bxms5mtud82m02766b0ej0VCgWVSiWboyj6/4D8DwEIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAASQAAggggARAAAEEkAAIIIAAEgABBBBAAiCAAAIIIAEQQAABJAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAMk/+Q3CW/wdAIBjBgAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
-<content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;
-&#xD;&#xD;&#xD;
-\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Write here your arguments whether it is reasonable to grow genetically modified salmon in your country.\par&#xD;&#xD;&#xD;
-\par&#xD;&#xD;&#xD;
-\li0\ri0\fi0\ul0\par&#xD;&#xD;&#xD;
+<content languages="en" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Write here your arguments whether it is reasonable to grow genetically modified salmon in EU countries.\par
+\par
+\par
+\li0\ri0\fi0\ul0\par
 }</RichText>
 </content>
 <resources>
