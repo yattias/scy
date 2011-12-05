@@ -7,9 +7,9 @@
           <source>LOMv1.0</source>
           <value>author</value>
         </role>
-        <entity>arle</entity>
+        <entity>scy</entity>
         <date>
-          <dateTime>2011-04-26T10:04:25.812+0200</dateTime>
+          <dateTime>2011-12-01T12:28:27.359+0200</dateTime>
         </date>
       </contribute>
       <contribute>
@@ -19,21 +19,21 @@
         </role>
         <entity>arle</entity>
         <date>
-          <dateTime>2011-04-26T10:04:25.812+0200</dateTime>
+          <dateTime>2011-04-26T11:04:25.812+0300</dateTime>
         </date>
       </contribute>
-      <version>5</version>
+      <version>6</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1303805065812</dateCreated>
         <dateFirstUserSaveKey>1303805065812</dateFirstUserSaveKey>
-        <dateLastModified>1303816836671</dateLastModified>
+        <dateLastModified>1322735307359</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
     <educational>
-      <learningResourceType>problemStatement</learningResourceType>
+      <learningResourceType>documentDesign</learningResourceType>
     </educational>
     <general>
       <identifier>
@@ -41,28 +41,30 @@
         <entry>roolo://memory/40523/0/Initial+field+specific+decision+lawyer.rtf</entry>
       </identifier>
       <las>ConceptualisationLawyer</las>
+      <missionId>gmo</missionId>
       <missionRunning>
         <catalog>memory</catalog>
-        <entry>roolo://memory/40536/0/GMO+SCY-Lab.scymissionspecification</entry>
+        <entry>roolo://memory/40643/0/GMO+mission.scymissionspecification</entry>
       </missionRunning>
       <title>
-        <string language="en">Initial field-specific decision lawyer</string>
+        <string language="en">Initial field-specific decision jurist</string>
       </title>
     </general>
+    <relation />
   </lom>
-  <template>true</template>
+  <template>TRUE</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAFIUlEQVR42u2Y+0tkZRjH5x8o+tkfBIOQgtAlENJflFUxRENBFl3FDCEoIrpotqsopii6Pywy7jiON1jzsqZmuhhqgzMpW663Xc1cV13xUt6vo+H1m8+znLcZZ8aiFCKeL3w5z3t73nM+857znjO6yspK/JWOj4/FbqwjgKurq1heXsbS0hIf7WObzYbu7m6XHhkZwf7+vpNJ7sbU1NS4rG9qanI7ZmBgwGW9xWKB1Wp1m8/VuV20HQC6MgHc2to6XYZHOFE+RGX9fczNzWFtbQ3r6+vK8/PzODg44Jj62Y+husHBQW4/sct3eLCPoaEhzuU45gg7O9v8Qzm3HWJzcxOHh479yfn6arS2tmJ3d/fSrQAGpj5BbNEKNk9ZFZWOOwG0jG3jt419rJ62v/lhPz7K1DNAgvKeaRCz64fY2HgOcG9vj+t7xndgfrwK86NVjqmOVhNwwmXLz5unbSvoHt1QAKn+jSuvw3S3mePf92wKIJXJOp2OjxrAvkmbaiOHxKUxQDrvy7YCGJExiS/r1vCpaQlvVwAJnw05AGwwP0Hj0D6+erCH4IxZfJx1RwHU376FirJSLCwsMMDt7W2ub7Y85YslU6ytQFKz9SleePElPn5tHlcAqV9Y6FXcqbjHbfYAqS3f0IDvHz2PNYDf/fgMie+nwVjfzWNCrn+BtrY2nu/sHWLv89r+bj9dVVUVAwxOHcc3z4B3i2x4+a1RpxVYVGNFatUCLNbHCEv9BZ9kGxTA/NxsGEpMfNIEUEte0tCLim8HUNk6yLE9QKqnOnJx/Q8KIJVfee0KXvXxw63y+w4Aqc1wr0eN0wDebXvIZVPTTzA2PkDo9Rt8LvQcv2wrgAu/LmFe88KSE8Cr8WkIuvY5O/BaKvSVjQrg2WcgJaaY+tmP0W7h9IIyVU8OTbyhANrXk3dtOwyQQJ7NpwEMe+emw5gP0m8zQLojLtsK4HmbSF1dHerr65W18uLiImZnZ51Mie372cfV1dUOubS22tpapzGaZ2Zm3OZz1Z/q+vr6XJ7bRVun1+vR3t7u1h0dHZiamhK7se5mgRF/usRNfNb/x37Gf9RPB9G/EgMsKzt9qAcFITs7G4GBgUhPT+fGnJwcjv38/FQdKTMzE3FxcapMm8PExATKy8u5nJubyxsCPY86OzvVGJKWj1RYWKjyUr6CggKOY2JiuJ7Ox9fXFxkZGbz5ZGVlobS0VOXz9/eHdv6ksLAwjI6Ocmw0GtHT08OxfT+ak/KRjo6O0NXVhaSkJM69srLC10HtND/NRddBbZQvOTlZXcfY2Bi/76oVODw8zEcPDw8EBwdzTK8coaGhfBF0JNGOGBkZyQ9qTfRlQe9+/f39XM7Ly8P09DS8vb1hNpv5pZbGkCgP/UgaaPrhSLGxsbzBkGj+kJAQxMfHq7kJYFRUlJozPDwcAQEBHPf29iIhIQGenp5c9vLy4iN/vZycqDno04+UkpLCR2qjPjR3dHQ0X0dxcTHPR6b9gealNwTa1alfREQEj6Xdn34AuYUv4hZOTExk0tofAQaDgZertlJaWlpOP9M2hNZ5AGlZnwWo3aY+Pj78nDOZTJicnBRqZwGKBKAAFIACUCQABaAAFIAiASgABaAAFAlAASgABaBIAApAASgARQJQAApAASgSgAJQAApAkQAUgAJQAIoEoAAUgAJQJAAFoAAUgAJQJAAFoAAUgCIBKAAFoAAUCUABKAAFoEgACkABKABFAlAACkABKBKAAvA/rT8A16YjXIKycPIAAAAASUVORK5CYII=</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAB9UlEQVR42u3Sv2taURjG8funuDkJCuLk5CgdHDuIJAFx6uZmHIQOQisOyaxpwXZwaimE2lxsIVQITQPFyUYjJtJU8oMWQ6CtPvUeyMULJW2SrX4feDnnfc8Vjh+Oda4DXdWFjjTfb9ovPf18vf9oe/rTn71/rpMff5/N99edXTe7bd3kfpbz5z88WZF2VjXWob6Pf8neOza1ufXCrJZl6XJ2dqaee+YAOuvrnUPdf1DWl2/dhSwDqFdLs1o2L/DryVhrz95q/fk78wJzjza0+vjpDPDIADpzpxzAq/29lYcaHO8vZFnbu1va3n2jP6/z5Z31zz55+v3e54UsS+ROcQH7/b5ZE4mEe1ipVDQcDs2+Xq+7806no2KxaPbhcFjJZFK1Wk2j0UjRaFTZbNb9Nh6Pq1wu3+hSsVhMkUhEmUzGMy8UCmq325pMJmq1Wsrlcu6Zc79Go6FAIGD6ZrOpVCql6XSqwWCgUqmkdDotv9+vfD6vYDCoUCikarUqn8+nbrdrfmfb9u0AyR1fIAEQQAABJAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCAABIAAQQQQAIggAACSAAEEEAACYAAAgggARBAAAEkAAIIIIAEQAABBJAACCCA/1N+A7qZ8m7mZC1ZAAAAAElFTkSuQmCC</base64>
   </thumbnail>
 </metadata>
-<content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;
-&#xD;&#xD;&#xD;
-\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Write here your legistative-specific decision about whether it is reasonable to grow GMO salmon in our country. \par&#xD;&#xD;&#xD;
-\li0\ri0\fi0\ul0\par&#xD;&#xD;&#xD;
+<content languages="en" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Write here your decision whether it is reasonable to grow GM salmon in EU countries. Consider \b only legislative arguments\b0 . \par
+\ul0\par
 }</RichText>
 </content>
 <resources>
