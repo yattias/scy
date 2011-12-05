@@ -4,7 +4,7 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds
 import java.net.URI
 import roolo.elo.api.IELO
 import collection.JavaConversions._
-import collection.mutable.{ArrayBuffer, HashMap}
+import collection.mutable.HashMap
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,7 +18,6 @@ class EloCopier(val stateModel: StateModel) {
   private val technicalFormatKey = stateModel.metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT)
   private val titleKey = stateModel.metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE)
   private val templateKey = stateModel.metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TEMPLATE)
-  private val temporaryTechnicalFormat = "empty"
 
   var eloUris: Seq[URI] = null
   var sourceMissionSpecificationElo: IELO = null
@@ -27,25 +26,32 @@ class EloCopier(val stateModel: StateModel) {
   var copyAllVersions = false
 
   def copyElos(): Unit = {
+    if (destinationMissionSpecificationElo != null && sourceMissionSpecificationElo == null) {
+      throw new IllegalArgumentException("the sourceMissionSpecificationElo is null, then destinationMissionSpecificationElo must be null to")
+    }
+    println("Loading ELOs")
     var sourceElos = loadElos(eloUris)
+    print("Creating new temporary ELOs")
     var temporaryDestinationElos = createNewTemporaryElos(sourceElos)
     if (sourceMissionSpecificationElo != null) {
       sourceElos :+= sourceMissionSpecificationElo
     }
     if (destinationMissionSpecificationElo != null) {
-      if (sourceMissionSpecificationElo == null) {
-        throw new IllegalArgumentException("the sourceMissionSpecificationElo is null, then destinationMissionSpecificationElo must be null to")
-      }
       temporaryDestinationElos :+= createNewTemporyMissionSpecificationElo(destinationMissionSpecificationElo)
     } else if (sourceMissionSpecificationElo != null) {
       temporaryDestinationElos :+= createNewTemporaryElo(sourceMissionSpecificationElo)
     }
+    println("\nUpdating URIs in new ELOs")
     val uriTranslationMap = createUriTranslationMap(sourceElos, temporaryDestinationElos)
     val destinationElos = createNewElos(sourceElos, uriTranslationMap)
+    print("Storing new ELOs")
     storeElos(destinationElos)
+    println()
     if (missionSpecificationXml != null && !missionSpecificationXml.isEmpty) {
+      println("Updating URIs in mission specification XML")
       missionSpecificationXml = replaceUris(missionSpecificationXml, uriTranslationMap)
     }
+    println("Finshed copying ELOs")
   }
 
   private def createNewTemporyMissionSpecificationElo(destinationMissionSpecificationElo: IELO): IELO = {
@@ -62,7 +68,6 @@ class EloCopier(val stateModel: StateModel) {
 
   private def createNewElo(sourceElo: IELO): IELO = {
     val newElo = stateModel.eloFactory.createELO()
-//    val technicalType = if (stateModel.destination.isRooloMock) sourceElo.getMetadata().getMetadataValueContainer(technicalFormatKey).getValue() else temporaryTechnicalFormat
     val technicalType = sourceElo.getMetadata().getMetadataValueContainer(technicalFormatKey).getValue()
     newElo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(technicalType)
     newElo.getMetadata().getMetadataValueContainer(titleKey).setValuesI18n(sourceElo.getMetadata().getMetadataValueContainer(titleKey).getValuesI18n())
@@ -79,13 +84,16 @@ class EloCopier(val stateModel: StateModel) {
 
   private def createNewTemporaryElos(sourceElos: Seq[IELO]): Seq[IELO] = {
     for (sourceElo <- sourceElos) yield {
-      createNewTemporaryElo(sourceElo)
+      val elo = createNewTemporaryElo(sourceElo)
+      print(".")
+      elo
     }
   }
 
   private def storeElos(destinationElos: Seq[IELO]) = {
     for (elo <- destinationElos) {
       stateModel.destination.repository.updateWithMinorChange(elo)
+      print(".")
     }
   }
 
