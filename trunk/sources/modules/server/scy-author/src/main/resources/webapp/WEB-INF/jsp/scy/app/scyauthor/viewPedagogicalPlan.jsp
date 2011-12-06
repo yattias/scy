@@ -124,9 +124,13 @@
                 </fieldset>
 
                 <script type="text/javascript">
-                    dojo.addOnLoad(function() {
+                	// onLoadFinished method will be called after downloading all
+                	// dojo/dijit stuff in startDojo()
+                	// will be called from default-layout.jsp in sail portal
+                	onLoadFinished = initTeacherTabs;
+                	/*dojo.addOnLoad(function() {
                         initTeacherTabs('${tab}');
-                    })
+                    })*/
                 </script>
 
     </tiles:putAttribute>
