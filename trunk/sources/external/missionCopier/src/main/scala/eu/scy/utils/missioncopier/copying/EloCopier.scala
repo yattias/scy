@@ -1,17 +1,17 @@
-package eu.scy.utils.missioncopier
+package eu.scy.utils.missioncopier.copying
 
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds
 import java.net.URI
 import roolo.elo.api.IELO
 import collection.JavaConversions._
 import collection.mutable.HashMap
+import eu.scy.utils.missioncopier.StateModel
 
 /**
  * Created by IntelliJ IDEA.
  * User: sikken
  * Date: 28-11-11
  * Time: 17:22
- * To change this template use File | Settings | File Templates.
  */
 
 class EloCopier(val stateModel: StateModel) {

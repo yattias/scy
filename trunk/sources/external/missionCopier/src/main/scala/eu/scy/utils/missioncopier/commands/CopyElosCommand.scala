@@ -2,7 +2,8 @@ package eu.scy.utils.missioncopier.commands
 
 import scala.collection.JavaConversions._
 import roolo.search.ISearchResult
-import eu.scy.utils.missioncopier.{EloVersionCopier, EloCopier, StateModel}
+import eu.scy.utils.missioncopier.StateModel
+import eu.scy.utils.missioncopier.copying.{SaverEloVersionCopier, EloVersionCopier}
 
 
 /**
@@ -30,9 +31,9 @@ class CopyElosCommand  (override val stateModel: StateModel) extends StateModelC
    }
 
   private def copyElos() = {
-    val eloVersionCopier = new EloVersionCopier(stateModel)
+    val eloVersionCopier:EloVersionCopier = new SaverEloVersionCopier(stateModel)
     val allElosSearchResults:Seq[ISearchResult] = stateModel.source.repository.listAllElos()
-    eloVersionCopier.eloUris = for (searchResult <- allElosSearchResults) yield searchResult.getUri
-    eloVersionCopier.copyElos()
+    val eloUris = for (searchResult <- allElosSearchResults) yield searchResult.getUri
+    eloVersionCopier.copyElos(eloUris)
   }
 }
