@@ -11,7 +11,7 @@ import roolo.search.{Query, MetadataQueryComponent, ISearchResult}
  * Time: 15:22
  */
 
-class SearchSourceElosCommand(override val stateModel: StateModel) extends StateModelCommandHandler(stateModel) {
+class SearchElosCommand(override val stateModel: StateModel) extends StateModelCommandHandler(stateModel) {
   val commands = Seq("search [elos]")
   val description = "search elos"
   override val paramDescription = "query"
@@ -30,7 +30,11 @@ class SearchSourceElosCommand(override val stateModel: StateModel) extends State
       val queryComponent = new MetadataQueryComponent("contents", searchText);
       val query = new Query(queryComponent);
       val searchResults: Seq[ISearchResult] = repositoryDefinition.repository.search(query)
-      Utils.printSearchResults(searchResults)
+      handleSearchResults(searchResults)
     }
+  }
+
+  protected def handleSearchResults(searchResults: Seq[ISearchResult]) = {
+    Utils.printSearchResults(searchResults)
   }
 }
