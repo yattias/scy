@@ -9,7 +9,6 @@ import scala.collection.JavaConversions._
  * User: SikkenJ
  * Date: 29-11-11
  * Time: 17:08
- * To change this template use File | Settings | File Templates.
  */
 
 class ListElosCommand (override val stateModel: StateModel) extends StateModelCommandHandler(stateModel) {

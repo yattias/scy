@@ -1,9 +1,9 @@
 package eu.scy.utils.missioncopier.commands
 
 import eu.scy.utils.missioncopier.StateModel
-import eu.scy.utils.missioncopier.RealMissionCopier
 import eu.scy.common.mission.MissionSpecificationElo
 import scala.collection.mutable.ArrayBuffer
+import eu.scy.utils.missioncopier.copying.RealMissionCopier
 
 class CopyMissionCommand(override val stateModel: StateModel) extends StateModelCommandHandler(stateModel) {
   val commands = Seq("copy mission")

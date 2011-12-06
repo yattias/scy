@@ -1,7 +1,7 @@
 package eu.scy.utils.missioncopier.commands
 
-import eu.scy.common.scyelo.RooloServices
-import eu.scy.utils.missioncopier.{RepositoryDefinition, RealMissionCopier, StateModel}
+import eu.scy.utils.missioncopier.copying.RealMissionCopier
+import eu.scy.utils.missioncopier.{RepositoryDefinition, StateModel}
 
 /**
  * Created by IntelliJ IDEA.

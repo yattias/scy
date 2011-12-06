@@ -1,6 +1,5 @@
-package eu.scy.utils.missioncopier
+package eu.scy.utils.missioncopier.copying
 
-import commands.Utils
 import eu.scy.common.mission.MissionSpecificationElo
 import roolo.search.MetadataQueryComponent
 import roolo.search.Query
@@ -11,6 +10,8 @@ import scala.collection.JavaConversions._
 import java.net.URI
 import eu.scy.common.mission.MissionModelElo
 import scala.collection.mutable.ArrayBuffer
+import eu.scy.utils.missioncopier.{RepositoryDefinition, StateModel}
+import eu.scy.utils.missioncopier.commands.Utils
 
 class RealMissionCopier(val stateModel: StateModel) {
   private val technicalFormatKey = stateModel.metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT)

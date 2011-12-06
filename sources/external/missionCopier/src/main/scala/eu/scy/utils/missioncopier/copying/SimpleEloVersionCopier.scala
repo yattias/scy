@@ -1,10 +1,11 @@
-package eu.scy.utils.missioncopier
+package eu.scy.utils.missioncopier.copying
 
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds
 import java.net.URI
 import collection.JavaConversions._
 import roolo.elo.api.IELO
 import collection.mutable.{Buffer, ArrayBuffer, HashMap}
+import eu.scy.utils.missioncopier.StateModel
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,19 +14,20 @@ import collection.mutable.{Buffer, ArrayBuffer, HashMap}
  * Time: 15:46
  */
 
-class EloVersionCopier(val stateModel: StateModel) {
+class SimpleEloVersionCopier(val stateModel: StateModel) extends EloVersionCopier {
   private val technicalFormatKey = stateModel.metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT)
   private val titleKey = stateModel.metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE)
   private val templateKey = stateModel.metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TEMPLATE)
 
-  var eloUris: Seq[URI] = null
+  private var eloUris: Seq[URI] = null
 
   private case class EloPair(val sourceElo: IELO, var destinationElo: IELO)
 
   private var eloPairs = ArrayBuffer[Buffer[EloPair]]()
   private var uriTranslationMap = HashMap[URI, URI]()
 
-  def copyElos() = {
+  def copyElos(eloUris: Seq[URI]) = {
+    this.eloUris = eloUris
     print("Loading ELOs and creating new temporary")
     loadEloPairs()
     print("\nUpdating URIs in new ELOs")

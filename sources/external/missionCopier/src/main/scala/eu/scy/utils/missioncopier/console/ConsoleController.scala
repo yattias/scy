@@ -20,8 +20,8 @@ class ConsoleController(val name: String, val prompt: String, val consoleModel: 
   private var initialArguments = ""
 
   class RepeatCommand extends CommandHandler {
-    val commands = Seq("repeat", "r")
-    val description = "repeats last line"
+    val commands = Seq("repeat")
+    val description = "repeats last input"
 
     def execute(params: Seq[String]): Unit = {
       commandExecutor.executeCommand(forLastLine)
@@ -31,9 +31,9 @@ class ConsoleController(val name: String, val prompt: String, val consoleModel: 
   }
 
   def createStandardCommandHandlers() = {
-    addCommandHandler(new RepeatCommand())
     addCommandHandler(new ExitCommand(consoleModel))
     addCommandHandler(new HelpCommand(commandExecutor))
+    addCommandHandler(new RepeatCommand())
     addCommandHandler(new FileInputCommand(consoleModel))
   }
 
