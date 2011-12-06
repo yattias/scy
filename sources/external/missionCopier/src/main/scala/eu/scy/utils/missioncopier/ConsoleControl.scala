@@ -58,10 +58,11 @@ class ConsoleControl {
     consoleController.addCommandHandler(new SelectRooloRemoteOutput(stateModel))
     consoleController.addCommandHandler(new ListMissionsCommand(stateModel))
     consoleController.addCommandHandler(new ListElosCommand(stateModel))
-    consoleController.addCommandHandler(new SearchSourceElosCommand(stateModel))
+    consoleController.addCommandHandler(new SearchElosCommand(stateModel))
     consoleController.addCommandHandler(new CopyMissionCommand(stateModel))
     consoleController.addCommandHandler(new CopyElosCommand(stateModel))
     consoleController.addCommandHandler(new SwapSourceDestinationCommand(stateModel))
+    consoleController.addCommandHandler(new TimeRetrieveElosCommand(stateModel))
   }
 
   def start(args : Array[String]) = {
