@@ -15,6 +15,7 @@ class SearchElosCommand(override val stateModel: StateModel) extends StateModelC
   val commands = Seq("search [elos]")
   val description = "search elos"
   override val paramDescription = "query"
+  protected val maxNrOfSearchResults = 50
 
   def execute(params: Seq[String]): Unit = {
     searchElos(stateModel.source, "Source", params)
@@ -27,14 +28,15 @@ class SearchElosCommand(override val stateModel: StateModel) extends StateModelC
     } else {
       val searchText = params.mkString(" ")
       println(label + ": " + searchText)
-      val queryComponent = new MetadataQueryComponent("contents", searchText);
-      val query = new Query(queryComponent);
+      val queryComponent = new MetadataQueryComponent("contents", searchText)
+      val query = new Query(queryComponent)
+      query.setMaxResults(maxNrOfSearchResults)
       val searchResults: Seq[ISearchResult] = repositoryDefinition.repository.search(query)
-      handleSearchResults(searchResults)
+      handleSearchResults(searchResults, repositoryDefinition)
     }
   }
 
-  protected def handleSearchResults(searchResults: Seq[ISearchResult]) = {
+  protected def handleSearchResults(searchResults: Seq[ISearchResult], repositoryDefinition: RepositoryDefinition) = {
     Utils.printSearchResults(searchResults)
   }
 }
