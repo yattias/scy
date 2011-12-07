@@ -162,7 +162,7 @@ if ("undefined" == typeof(scylighter)) {
         },
         logString: function(msg) {
             var consoleService = Components.classes["@mozilla.org/consoleservice;1"]
-                                 .getService(Components.interfaces.nsIConsoleService);
+            .getService(Components.interfaces.nsIConsoleService);
             consoleService.logStringMessage(msg);
         },
 
@@ -260,7 +260,7 @@ if ("undefined" == typeof(scylighter)) {
                             if(sr==expectedSr){
                                 authCallback();
                             } else {
-                            scylighter.logString("auth Failed!");
+                                scylighter.logString("auth Failed!");
                                 alertString = scylighter.strings.getString("authFailed");
                                 window.alert(alertString);
                             }
@@ -270,7 +270,7 @@ if ("undefined" == typeof(scylighter)) {
                             window.alert(alertString);
                         }
                     } else {
-                        //here!
+                //here!
                 }
                 }catch (e) {
                     scylighter.logString("Exception e:"+e);
@@ -1117,6 +1117,7 @@ if ("undefined" == typeof(scylighter)) {
             //TODO put the css into the template.html. Also rename emptyHtml.html to template.html
             //The header especially contains the styles of the summary
             var header = 	"<head> <title>"+titleBox.value+"</title> <style type=\"text/css\">"+
+            "body{background: white}"+
             "h1{font-family:Georgia,\"Times New Roman\",Times,serif; font-weight:normal; border-bottom:3px solid #E2E1DE; font-size:200%; margin-bottom:0.5em;} " +
             "h2{ font-family:Georgia,\"Times New Roman\",Times,serif; font-weight:normal; font-size:130%; } " +
             "p{ color:#25221D; font-family:Verdana,Tahoma,sans-serif;font-size:14px;font-size-adjust:none;font-style:normal;font-variant:normal;font-weight:normal;line-height:1.7; margin:0 0 1.7em; padding:0;} " +
