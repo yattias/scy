@@ -6,9 +6,19 @@
 	margin: 0px;
 }
 
-#navigation a#sign-in {
+a#sign-in {
 	float: right;
 	padding-right: 5px;
+	position: relative;
+	top: -110px;
+	right: 5px;
+	font-size: 14px;
+	font-weight: normal;
+	color: #fff;
+}
+
+a#sign-in:hover {
+	font-weight: bold;
 }
 
 
@@ -29,7 +39,7 @@
 }
 
 #navigation a {
-	margin-right: 15px;
+	margin-right: 13px;
 	padding: 0px 2px 1px;
 	font-size: 14px;
 	text-decoration: none;
@@ -74,6 +84,7 @@
 #navigation .child-menu a {
 	color: #fff;
 	font-size: 11px;
+	padding-left: 5px;
 }
 
 #navigation .child-menu li {

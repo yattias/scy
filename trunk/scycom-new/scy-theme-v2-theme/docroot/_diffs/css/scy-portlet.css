@@ -62,6 +62,10 @@ div.portlet-body {
 	font-weight: normal;
 }
 
+.aui-rating-element {
+	text-decoration: none;
+}
+
 textarea, textarea.aui-field-input {
 	height: 15ex;
 	width: 90%;
