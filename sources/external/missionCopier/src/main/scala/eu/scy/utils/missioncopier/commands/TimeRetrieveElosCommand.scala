@@ -31,7 +31,26 @@ class TimeRetrieveElosCommand(override val stateModel: StateModel) extends Searc
     val retrieveEloAction = new TimeAction(retrieveElo)
     def retrieveEloAllVersions():Unit = repositoryDefinition.repository.retrieveELOAllVersions(eloUri)
     val retrieveEloAllVersionsAction = new TimeAction(retrieveEloAllVersions)
-    printf("%3d: %s %s\n",i,retrieveEloAction.getDisplayTimes(),retrieveEloAllVersionsAction.getDisplayTimes())
+    val elo = repositoryDefinition.repository.retrieveELO(eloUri)
+    val xml = elo.getXml()
+    val metadata = elo.getMetadata()
+    val metadataXml = metadata.getXml()
+    def convertToFromXml():Unit = {
+      val xml = elo.getXml()
+      val copyElo = stateModel.eloFactory.createELOFromXml(xml)
+    }
+    val convertToFromXmlAction = new TimeAction(convertToFromXml)
+    def convertToXml():Unit = elo.getXml()
+    val convertToXmlAction = new TimeAction(convertToXml)
+    def convertFromXml():Unit = stateModel.eloFactory.createELOFromXml(xml)
+    val convertFromXmlAction = new TimeAction(convertFromXml)
+    def convertMetadataToXml():Unit = metadata.getXml()
+    val convertMetadataToXmlAction = new TimeAction(convertMetadataToXml)
+    def convertMetadataFromXml():Unit = stateModel.eloFactory.createMetadataFromXml(metadataXml)
+    val convertMetadataFromXmlAction = new TimeAction(convertMetadataFromXml)
+    printf("%3d: %s %s %s %s %s %s\n",i,retrieveEloAction.getDisplayTimes(),retrieveEloAllVersionsAction.getDisplayTimes(),
+      convertToXmlAction.getDisplayTimes(),convertFromXmlAction.getDisplayTimes(),
+      convertMetadataToXmlAction.getDisplayTimes(),convertMetadataFromXmlAction.getDisplayTimes())
   }
 }
 

@@ -13,6 +13,8 @@ object SpringLoader {
   var extensionManager: IExtensionManager = null;
   val hostPropertyName = "serverName"
   val portPropertyName = "httpPort"
+  val contextPathPropertyName = "contextPath"
+  val repositoryServiceName = "repositoryService"
   val remoteRepositoryConfigLocation = "/eu/scy/utils/missioncopier/remoteRooloServer.xml"
   val remoteRepositoryBeanName = "remoteRepository"
 
@@ -30,9 +32,11 @@ object SpringLoader {
     extensionManager
   }
 
-  def loadRemoteRepository(host: String, port: java.lang.Integer): IRepository = {
+  def loadRemoteRepository(host: String, port: java.lang.Integer, contextPath: String, repositoryService : String): IRepository = {
     System.setProperty(hostPropertyName,host)
     System.setProperty(portPropertyName,port.toString)
+    System.setProperty(contextPathPropertyName,contextPath)
+    System.setProperty(repositoryServiceName,repositoryService)
     loadBean(remoteRepositoryConfigLocation, remoteRepositoryBeanName).asInstanceOf[IRepository]
   }
 
