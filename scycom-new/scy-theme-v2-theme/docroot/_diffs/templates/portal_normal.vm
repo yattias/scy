@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 #parse ($init)
+#set ($home_string = "/home")
 
 <html class="#language("lang.dir")" dir="#language("lang.dir")" lang="$w3c_language_id">
 
@@ -22,9 +23,12 @@
 	<header id="banner" role="banner" class="title-bar">
 		<hgroup id="heading">
 			<h1 class="company-title">
-				<a class="scy-logo" href="$company_url" title="#language("go-to") $company_name">
+				<a class="scy-logo" href="$company_url$home_string" title="#language("go-to") $company_name">
 					<span>$company_name</span>
 				</a>
+				#if(!$is_signed_in)
+					<a href="$sign_in_url" id="sign-in" rel="nofollow">$sign_in_text</a>
+				#end
 			</h1>
 
 			<h2 class="community-title">
