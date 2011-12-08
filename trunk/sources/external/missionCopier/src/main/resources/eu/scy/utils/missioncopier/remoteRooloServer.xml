@@ -19,7 +19,7 @@
     <!-- Spring's HTTP invoker uses Java serialization via HTTP  -->
     <bean id="httpInvokerRepositoryProxy" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
         <property name="serviceUrl">
-            <value>http://${serverName}:${httpPort}${contextPath}/remoting/repository-httpinvoker</value>
+            <value>http://${serverName}:${httpPort}${contextPath}/remoting/${repositoryService}</value>
         </property>
         <property name="serviceInterface">
             <value>roolo.api.IRepository</value>

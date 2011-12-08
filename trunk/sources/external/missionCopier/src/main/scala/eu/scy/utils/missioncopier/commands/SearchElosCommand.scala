@@ -18,6 +18,10 @@ class SearchElosCommand(override val stateModel: StateModel) extends StateModelC
   protected val maxNrOfSearchResults = 50
 
   def execute(params: Seq[String]): Unit = {
+    if (params.isEmpty){
+      println("Please specify the search query")
+      return
+    }
     searchElos(stateModel.source, "Source", params)
     searchElos(stateModel.destination, "Destination", params)
   }
