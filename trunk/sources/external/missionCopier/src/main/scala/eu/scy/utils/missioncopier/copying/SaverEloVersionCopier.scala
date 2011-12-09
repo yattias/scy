@@ -33,32 +33,53 @@ class SaverEloVersionCopier(val stateModel: StateModel) extends EloVersionCopier
 
   private var uriTranslationMap = HashMap[URI, URI]()
 
+  private val progressDisplay = new ProgressDisplay()
+
   def copyElos(eloUris: Seq[URI]): Unit = {
     this.eloUris = eloUris
-    print("Loading ELOs")
+    println("Loading ELOs")
+    var startNanos = System.nanoTime()
     loadElos()
+    val usedNanosForLoadElos = System.nanoTime()-startNanos
     if (notEnoughMemory()) {
       println("There is not enough memory to convert the source ELOs to the destination ELOs")
       return
     }
-    print("Creating new temporary ELOs")
+    println("Creating new temporary ELOs")
+    startNanos = System.nanoTime()
     createTemporaryElos()
-    print("Storing new ELOs")
+    val usedNanosForCreateTemporaryElos = System.nanoTime()-startNanos
+    println("Storing new ELOs")
+    startNanos = System.nanoTime()
     fillAndStoreDestinationElos()
+    val usedNanosForFillAndStoreDestinationElos = System.nanoTime()-startNanos
+    val nrOfElos = uriTranslationMap.size
+    if (nrOfElos>0){
+      def printTime(label:String,  nanos: Long) = {
+        val millis = nanos/1e6;
+        val millesPerElo = millis/nrOfElos
+        printf("%s: %8.3f  %8.3f\n",label,millis,millesPerElo)
+      }
+      println("Time used (total and per ELO, in ms):")
+      printTime("Loading         ", usedNanosForLoadElos)
+      printTime("Create temp     ", usedNanosForCreateTemporaryElos)
+      printTime("Fill and storing", usedNanosForFillAndStoreDestinationElos)
+    }
     println("Finished copying ELOs")
   }
 
   private def loadElos() = {
+    progressDisplay.start()
     for (eloUri <- eloUris) {
       if (!sourceUris.contains(eloUri)) {
         val versionList: Buffer[IELO] = stateModel.source.repository.retrieveELOAllVersions(eloUri)
         if (!versionList.isEmpty) {
           eloPairVersionList += createEloPairVersionList(versionList)
-          print(".")
+          progressDisplay.step()
         }
       }
     }
-    println()
+    progressDisplay.stop()
   }
 
   private def createEloPairVersionList(versionList: Buffer[IELO]) = {
@@ -92,6 +113,7 @@ class SaverEloVersionCopier(val stateModel: StateModel) extends EloVersionCopier
   }
 
   private def createTemporaryElos() = {
+    progressDisplay.start()
     for (versionList <- eloPairVersionList) {
       var lastNewElo: IELO = null
       for (eloPair <- versionList) {
@@ -104,9 +126,9 @@ class SaverEloVersionCopier(val stateModel: StateModel) extends EloVersionCopier
         eloPair.destinationElo = newElo
         uriTranslationMap.put(eloPair.sourceElo.getUri, newElo.getUri)
       }
-      print(".")
+      progressDisplay.step()
     }
-    println()
+    progressDisplay.stop()
   }
 
   private def createNewElo(sourceElo: IELO): IELO = {
@@ -153,6 +175,7 @@ class SaverEloVersionCopier(val stateModel: StateModel) extends EloVersionCopier
   }
 
   private def fillAndStoreDestinationElos(): Unit = {
+    progressDisplay.start()
     // remove the eloPairs from memory, when they have been processed
     while (!eloPairVersionList.isEmpty) {
       var versionList = eloPairVersionList.head
@@ -163,9 +186,9 @@ class SaverEloVersionCopier(val stateModel: StateModel) extends EloVersionCopier
         stateModel.destination.repository.updateWithMinorChange(eloPair.destinationElo)
         versionList = versionList.tail
       }
-      print(".")
+      progressDisplay.step()
     }
-    println()
+    progressDisplay.stop()
   }
 
 }
