@@ -51,12 +51,12 @@
         <dependency>
             <groupId>eu.scy.client.client-common</groupId>
             <artifactId>scy-i18n</artifactId>
-            <version>${pom.version}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>eu.scy.client.tools</groupId>
             <artifactId>drawingtool</artifactId>
-            <version>${pom.version}</version>
+            <version>${project.version}</version>
         </dependency>
 	<dependency>
             <groupId>org.roolo</groupId>
@@ -66,48 +66,171 @@
         <dependency>
         <groupId>eu.scy.common</groupId>
             <artifactId>data-sync-api</artifactId>
-            <version>${pom.version}</version>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
     
-    <build>
-        <plugins>
-            
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>2.2</version>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                           <!--<mainClass>eu.scy.tools.copex.edp.CopexApplet</mainClass> -->
-                           <mainClass>eu.scy.client.tools.copex.main.CopexStandAloneApp</mainClass>
-                            <classpathPrefix>lib/</classpathPrefix>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
-           
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.0.2</version>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
-        </plugins>
-        <resources>
-            <resource>
-                <directory>src/main/resources/</directory>
-            </resource>
-        </resources>
-    </build>
+    <profiles>
+		<profile>
+			<id>webstart</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<configuration>
+							<mainClass>eu.scy.client.tools.copex.main.CopexStandAloneApp</mainClass>
+						</configuration>
+					</plugin>
+					<plugin>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<configuration>
+							<source>1.6</source>
+							<target>1.6</target>
+							<optimize>true</optimize>
+						</configuration>
+
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-jar-plugin</artifactId>
+						<configuration>
+							<archive>
+								<manifest>
+									<mainClass>eu.scy.client.tools.copex.main.CopexStandAloneApp</mainClass>
+									<addClasspath>true</addClasspath>
+								</manifest>
+							</archive>
+						</configuration>
+					</plugin>
+
+					<plugin>
+						<groupId>org.codehaus.mojo.webstart</groupId>
+						<artifactId>webstart-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>package</phase>
+								<goals>
+									<goal>jnlp</goal>
+									<!-- use jnlp, jnlp-inline or jnlp-single as appropriate -->
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<excludeTransitive>false</excludeTransitive>
+							<libPath>lib</libPath>
+							<jnlp>
+								<inputTemplate>src/main/jnlp/template_filtered.vm</inputTemplate>
+								<outputFile>scyed.jnlp</outputFile>
+								<mainClass>eu.scy.client.tools.copex.main.CopexStandAloneApp</mainClass>
+							</jnlp>
+
+							<sign>
+								<keypass>scylab</keypass>
+								<storepass>scylab</storepass>
+								<alias>scykeystore</alias>
+								<keystore>${project.build.directory}/../scykeystore.jks</keystore>
+								<verify>true</verify>
+								<keystoreConfig>
+									<delete>false</delete>
+									<gen>false</gen>
+								</keystoreConfig>
+
+							</sign>
+							<unsign>true</unsign>
+
+							<!-- BUILDING PROCESS -->
+
+							<pack200>false</pack200>
+							<gzip>false</gzip>
+							<!-- default force when pack200 false, true when pack200 selected 
+								?? -->
+
+							<!-- causes a version attribute to be output in each jar resource 
+								element, optional, default is false -->
+							<outputJarVersions>false</outputJarVersions>
+
+							<!--install>false</install --> <!-- not yet supported -->
+							<verbose>false</verbose>
+
+						</configuration>
+					</plugin>
+
+					<plugin>
+						<artifactId>maven-resources-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>move-scyed-jnlp</id>
+								<phase>process-classes</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>${basedir}/target/classes/scyed
+							</outputDirectory>
+									<resources>
+										<resource>
+											<includes>
+												<include>**/*.jnlp</include>
+											</includes>
+											<directory>target/jnlp</directory>
+											<filtering>true</filtering>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+							<execution>
+								<id>move-scyed-jars</id>
+								<phase>process-classes</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>${basedir}/target/classes/scyed
+							</outputDirectory>
+									<resources>
+										<resource>
+											<includes>
+												<include>**/*.jar</include>
+											</includes>
+											<directory>target/jnlp</directory>
+											<filtering>false</filtering>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+
+				</plugins>
+				<resources>
+					<resource>
+						<directory>src/main/java</directory>
+						<includes>
+							<include>**/*.*</include>
+						</includes>
+					</resource>
+					<resource>
+						<directory>src/main/resources</directory>
+						<includes>
+							<include>**/*.*</include>
+						</includes>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+	</profiles>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/java/</directory>
+				<includes>
+					<include>**/*</include>
+				</includes>
+			</resource>
+		</resources>
+	</build>
     
 </project>
