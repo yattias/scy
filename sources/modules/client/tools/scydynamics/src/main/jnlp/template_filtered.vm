@@ -1,12 +1,15 @@
 <jnlp
     spec="$jnlpspec"
+    <!-- adapt codebase to the match the final location, eg
     codebase="http://www.scy-lab.eu/scysnippets/scydynamics"
+    -->
+    codebase="file:."
     href="$outputFile">
   <information>
-    <title>SCYDynamics modelling tool</title>
+    <title>SCYDynamics</title>
     <vendor>University of Twente, Department of Instructional Technology</vendor>
-    <homepage href="http://www.scy-lab.eu/scysnippets/scydynamics"/>
-    <description>Modelling Tool for System Dynamics models and for qualitative models, usable standalone and within SCYLab</description>
+    <homepage href="http://www.scy-net.eu"/>
+    <description>Modelling tool for System Dynamics models and for qualitative models, usable standalone and within SCY-Lab</description>
 #if($offlineAllowed)
     <offline-allowed/>
 #end
@@ -25,4 +28,3 @@
   </resources>
   <application-desc main-class="$mainClass"/>
 </jnlp>
-

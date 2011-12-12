@@ -101,9 +101,9 @@
  		<dependency>
 			<groupId>nl.utwente</groupId>
 			<artifactId>colab.um</artifactId>
-			<version>0.1.7</version>
+			<version>0.1.8</version>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>org.jdom</groupId>
 			<artifactId>jdom</artifactId>
@@ -121,9 +121,9 @@
 			<version>2.3.0</version>
 		</dependency>
 		
-		<!--<dependency> <groupId>nl.utwente</groupId> <artifactId>colab.resources</artifactId> 
-			<version>0.1.0</version> </dependency> -->
-
+		<!-- <dependency> <groupId>nl.utwente</groupId> <artifactId>colab.resources</artifactId> 
+			<version>0.1.0</version> </dependency>
+		-->
 		<!-- <dependency>
 			<groupId>ptolemy</groupId>
 			<artifactId>plot</artifactId>
