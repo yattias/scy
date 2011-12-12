@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
- 
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
 	<parent>
 		<artifactId>parent</artifactId>
 		<groupId>eu.scy.client.tools</groupId>
 		<version>35-SNAPSHOT</version>
-	</parent> 	
- 
-    <modelVersion>4.0.0</modelVersion>
-    <artifactId>dataprocesstool</artifactId>
-    <packaging>jar</packaging>
-    <name>DataProcessTool</name>
+	</parent>
 
-    <developers>
-        <developer>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>dataprocesstool</artifactId>
+	<packaging>jar</packaging>
+	<name>DataProcessTool</name>
+
+	<developers>
+		<developer>
 			<id>cedric</id>
 			<name>Cedric D'Ham</name>
 			<email>cedric.dham@imag.fr</email>
@@ -37,112 +38,258 @@
 			</roles>
 			<timezone>+1</timezone>
 		</developer>
+		<developer>
+			<id>lars</id>
+			<name>Lars Bollen</name>
+			<email>l.bollen@utwente.nl</email>
+			<url>www.utwente.nl</url>
+			<organization>University of Twente</organization>
+			<organizationUrl>www.utwente.nl</organizationUrl>
+			<roles>
+				<role>developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
 	</developers>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                           <mainClass>eu.scy.tools.dataProcessTool.dataTool.DataProcessToolFrame</mainClass>
-                           <!--<mainClass>eu.scy.tools.fitex.MainInterface</mainClass> -->
-                            <classpathPrefix>lib/</classpathPrefix>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.0.2</version>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>2.2</version>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
-        </plugins>
-        <resources>
-            <resource>
-                <directory>src/main/resources/</directory>
-            </resource>
-        </resources>
-    </build>
-    
-    <dependencies>        
-        <dependency>
-            <groupId>net.java.dev.swing-layout</groupId>
-            <artifactId>swing-layout</artifactId>
-            <version>1.0.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jdom</groupId>
-            <artifactId>jdom</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.lowagie</groupId>
-            <artifactId>itext</artifactId>
-            <version>2.1.4</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>bcprov-jdk14</artifactId>
-                    <groupId>bouncycastle</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>bcmail-jdk14</artifactId>
-                    <groupId>bouncycastle</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>jfree</groupId>
-            <artifactId>jfreechart</artifactId>
-            <version>1.0.9</version>
-        </dependency>
-        <dependency>
-        	<groupId>eu.scy.common</groupId>
-        	<artifactId>scy-commons</artifactId>
-        	<version>${pom.version}</version>
-                <exclusions>
-                   <exclusion>  
-                      <groupId>org.springframework</groupId>
-                      <artifactId>spring-dao</artifactId>
-                   </exclusion>
-                   <exclusion>  
-                      <groupId>org.springframework</groupId>
-                      <artifactId>spring-hibernate</artifactId>
-                   </exclusion>
-                </exclusions> 
-        </dependency>
-        <dependency>
-            <groupId>eu.scy.client.client-common</groupId>
-            <artifactId>scy-i18n</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.roolo</groupId>
-            <artifactId>elo-impl</artifactId>
+	<dependencies>
+
+		<dependency>
+			<groupId>net.java.dev.swing-layout</groupId>
+			<artifactId>swing-layout</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jdom</groupId>
+			<artifactId>jdom</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.lowagie</groupId>
+			<artifactId>itext</artifactId>
+			<version>2.1.4</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>bcprov-jdk14</artifactId>
+					<groupId>bouncycastle</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>bcmail-jdk14</artifactId>
+					<groupId>bouncycastle</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>jfree</groupId>
+			<artifactId>jfreechart</artifactId>
+			<version>1.0.9</version>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>scy-commons</artifactId>
+			<version>${pom.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-dao</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-hibernate</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.scy.client.client-common</groupId>
+			<artifactId>scy-i18n</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.roolo</groupId>
+			<artifactId>elo-impl</artifactId>
 			<version>${project.version}</version>
-	</dependency>
-        <dependency>
-        <groupId>eu.scy.common</groupId>
-        <artifactId>data-sync-common</artifactId>
-        <version>${pom.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>eu.scy.common</groupId>
-        <artifactId>data-sync-api</artifactId>
-        <version>${pom.version}</version>
-    </dependency>
-    </dependencies>
+		</dependency>
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>data-sync-common</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>data-sync-api</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+
+	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>webstart</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<configuration>
+							<mainClass>eu.scy.client.tools.fitex.main.FitexStandAloneApp</mainClass>
+						</configuration>
+					</plugin>
+					<plugin>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<configuration>
+							<source>1.6</source>
+							<target>1.6</target>
+							<optimize>true</optimize>
+						</configuration>
+
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-jar-plugin</artifactId>
+						<configuration>
+							<archive>
+								<manifest>
+									<mainClass>eu.scy.client.tools.fitex.main.FitexStandAloneApp</mainClass>
+									<addClasspath>true</addClasspath>
+								</manifest>
+							</archive>
+						</configuration>
+					</plugin>
+
+					<plugin>
+						<groupId>org.codehaus.mojo.webstart</groupId>
+						<artifactId>webstart-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>package</phase>
+								<goals>
+									<goal>jnlp</goal>
+									<!-- use jnlp, jnlp-inline or jnlp-single as appropriate -->
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<excludeTransitive>false</excludeTransitive>
+							<libPath>lib</libPath>
+							<jnlp>
+								<inputTemplate>src/main/jnlp/template_filtered.vm</inputTemplate>
+								<outputFile>fitex.jnlp</outputFile>
+								<mainClass>eu.scy.client.tools.fitex.main.FitexStandAloneApp</mainClass>
+							</jnlp>
+
+							<sign>
+								<keypass>scylab</keypass>
+								<storepass>scylab</storepass>
+								<alias>scykeystore</alias>
+								<keystore>${project.build.directory}/../scykeystore.jks</keystore>
+								<verify>true</verify>
+								<keystoreConfig>
+									<delete>false</delete>
+									<gen>false</gen>
+								</keystoreConfig>
+
+							</sign>
+							<unsign>true</unsign>
+
+							<!-- BUILDING PROCESS -->
+
+							<pack200>false</pack200>
+							<gzip>false</gzip>
+							<!-- default force when pack200 false, true when pack200 selected 
+								?? -->
+
+							<!-- causes a version attribute to be output in each jar resource 
+								element, optional, default is false -->
+							<outputJarVersions>false</outputJarVersions>
+
+							<!--install>false</install --> <!-- not yet supported -->
+							<verbose>false</verbose>
+
+						</configuration>
+					</plugin>
+
+					<plugin>
+						<artifactId>maven-resources-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>move-fitex-jnlp</id>
+								<phase>process-classes</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>${basedir}/target/classes/fitex
+									</outputDirectory>
+									<resources>
+										<resource>
+											<includes>
+												<include>**/*.jnlp</include>
+											</includes>
+											<directory>target/jnlp</directory>
+											<filtering>true</filtering>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+							<execution>
+								<id>move-fitex-jars</id>
+								<phase>process-classes</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>${basedir}/target/classes/fitex
+									</outputDirectory>
+									<resources>
+										<resource>
+											<includes>
+												<include>**/*.jar</include>
+											</includes>
+											<directory>target/jnlp</directory>
+											<filtering>false</filtering>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+
+				</plugins>
+				<resources>
+					<resource>
+						<directory>src/main/java</directory>
+						<includes>
+							<include>**/*.*</include>
+						</includes>
+					</resource>
+					<resource>
+						<directory>src/main/resources</directory>
+						<includes>
+							<include>**/*.*</include>
+						</includes>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+	</profiles>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/java/</directory>
+				<includes>
+					<include>**/*</include>
+				</includes>
+			</resource>
+		</resources>
+	</build>
 
 </project>
 

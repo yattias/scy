@@ -7,7 +7,7 @@
     href="$outputFile">
   <information>
     <title>SCYDynamics</title>
-    <vendor>University of Twente, Department of Instructional Technology</vendor>
+    <vendor>The SCY project consortium</vendor>
     <homepage href="http://www.scy-net.eu"/>
     <description>Modelling tool for System Dynamics models and for qualitative models, usable standalone and within SCY-Lab</description>
 #if($offlineAllowed)
