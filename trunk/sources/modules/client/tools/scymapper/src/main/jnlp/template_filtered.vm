@@ -1,11 +1,15 @@
 <jnlp
     spec="$jnlpspec"
-    codebase="http://${client.serverName}:8080/${client.contextPath}/webstart/scymapper"
+    <!-- adapt codebase to the match the final location, eg
+    codebase="http://www.scy-lab.eu/scysnippets/scymapper"
+    -->
+    codebase="file:."
     href="$outputFile">
   <information>
-    <title>SCY-Mapper</title>
-    <vendor>SCY</vendor>
-    <homepage href="http://www.scy-net.org"/>
+    <title>SCYMapper</title>
+    <vendor>University of Twente, Department of Instructional Technology</vendor>
+    <homepage href="http://www.scy-net.eu"/>
+    <description>Concept mapping tool to be used standalone and within SCY-Lab</description>
 #if($offlineAllowed)
     <offline-allowed/>
 #end
@@ -24,4 +28,5 @@
   </resources>
   <application-desc main-class="$mainClass"/>
 </jnlp>
+
 
