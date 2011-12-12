@@ -121,7 +121,7 @@
 							<libPath>lib</libPath>
 							<jnlp>
 								<inputTemplate>src/main/jnlp/template_filtered.vm</inputTemplate>
-								<outputFile>scyed.jnlp</outputFile>
+								<outputFile>copex.jnlp</outputFile>
 								<mainClass>eu.scy.client.tools.copex.main.CopexStandAloneApp</mainClass>
 							</jnlp>
 
@@ -160,13 +160,13 @@
 						<artifactId>maven-resources-plugin</artifactId>
 						<executions>
 							<execution>
-								<id>move-scyed-jnlp</id>
+								<id>move-copex-jnlp</id>
 								<phase>process-classes</phase>
 								<goals>
 									<goal>copy-resources</goal>
 								</goals>
 								<configuration>
-									<outputDirectory>${basedir}/target/classes/scyed
+									<outputDirectory>${basedir}/target/classes/copex
 							</outputDirectory>
 									<resources>
 										<resource>
@@ -180,13 +180,13 @@
 								</configuration>
 							</execution>
 							<execution>
-								<id>move-scyed-jars</id>
+								<id>move-copex-jars</id>
 								<phase>process-classes</phase>
 								<goals>
 									<goal>copy-resources</goal>
 								</goals>
 								<configuration>
-									<outputDirectory>${basedir}/target/classes/scyed
+									<outputDirectory>${basedir}/target/classes/copex
 							</outputDirectory>
 									<resources>
 										<resource>
