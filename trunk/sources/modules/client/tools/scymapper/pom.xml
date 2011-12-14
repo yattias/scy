@@ -334,19 +334,21 @@
 
 				</plugins>
 				<resources>
-					<resource>
-						<directory>src/main/java</directory>
-						<includes>
-							<include>**/*.*</include>
-						</includes>
-					</resource>
-					<resource>
-						<directory>src/main/resources</directory>
-						<includes>
-							<include>**/*.*</include>
-						</includes>
-					</resource>
-				</resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<targetPath>*.*</targetPath>
+				<includes>
+					<include>*.gif</include>
+					<include>*.png</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+			</resource>
+		</resources>
 			</build>
 		</profile>
 	</profiles>
@@ -354,9 +356,17 @@
 	<build>
 		<resources>
 			<resource>
-				<directory>src/main/java/</directory>
+				<directory>src/main/java</directory>
+				<targetPath>*.*</targetPath>
 				<includes>
-					<include>**/*</include>
+					<include>*.gif</include>
+					<include>*.png</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.*</include>
 				</includes>
 			</resource>
 		</resources>
