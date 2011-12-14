@@ -2,7 +2,7 @@
 <tiles:insertDefinition name="default-page">
     <tiles:putAttribute name="main">
 
-        <div dojoType="dijit.Tooltip" connectId="labId" position="below">
+        <div dojoType="dijit.Tooltip" connectId="labId" position="below" style="display:none;">
             <table>
                 <tr>
                     <td align="left" valign="top">
@@ -13,7 +13,7 @@
 
         </div>
 
-        <div dojoType="dijit.Tooltip" connectId="portfolioId" position="below">
+        <div dojoType="dijit.Tooltip" connectId="portfolioId" position="below" style="display:none;">
             <table>
                 <tr>
                     <td align="left" valign="top">
@@ -25,7 +25,7 @@
         </div>
 
 
-        <div dojoType="dijit.Tooltip" connectId="feedbackId" position="below">
+        <div dojoType="dijit.Tooltip" connectId="feedbackId" position="below" style="display:none;">
             <table>
                 <tr>
                     <td align="left" valign="top">
