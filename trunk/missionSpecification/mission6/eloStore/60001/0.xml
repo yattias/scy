@@ -1,0 +1,82 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-11-23T15:53:17.977+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1322059997977</dateCreated>
+        <dateLastModified>1322059997977</dateLastModified>
+      </customElements>
+      <format>scy/missionmapmodel</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/60001/0/Feedback+study.scymissionmapmodel</entry>
+      </identifier>
+      <las />
+      <missionId>feedbackStudyArd</missionId>
+      <title>
+        <string language="en">Feedback study</string>
+      </title>
+    </general>
+    <relation />
+  </lom>
+  <template>TRUE</template>
+</metadata>
+<content languages="en" contentType="xml">
+<missionModel>
+  <activeLas>conceptMap</activeLas>
+  <missionMapBackgroundImageUri />
+  <missionMapInstructionUri />
+  <missionMapButtonIconType />
+  <loElos />
+  <lasses>
+    <las>
+      <id>conceptMap</id>
+      <xPos>0.0</xPos>
+      <yPos>0.0</yPos>
+      <toolTip>tip_LAS_A</toolTip>
+      <title />
+      <instructionUri />
+      <lasType>INFORMATION</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/60000/0/Concept+map.scymapping</eloUri>
+        <id>conceptMap</id>
+        <iconType />
+        <loElos />
+        <inputAnchors />
+        <relations />
+        <targetDescriptionUri />
+        <assignmentUri />
+        <resourcesUri />
+        <helpUri />
+        <webNewsUri />
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses />
+    </las>
+  </lasses>
+  <windowStatesXmls />
+  <archivedElos />
+</missionModel>
+</content>
+<resources>
+</resources>
+</elo>

@@ -1,0 +1,73 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-11-23T15:53:44.228+0100</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-11-23T15:53:44.228+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1322060024228</dateCreated>
+        <dateFirstUserSaveKey>1322060024228</dateFirstUserSaveKey>
+        <dateLastModified>1322060024228</dateLastModified>
+      </customElements>
+      <format>scy/missionspecification</format>
+    </technical>
+    <educational>
+      <learningResourceType>documentDesign</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/60006/0/Feedback+study.scymissionspecification</entry>
+      </identifier>
+      <las />
+      <missionId>feedbackStudyArd</missionId>
+      <title>
+        <string language="en">Glucose-insulin regulation</string>
+      </title>
+    </general>
+    <relation />
+  </lom>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABCCAYAAADAD1E9AAAB1klEQVR42u3WvctxcRjA8fuvsRso/4MySAYlikxEiUgpi0kUozLJYrMoBmWQRAYvGUhGL5kM8nLdnavOXZ6e7XnqGZ7vd3DO7/Q7Z/h0dY4voT/qy/hZLBay3W71Qrlclslk8rMhmUzKbDb7WV8uF3k8HnI+n9EzAfv9vrTbbb1gYg2HQz2Ox2PpdrsfN12vV+n1euiZgATgvwW02+3SbDZlt9vpOzCbzcpyudQNxrmRuc7n81Kv1yWXy8lms/l42Ov1ktFopOe1Wk2Pbrdb3u+3xONxicViTCD9BjAUCkk0GpXb7SbFYlG8Xq+kUikpFArS6XR0o81m0+PxePz4IrdaLQmHw7Jer/VaJpMRn88n5nONaTXuTafT+uWeTqdMIP0CGAgExO/3i9Pp1IlarVa6NqYqEonIfD7XPWaNRkOez6eUSiV9NyYSCbnf71KpVHSKT6eTuFwu3Wf8RTIm0cjj8eizjHet1WqVw+Egg8FAHA6HBINBqVarOv3//QTu9/uPtcVi4W8MAQgggAASgAACCCABCCCAABKAAAIIIIAEIIAAAkgAAggggAQggAACSAACCCCABCCAAAJIAAIIIIAEIIAAAkgAAggggAQggAACSAD+nb4BKEXK6gNVULAAAAAASUVORK5CYII=</base64>
+  </thumbnail>
+</metadata>
+<content languages="en" contentType="xml">
+<missionSpeicification>
+  <missionMapModelEloUri>roolo://memory/60001/0/Feedback+study.scymissionmapmodel</missionMapModelEloUri>
+  <eloToolConfigsEloUri>roolo://memory/60002/0/Feedback+study.scyelotoolconfiguration</eloToolConfigsEloUri>
+  <templateElosEloUri>roolo://memory/60003/0/Feedback+study.scytemplateelos</templateElosEloUri>
+  <runtimeSettingsEloUri>roolo://memory/60004/0/Feedback+study.runtimesettings</runtimeSettingsEloUri>
+  <agentModelsEloUri />
+  <pedagogicalPlanSettingsEloUri>roolo://memory/60005/0/Feedback+study.scy</pedagogicalPlanSettingsEloUri>
+  <colorSchemesEloUri />
+  <missionDescriptionUri />
+  <missionId>feedbackStudyArd</missionId>
+  <xhtmlVersionId />
+</missionSpeicification>
+</content>
+<resources>
+</resources>
+</elo>

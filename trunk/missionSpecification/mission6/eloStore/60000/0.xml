@@ -1,0 +1,111 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-11-23T15:40:44.119+0100</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-11-23T15:40:44.119+0100</dateTime>
+        </date>
+      </contribute>
+      <version>1</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1322059215384</dateCreated>
+        <dateFirstUserSaveKey>1322059244119</dateFirstUserSaveKey>
+        <dateLastModified>1322059244119</dateLastModified>
+      </customElements>
+      <format>scy/mapping</format>
+    </technical>
+    <educational>
+      <learningResourceType>mapConcept</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/60000/0/Concept+map.scymapping</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">Concept map</string>
+      </title>
+    </general>
+    <relation />
+  </lom>
+  <template>true</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAAeElEQVR42u3QMQEAAAwCIPuX1hDbCRFIOYkCgQIFCkSgQIECEShQoEAEChQoEIECBQpEoECBAhEoUKBABAoUKBCBAgUKRKBAgQIRKFCgQIEIFChQIAIFChSIQIECBSJQoECBCBQoUCACBQoUiECBAgUiUKBAgQj8M5Hzoc7Xq3ytAAAAAElFTkSuQmCC</base64>
+  </thumbnail>
+</metadata>
+<content languages="en" contentType="xml">
+<eu.scy.scymapper.impl.model.DefaultConceptMap>
+  <name>Untitled</name>
+  <diagram class="eu.scy.scymapper.impl.DiagramModel">
+    <nodes/>
+    <links/>
+    <selectionModel class="eu.scy.scymapper.impl.model.DefaultDiagramSelectionModel">
+      <selectedNodes serialization="custom">
+        <unserializable-parents/>
+        <vector>
+          <default>
+            <capacityIncrement>0</capacityIncrement>
+            <elementCount>0</elementCount>
+            <elementData>
+              <null/>
+              <null/>
+              <null/>
+              <null/>
+              <null/>
+              <null/>
+              <null/>
+              <null/>
+              <null/>
+              <null/>
+            </elementData>
+          </default>
+        </vector>
+      </selectedNodes>
+      <selectedLinks serialization="custom">
+        <unserializable-parents/>
+        <vector>
+          <default>
+            <capacityIncrement>0</capacityIncrement>
+            <elementCount>0</elementCount>
+            <elementData>
+              <null/>
+              <null/>
+              <null/>
+              <null/>
+              <null/>
+              <null/>
+              <null/>
+              <null/>
+              <null/>
+              <null/>
+            </elementData>
+          </default>
+        </vector>
+      </selectedLinks>
+    </selectionModel>
+  </diagram>
+</eu.scy.scymapper.impl.model.DefaultConceptMap>
+</content>
+<resources>
+</resources>
+</elo>
