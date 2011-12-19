@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<parent>
 		<artifactId>parent</artifactId>
@@ -7,12 +8,12 @@
 		<version>35-SNAPSHOT</version>
 	</parent>
 
-    <modelVersion>4.0.0</modelVersion>
-    <artifactId>copex</artifactId>
-    <packaging>jar</packaging>
-    <name>Copex</name>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>copex</artifactId>
+	<packaging>jar</packaging>
+	<name>Copex</name>
 
-    <developers>
+	<developers>
 		<developer>
 			<id>marjolaine</id>
 			<name>Marjolaine Bodin</name>
@@ -27,50 +28,50 @@
 		</developer>
 	</developers>
 
-    
+
 	<dependencies>
-        <dependency>
-            <groupId>org.jdom</groupId>
-            <artifactId>jdom</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.lowagie</groupId>
-            <artifactId>itext</artifactId>
-            <version>2.1.4</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>bcprov-jdk14</artifactId>
-                    <groupId>bouncycastle</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>bcmail-jdk14</artifactId>
-                    <groupId>bouncycastle</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>eu.scy.client.client-common</groupId>
-            <artifactId>scy-i18n</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>eu.scy.client.tools</groupId>
-            <artifactId>drawingtool</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-	<dependency>
-            <groupId>org.roolo</groupId>
-            <artifactId>elo-impl</artifactId>
-            <version>${project.version}</version>
-	</dependency>
-        <dependency>
-        <groupId>eu.scy.common</groupId>
-            <artifactId>data-sync-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-    </dependencies>
-    
-    <profiles>
+		<dependency>
+			<groupId>org.jdom</groupId>
+			<artifactId>jdom</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.lowagie</groupId>
+			<artifactId>itext</artifactId>
+			<version>2.1.4</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>bcprov-jdk14</artifactId>
+					<groupId>bouncycastle</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>bcmail-jdk14</artifactId>
+					<groupId>bouncycastle</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>eu.scy.client.client-common</groupId>
+			<artifactId>scy-i18n</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>eu.scy.client.tools</groupId>
+			<artifactId>drawingtool</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.roolo</groupId>
+			<artifactId>elo-impl</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>data-sync-api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+
+	<profiles>
 		<profile>
 			<id>webstart</id>
 			<build>
@@ -167,7 +168,7 @@
 								</goals>
 								<configuration>
 									<outputDirectory>${basedir}/target/classes/copex
-							</outputDirectory>
+									</outputDirectory>
 									<resources>
 										<resource>
 											<includes>
@@ -187,7 +188,7 @@
 								</goals>
 								<configuration>
 									<outputDirectory>${basedir}/target/classes/copex
-							</outputDirectory>
+									</outputDirectory>
 									<resources>
 										<resource>
 											<includes>
@@ -225,12 +226,18 @@
 	<build>
 		<resources>
 			<resource>
-				<directory>src/main/java/</directory>
+				<directory>src/main/java</directory>
 				<includes>
-					<include>**/*</include>
+					<include>**/*.*</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.*</include>
 				</includes>
 			</resource>
 		</resources>
 	</build>
-    
+
 </project>
