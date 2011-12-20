@@ -1,14 +1,5 @@
 package eu.scy.agents.keywords;
 
-import info.collide.sqlspaces.commons.Tuple;
-import info.collide.sqlspaces.commons.TupleSpaceException;
-
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
-
-import org.apache.log4j.Logger;
-
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Document;
 import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
 import de.fhg.iais.kd.tm.obwious.operator.Operator;
@@ -21,6 +12,13 @@ import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.keywords.workflow.ExtractTfIdfKeywordsWorkflow;
 import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
 import eu.scy.agents.util.Utilities;
+import info.collide.sqlspaces.commons.Tuple;
+import info.collide.sqlspaces.commons.TupleSpaceException;
+import org.apache.log4j.Logger;
+
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * (ExtractTfIdfKeywords:String, query:String, <QueryId>:String,
@@ -91,7 +89,7 @@ public class ExtractTfIdfKeywordsAgent extends AbstractThreadedAgent {
 		DocumentFrequencyModel dfModel = getDocumentFrequencyModel(mission,
 				language);
 		if (dfModel == null) {
-			logger.fatal("TfIdfModel is not present for mission " + mission
+			logger.warn("TfIdfModel is not present for mission " + mission
 					+ ", " + language);
 			return Collections.emptySet();
 		}
