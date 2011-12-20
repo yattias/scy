@@ -32,10 +32,10 @@ public class ActionProcessModule extends SCYHubModule {
 
     private TupleSpace ts;
 
-    private PrintWriter fileLogger; 
-    
+    private PrintWriter fileLogger;
+
     private Transformer transformer;
-    
+
     public ActionProcessModule(Component scyhub) {
         super(scyhub, new ActionPacketTransformer());
         this.transformer = XMLUtils.createTransformer(Protocol.XML);
@@ -71,18 +71,31 @@ public class ActionProcessModule extends SCYHubModule {
 
     private void writeAction(IAction action) throws TupleSpaceException {
         Tuple actionTuple = ActionTupleTransformer.getActionAsTuple(action);
-        dumpLogToFile(actionTuple);
+        try {
+            dumpLogToFile(actionTuple);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (ts != null) {
             ts.write(actionTuple);
             logger.info("Tuple with " + action.getId() + " written into the logging space");
         }
     }
 
-    private void dumpLogToFile(Tuple actionTuple) {
-        transformer.newDocument();
-        actionTuple.serialize(transformer);
-        fileLogger.println(transformer.flushOutput());
-        fileLogger.flush();
+    private void dumpLogToFile(final Tuple actionTuple) {
+        new Thread() {
+
+            @Override
+            public void run() {
+                synchronized (transformer) {
+                    transformer.newDocument();
+                    actionTuple.serialize(transformer);
+                    fileLogger.println(transformer.flushOutput());
+                    fileLogger.flush();
+                }
+            }
+
+        }.start();
     }
 
     @Override
