@@ -9,48 +9,62 @@
 
 <body bgcolor="#FFFFFF">
 <h1>SCYDynamics</h1>
-<p>SCYDynamics is a modelling environment. It can be used to create abstract, mathematical models of real-world phenomena, either simple or complex. Once you have created a model, SCYDynamics will do all the calculations for you. So SCYDynamics will let you study processes and relations between variables, without having to do the mathematical work yourself.</p>
-<p>Take a look at the SCYDynamics tool. The workspace in the middle is where you can find the model (or build your own model). Any SCYDynamics model is built from the following symbols:</p>
+<p>Το SCYDynamics  είναι ένα περιβάλλον μοντελοποίησης. Μπορεί να χρησιμοποιηθεί για τη δημιουργία  αφηρημένων, μαθηματικών μοντέλων των φαινομένων της καθημερινότητας, είτε απλών,  είτε σύνθετων. Όταν δημιουργήσετε ένα μοντέλο, το SCYDynamics θα κάνει όλους  τους υπολογισμούς για σας. Έτσι, σας επιτρέπει να μελετήσετε τις διαδικασίες  και τις σχέσεις μεταξύ μεταβλητών, χωρίς να χρειάζεται να κάνετε εσείς τους  μαθηματικούς υπολογισμούς. </p>
+<p>Ρίξτε μια ματιά  στο εργαλείο. Ο χώρος εργασίας στο μέσο του εργαλείου είναι εκεί όπου μπορείτε  να βρείτε το μοντέλο (ή να χτίσετε το δικό σας μοντέλο). Κάθε μοντέλο του  SCYDynamics κτίζεται από τα ακόλουθα σύμβολα:</p>
 <ul>
-  <li>Rectangles. The rectangles are called ‘stocks’ and represent a quantity which may decrease or increase over time.</li>
+  <li>
+    <p>Ορθογώνια. Τα ορθογώνια ονομάζονται &quot;αποθέματα&quot; και  αντιπροσωπεύουν μια ποσότητα, η οποία μπορεί να μειωθεί ή να αυξηθεί με την  πάροδο του χρόνου. </p>
+  </li>
 </ul>
 <ul>  
-  <li>Straight arrows (with two small triangles). These arrows are called ‘flows’ and are used to add or subtract the change over time from stocks. Flows are either connected to another stock or to a cloud.</li>
+  <li>
+    <p>Βέλη (με δύο  μικρά τρίγωνα). Αυτά τα βέλη ονομάζονται &quot;ροές&quot; και χρησιμοποιούνται για να  προσθέτουν ή να αφαιρούν την αλλαγή από τα αποθέματα με την πάροδο του χρόνου.  Τα βέλη ροής συνδέονται είτε με άλλο απόθεμα, είτε με ένα σύννεφο.</p>
+  </li>
 </ul>
 <ul>
-  <li>Diamonds. These are called ‘constants’ and they represent a fixed value.</li>
+  <li>
+    <p>Διαμάντια. Αυτά ονομάζονται &quot;σταθερές&quot; και  αντιπροσωπεύουν μια σταθερή τιμή. </p>
+  </li>
 </ul>
 <ul>
-  <li>Circles. The circles are called ‘auxiliaries’ and they are used to calculate values, and feed them into flows (or other auxiliaries). The auxiliaries are defined by a certain equation (formula).</li>
+  <li>
+    <p>Κύκλοι. Οι  κύκλοι ονομάζοντα &quot;συμπληρώματα&quot; και χρησιμοποιούνται για να υπολογίσουν τιμές και  να τις εντάξουν σε μια ροή (η σε άλλα συμπληρώματα). Τα συμπληρώματα ορίζονται από  συγκεκριμένη εξίσωση. </p>
+  </li>
 </ul>
 <ul>  
-  <li>Small arrows. These are called ‘relations’. They are used to make the values of constants and stocks known to auxiliaries, and – vice versa – feed the result of the calculations of an auxiliary into flows (or other auxiliaries).</li>
+  <li>
+    <p>Μικρά βέλη.  Αυτά ονομάζονται &quot;σχέσεις&quot;. Χρησιμοποιούνται για να κάνουν τις τιμές των  σταθερών και των αποθεμάτων γνωστές στα συμπληρώματα, και – το αντίστροφο- να  εντάξουν το αποτέλεσμα των υπολογισμών ενός συμπληρώματος στις ροές (ή άλλα συμπληρώματα).</p>
+  </li>
 </ul>
-<p>Probably this sounds a bit abstract. To make things more concrete, let’s take a look at the <b>introductory model for scydynamics</b>.</p>
+<p>Ίσως  αυτό να σας φαίνεται λίγο αφηρημένο. Για να γίνουν τα πράγματα πιο σαφή, ας  ρίξουμε μια ματιά στο <b>εισαγωγικό μοντέλο για το scydynamics</b>.</p>
 <ul>
-  <li>The stock in this model is called ‘population’. Let’s assume that the quantity of the stock represents the size of a population of fish (at a certain time). If you double-click on the stock symbol, you can view it’s settings. As you can see, the start value is 1000. In other words, we start our simulation with 1000 fish.</li>
+  <li>Το απόθεμα σε αυτό το       μοντέλο ονομάζεται &quot;πληθυσμός&quot;. Ας υποθέσουμε ότι η ποσότητα του αποθέματος       αντιπροσωπεύει το μέγεθος ενός πληθυσμού ψαριών (σε μια συγκεκριμένη       στιγμή). Αν κάνετε διπλό κλικ πάνω στο σύμβολο του αποθέματος, μπορείτε να       δείτε τις ρυθμίσεις του. Όπως βλέπετε, η αρχική τιμή είναι 1000. Με άλλα       λόγια, η προσομοίωση αρχίζει με 1000 ψάρια. </li>
 </ul>
 <ul>
-  <li>When new fish are born, the population size increases (which can be inferred from the flow going into the stock at the left side). Double-clicking on the constant ‘birth rate’ reveals a value of 0.2. If you click on the auxiliary ‘births’ you will understand what actually happens. Each time-step, the population size is multiplied by 0.2. The outcome of this calculation is then added to the original population.</li>
+  <li>Όταν γεννηθούν νέα ψάρια,       το μέγεθος του πληθυσμού αυξάνεται (το οποίο μπορεί να γίνει αντιληπτό παρατηρώντας       ότι η ροή πηγαίνει στο απόθεμα στην αριστερή πλευρά). Κάνοντας διπλό κλικ       πάνω στη σταθερά «ρυθμός γέννησης», φαίνεται η τιμή 0,2. Αν κάνετε κλικ πάνω       στο συμπλήρωμα «γεννήσεις» θα καταλάβετε τι πραγματικά συμβαίνει. Σε κάθε       χρονικό διάστημα, το μέγεθος του πληθυσμού πολλαπλασιάζεται με το 0,2. Το       αποτέλεσμα αυτού του υπολογισμού μετά προστίθεται στον αρχικό πληθυσμό. </li>
 </ul>
   <ul>
-  <li>When fish die, the population size decreases. Double-clicking on the constant ‘death rate’ reveals a value of 0.1. So, each time-step the population size is multiplied by 0.1. The outcome of this calculation is then subtracted from the original population. In other words, 10 percent of the population dies each time-step.</li>
+    <li>Όταν πεθαίνουν ψάρια, το       μέγεθος του πληθυσμού μικραίνει. Κάνοντας διπλό κλικ πάνω στη σταθερά       «ρυθμός θανάτων» φαίνεται η τιμή 0,1. Έτσι, σε κάθε χρονικό διάστημα το       μέγεθος του πληθυσμού πολλαπλασιάζεται με το 0,1. Το αποτέλεσμα αυτού του υπολογισμού       αφαιρείται στη συνέχεια από τον αρχικό πληθυσμό. Δηλαδή, 10% του πληθυσμού       πεθαίνει σε κάθε χρονικό διάστημα.  </li>
 </ul>
-<p>Now it is time to see the model in action. At the top of the window you see three tabs: editor, graph and table. Until now you have been working in the editor tab. You can use the other tabs to run the model and to make the results visible.</p>
+<p>Τώρα είναι ώρα  να το δείτε το μοντέλο σε δράση. Στο πάνω μέρος του παραθύρου μπορείτε να δείτε  τρεις καρτέλες: επεξεργαστή, γράφημα και πίνακα. Μέχρι τώρα δουλεύατε στο παράθυρο  του επεξεργαστή. Μπορείτε να χρησιμοποιήσετε τις άλλα παράθυρα για να τρέξετε  το μοντέλο και για να κάνετε τα αποτελέσματα ορατά.</p>
 <ul>
-  <li>Go to the tab ‘graph’.</li>
-</ul>
-<ul>
-  <li>In the left upper corner you can select which variables you want to make visible. Select ‘population’.</li>
+  <li>Πηγαίνετε       στην καρτέλα &quot;γράφημα&quot;.</li>
 </ul>
 <ul>
-  <li>The start time is set at 0.0. Set the stop time at 10.0.</li>
+  <li>Στην αριστερή πάνω γωνιά       μπορείτε να επιλέξετε ποιες μεταβλητές θέλετε να κάνετε ορατές. Επιλέξτε       &quot;πληθυσμός&quot;.</li>
 </ul>
 <ul>
-  <li>Click ‘run simulation’. You see a graph appear at the right side. Apparently, the population increases exponentially over time.</li>
+  <li>Ο  χρόνος έναρξης είναι ρυθμισμένος στο 0.0. Ρυθμίστε το χρόνο τερματισμού στα 10.0.</li>
 </ul>
 <ul>
-  <li>Go back to the ‘editor’ tab, and change the birth rate and the death rate. Run the model again and see what the effect of your changes are.</li>
+  <li>
+    <p>Πατήστε το κουμπί &quot;τρέξτε την προσομοίωση&quot;. Βλέπετε μια γραφική παράσταση  να εμφανίζεται στη δεξιά πλευρά. Ο πληθυσμός αυξάνεται εκθετικά με την πάροδο  του χρόνου.</p>
+  </li>
+</ul>
+<ul>
+  <li>
+    <p>Πηγαίνετε πίσω  στην καρτέλα &quot;επεξεργαστής&quot; και αλλάξτε το ρυθμό γέννησης και το ρυθμό θανάτου.  Τρέξτε το μοντέλο ξανά και δείτε ποια είναι η επίδραση των αλλαγών σου.  </p>
+  </li>
 </ul>
 </body>
 </html>
