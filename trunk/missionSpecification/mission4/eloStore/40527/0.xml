@@ -9,7 +9,7 @@
         </role>
         <entity>scy</entity>
         <date>
-          <dateTime>2011-12-01T12:33:57.921+0200</dateTime>
+          <dateTime>2011-12-01T11:33:57.921+0100</dateTime>
         </date>
       </contribute>
       <contribute>
@@ -19,10 +19,10 @@
         </role>
         <entity>arle</entity>
         <date>
-          <dateTime>2011-04-26T11:04:25.812+0300</dateTime>
+          <dateTime>2011-04-26T10:04:25.812+0200</dateTime>
         </date>
       </contribute>
-      <version>6</version>
+      <version>7</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -50,22 +50,21 @@
         <string language="en">Revised field-specific decision jurist</string>
       </title>
     </general>
-    <relation />
   </lom>
-  <template>TRUE</template>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAABrElEQVR42u3Tv0tCURjG8ft3ODq76OLg5Nzi1myj0C4UCDZJ0VKzVEOtLQ6RRhqhpLcCFweRC6VeUxIpKDJ465zyoBH2awq/Dzyc857DheuHq/UsNzKqSF/G52wuMzGP1z4/mZgfh+63+/D09dn4PO1u2tlv+5P3s9SPP7rsyPb+qQYc3A8ld+HqHmYzerUs6x23Y+4qr4BqPTi7kvnFdekPrmeyGnBj91g29/Iaye3dmVl9gUurW7K8tmMA1bmq+gJH+7mFFWm5zkzWKtsFKdt5+Wyt6H3hw91be7f1ibnRqM9k1X+T/CEG0HEcvUYiEXOZTqel2WzqfTwel2g0Kn6/X8+1Wk1KpZJUq1VJpVLi8Xik2+2aZ2OxmAQCAb0PBoPi9XolFApJIpEQn8+nz9vttn6uWCzq2bZtSSaTEg6H/x8gARBAAAEkAAIIIIAEQAABBJAACCCAABIAAQQQQAIggAACSAAEEEAACYAAAgggARBAAAEkAAIIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAASQAAggggARAAAEEkAAIIIAAEpMXd4QQ/YbC5ugAAAAASUVORK5CYII=</base64>
   </thumbnail>
 </metadata>
 <content languages="en" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Write here your \b revised decision\b0  based on\b  legislative\b0  arguments only. \par
-\par
-\ul0\par
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Write here your \b revised decision\b0  based on\b  legislative\b0  arguments only. \par&#xD;
+\par&#xD;
+\ul0\par&#xD;
 }</RichText>
 </content>
 <resources>

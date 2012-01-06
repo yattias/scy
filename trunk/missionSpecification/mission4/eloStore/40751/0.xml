@@ -1,0 +1,73 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2012-01-06T10:50:41.458+0100</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2012-01-06T10:50:41.458+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1325843441458</dateCreated>
+        <dateFirstUserSaveKey>1325843441458</dateFirstUserSaveKey>
+        <dateLastModified>1325843441458</dateLastModified>
+      </customElements>
+      <format>scy/missionspecification</format>
+    </technical>
+    <educational>
+      <learningResourceType>documentDesign</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40751/0/GMO+missioon.scymissionspecification</entry>
+      </identifier>
+      <las />
+      <missionId>gmo</missionId>
+      <title>
+        <string language="et">GMO missioon</string>
+      </title>
+    </general>
+    <relation />
+  </lom>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABCCAYAAADAD1E9AAABU0lEQVR42u3UMauCUByG8b6OW2MfyyAQIlodWwWhyTGIKCiwJZokcLGmaImmUKKpIe29+OcqNN/hLs8zdDpHPcSPPB3Rn+rUH8fjUZfLxRYmk4kOh0N7w2AwUJqm7bwoCr3fb+V5jl4DuN1uNZvNbKHB2u/3NiZJos1m8/XQ4/FQHMfoNYAE4P8DLhYLrddrXa9XDYdDW6vPxdFopOl0audkfb15dZ/Pp42u62o+n6vX67Wb7nY7RVFk31erlaqqsrPU87x2/fV6qdvtqt/vazwey3Ec+b6vsizbfZbL5deP/Xw+yrLMxrr7/a4gCHQ6nWx+Pp/tWhiGts/tduMfyCsMIAEIIIAAEoAAAgggAQgggAASgAACCCABCCCAAAJIAAIIIIAEIIAAAkgAAggggAQggAACSAACCCCABCCAAAJIAAIIIIAEIIAAAkgAAggggPTbD+DlA2BOu0EhAAAAAElFTkSuQmCC</base64>
+  </thumbnail>
+</metadata>
+<content languages="et" contentType="xml">
+<missionSpeicification>
+  <missionMapModelEloUri>roolo://memory/40746/0/GMO+missioon.scymissionmapmodel</missionMapModelEloUri>
+  <eloToolConfigsEloUri>roolo://memory/40747/0/GMO+missioon.scyelotoolconfiguration</eloToolConfigsEloUri>
+  <templateElosEloUri>roolo://memory/40748/0/GMO+missioon.scytemplateelos</templateElosEloUri>
+  <runtimeSettingsEloUri>roolo://memory/40749/0/GMO+missioon.runtimesettings</runtimeSettingsEloUri>
+  <agentModelsEloUri />
+  <pedagogicalPlanSettingsEloUri>roolo://memory/40750/0/GMO+missioon.scy</pedagogicalPlanSettingsEloUri>
+  <colorSchemesEloUri>roolo://memory/40509/0/Color+schemes+Mission4+GMO.colorschemes</colorSchemesEloUri>
+  <missionDescriptionUri>http://www.scy-lab.eu/content/en/mission4/GMO/missionMapInstruction.html</missionDescriptionUri>
+  <missionId>gmo</missionId>
+  <xhtmlVersionId />
+</missionSpeicification>
+</content>
+<resources>
+</resources>
+</elo>

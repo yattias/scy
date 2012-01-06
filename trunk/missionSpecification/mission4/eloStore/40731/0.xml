@@ -1,0 +1,44 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2012-01-06T10:47:32.065+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1325843252065</dateCreated>
+        <dateLastModified>1325843252065</dateLastModified>
+      </customElements>
+      <format>scy/runtimesettings</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40731/0/Le+laboratoire+de+police+scientifique.runtimesettings</entry>
+      </identifier>
+      <las />
+      <missionId>forensic</missionId>
+      <title>
+        <string language="fr">Le laboratoire de police scientifique</string>
+      </title>
+    </general>
+    <relation />
+  </lom>
+  <template>TRUE</template>
+</metadata>
+<content languages="fr" contentType="xml">
+<runtimeSettings />
+</content>
+<resources>
+</resources>
+</elo>

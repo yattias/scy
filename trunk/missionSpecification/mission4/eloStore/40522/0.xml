@@ -9,7 +9,7 @@
         </role>
         <entity>scy</entity>
         <date>
-          <dateTime>2011-12-01T12:27:08.500+0200</dateTime>
+          <dateTime>2011-12-01T11:27:08.500+0100</dateTime>
         </date>
       </contribute>
       <contribute>
@@ -19,10 +19,10 @@
         </role>
         <entity>arle</entity>
         <date>
-          <dateTime>2011-04-26T11:04:25.812+0300</dateTime>
+          <dateTime>2011-04-26T10:04:25.812+0200</dateTime>
         </date>
       </contribute>
-      <version>7</version>
+      <version>8</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -50,21 +50,20 @@
         <string language="en">Initial field-specific decision economist</string>
       </title>
     </general>
-    <relation />
   </lom>
-  <template>TRUE</template>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAB9ElEQVR42u3SsWtaURjG4fu3uDi5iQ46uQjSwVFQHLo4ZRMXuwgdhAYczCxtwXYQIc0SaqImkFYIpC3FyaS30kSaSJrSYik01Te5B3LxQkmbZKu/Fz7O+b5zh3MfjvVVH3VVP3Sk+X69vebp5+v1m7an/3Ju/3Od/vr7bL6/7uy62W3rJveznJ/vvDvRk9VXmuhQ3ye/1X57bGp984VZLcvSz8uzM9numQPorC93D5Vaqujztw8LWQaw+mxLK8+3zQs8OZ24vfMCi48e68Hy00vAIwPozJ1yAK/29+4/1Kfjg4Usa2dvUzt7G/rzOl/e2fDsvac/sPcXsiyRO8UFHA6HZk0mk+5hrVbTaDQy+0aj4c4Hg4HK5bLZB4NBZTIZ1et1jcdjRaNR5fN599tEIqFKpXKjS8ViMYVCIeVyOc+8VCqp3+9rOp2q1+upWCy6Z879Wq2WAoGA6bvdrrLZrGazmWzbVjqdlt/vVzweV6fTUbVaVTgcls/nU7PZVCqVUiQSUaFQuB0gueMLJAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAAQQQQAIggAACSAAEEEAACYAAAgggARBAAAEkAAIIIIAEQAABBJAACCCAABIAAQTwf8oFocbvNwi2ivkAAAAASUVORK5CYII=</base64>
   </thumbnail>
 </metadata>
 <content languages="en" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Write here your decision whether it is reasonable to grow GM salmon in EU countries. Consider \b only economical arguments\b0 . \par
-\ul0\par
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Write here your decision whether it is reasonable to grow GM salmon in EU countries. Consider \b only economical arguments\b0 . \par&#xD;
+\ul0\par&#xD;
 }</RichText>
 </content>
 <resources>

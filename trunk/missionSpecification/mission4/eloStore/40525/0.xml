@@ -9,7 +9,7 @@
         </role>
         <entity>scy</entity>
         <date>
-          <dateTime>2011-12-01T12:30:12.781+0200</dateTime>
+          <dateTime>2011-12-01T11:30:12.781+0100</dateTime>
         </date>
       </contribute>
       <contribute>
@@ -19,10 +19,10 @@
         </role>
         <entity>arle</entity>
         <date>
-          <dateTime>2011-04-26T11:04:25.812+0300</dateTime>
+          <dateTime>2011-04-26T10:04:25.812+0200</dateTime>
         </date>
       </contribute>
-      <version>6</version>
+      <version>7</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -50,22 +50,21 @@
         <string language="en">Revised field-specific decision biologist</string>
       </title>
     </general>
-    <relation />
   </lom>
-  <template>TRUE</template>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAABqElEQVR42u3TP0tCURzG8fs2dPQd6Nto0anZRqFduG1NUrYUuEk11NriEGl0jUBSK3BxuMiVMq5dSaSgyOBX55QHjbB/U/h94OGc3zlc0Q9X61luZFSRvozPxVJhYh5v/ex4Yn4c+t/uw9PXZ+PztLtpZ7/tT76fpX784UVXtvZONODgfiilc1/3oFjQq2VZ77hdc1d7BVTr/umlzC+uSX9wNZPVgOs7R7Kx62gkv3dnZvUG2iubsrS6bQDVuap6A0f7uYVlufa9maxVrZelWnfks7Wm9+UPd2/t3boTc6vlzmTVf5P8IQbQ8zy9xuNxc5nP56XT6eh9Op2WZDIp0WhUz81mUyqVijQaDclkMhIOhyUIAvNsKpWSWCym96FQSCKRiGSzWXEcR1zX1efqs23bNs8kEgnJ5XLSbrf/HyABEEAAASQAAggggARAAAEEkAAIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAASQAAggggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAAQSQAAgggAASkxfreBbf8mx7wAAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
 <content languages="en" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Write here your \b revised decision\b0  based on \b biological \b0 arguments only. \par
-\par
-\li0\ri0\fi0\ul0\par
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Write here your \b revised decision\b0  based on \b biological \b0 arguments only. \par&#xD;
+\par&#xD;
+\li0\ri0\fi0\ul0\par&#xD;
 }</RichText>
 </content>
 <resources>

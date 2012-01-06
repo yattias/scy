@@ -1,0 +1,44 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2012-01-06T10:48:34.551+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1325843314551</dateCreated>
+        <dateLastModified>1325843314551</dateLastModified>
+      </customElements>
+      <format>scy/runtimesettings</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40737/0/Forensic+mission.runtimesettings</entry>
+      </identifier>
+      <las />
+      <missionId>forensic</missionId>
+      <title>
+        <string language="en">Forensic mission</string>
+      </title>
+    </general>
+    <relation />
+  </lom>
+  <template>TRUE</template>
+</metadata>
+<content languages="en" contentType="xml">
+<runtimeSettings />
+</content>
+<resources>
+</resources>
+</elo>

@@ -9,7 +9,7 @@
         </role>
         <entity>scy</entity>
         <date>
-          <dateTime>2011-12-01T12:23:46.921+0200</dateTime>
+          <dateTime>2011-12-01T11:23:46.921+0100</dateTime>
         </date>
       </contribute>
       <contribute>
@@ -19,10 +19,10 @@
         </role>
         <entity>arle</entity>
         <date>
-          <dateTime>2011-04-26T16:13:32.187+0300</dateTime>
+          <dateTime>2011-04-26T15:13:32.187+0200</dateTime>
         </date>
       </contribute>
-      <version>6</version>
+      <version>7</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -50,23 +50,22 @@
         <string language="en">Initial decision</string>
       </title>
     </general>
-    <relation />
   </lom>
-  <template>TRUE</template>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAB6klEQVR42u3SsYoaURTG8XkVn8DCzioEEYtACHmBaBHYB3DBwpDGSrBLQCGlJD5AKkmKFFtEMGuRJlnXsA5kBomiywYnil+4h2XIJDtuYbr9f3A4c+693sv+WG+hidLq9MtJ6t6V/MQ8357rx+av+nVdt61t9pxLu+OQtzZ73k/rKeW5P/79aagnR8cGsdNPm999Cg3Q9ZevXuvR02e27+bu24EBbrbSveJDWwsuz/V9Ob5zZYAv3nywct9SFM8O0PX8/Qd6fPRcf551gOtoG8/+bKyL8CxZwXXdthbuOZd2xyFvhXveT+sp5XU6HaXV528frbc77Rt6O3F2cnGm8eTrnStP5KB4o9FIy+VSjUbDFsrlcuLAbrdTt9vVdDq1uVKpJPb7/b71xWIR3+Hi+378nclkVKvV7Hs4HCoIAq3Xa7VaLa1WK1WrVQ0GA9uv1+vK5XKaz+cqFovxHdls1vby+bxms5mtud82m02766b0ej0VCgWVSiWboyj6/4D8DwEIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAASQAAggggARAAAEEkAAIIIAAEgABBBBAAiCAAAIIIAEQQAABJAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAMk/+Q3CW/wdAIBjBgAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
 <content languages="en" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Write here your arguments whether it is reasonable to grow genetically modified salmon in EU countries.\par
-\par
-\par
-\li0\ri0\fi0\ul0\par
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Write here your arguments whether it is reasonable to grow genetically modified salmon in EU countries.\par&#xD;
+\par&#xD;
+\par&#xD;
+\li0\ri0\fi0\ul0\par&#xD;
 }</RichText>
 </content>
 <resources>

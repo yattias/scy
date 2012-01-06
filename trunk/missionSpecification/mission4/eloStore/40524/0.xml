@@ -9,7 +9,7 @@
         </role>
         <entity>scy</entity>
         <date>
-          <dateTime>2011-12-01T12:29:13.421+0200</dateTime>
+          <dateTime>2011-12-01T11:29:13.421+0100</dateTime>
         </date>
       </contribute>
       <contribute>
@@ -19,10 +19,10 @@
         </role>
         <entity>arle</entity>
         <date>
-          <dateTime>2011-04-26T11:04:25.812+0300</dateTime>
+          <dateTime>2011-04-26T10:04:25.812+0200</dateTime>
         </date>
       </contribute>
-      <version>7</version>
+      <version>8</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -50,21 +50,20 @@
         <string language="en">Initial field-specific decision animal protector</string>
       </title>
     </general>
-    <relation />
   </lom>
-  <template>TRUE</template>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACA0lEQVR42u3SsYvSYRzH8d+/oZP/gE7i5CQIIg2ODiLY4tTmZovYIBQ41OQgV2ANLtZyZGcWXAnBlYQ42OVJd9KdXCeFEWT66X4P3A9/EHddt+X7A1+e5/t9fsPze/FYU+3prL7rQKv9ZuuJq1+t129brv7LfPjXdfzz4tlqf97ZebN/rcvcz7J//nn3SPcbrzTTvr7Nfqn17tDU5tZjs1qWpR+nZycaOmc2oL0+fbOv5I2yPn/9uJZlAO8+fKF7j16aF3h0PHN6+wXmb2/o5p0Hp4AHBtCe22UDnu2vXb+lT4e7a1nW9s6Wtnee6c/rarlno5P3rn53+GEtyxK5UhzA0Whk1kQi4RxWq1WNx2Ozr9frznwwGKhUKpl9MBhUKpVSrVbTZDJROBxWLpdzvo3H4yqXy5e6VCQSUSgUUjabdc0LhYJ6vZ4Wi4U6nY7y+bxzZt+v2WzK7/ebvt1uK51Oa7lcmn/wer0KBAKKxWLKZDKaTqeaz+fy+XzyeDxKJpPq9/tqNBrqdrvmDtFoVJVKRcVi8WJAcsUXSAAEEEAACYAAAgggARBAAAEkAAIIIIAEQAABBJAACCCAABIAAQQQQAIggAACSAAEEEAACYAAAggggARAAAEEkAAIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAASQAAgjg/5TfmrPqEljFjzAAAAAASUVORK5CYII=</base64>
   </thumbnail>
 </metadata>
 <content languages="en" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Write here your decision whether it is reasonable to grow GM salmon in EU countries. Consider\b  only ethical and moral arguments. \par
-\b0\ul0\par
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Write here your decision whether it is reasonable to grow GM salmon in EU countries. Consider\b  only ethical and moral arguments. \par&#xD;
+\b0\ul0\par&#xD;
 }</RichText>
 </content>
 <resources>

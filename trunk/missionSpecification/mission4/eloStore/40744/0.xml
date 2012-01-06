@@ -1,0 +1,44 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2012-01-06T10:49:24.530+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1325843364530</dateCreated>
+        <dateLastModified>1325843364530</dateLastModified>
+      </customElements>
+      <format>scy/pedagogicalplansettings</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40744/0/GMO+mission.scy</entry>
+      </identifier>
+      <las />
+      <missionId>gmo</missionId>
+      <title>
+        <string language="en">GMO mission</string>
+      </title>
+    </general>
+    <relation />
+  </lom>
+  <template>TRUE</template>
+</metadata>
+<content languages="en" contentType="xml">
+
+</content>
+<resources>
+</resources>
+</elo>

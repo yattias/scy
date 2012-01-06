@@ -1,0 +1,73 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2012-01-06T10:49:05.819+0100</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2012-01-06T10:49:05.819+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1325843345819</dateCreated>
+        <dateFirstUserSaveKey>1325843345819</dateFirstUserSaveKey>
+        <dateLastModified>1325843345819</dateLastModified>
+      </customElements>
+      <format>scy/missionspecification</format>
+    </technical>
+    <educational>
+      <learningResourceType>documentDesign</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40739/0/Forensic+mission.scymissionspecification</entry>
+      </identifier>
+      <las />
+      <missionId>forensic</missionId>
+      <title>
+        <string language="en">Forensic mission</string>
+      </title>
+    </general>
+    <relation />
+  </lom>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>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</base64>
+  </thumbnail>
+</metadata>
+<content languages="en" contentType="xml">
+<missionSpeicification>
+  <missionMapModelEloUri>roolo://memory/40734/0/Forensic+mission.scymissionmapmodel</missionMapModelEloUri>
+  <eloToolConfigsEloUri>roolo://memory/40735/0/Forensic+mission.scyelotoolconfiguration</eloToolConfigsEloUri>
+  <templateElosEloUri>roolo://memory/40736/0/Forensic+mission.scytemplateelos</templateElosEloUri>
+  <runtimeSettingsEloUri>roolo://memory/40737/0/Forensic+mission.runtimesettings</runtimeSettingsEloUri>
+  <agentModelsEloUri />
+  <pedagogicalPlanSettingsEloUri>roolo://memory/40738/0/Forensic+mission.scy</pedagogicalPlanSettingsEloUri>
+  <colorSchemesEloUri>roolo://memory/40036/0/Color+schemes+Mission4.colorschemes</colorSchemesEloUri>
+  <missionDescriptionUri>http://www.scy-lab.eu/content/en/mission4/missionMapInstruction.html</missionDescriptionUri>
+  <missionId>forensic</missionId>
+  <xhtmlVersionId />
+</missionSpeicification>
+</content>
+<resources>
+</resources>
+</elo>
