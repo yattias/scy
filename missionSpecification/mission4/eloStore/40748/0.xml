@@ -1,0 +1,44 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2012-01-06T10:50:07.580+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1325843407580</dateCreated>
+        <dateLastModified>1325843407580</dateLastModified>
+      </customElements>
+      <format>scy/templateelos</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40748/0/GMO+missioon.scytemplateelos</entry>
+      </identifier>
+      <las />
+      <missionId>gmo</missionId>
+      <title>
+        <string language="et">GMO missioon</string>
+      </title>
+    </general>
+    <relation />
+  </lom>
+  <template>TRUE</template>
+</metadata>
+<content languages="et" contentType="xml">
+<templateElosEloUris />
+</content>
+<resources>
+</resources>
+</elo>

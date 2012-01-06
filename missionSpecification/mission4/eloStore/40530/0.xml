@@ -9,7 +9,7 @@
         </role>
         <entity>scy</entity>
         <date>
-          <dateTime>2011-12-01T12:37:49.328+0200</dateTime>
+          <dateTime>2011-12-01T11:37:49.328+0100</dateTime>
         </date>
       </contribute>
       <contribute>
@@ -19,10 +19,10 @@
         </role>
         <entity>arle</entity>
         <date>
-          <dateTime>2011-04-26T11:04:25.812+0300</dateTime>
+          <dateTime>2011-04-26T10:04:25.812+0200</dateTime>
         </date>
       </contribute>
-      <version>6</version>
+      <version>7</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -50,23 +50,22 @@
         <string language="en">Final decision</string>
       </title>
     </general>
-    <relation />
   </lom>
-  <template>TRUE</template>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAABy0lEQVR42u3UMUtCURjG8ftZ/A4iiCAiuLS4NdseCG7W1li0FLhJBdbi0OIQaeSNREqrzUVCKENDukiBoeFb55QXb6hlNQT+H3g55z1Hrscfx2u8yL0MSsSS4T6byzj64SpfnDj6517j29Xpfr023E/am7T205rmfIb68UdXTdneP9WA7aee5C4bug6zGT0ahvGB27T3Sm+Aajw4u5H5xXWx2rczWRpwY/dYNvfyGqnRerR7dQOXVrdkeW3HBlTrqtQNHMznFlbkrlGbyTLOy6acl/Myaizpuflp771aD1VHf31dnclS/03yi9iAtVpNj+Fw2N5MJpNSr9f13DRNiUaj4vV6xePxiNvtlng8PvKhqVRKisWidLtde83lcjk+Y1nW2EMFAgFHr74rGAxKIpGwz1coFPTo9/v1mE6nJRKJSKfTGfvcUCgkPp9PYrHY3wJWKhXd9Pt9rtRPb+C0UTeMCO9AAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAAEkAAIIIIAEQAABBJAACCCAABIAAQQQQAIggAACSAAEEEAACYAA/tO8Aus3DWGcR8FXAAAAAElFTkSuQmCC</base64>
   </thumbnail>
 </metadata>
 <content languages="en" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Write here your \b final decision\b0  to the problem about whether it is reasonable to grow GM salmon in EU countries. \par
-Give your pro and con arguments!\par
-\par
-\li0\ri0\fi0\ul0\par
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Write here your \b final decision\b0  to the problem about whether it is reasonable to grow GM salmon in EU countries. \par&#xD;
+Give your pro and con arguments!\par&#xD;
+\par&#xD;
+\li0\ri0\fi0\ul0\par&#xD;
 }</RichText>
 </content>
 <resources>

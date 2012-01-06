@@ -9,7 +9,7 @@
         </role>
         <entity>scy</entity>
         <date>
-          <dateTime>2011-12-01T12:36:08.546+0200</dateTime>
+          <dateTime>2011-12-01T11:36:08.546+0100</dateTime>
         </date>
       </contribute>
       <contribute>
@@ -19,10 +19,10 @@
         </role>
         <entity>arle</entity>
         <date>
-          <dateTime>2011-04-26T11:04:25.812+0300</dateTime>
+          <dateTime>2011-04-26T10:04:25.812+0200</dateTime>
         </date>
       </contribute>
-      <version>6</version>
+      <version>7</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -50,20 +50,19 @@
         <string language="en">Expert council's decision</string>
       </title>
     </general>
-    <relation />
   </lom>
-  <template>TRUE</template>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAB+UlEQVR42u3Sv2saYRzH8fs3XBz0P3BV8A9QwbE4dnARN7d2chLaTnWWpmAK4tAlYGMTTEKxMZF2cTIpSmMbqxB/tE2VNJ/kntTDg5L+3Hx/4Mv3vs/z3HH34qxP5xda1Nl3aXne2Hzpmpdrr9F0zaefv/1+Tc9/vbY837Z329rf1h+8n2V//PbbvtaevzKAky9zbb05NbWxWTXdsiyNL6X+1wtnb69xaPqLxnvdST/SyfBsJcsAPl6vKf9sxwD2hxNntv/Aew+e6P7Dp5rYgNdn7XW77D9wcR27m1Wn92Ely9rdP9DO6wP9rO/uH/7oy2s3dfRx6J6P361kWSL/FAew0+mYHo/Hnc1CoaBer6fxeKxyueyst9tt5XI5tVotM9dqNWUyGQ0GAzNns1lFo1GNRiMFg0HFYjH5fD51u12VSiWlUikFAgEVi0Xl83k1m01VKhVFIhF5PB75/X6Fw2HzrGQyqel06npp+16v12uuF+fS6bSq1apms5nr7Hw+V71ed+ZQKGR6IpEwz/lvgARAAAEEkAAIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAASQAAggggARAAAEEkAAIIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAkicXAEB7/hYlayrkgAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
 <content languages="en" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Write here your previously composed \b Revised field-specific decision\b0 . Read also all the decisions of different fields.\ul0\par
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Write here your previously composed \b Revised field-specific decision\b0 . Read also all the decisions of different fields.\ul0\par&#xD;
 }</RichText>
 </content>
 <resources>

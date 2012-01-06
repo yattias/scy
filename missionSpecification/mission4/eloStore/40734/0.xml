@@ -1,0 +1,489 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2012-01-06T10:48:34.539+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1325843314539</dateCreated>
+        <dateLastModified>1325843314539</dateLastModified>
+      </customElements>
+      <format>scy/missionmapmodel</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40734/0/Forensic+mission.scymissionmapmodel</entry>
+      </identifier>
+      <las />
+      <missionId>forensic</missionId>
+      <title>
+        <string language="en">Forensic mission</string>
+      </title>
+    </general>
+    <relation />
+  </lom>
+  <template>TRUE</template>
+</metadata>
+<content languages="en" contentType="xml">
+<missionModel>
+  <activeLas>Biology Information</activeLas>
+  <missionMapBackgroundImageUri>http://www.scy-lab.eu/content/en/mission4/forensicMissionMapBackgound.fxz</missionMapBackgroundImageUri>
+  <missionMapInstructionUri>http://www.scy-lab.eu/content/en/mission4/missionMapInstruction.html</missionMapInstructionUri>
+  <missionMapButtonIconType />
+  <loElos />
+  <lasses>
+    <las>
+      <id>Chemistry Information</id>
+      <xPos>38.0</xPos>
+      <yPos>-2.0</yPos>
+      <toolTip>Information</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Information/LAS_Instruction_Chim.html</instructionUri>
+      <lasType>INFORMATION</lasType>
+      <loElos />
+      <otherElos />
+      <initialMissionAnchorToOpen>chimConceptMap</initialMissionAnchorToOpen>
+      <mainAnchor>
+        <eloUri>roolo://memory/40544/0/Concept+Map+for+chemical+analysis.scymapping</eloUri>
+        <id>chimConceptMap</id>
+        <iconType>orientation2</iconType>
+        <loElos />
+        <inputAnchors />
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Information/chimTargetDescription.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Information/Assignments/A_chimConceptMap.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission4/LAS_Information/Resources/R_chimConceptMap.html</resourcesUri>
+        <helpUri />
+        <webNewsUri />
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses>
+        <las>Chemistry Orientation</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>Chemistry Orientation</id>
+      <xPos>88.0</xPos>
+      <yPos>-48.0</yPos>
+      <toolTip>Orientation</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/LAS_Instruction_Chim.html</instructionUri>
+      <lasType>ORIENTATION</lasType>
+      <loElos />
+      <otherElos />
+      <initialMissionAnchorToOpen>chimGoalAnalysis</initialMissionAnchorToOpen>
+      <mainAnchor>
+        <eloUri>roolo://memory/40615/0/Goal+of+the+analysis.rtf</eloUri>
+        <id>chimGoalAnalysis</id>
+        <iconType>Research_question</iconType>
+        <loElos />
+        <inputAnchors />
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/TargetDescription.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/Assignments/A_chimGoalAnalysis.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/Resources/R_chimGoalAnalysis.html</resourcesUri>
+        <helpUri />
+        <webNewsUri />
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses>
+        <las>Chemistry Design</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>Chemistry Design</id>
+      <xPos>159.0</xPos>
+      <yPos>-30.0</yPos>
+      <toolTip>Design</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Design/LAS_Instruction_Chim.html</instructionUri>
+      <lasType>DESIGN</lasType>
+      <loElos />
+      <otherElos />
+      <initialMissionAnchorToOpen>chimExperimentalProcedure</initialMissionAnchorToOpen>
+      <mainAnchor>
+        <eloUri>roolo://memory/40616/0/Experimental+procedure.scyxproc</eloUri>
+        <id>chimExperimentalProcedure</id>
+        <iconType>Data</iconType>
+        <loElos />
+        <inputAnchors>
+          <anchor>roolo://memory/40615/0/Goal+of+the+analysis.rtf</anchor>
+        </inputAnchors>
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Design/targetDescription.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Design/Assignments/A_chimExperimentalProcedure.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission4/LAS_Design/Resources/R_chimExperimentalProcedure.html</resourcesUri>
+        <helpUri />
+        <webNewsUri />
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses>
+        <las>Chemistry Experiment</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>Chemistry Experiment</id>
+      <xPos>159.0</xPos>
+      <yPos>36.0</yPos>
+      <toolTip>Experiment</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/LAS_Instruction_Chim.html</instructionUri>
+      <lasType>EXPERIMENT</lasType>
+      <loElos />
+      <otherElos />
+      <initialMissionAnchorToOpen>chimAnnotatedData</initialMissionAnchorToOpen>
+      <mainAnchor>
+        <eloUri>roolo://memory/40548/0/Chemistry%3A+Annotated+data.scydraw</eloUri>
+        <id>chimAnnotatedData</id>
+        <iconType>model</iconType>
+        <loElos />
+        <inputAnchors>
+          <anchor>roolo://memory/40616/0/Experimental+procedure.scyxproc</anchor>
+        </inputAnchors>
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/targetDescription.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/Assignments/A_chimAnnotatedData.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/Resources/R_chimAnnotatedData.html</resourcesUri>
+        <helpUri />
+        <webNewsUri />
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses>
+        <las>Chemistry Analysis</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>Chemistry Analysis</id>
+      <xPos>98.0</xPos>
+      <yPos>92.0</yPos>
+      <toolTip>Analysis</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/LAS_Instruction_Chim.html</instructionUri>
+      <lasType>ANALYSIS</lasType>
+      <loElos />
+      <otherElos />
+      <initialMissionAnchorToOpen>chimOrganizedData</initialMissionAnchorToOpen>
+      <mainAnchor>
+        <eloUri>roolo://memory/40549/0/Chemistry%3A+Conclusion+of+the+experiment.rtf</eloUri>
+        <id>chimExperimentConclusion</id>
+        <iconType>hypothese2</iconType>
+        <loElos />
+        <inputAnchors>
+          <anchor>roolo://memory/40548/0/Chemistry%3A+Annotated+data.scydraw</anchor>
+        </inputAnchors>
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/targetDescription.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/Assignments/A_chimExperimentConclusion.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/Resources/R_chimExperimentConclusion.html</resourcesUri>
+        <helpUri />
+        <webNewsUri />
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/40550/0/Chemistry%3A+Organized+data.scypds</eloUri>
+          <id>chimOrganizedData</id>
+          <iconType>Presentation</iconType>
+          <loElos />
+          <inputAnchors />
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/targetDescription.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/Assignments/A_chimOrganizedData.html</assignmentUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/Resources/R_chimOrganizedData.html</resourcesUri>
+          <helpUri />
+          <webNewsUri />
+          <colorScheme />
+          <dependingOnMissionAnchorIds />
+        </intermediateAnchor>
+      </intermediateAnchors>
+      <nextLasses>
+        <las>Chemistry Reporting</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>Chemistry Reporting</id>
+      <xPos>98.0</xPos>
+      <yPos>166.0</yPos>
+      <toolTip>Reporting</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Reporting/LAS_Instruction_Chim.html</instructionUri>
+      <lasType>REPORTING</lasType>
+      <loElos />
+      <otherElos />
+      <initialMissionAnchorToOpen>chimReport</initialMissionAnchorToOpen>
+      <mainAnchor>
+        <eloUri>roolo://memory/40551/0/Chemistry%3A+Official+report.rtf</eloUri>
+        <id>chimReport</id>
+        <iconType>Report</iconType>
+        <loElos />
+        <inputAnchors>
+          <anchor>roolo://memory/40549/0/Chemistry%3A+Conclusion+of+the+experiment.rtf</anchor>
+          <anchor>roolo://memory/40550/0/Chemistry%3A+Organized+data.scypds</anchor>
+        </inputAnchors>
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Reporting/targetDescription.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Reporting/Assignments/A_chimReport.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission4/LAS_Reporting/Resources/R_chimReport.html</resourcesUri>
+        <helpUri />
+        <webNewsUri />
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses />
+    </las>
+    <las>
+      <id>Biology Information</id>
+      <xPos>-199.0</xPos>
+      <yPos>-2.0</yPos>
+      <toolTip>Information</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Information/LAS_Instruction.html</instructionUri>
+      <lasType>INFORMATION</lasType>
+      <loElos />
+      <otherElos />
+      <initialMissionAnchorToOpen>checklist</initialMissionAnchorToOpen>
+      <mainAnchor>
+        <eloUri>roolo://memory/40565/0/Checklist+for+crime+scene+examination.rtf</eloUri>
+        <id>checklist</id>
+        <iconType>orientation2</iconType>
+        <loElos />
+        <inputAnchors />
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Information/bioTargetDescription.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Information/Assignments/A_conceptMap.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission4/LAS_Information/Resources/R_conceptMap.html</resourcesUri>
+        <helpUri />
+        <webNewsUri>http://www.scy-lab.eu/content/en/mission4/webnews/webnews1.html</webNewsUri>
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses>
+        <las>Biology Orientation</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>Biology Orientation</id>
+      <xPos>-151.0</xPos>
+      <yPos>-48.0</yPos>
+      <toolTip>Orientation</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/LAS_Instruction.html</instructionUri>
+      <lasType>ORIENTATION</lasType>
+      <loElos />
+      <otherElos />
+      <initialMissionAnchorToOpen>bioGoalAnalysis</initialMissionAnchorToOpen>
+      <mainAnchor>
+        <eloUri>roolo://memory/40624/0/Choice+of+techniques.scymapping</eloUri>
+        <id>bioChoiceTechnique</id>
+        <iconType>research_question</iconType>
+        <loElos />
+        <inputAnchors />
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/TargetDescription.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/Assignments/A_bioChoiceTechnique.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/Resources/R_bioChoiceTechnique.html</resourcesUri>
+        <helpUri />
+        <webNewsUri>http://www.scy-lab.eu/content/en/mission4/webnews/webnews2.html</webNewsUri>
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/40095/0/Goal+of+the+analysis.rtf</eloUri>
+          <id>bioGoalAnalysis</id>
+          <iconType>assignment</iconType>
+          <loElos />
+          <inputAnchors />
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/TargetDescription.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/Assignments/A_bioGoalAnalysis.html</assignmentUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/Resources/R_bioGoalAnalysis.html</resourcesUri>
+          <helpUri />
+          <webNewsUri />
+          <colorScheme />
+          <dependingOnMissionAnchorIds />
+        </intermediateAnchor>
+      </intermediateAnchors>
+      <nextLasses>
+        <las>Biology Design</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>Biology Design</id>
+      <xPos>-84.0</xPos>
+      <yPos>-30.0</yPos>
+      <toolTip>Design</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Design/LAS_Instruction.html</instructionUri>
+      <lasType>DESIGN</lasType>
+      <loElos />
+      <otherElos />
+      <initialMissionAnchorToOpen>bioExperimentalProcedure</initialMissionAnchorToOpen>
+      <mainAnchor>
+        <eloUri>roolo://memory/40097/0/Experimental+procedure.scyxproc</eloUri>
+        <id>bioExperimentalProcedure</id>
+        <iconType>Data</iconType>
+        <loElos />
+        <inputAnchors>
+          <anchor>roolo://memory/40095/0/Goal+of+the+analysis.rtf</anchor>
+          <anchor>roolo://memory/40624/0/Choice+of+techniques.scymapping</anchor>
+        </inputAnchors>
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Design/targetDescription.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Design/Assignments/A_bioExperimentalProcedure.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission4/LAS_Design/Resources/R_bioExperimentalProcedure.html</resourcesUri>
+        <helpUri />
+        <webNewsUri>http://www.scy-lab.eu/content/en/mission4/webnews/webnews3.html</webNewsUri>
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses>
+        <las>Biology Experiment</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>Biology Experiment</id>
+      <xPos>-84.0</xPos>
+      <yPos>35.0</yPos>
+      <toolTip>Experiment</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/LAS_Instruction.html</instructionUri>
+      <lasType>EXPERIMENT</lasType>
+      <loElos />
+      <otherElos />
+      <initialMissionAnchorToOpen>bioRepresentationData</initialMissionAnchorToOpen>
+      <mainAnchor>
+        <eloUri>roolo://memory/40577/0/Results+of+my+experiment.scydraw</eloUri>
+        <id>bioRepresentationData</id>
+        <iconType>model</iconType>
+        <loElos />
+        <inputAnchors>
+          <anchor>roolo://memory/40097/0/Experimental+procedure.scyxproc</anchor>
+        </inputAnchors>
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/targetDescription.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/Assignments/A_bioAnnotatedData.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/Resources/R_bioRepresentationData.html</resourcesUri>
+        <helpUri />
+        <webNewsUri />
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses>
+        <las>Biology Analysis</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>Biology Analysis</id>
+      <xPos>-143.0</xPos>
+      <yPos>91.0</yPos>
+      <toolTip>Analysis</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/LAS_Instruction.html</instructionUri>
+      <lasType>ANALYSIS</lasType>
+      <loElos />
+      <otherElos />
+      <initialMissionAnchorToOpen>bioExperimentConclusion</initialMissionAnchorToOpen>
+      <mainAnchor>
+        <eloUri>roolo://memory/40100/0/Conclusion+of+the+experiment.rtf</eloUri>
+        <id>bioExperimentConclusion</id>
+        <iconType>hypothese2</iconType>
+        <loElos />
+        <inputAnchors>
+          <anchor>roolo://memory/40577/0/Results+of+my+experiment.scydraw</anchor>
+        </inputAnchors>
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/targetDescription.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/Assignments/A_bioExperimentConclusion.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/Resources/R_bioExperimentConclusion.html</resourcesUri>
+        <helpUri />
+        <webNewsUri />
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/40011/0/Probabilities.scypds</eloUri>
+          <id>Probabilities</id>
+          <iconType>Presentation</iconType>
+          <loElos />
+          <inputAnchors />
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/targetDescription.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/Assignments/A_Probabilities.html</assignmentUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/Resources/R_Probabilities.html</resourcesUri>
+          <helpUri />
+          <webNewsUri />
+          <colorScheme />
+          <dependingOnMissionAnchorIds />
+        </intermediateAnchor>
+      </intermediateAnchors>
+      <nextLasses>
+        <las>Biology Reporting</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>Biology Reporting</id>
+      <xPos>-143.0</xPos>
+      <yPos>168.0</yPos>
+      <toolTip>Reporting</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Reporting/LAS_Instruction.html</instructionUri>
+      <lasType>REPORTING</lasType>
+      <loElos />
+      <otherElos />
+      <initialMissionAnchorToOpen>bioReport</initialMissionAnchorToOpen>
+      <mainAnchor>
+        <eloUri>roolo://memory/40101/0/Official+report.rtf</eloUri>
+        <id>bioReport</id>
+        <iconType>Report</iconType>
+        <loElos />
+        <inputAnchors>
+          <anchor>roolo://memory/40100/0/Conclusion+of+the+experiment.rtf</anchor>
+          <anchor>roolo://memory/40011/0/Probabilities.scypds</anchor>
+        </inputAnchors>
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/LAS_Reporting/targetDescription.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission4/LAS_Reporting/Assignments/A_bioReport.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission4/LAS_Reporting/Resources/R_bioReport.html</resourcesUri>
+        <helpUri />
+        <webNewsUri>http://www.scy-lab.eu/content/en/mission4/webnews/webnews4.html</webNewsUri>
+        <colorScheme />
+        <dependingOnMissionAnchorIds />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses />
+    </las>
+  </lasses>
+  <windowStatesXmls />
+  <archivedElos />
+</missionModel>
+</content>
+<resources>
+</resources>
+</elo>
