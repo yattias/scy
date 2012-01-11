@@ -1,0 +1,141 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2012-01-11T10:27:48.370+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1326274068370</dateCreated>
+        <dateLastModified>1326274068370</dateLastModified>
+      </customElements>
+      <format>scy/runtimesettings</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20226/0/ECO+mission.runtimesettings</entry>
+      </identifier>
+      <las />
+      <missionId>eco</missionId>
+      <title>
+        <string language="el">ECO mission</string>
+      </title>
+    </general>
+    <relation />
+  </lom>
+  <template>TRUE</template>
+</metadata>
+<content languages="el" contentType="xml">
+<runtimeSettings>
+  <runtimeSetting>
+    <name>groupformation.strategy</name>
+    <lasId>experiment_B1</lasId>
+    <eloUri />
+    <value>CLUSTER</value>
+  </runtimeSetting>
+  <runtimeSetting>
+    <name>groupformation.maxUsers</name>
+    <lasId>experiment_B2</lasId>
+    <eloUri />
+    <value>5</value>
+  </runtimeSetting>
+  <runtimeSetting>
+    <name>groupformation.maxUsers</name>
+    <lasId>experiment_B1</lasId>
+    <eloUri />
+    <value>5</value>
+  </runtimeSetting>
+  <runtimeSetting>
+    <name>groupformation.minUsers</name>
+    <lasId>experiment_B1</lasId>
+    <eloUri />
+    <value>2</value>
+  </runtimeSetting>
+  <runtimeSetting>
+    <name>groupformation.minUsers</name>
+    <lasId>experiment_B3</lasId>
+    <eloUri />
+    <value>2</value>
+  </runtimeSetting>
+  <runtimeSetting>
+    <name>groupformation.strategy</name>
+    <lasId>experiment_C1</lasId>
+    <eloUri />
+    <value>CLUSTER</value>
+  </runtimeSetting>
+  <runtimeSetting>
+    <name>groupformation.strategy</name>
+    <lasId>experiment_B2</lasId>
+    <eloUri />
+    <value>CLUSTER</value>
+  </runtimeSetting>
+  <runtimeSetting>
+    <name>groupformation.minUsers</name>
+    <lasId>experiment_C1</lasId>
+    <eloUri />
+    <value>2</value>
+  </runtimeSetting>
+  <runtimeSetting>
+    <name>groupformation.referenceElo</name>
+    <lasId>experiment_C1</lasId>
+    <eloUri />
+    <value>roolo://memory/20001/0/eco_reference_map.mapping</value>
+  </runtimeSetting>
+  <runtimeSetting>
+    <name>groupformation.maxUsers</name>
+    <lasId>experiment_B3</lasId>
+    <eloUri />
+    <value>5</value>
+  </runtimeSetting>
+  <runtimeSetting>
+    <name>groupformation.maxUsers</name>
+    <lasId>experiment_C1</lasId>
+    <eloUri />
+    <value>5</value>
+  </runtimeSetting>
+  <runtimeSetting>
+    <name>groupformation.strategy</name>
+    <lasId>experiment_B3</lasId>
+    <eloUri />
+    <value>CLUSTER</value>
+  </runtimeSetting>
+  <runtimeSetting>
+    <name>groupformation.referenceElo</name>
+    <lasId>experiment_B3</lasId>
+    <eloUri />
+    <value>roolo://memory/20001/0/eco_reference_map.mapping</value>
+  </runtimeSetting>
+  <runtimeSetting>
+    <name>groupformation.minUsers</name>
+    <lasId>experiment_B2</lasId>
+    <eloUri />
+    <value>2</value>
+  </runtimeSetting>
+  <runtimeSetting>
+    <name>groupformation.referenceElo</name>
+    <lasId>experiment_B2</lasId>
+    <eloUri />
+    <value>roolo://memory/20001/0/eco_reference_map.mapping</value>
+  </runtimeSetting>
+  <runtimeSetting>
+    <name>groupformation.referenceElo</name>
+    <lasId>experiment_B1</lasId>
+    <eloUri />
+    <value>roolo://memory/20001/0/eco_reference_map.mapping</value>
+  </runtimeSetting>
+</runtimeSettings>
+</content>
+<resources>
+</resources>
+</elo>
