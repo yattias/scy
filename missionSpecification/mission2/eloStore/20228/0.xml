@@ -1,0 +1,73 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2012-01-11T10:28:25.562+0100</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2012-01-11T10:28:25.562+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1326274105562</dateCreated>
+        <dateFirstUserSaveKey>1326274105562</dateFirstUserSaveKey>
+        <dateLastModified>1326274105562</dateLastModified>
+      </customElements>
+      <format>scy/missionspecification</format>
+    </technical>
+    <educational>
+      <learningResourceType>documentDesign</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20228/0/ECO+mission+greek.scymissionspecification</entry>
+      </identifier>
+      <las />
+      <missionId>eco</missionId>
+      <title>
+        <string language="el">ECO mission greek</string>
+      </title>
+    </general>
+    <relation />
+  </lom>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>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</base64>
+  </thumbnail>
+</metadata>
+<content languages="el" contentType="xml">
+<missionSpeicification>
+  <missionMapModelEloUri>roolo://memory/20223/0/ECO+mission.scymissionmapmodel</missionMapModelEloUri>
+  <eloToolConfigsEloUri>roolo://memory/20224/0/ECO+mission.scyelotoolconfiguration</eloToolConfigsEloUri>
+  <templateElosEloUri>roolo://memory/20225/0/ECO+mission.scytemplateelos</templateElosEloUri>
+  <runtimeSettingsEloUri>roolo://memory/20226/0/ECO+mission.runtimesettings</runtimeSettingsEloUri>
+  <agentModelsEloUri />
+  <pedagogicalPlanSettingsEloUri>roolo://memory/20227/0/ECO+mission.scy</pedagogicalPlanSettingsEloUri>
+  <colorSchemesEloUri>roolo://memory/20010/0/colorschemes1.colorschemes</colorSchemesEloUri>
+  <missionDescriptionUri>http://www.scy-lab.eu/content/en/mission2/las_description_challenge.html</missionDescriptionUri>
+  <missionId>eco</missionId>
+  <xhtmlVersionId />
+</missionSpeicification>
+</content>
+<resources>
+</resources>
+</elo>
