@@ -9,7 +9,7 @@
     <bean name="missionConfigInput" class="eu.scy.client.desktop.scydesktop.tools.mission.springimport.BasicMissionConfigInput">
 
         <property name="missionId" value="eco"/>
-        <property name="missionTitle" value="Οικοσυστήματα"/>
+        <property name="missionTitle" value="ΞΞΉΞΊΞΏΟƒΟ…ΟƒΟ„Ξ®ΞΌΞ±Ο„Ξ±"/>
         <property name="languageId" value="el"/>
         <property name="xhtmlVersionId" value=""/>
 
