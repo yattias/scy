@@ -13,11 +13,22 @@
 
 <body class="$css_class">
 
-#if($is_signed_in)
-	#dockbar()
-#end
 
 <div id="wrapper">
+	<div id="top-bar">
+		<div id="embedded-search">
+			<span>Search:&nbsp;</span>
+			$theme.search()
+		</div>
+		<div id="top-bar-right">
+			#if($is_signed_in)
+				#dockbar()
+			#end
+			#if(!$is_signed_in)
+				<a href="$sign_in_url" id="sign-in" rel="nofollow">$sign_in_text</a>
+			#end
+		</div>
+	</div>	
 	<a href="#main-content" id="skip-to-content">#language("skip-to-content")</a>
 
 	<header id="banner" role="banner" class="title-bar">
@@ -26,17 +37,12 @@
 				<a class="scy-logo" href="$company_url$home_string" title="#language("go-to") $company_name">
 					<span>$company_name</span>
 				</a>
-				#if(!$is_signed_in)
-					<a href="$sign_in_url" id="sign-in" rel="nofollow">$sign_in_text</a>
-				#end
 			</h1>
-
 			<h2 class="community-title">
 				<a href="$community_default_url" title="#language("go-to") $community_name">
 					<span>$community_name</span>
 				</a>
 			</h2>
-
 		</hgroup>
 
 		#if ($update_available_url)
