@@ -2,17 +2,76 @@
 	background-color: white;
 }
 
+#top-bar {
+	color: #fff;
+    background: #684997;
+    padding: 5px 28px 0;
+    height: 10px;
+}
+
+#embedded-search {
+	float: left;
+}
+
+#embedded-search select {
+	display: none;
+}
+
+#embedded-search input {
+	padding: 2px 1px;
+}
+
+#embedded-search span {
+	float: left;
+}
+
+#embedded-search form {
+	float: right;	
+}
+
+#top-bar-right {
+	float: right;
+}
+
+.dockbar {
+	background: #684997;
+	position: static;
+	padding: 0;
+	border-bottom: 0;
+	font: 12px/18pt Verdana,Helvetica,Arial,sans-serif;
+}
+
+.dockbar a {
+	color: #fff;
+	text-shadow: none;
+}
+
+.dockbar .menu-button {
+	padding: 0 20px 0 5px;
+	background: transparent;
+}
+
+.dockbar .pin-dockbar {
+	display: none;
+}
+
+.dockbar .my-places {
+	display: none;
+}
+
+.dockbar .user-portrait {
+	display: none;
+}
+
+.add-application {
+	color: #000;
+}
+
 #heading h1 {
 	margin: 0px;
 }
 
 a#sign-in {
-	float: right;
-	padding-right: 5px;
-	position: relative;
-	top: -110px;
-	right: 5px;
-	font-size: 14px;
 	font-weight: normal;
 	color: #fff;
 }
@@ -69,6 +128,11 @@ a#sign-in:hover {
 	top: 15px;
 	left: -15px;
 	width: 200px;
+	box-shadow: 3px 3px 5px #000;
+	-moz-box-shadow: 3px 3px 5px #000;
+	-webkit-box-shadow: 3px 3px 5px #000;
+	border-radius: 0 0 0 3px;
+	-moz-border-radius: 0 0 0 3px; 
 }
 
 #navigation .child-child-menu {
@@ -79,6 +143,11 @@ a#sign-in:hover {
 	width: 200px;
 	background-color: #01b6d3;
 	z-index: 150;
+	box-shadow: 3px 3px 5px #000;
+	-moz-box-shadow: 3px 3px 5px #000;
+	-webkit-box-shadow: 3px 3px 5px #000;
+	border-radius: 0 0 0 3px;
+	-moz-border-radius: 0 0 0 3px; 
 }
 
 #navigation .child-menu a {
@@ -98,6 +167,9 @@ a#sign-in:hover {
 
 #navigation .child-menu li:hover {
 	background-color: #01b6d3;
+	border-radius: 0 0 0 3px;
+	-moz-border-radius: 0 0 0 3px; 
+	
 }
 
 #navigation .child-menu li:hover .child-child-menu {

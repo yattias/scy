@@ -28,6 +28,16 @@ div.portlet-body {
 	margin: 5px;
 }
 
+section.portlet {
+	box-shadow: 3px 3px 5px #000;
+	-moz-box-shadow: 3px 3px 5px #000;
+	-webkit-box-shadow: 3px 3px 5px #000;
+}
+
+.taglib-header .header-back-to a {
+	padding: 0;
+}
+
 .portlet-borderless-container {
 	background: #fff;
 }
@@ -46,7 +56,7 @@ div.portlet-body {
 }
 
 .exit-button-anchor {
-	display: block;
+	display: none;
 	background-repeat: no-repeat;
 	background-position: center center;
 	text-decoration: none;
@@ -66,6 +76,10 @@ div.portlet-body {
 	text-decoration: none;
 }
 
+.nav-item a.selected {
+	font-weight: bold;
+}
+
 textarea, textarea.aui-field-input {
 	height: 15ex;
 	width: 90%;
@@ -81,4 +95,11 @@ input[type="submit"]:hover, input[type="button"]:hover, input[type="reset"]:hove
 	margin: 0;
 	background: url("../images/portlet/header_bg.png") repeat-x scroll 0 0 #D4D4D4;
 	color: #000;
+}
+
+.journal-content-article li {
+    margin: 0.5em;
+}
+.journal-content-article ul {
+    list-style: disc inside none;
 }
