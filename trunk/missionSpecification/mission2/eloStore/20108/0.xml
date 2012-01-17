@@ -49,6 +49,18 @@
       <entity>icon</entity>
       <iconType>scy/xproc</iconType>
     </annotation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_forked_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20248/0/%CE%A0%CE%B5%CE%B9%CF%81%CE%B1%CE%BC%CE%B1%CF%84%CE%B9%CE%BA%CE%AE+%CE%B4%CE%B9%CE%B1%CE%B4%CE%B9%CE%BA%CE%B1%CF%83%CE%AF%CE%B1-+%CF%80%CF%81%CF%89%CF%84%CE%BF%CE%B3%CE%B5%CE%BD%CE%AE%CF%82+%CF%80%CE%B1%CF%81%CE%B1%CE%B3%CF%89%CE%B3%CE%AE.scyxproc</entry>
+        </identifier>
+      </resource>
+    </relation>
   </lom>
   <template>true</template>
   <thumbnail>
