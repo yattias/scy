@@ -439,7 +439,7 @@
                 </bean>
                 <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                     <property name="id" value="questionC1"/>
-                    <property name="uri" value="roolo://memory/20038/0/Research+questions+pH.rtf"/>
+                    <property name="uri" value="roolo://memory/20236/0/%CE%94%CE%B9%CE%B5%CF%81%CE%B5%CF%85%CE%BD%CE%AE%CF%83%CE%B9%CE%BC%CE%B1+%CE%B5%CF%81%CF%89%CF%84%CE%AE%CE%BC%CE%B1%CF%84%CE%B1+-+pH.rtf"/>
                     <property name="iconType" value="Research_question"/>
                     <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/c1lasori.txt"/>
                     <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_questions_c1.html"/>
@@ -495,7 +495,7 @@
                 </bean>
                 <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                     <property name="id" value="problemC1"/>
-                    <property name="uri" value="roolo://memory/20036/0/Problem+formulation+pH.rtf"/>
+                    <property name="uri" value="roolo://memory/20235/0/%CE%94%CE%B9%CE%B1%CF%84%CF%8D%CF%80%CF%89%CF%83%CE%B7+%CF%80%CF%81%CE%BF%CE%B2%CE%BB%CE%AE%CE%BC%CE%B1%CF%84%CE%BF%CF%82+-+pH.rtf"/>
                     <property name="iconType" value="Idea"/>
                     <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/c1lasori.txt"/>
                     <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_problemf_c1.html"/>
@@ -551,7 +551,7 @@
                 </bean>
                 <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                     <property name="id" value="hypothesisC1"/>
-                    <property name="uri" value="roolo://memory/20040/0/Hypotheses+pH.rtf"/>
+                    <property name="uri" value="roolo://memory/20232/0/%CE%A5%CF%80%CE%BF%CE%B8%CE%AD%CF%83%CE%B5%CE%B9%CF%82+-+pH.rtf"/>
                     <property name="iconType" value="Hypothese2"/>
                     <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/c1lasori.txt"/>
                     <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_hypothesis_c1.html"/>
@@ -677,7 +677,7 @@
                 </bean>
                 <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                     <property name="id" value="experimentalProcedureC1"/>
-                    <property name="uri" value="roolo://memory/20080/0/pH+Experimental+procedure.scyxproc"/>
+                    <property name="uri" value="roolo://memory/20233/0/%CE%A0%CE%B5%CE%B9%CF%81%CE%B1%CE%BC%CE%B1%CF%84%CE%B9%CE%BA%CE%AE+%CE%B4%CE%B9%CE%B1%CE%B4%CE%B9%CE%BA%CE%B1%CF%83%CE%AF%CE%B1+-+pH.scyxproc"/>
                     <property name="iconType" value="Exp_design"/>
                     <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/c1lasexp.txt"/>
                     <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_copex_c1.html"/>
@@ -691,7 +691,7 @@
                 </bean>
                 <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                     <property name="id" value="datasetC1"/>
-                    <property name="uri" value="roolo://memory/20085/0/pH+Data+from+experiments.scypds"/>
+                    <property name="uri" value="roolo://memory/20234/0/%CE%94%CE%B5%CE%B4%CE%BF%CE%BC%CE%AD%CE%BD%CE%B1+%CE%B1%CF%80%CF%8C+%CF%84%CE%B1+%CF%80%CE%B5%CE%B9%CF%81%CE%AC%CE%BC%CE%B1%CF%84%CE%B1++-+pH.scypds"/>
                     <property name="iconType" value="Data"/>
                     <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/c1lasexp.txt"/>
                     <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_fitex_c1.html"/>
@@ -753,7 +753,7 @@
                 </bean>
                 <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                     <property name="id" value="inferencesC1"/>
-                    <property name="uri" value="roolo://memory/20079/0/Inferences+pH.rtf"/>
+                    <property name="uri" value="roolo://memory/20231/0/%CE%A3%CF%85%CE%BC%CF%80%CE%B5%CF%81%CE%AC%CF%83%CE%BC%CE%B1%CF%84%CE%B1+-+pH.rtf"/>
                     <property name="iconType" value="Model"/>
                     <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/c1lasexp.txt"/>
                     <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_inferences_c1.html"/>
@@ -817,7 +817,7 @@
                 </bean>
                 <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                     <property name="id" value="solutionC1"/>
-                    <property name="uri" value="roolo://memory/20056/0/Problem+solution+pH.rtf"/>
+                    <property name="uri" value="roolo://memory/20230/0/%CE%9B%CF%8D%CF%83%CE%B7+%CF%80%CF%81%CE%BF%CE%B2%CE%BB%CE%AE%CE%BC%CE%B1%CF%84%CE%BF%CF%82+-+pH.rtf"/>
                     <property name="iconType" value="Conclusion"/>
                     <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/c1lasdes.txt"/>
                     <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_solution_c1.html"/>
