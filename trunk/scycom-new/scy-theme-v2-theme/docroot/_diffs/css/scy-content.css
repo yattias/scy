@@ -15,3 +15,22 @@ body {
 	background-position: 57px 7px;
 	min-height: 695px;
 }
+
+.portlet-search .section-title {
+	margin: 10px 0 0;
+	background: transparent;	
+}
+
+input[onclick="_3_addSearchProvider();"] {
+	display: none;
+}
+
+.search-msg {
+	display: none;
+}
+
+.highlight {
+	background: transparent;
+	color: red;
+	font-weight: normal;
+}
