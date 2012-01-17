@@ -39,6 +39,18 @@
         <string language="en">Influence of nutrients on biomass</string>
       </title>
     </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_forked_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20246/0/%CE%95%CF%80%CE%AF%CE%B4%CF%81%CE%B1%CF%83%CE%B7+%CF%84%CF%89%CE%BD+%CE%B8%CF%81%CE%B5%CF%80%CF%84%CE%B9%CE%BA%CF%8E%CE%BD+%CF%83%CF%85%CF%83%CF%84%CE%B1%CF%84%CE%B9%CE%BA%CF%8E%CE%BD+%CF%83%CF%84%CE%B7+%CE%B2%CE%B9%CE%BF%CE%BC%CE%AC%CE%B6%CE%B1.scymodel</entry>
+        </identifier>
+      </resource>
+    </relation>
   </lom>
   <template>true</template>
   <thumbnail>

@@ -39,6 +39,18 @@
         <string language="en">Prey-predator relationships</string>
       </title>
     </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_forked_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20259/0/%CE%A3%CF%87%CE%AD%CF%83%CE%B5%CE%B9%CF%82+%CE%B8%CE%B7%CF%81%CE%AC%CE%BC%CE%B1%CF%84%CE%BF%CF%82-%CE%B8%CE%B7%CF%81%CE%B5%CF%85%CF%84%CE%AE.scymodel</entry>
+        </identifier>
+      </resource>
+    </relation>
   </lom>
   <template>true</template>
   <thumbnail>
