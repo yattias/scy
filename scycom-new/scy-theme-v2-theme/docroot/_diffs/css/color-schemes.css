@@ -20,6 +20,10 @@
     background: none repeat scroll 0 0 #6c4cdd;
 }
 
+.violet .portlet-search .section-title {
+	background: #6c4cdd;
+	color: #fff;
+}
 /* Orange */
 .orange .portlet {
 	border-color: #ff4001;
@@ -41,6 +45,12 @@
 .orange .portlet-title {
     background: none repeat scroll 0 0 #ff4001;
 }
+
+.orange .portlet-search .section-title {
+	background: #ff4001; 
+	color: #fff;
+}
+
 /* Green */
 .green .portlet {
 	border-color: #6eae00;
@@ -61,6 +71,11 @@
 
 .green .portlet-title {
 	background: none repeat scroll 0 0 #6eae00;
+}
+
+.green .portlet-search .section-title {
+	background: #6eae00; 
+	color: #fff;
 }
 
 /* Blue */
@@ -85,6 +100,11 @@
 	background: none repeat scroll 0 0 #0052f6;
 }
 
+.blue .portlet-search .section-title {
+	background: #0052f6; 
+	color: #fff;
+}
+
 /* Pink */
 .pink .portlet {
 	border-color: #ff0198;
@@ -106,6 +126,12 @@
 .pink .portlet-title {
 	background: none repeat scroll 0 0 #ff0198;
 }
+
+.pink .portlet-search .section-title {
+	background: #ff0198; 
+	color: #fff;
+}
+
 /* Red */
 .red .portlet {
 	border-color: indianRed;
@@ -124,6 +150,11 @@
 	border-color: indianRed;
 }
 
-.red  .portlet-title {
+.red .portlet-title {
 	background: none repeat scroll 0 0 indianRed;
+}
+
+.red .portlet-search .section-title {
+	background: indianRed; 
+	color: #fff;
 }
