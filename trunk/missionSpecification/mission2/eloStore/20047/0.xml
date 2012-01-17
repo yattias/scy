@@ -61,6 +61,18 @@
         </identifier>
       </resource>
     </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_forked_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20240/0/Problem+formulation+-+primary+production.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
   </lom>
   <template>true</template>
   <thumbnail>
@@ -69,13 +81,13 @@
   </thumbnail>
 </metadata>
 <content languages="en" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}&#xD;&#xD;&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;
-&#xD;&#xD;&#xD;
-\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here what is the main problem of this situation.\par&#xD;&#xD;&#xD;
-\f1\cf1\par&#xD;&#xD;&#xD;
-\li0\ri0\fi0\ul0\par&#xD;&#xD;&#xD;
+<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}&#xD;&#xD;&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;&#xD;
+&#xD;&#xD;&#xD;&#xD;
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here what is the main problem of this situation.\par&#xD;&#xD;&#xD;&#xD;
+\f1\cf1\par&#xD;&#xD;&#xD;&#xD;
+\li0\ri0\fi0\ul0\par&#xD;&#xD;&#xD;&#xD;
 }</RichText>
 </content>
 <resources>

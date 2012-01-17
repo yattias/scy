@@ -59,6 +59,18 @@
       <entity>icon</entity>
       <iconType>scy/xproc</iconType>
     </annotation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_forked_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20233/0/%CE%A0%CE%B5%CE%B9%CF%81%CE%B1%CE%BC%CE%B1%CF%84%CE%B9%CE%BA%CE%AE+%CE%B4%CE%B9%CE%B1%CE%B4%CE%B9%CE%BA%CE%B1%CF%83%CE%AF%CE%B1+-+pH.scyxproc</entry>
+        </identifier>
+      </resource>
+    </relation>
   </lom>
   <template>true</template>
   <thumbnail>
@@ -384,7 +396,7 @@
       <material>
         <id>320</id>
         <name language="en">Sulphuric acid solutions</name>
-        <info language="en">Solution A - 0,0001M&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+        <info language="en">Solution A - 0,0001M&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
 Solution B - 0,01 M</info>
       </material>
       <used>false</used>

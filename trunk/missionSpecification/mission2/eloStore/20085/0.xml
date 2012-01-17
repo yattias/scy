@@ -59,6 +59,18 @@
       <entity>icon</entity>
       <iconType>scy/dataset</iconType>
     </annotation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_forked_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20234/0/%CE%94%CE%B5%CE%B4%CE%BF%CE%BC%CE%AD%CE%BD%CE%B1+%CE%B1%CF%80%CF%8C+%CF%84%CE%B1+%CF%80%CE%B5%CE%B9%CF%81%CE%AC%CE%BC%CE%B1%CF%84%CE%B1++-+pH.scypds</entry>
+        </identifier>
+      </resource>
+    </relation>
   </lom>
   <template>true</template>
   <thumbnail>

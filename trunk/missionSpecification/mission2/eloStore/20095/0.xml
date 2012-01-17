@@ -60,6 +60,18 @@
     <relation>
       <kind>
         <source>LOMv1.0</source>
+        <value>is_forked_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20237/0/Concept+map.scymapping</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
         <value>isbasedon</value>
       </kind>
       <resource>
