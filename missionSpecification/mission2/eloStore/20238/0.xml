@@ -1,0 +1,107 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>tea</entity>
+        <date>
+          <dateTime>2012-01-17T13:03:09.828+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>tea</entity>
+        <date>
+          <dateTime>2012-01-17T13:03:09.828+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1266853263318</dateCreated>
+        <dateFirstUserSaveKey>1317113771198</dateFirstUserSaveKey>
+        <dateLastModified>1326798189828</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <general>
+      <description>
+        <string language="en" />
+      </description>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20238/0/Problem+solution+-+primary+production.rtf</entry>
+      </identifier>
+      <las>reportingVideo</las>
+      <structure>plainText</structure>
+      <mission>ecoMission</mission>
+      <missionId>eco</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20228/0/%CE%9F%CE%B9%CE%BA%CE%BF%CF%83%CF%85%CF%83%CF%84%CE%AE%CE%BC%CE%B1%CF%84%CE%B1.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Problem solution - primary production</string>
+      </title>
+    </general>
+    <educational>
+      <learningResourceType>reportFinal</learningResourceType>
+    </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType>Conclusion</iconType>
+    </annotation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20053/0/Problem+solution+nutrients.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_forked_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20242/0/%CE%9B%CF%8D%CF%83%CE%B7+%CF%80%CF%81%CE%BF%CE%B2%CE%BB%CE%AE%CE%BC%CE%B1%CF%84%CE%BF%CF%82-+%CF%80%CF%81%CF%89%CF%84%CE%BF%CE%B3%CE%B5%CE%BD%CE%AE%CF%82+%CF%80%CE%B1%CF%81%CE%B1%CE%B3%CF%89%CE%B3%CE%AE.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+  </lom>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACQklEQVR42u3VwWoaQRzH8T14ldK+g0/hA9RT8WgfxJ7Ug3gylx60UaQKhjS0xUNLu4JYvLS9WKyHHkwgwRrqkhYTaCzpml3/dSa4qFCzhEChfn/wd/Y/s8wMH0SN0aXI9wvHq73nL5b6cqWy1Psp6+eFWOebUYYCfN87l3bfkU/9iQZU/ceDX3oslyviuFO5/+Ch7hXQyazUs2EYMrKnek71qurtoVinp2KdnW1EacDq28/yKLMte40vGlD1O2ZXj+obaE8u5d7dO7qff8sqr9u6H02uANVzbvedbL/8IIfDb3JkWWtq6GNu6HNt3dxNy//9NODW01eyVb4qBbjYK8Anz0xvTmH9+O166+pZzc37xztv5HDwVY6OjzeijP5+T/q9We0v1Gr/t7mblp/9ez7X/vH9jOl0Kiqu68q6XLc+32cex3HEb1b3vu4sP1m9z23uvRhDf8z+DILBoFSrVWm1WtJoNGQwGOgXstmsHtXaYmKxmJimKalUSgqFgkSjURmPx967kUhEbNvWfafTkXq9LsViUZrNprdHOp3W74ZCIanVat6Z6j4q4XBY3yeRSCydnUwm9bmlUsl7N5fL6TEej0s+n9fPldnPjzpDpdvtSiaTkUAgcPuABEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAAQSQAAgggAACSAAEEEAACYAAAgggARBAAAEkAAIIIIAEQAABBJAACCCAABIAAQQQQAIggAD+b/kDNyHTEFdFZZIAAAAASUVORK5CYII=</base64>
+  </thumbnail>
+</metadata>
+<content languages="en" contentType="xml">
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here what is the solution to the problem you have defined in the beginning of your work.\par&#xD;
+\f1\cf1\par&#xD;
+\par&#xD;
+\par&#xD;
+\li0\ri0\fi0\ul0\par&#xD;
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>

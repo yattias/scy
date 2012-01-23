@@ -1,0 +1,311 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>tea</entity>
+        <date>
+          <dateTime>2012-01-17T14:03:34.500+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1291714133195</dateCreated>
+        <dateFirstUserSaveKey>1326801814500</dateFirstUserSaveKey>
+        <dateLastModified>1326801814500</dateLastModified>
+      </customElements>
+      <format>scy/model</format>
+    </technical>
+    <educational>
+      <learningResourceType>sourceData</learningResourceType>
+    </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType>scy/model</iconType>
+    </annotation>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20246/0/%CE%95%CF%80%CE%AF%CE%B4%CF%81%CE%B1%CF%83%CE%B7+%CF%84%CF%89%CE%BD+%CE%B8%CF%81%CE%B5%CF%80%CF%84%CE%B9%CE%BA%CF%8E%CE%BD+%CF%83%CF%85%CF%83%CF%84%CE%B1%CF%84%CE%B9%CE%BA%CF%8E%CE%BD+%CF%83%CF%84%CE%B7+%CE%B2%CE%B9%CE%BF%CE%BC%CE%AC%CE%B6%CE%B1.scymodel</entry>
+      </identifier>
+      <las>experiment_B1</las>
+      <mission>ecoMission</mission>
+      <missionId>eco</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20228/0/%CE%9F%CE%B9%CE%BA%CE%BF%CF%83%CF%85%CF%83%CF%84%CE%AE%CE%BC%CE%B1%CF%84%CE%B1.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Influence of nutrients on biomass</string>
+        <string language="el">Επίδραση των θρεπτικών συστατικών στη βιομάζα</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20087/0/Nutrients+SCYDynamics+model.scymodel</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation />
+  </lom>
+  <keywords>
+    <key>mortality_rate</key>
+    <value>1.0</value>
+  </keywords>
+  <keywords>
+    <key>mortality</key>
+    <value>1.0</value>
+  </keywords>
+  <keywords>
+    <key>P</key>
+    <value>1.0</value>
+  </keywords>
+  <keywords>
+    <key>N</key>
+    <value>1.0</value>
+  </keywords>
+  <keywords>
+    <key>affinity_P</key>
+    <value>1.0</value>
+  </keywords>
+  <keywords>
+    <key>max_growth_rate</key>
+    <value>1.0</value>
+  </keywords>
+  <keywords>
+    <key>affinity_N</key>
+    <value>1.0</value>
+  </keywords>
+  <keywords>
+    <key>growth</key>
+    <value>1.0</value>
+  </keywords>
+  <keywords>
+    <key>Biomass</key>
+    <value>1.0</value>
+  </keywords>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAABUklEQVR42u3WvWrCUBiA4QNdsgjdvAx7MQ4dOuTaurpV6NJBx4IY6FDXWFyE/jg4WOxwGqc2NZbYFizmeUEwnnAgDx/mhKhfFRAcADDP8+2NbkIM98VnUX/L5XJpAr/W7/crf+/1eiZQAAH+X8C8+Pr2+LEQ2O4H+FQPLE3TmGUhTqeAy4C39UE2eIPByV7HnnEx0fkRTnX5iV6L813FZI1Go9L1bHa5/9mxwHtot48ccIP3vHtKVqvV9gY1puqquOe61WrmWzhJkm/Xh8PTOJk09/8w/MUhZz6vvvGuAW/y3U94Vl7thu7WLVl2Edfrlzgen1duMWs04OcWPztyDzsdgAIIECBAAQQIEKAAAgQIUAABAgQogAABAhRAgAABAhRAgAABCiBAgAAFECBAgAIIECBAAQQIEKAAAgQIUAABAgQogAABAhRAgAABCiDAg/cOs7phBYT+QmwAAAAASUVORK5CYII=</base64>
+  </thumbnail>
+</metadata>
+<content languages="en el" contentType="xml">
+<model xmlns="http://www.co-lab.nl/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.co-lab.nl/xml Model.xsd">
+<descriptor>
+	<symbol>model</symbol>
+</descriptor>
+<variables>
+	<varspec>
+		<variable>
+			<descriptor>
+				<symbol>time</symbol>
+			</descriptor>
+			<type>double</type>
+			<color>#000000</color>
+			<visible>true</visible>
+		</variable>
+		<specification>
+			<timeSpec>
+				<unit>?</unit>
+				<time start="0.0" stop="10.0"/>
+				<integration method="RungeKuttaFehlberg" step="0.1"/>
+			</timeSpec>
+		</specification>
+	</varspec>
+	<varspec>
+		<variable>
+			<descriptor>
+				<symbol>mortality_rate</symbol>
+			</descriptor>
+			<type>double</type>
+			<color>#b20000</color>
+			<visible>true</visible>
+		</variable>
+		<specification>
+			<constSpec>
+				<expression>0.59</expression>
+				<unit>?</unit>
+			</constSpec>
+		</specification>
+	</varspec>
+	<varspec>
+		<variable>
+			<descriptor>
+				<symbol>mortality</symbol>
+			</descriptor>
+			<type>double</type>
+			<color>#b20000</color>
+			<visible>true</visible>
+		</variable>
+		<specification>
+			<auxSpec>
+				<expression>mortality_rate*Biomass</expression>
+				<unit>?</unit>
+				<exprType>0</exprType>
+			</auxSpec>
+		</specification>
+	</varspec>
+	<varspec>
+		<variable>
+			<descriptor>
+				<symbol>P</symbol>
+			</descriptor>
+			<type>double</type>
+			<color>#ffc800</color>
+			<visible>true</visible>
+		</variable>
+		<specification>
+			<constSpec>
+				<expression>3</expression>
+				<unit>umol/L</unit>
+			</constSpec>
+		</specification>
+	</varspec>
+	<varspec>
+		<variable>
+			<descriptor>
+				<symbol>N</symbol>
+			</descriptor>
+			<type>double</type>
+			<color>#ff00ff</color>
+			<visible>true</visible>
+		</variable>
+		<specification>
+			<constSpec>
+				<expression>15</expression>
+				<unit>umol/L</unit>
+			</constSpec>
+		</specification>
+	</varspec>
+	<varspec>
+		<variable>
+			<descriptor>
+				<symbol>affinity_P</symbol>
+			</descriptor>
+			<type>double</type>
+			<color>#ffc800</color>
+			<visible>true</visible>
+		</variable>
+		<specification>
+			<constSpec>
+				<expression>0.2</expression>
+				<unit>umol/L</unit>
+			</constSpec>
+		</specification>
+	</varspec>
+	<varspec>
+		<variable>
+			<descriptor>
+				<symbol>max_growth_rate</symbol>
+			</descriptor>
+			<type>double</type>
+			<color>#b2b200</color>
+			<visible>true</visible>
+		</variable>
+		<specification>
+			<constSpec>
+				<expression>1.35</expression>
+				<unit>?</unit>
+			</constSpec>
+		</specification>
+	</varspec>
+	<varspec>
+		<variable>
+			<descriptor>
+				<symbol>affinity_N</symbol>
+			</descriptor>
+			<type>double</type>
+			<color>#ff00ff</color>
+			<visible>true</visible>
+		</variable>
+		<specification>
+			<constSpec>
+				<expression>5.6</expression>
+				<unit>umol/L</unit>
+			</constSpec>
+		</specification>
+	</varspec>
+	<varspec>
+		<variable>
+			<descriptor>
+				<symbol>growth</symbol>
+			</descriptor>
+			<type>double</type>
+			<color>#b2b200</color>
+			<visible>true</visible>
+		</variable>
+		<specification>
+			<auxSpec>
+				<expression>Biomass*max_growth_rate*(P/(affinity_P+P))*(N/(affinity_N+N))</expression>
+				<unit>?</unit>
+				<exprType>0</exprType>
+			</auxSpec>
+		</specification>
+	</varspec>
+	<varspec>
+		<variable>
+			<descriptor>
+				<symbol>Biomass</symbol>
+			</descriptor>
+			<type>double</type>
+			<color>#00b200</color>
+			<visible>true</visible>
+		</variable>
+		<specification>
+			<stockSpec>
+				<initial>1</initial>
+				<unit>10.6 cells/ml</unit>
+				<inflow>growth</inflow>
+				<outflow>mortality</outflow>
+			</stockSpec>
+		</specification>
+	</varspec>
+</variables>
+<layout>
+	<nodes>
+		<nstock symbol="Biomass" id="50ac1f59-e302-4bf9-834d-f5ff31dd5cb5" x1="276" y1="30" x2="308" y2="50" label="south" color="#000000" labelColor="#00b200"/>
+		<naux symbol="growth" id="86a9c6a9-fea8-4c4e-ad6e-e0e70b39149e" x1="189" y1="116" x2="221" y2="148" label="south" color="#000000" labelColor="#b2b200"/>
+		<naux symbol="mortality" id="199fad9a-4b95-4013-b408-8971d48291af" x1="388" y1="128" x2="420" y2="160" label="south" color="#000000" labelColor="#b20000"/>
+		<nconst symbol="affinity_P" id="3b558ff5-9ac6-411e-986e-6e7554bb77f4" x1="45" y1="150" x2="77" y2="182" label="south" color="#000000" labelColor="#ffc800"/>
+		<nconst symbol="mortality_rate" id="b1715eec-81dd-4225-a5f7-b796afa20529" x1="334" y1="194" x2="366" y2="226" label="south" color="#000000" labelColor="#b20000"/>
+		<nconst symbol="affinity_N" id="f96bbd42-ec07-4275-9024-167304c13dfa" x1="138" y1="210" x2="170" y2="242" label="south" color="#000000" labelColor="#ff00ff"/>
+		<nconst symbol="max_growth_rate" id="7e34bb44-090d-43c3-a936-1ccc20d09fb0" x1="244" y1="175" x2="276" y2="207" label="south" color="#000000" labelColor="#b2b200"/>
+		<nconst symbol="P" id="ff5405ba-2353-4073-8ed3-c6a5c5ed8714" x1="22" y1="100" x2="54" y2="132" label="south" color="#000000" labelColor="#ffc800"/>
+		<nconst symbol="N" id="a40451bf-04ac-449e-b455-23cae819df33" x1="93" y1="196" x2="125" y2="228" label="south" color="#000000" labelColor="#ff00ff"/>
+	</nodes>
+	<links>
+		<lflow symbol="Flow_3" id="339df7b7-1f5e-4f90-88f7-03a08dd75e91" start="Biomass" x1="308" y1="40" x2="469" y2="40" cx1="469" cy1="40" type="lineal" color="#000000"/>
+		<lflow symbol="Flow_1" id="799dea43-3628-4186-a8e5-04b442bb5257" end="Biomass" x1="126" y1="40" x2="276" y2="40" cx1="276" cy1="40" type="lineal" color="#000000"/>
+		<lrelation symbol="Relation_9" id="34dd15e1-0e22-4547-bd67-1fb888dbfbda" start="mortality" end="Flow_3" type="0" x1="404" y1="129" x2="394" y2="47" cx1="404" cy1="101" cx2="411" cy2="71" color="#000000"/>
+		<lrelation symbol="Relation_8" id="b6233224-00f0-40d8-b8fd-edfc4fae661f" start="mortality_rate" end="mortality" type="0" x1="358" y1="202" x2="389" y2="146" cx1="373" cy1="187" cx2="328" cy2="154" color="#000000"/>
+		<lrelation symbol="Relation_7" id="e76f9b53-4664-4a79-be80-f2311a9cbc53" start="Biomass" end="mortality" type="0" x1="308" y1="49" x2="394" y2="134" cx1="343" cy1="69" cx2="366" cy2="106" color="#000000"/>
+		<lrelation symbol="Relation_5" id="c41a73a7-57d9-407a-b629-034fa68dd6db" start="P" end="growth" type="0" x1="52" y1="117" x2="195" y2="122" cx1="97" cy1="120" cx2="158" cy2="85" color="#000000"/>
+		<lrelation symbol="Relation_11" id="d63402c2-609f-4593-bcd8-0049200c459d" start="affinity_N" end="growth" type="0" x1="159" y1="215" x2="193" y2="142" cx1="170" cy1="190" cx2="166" cy2="161" color="#000000"/>
+		<lrelation symbol="Relation_4" id="a99c4aed-b74d-4b45-921f-2756179a7e84" start="max_growth_rate" end="growth" type="0" x1="252" y1="182" x2="221" y2="132" cx1="240" cy1="169" cx2="251" cy2="132" color="#000000"/>
+		<lrelation symbol="Relation_10" id="0e7073a6-b932-4273-ac0a-b1f71b2a448d" start="affinity_P" end="growth" type="0" x1="74" y1="163" x2="191" y2="128" cx1="113" cy1="154" cx2="105" cy2="100" color="#000000"/>
+		<lrelation symbol="Relation_3" id="112b95ba-edb3-4dd8-951e-e19afaa0c525" start="N" end="growth" type="0" x1="117" y1="204" x2="190" y2="136" cx1="141" cy1="180" cx2="116" cy2="153" color="#000000"/>
+		<lrelation symbol="Relation_2" id="a7f74dec-7e78-4a80-a4f0-c64f43f0d1f2" start="Biomass" end="growth" type="0" x1="276" y1="48" x2="216" y2="121" cx1="247" cy1="62" cx2="239" cy2="98" color="#000000"/>
+		<lrelation symbol="Relation_1" id="066fb1c1-b232-4776-b427-23c189d79081" start="growth" end="Flow_1" type="0" x1="205" y1="117" x2="202" y2="47" cx1="205" cy1="94" cx2="205" cy2="70" color="#000000"/>
+	</links>
+</layout>
+</model>
+</content>
+<resources>
+<resource languageIndependent="true" contentType="binary" name="thumbnail" technicalFormat="scy/png">
+iVBORw0KGgoAAAANSUhEUgAAAFAAAAArCAYAAADv9A+vAAAAS0lEQVR42u3QIQEAAAACIP+f1hFWmEDKJQoEChQoEIECBQpEoECBAhEoUKBABAoUKBCBAgUKRKBAgQIRKFCgQAQKFCgQgQIFCkTgbWIEjVzC1qb/AAAAAElFTkSuQmCC
+</resource>
+</resources>
+</elo>

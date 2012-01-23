@@ -1,0 +1,99 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>tea</entity>
+        <date>
+          <dateTime>2012-01-17T14:51:37.781+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1266853263318</dateCreated>
+        <dateFirstUserSaveKey>1326804697781</dateFirstUserSaveKey>
+        <dateLastModified>1326804697781</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <general>
+      <description>
+        <string language="en" />
+      </description>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20255/0/%CE%95%CF%81%CE%B5%CF%85%CE%BD%CE%B7%CF%84%CE%B9%CE%BA%CE%AC+%CE%B5%CF%81%CF%89%CF%84%CE%AE%CE%BC%CE%B1%CF%84%CE%B1-+%CF%86%CF%89%CF%82.rtf</entry>
+      </identifier>
+      <las>orientation_B2</las>
+      <structure>plainText</structure>
+      <mission>ecoMission</mission>
+      <missionId>eco</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20228/0/%CE%9F%CE%B9%CE%BA%CE%BF%CF%83%CF%85%CF%83%CF%84%CE%AE%CE%BC%CE%B1%CF%84%CE%B1.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Research questions - light</string>
+        <string language="el">Ερευνητικά ερωτήματα- φως</string>
+      </title>
+    </general>
+    <educational>
+      <learningResourceType>researchQuestion</learningResourceType>
+    </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType>Research_question</iconType>
+    </annotation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20026/0/Research+questions+light.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_forked_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20266/0/%CE%94%CE%B9%CE%B5%CF%81%CE%B5%CF%85%CE%BD%CE%AE%CF%83%CE%B9%CE%BC%CE%B1+%CE%B5%CF%81%CF%89%CF%84%CE%AE%CE%BC%CE%B1%CF%84%CE%B1+-+%CF%86%CF%89%CF%82.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation />
+  </lom>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAABu0lEQVR42u3UzUoCYRjF8dm5jFx5R+3cSoh3IV1Bd2BgKyMjJMsWQS2CEDRSMKhFiyiTPijJ6QOKKD/q5PtEAy0Ks13+DxzmfZ5hBvkx6Em36qkVNL+c+zLPzWW+zIP0udPUc3c06jnA7cNH1U572j3tKJ/P2bxz9GRXB9jtSRPRSZs/kK7t7Hn9x3VjOze7btSaunto6v5xNGqA2fU9TU2nlds8sC/QzQsb+3Z1gC/tnsLjYzYHX+ZazeZPQHeeWdxSenlHl60TNf3Gt70aYHc14L2fdsP2N7/PAFPzS5pxzS4ZYDD36wAz+dVg57De5Af3X/tnt/ucZ3MrOjs70cVFYyTqnTeORYev+xMjf4gBhkIhlctlxeNxFYtFuxGNRlWtVu3sdolEQqVSyeZ6va5kMqlIJBK8qFAo2NX3fVUqFcViMbXbbdulUimFw+Hg3f8OkAAIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAASQAAggggARAAAEEkAAIIIAAEgABBBBAAAmAAAIIIAEQQAABJAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAkgABBDA/5Z3jCr8CqgjabYAAAAASUVORK5CYII=</base64>
+  </thumbnail>
+</metadata>
+<content languages="en el" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0\u915 ?\u961 ?\u940 ?\u968 ?\u964 ?\u949 ? \u949 ?\u948 ?\u974 ? \u964 ?\u945 ? \u949 ?\u961 ?\u949 ?\u965 ?\u957 ?\u951 ?\u964 ?\u953 ?\u954 ?\u940 ? \u963 ?\u945 ?\u962 ? \u949 ?\u961 ?\u969 ?\u964 ?\u942 ?\u956 ?\u945 ?\u964 ?\u945 ?. \par
+\par
+\f1\cf1\par
+\par
+\li0\ri0\fi0\ul0\par
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>

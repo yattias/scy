@@ -1,0 +1,87 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>tea</entity>
+        <date>
+          <dateTime>2012-01-17T12:57:37.218+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1266853263318</dateCreated>
+        <dateFirstUserSaveKey>1326797857218</dateFirstUserSaveKey>
+        <dateLastModified>1326797857218</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <general>
+      <description>
+        <string language="en" />
+      </description>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20235/0/%CE%94%CE%B9%CE%B1%CF%84%CF%8D%CF%80%CF%89%CF%83%CE%B7+%CF%80%CF%81%CE%BF%CE%B2%CE%BB%CE%AE%CE%BC%CE%B1%CF%84%CE%BF%CF%82+-+pH.rtf</entry>
+      </identifier>
+      <las>orientation_C1</las>
+      <structure>plainText</structure>
+      <mission>ecoMission</mission>
+      <missionId>eco</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20228/0/%CE%9F%CE%B9%CE%BA%CE%BF%CF%83%CF%85%CF%83%CF%84%CE%AE%CE%BC%CE%B1%CF%84%CE%B1.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Problem formulation - pH</string>
+        <string language="el">Διατύπωση προβλήματος - pH</string>
+      </title>
+    </general>
+    <educational>
+      <learningResourceType>researchQuestion</learningResourceType>
+    </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType>Idea</iconType>
+    </annotation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20036/0/Problem+formulation+pH.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation />
+  </lom>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAB8klEQVR42u3Vv2sacRzG8cPNqdR/qlsmlzr4T/hjcxC6CkIDqYgJTShHTClYaAZBXEIWC+1QsLScJA1R6pkWGktqon3q9xNy4NBisqW+H3i47+d7dyovDs+TzjTVMGp9z1+Yt7Y2F+ZlenE50MXVatRzgAcfz9U5murt0aXqdd/mw08/7egAr6bSo7XHNl8jfbW1581v18j23Oy63xno24+Bvp+vRg1w+8075Z9syG9+sCfQzTv77+3oAH9Npko8fGBz9GS+7th8A+jW6y9a2tg71Okw0CDs/bX9Jfb6S577195de5vfZ4BPn+9q3XV71wCjeV4HuFl/Fe05rN8Ko/Oz+drt3czP/Jc6Pg50ctJbiXpfep9F7173J2aZTCa6TcIwjNbj8Viz2UyrGAOMx+PK5XJKp9Nqt9t2olQqqVAo2LpcLqtWqymbzarZbCqRSMj3/esPmL9IqtWqKpWKRqORze66VqulYrFo1zQaDbsnFostfHk+n1cymVQQBDanUillMhl1u937BUgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIIAEQAABBJAACCCAABIAAQQQQAIggAACSAAEEEAACYAAAgggARBAAAEkAAII4P+WP24t54hwSDkCAAAAAElFTkSuQmCC</base64>
+  </thumbnail>
+</metadata>
+<content languages="en el" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0\u915 ?\u961 ?\u940 ?\u968 ?\u964 ?\u949 ? \u949 ?\u948 ?\u974 ? \u964 ?\u959 ? \u946 ?\u945 ?\u963 ?\u953 ?\u954 ?\u972 ? \u960 ?\u961 ?\u972 ?\u946 ?\u955 ?\u951 ?\u956 ?\u945 ? \u947 ?\u953 ?\u945 ? \u945 ?\u965 ?\u964 ?\u942 ? \u964 ?\u951 ?\u957 ? \u954 ?\u945 ?\u964 ?\u940 ?\u963 ?\u964 ?\u945 ?\u963 ?\u951 ?. \par
+\par
+\f1\cf1\par
+\par
+\li0\ri0\fi0\ul0\par
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>

@@ -1,0 +1,100 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>tea</entity>
+        <date>
+          <dateTime>2012-01-17T15:02:14.250+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>arle</entity>
+        <date>
+          <dateTime>2011-06-09T16:40:34.734+0300</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1266921130672</dateCreated>
+        <dateFirstUserSaveKey>1326805334250</dateFirstUserSaveKey>
+        <dateLastModified>1326805334250</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <general>
+      <description>
+        <string language="en" />
+      </description>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20258/0/%CE%A3%CF%85%CE%BC%CF%80%CE%B5%CF%81%CE%AC%CF%83%CE%BC%CE%B1%CF%84%CE%B1-+%CF%84%CF%81%CE%BF%CF%86%CE%B9%CE%BA%CE%AC+%CE%B5%CF%80%CE%AF%CF%80%CE%B5%CE%B4%CE%B1.rtf</entry>
+      </identifier>
+      <las>design_B3</las>
+      <structure>plainText</structure>
+      <mission>ecoMission</mission>
+      <missionId>eco</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20228/0/%CE%9F%CE%B9%CE%BA%CE%BF%CF%83%CF%85%CF%83%CF%84%CE%AE%CE%BC%CE%B1%CF%84%CE%B1.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Inferences - trophic levels</string>
+        <string language="el">Συμπεράσματα- τροφικά επίπεδα</string>
+      </title>
+    </general>
+    <educational>
+      <learningResourceType>reportFinal</learningResourceType>
+    </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType>scy/simconfig</iconType>
+    </annotation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20071/0/Inferences+trophic+levels.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation />
+  </lom>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACVUlEQVR42u3V32tSYRgH8HPnlUT9D/4behkoeuGV6Y1/RZde5dUQEqOBkEIjR4VCWQt/i64UDOyiCxdsWEMPGm7QiHWcZ998H5lsQeOwGIP8fuHhvM/zHs95+SCqTU6A8fFsWZvPX1zoU+n0hd5K6T+OoR+tRmkKcLt3hE5/ho/9qQCq/sOXn3JNpdKYmae467snvQIazUutNU3DxDiVmepVvesMoR8cQD88XIkSwKdvu7j/YB2bxc8CqPqNrU9yVd9AY3qCO7dvSX/2LUu/7kg/mS4A1frRswrWX77H7nCAPV2/pIYWZkOLe5fNrlrWzyeAa09eYS21KAV4vleAjzNby5nC+v7LXO6rtZqd9Q833mD321fs7e+vRGn9nR76vXntnKs/+7/NrlpWnt+zuHfD59NwzTFN87pfgdFohJuKANpsNjSbTYRCIdRqNdnw+Xxot9uyVrN8Po9YLIZisYhud/5bOB4jGAyiVCqhXq8jEonA7XbL/dlsFvF4XNbqGYPBYPGy+Z9Oq9WCy+WC0+mUmfqsepeC9ng8aDQa8Pv9sletVhEIBGRtt9sRjUblLOpeh8Mhc6/XK7NCoYBMJoNKpSLzRCIhV8Mw5JnhcFjW6ixqncvlUC6X5Z5kMvlvgAwISEACEpAhIAEJSECGgAQkIAEZAhKQgARkCEhAAhKQISABCUhAhoAEJCABGQISkIAEZAhIQAISkCEgAQlIQAIyBCQgAQnIEJCABCQgQ0ACEpCADAEJSEACMgQkIAEJyBCQgAQkIENAAhKQgAwBCUjA/yy/AUkczODg/xBcAAAAAElFTkSuQmCC</base64>
+  </thumbnail>
+</metadata>
+<content languages="en el" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0\u915 ?\u961 ?\u940 ?\u968 ?\u964 ?\u949 ? \u949 ?\u948 ?\u974 ? \u964 ?\u945 ? \u963 ?\u965 ?\u956 ?\u960 ?\u949 ?\u961 ?\u940 ?\u963 ?\u956 ?\u945 ?\u964 ?\u940 ? \u963 ?\u945 ?\u962 ?. \u928 ?\u945 ?\u961 ?\u945 ?\u954 ?\u945 ?\u955 ?\u974 ? \u960 ?\u961 ?\u959 ?\u963 ?\u952 ?\u941 ?\u963 ?\u964 ?\u949 ? \u964 ?\u959 ?\u965 ?\u962 ? \u960 ?\u949 ?\u961 ?\u953 ?\u959 ?\u961 ?\u953 ?\u963 ?\u956 ?\u959 ?\u973 ?\u962 ? \u964 ?\u969 ?\u957 ? \u963 ?\u965 ?\u956 ?\u960 ?\u949 ?\u961 ?\u945 ?\u963 ?\u956 ?\u940 ?\u964 ?\u969 ?\u957 ? \u963 ?\u945 ?\u962 ?. \par
+\par
+\par
+\par
+\f1\cf1\par
+\par
+\par
+\li0\ri0\fi0\ul0\par
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>

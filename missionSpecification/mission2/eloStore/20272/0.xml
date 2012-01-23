@@ -1,0 +1,90 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>tea</entity>
+        <date>
+          <dateTime>2012-01-17T13:03:09.781+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>tea</entity>
+        <date>
+          <dateTime>2012-01-17T13:03:09.781+0200</dateTime>
+        </date>
+      </contribute>
+      <version>1</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1294842684379</dateCreated>
+        <dateFirstUserSaveKey>1326806557406</dateFirstUserSaveKey>
+        <dateLastModified>1326807341781</dateLastModified>
+      </customElements>
+      <format>scy/mapping</format>
+    </technical>
+    <educational>
+      <learningResourceType>mapConcept</learningResourceType>
+    </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType>Concept_map3</iconType>
+    </annotation>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20272/0/%CE%95%CE%BD%CE%BD%CE%BF%CE%B9%CE%BF%CE%BB%CE%BF%CE%B3%CE%B9%CE%BA%CF%8C%CF%82+%CF%87%CE%AC%CF%81%CF%84%CE%B7%CF%82.scymapping</entry>
+      </identifier>
+      <las>experiment_B1</las>
+      <missionId>eco</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20228/0/%CE%9F%CE%B9%CE%BA%CE%BF%CF%83%CF%85%CF%83%CF%84%CE%AE%CE%BC%CE%B1%CF%84%CE%B1.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Concept map</string>
+        <string language="et">Mõistekaart</string>
+        <string language="el">Εννοιολογικός χάρτης</string>
+      </title>
+    </general>
+    <relation />
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>isbasedon</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20005/0/ecoMission.runtimesettings</entry>
+        </identifier>
+      </resource>
+    </relation>
+  </lom>
+  <template>false</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAAeElEQVR42u3QMQEAAAwCIPuX1hDbCRFIOYkCgQIFCkSgQIECEShQoEAEChQoEIECBQpEoECBAhEoUKBABAoUKBCBAgUKRKBAgQIRKFCgQIEIFChQIAIFChSIQIECBSJQoECBCBQoUCACBQoUiECBAgUiUKBAgQj8M5Hzoc7Xq3ytAAAAAElFTkSuQmCC</base64>
+  </thumbnail>
+</metadata>
+<content languages="en et el" contentType="xml">
+<eu.scy.scymapper.impl.model.DefaultConceptMap>
+  <name>Untitled</name>
+  <diagram class="eu.scy.scymapper.impl.DiagramModel">
+    <nodes/>
+    <links/>
+  </diagram>
+</eu.scy.scymapper.impl.model.DefaultConceptMap>
+</content>
+<resources>
+</resources>
+</elo>

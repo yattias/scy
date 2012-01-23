@@ -1,0 +1,99 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>tea</entity>
+        <date>
+          <dateTime>2012-01-17T12:33:34.171+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1266853263318</dateCreated>
+        <dateFirstUserSaveKey>1326796414171</dateFirstUserSaveKey>
+        <dateLastModified>1326796414171</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <general>
+      <description>
+        <string language="en" />
+      </description>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20229/0/%CE%9B%CF%8D%CF%83%CE%B7+%CF%80%CF%81%CE%BF%CE%B2%CE%BB%CE%AE%CE%BC%CE%B1%CF%84%CE%BF%CF%82+-+pH.rtf</entry>
+      </identifier>
+      <las>design_C1</las>
+      <structure>plainText</structure>
+      <mission>ecoMission</mission>
+      <missionId>eco</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20228/0/%CE%9F%CE%B9%CE%BA%CE%BF%CF%83%CF%85%CF%83%CF%84%CE%AE%CE%BC%CE%B1%CF%84%CE%B1.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Problem solution - pH</string>
+        <string language="el">Λύση προβλήματος - pH</string>
+      </title>
+    </general>
+    <educational>
+      <learningResourceType>reportFinal</learningResourceType>
+    </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType>Conclusion</iconType>
+    </annotation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20056/0/Problem+solution+pH.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_forked_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20230/0/%CE%9B%CF%8D%CF%83%CE%B7+%CF%80%CF%81%CE%BF%CE%B2%CE%BB%CE%AE%CE%BC%CE%B1%CF%84%CE%BF%CF%82+-+pH.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation />
+  </lom>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACO0lEQVR42u3VT4tSURjH8bt1FfVeXLlwZ7vWttBXICKo4cY/YLtRCJFxlUpDDtWqrAmCcFNtDApM0HAGJ8lLhTPgkJN3dJ48Z5rLTNBwkSjK7w8eznnOOfdy+HBFY3Qk8vlwZtfmvfvn+nKlcq53Uub4UMyD1ShDAb7oHEizP5PXfUsDqv7V+696LJcrMpsfy9Vr13WvgD4tSs0Nw5DR9FivqV7V0+ZQzL09Mff3V6I04J0nb+TGzZJsPnunAVW/sfVWj+oLnFpHcuXyJd2ffmWVR03dj6wTQDUv3n0upQcvZXv4UXZM84IaOlgbOty7aG3Zcn4/Dbh2+6GslU9KAZ7tFeB6bcteU1hfvs3tfTVXa6f9rY3Hsv1hV3YGg5Uoo9/tSL+zqO6Z+rn/1dqy5eT9HYd7f/l+hvzIdDqVZTKfz3/LGa/XK/9iNKDL5ZJ4PC7BYFAajYbeyOfzkkwm7YPFYlHa7bZ0u13dRyIRPY7HY/H7/dJqtXRfKpUknU7bz2UyGalWq+Lz+WQymUg0GrX3AoGAHt1ut0YeLH4S6g6WZUmhUBCPxyOxWEzC4bB9Vl968ecVCoWkXq9LNpuVRCIhuVxOarWavksqldLP9Xq9PwNIAAQQQAAJgAACCCABEEAAASQAAggggARAAAEEkAAIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCOD/lu+kD9HDyKVFtwAAAABJRU5ErkJggg==</base64>
+  </thumbnail>
+</metadata>
+<content languages="en el" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0\u915 ?\u961 ?\u940 ?\u968 ?\u964 ?\u949 ? \u949 ?\u948 ?\u974 ? \u960 ?\u959 ?\u953 ?\u945 ? \u949 ?\u943 ?\u957 ?\u945 ?\u953 ? \u951 ? \u955 ?\u973 ?\u963 ?\u951 ? \u963 ?\u964 ?\u959 ? \u960 ?\u961 ?\u972 ?\u946 ?\u955 ?\u951 ?\u956 ?\u945 ? \u960 ?\u959 ?\u965 ? \u959 ?\u961 ?\u943 ?\u963 ?\u945 ?\u964 ?\u949 ? \u963 ?\u964 ?\u951 ?\u957 ? \u945 ?\u961 ?\u967 ?\u942 ? \u964 ?\u951 ?\u962 ? \u949 ?\u961 ?\u947 ?\u945 ?\u963 ?\u943 ?\u945 ?\u962 ? \u963 ?\u945 ?\u962 ?. \par
+\par
+\f1\cf1\par
+\par
+\li0\ri0\fi0\ul0\par
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>

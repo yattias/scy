@@ -1,0 +1,106 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>tea</entity>
+        <date>
+          <dateTime>2012-01-17T13:03:10.125+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>tea</entity>
+        <date>
+          <dateTime>2012-01-17T13:03:10.125+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1266853263318</dateCreated>
+        <dateFirstUserSaveKey>1317113624940</dateFirstUserSaveKey>
+        <dateLastModified>1326798190125</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <general>
+      <description>
+        <string language="en" />
+      </description>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20240/0/Problem+formulation+-+primary+production.rtf</entry>
+      </identifier>
+      <las>reportingVideo</las>
+      <structure>plainText</structure>
+      <mission>ecoMission</mission>
+      <missionId>eco</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20228/0/%CE%9F%CE%B9%CE%BA%CE%BF%CF%83%CF%85%CF%83%CF%84%CE%AE%CE%BC%CE%B1%CF%84%CE%B1.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Problem formulation - primary production</string>
+      </title>
+    </general>
+    <educational>
+      <learningResourceType>researchQuestion</learningResourceType>
+    </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType>Idea</iconType>
+    </annotation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20047/0/Problem+formulation+nutrients.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_forked_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20269/0/%CE%94%CE%B9%CE%B1%CF%84%CF%8D%CF%80%CF%89%CF%83%CE%B7+%CF%80%CF%81%CE%BF%CE%B2%CE%BB%CE%AE%CE%BC%CE%B1%CF%84%CE%BF%CF%82-+%CF%80%CF%81%CF%89%CF%84%CE%BF%CE%B3%CE%B5%CE%BD%CE%AE%CF%82+%CF%80%CE%B1%CF%81%CE%B1%CE%B3%CF%89%CE%B3%CE%AE.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+  </lom>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAADnUlEQVR42u3V30tUaRgH8HPhdCH+AUEXXXinSBfRTUogeOlVeFXeZLkXIf4CUVaEpYuQIHRJaMwZcVayprRQd1l1RdR+l1Qsy1YzzpnSqWbURq1xHG3qu+d93PPqlEawEM3y/cLD857nPefM+JkXNDpcHXiLmc9qBSEk8GrbPW9fz7ZzVQvJwI5743eGt52v4TWiH4JpWUZHxwXEEEZ8DbpWrVrGC2s+i7V1pOx1esdw+WoPFhFMmasKrTwTwCjMz/bU/WO3fkfS+lm2zlXUjzWfMDdq9ZP+nc8MdQJXrBMw+fcyyip+xN3pVdx4smydjA3AP5+vyN7hIz+gpuksGs5eg7d3A1DN9+/LhfvSoLVewmzsKd78C6j21OzoiRpZ24CwANX8UQjS75sJAQy/DaRlWYAXrD8gjGvjz2AYBnL2HbDWPn0CbzwOyd4ZZ6/0ylO/6BOorg8VHIS7Z0DWCtA+gep69569+PX2c1lvAq7JTH3W5JN3+O1OUABfvgmkZckJjCOC81duwnn1lu72CRwY/0vPVZXVO/UJVPOMDAcyHLtQ89M5hLacQPt+uzYB3+tZi2cEruv3BHAmMp2WZbgswIfmAxSXNaH4WNNGt8oGLDl5Ss/U/tGq0xpQ7j+2ufd61SeA76xnU95ndRvwZ09PyvuKjzcJYDDkT8sy+ga8AqL+s+pur3u3mfV9eRb9aO543+Xeizs8exGBoF9q2kzt3/vMGH3kxB8PndjaOfv6mQHmP0UAPR4PvF4vTNOEw+HA3NycbPr9fgwPD8u6rq5OeiAQwMTEBMLhMHJycvSLCgsLsbS0JM+rPZfLJfPS0lJEo1Hk5+fLdVFRkfTq6moMDQ3p96rreDyO9vZ2+Hw+ZGdny7y+vl5/hj3Lzc3F6OgompubZa1if5fKykoMDg6ivLz82wGq1NbWSq+qqkJmZqa+obGxUbpCUamoqIDb7ZZ1f3+/vi8SiSCZTKKkpESuu7u7pS8uLkpva2uTPjIyIr2zs1PWXV1dcr2wsCA9FotJLygokL6+vi69paVFz6amppBIJDA/P4/W1lZkZWXp79LQ0IC8vDz5XPXDfTNAhoAEJCABGQISkIAEZAhIQAISkCEgAQlIQIaABCQgARkCEpCABGQISEACEpAhIAEJSECGgAQkIAEZAhKQgAQkIENAAhKQgAwBCUhAAjIEJCABCcgQkIAEJCBDQAISkIAMAQlIQAIyBCQgAf9/+Qf+8vIQUppVngAAAABJRU5ErkJggg==</base64>
+  </thumbnail>
+</metadata>
+<content languages="en" contentType="xml">
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here what is the main problem of this situation.\par&#xD;
+\f1\cf1\par&#xD;
+\par&#xD;
+\li0\ri0\fi0\ul0\par&#xD;
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>

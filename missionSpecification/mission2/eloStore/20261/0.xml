@@ -1,0 +1,169 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>tea</entity>
+        <date>
+          <dateTime>2012-01-17T15:08:51.312+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1266920430747</dateCreated>
+        <dateFirstUserSaveKey>1326805731312</dateFirstUserSaveKey>
+        <dateLastModified>1326805731312</dateLastModified>
+      </customElements>
+      <format>scy/pds</format>
+    </technical>
+    <general>
+      <description>
+        <string language="en" />
+      </description>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20261/0/%CE%94%CE%B5%CE%B4%CE%BF%CE%BC%CE%AD%CE%BD%CE%B1+%CE%B1%CF%80%CF%8C+%CF%84%CE%B1+%CF%80%CE%B5%CE%B9%CF%81%CE%AC%CE%BC%CE%B1%CF%84%CE%B1-+%CF%84%CF%81%CE%BF%CF%86%CE%B9%CE%BA%CE%AC+%CE%B5%CF%80%CE%AF%CF%80%CE%B5%CE%B4%CE%B1.scypds</entry>
+      </identifier>
+      <las>experiment_B3</las>
+      <structure>dataset</structure>
+      <mission>ecoMission</mission>
+      <missionId>eco</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20228/0/%CE%9F%CE%B9%CE%BA%CE%BF%CF%83%CF%85%CF%83%CF%84%CE%AE%CE%BC%CE%B1%CF%84%CE%B1.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Data from experiments - trophic levels</string>
+        <string language="el">Δεδομένα από τα πειράματα- τροφικά επίπεδα</string>
+      </title>
+    </general>
+    <educational>
+      <learningResourceType>dataset</learningResourceType>
+    </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType>scy/dataset</iconType>
+    </annotation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20077/0/Trophic+levels+Data+from+experiments.scypds</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation />
+  </lom>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>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</base64>
+  </thumbnail>
+</metadata>
+<content languages="en el" contentType="xml">
+<processDataset>
+  <dataset>
+    <header language="el">
+      <column>
+        <symbol>χρόνος</symbol>
+        <description />
+        <type>double</type>
+        <unit>t</unit>
+      </column>
+      <column>
+        <symbol>πληθυσμός θηρευτή</symbol>
+        <description />
+        <type>double</type>
+        <unit>N</unit>
+      </column>
+      <column>
+        <symbol>πληθυσμός θηράματος</symbol>
+        <description />
+        <type>double</type>
+        <unit>N</unit>
+      </column>
+    </header>
+    <row>
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+    </row>
+  </dataset>
+  <processed_dataset>
+    <name>Dataset</name>
+    <processed_hedaer>
+      <column>0</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+    <processed_hedaer>
+      <column>1</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+    <processed_hedaer>
+      <column>2</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+  </processed_dataset>
+</processDataset>
+</content>
+<resources>
+</resources>
+</elo>
