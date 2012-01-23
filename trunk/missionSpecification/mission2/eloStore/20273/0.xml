@@ -1,0 +1,89 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>tea</entity>
+        <date>
+          <dateTime>2012-01-17T13:03:10.265+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>tea</entity>
+        <date>
+          <dateTime>2012-01-17T13:03:10.265+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1293025047522</dateCreated>
+        <dateFirstUserSaveKey>1326807034296</dateFirstUserSaveKey>
+        <dateLastModified>1326807034296</dateLastModified>
+      </customElements>
+      <format>scy/youtuber</format>
+    </technical>
+    <educational>
+      <learningResourceType>reportFinal</learningResourceType>
+    </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType>Video</iconType>
+    </annotation>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20273/0/%CE%91%CE%BD%CE%B1%CF%86%CE%BF%CF%81%CE%AC++%CE%B2%CE%AF%CE%BD%CF%84%CE%B5%CE%BF.scyyoutuber</entry>
+      </identifier>
+      <las>reportingVideo</las>
+      <missionId>eco</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20228/0/%CE%9F%CE%B9%CE%BA%CE%BF%CF%83%CF%85%CF%83%CF%84%CE%AE%CE%BC%CE%B1%CF%84%CE%B1.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Video report</string>
+        <string language="el">Αναφορά  βίντεο</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20241/0/Video+report.scyyoutuber</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation />
+  </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <template>false</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABHCAYAAACQwsCOAAAAbklEQVR42u3QMQEAAAwCIPuX1gS79kIEUl6iQKBAgQIRKFCgQAQKFCgQgQIFCkSgQIECEShQoEAEChQoEIECBQpEoECBAhEoUKBABAoUKFAgAgUKFIhAgQIFIlCgQIEIFChQIAIFChSIQIECBXIYA0hsaR8mv2EAAAAASUVORK5CYII=</base64>
+  </thumbnail>
+</metadata>
+<content languages="en el" contentType="xml">
+<youtuber/>
+</content>
+<resources>
+<resource languageIndependent="true" contentType="binary" name="thumbnail" technicalFormat="scy/png">
+iVBORw0KGgoAAAANSUhEUgAAAFAAAAA8CAYAAADxJz2MAAABxUlEQVR42u3T4WsScRzH8f2lg2Aj6Mkgn+xZT1tjDwa62oMgBkMp2ODAszn0LLoE7QaZIMclGGhKjxalwzn5bL+D+7UxlKJHB+8PfB/chw+CL8+VXq+nwWCw8JrNpkyGw+HSXavV+qtdFEXxbjQaLd31+32lISudTif+8uZKpbdySycqFou2S75I8mwu+FnTQRjp8MsL24VheG+3d/pMzfCjJpOJ7ZIf5PYu5+/K+fxVZ4ML21UqlXQANhoN+b4f33HnShn3t9aOf9nOAJskzzXf01ZUUObDOz0orNs+CII7u9cnhzefE+hxMaPxeGx7z/Pu7A6q+1p980lblSdqfLu0veM46QAsl8tyXTe+nVfv9ei5p/PJD9vV6/V4mDybexls62Ghpu/nXdtVq9V7u6fOrtyzI81mM9slMLd3m/l9bZRa2vT/7PL5fDoAu92ustnswjN/P5N2u710N51O4515o5ftDKaJeRMXbXK5nObzeToARQAEEEAACYAAAgggARBAAAEkAAIIIIAEQAABBJAACCCAABIAAQQQQAIggAACSAAEEEAACYAAAgggARBAAAEEkAAIIIAAEgABBBBA8o+A5P9yDY5R+aD9PhxeAAAAAElFTkSuQmCC
+</resource>
+</resources>
+</elo>

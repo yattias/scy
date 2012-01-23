@@ -1,0 +1,101 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>tea</entity>
+        <date>
+          <dateTime>2012-01-17T13:03:09.828+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>tea</entity>
+        <date>
+          <dateTime>2012-01-17T13:03:09.828+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <annotation />
+    <technical>
+      <customElements>
+        <dateCreated>1266853263318</dateCreated>
+        <dateFirstUserSaveKey>1326801132453</dateFirstUserSaveKey>
+        <dateLastModified>1326801132453</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <general>
+      <description>
+        <string language="en" />
+      </description>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20243/0/%CE%9B%CF%8D%CF%83%CE%B7+%CF%80%CF%81%CE%BF%CE%B2%CE%BB%CE%AE%CE%BC%CE%B1%CF%84%CE%BF%CF%82-+%CF%80%CF%81%CF%89%CF%84%CE%BF%CE%B3%CE%B5%CE%BD%CE%AE%CF%82+%CF%80%CE%B1%CF%81%CE%B1%CE%B3%CF%89%CE%B3%CE%AE.rtf</entry>
+      </identifier>
+      <las>design_B1</las>
+      <structure>plainText</structure>
+      <mission>ecoMission</mission>
+      <missionId>eco</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20228/0/%CE%9F%CE%B9%CE%BA%CE%BF%CF%83%CF%85%CF%83%CF%84%CE%AE%CE%BC%CE%B1%CF%84%CE%B1.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Problem solution - primary production</string>
+        <string language="el">Λύση προβλήματος- πρωτογενής παραγωγή</string>
+      </title>
+    </general>
+    <educational>
+      <learningResourceType>reportFinal</learningResourceType>
+    </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType>Conclusion</iconType>
+    </annotation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20242/0/%CE%9B%CF%8D%CF%83%CE%B7+%CF%80%CF%81%CE%BF%CE%B2%CE%BB%CE%AE%CE%BC%CE%B1%CF%84%CE%BF%CF%82-+%CF%80%CF%81%CF%89%CF%84%CE%BF%CE%B3%CE%B5%CE%BD%CE%AE%CF%82+%CF%80%CE%B1%CF%81%CE%B1%CE%B3%CF%89%CE%B3%CE%AE.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation />
+  </lom>
+  <template>false</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACAUlEQVR42u3Uz0vacRzH8a9/gJ4VwX9C2g568uBNEOoSdR62g7CTCRIEdY3+gjpsg04edmjBLhlpW6OoNqIWC8eqL81Nv+FWm6nv+rzDL3yZu+wQYz5f8PL7fX9+iDwOWvW2yJerttv3Hz955tOLS8/cr0en5555deON2M2rgahlAMuH32XPFql8+KGAa/tNWT9o6roBdFodGXrwUN5W2/L1V0eRzN703KJkphYU0My9rm5sit1oDEQV8Onyjiy92pdnL3cVcOHFls5m3QBeXHdlfGxUnq+8cwHNnun4k3kF7M2mpdebcmzbA1EFHM7M3HViRgFHHs+6awZw++jEnWs/7wB786PJOQV0v+O2Cvj5bCBqnX9zhP59rW63K/3yp/V+53K5nNxXstms/EuxzEcoFNLBcRyJx+OKEgwGfztcLBb1WalU9JlOp6VQKLj7gUDAc75x+ydrUiqVpFarSSwWk2q1qmvhcFgSiYS++/1+abVaUq/X3bvlctm9b5LP5yWZTOq7z+fT+yapVMpzLxqN6u+PRCL3B0gABBBAAAmAAAIIIAEQQAABJAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIIAEQAABBJAACCCAABIAAQQQQAIggAACSAAEEEAACYAAAgggARBAAAEkAAII4P+WG34J6jYOjckBAAAAAElFTkSuQmCC</base64>
+  </thumbnail>
+</metadata>
+<content languages="en el" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0\u915 ?\u961 ?\u940 ?\u968 ?\u964 ?\u949 ? \u949 ?\u948 ?\u974 ? \u960 ?\u959 ?\u953 ?\u945 ? \u949 ?\u943 ?\u957 ?\u945 ?\u953 ? \u951 ? \u955 ?\u973 ?\u963 ?\u951 ? \u963 ?\u964 ?\u959 ? \u960 ?\u961 ?\u972 ?\u946 ?\u955 ?\u951 ?\u956 ?\u945 ? \u960 ?\u959 ?\u965 ? \u959 ?\u961 ?\u943 ?\u963 ?\u945 ?\u964 ?\u949 ? \u963 ?\u964 ?\u951 ?\u957 ? \u945 ?\u961 ?\u967 ?\u942 ? \u964 ?\u951 ?\u962 ? \u949 ?\u961 ?\u947 ?\u945 ?\u963 ?\u943 ?\u945 ?\u962 ? \u963 ?\u945 ?\u962 ?. \par
+\par
+\par
+\f1\cf1\par
+\par
+\par
+\par
+\li0\ri0\fi0\ul0\par
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>

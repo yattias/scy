@@ -1,0 +1,186 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>tea</entity>
+        <date>
+          <dateTime>2012-01-17T12:54:03.812+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>arle</entity>
+        <date>
+          <dateTime>2011-06-09T15:15:28.906+0300</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1266920430747</dateCreated>
+        <dateFirstUserSaveKey>1326797643812</dateFirstUserSaveKey>
+        <dateLastModified>1326797643812</dateLastModified>
+      </customElements>
+      <format>scy/pds</format>
+    </technical>
+    <general>
+      <description>
+        <string language="en" />
+      </description>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20234/0/%CE%94%CE%B5%CE%B4%CE%BF%CE%BC%CE%AD%CE%BD%CE%B1+%CE%B1%CF%80%CF%8C+%CF%84%CE%B1+%CF%80%CE%B5%CE%B9%CF%81%CE%AC%CE%BC%CE%B1%CF%84%CE%B1++-+pH.scypds</entry>
+      </identifier>
+      <las>experiment_C1</las>
+      <structure>dataset</structure>
+      <mission>ecoMission</mission>
+      <missionId>eco</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20228/0/%CE%9F%CE%B9%CE%BA%CE%BF%CF%83%CF%85%CF%83%CF%84%CE%AE%CE%BC%CE%B1%CF%84%CE%B1.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Data from experiments - pH</string>
+        <string language="el">Δεδομένα από τα πειράματα  - pH</string>
+      </title>
+    </general>
+    <educational>
+      <learningResourceType>dataset</learningResourceType>
+    </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType>scy/dataset</iconType>
+    </annotation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20085/0/pH+Data+from+experiments.scypds</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation />
+  </lom>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>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</base64>
+  </thumbnail>
+</metadata>
+<content languages="en el" contentType="xml">
+<processDataset>
+  <dataset>
+    <header language="el">
+      <column>
+        <symbol>Είδος εδάφους</symbol>
+        <description />
+        <type>double</type>
+        <unit>μονάδα</unit>
+      </column>
+      <column>
+        <symbol>Διάλυμα A</symbol>
+        <description />
+        <type>double</type>
+        <unit>1 ml</unit>
+      </column>
+      <column>
+        <symbol>Διάλυμα A</symbol>
+        <description />
+        <type>double</type>
+        <unit>10 ml</unit>
+      </column>
+      <column>
+        <symbol>Διάλυμα B</symbol>
+        <description />
+        <type>double</type>
+        <unit>1 ml</unit>
+      </column>
+      <column>
+        <symbol>Διάλυμα B</symbol>
+        <description />
+        <type>double</type>
+        <unit>10 ml</unit>
+      </column>
+    </header>
+    <row>
+      <value />
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+  </dataset>
+  <processed_dataset>
+    <name>Dataset</name>
+    <processed_hedaer>
+      <column>0</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+    <processed_hedaer>
+      <column>1</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+    <processed_hedaer>
+      <column>2</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+    <processed_hedaer>
+      <column>3</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+    <processed_hedaer>
+      <column>4</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+  </processed_dataset>
+</processDataset>
+</content>
+<resources>
+</resources>
+</elo>

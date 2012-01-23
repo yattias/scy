@@ -1,0 +1,89 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>tea</entity>
+        <date>
+          <dateTime>2012-01-17T15:14:35.390+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1266852935874</dateCreated>
+        <dateFirstUserSaveKey>1326806075390</dateFirstUserSaveKey>
+        <dateLastModified>1326806075390</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <general>
+      <description>
+        <string language="en" />
+      </description>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20265/0/%CE%94%CE%B9%CE%B1%CF%84%CF%8D%CF%80%CF%89%CF%83%CE%B7+%CF%80%CF%81%CE%BF%CE%B2%CE%BB%CE%AE%CE%BC%CE%B1%CF%84%CE%BF%CF%82-+%CF%84%CF%81%CE%BF%CF%86%CE%B9%CE%BA%CE%AC+%CE%B5%CF%80%CE%AF%CF%80%CE%B5%CE%B4%CE%B1.rtf</entry>
+      </identifier>
+      <las>orientation_B3</las>
+      <structure>plainText</structure>
+      <mission>ecoMission</mission>
+      <missionId>eco</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20228/0/%CE%9F%CE%B9%CE%BA%CE%BF%CF%83%CF%85%CF%83%CF%84%CE%AE%CE%BC%CE%B1%CF%84%CE%B1.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Problem formulation - trophic levels</string>
+        <string language="el">Διατύπωση προβλήματος- τροφικά επίπεδα</string>
+      </title>
+    </general>
+    <educational>
+      <learningResourceType>researchQuestion</learningResourceType>
+    </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType>Idea</iconType>
+    </annotation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20016/0/Problem+formulation+trophic+levels.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation />
+  </lom>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAB8ElEQVR42u3Vz2oaURTH8dm5DO1z+AquAy50XcR3cNUXsBtXLjqQrhKSEiSmdiE0glAUDYNoIRGyKC2RJFKlSdpCQ0n90/7qPcWBLBpsoFDi9weHuefcO8PwYVBP+qSpzsMq7hZu9Bsb6zf6Rep6PNT1ZDnKc4D7b6/UOZnqzclYxWLB+uDdN7s6wMlUWk08sv430kdbe97sdl3azPWu9jpDff461Jer5SgD3Hp1oMdP1lSoHtkX6Prne4d2dYDfR1M9fLBiffhlljvWzwHd2t9+rbXdQB/OjzW86P2xBgvMBgvu3Ta7a/3N+xng080d+a62dgww7GflANeLL8OZw/qpi3D/x2ztZvP+WeGFTk+P1e/3lqK8s957UXcv9yP2zzIajXTfY4CRSETNZlOpVEq1Ws02EomEWq1WeND3fdXrdVUqFeszmUy4n0wmVSqVbB2Px+3aaDQUi8XU7XatD4LAnp3P55VOp+0PyD0vm80qGo3amflZ9y7lclnValW5XM5m7Xb7/wUkAAIIIIAEQAABBJAACCCAABIAAQQQQAIggAACSAAEEEAACYAAAgggARBAAAEkAAIIIIAEQAABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAASQAAggggARAAAEEkAAIIIAAEgABBPC+5RcUe+2yU6jMvwAAAABJRU5ErkJggg==</base64>
+  </thumbnail>
+</metadata>
+<content languages="en el" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0\u915 ?\u961 ?\u940 ?\u968 ?\u964 ?\u949 ? \u949 ?\u948 ?\u974 ? \u960 ?\u959 ?\u953 ?\u959 ? \u949 ?\u943 ?\u957 ?\u945 ?\u953 ? \u964 ?\u959 ? \u954 ?\u973 ?\u961 ?\u953 ?\u959 ? \u960 ?\u961 ?\u972 ?\u946 ?\u955 ?\u951 ?\u956 ?\u945 ? \u945 ?\u965 ?\u964 ?\u942 ?\u962 ? \u964 ?\u951 ?\u962 ? \u954 ?\u945 ?\u964 ?\u940 ?\u963 ?\u964 ?\u945 ?\u963 ?\u951 ?\u962 ?. \par
+\par
+\par
+\par
+\f1\cf1\par
+\par
+\li0\ri0\fi0\ul0\par
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>

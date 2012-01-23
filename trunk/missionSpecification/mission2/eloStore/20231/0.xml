@@ -1,0 +1,88 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>tea</entity>
+        <date>
+          <dateTime>2012-01-17T12:38:13.796+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1266921130672</dateCreated>
+        <dateFirstUserSaveKey>1326796693796</dateFirstUserSaveKey>
+        <dateLastModified>1326796693796</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <general>
+      <description>
+        <string language="en" />
+      </description>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20231/0/%CE%A3%CF%85%CE%BC%CF%80%CE%B5%CF%81%CE%AC%CF%83%CE%BC%CE%B1%CF%84%CE%B1+-+pH.rtf</entry>
+      </identifier>
+      <las>design_C1</las>
+      <structure>plainText</structure>
+      <mission>ecoMission</mission>
+      <missionId>eco</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20228/0/%CE%9F%CE%B9%CE%BA%CE%BF%CF%83%CF%85%CF%83%CF%84%CE%AE%CE%BC%CE%B1%CF%84%CE%B1.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Inferences - pH</string>
+        <string language="el">Συμπεράσματα - pH</string>
+      </title>
+    </general>
+    <educational>
+      <learningResourceType>reportFinal</learningResourceType>
+    </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType>scy/simconfig</iconType>
+    </annotation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20079/0/Inferences+pH.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation />
+  </lom>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACVklEQVR42u3VwYtSURQG8Ld1IVH/g/+JELhoq7lwLepCRNvpKtyI0CJ1lUJDDpkKRY0ghpsMwdQWIU4wgzX0HhXOgENMOuqX95gyEzQ8JoaB/D44vHvOfT4vPx+oDU+BbyfTdW0/LZzrs7ncud5MGaMTGMebUZoCfNM/RmswxbvBRABV//bjD7lmszlMZ3PcvnNXegX0dVFqrWkahuO5zFSvqtLSYRwewjg62ogSwMevurh3P4Pt6gcBVP3Wznu5qjdwPDnFrZs3pF+9ZbkXLemHkyWgWj988hqZZw3s6V+wbxgXlG5ippvcu2h22TJ/PgFMPHqORHZZCvBsrwDT+Z31TGF9/zlb76u1mq36B1svsff5E/YPDjaitMFuH4P+onbP1J/932aXLTPP75vcu+bzafid8XiMq8hsNsNVp1Kp4LoigBaLBZFIBB6PB/V6XTaSySSi0ais1V6v14PT6US1WkW328V8Pkcmk0EwGESpVILdbkcikZD72+023G63rJvNJmq12vLLFn864XAYPp9PSiWVSiEWi8nzHA6H9KvPFgoFuFwuWVutVsTjcTmf+lFsNpvM0+k0vF4vOp0O8vk8AoGAzBuNxvrFKBaLcs7RaARd1xEKhVAul+H3+9dn/CdABgQkIAEJyBCQgAQkIENAAhKQgAwBCUhAAjIEJCABCcgQkIAEJCBDQAISkIAMAQlIQAIyBCQgAQnIEJCABCQgARkCEpCABGQISEACEpAhIAEJSECGgAQkIAEZAhKQgARkCEhAAhKQISABCUhAhoAEJOB/ll/pc8gk0yh8vwAAAABJRU5ErkJggg==</base64>
+  </thumbnail>
+</metadata>
+<content languages="en el" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0\u915 ?\u961 ?\u940 ?\u968 ?\u964 ?\u949 ? \u949 ?\u948 ?\u974 ? \u964 ?\u945 ? \u963 ?\u965 ?\u956 ?\u960 ?\u949 ?\u961 ?\u940 ?\u963 ?\u956 ?\u945 ?\u964 ?\u945 ? \u963 ?\u945 ?\u962 ?. \u928 ?\u945 ?\u961 ?\u945 ?\u954 ?\u945 ?\u955 ?\u974 ? \u960 ?\u961 ?\u959 ?\u963 ?\u952 ?\u941 ?\u963 ?\u964 ?\u949 ? \u964 ?\u959 ?\u965 ?\u962 ? \u960 ?\u949 ?\u961 ?\u953 ?\u959 ?\u961 ?\u953 ?\u963 ?\u956 ?\u959 ?\u973 ?\u962 ? \u964 ?\u969 ?\u957 ? \u963 ?\u965 ?\u956 ?\u960 ?\u949 ?\u961 ?\u945 ?\u963 ?\u956 ?\u940 ?\u964 ?\u969 ?\u957 ? \u963 ?\u945 ?\u962 ?. \par
+\par
+\f1\cf1\par
+\par
+\par
+\li0\ri0\fi0\ul0\par
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>

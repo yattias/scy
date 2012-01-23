@@ -1,0 +1,89 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>tea</entity>
+        <date>
+          <dateTime>2012-01-17T14:52:54.203+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1266853263318</dateCreated>
+        <dateFirstUserSaveKey>1326804774203</dateFirstUserSaveKey>
+        <dateLastModified>1326804774203</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <general>
+      <description>
+        <string language="en" />
+      </description>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20256/0/%CE%94%CE%B9%CE%B1%CF%84%CF%8D%CF%80%CF%89%CF%83%CE%B7+%CF%80%CF%81%CE%BF%CE%B2%CE%BB%CE%AE%CE%BC%CE%B1%CF%84%CE%BF%CF%82-+%CF%86%CF%89%CF%82.rtf</entry>
+      </identifier>
+      <las>orientation_B2</las>
+      <structure>plainText</structure>
+      <mission>ecoMission</mission>
+      <missionId>eco</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20228/0/%CE%9F%CE%B9%CE%BA%CE%BF%CF%83%CF%85%CF%83%CF%84%CE%AE%CE%BC%CE%B1%CF%84%CE%B1.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Problem formulation - light</string>
+        <string language="el">Διατύπωση προβλήματος- φως</string>
+      </title>
+    </general>
+    <educational>
+      <learningResourceType>researchQuestion</learningResourceType>
+    </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType>Idea</iconType>
+    </annotation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20024/0/Problem+formulation+light.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation />
+  </lom>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAB5UlEQVR42u3UwUobURjF8dllWSp5nawLWSTrkpfIqi+QPkE6YFdKFQnGpgtBQwolITFDIAUNuJAWg1bqUK0tKMXGSXqa+5UMuFCi4MLmf+Aw97t3Zgg/hnjSmYY6iVteK12bFxcXrs3T9PIq1GU0G/Uc4NbehboHQ308uFK5XLI5+PTLrg4wGkrPMs9t/of0zdaeN35c323Pza6b3VA/zkP9vJiNGuDSxrZevJxX6f2ufYFuXt7csasD/D0Yau7pE5vjL3O9a/ME0K39lQ+aXwv09WRf4Wn/xh5PsXc85dlte/ftXX6fAb56syrfdWnVAON5XAe4UH4X7zmsPzqNz0fjtdubzK9Lb3V4uK+jo/5M1PvS/yx6/7o/sQfLYDCY6r5arabHGgNMJBJqtVrK5XKq1+t2kMlk1Ol04ht931ej0VC1WrU5n8/H59lsVpVKxdbpdNquzWZTqVRKvV7P5iAI4ndPEoahCoWCisWiRqOR2u22PZdMJhVF0eMBJAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAAQQQQAIggAACSAAEEEAACYAAAgggARBAAAEkAAIIIIAEQAABBJAACCCAABIAAQTwf8tfPJn1dzCcxvgAAAAASUVORK5CYII=</base64>
+  </thumbnail>
+</metadata>
+<content languages="en el" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0\u915 ?\u961 ?\u940 ?\u968 ?\u964 ?\u949 ? \u949 ?\u948 ?\u974 ? \u960 ?\u959 ?\u953 ?\u959 ? \u949 ?\u943 ?\u957 ?\u945 ?\u953 ? \u964 ?\u959 ? \u954 ?\u973 ?\u961 ?\u953 ?\u959 ? \u960 ?\u961 ?\u972 ?\u946 ?\u955 ?\u951 ?\u956 ?\u945 ? \u964 ?\u951 ?\u962 ? \u954 ?\u945 ?\u964 ?\u940 ?\u963 ?\u964 ?\u945 ?\u963 ?\u951 ?\u962 ?. \par
+\par
+\par
+\par
+\f1\cf1\par
+\par
+\li0\ri0\fi0\ul0\par
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>

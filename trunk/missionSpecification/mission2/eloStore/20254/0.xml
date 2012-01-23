@@ -1,0 +1,441 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>tea</entity>
+        <date>
+          <dateTime>2012-01-17T14:49:34.453+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1267015164763</dateCreated>
+        <dateFirstUserSaveKey>1326804574453</dateFirstUserSaveKey>
+        <dateLastModified>1326804574453</dateLastModified>
+      </customElements>
+      <format>scy/xproc</format>
+    </technical>
+    <general>
+      <description>
+        <string language="en" />
+      </description>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20254/0/%CE%A0%CE%B5%CE%B9%CF%81%CE%B1%CE%BC%CE%B1%CF%84%CE%B9%CE%BA%CE%AE+%CE%B4%CE%B9%CE%B1%CE%B4%CE%B9%CE%BA%CE%B1%CF%83%CE%AF%CE%B1-+%CF%86%CF%89%CF%82.scyxproc</entry>
+      </identifier>
+      <las>experiment_B2</las>
+      <structure>structuredText</structure>
+      <mission>ecoMission</mission>
+      <missionId>eco</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20228/0/%CE%9F%CE%B9%CE%BA%CE%BF%CF%83%CF%85%CF%83%CF%84%CE%AE%CE%BC%CE%B1%CF%84%CE%B1.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Experimental procedure - light</string>
+        <string language="el">Πειραματική διαδικασία- φως</string>
+      </title>
+    </general>
+    <educational>
+      <learningResourceType>experimentalDesign</learningResourceType>
+    </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType>scy/xproc</iconType>
+    </annotation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20063/0/Light+Experimental+procedure.scyxproc</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation />
+  </lom>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAd4klEQVR42u18B3Rbx5muzvG+bHY3mz27Z9cv+1Kcl8TnvSSO7SQ+63hLdtdx7ORZ2jiWS+QiJ5KberWKZRWrN6pLlCiJFEmJFCWRIsVOsffeAZAAQRIkegdRCYD83vwD3isAAiUXyfHG+s/5z9w7mLkz97v/zPwz3wxm4J58KplxD4K7CKBb3QxT1U7oitdCX/4hLFX7YK7aC0P5FhiK3oep/jACDvU9AKNlctwNTeFy6HOWwW8bRdBrY+EI/GYl/CYFAvZRTPjGMK7rxUjay7C2J7FME/cAJAm49Bg+/xu4+goYQD3wDDfAM1QDn66bgTgMv0UJn6YdnsFqeFVNLL4H9vZUjF5+nWEYIPhvWaDXN45Ve5Kwem9IF2079UcFYHJyEiqtEW6v79MDOOF3Yzj5/8HdVwyXNE8EcYJZZLQE3RZ4R1vglObC3V8CZ9cl6Es33LbA1t4BaAyWyJf4jAGLlhPphZ8o300AqguWwVp7BI6WJDh7shhwzts+OOjUwdF+Ho62FBhzlsPcduaW6X+3an/M+B2nLmP2sj0IBIO8shTSPcWTXMit4uHGwxegHNHB5QlZjD8QhGJYi+3xl/DWxuN4fuluHr+N3c9ddwjPL9mN7LImMa8gydnlYrkvTJUbLW9uPIb/WrhDvJ/57nb+PEF2srwigG5NK0bO/BK22sOwVh/AhNceYSMB6zDc8lLenINOQ0RB1Iwt5TthazwFNesTJwLeaQGczV4wJacC566W4cyV6zxuzO1Bj1zFr3+zaCcPn1scCk1WBw+Tssp4SM1epmR98ETIIp6atyniwwhAk6zZnxyR9/2D55FZUo/Tl0vEtFaHM6JcQZp7FOI11XfpjtPifWJmqZhXBNBYtgXmwvUw5q7g1ic0rKDTCFvNQRjYgGLMXcnVcG0FHK3JmPR7RfMm0I15q6DNnA+ftmNaAOmrRgtZU7tUGQHEnFVx6FWopqwsgLS86ikQUnlIlpaWXy0+Y9ORNB6eu1oeI65MtLZdCZni71TGdC2jTaKMsDb6cIJkFNaKeUUAhxKfgurwTzG47WvcNaEmPxEMwFSwDrrL82G4Mh/mrPkwMYD07F6b/hpvupNTo69P3Q7dxbnQpc/FSP6imOCduXw9ZvzauGT0DaoxojWhhX35+ItF4m8HzuVAohhBbZuUf6g2yQCPp+aZyiyDZNnOG92GYG3RcU63F519Qxj3B7Dl2EUeP2uqeQrlhsvCrSd5WFjdzqx9QrR0+oDUbQh5RQBlm74Mxbr7oDr+L6JVuQYq0LdyBgP1HyE79G8o3DkTlfv/C6rE56BO+g00aa+ygcfD004G/dCcfwnqxFlQnPxpTKCqWnrF0Zd06Y7QS76yOg7JzHKEpkVCTWbBhyfF+5V7EkWLEvo4QU6GAS4AGB5XWMO8Bjb6y1lfGZ2XgA4vV3h3jdGCVayOlc29HPwRnUlsPRNTAwrlFQHse28GA/DPmO+3fCoRYMh7D/3rvgTVpr9C4it/icX/8dfY/MrDaNz9c4ye/DmGGdie0Tbe2CcYgOrUF6A69gSUO77xsUZGoeO/ExINxp0QApC8h1uOwjIGoHzd/4DuytshQBiCptIdkK37MgY3/w0y5n0VC/79r7Hw3/8KNe99DUN7H4Ry/4/g1Uv5F5kI+DBy6ikM7f8h5Fv/58dwKyLD/7aOtHT730Lx/p9jOO4hDmCQDetudRf63v8K+jf/PSQb70fRkvtRufJ+9G3+B/Rt/Dso4x6F3+fmaQNuK5Qf/gPk678E2fEffu5e1OFw3F0AhxN+Dvn7rB9cMwOuwVo+8o0HJjBycT4kH/wt+rZ+E/LtD6CfqezDr0O67i9gqI3H+Pg4ggxxa+0xKNb/GeRr74P2+rrp59duN15++WX87ne/45qXl3dHX+jSpUs3xV24cAGtra13F0BjXRyzwC9z1aS+BJ/PB6/XC5fNgNHc9yGLexy92x5E7/b/g/6j/wldzUl43C6exjtmxuCe70Gx4S/Qv+kr8FuHpi2wqqoKw8PD/FqlUiE3N5fH0Yfo7e3l8RqNBo2NjSLg9LvBEPI9hTT19fXi88LzHjp0SBwInE4nAoFAaIrKQrvdHjltZXENDQ2ora0VlfJR2NPTc1NdKD+f+qlC7pVEIrkBIDnH/Zv+EoqNX4Vi89/B3l/G5ofjvBJk/jazHnpJBYwDbbBZzTyOfvP4/NAXbcbAB19h+lUMn/rXqTlxbHn88ccjrlNSUjgAy5YtwxtvvMHj9+/fzysulUp5HP3+zW9+k/9G1jswMAC1Wo0TJ07clPcb37gxgFFa7godOMDrS8BEy4svvshDes727dsxNjaGyspKuFyuiLoQiJSf0u3bt4+nKy8vj5zKWdoSId/EANzy91Du/b8wNqfCZrPBanPAbDbDZLYwNfNrm8MFm1EDXfFWDGz7Os/Tt+WrrN9suaXJ//CHN/rHhx56CAkJCfz61VdfFeOpgvTCZAXUzEmOHDnCw3nz5olp4+LiIvImJSVx66DnvvDCCxHlkS9HwETLb3/7W/F67969OHbsGHbt2nVTXWpqatDS0sKBpbqcPHmSAxu5GsOcYlUG+8JbvwblzgcwsPN/Q5XyHHQdOdCph6HXqrnqVHJoaxMwFP9vLN23MbDjWxjY/r9ga0+6JXhCxagZUNOjboIqTB/kgQceEK3y1KlTogW+9dZbeOqpp3iFqQlRk6P+TLDA8Ly/+MUvePizn/0MCxcuDE31WF6SRx99NDTrmbIsoUkKzfPhhx+OSP/mm2/y5wh16evrw+zZs0M+JqvLzJkzYy9nUfPTFq5igHwdg3EPY+jAoxg6/k8YOvsrqM6/DFXqbAydZu7KMTZriXsEg8yVke/6OgMv+bYd7sjISETlhf6J+jOqoAAgNQ/hxaibEPrL8H5M6AOFvOGjrDBglJWFnGqyvPb2dn799NNPR/SBwvPCBxkhX3RdhH6WmvUtFlRDDpmpIxlDzFlWHv8ps7R/xfCZpzCc+AyGzzI9/QsGKnOYGYiqpGfh0jTfsVFt0aJFd82VWbNmzR2pS/hIf8slfVpVoYUBVe67kCf8C5SHH8HAkZ9CkfQk9GWb+ALrrQaMe6TSPbkzANKKy8RkgDnMAR5OTAanXaG9B2D49Menx5CjGVqnBGbPEKxeDWw+LUyeQWic3RgZ64Av4LoH4E3TLb8FSnsDDO4+BCbH4fOMwjRaAd3AJeiUV2DRNSLA0vgnPFA7u6Ae68Z40HUPQJJRBojW2QvPuBbeoBaSqgXouvwk7K3PI9D/a4wPvgCzZCEa0n4JVW8cA1vP1MCA7ITLb/1iA6hmzdLolsPlG8aYpwNtmb+CvfInwCBzLg3zAes6pu8x/QNz5GZC0/0WOkrmw+nrY6riIFq8I5/50tWd7o8/zvNuLCZ4FNCzJmt1SZi2oOrcY/A3PsZMcgEm3amYdJ5lmogJFk44EzAxdgST2vvhMiSgp2oZy9MBq0fO+8bAxPQc62trDn6qBVBajicWzWiJXBhYF5dyR0H8qM+bEVp9DkJurYTJ1QPTWD2G5UdhK38CGH4dk67TIcCcyZhwnUfQlYqgM4ndn0PQ+DImjd+Hom4JLPbrLG8jjC4pJOaiaQv0jfvF1V0ieQRWLKYfGmYJdE23Ql4CUex29OY7amULtsTfPn84gH3mMtbvdUPrqIPBWYPe0ucw0fqPmLTvY5YWz4BLRsCVxsC7zMIrCDjTGYgXELAsQ0D7KOyqVZA2vA29owJaBiL1oQZ3f8yCiZsoqG5DkE3uBXKH4mYu2M7JJaIiX33vADYeSYPOZMWS7aexfNdZTuSEc7RzVocWElp6FVix+yz2nMni90Q5rt57DjPf3catiD4YccDEweRWtHD2b8zlgW3MxZ9L8eH8iZelJ4o1GmB6/uGUXPxy/macD6NOZ/iCTiis1Rh1NGHUVgKdoxAdVx7FpPx+ZmVHuPUReH53JsbdeUwLMO7Kgd+VhXHzYvj1zyJoW4Wm7F9Ba8tjzyiDirk+g2wUn06I2dqVcCUiLpw2JGKItlo0dt74CEQlEoBEJ5IKYM4JoyPnfxBJmW46GiKhBPaOntkhHeSLxYlZpTHrNv+DozfHbQjFUV6D2S7y2RxAm0/Nm2+fuQD9xnQMmFPQmfUQJlVfQnBsL7O2M/A7M+Bz5cHjLmVaDq/rOtyOs/CYVsBnnIugfT2ar83CiOUKhqwFUNqqWTMu5k53LGns6kdFU494T1SjsFPgamkjehUjnMghaxEMgUAQrM7l8SI9vxryYQ0HVtgqMieK2yXrzWbPE5g6EqGc8DhBqFxKHy0CB0yEPtWL5LlFO7khzBiyN6FBcw6N6rNoUx9Bp+4QWvMeR1BzP/ymVzE+xpoBa7Zudwncrmq4XDVwOLJhN+2B0/whA3EBfNa9aMx9GsOmixgw5UBuKYPMXMKasSImgLS5KJr1iibWiWwnoKkJvrbmgGgddE/x9Ht6XjUHn4SaPG3toHU/AliwaKIiKY4sZ2BEJ5YdywJjgRpulc+8uYU/m2QW63LoA86Qshdt1CQzTUKr+jg61AfR0vAaa5q/gVf7T3AZ34Zf/c8YV82CWz0PztFF8Ml/Bu/QU7BbDsJpXARN/z7IpKshN15AnzETUlMRJKZCDDoaY1ZIodJG3AeDE7xfEqxAkAGVThw0BEuke4oXl67YfXO3XLwngpw+Bu0CE/oxiuvqH44om/rAFawPHFLf2KaiNU7vx9JHo36Y6sqX86fqOaPXlD8FYDJa1KfQzgBsH9qK+qvPwmuajzHDPLg1z8Bg2gmTdgUso0th0W+EzcTUvIdZZQY6Kxey5p8MqSEFPYZMdBuvMc3hfevnVQRwBbL9EzvSvczlaNKlTOk5tGnj0ak5iK7RnWgvfgku2wbY9Yth1iyHzngQatNRGEcWQW84AJstHfWZsyDTHIZUf5qBl4ZOYxbXDgbkgK3uT38mQi/ZrEsLKQOglVlRuy6B9YXHUN+0GDb9SZitu6DsWwqNJQHDxhOQSVZAZT4FrSYdXUM70KU/hU59EtqNF1n+DLToL6JRm8Ldmc/KmvR6PWcIP3MAje4BtBnS0W64iDajoOnoNJxDs2I72moPw2Kk8F0opFvQWLMUbc1roWLADsozmcWeZtaWEpb3In9WI7NmX4wFBloi/9GPfsSXy5944gkcPXr0jryIwMp95gB6AjZmOZfQYclEJ3NDuJqvoIuF3fYs5BUtg6I7AV7bDti0GzHUx/o+SzKU8lJczdnE03fxfKH8HVPaZcqOWeA777zDqUHu+61ezUme3//+9yJJQ/Lkk0+K17t3745YWhe4DSJ9BFKeyKrDhw9jyZIlYty2bdvEZfn8/Hy8/fbbnNMg/mTOnDm4fPmy+MznnntOJIyEsoi7Jlo0PJ1ACVAZ9IzXX389NBPpMDKwLFeZZofUehU9tquQuXOx+8jvcfzIPORdi0dT42Wm2cjJTsSi+TNR1n0cPfZQWsoTyk9hFkbG2mICSExX9LXAiJF8//vfjwjJsn7yk5/w6+9973s8rKio4M2WyB36GEQ3dnZ24rXXXuNMHXeHpuhQoQwhbGpqQl1dXUTzp7zhddLpdNi0aVNEvZ999lnxmuhPjltHRwhAt9+GVmMaJPbcKb3Gtd+bj4NnVqC5+Tgbwo0w2yowpMpCUdEO/OGVf0b9UAokY9fE9EJ+6v8CE+MxAXzkkUfEa6IaBWI9GlQhJN6W2LMf/OAH8Pv9IbeEAUYsHPHClFfgbKl7ELhigRcW6EyhXLL2cAaPACTWTWDnKP3cuXNvqrfwQUh27tzJKdnq6uobqzEqRwt67TnocxZANpbPwjwoPEVIzlyGqsrdbL7aD4utHBLZBRQWbMea5b9Gbv0hli6UVsbDQnTZsmDzxj47InxVqnRpaSnflER0IpHXtCuArom0pi+cnJwcQUEKTYzkscce40CRBZKTTOHixYtFUPfs2YP169eLPPTGjRvFvLRLgcoTaFHuID/zTET9qIlSmvAP+9JLL/H+mroUkm9/+9s3rwd2m64x8PIgdxUxZY5wsBRbd7wBieQMm5bRNo4GDAxdQe61rdi/61WcuLAWfa4CnpbyUHMesjd+4lUR2joRvYtK+J1eSBBhy8Z0Qi/e3Nz8kcqdblWGuonpdnSF55kRTR7JmZX1MCvqMecydyYLpd1nsXn7q9iw7kVs3jAHa1bOxqJ3f41t+99EhSwZTSo2AOmuMvflIudOPo2Ek+3RImzo4bOV3lu7R7E2En1cITI+GGPn/kfiRJTGRtQPp6F2MBWlPYmo7E/Bhu0rmGkXMhPei/d3LUZW3VFk1x9DqfQM+z0ZKkMv/ONfPI44JoDUr7g9Tih0rSiTnUaJ5ASuS04h4cpWpBbsRlHXCeS1H0KZNAmDmh7YHXbewX8Rqc7b88K0V9qpRJ+5Ar2WPEgtJeg3V8PuMTKk//tuzb3rANIyv8mtRL+1AnqXDM5xM+eAaQF2bNzICaQBWw0cPgPDeOIegOGicXXD5FPAE7Sgu7cDGt0wxiecGGcj8fjEGLwBBwfSGxhjYBo4wW72DN4DkEZhlbMF7bJaNDTWwezQMH+pBbXMZzLZ1ehX9EPS3wmn38Qsckr9Rg6o3t0Po0f5xQZQZr0O96QRVQ3lGB214NyFEpw7X4wr2dVo6xhkgwvzj2pL4PBrQVRApGpg9Y5ieJop3CflXe9G/rsCoNbdg6rGYqjUKuQVVeNUYh6uV3SipkGKqjoJSso7UFXbi15pP+qaO9A70AqLZwhm9+ANZfc61l/afbdepKTTP7R87vd/PLeHlu9PpBXcUQDoNBTxMHSerkM2+MkApL5syFmHtMwzaG0bwOHjmSgq7URZRRcaW+RoalEwMLuQX9SK0soenD1XgLL6HE5d6l19YSqDwcWaublg2rmwwMoRnyAQNAK1GX4vHGcVSCQBbDeLp+X6cPF4x3kaIT+FAkUgAC+kiyWLtp66qVyiXek5tIwfnVd4HtVjBvkpxF8YvFIojA1ITS/F+YxKFJZ0YNfe89h5YCtWvb8W8WdKGKhdOHgsG0kphejT1UDDNxZ13qQ0I4m1mDo5RY7TgcF2iVJ8YYErpsOAAlf8q7c+5OGozoS6DhkuFtRgw6HzHPhoUkqtN+OdzSc4P1Le1IPu/mH0ylXirgfhkOPysAOIQjdwrbyZ8xtCubOnCPstx9I5j/LbJaH5NBFWghy7kA8f83upznw9cNBej4zcRAZaL+v3KpFxpR7X8ttw9vwFGAPdGHU3Y8++07jE4o/F5+JIfB6bI6ega7gYw47mG2qfUnatsFXF/Nq/nLcZ0oFRTkc2dslvYuXCqUli0YRdAuGMWTiHLIhwOpPSTUalE4AkAj5cZoUT9VPl0o6H8LPBdMxWeB4R8cKHJXaQPuoM6reImcuuO4Z3lv8BJ8+W4EJGLUpKe1FS1ora7ixcvZ6E+oYhFBZ3IiWtEnsPXMbW/WuhYA71gLUmpkrNxcxvjNy2QZUhUpsAG2cVeHllqNLUTAQAZ08dPKQmSdRhLMox/AX5KkrYKc7wdGSpc9ceEpsmMWvhEn5emMrNYdZIJ9fDP1A4/fn0m1tgtDhEqpNAnDFgYy6LOgnN+hQ2ZYvHkZNXkZPXhurafkhlRgwqHRgacqK7W4PySimu5rZg3cYTaFfloc9SxmYlZXxrSLQSLxzdjE9lFEfcC7sLfv32Vn4CPPw8MYH94vK9N+UN76/EPizsjysIQNLw7RrzNhzlcdEbkqiMRBYvlCuUQcdyaYtI6rVK8YPQRoD9idnifh3KS79xVo4ozTbTeazavBJbtqci7VI1G0yGIZHoIZWGVCLRobtHjaMns7Fi7XFcKIhn07oidOny2aBRiF5jAetLBWX3LByw13+kkSzW/ygIZ3Npd0G4RPd/d8O1ifUs8aT8kt1RtOYUL0y0ZlHvMWQ17cPyD1Yy/68cI2oHrFYfLFYPFINmBl4BNh54DweSNqC4IR3XGzIh7evHxeuHoNTI0DSSgS5jDueEu4zZUFirPlKFw8l0PnCE7baKJuGj7z8LITJd+FuU6LrOoMWBECecyrXDmoZ1O1Zj7lsr8fo7i7B8bRxWrY/HC2+8gfkLP8TB5G1IyIhDJ2vS9Y0KtLQrYLEEIGMjaGn3OTSq0tFhzESb/tItNxj9ycxEhtio2axPQ4s+HS2GdLQyrVImokJxhjXrdKzesQCzXngdPbZLfBmrsaUVWTn10BuccDoD8HgmYTC6oRw0oK1di/1nP+DPIl5kur0xd1qoyREdcLfOBN8SQNqSSzxuuykjSi+h3ZyB+tEUFHcfR6f5Mnocl3H6wllU18kgkemxeechrN+2EVevNTJglTh6Igs5rQd43kZdMl/RiX5RWuUlapN4jMTERJF+vOEnTt50Hd0vxeqjsrKybvqd1jU/Tn8Xnv52S/4igER+txsz0GnJ4txul6DWSO1xZOHo6RPMV5ShgLkz10vlOJe/HVJ3Dk6cTkPyhQocO5mP0yl5aNFdgsQS+9+ABJYsnCn77ne/y1k37tIwB5UIG4GBIzZMyEOH/gQyiA4W0kFFEvogS5cu5c87fjzk8D7//PNieXQ0i55PVkoMHJH6p0/fGJwefPBBsS7f+c53xLqE15OILGIK6fRnRkYGrzPd86mclI3EXdYs9FiJE85mzZWpPTvE+U5pryMbZbJExMWfRMK5cqReqEZbl4zNiXtw5WoDDh7NxvubmbNdFYcO8xU+J44lsXhhOgusVIb8wB//+McRIfHCAkdMlSYhOpG2cQi8MJ3gJL6XDgkKB66n44W7uroiGD6yMMpLz8vMzGTuWvdNLCD9Rmmi60znlmeE5n1+boVSRx4k9jzO8UpJx3IhdV7j3C8PnTnMB4xDYkopDp/Ixt6DV3DgSA527klH/OkCrN1wFgcSN7Au4XJM8EwmE989wB1bl4tbDlGQAlFEZJBAshOAWq2Wc7Ak9913n/ic+Pj4CADJssgaqQ8UTlKuW7dOtE469S6UK+yAoJcX5OLFizyNUBcisMLPDNPRXDqdHl3n/v7+sF36rMPvsmVyXjik+WHKnGZXSAvbE7DwvQXIzmtHXaMcBdfbUFYlw5oPTuBi6UFU9J+DPxh7k4/AqQqVEjp9aiLEgtGOATr/S02YwAw/DE28sSCvvPIKP9crNGHaZkF56XkUR1ZCzZReNla54eQ+SXg51OS/9a1v3dSEY9U5glgnGRlr55Smwl3Ced5+dyHk7gL0e/K5ypkOT5SwkXYD1mxbiTVb12PZmnis2rIQC1evQpM2FbZbnBO5XSdOIAp0ZHQnHg7grFmzbuO3BcUmd7tybzdQ3S5djJNKHehlfZ7CXYwBTzHfncDVy8CcUuV4MZS+ErRpM7Fi0zwM+q7zJu4KWD4Tl+Vzz4m4/BZIrIXodlxiwBVhwFuCAV9RmIYAlHsKWJoMKB21GA+673Ei0eIcN0Jhr4TMUQAZ7wdzQyHthbEXYMjZ+IU9ZPiRABTE7VbBZq9nHfx1Nm2rZv1UE/PTLLgntwDQ4x6Gc6wXrjEpfD4tGxUdrHP2YII11YDfwdyIEbicUqYy5kqY7wEYLjZrDXzeUQYYgWVjap1SW5jSvZ2D6hzrwZij6x6AExM++FytzA8wMDWFwgnawmFAMGDCuM8QU/3jJga4Fo6PubXtTwrAiYlxGAzXkVBvxvkmPc7U6nGySo8jpVpsuWZBQUU5t0qvZzodYb/rWP94axCjqUPd1OGWj7rOR24Mrc0JB14+NwDarA2s31NhU0IO8wPBRldAywbYLmaI76SOsXliItwuJdOBCPV6BiPuXU45a87d0xZIR66EU0MkCZdKbrnSHEtikUp/VAAJGLutifVlUtZsFUjMLoTeE8SIkw0mNFU6JMfIQCmcbNAQlAaQQWUrWprzGfB9ofix0KBiZSP1dKM0/WOv8Oeywv+SRoMiWGlx7Y0/sxUIoZK6DpzPrZyyxs8BgJOTQZiNBXAyqxmzdzBth0TeArUzADWzQBer5JwD/VDKcqd+D6nL0Y6C/AJYTM1h8e1cnQ4aVKb/J186o0ZncgXSmmTDwfPitfBPvO/tO8dD4bChwWIXz6jdyb8N/VQA+v1m1nzrYbc2itrdV4vRsRsAvr6vC2l5mThfWoOUkhokF1cjt7QOm+KzcOZaJU5lleP4pTIcTy+AZrSMP8NiKp22UL3ZJoLDHXa3F4OjepHbFQD88PjFCAoz/JR6OCX5x5T/D0tuCcC4KmXeAAAAAElFTkSuQmCC</base64>
+  </thumbnail>
+</metadata>
+<content languages="en el" contentType="xml">
+<experimental_procedure>
+  <mission>
+    <type>
+      <id>TYPE_DEFAULT</id>
+      <name language="fr">Type de matériel par défaut</name>
+      <name language="en">Default material type</name>
+    </type>
+    <type>
+      <id>TYPE_LIQUIDE</id>
+      <name language="fr">Liquide</name>
+      <name language="en">Liquid</name>
+    </type>
+    <type>
+      <id>TYPE_PROD_CHIM</id>
+      <name language="fr">Produit chimique</name>
+      <name language="en">Chemical product</name>
+    </type>
+    <type>
+      <id>TYPE_MESUREUR</id>
+      <name language="fr">Mesureur</name>
+      <name language="en">Mesureur</name>
+    </type>
+    <type>
+      <id>TYPE_DELIVREUR</id>
+      <name language="fr">Délivreur</name>
+      <name language="en">Délivreur</name>
+    </type>
+    <type>
+      <id>TYPE_CONTENEUR</id>
+      <name language="fr">Conteneur</name>
+      <name language="en">Container</name>
+    </type>
+    <type>
+      <id>TYPE_USTENSILE</id>
+      <name language="fr">Ustensile</name>
+      <name language="en">Ustensil</name>
+    </type>
+    <type>
+      <id>TYPE_INGREDIENT</id>
+      <name language="fr">Ingrédient</name>
+      <name language="en">Ingredient</name>
+    </type>
+    <type>
+      <id>TYPE_CHAUFFANT</id>
+      <name language="fr">Chauffant</name>
+      <name language="en">Chauffant</name>
+    </type>
+    <type>
+      <id>TYPE_HOMOGENEISATEUR</id>
+      <name language="fr">Homogénéisateur</name>
+      <name language="en">Homogénéisateur</name>
+    </type>
+    <type>
+      <id>TYPE_SOLUTION</id>
+      <name language="fr">Solution</name>
+      <name language="en">Solution</name>
+    </type>
+    <type>
+      <id>TYPE_OBJET</id>
+      <name language="fr">Objet</name>
+      <name language="en">Object</name>
+    </type>
+    <type>
+      <id>TYPE_SOLIDE</id>
+      <name language="fr">Solide</name>
+      <name language="en">Solide</name>
+    </type>
+    <type>
+      <id>TYPE_DEFAULT</id>
+      <name language="fr">Type de matériel par défaut</name>
+      <name language="en">Default material type</name>
+    </type>
+    <type>
+      <id>TYPE_LIQUIDE</id>
+      <name language="fr">Liquide</name>
+      <name language="en">Liquid</name>
+    </type>
+    <type>
+      <id>TYPE_PROD_CHIM</id>
+      <name language="fr">Produit chimique</name>
+      <name language="en">Chemical product</name>
+    </type>
+    <type>
+      <id>TYPE_MESUREUR</id>
+      <name language="fr">Mesureur</name>
+      <name language="en">Mesureur</name>
+    </type>
+    <type>
+      <id>TYPE_DELIVREUR</id>
+      <name language="fr">Délivreur</name>
+      <name language="en">Délivreur</name>
+    </type>
+    <type>
+      <id>TYPE_CONTENEUR</id>
+      <name language="fr">Conteneur</name>
+      <name language="en">Container</name>
+    </type>
+    <type>
+      <id>TYPE_USTENSILE</id>
+      <name language="fr">Ustensile</name>
+      <name language="en">Ustensil</name>
+    </type>
+    <type>
+      <id>TYPE_INGREDIENT</id>
+      <name language="fr">Ingrédient</name>
+      <name language="en">Ingredient</name>
+    </type>
+    <type>
+      <id>TYPE_CHAUFFANT</id>
+      <name language="fr">Chauffant</name>
+      <name language="en">Chauffant</name>
+    </type>
+    <type>
+      <id>TYPE_HOMOGENEISATEUR</id>
+      <name language="fr">Homogénéisateur</name>
+      <name language="en">Homogénéisateur</name>
+    </type>
+    <type>
+      <id>TYPE_SOLUTION</id>
+      <name language="fr">Solution</name>
+      <name language="en">Solution</name>
+    </type>
+    <type>
+      <id>TYPE_OBJET</id>
+      <name language="fr">Objet</name>
+      <name language="en">Object</name>
+    </type>
+    <type>
+      <id>TYPE_SOLIDE</id>
+      <name language="fr">Solide</name>
+      <name language="en">Solide</name>
+    </type>
+    <initial_proc>
+      <name language="en">Procedure</name>
+      <question>
+        <description language="en" />
+        <task_right>
+          <edit_right>X</edit_right>
+          <delete_right>N</delete_right>
+          <copy_right>N</copy_right>
+          <move_right>N</move_right>
+          <parent_right>X</parent_right>
+          <draw_right>N</draw_right>
+          <repeat_right>N</repeat_right>
+        </task_right>
+      </question>
+      <proc_hypothesis>
+        <hypothesis language="en" />
+        <comment language="en" />
+        <hypothesis_hide>false</hypothesis_hide>
+      </proc_hypothesis>
+      <proc_general_principle>
+        <principle language="en" />
+        <principle_comment language="en" />
+        <principle_hide>false</principle_hide>
+      </proc_general_principle>
+      <manipulation />
+      <code>TEST</code>
+      <is_free_action>true</is_free_action>
+      <is_task>true</is_task>
+      <is_task_repeat>false</is_task_repeat>
+      <hypothesis_mode>M</hypothesis_mode>
+      <principle_mode>M</principle_mode>
+      <draw_principle>false</draw_principle>
+      <evaluation_mode>N</evaluation_mode>
+      <strategy_ref>
+        <code>S4</code>
+      </strategy_ref>
+      <is_task_draw>false</is_task_draw>
+    </initial_proc>
+  </mission>
+  <learner_proc>
+    <name language="en">Procedure</name>
+    <question>
+      <description language="en" />
+      <task_right>
+        <edit_right>X</edit_right>
+        <delete_right>N</delete_right>
+        <copy_right>N</copy_right>
+        <move_right>N</move_right>
+        <parent_right>X</parent_right>
+        <draw_right>N</draw_right>
+        <repeat_right>N</repeat_right>
+      </task_right>
+    </question>
+    <proc_hypothesis>
+      <hypothesis language="en" />
+      <comment language="en" />
+      <hypothesis_hide>false</hypothesis_hide>
+    </proc_hypothesis>
+    <proc_general_principle>
+      <principle language="en" />
+      <principle_comment language="en" />
+      <principle_hide>false</principle_hide>
+    </proc_general_principle>
+    <manipulation />
+    <material_used>
+      <material>
+        <id>305</id>
+        <name language="en">PC or Laptop</name>
+        <info language="en" />
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id>306</id>
+        <name language="en">Vernier computer interface</name>
+        <info language="en" />
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id>307</id>
+        <name language="en">Vernier Dissolved Oxygen Probe</name>
+        <info language="en" />
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id>315</id>
+        <name language="en">Vernier pH sensor</name>
+        <info language="en" />
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id>308</id>
+        <name language="en">Vernier Temperature Probe</name>
+        <info language="en" />
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id>309</id>
+        <name language="en">Vernier Light Sensor</name>
+        <info language="en" />
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id>310</id>
+        <name language="en">Scales</name>
+        <info language="en" />
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id>313</id>
+        <name language="en">Halogen lamp</name>
+        <info language="en">240W</info>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id>311</id>
+        <name language="en">Beaker</name>
+        <info language="en">250ml</info>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id>312</id>
+        <name language="en">Transparent beaker</name>
+        <info language="en">750ml</info>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id>319</id>
+        <name language="en">Vessels</name>
+        <info language="en">250 ml</info>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id>314</id>
+        <name language="en">Tap water</name>
+        <info language="en" />
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id>316</id>
+        <name language="en">Distilled water</name>
+        <info language="en">3 litres</info>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id>320</id>
+        <name language="en">Sulphuric acid solutions</name>
+        <info language="en">Solution A - 0,0001M&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+Solution B - 0,01 M</info>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id>317</id>
+        <name language="en">Canadian waterweed</name>
+        <info language="en">20g Canadian waterweed (Elodea canadensis)</info>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id>318</id>
+        <name language="en">Samples of ground</name>
+        <info language="en">limestone, granite, sand, peat</info>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id>322</id>
+        <name language="en">Paper towel</name>
+        <info language="en" />
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id>321</id>
+        <name language="en">Syringes</name>
+        <info language="en">2ml and 10ml</info>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <initial_proc_ref>
+      <code>TEST</code>
+    </initial_proc_ref>
+  </learner_proc>
+</experimental_procedure>
+</content>
+<resources>
+</resources>
+</elo>

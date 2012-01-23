@@ -1,0 +1,100 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>tea</entity>
+        <date>
+          <dateTime>2012-01-17T13:03:10.125+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>tea</entity>
+        <date>
+          <dateTime>2012-01-17T13:03:10.125+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1266853263318</dateCreated>
+        <dateFirstUserSaveKey>1326806447968</dateFirstUserSaveKey>
+        <dateLastModified>1326806447968</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <general>
+      <description>
+        <string language="en" />
+      </description>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20269/0/%CE%94%CE%B9%CE%B1%CF%84%CF%8D%CF%80%CF%89%CF%83%CE%B7+%CF%80%CF%81%CE%BF%CE%B2%CE%BB%CE%AE%CE%BC%CE%B1%CF%84%CE%BF%CF%82-+%CF%80%CF%81%CF%89%CF%84%CE%BF%CE%B3%CE%B5%CE%BD%CE%AE%CF%82+%CF%80%CE%B1%CF%81%CE%B1%CE%B3%CF%89%CE%B3%CE%AE.rtf</entry>
+      </identifier>
+      <las>orientation_B1</las>
+      <structure>plainText</structure>
+      <mission>ecoMission</mission>
+      <missionId>eco</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20228/0/%CE%9F%CE%B9%CE%BA%CE%BF%CF%83%CF%85%CF%83%CF%84%CE%AE%CE%BC%CE%B1%CF%84%CE%B1.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Problem formulation - primary production</string>
+        <string language="el">Διατύπωση προβλήματος- πρωτογενής παραγωγή</string>
+      </title>
+    </general>
+    <educational>
+      <learningResourceType>researchQuestion</learningResourceType>
+    </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType>Idea</iconType>
+    </annotation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20240/0/Problem+formulation+-+primary+production.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation />
+  </lom>
+  <template>false</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAB50lEQVR42u3VTWsaURjF8dm5LOnXEdcBF7ou4ndw1U+QrbjoQLpKaIJITO1CaIRKUTQMgoVW6KKkRPJCI41tA5GSmNieep80F7JosIFCif8Dh7nPveMLPwYNpK+a6Ni3vFm6Ma+urtyYZ+nZxUBnl/PRwAFufxipuzfRm70Llcslm6Od73Z1gJcTaTH1yOYrpM+2DoLpy/XF9tzsutUd6NvpQCej+agBrr18q8dLyyq9em9PoJvXt97Z1QGejyd6uPDAZv9kVrs2XwO6dVh8reXNSJ+OdzUY9v/Yoxn2jmY8u23vrv2b72eAT55tKHRd2zBAP0/rAFfKL/yew/qpoT//MV27vev5aem59vd3dXjYn4sGB/2Ponev+xH7ZxmPx7rvMcBYLKZ2u61MJqNGo2EHqVRKnU7H3xiGoZrNpmq1ms25XM6fp9NpVSoVWyeTSbu2Wi0lEgn1ej2boyiy9y4UCspms7//gK5Sr9f9Z+bzeRWLRX8Wj8dVrVb/b0ACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAAEkAAIIIIAEQAABBJAACCCAABIAAQQQQAIggAACSAAEEEAACYAAAgggARBAAO9bfgFN9O7b63wW+gAAAABJRU5ErkJggg==</base64>
+  </thumbnail>
+</metadata>
+<content languages="en el" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0\u915 ?\u961 ?\u940 ?\u968 ?\u964 ?\u949 ? \u949 ?\u948 ?\u974 ? \u960 ?\u959 ?\u953 ?\u959 ? \u949 ?\u943 ?\u957 ?\u945 ?\u953 ? \u964 ?\u959 ? \u954 ?\u973 ?\u961 ?\u953 ?\u959 ? \u960 ?\u961 ?\u972 ?\u946 ?\u955 ?\u951 ?\u956 ?\u945 ? \u945 ?\u965 ?\u964 ?\u942 ? \u964 ?\u951 ?\u962 ? \u954 ?\u945 ?\u964 ?\u940 ?\u963 ?\u964 ?\u945 ?\u963 ?\u951 ?\u962 ?. \par
+\par
+\par
+\par
+\f1\cf1\par
+\par
+\par
+\li0\ri0\fi0\ul0\par
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>

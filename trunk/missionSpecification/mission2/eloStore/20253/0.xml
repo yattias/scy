@@ -1,0 +1,190 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>tea</entity>
+        <date>
+          <dateTime>2012-01-17T14:48:29.093+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1266920430747</dateCreated>
+        <dateFirstUserSaveKey>1326804509093</dateFirstUserSaveKey>
+        <dateLastModified>1326804509093</dateLastModified>
+      </customElements>
+      <format>scy/pds</format>
+    </technical>
+    <general>
+      <description>
+        <string language="en" />
+      </description>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20253/0/%CE%94%CE%B5%CE%B4%CE%BF%CE%BC%CE%AD%CE%BD%CE%B1+%CE%B1%CF%80%CF%8C+%CF%84%CE%B1+%CF%80%CE%B5%CE%B9%CF%81%CE%AC%CE%BC%CE%B1%CF%84%CE%B1-+%CF%86%CF%89%CF%82.scypds</entry>
+      </identifier>
+      <las>experiment_B2</las>
+      <structure>dataset</structure>
+      <mission>ecoMission</mission>
+      <missionId>eco</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20228/0/%CE%9F%CE%B9%CE%BA%CE%BF%CF%83%CF%85%CF%83%CF%84%CE%AE%CE%BC%CE%B1%CF%84%CE%B1.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Data from experiments - light</string>
+        <string language="el">Δεδομένα από τα πειράματα- φως</string>
+      </title>
+    </general>
+    <educational>
+      <learningResourceType>dataset</learningResourceType>
+    </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType>scy/dataset</iconType>
+    </annotation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20069/0/Light+Data+from+experiments.scypds</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation />
+  </lom>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>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</base64>
+  </thumbnail>
+</metadata>
+<content languages="en el" contentType="xml">
+<processDataset>
+  <dataset>
+    <header language="el">
+      <column>
+        <symbol>time</symbol>
+        <description />
+        <type>double</type>
+        <unit>min</unit>
+      </column>
+      <column>
+        <symbol>lux ppm</symbol>
+        <description />
+        <type>double</type>
+        <unit>mg/l</unit>
+      </column>
+      <column>
+        <symbol>lux ppm</symbol>
+        <description />
+        <type>double</type>
+        <unit>mg/l</unit>
+      </column>
+      <column>
+        <symbol>lux ppm</symbol>
+        <description />
+        <type>double</type>
+        <unit>mg/l</unit>
+      </column>
+      <column>
+        <symbol>lux ppm</symbol>
+        <description />
+        <type>double</type>
+        <unit>mg/l</unit>
+      </column>
+    </header>
+    <row>
+      <value />
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+      <value />
+      <value />
+      <value />
+    </row>
+  </dataset>
+  <processed_dataset>
+    <name>Dataset</name>
+    <processed_hedaer>
+      <column>0</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+    <processed_hedaer>
+      <column>1</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+    <processed_hedaer>
+      <column>2</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+    <processed_hedaer>
+      <column>3</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+    <processed_hedaer>
+      <column>4</column>
+      <data_alignment>4</data_alignment>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+  </processed_dataset>
+</processDataset>
+</content>
+<resources>
+</resources>
+</elo>

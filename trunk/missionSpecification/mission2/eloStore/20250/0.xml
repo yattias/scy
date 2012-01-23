@@ -1,0 +1,87 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>tea</entity>
+        <date>
+          <dateTime>2012-01-17T14:25:39.515+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1266853263318</dateCreated>
+        <dateFirstUserSaveKey>1326803139515</dateFirstUserSaveKey>
+        <dateLastModified>1326803139515</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <general>
+      <description>
+        <string language="en" />
+      </description>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20250/0/%CE%9B%CF%8D%CF%83%CE%B7+%CF%80%CF%81%CE%BF%CE%B2%CE%BB%CE%AE%CE%BC%CE%B1%CF%84%CE%BF%CF%82-+%CE%A6%CF%89%CF%82.rtf</entry>
+      </identifier>
+      <las>design_B2</las>
+      <structure>plainText</structure>
+      <mission>ecoMission</mission>
+      <missionId>eco</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20228/0/%CE%9F%CE%B9%CE%BA%CE%BF%CF%83%CF%85%CF%83%CF%84%CE%AE%CE%BC%CE%B1%CF%84%CE%B1.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Problem solution - light</string>
+        <string language="el">Λύση προβλήματος- Φως</string>
+      </title>
+    </general>
+    <educational>
+      <learningResourceType>reportFinal</learningResourceType>
+    </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType>Conclusion</iconType>
+    </annotation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20054/0/Problem+solution+light.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation />
+  </lom>
+  <template>TRUE</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACMklEQVR42u3U0WtSYRjH8XMjXkb9J14LgqAkXnjnRQjif6BX+Q90t5sQaVcpbNqo8KKwCUkqWqE4KKQLN9iwRh4qnNCQNefZk+87dphB47CiKL8/eDjv8z4vh5cPh2OMTkQ+H83s2nj4aKHP5fMLvZMyvx6JebgcZSjAl/1D6Q5msjWYakDVv96Z6Gcul5eZdSo3I7d0r4A+zUutDcOQ0fGp3lO9qkp3KObBgZjj8VKUBlx79kZu31mVjefvNKDq1zff6qf6Ao+nJ3Lj+jXdn39l+add3Y+mZ4BqnS2+kNXHr2R3+FH2TPOSGjrYGzqcXbZ31XJ+Pw24cv+JrOTOSgFe7BXgvQeb9p7C+vLNsudqrfbO+7vrZdn98F729veXoozBdl8G/XltX6gf+5/tXbWcvL/vcPaX72fIL8ayrN9yRv1P/8XoW7vdbmm1WhKLxaRer+tBJBKRdrttH8xmszKe/zQrlYruU6mUPctkMlIqlfQ6HA5LIpGwZ6FQSNLptLhcLplMJhKNRu2Z3+/XT4/Ho5F7vZ7E43F9LhAIiNfrlUKhILVaTYrF4gJ2s9mURqOh3+Hz+XSfTCalXC5LMBiUTqcj1Wr1zwASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAgggARBAAAEkAAIIIIAEQAABBJAACCCAABIAAQQQQAIggAACSAAEEEAACYAAAvi/5TvFatBebtneJAAAAABJRU5ErkJggg==</base64>
+  </thumbnail>
+</metadata>
+<content languages="en el" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0\u915 ?\u961 ?\u940 ?\u968 ?\u964 ?\u949 ? \u949 ?\u948 ?\u974 ? \u960 ?\u959 ?\u953 ?\u945 ? \u949 ?\u943 ?\u957 ?\u945 ?\u953 ? \u951 ? \u955 ?\u973 ?\u963 ?\u951 ? \u963 ?\u964 ?\u959 ? \u960 ?\u961 ?\u972 ?\u946 ?\u955 ?\u951 ?\u956 ?\u945 ? \u960 ?\u959 ?\u965 ? \u959 ?\u961 ?\u943 ?\u963 ?\u945 ?\u964 ?\u949 ? \u963 ?\u964 ?\u951 ?\u957 ? \u945 ?\u961 ?\u967 ?\u942 ? \u964 ?\u951 ?\u962 ? \u949 ?\u961 ?\u947 ?\u945 ?\u963 ?\u943 ?\u945 ?\u962 ? \u963 ?\u945 ?\u962 ?. \par
+\par
+\f1\cf1\par
+\par
+\li0\ri0\fi0\ul0\par
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>

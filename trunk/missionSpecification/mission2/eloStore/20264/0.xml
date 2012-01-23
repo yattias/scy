@@ -1,0 +1,106 @@
+<elo>
+<metadata>
+  <lom>
+    <resource>
+      <assignmentUri />
+      <resourcesUri />
+    </resource>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>tea</entity>
+        <date>
+          <dateTime>2012-01-17T15:12:36.218+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <annotation />
+    <technical>
+      <customElements>
+        <dateCreated>1266852935874</dateCreated>
+        <dateFirstUserSaveKey>1326805972609</dateFirstUserSaveKey>
+        <dateLastModified>1326805972609</dateLastModified>
+      </customElements>
+      <mucId />
+      <format>scy/rtf</format>
+    </technical>
+    <general>
+      <description>
+        <string language="en" />
+      </description>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20264/0/%CE%94%CE%B9%CE%B5%CF%81%CE%B5%CF%85%CE%BD%CE%AE%CF%83%CE%B9%CE%BC%CE%B1+%CE%B5%CF%81%CF%89%CF%84%CE%AE%CE%BC%CE%B1%CF%84%CE%B1-+%CF%84%CF%81%CE%BF%CF%86%CE%B9%CE%BA%CE%AC+%CE%B5%CF%80%CE%AF%CF%80%CE%B5%CE%B4%CE%B1.rtf</entry>
+      </identifier>
+      <las>orientation_B3</las>
+      <structure>plainText</structure>
+      <mission>ecoMission</mission>
+      <missionId>eco</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20228/0/%CE%9F%CE%B9%CE%BA%CE%BF%CF%83%CF%85%CF%83%CF%84%CE%AE%CE%BC%CE%B1%CF%84%CE%B1.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Research questions - trophic levels</string>
+        <string language="el">Διερευνήσιμα ερωτήματα- τροφικά επίπεδα</string>
+      </title>
+    </general>
+    <educational>
+      <learningResourceType>researchQuestion</learningResourceType>
+    </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType>Research_question</iconType>
+    </annotation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20263/0/%CE%94%CE%B9%CE%B5%CF%81%CE%B5%CF%85%CE%BD%CE%AE%CF%83%CE%B9%CE%BC%CE%B1+%CE%B5%CF%81%CF%89%CF%84%CE%AE%CE%BC%CE%B1%CF%84%CE%B1-+%CF%84%CF%81%CE%BF%CF%86%CE%B9%CE%BA%CE%AC+%CE%B5%CF%80%CE%AF%CF%80%CE%B5%CE%B4%CE%B1.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_forked_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20271/0/%CE%94%CE%B9%CE%B5%CF%81%CE%B5%CF%85%CE%BD%CE%AE%CF%83%CE%B9%CE%BC%CE%B1+%CE%B5%CF%81%CF%89%CF%84%CE%AE%CE%BC%CE%B1%CF%84%CE%B1-+%CF%84%CF%81%CE%BF%CF%86%CE%B9%CE%BA%CE%AC+%CE%B5%CF%80%CE%AF%CF%80%CE%B5%CE%B4%CE%B1.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation />
+  </lom>
+  <template>false</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAABuklEQVR42u3UzUoCYRjF8dm5jLqpdu5chGtvoSvoDgpslWSEZNpCTSUIF8YoGNSiRRhJH5T0DUX0oXXyfcKhFoXVLv8HDvM+z+ggPwY96UpdnQdNL6c+zYnE3Kd5kD48t/XQGY56DnBj906Ng642D56VTqds9pv3dnWAna40Hp6w+R3pzM6e1/u6Lm3nZtdio63r27Zu7oajBphc3dLkVFyptR17A928UNy2qwN8fOpqbHTE5uDNzDVs7gO688ziuuLLvk7O99W+aH3Z0wF2pwPe+2732/7k9xng9PySZlyTSwYYzL06wLn0SrBzWK+6CO6/9M5u159nUxkdHu7r+Lg1FPWOWnuiv6/7EyN/iAGGQiFVq1VFo1FVKhW7EQ6HVa/X7ex2+XxehUJBuVxO5XI5eECpVFKtVlMsFlMmk1E2m1Wz2bTPfozv+/acSCTy/wAJgAACCCABEEAAASQAAggggARAAAEEkAAIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAAfxveQMf1/6egRjDcwAAAABJRU5ErkJggg==</base64>
+  </thumbnail>
+</metadata>
+<content languages="en el" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0\u915 ?\u961 ?\u940 ?\u968 ?\u964 ?\u949 ? \u949 ?\u948 ?\u974 ? \u964 ?\u945 ? \u948 ?\u953 ?\u949 ?\u961 ?\u949 ?\u965 ?\u957 ?\u942 ?\u963 ?\u953 ?\u956 ?\u945 ? \u963 ?\u945 ?\u962 ? \u949 ?\u961 ?\u969 ?\u964 ?\u942 ?\u956 ?\u945 ?\u964 ?\u945 ?. \par
+\par
+\par
+\f1\cf1\par
+\par
+\li0\ri0\fi0\ul0\par
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>

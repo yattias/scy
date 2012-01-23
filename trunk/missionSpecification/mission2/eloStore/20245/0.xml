@@ -1,0 +1,102 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>tea</entity>
+        <date>
+          <dateTime>2012-01-17T13:03:09.968+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>tea</entity>
+        <date>
+          <dateTime>2012-01-17T13:03:09.968+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <annotation>
+      <entity>colorId</entity>
+      <colorSchemeId />
+    </annotation>
+    <technical>
+      <customElements>
+        <dateCreated>1266853263318</dateCreated>
+        <dateFirstUserSaveKey>1326801527546</dateFirstUserSaveKey>
+        <dateLastModified>1326801527546</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <general>
+      <description>
+        <string language="en" />
+      </description>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20245/0/%CE%A5%CF%80%CE%BF%CE%B8%CE%AD%CF%83%CE%B5%CE%B9%CF%82-+%CF%80%CF%81%CF%89%CF%84%CE%BF%CE%B3%CE%B5%CE%BD%CE%AE%CF%82+%CF%80%CE%B1%CF%81%CE%B1%CE%B3%CF%89%CE%B3%CE%AE.rtf</entry>
+      </identifier>
+      <las>experiment_B1</las>
+      <structure>plainText</structure>
+      <mission>ecoMission</mission>
+      <missionId>eco</missionId>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20228/0/%CE%9F%CE%B9%CE%BA%CE%BF%CF%83%CF%85%CF%83%CF%84%CE%AE%CE%BC%CE%B1%CF%84%CE%B1.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Hypotheses - primary production</string>
+        <string language="el">Υποθέσεις- πρωτογενής παραγωγή</string>
+      </title>
+    </general>
+    <educational>
+      <learningResourceType>hypothesis</learningResourceType>
+    </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType>Hypothese2</iconType>
+    </annotation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20239/0/Hypotheses+-+primary+production.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation />
+  </lom>
+  <template>false</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAABsUlEQVR42u3UwUoCURTG8dm5jHonCVzMPnwMoSfoDRJskQqalbYLEgzChSGCQS1aWNo0EqNQUAszxbST9w4OGBmTm6D5f/Axc85lZPgxaMjQlvHrnddCPjc3p1PJudlPBz0rMDUU4HmjJ3V7LBf2SAqHe3qu3vb1VQG+T0TWzQ09u0gtfW8YhsibpXdqVi3Wu/L8aMnLUzCqATMnl7K5lZCD02v9Bao5W7zSVwU4HE1kbXVFzzPA9HFdzzK41zt1H8+dSeKoKk7Hkm53cTs+dh2fZz/tlu1v3k8Dbu9mJa6azGpAb55WAaZyeW+nsD76lnc+6btf4GzeyexL27bkoR2MGs3WjTRbDXGvs36dF+2WrZ/fb/g8+9v3m/6JLZdYLCZEXMBQKCSVSkWi0aiUy2V9YJqm1Gq1bx8Kh8NSKpXEcZy5fSQSCSYgARBAAAEkAAIIIIAEQAABBJAACCCAABIAAQQQQAIggAACSAAEEEAACYAAAgggARBAAAEkAAIIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAASQAAggggARAAAEEkAAIIID/LZ8jY/VKBq5ptQAAAABJRU5ErkJggg==</base64>
+  </thumbnail>
+</metadata>
+<content languages="en el" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0\u915 ?\u961 ?\u940 ?\u968 ?\u964 ?\u949 ? \u949 ?\u948 ?\u974 ? \u964 ?\u953 ?\u962 ? \u965 ?\u960 ?\u959 ?\u952 ?\u941 ?\u963 ?\u949 ?\u953 ?\u962 ? \u963 ?\u945 ?\u962 ?. \par
+\par
+\f1\cf1\par
+\par
+\par
+\li0\ri0\fi0\ul0\par
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>
