@@ -3,9 +3,11 @@
     <initial_proc>
       <name language="fr">Protocole d'aide</name>
       <name language="en">Help Procedure</name>
+	  <name language="el">Βοηθητική διαδικασία</name>
       <question>
         <description language="fr" />
         <description language="en" />
+		 <description language="el" />
         <task_right>
           <edit_right>N</edit_right>
           <delete_right>N</delete_right>
@@ -18,15 +20,19 @@
       </question>
       <proc_hypothesis>
         <hypothesis language="en" />
+		<hypothesis language="el" />
         <hypothesis language="fr" />
         <comment language="en" />
+		 <comment language="el" />
         <comment language="fr" />
         <hypothesis_hide>false</hypothesis_hide>
       </proc_hypothesis>
       <proc_general_principle>
         <principle language="en" />
+		<principle language="el" />
         <principle language="fr" />
         <principle_comment language="en" />
+		<principle_comment language="el" />
         <principle_comment language="fr" />
         <principle_hide>false</principle_hide>
       </proc_general_principle>
@@ -46,6 +52,7 @@
         <id>MATERIAL_CHOU_ROUGE</id>
         <name language="fr">Chou rouge</name>
         <name language="en">Red cabbage</name>
+		 <name language="el">Κόκκινο λάχανο</name>
         <info language="fr" />
         <type_ref>
           <id>TYPE_INGREDIENT</id>
@@ -55,6 +62,7 @@
         <id>MATERIAL_EAU</id>
         <name language="fr">Eau</name>
         <name language="en">Water</name>
+		 <name language="el">Νερό</name>
         <info language="fr" />
         <type_ref>
           <id>TYPE_LIQUIDE</id>
@@ -64,6 +72,7 @@
         <id>MATERIAL_BOUILLOIRE</id>
         <name language="fr">Bouilloire électrique</name>
         <name language="en">Electric kettle</name>
+		  <name language="el">Ηλεκτρικός βραστήρας</name>
         <info language="fr" />
        <type_ref>
           <id>TYPE_USTENSILE</id>
@@ -73,6 +82,7 @@
        <id>MATERIAL_BECHER</id>
         <name language="fr">Bécher de 500 mL</name>
         <name language="en">500 ml glass beaker</name>
+		  <name language="el">500 ml δοχείο ζέσεως</name>
         <info language="fr" />
         <type_ref>
           <id>TYPE_MESUREUR</id>
@@ -82,6 +92,7 @@
         <id>MATERIAL_PASSOIRE</id>
         <name language="fr">Passoire</name>
         <name language="en">sieve</name>
+		 <name language="el">σουρωτήρι</name>
         <info language="fr" />
         <type_ref>
           <id>TYPE_USTENSILE</id>
@@ -91,6 +102,7 @@
         <id>MATERIAL_TUBE</id>
         <name language="fr">Tube de 20 mL (6)</name>
         <name language="en">20 ml test tube (6)</name>
+		 <name language="el">20 ml δοκιμαστικό σωλήνα (6)</name>
         <info language="fr" />
         <type_ref>
           <id>TYPE_MESUREUR</id>
@@ -100,6 +112,7 @@
         <id>MATERIAL_CITRON</id>
         <name language="fr">Citron</name>
         <name language="en">Lemon</name>
+		  <name language="el">Λεμόνι</name>
         <info language="fr" />
         <type_ref>
           <id>TYPE_INGREDIENT</id>
@@ -109,6 +122,7 @@
         <id>MATERIAL_VINAIGRE</id>
         <name language="fr">Vinaigre</name>
         <name language="en">Vinegar</name>
+		 <name language="el">Ξύδι</name>
         <info language="fr" />
         <type_ref>
           <id>TYPE_LIQUIDE</id>
@@ -118,6 +132,7 @@
        <id>MATERIAL_BICARBONATE_SOUDE</id>
         <name language="fr">Bicarbonate de soude</name>
         <name language="en">Sodium bicarbonate</name>
+		 <name language="el">Όξινο ανθρακικό νάτριο</name>
         <info language="fr" />
         <type_ref>
           <id>TYPE_PROD_CHIM</id>
@@ -127,6 +142,7 @@
        <id>MATERIAL_SOUDE</id>
         <name language="fr">Soude</name>
         <name language="en">sodium hydroxyde in pellets</name>
+		<name language="el">υδροξείδιο του νατρίου σε σφαιρίδια</name>
         <info language="fr" />
         <type_ref>
           <id>TYPE_PROD_CHIM</id>
@@ -136,6 +152,7 @@
         <id>MATERIAL_PIPETTE_PASTEUR</id>
         <name language="fr">Pipette pasteur</name>
         <name language="en">pipette</name>
+		<name language="el">σταγονόμετρο</name>
         <info language="fr" />
         <type_ref>
           <id>TYPE_MESUREUR</id>
@@ -145,6 +162,7 @@
         <id>MATERIAL_CUILLERE</id>
         <name language="fr">Cuillère</name>
         <name language="en">Spoon</name>
+		<name language="el">Κουτάλι</name>
         <info language="fr" />
         <type_ref>
           <id>TYPE_USTENSILE</id>
@@ -155,11 +173,14 @@
   <learner_proc>
     <name language="fr">Le chou rouge</name>
     <name language="en">The red cabbage</name>
+	<name language="el">Το κόκκινο λάχανο</name>
     <question>
       <description language="fr">Déterminer de quoi dépend la couleur du colorant contenu dans les feuilles de chou rouge</description>
       <description language="en">Determine on what depends the color of the dye contained in the leaves of the red cabbage</description>
+	  <description language="el">Προσδιορίστε από τι εξαρτάται το χρώμα της χρωστικής ουσίας που περιέχεται στα φύλλα του κόκκινο λάχανου</description>
       <comments language="fr">Suivant les préparations culinaires faites avec le chou rouge, on observe des variations de couleur de ce légume. A quoi sont dues ces variations ?</comments>
       <comments language="en">Depending on the preparation made from red cabbages, color changes of this vegetable can be observed. What do these color changes depend on?</comments>
+	   <comments language="el">Ανάλογα με την προετοιμασία που έγινε στα κόκκινα λάχανα, μπορούν να παρατηρηθούν χρωματικές αλλαγές αυτού του λαχανικού. Από τι εξαρτώνται αυτές οι χρωματικές αλλαγές;</comments>
       <task_right>
         <edit_right>N</edit_right>
         <delete_right>N</delete_right>
@@ -173,14 +194,18 @@
     <proc_hypothesis>
       <hypothesis language="fr">Les variations de couleur pourraient être dues au pH du milieu avec lequel le chou rouge est en contact</hypothesis>
       <hypothesis language="en">Color changes might be due to the environmental pH the red cabbage is in touch with</hypothesis>
+	   <hypothesis language="el">Οι χρωματικές αλλαγές μπορεί να οφείλονται στο pH του περιβάλλοντος με το οποίο είναι σε επαφή το κόκκινο λάχανο</hypothesis>
       <comment language="en" />
+	   <comment language="el" />
       <comment language="fr" />
       <hypothesis_hide>false</hypothesis_hide>
     </proc_hypothesis>
     <proc_general_principle>
       <principle language="fr">Nous allons extraire le colorant du chou rouge, puis nous mettrons ce colorant dans des  milieux de pH différents. Nous détermineront si la couleur change.</principle>
       <principle language="en">We are going to extract the dye of a red cabbage, then we will put this dye in different environments with various pH. We will determine if the color changes.</principle>
+	   <principle language="el">Θα αποστάξουμε το χρώμα από το κόκκινο λάχανο, και μετά θα βάλουμε αυτό το εκχύλισμα σε διαφορετικά περιβάλλοντα με διάφορες τιμές pH. Θα παρατηρήσουμε εάν θα αλλάξει το χρώμα.</principle>
       <principle_comment language="en" />
+	  <principle_comment language="el" />
       <principle_comment language="fr" />
       <principle_hide>false</principle_hide>
     </proc_general_principle>
@@ -188,6 +213,7 @@
       <step>
         <description language="fr">Extraire le colorant du chou rouge</description>
         <description language="en">Extraction of the dye from a red cabbage</description>
+		<description language="el">Απόσταξη του εκχυλίσματος από το κόκκινο λάχανο</description>
         <comments language="fr" />
         <task_right>
           <edit_right>N</edit_right>
@@ -201,6 +227,7 @@
         <action>
           <description language="fr">Couper quelques feuilles externes de chou rouge en petits morceaux.</description>
           <description language="en">Cut up in little pieces some outer leaves of the red cabbage.</description>
+		  <description language="el">Κόψτε σε μικρά κομμάτια κάποια εξωτερικά φύλλα από το κόκκινο λάχανο.</description>
           <comments language="fr" />
           <task_right>
             <edit_right>N</edit_right>
@@ -215,6 +242,7 @@
         <action>
           <description language="fr">Mettre ces morceaux de feuilles dans un bécher de 500 mL.</description>
           <description language="en">Put the pieces of red cabbage leaves in a 500 mL beaker.</description>
+		   <description language="el">Τοποθετήστε τα κομμάτια από το κόκκινο λάχανο στο δοχείο ζέσεως των 500 mL.</description>
           <comments language="fr" />
           <task_right>
             <edit_right>N</edit_right>
@@ -229,6 +257,7 @@
         <action>
           <description language="fr">Faire chauffer de l'eau dans la bouilloire électrique</description>
           <description language="en">Heat water with the electric kettle</description>
+		   <description language="el">Ζεστάνετε νερό με τον ηλεκτρικό βραστήρα</description>
           <comments language="fr" />
           <task_right>
             <edit_right>N</edit_right>
@@ -243,8 +272,10 @@
         <action>
           <description language="fr">Verser un peu d'eau bouillante dans le bécher contenant le chou rouge découpé</description>
           <description language="en">Add some boiling water in the beaker with the red cabbage leaves</description>
+		  <description language="el">Προσθέστε λίγο ζεστό νερό στο δοχείο ζέσεως με το κόκκινο λάχανο</description>
           <comments language="fr">Mettre le minimum d'eau pour recouvrir le chou rouge</comments>
           <comments language="en">Put the minimum of water to surround the leaves</comments>
+		  <comments language="el">Προσθέστε την ελάχιστη ποσότητα νερού για να καλύψετε τα φύλλα</comments>
           <task_right>
             <edit_right>N</edit_right>
             <delete_right>N</delete_right>
@@ -258,6 +289,7 @@
         <action>
           <description language="fr">Attendre 10 min</description>
           <description language="en">Wait for 10 min</description>
+		  <description language="el">Περιμένετε για 10 λεπτά</description>
           <comments language="fr" />
           <task_right>
             <edit_right>N</edit_right>
@@ -272,6 +304,7 @@
         <action>
           <description language="fr">Filtrer le contenu du bécher avec la passoire - On obtient le colorant extrait en solution</description>
           <description language="en">Filter the content of the beaker with the sieve - we obtain a solution of the cabbage dye.</description>
+		  <description language="el">Φιλτράρετε το περιεχόμενου του δοχείου ζέσεως με το σουρωτήρι- έχουμε ένα διάλυμα της βαφής του λάχανου</description>
           <comments language="fr" />
           <task_right>
             <edit_right>N</edit_right>
@@ -287,6 +320,7 @@
       <step>
         <description language="fr">Test du colorant dans des solutions de pH différents</description>
         <description language="en">Test of the dye in solutions with various pH</description>
+		<description language="el">Δοκιμή της βαφής σε διαλύματα με διάφορα pH</description>
         <comments language="fr" />
         <task_right>
           <edit_right>N</edit_right>
@@ -300,6 +334,7 @@
         <step>
           <description language="fr">Préparation des différentes solutions</description>
           <description language="en">Preparation of different solutions</description>
+		  <description language="el">Προετοιμασία σε διάφορα διαλύματα</description>
           <comments language="fr" />
           <task_right>
             <edit_right>N</edit_right>
@@ -313,8 +348,10 @@
           <action>
             <description language="fr">Dans le tube 1, mettre du jus de citron</description>
             <description language="en">In the tube 1, put lemon juice</description>
+			<description language="el">Στο σωλήνα 1, βάλτε χυμό λεμονιού</description>
             <comments language="fr">Solution acide</comments>
             <comments language="en">Acid solution</comments>
+			<comments language="el">Όξινο διάλυμα</comments>
             <task_right>
               <edit_right>N</edit_right>
               <delete_right>N</delete_right>
@@ -328,8 +365,10 @@
           <action>
             <description language="fr">Dans le tube 2, mettre du vinaigre</description>
             <description language="en">In the tube 2, put vinegar</description>
+			<description language="el">Στο σωλήνα 2, βάλτε ξύδι</description>
             <comments language="fr">Solution acide</comments>
             <comments language="en">Acid solution</comments>
+			<comments language="el">Όξινο διάλυμα</comments>
             <task_right>
               <edit_right>N</edit_right>
               <delete_right>N</delete_right>
@@ -342,9 +381,11 @@
           </action>
           <action>
             <description language="fr">Dans le tube 3, mettre de l'eau</description>
-            <description language="een">In the tube 3, put water</description>
+            <description language="en">In the tube 3, put water</description>
+			<description language="el">Στο σωλήνα 3, βάλτε νερό</description>
             <comments language="fr">Solution neutre</comments>
             <comments language="en">neutral solution</comments>
+			<comments language="el">Ουδέτερο διάλυμα</comments>
             <task_right>
               <edit_right>N</edit_right>
               <delete_right>N</delete_right>
@@ -358,8 +399,10 @@
           <step>
             <description language="fr">Préparer une solution de bicarbonate de soude</description>
             <description language="en">Prepare a solution of sodium bicarbonate</description>
+			<description language="el">Προετοιμάστε ένα διάλυμα διττανθρακικού νατρίου</description>
             <comments language="fr">Solution basique</comments>
-            <comments language="en">Solution basique</comments>
+            <comments language="en">Basic solution</comments>
+			<comments language="el">Βασικό διάλυμα</comments>
             <task_right>
               <edit_right>N</edit_right>
               <delete_right>N</delete_right>
@@ -372,6 +415,7 @@
             <action>
               <description language="fr">Dans le tube 4, mettre 10 mL d'eau et 1 cuillère à café de bicarbonate de soude</description>
               <description language="en">In the tube 4, put 10ml water and 1 teaspoon of sodium bicarbonate</description>
+			  <description language="el">Στο σωλήνα 4, βάλτε 10ml νερό και ένα κουτάλι του τσαγιού διττανθρακικό νάτριο</description>
               <comments language="fr" />
               <task_right>
                 <edit_right>N</edit_right>
@@ -386,6 +430,7 @@
             <action>
               <description language="fr">Homogénéiser le contenu du tube 4</description>
               <description language="en">Homogenize the content of the tube 4</description>
+			  <description language="el">Ομογενοποιήστε το περιεχόμενο του σωλήνα 4</description>
               <comments language="fr" />
               <task_right>
                 <edit_right>N</edit_right>
@@ -401,8 +446,10 @@
           <step>
             <description language="fr">Préparer une solution de soude</description>
             <description language="en">Prepare a solution of sodium hydroxyde</description>
+			<description language="el">Προετοιμάστε ένα διάλυμα υδροξειδίου του νατρίου</description>
             <comments language="fr">Solution très basique</comments>
             <comments language="en">Very basic solution</comments>
+			<comments language="el">Πολύ βασικό διάλυμα</comments>
             <task_right>
               <edit_right>N</edit_right>
               <delete_right>N</delete_right>
@@ -415,8 +462,10 @@
             <action>
               <description language="fr">Dans le tube 5, mettre 1 pastille de soude et 10 mL d'eau</description>
               <description language="en">In the tube 5, put 1 pellet of hydroxyde sodium and 10 mL of water</description>
+			  <description language="el">Στο σωλήνα 5, βάλτε ένα σφαιρίδιο υδροξειδίου του νατρίου και 10 mL νερού</description>
               <comments language="fr">Attention : la soude est un produit très agressif.</comments>
               <comments language="en">Warning: hydroxyde sodium is a very agressive product</comments>
+			  <comments language="el">Προειδοποίηση: το υδροξείδιο του νατρίου είναι πολύ δραστήριο προϊόν</comments>
               <task_right>
                 <edit_right>N</edit_right>
                 <delete_right>N</delete_right>
@@ -430,6 +479,7 @@
             <action>
               <description language="fr">Homogénéiser</description>
               <description language="en">Homogenize</description>
+			  <description language="el">Ομογενοποιήστε</description>
               <comments language="fr" />
               <task_right>
                 <edit_right>N</edit_right>
@@ -446,6 +496,7 @@
         <step>
           <description language="fr">Tester le colorant dans les solutions à différents pH</description>
           <description language="en">Test the color of the red dye in the different solutions</description>
+		  <description language="el">Δοκιμάστε το χρώμα της κόκκινης βαφής στα διαφορετικά διαλύματα</description>
           <comments language="fr" />
           <task_right>
             <edit_right>X</edit_right>
@@ -459,6 +510,7 @@
           <action>
             <description language="fr">Ajouter quelques gouttes de solution de colorant dans chacun des tubes de la gamme de pH</description>
             <description language="en">Add few drops of dye solution in each test tube</description>
+			<description language="el">Προσθέστε λίγες σταγόνες από το διάλυμα της βαφής σε κάθε δοκιμαστικό σωλήνα</description>
             <comments language="fr" />
             <task_right>
               <edit_right>X</edit_right>
@@ -473,6 +525,7 @@
           <action>
             <description language="fr">Observer la couleur prise par la solution dans chacun des tubes</description>
             <description language="en">Observe the color of the solution in each tube</description>
+			<description language="el">Παρατηρήστε το χρώμα του διαλύματος σε κάθε δοκιμαστικό σωλήνα</description>
             <comments language="fr" />
             <task_right>
               <edit_right>X</edit_right>
