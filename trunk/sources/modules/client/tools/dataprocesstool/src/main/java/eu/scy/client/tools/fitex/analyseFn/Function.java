@@ -250,6 +250,28 @@ public class Function
             // si il n'y a pas de points definis dans la table,
             // si la fonction n'est pas definie sur certains points,
             // il ne faut pas afficher la distance
+            if (expression == null || nbPts==0 || Double.isNaN(r)) reliabilityFactor[d]=null ;
+            // sinon on calcule la MOYENNE des carres
+            //marjolaine le 21/05/10: racine carree (1/n* sum(i=1=>n) di²
+            //else reliabilityFactor[d] = reliabilityFactor[d] / sommeYCarre ;
+            else {
+                if(OLD_DIST){
+                    reliabilityFactor[d] = Math.sqrt(oldR/nbPts);
+                }else{
+                    reliabilityFactor[d] = Math.sqrt(r/nbPts);
+                }
+                String s= "********** DISTANCES **********\n";
+                //s += "reliabilityFactor old - sum(di²) / sum(yi²) avec di = |yi-f(xi)| : "+oldR / sommeYCarre+"\n";
+                if(!Double.isNaN(oldR)){
+                s += "reliabilityFactor - racineCarree(1/n * sum(di²)) avec di= |yi - f(xi)| : "+Math.sqrt(oldR/nbPts)+"\n";
+                }
+                //s += "pas : "+pasX+"\n";
+                if(!Double.isNaN(r)){
+                    s += "reliabilityFactor - racineCarree(1/n * sum(di²)) avec di= min(racineCarree((xi-x)²+(yi-f(x))²)) : "+Math.sqrt(r/nbPts)+"\n";
+                }
+                s += "*******************************\n";
+                //System.out.println(s);
+            }
         }
     }
 
