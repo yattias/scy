@@ -257,19 +257,11 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel implements ScyTool
 
    private String getLocalizedUri(String urlString)
    {
-      try
-      {
-         long startNanos = System.nanoTime();
-         URL url = uriLocalizer.localizeUrlwithChecking(new URL(urlString));
-         long millisUsed = (System.nanoTime() - startNanos) / 1000000;
-         logger.debug("found localized url for " + urlString + " in " + millisUsed + " ms");
-         return url.toString();
-      }
-      catch (MalformedURLException ex)
-      {
-         java.util.logging.Logger.getLogger(EloFlyingSaucerPanel.class.getName()).log(Level.SEVERE, null, ex);
-      }
-      return urlString;
+      long startNanos = System.nanoTime();
+      String localizedUri = uriLocalizer.localizeUriWithChecking(urlString);
+      long millisUsed = (System.nanoTime() - startNanos) / 1000000;
+      logger.debug("found localized url for " + urlString + " in " + millisUsed + " ms");
+      return localizedUri;
    }
 
    @Override
