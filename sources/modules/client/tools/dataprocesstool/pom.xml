@@ -264,12 +264,6 @@
 				</plugins>
 				<resources>
 					<resource>
-						<directory>src/main/java</directory>
-						<includes>
-							<include>**/*.*</include>
-						</includes>
-					</resource>
-					<resource>
 						<directory>src/main/resources</directory>
 						<includes>
 							<include>**/*.*</include>
@@ -283,9 +277,9 @@
 	<build>
 		<resources>
 			<resource>
-				<directory>src/main/java/</directory>
+				<directory>src/main/resources</directory>
 				<includes>
-					<include>**/*</include>
+					<include>**/*.*</include>
 				</includes>
 			</resource>
 		</resources>
