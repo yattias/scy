@@ -213,4 +213,14 @@ public class UriLocalizerTest
       String newPath = uriLocalizer.makePathLocalIfSpecified("http://www.scy-lab.eu/content/en/mission1/startPage/Welcome.html");
       URI uri = new URI(newPath);
    }
+   
+   @Test
+   public void testLocalizeRelativeFilePath() throws URISyntaxException{
+   	Locale.setDefault(Locale.GERMAN);
+   	UriLocalizer germanUriLocalizer = new UriLocalizer();
+   	URI englishFilePath = new URI("file:lib/content/en/mission3/instruction_01_myFavouritePizza.html");
+   	URI germanFilePath = new URI("file:lib/content/de/mission3/instruction_01_myFavouritePizza.html");
+   	URI localizedFilePath = germanUriLocalizer.localizeUri(englishFilePath);
+   	assertEquals(germanFilePath, localizedFilePath);
+   }
 }

@@ -193,7 +193,23 @@ public class UriLocalizer
       {
          return null;
       }
-      String localizedPath = localizePath(uri.getPath(), targetLanguage);
+      String path = uri.getPath();
+      if (path==null){
+      	int lastColonPos = uri.toString().lastIndexOf(':');
+      	if (lastColonPos>=0){
+      		path = uri.toString().substring(lastColonPos+1);
+      		String localizedPath = localizePath(path, targetLanguage);
+      		try
+				{
+					return new URI(uri.toString().substring(0, lastColonPos+1)+localizedPath);
+				}
+				catch (URISyntaxException e)
+				{
+		         logger.error("problems localizing relative uri: " + uri, e);
+				}
+      	}
+      }
+      String localizedPath = localizePath(path, targetLanguage);
       try
       {
          URI localizedUri = new URI(uri.getScheme(), uri.getUserInfo(), uri.getHost(), uri.getPort(),
