@@ -20,17 +20,12 @@ public class RooloAccessor {
 
     // RooloAccessorAgent
     private static final String ROOLO_AGENT_NAME = "roolo-agent";
-
     private static final String ROOLO_AGENT_RESPONSE = "roolo-response";
-
     private static final String ROOLO_AGENT_SEARCH = "search";
-
     private static final String ROOLO_AGENT_ELO = "elo";
-    
     private static final int ROOLO_AGENT_TIMEOUT = 5000;
 
     private final TupleSpace commandSpace;
-    
     private final Logger logger;
 	
 	

@@ -2,9 +2,8 @@ package eu.scy.agents.agenda.guidance.model;
 
 public class Dependency {
 
-	private Activity from;
-	
-	private Activity to;
+	private final Activity from;
+	private final Activity to;
 	
 	
 	public Dependency(Activity from, Activity to) {
