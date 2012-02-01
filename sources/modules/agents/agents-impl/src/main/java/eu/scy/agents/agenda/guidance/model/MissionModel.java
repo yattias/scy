@@ -10,19 +10,17 @@ import java.util.Set;
 public class MissionModel implements ActivityModelChangedListener {
 
 	private final String name;
-	
 	private final String user;
+	private volatile boolean initialized;
 	
 	private final Map<String, Activity> userElo2Activity = new HashMap<String, Activity>();
-
 	private final Map<String, Activity> template2Activity = new HashMap<String, Activity>();
-	
 	private final Set<Dependency> dependencies = new HashSet<Dependency>();
-
 	
 	public MissionModel(String name, String user) {
 		this.name = name;
 		this.user = user;
+		this.initialized = false;
 	}
 
 	public String getName() {
@@ -31,6 +29,14 @@ public class MissionModel implements ActivityModelChangedListener {
 
 	public String getUser() {
 		return this.user;
+	}
+	
+	public boolean isInitialized() {
+		return this.initialized;
+	}
+
+	public void setInitialized(boolean initialized) {
+		this.initialized = initialized;
 	}
 	
 	public Activity getActivityByUserElo(String eloUri) {
@@ -65,7 +71,7 @@ public class MissionModel implements ActivityModelChangedListener {
 	public void addDependency(Activity from, Activity to) {
 		addDependency(new Dependency(from, to));
 	}
-
+	
 	@Override
 	public void modelChanged(ActivityModelChangedEvent event) {
 		// a call of this method means that the elo URI has been set, so we have to update the map
