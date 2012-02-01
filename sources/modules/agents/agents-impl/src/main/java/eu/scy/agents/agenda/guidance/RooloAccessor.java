@@ -11,8 +11,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import roolo.elo.BasicELO;
 import roolo.elo.JDomBasicELOFactory;
-import roolo.elo.api.IELO;
 import roolo.search.ISearchResult;
 import roolo.search.util.SearchResultUtils;
 
@@ -69,7 +69,7 @@ public class RooloAccessor {
         return null;
     }
 	
-    public List<String> getElo(String eloUri) throws TupleSpaceException {
+    public BasicELO getBasicElo(String eloUri) throws TupleSpaceException {
     	String uniqueID = new VMID().toString();
     	Tuple requestTuple = new Tuple(uniqueID, ROOLO_AGENT_NAME, ROOLO_AGENT_ELO, eloUri);
     	commandSpace.write(requestTuple);
@@ -78,9 +78,7 @@ public class RooloAccessor {
     	JDomBasicELOFactory jDomBasicELOFactory = new JDomBasicELOFactory();
     	if (responseTuple != null) {
     		String eloXml = responseTuple.getField(2).getValue().toString();
-    		IELO elo = jDomBasicELOFactory.createELOFromXml(eloXml);
-    		
-    		// TODO get root elo uri
+    		return (BasicELO) jDomBasicELOFactory.createELOFromXml(eloXml);
     	}
     	return null;
     }

@@ -14,18 +14,23 @@ public class Activity {
 	
 	private String eloUri;
 	
-	private long latestModification;
+	private String basicEloUri;
+	
+	private long latestModificationTime;
+	
+	// we only need one listener, because one activity can be bind to only one mission
+	private ActivityModelChangedListener changelistener;
 
 	
-	public Activity(String name, String eloUri, long latestModification) {
-		this(State.Enabled, name, eloUri, latestModification);
+	public Activity(String name, String basicEloUri) {
+		this(State.Enabled, name, basicEloUri, Long.MIN_VALUE);
 	}
 	
-	public Activity(State state, String name, String eloUri, long latestModification) {
+	public Activity(State state, String name, String basicEloUri, long latestModification) {
 		setState(state);
 		setName(name);
-		setEloUri(eloUri);
-		setLatestModification(latestModification);
+		setTemplateUri(basicEloUri);
+		setLatestModificationTime(latestModification);
 	}
 	
 	public State getState() {
@@ -35,7 +40,7 @@ public class Activity {
 	public void setState(State state) {
 		this.state = state;
 	}
-
+	
 	public String getName() {
 		return this.name;
 	}
@@ -50,16 +55,33 @@ public class Activity {
 
 	public void setEloUri(String eloUri) {
 		this.eloUri = eloUri;
+		if(this.changelistener != null) {
+			this.changelistener.modelChanged(new ActivityModelChangedEvent(this));
+		}
 	}
 
-	public long getLatestModification() {
-		return this.latestModification;
+	public String getTemplateUri() {
+		return this.basicEloUri;
 	}
 
-	public void setLatestModification(long latestModification) {
-		this.latestModification = latestModification;
+	public void setTemplateUri(String basicEloUri) {
+		this.basicEloUri = basicEloUri;
+		if(this.changelistener != null) {
+			this.changelistener.modelChanged(new ActivityModelChangedEvent(this));
+		}
+	}
+
+	public long getLatestModificationTime() {
+		return this.latestModificationTime;
+	}
+
+	public void setLatestModificationTime(long latestModificationTime) {
+		this.latestModificationTime = latestModificationTime;
 	}
 	
+	public void setActivityModelChangedListener(ActivityModelChangedListener listener) {
+		this.changelistener = listener;
+	}
 	
 	@Override
 	public boolean equals(Object that) {
