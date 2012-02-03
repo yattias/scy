@@ -12,7 +12,6 @@ import eu.scy.common.scyelo.Access;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -73,9 +72,10 @@ public class MissionLocatorUtils
                {
                   startedMissionSpecificationUris.add(missionRuntimeElo.getTypedContent().getMissionSpecificationEloUri());
                }
-               if (missionRuntimeElo.getTypedContent().getMissionId() != null)
+               String id = getMissionIdWithLanguages(missionRuntimeElo);
+               if (id != null)
                {
-                  startedMissionSpecificationIds.add(missionRuntimeElo.getTypedContent().getMissionId());
+                  startedMissionSpecificationIds.add(id);
                }
             }
          }
@@ -89,7 +89,8 @@ public class MissionLocatorUtils
             if (!startedMissionSpecificationUris.contains(elo.getUri()))
             {
                MissionSpecificationElo missionSpecificationElo = new MissionSpecificationElo(elo, tbi);
-               if (!startedMissionSpecificationIds.contains(missionSpecificationElo.getTypedContent().getMissionId()))
+               String id = getMissionIdWithLanguages(missionSpecificationElo);
+               if (!startedMissionSpecificationIds.contains(id))
                {
                   if (missionSpecificationElo.getAccess() != Access.DELETED)
                   {
@@ -110,10 +111,10 @@ public class MissionLocatorUtils
    private static List<MissionSpecificationElo> filterOutOlderVersions(List<MissionSpecificationElo> missionSpecifications)
    {
       List<MissionSpecificationElo> filteredMissions = new ArrayList<MissionSpecificationElo>();
-      List<Object> missionIds = new ArrayList<Object>();
+      List<String> missionIds = new ArrayList<String>();
       for (MissionSpecificationElo mission : missionSpecifications)
       {
-         Object missionId = getMissionSpecificationEloId(mission);
+         String missionId = getMissionIdWithLanguages(mission);
          if (missionId != null)
          {
             if (!missionIds.contains(missionId))
@@ -127,12 +128,12 @@ public class MissionLocatorUtils
             filteredMissions.add(mission);
          }
       }
-      for (Object missionId : missionIds)
+      for (String missionId : missionIds)
       {
          MissionSpecificationElo lastVersion = null;
          for (MissionSpecificationElo mission : missionSpecifications)
          {
-            if (missionId.equals(getMissionSpecificationEloId(mission)))
+            if (missionId.equals(getMissionIdWithLanguages(mission)))
             {
                if (lastVersion == null)
                {
@@ -153,13 +154,21 @@ public class MissionLocatorUtils
       return filteredMissions;
    }
 
-   private static Object getMissionSpecificationEloId(MissionSpecificationElo mission)
+   private static String getMissionIdWithLanguages(MissionSpecificationElo mission)
    {
-      String missionId = mission.getTypedContent().getMissionId();
+      return getMissionIdWithLanguages(mission.getTypedContent().getMissionId(), mission.getElo().getLanguages());
+   }
+
+   private static String getMissionIdWithLanguages(MissionRuntimeElo mission)
+   {
+      return getMissionIdWithLanguages(mission.getTypedContent().getMissionId(), mission.getElo().getLanguages());
+   }
+
+   private static String getMissionIdWithLanguages(String missionId, List<Locale> languages)
+   {
       if (missionId != null)
       {
          StringBuilder id = new StringBuilder(missionId);
-         List<Locale> languages = mission.getElo().getLanguages();
          if (languages != null)
          {
             for (Locale language : languages)

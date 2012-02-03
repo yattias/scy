@@ -10,10 +10,10 @@
    <alias name="localEloFactory" alias="eloFactory"/>
 
    <bean name="localRepository" class="roolo.cms.repository.mock.MockRepository" init-method="initialise">
-      <property name="metadataTypeManager" ref="localMetadataTypeManager"/>
-      <property name="extensionManager" ref="localExtensionManager"/>
       <property name="eloStoreDirectory" value="${eloStoreDirectory}"/>
       <property name="storeElosInStoreDirectory" value="true"/>
+      <property name="extensionManager" ref="localExtensionManager"/>
+      <property name="metadataTypeManager" ref="localMetadataTypeManager"/>
    </bean>
 
    <import resource="../roolo/elo/metadataTypeManagerConfig.xml"/>
