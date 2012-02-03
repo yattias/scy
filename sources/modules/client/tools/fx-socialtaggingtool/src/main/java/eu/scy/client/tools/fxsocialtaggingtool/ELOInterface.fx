@@ -16,11 +16,11 @@ import eu.scy.common.datasync.SyncObject;
 import javafx.util.Sequences;
 import eu.scy.client.desktop.desktoputils.XFX;
 import eu.scy.common.scyelo.ScyElo;
+import org.apache.commons.lang.StringUtils;
 
 public class ELOInterface extends ISyncListener {
 
-    def tagComparator : TagComparator = TagComparator{};
-
+    def tagComparator: TagComparator = TagComparator {};
     public-init var tbi: ToolBrokerAPI;
     public-init var eloUri: URI;
     public-init var view: SocialTaggingDrawer;
@@ -84,9 +84,9 @@ public class ELOInterface extends ISyncListener {
          */
         if (this.demoMode == true) {
             return this.testTags;
-        } else if (eloUri != null){
+        } else if (eloUri != null) {
             var tags: Tag[] = [];
-//            elo = tbi.getRepository().retrieveELOLastVersion(eloUri);
+            //            elo = tbi.getRepository().retrieveELOLastVersion(eloUri);
             elo = ScyElo.loadLastVersionMetadata(eloUri, tbi);
             var socialTags: SocialTags = elo.getSocialTags();
 
@@ -157,14 +157,14 @@ public class ELOInterface extends ISyncListener {
             }
             return tag;
         } else if (eloUri != null) {
-//            elo = tbi.getRepository().retrieveELOLastVersion(eloUri);
+            //            elo = tbi.getRepository().retrieveELOLastVersion(eloUri);
             elo = ScyElo.loadLastVersionMetadata(eloUri, tbi);
-            var oldMetadata : IMetadata = elo.getMetadata();
+            var oldMetadata: IMetadata = elo.getMetadata();
             var mvc = oldMetadata.getMetadataValueContainer(socialtagsKey);
             var st: SocialTags = mvc.getValue() as SocialTags;
             if (st == null) {
                 st = new SocialTags();
-                mvc.setValue( st);
+                mvc.setValue(st);
             }
             var userLikes = st.getLikingUsers(tag.tagname).contains(user);
             var userNotLikes = st.getUnlikingUsers(tag.tagname).contains(user);
@@ -195,8 +195,8 @@ public class ELOInterface extends ISyncListener {
             tbi.getRepository().addMetadata(elo.getUri(), oldMetadata);
 
             if (syncSession != null and syncSession.isConnected()) {
-                XFX.runActionInBackground(function() : Void {
-                    var object : ISyncObject = new SyncObject();
+                XFX.runActionInBackground(function(): Void {
+                    var object: ISyncObject = new SyncObject();
                     object.setID("{tag.tagname}_{user}");
                     object.setToolname("socialtagging");
                     object.setProperty("tag", tag.tagname);
@@ -220,7 +220,7 @@ public class ELOInterface extends ISyncListener {
             insert tag into this.testTags;
             return tag;
         } else if (eloUri != null) {
-//            elo = tbi.getRepository().retrieveELOLastVersion(eloUri);
+            //            elo = tbi.getRepository().retrieveELOLastVersion(eloUri);
             elo = ScyElo.loadLastVersionMetadata(eloUri, tbi);
             var mvc = elo.getMetadata().getMetadataValueContainer(socialtagsKey);
             var st: SocialTags = mvc.getValue() as SocialTags;
@@ -229,8 +229,8 @@ public class ELOInterface extends ISyncListener {
             tbi.getRepository().addMetadata(elo.getUri(), elo.getMetadata());
 
             if (syncSession != null and syncSession.isConnected()) {
-                XFX.runActionInBackground(function() : Void {
-                    var object : ISyncObject = new SyncObject();
+                XFX.runActionInBackground(function(): Void {
+                    var object: ISyncObject = new SyncObject();
                     object.setID("{tag.tagname}_{getCurrentUser()}");
                     object.setToolname("socialtagging");
                     object.setProperty("tag", tag.tagname);
@@ -251,31 +251,46 @@ public class ELOInterface extends ISyncListener {
         return this.addVoteForTag(like, tag);
     }
 
-    public function joinSession(mucId:String) : Void {
-        syncSession = tbi.getDataSyncService().joinSession(mucId, this, "socialtagging", false);
+    public function joinSession(): Void {
+        if (eloUri != null) {
+            var roomId = eloUri.toString();
+
+            roomId = StringUtils.remove(roomId, "/");
+            roomId = StringUtils.remove(roomId, ".");
+            roomId = StringUtils.remove(roomId, ":");
+            joinSession(roomId);
+        }
     }
 
-    public function leaveSession() : Void {
-        syncSession.leaveSession();
-        syncSession = null;
+    public function joinSession(mucId: String): Void {
+        if (syncSession == null) {
+            syncSession = tbi.getDataSyncService().joinSession(mucId, this, "socialtagging", false);
+        }
     }
 
-    override public function syncObjectRemoved (syncObject : ISyncObject) : Void {
-        if(not syncObject.getToolname().equals("socialtagging")) {
+    public function leaveSession(): Void {
+        if (syncSession != null) {
+            syncSession.leaveSession();
+            syncSession = null;
+        }
+    }
+
+    override public function syncObjectRemoved(syncObject: ISyncObject): Void {
+        if (not syncObject.getToolname().equals("socialtagging")) {
             return;
         }
         FX.deferAction(view.updateTagLines);
     }
 
-    override public function syncObjectChanged (syncObject : ISyncObject) : Void {
-        if(not syncObject.getToolname().equals("socialtagging")) {
+    override public function syncObjectChanged(syncObject: ISyncObject): Void {
+        if (not syncObject.getToolname().equals("socialtagging")) {
             return;
         }
         FX.deferAction(view.updateTagLines);
     }
 
-    override public function syncObjectAdded (syncObject : ISyncObject) : Void {
-        if(not syncObject.getToolname().equals("socialtagging")) {
+    override public function syncObjectAdded(syncObject: ISyncObject): Void {
+        if (not syncObject.getToolname().equals("socialtagging")) {
             return;
         }
         FX.deferAction(view.updateTagLines);
