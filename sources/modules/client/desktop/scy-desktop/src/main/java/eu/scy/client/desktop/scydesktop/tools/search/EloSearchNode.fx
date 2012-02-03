@@ -51,6 +51,7 @@ import java.lang.StringBuilder;
 import javafx.scene.control.CheckBox;
 import javafx.scene.input.MouseEvent;
 import eu.scy.client.desktop.desktoputils.XFX;
+import eu.scy.common.scyelo.QueryFactory;
 
 /**
  * @author SikkenJ
@@ -378,11 +379,11 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
    }
 
    function doSearch(): Void {
-      var query: IQueryComponent = null;
+      var theQuery: IQuery;
       if (QuerySelecterUsage.TEXT == querySelecterUsage) {
          def queryText = queryBox.rawText.trim();
          if (not StringUtils.isEmpty(queryText)) {
-            query = new MetadataQueryComponent(queryText);
+            theQuery =  QueryFactory.createSimpleQueryForExperts(queryText);
             currentQuery = HistoryEntry {
                        query: queryText
                        selecterOptions: for (querySelecterDisplay in querySelecterDisplays) {
@@ -401,21 +402,21 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
             sb.append(" ");
          }
          sb.append(baseElo.getTitle());
-         query = new MetadataQueryComponent("contents", sb);
+         def query = new MetadataQueryComponent("contents", sb);
+         theQuery = new Query(query);
+         theQuery.setIncludedEloTypes(scyDesktop.newEloCreationRegistry.getEloTypes());
+         theQuery.setFindTemplateElos(false);
       }
-      if (query != null) {
+      if (theQuery != null) {
          if (backgroundQuerySearch != null) {
             backgroundQuerySearch.abort();
          }
-         def searchQuery = new Query(query);
-         searchQuery.setIncludedEloTypes(scyDesktop.newEloCreationRegistry.getEloTypes());
-         searchQuery.setFindTemplateElos(false);
          if (advancedSearch) {
-            setSelecterFilters(searchQuery);
+            setSelecterFilters(theQuery);
          }
          def queryContext: QueryContext = createQueryContext(null);
-         searchQuery.setQueryContext(queryContext);
-         backgroundQuerySearch = new BackgroundQuerySearch(toolBrokerAPI, scyDesktop.newEloCreationRegistry, searchQuery, this);
+         theQuery.setQueryContext(queryContext);
+         backgroundQuerySearch = new BackgroundQuerySearch(toolBrokerAPI, scyDesktop.newEloCreationRegistry, theQuery, this);
 
          backgroundQuerySearch.start();
          showSearching();
