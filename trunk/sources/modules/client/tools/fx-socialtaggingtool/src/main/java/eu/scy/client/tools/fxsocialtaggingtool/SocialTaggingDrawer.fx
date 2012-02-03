@@ -155,6 +155,7 @@ public class SocialTaggingDrawer
         FX.deferAction(function() : Void {
             tagLines = createTagLines(tags);
         });
+        eloInterface.joinSession();
     }
 
 
