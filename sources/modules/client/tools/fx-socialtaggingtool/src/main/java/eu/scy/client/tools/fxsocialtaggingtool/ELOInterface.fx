@@ -17,6 +17,7 @@ import javafx.util.Sequences;
 import eu.scy.client.desktop.desktoputils.XFX;
 import eu.scy.common.scyelo.ScyElo;
 import org.apache.commons.lang.StringUtils;
+import java.net.URLEncoder;
 
 public class ELOInterface extends ISyncListener {
 
@@ -258,6 +259,7 @@ public class ELOInterface extends ISyncListener {
             roomId = StringUtils.remove(roomId, "/");
             roomId = StringUtils.remove(roomId, ".");
             roomId = StringUtils.remove(roomId, ":");
+            roomId = URLEncoder.encode(roomId, "utf-8");
             joinSession(roomId);
         }
     }
