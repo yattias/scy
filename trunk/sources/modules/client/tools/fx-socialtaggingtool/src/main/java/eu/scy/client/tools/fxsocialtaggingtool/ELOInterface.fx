@@ -18,6 +18,7 @@ import eu.scy.client.desktop.desktoputils.XFX;
 import eu.scy.common.scyelo.ScyElo;
 import org.apache.commons.lang.StringUtils;
 import java.net.URLEncoder;
+import eu.scy.common.configuration.Configuration;
 
 public class ELOInterface extends ISyncListener {
 
@@ -255,11 +256,12 @@ public class ELOInterface extends ISyncListener {
     public function joinSession(): Void {
         if (eloUri != null) {
             var roomId = eloUri.toString();
-
+            println("RoomId: {roomId}");
             roomId = StringUtils.remove(roomId, "/");
             roomId = StringUtils.remove(roomId, ".");
             roomId = StringUtils.remove(roomId, ":");
             roomId = URLEncoder.encode(roomId, "utf-8");
+            roomId += "@syncsessions.{Configuration.getInstance().getOpenFireHost()}";
             joinSession(roomId);
         }
     }
