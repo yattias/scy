@@ -2,21 +2,21 @@ package eu.scy.agents.agenda.guidance.model;
 
 public class Dependency {
 
-	private final Activity from;
-	private final Activity to;
+	private final Activity dependent;
+	private final Activity depending;
 	
 	
-	public Dependency(Activity from, Activity to) {
-		this.from = from;
-		this.to = to;
+	public Dependency(Activity dependent, Activity depending) {
+		this.dependent = dependent;
+		this.depending = depending;
 	}
 
-	public Activity getFrom() {
-		return this.from;
+	public Activity getDependent() {
+		return this.dependent;
 	}
 
-	public Activity getTo() {
-		return this.to;
+	public Activity getDepending() {
+		return this.depending;
 	}
 	
 	@Override
@@ -28,7 +28,7 @@ public class Dependency {
 			return true;
 		}
 		Dependency thatDep = (Dependency)that;
-		return (this.from.equals(thatDep.getFrom()) && this.to.equals(thatDep.getTo()));
+		return (this.dependent.equals(thatDep.getDependent()) && this.depending.equals(thatDep.getDepending()));
 	}
 	
 }
