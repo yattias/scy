@@ -6,13 +6,18 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import eu.scy.agents.agenda.guidance.model.MissionModel;
 import eu.scy.agents.agenda.guidance.model.UserModel;
+import eu.scy.agents.session.Session;
 
 public class UserModelDictionary {
 
 	private final Map<String, UserModel> userModelMap = new HashMap<String, UserModel>();
 	private final ReentrantReadWriteLock rwLock = new ReentrantReadWriteLock();
+	private final Session session;
+	private final RooloAccessor rooloAccessor;
 
-	public UserModelDictionary() {
+	public UserModelDictionary(RooloAccessor rooloAccessor, Session session) {
+		this.rooloAccessor = rooloAccessor;
+		this.session = session;
 	}
 	
 	public void addUserModel(UserModel userModel) {
@@ -43,7 +48,7 @@ public class UserModelDictionary {
 			try {
 				UserModel userModel = this.userModelMap.get(user);
 				if(userModel == null) {
-					userModel = new UserModel(user);
+					userModel = new UserModel(this.rooloAccessor, this.session, user);
 					this.userModelMap.put(user, userModel);
 				}
 				return userModel;
@@ -72,9 +77,11 @@ public class UserModelDictionary {
 		this.rwLock.readLock().lock();
 		try {
 			UserModel userModel = this.userModelMap.get(user);
-			return userModel.getMission(mission);
-		} catch (Exception e) {
-			return null;
+			if(userModel != null) {
+				return userModel.getMission(mission);
+			} else {
+				return null;
+			}
 		} finally {
 			this.rwLock.readLock().unlock();
 		}

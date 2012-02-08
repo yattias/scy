@@ -2,13 +2,13 @@ package eu.scy.agents.agenda.guidance.model;
 
 public class Activity {
 
-	public enum State {
+	public enum ActivityState {
 		Enabled,
 		Modified,
 		Finished;
 	}
 	
-	private State state;
+	private ActivityState state;
 	private String name;
 	private String eloUri;
 	private String templateEloUri;
@@ -18,21 +18,21 @@ public class Activity {
 
 	
 	public Activity(String name, String basicEloUri) {
-		this(State.Enabled, name, basicEloUri, Long.MIN_VALUE);
+		this(ActivityState.Enabled, name, basicEloUri, Long.MIN_VALUE);
 	}
 	
-	public Activity(State state, String name, String basicEloUri, long latestModification) {
+	public Activity(ActivityState state, String name, String basicEloUri, long latestModification) {
 		setState(state);
 		setName(name);
 		setTemplateUri(basicEloUri);
 		setLatestModificationTime(latestModification);
 	}
 	
-	public State getState() {
+	public ActivityState getState() {
 		return this.state;
 	}
 
-	public void setState(State state) {
+	public void setState(ActivityState state) {
 		this.state = state;
 	}
 	

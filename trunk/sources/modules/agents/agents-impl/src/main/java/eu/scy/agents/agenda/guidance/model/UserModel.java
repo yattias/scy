@@ -4,14 +4,20 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import eu.scy.agents.agenda.guidance.RooloAccessor;
+import eu.scy.agents.session.Session;
+
 public class UserModel {
 
 	private final String name;
 	private final Map<String, MissionModel> missionMap;
 	private final ReentrantReadWriteLock rwLock = new ReentrantReadWriteLock();
+	private final Session session;
+	private final RooloAccessor rooloAccessor;
 	
-	public UserModel(String name) {
-		super();
+	public UserModel(RooloAccessor rooloAccessor, Session session, String name) {
+		this.rooloAccessor = rooloAccessor;
+		this.session = session;
 		this.name = name;
 		this.missionMap = new HashMap<String, MissionModel>();
 	}
@@ -47,7 +53,7 @@ public class UserModel {
 			try {
 				MissionModel missionModel = this.missionMap.get(mission);
 				if(missionModel == null) {
-					missionModel = new MissionModel(mission, this.name);
+					missionModel = new MissionModel(this.rooloAccessor ,this.session, mission, this.name);
 					this.missionMap.put(mission, missionModel);
 				}
 				return missionModel;
