@@ -16,17 +16,14 @@ import eu.scy.common.datasync.SyncObject;
 import javafx.util.Sequences;
 import eu.scy.client.desktop.desktoputils.XFX;
 import eu.scy.common.scyelo.ScyElo;
-import org.apache.commons.lang.StringUtils;
-import java.net.URLEncoder;
-import eu.scy.common.configuration.Configuration;
+import eu.scy.client.desktop.scydesktop.tools.EloSaver;
 
 public class ELOInterface extends ISyncListener {
 
     def tagComparator: TagComparator = TagComparator {};
     public-init var tbi: ToolBrokerAPI;
-    public-init var eloUri: URI;
     public-init var view: SocialTaggingDrawer;
-    var elo: ScyElo;
+    public var eloUri: URI;
     var syncSession: ISyncSession;
     var socialtagsKey: IMetadataKey;
     def demoMode = false;
@@ -89,7 +86,7 @@ public class ELOInterface extends ISyncListener {
         } else if (eloUri != null) {
             var tags: Tag[] = [];
             //            elo = tbi.getRepository().retrieveELOLastVersion(eloUri);
-            elo = ScyElo.loadLastVersionMetadata(eloUri, tbi);
+            var elo = ScyElo.loadLastVersionMetadata(eloUri, tbi);
             var socialTags: SocialTags = elo.getSocialTags();
 
             if (socialTags != null) {
@@ -160,7 +157,7 @@ public class ELOInterface extends ISyncListener {
             return tag;
         } else if (eloUri != null) {
             //            elo = tbi.getRepository().retrieveELOLastVersion(eloUri);
-            elo = ScyElo.loadLastVersionMetadata(eloUri, tbi);
+            var elo = ScyElo.loadLastVersionMetadata(eloUri, tbi);
             var oldMetadata: IMetadata = elo.getMetadata();
             var mvc = oldMetadata.getMetadataValueContainer(socialtagsKey);
             var st: SocialTags = mvc.getValue() as SocialTags;
@@ -223,7 +220,7 @@ public class ELOInterface extends ISyncListener {
             return tag;
         } else if (eloUri != null) {
             //            elo = tbi.getRepository().retrieveELOLastVersion(eloUri);
-            elo = ScyElo.loadLastVersionMetadata(eloUri, tbi);
+            var elo = ScyElo.loadLastVersionMetadata(eloUri, tbi);
             var mvc = elo.getMetadata().getMetadataValueContainer(socialtagsKey);
             var st: SocialTags = mvc.getValue() as SocialTags;
             st.removeLikingUser(tag.tagname, getCurrentUser());
@@ -251,19 +248,6 @@ public class ELOInterface extends ISyncListener {
                     tagname: string
                 }
         return this.addVoteForTag(like, tag);
-    }
-
-    public function joinSession(): Void {
-        if (eloUri != null) {
-            var roomId = eloUri.toString();
-            println("RoomId: {roomId}");
-            roomId = StringUtils.remove(roomId, "/");
-            roomId = StringUtils.remove(roomId, ".");
-            roomId = StringUtils.remove(roomId, ":");
-            roomId = URLEncoder.encode(roomId, "utf-8");
-            roomId += "@syncsessions.{Configuration.getInstance().getOpenFireHost()}";
-            joinSession(roomId);
-        }
     }
 
     public function joinSession(mucId: String): Void {
