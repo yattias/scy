@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import eu.scy.agents.agenda.evaluation.evaluators.ActionTypeEvaluator;
+import eu.scy.agents.agenda.evaluation.evaluators.IEvaluator;
 
 public class ActivityFinishedEvaluationAgent extends AbstractActivityEvaluationAgent {
 
@@ -34,17 +35,26 @@ public class ActivityFinishedEvaluationAgent extends AbstractActivityEvaluationA
 	
 	private void initiateFinishedSignatures() {
 		// TODO insert correct values here
+		
+		IEvaluator notificationEvaluator = createNotificationEvaluator();
+		registerEvaluator(notificationEvaluator);
+	}
+	
+	private IEvaluator createNotificationEvaluator() {
 		String toolName = "Notification";
 		List<String> actionTypes = new ArrayList<String>();
 		actionTypes.add("activity_finsihed");
-		this.signatures.put(toolName, new ActionTypeEvaluator(toolName, actionTypes));
+		return new ActionTypeEvaluator(toolName, actionTypes);
 	}
 
 	@Override
-	protected void handleMatchingUserAction(long timestamp, String mission, String userName, String eloUri) {
+	protected void handleMatchingUserAction(long timestamp, String mission, String userName, String tool, String eloUri) {
 		// user modified an ELO, so write a tuple to the space
 		try {
 			Tuple modificationTuple = new Tuple(TYPE_FINISHED, mission, userName, eloUri, timestamp);
+			logger.debug(String.format(
+					"Writing finish tuple to TupleSpace [ User: %s | Mission: %s | Tool: %s | EloURI: %s]", 
+					userName, mission, tool, eloUri));
 			this.commandSpace.write(modificationTuple);
 		} catch (TupleSpaceException e) {
 			logger.error("Could not write activity finished tuple!");

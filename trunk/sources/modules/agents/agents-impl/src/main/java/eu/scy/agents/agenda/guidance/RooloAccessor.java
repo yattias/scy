@@ -18,6 +18,7 @@ import roolo.search.util.SearchResultUtils;
 
 public class RooloAccessor {
 
+	private static final Logger logger = Logger.getLogger(RooloAccessor.class.getName());
     // RooloAccessorAgent
     private static final String ROOLO_AGENT_NAME = "roolo-agent";
     private static final String ROOLO_AGENT_RESPONSE = "roolo-response";
@@ -26,12 +27,10 @@ public class RooloAccessor {
     private static final int ROOLO_AGENT_TIMEOUT = 5000;
 
     private final TupleSpace commandSpace;
-    private final Logger logger;
 	
 	
-    public RooloAccessor(TupleSpace commandSpace, Logger logger) {
+    public RooloAccessor(TupleSpace commandSpace) {
 		this.commandSpace = commandSpace;
-		this.logger = logger;
 	}
     
     /**
@@ -47,7 +46,7 @@ public class RooloAccessor {
         String query = String.format("mission:\"%s\" AND user:\"%s\"", mission, userName);
         Tuple requestTuple = new Tuple(uniqueID, ROOLO_AGENT_NAME, ROOLO_AGENT_SEARCH, query);
         commandSpace.write(requestTuple);
-        logger.debug(String.format("Sent query %s to RooloAccessorAgent", query));
+        logger.debug(String.format("Sent query to RooloAccessorAgent. Query: %s", query));
 
         Tuple responseTuple = commandSpace.waitToTake(new Tuple(uniqueID, ROOLO_AGENT_RESPONSE, Field.createWildCardField()), ROOLO_AGENT_TIMEOUT);
         if (responseTuple != null) {

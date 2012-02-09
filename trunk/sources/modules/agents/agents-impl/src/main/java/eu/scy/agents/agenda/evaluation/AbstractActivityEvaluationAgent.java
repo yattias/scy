@@ -35,9 +35,9 @@ public abstract class AbstractActivityEvaluationAgent extends AbstractThreadedAg
 	
 	protected TupleSpace commandSpace;
 	
-	protected final List<Integer> registeredCallbacks = new ArrayList<Integer>();
+	private final List<Integer> registeredCallbacks = new ArrayList<Integer>();
 	
-	protected final Map<String, IEvaluator> signatures = new HashMap<String, IEvaluator>(); 
+	private final Map<String, IEvaluator> toolEvaluatorMap = new HashMap<String, IEvaluator>(); 
 		
 	
 	protected AbstractActivityEvaluationAgent(String name, Map<String, Object> map) {
@@ -75,6 +75,10 @@ public abstract class AbstractActivityEvaluationAgent extends AbstractThreadedAg
             		String userName = returnTuple.getField(4).getValue().toString();
             		long timestamp = Long.valueOf(returnTuple.getField(5).getValue().toString());
             		String[] eloUris = EscapeUtils.deEscape(returnTuple.getField(6).getValue().toString());
+            		logger.debug(String.format(
+            				"Received rebuild request with data [ User: %s | Mission: %s | EloURIs: %s]", 
+            				userName, mission, eloUris.toString()));
+
             		performRebuild(id, mission, userName, timestamp, eloUris);
             	        		
             	} catch (NumberFormatException e) {
@@ -104,8 +108,13 @@ public abstract class AbstractActivityEvaluationAgent extends AbstractThreadedAg
         return (this.status != Status.Running);
 	}
 
+	protected void registerEvaluator(IEvaluator evaluator) {
+		this.toolEvaluatorMap.put(evaluator.getTool(), evaluator);
+		logger.debug("Registered user action evaluator for tool: " + evaluator.getTool());
+	}
+	
 	protected void performRebuild(String id, String mission, String userName, long timestamp, String[] eloUris) throws TupleSpaceException {
-		LatestUserActionSearcher searcher = new LatestUserActionSearcher(actionSpace, this.signatures);
+		LatestUserActionSearcher searcher = new LatestUserActionSearcher(actionSpace, this.toolEvaluatorMap);
 		Map<String, Tuple> result = searcher.search(id, timestamp, mission, userName, eloUris);
 
 		writeRebuildTuple(id, result.values());
@@ -139,12 +148,12 @@ public abstract class AbstractActivityEvaluationAgent extends AbstractThreadedAg
 	 * @throws TupleSpaceException
 	 */
 	protected void registerCallbacks() throws TupleSpaceException {
-		for(String tool: this.signatures.keySet()) {
+		for(String tool: this.toolEvaluatorMap.keySet()) {
 			Callback cb = new UserActionCallback();
 			Tuple actionSignature = new Tuple("action", String.class, Long.class, String.class, String.class, tool, Field.createWildCardField());
 			int id = this.actionSpace.eventRegister(Command.WRITE, actionSignature, cb, true);
 			this.registeredCallbacks.add(id);
-			logger.info("Registered callback for tool: " + tool);
+			logger.info("Registered user action callback for tool: " + tool);
 		}
 	}
 
@@ -161,7 +170,7 @@ public abstract class AbstractActivityEvaluationAgent extends AbstractThreadedAg
 			// ("action":String, <ID>:String, <Timestamp>:long, <Type>:String, <User>:String, <Tool>:String,
 			//  <Mission>:String, <Session>:String, <ELOUri>:String, <Key=Value>:String*)
 			String tool = afterTuple.getField(5).getValue().toString();
-			IEvaluator evaluator = signatures.get(tool);
+			IEvaluator evaluator = toolEvaluatorMap.get(tool);
 			if(evaluator != null && evaluator.doesMatch(afterTuple)) {
 				// User has modified the activity
 				try {
@@ -170,7 +179,7 @@ public abstract class AbstractActivityEvaluationAgent extends AbstractThreadedAg
 					String mission = afterTuple.getField(6).getValue().toString();
 					String eloUri = afterTuple.getField(8).getValue().toString();
 					
-					handleMatchingUserAction(timestamp, mission, userName, eloUri);
+					handleMatchingUserAction(timestamp, mission, userName, tool, eloUri);
 				} catch(NumberFormatException e) {
 					logger.warn("Received UserAction with invalid timestamp " + afterTuple.getField(5).getValue().toString());
 				}
@@ -188,10 +197,10 @@ public abstract class AbstractActivityEvaluationAgent extends AbstractThreadedAg
 	 * @param userName the user name
 	 * @param eloUri the elo uri
 	 */
-	protected abstract void handleMatchingUserAction(long timestamp, String mission, String userName, String eloUri);
+	protected abstract void handleMatchingUserAction(long timestamp, String mission, String userName, String tool, String eloUri);
 		
 	/**
-	 * This method is called in the constructor and you should initiate the signatures here.
+	 * This method is called in the constructor and you should initiate the signatures (register Evaluators) here.
 	 */
 	protected abstract void initiateSignatures();
 	

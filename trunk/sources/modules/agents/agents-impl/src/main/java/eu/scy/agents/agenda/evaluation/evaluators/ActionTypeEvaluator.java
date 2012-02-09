@@ -16,6 +16,11 @@ public class ActionTypeEvaluator implements IEvaluator {
 		this.actionTypes = actionTypes;
 	}
 	
+	@Override
+	public String getTool() {
+		return this.tool;
+	}
+
 	public boolean checkModified(String tool, String actionType) {
 		return (this.tool.equals(tool) && actionTypes.contains(actionType));
 	}
