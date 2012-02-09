@@ -69,6 +69,7 @@ public class RooloAccessor {
     	commandSpace.write(requestTuple);
     	
     	Tuple responseTuple = commandSpace.waitToTake(new Tuple(uniqueID, ROOLO_AGENT_RESPONSE, Field.createWildCardField()), ROOLO_AGENT_TIMEOUT);
+    	// TODO needs IMetadataTypeManager...
     	JDomBasicELOFactory jDomBasicELOFactory = new JDomBasicELOFactory();
     	if (responseTuple != null) {
     		String eloXml = responseTuple.getField(2).getValue().toString();

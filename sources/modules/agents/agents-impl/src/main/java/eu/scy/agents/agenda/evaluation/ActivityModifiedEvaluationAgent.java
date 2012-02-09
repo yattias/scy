@@ -40,6 +40,8 @@ public class ActivityModifiedEvaluationAgent extends AbstractActivityEvaluationA
 	protected void initiateSignatures() {
 		IEvaluator scyMapperEvaluator = createSCYMapperEvaluator();
 		registerEvaluator(scyMapperEvaluator);
+		IEvaluator conceptMapEvaluator = createConceptMapEvaluator();
+		registerEvaluator(conceptMapEvaluator);
 	}
 	
 	private static IEvaluator createSCYMapperEvaluator() {
@@ -55,6 +57,26 @@ public class ActivityModifiedEvaluationAgent extends AbstractActivityEvaluationA
 		return new ActionTypeEvaluator(toolName, scyMapperActionTypes);
 	}
 
+	private static IEvaluator createConceptMapEvaluator() {
+		String toolName = "conceptmap";
+		List<String> scyMapperActionTypes = new ArrayList<String>();
+		scyMapperActionTypes.add("node_added");
+		scyMapperActionTypes.add("node_renamed");
+		scyMapperActionTypes.add("node_removed");
+		scyMapperActionTypes.add("link_added");
+		scyMapperActionTypes.add("link_renamed");
+		scyMapperActionTypes.add("link_removed");
+		scyMapperActionTypes.add("link_flipped");
+		return new ActionTypeEvaluator(toolName, scyMapperActionTypes);
+	}
+	
+	private static IEvaluator createFitexEvaluator() {
+		String toolName = "fitex";
+		List<String> scyMapperActionTypes = new ArrayList<String>();
+		scyMapperActionTypes.add("data_edited");
+		return new ActionTypeEvaluator(toolName, scyMapperActionTypes);
+	}
+	
 	@Override
 	protected void handleMatchingUserAction(long timestamp, String mission, String userName, String tool, String eloUri) {
 		// user modified an ELO, so write a tuple to the space
