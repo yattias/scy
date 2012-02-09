@@ -3,7 +3,6 @@ package eu.scy.agents.agenda.guidance;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +12,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import org.apache.log4j.Logger;
 import org.jdom.Document;
-import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
 import roolo.elo.BasicELO;
@@ -73,17 +71,18 @@ public class MissionModelBuilder implements Runnable {
 				Tuple tuple = tupleQueue.remove();
 				missionModel.processTuple(tuple);
 			}
-
 		} catch (NoSuchElementException e) {
 			logger.warn("Tried to remove an element from an empty queue");
 		} catch (AgentDoesNotRespondException e) {
 			logger.warn(e.getMessage());
+		} catch (InvalidMissionSpecificationException e) {
+			logger.error("Could not create mission model", e);
 		} catch (TupleSpaceException e) {
 			logger.error("Connection to TupleSpace lost");
 		}
 	}
 
-	public void reconstructMissionModel() throws TupleSpaceException, AgentDoesNotRespondException {
+	public void reconstructMissionModel() throws TupleSpaceException, AgentDoesNotRespondException, InvalidMissionSpecificationException {
 		// MissionModel is empty, so we'll create the dependencies and activities for this mission
 		createDependencyModel();
 
@@ -102,57 +101,56 @@ public class MissionModelBuilder implements Runnable {
 		}
 	}
 	
-	private void createDependencyModel() throws TupleSpaceException {
+	private void createDependencyModel() throws TupleSpaceException, InvalidMissionSpecificationException {
 		logger.debug(String.format("Creating dependency model [ user: %s | mission %s ]", 
 				missionModel.getUser(), 
 				missionModel.getName()));
 		
+		// TODO Seems to be identical to missionModel.getName()
+
 		// Get the mission specification and create dependency model (which contains template URIs)
 		String missionRuntimeURI = this.session.getMissionRuntimeURI(missionModel.getUser());
 		String missionSpecificationURI = this.session.getMissionSpecification(missionRuntimeURI);
-		BasicELO missionSpec = this.rooloAccessor.getBasicElo(missionSpecificationURI);
 
-		try {
-			Document doc = readMissionSpecification();
-			
-			// MissionID -> MissionModel
-			Map<String, BasicMissionAnchorModel> anchorMap = MissionSpecificationParser.parse(doc);
-			
-			// EloUri -> Activity
-			Map<String, Activity> activityMap = new HashMap<String, Activity>();
-			
-			// create activities for all basic mission anchor models
-			for(String anchorId : anchorMap.keySet()) {
-				BasicMissionAnchorModel bmaModel = anchorMap.get(anchorId);
-				Activity activity = new Activity(bmaModel.getId(), bmaModel.getUri());
-				activityMap.put(bmaModel.getId(), activity);
+//		BasicELO missionSpec = this.rooloAccessor.getBasicElo(missionSpecificationURI);
+//		logger.debug("missionSpecURI: " + missionSpec.getUri());
+//		logger.debug("missionSpecRootURIString: " + missionSpec.getRootUriString());
+
+		Document doc = readMissionSpecification();
+		
+		// MissionID -> MissionModel
+		Map<String, BasicMissionAnchorModel> anchorMap = MissionSpecificationParser.parse(doc);
+		
+		// EloUri -> Activity
+		Map<String, Activity> activityMap = new HashMap<String, Activity>();
+		
+		// create activities for all basic mission anchor models
+		for(String anchorId : anchorMap.keySet()) {
+			BasicMissionAnchorModel bmaModel = anchorMap.get(anchorId);
+			Activity activity = new Activity(bmaModel.getId(), bmaModel.getUri());
+			activityMap.put(bmaModel.getId(), activity);
+		}
+		
+		// now create the dependencies between the activities
+		for(String anchorId : anchorMap.keySet()) {
+			BasicMissionAnchorModel bmaModel = anchorMap.get(anchorId);
+			Activity dependent = activityMap.get(anchorId);
+			for(String id : bmaModel.getDependingOnMissionIds()) {
+				Activity depending = activityMap.get(id);
+				this.missionModel.addDependency(dependent, depending);
 			}
-			
-			// now create the dependencies between the activities
-			for(String anchorId : anchorMap.keySet()) {
-				BasicMissionAnchorModel bmaModel = anchorMap.get(anchorId);
-				Activity dependent = activityMap.get(anchorId);
-				for(String id : bmaModel.getDependingOnMissionIds()) {
-					Activity depending = activityMap.get(id);
-					this.missionModel.addDependency(dependent, depending);
-				}
-			}
-			
-		} catch (InvalidMissionSpecificationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JDOMException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 	
-	private Document readMissionSpecification() throws JDOMException, IOException {
+	private Document readMissionSpecification() throws InvalidMissionSpecificationException {
 		// TODO This is just for testing... don't blame me for that!
-		return new SAXBuilder().build(MissionSpecificationParser.class.getResource("/pizzaMission.xml").toString());
+		try {
+			return new SAXBuilder().build(MissionSpecificationParser.class.getResource("/pizzaMission.xml").toString());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new InvalidMissionSpecificationException("Error while reading mission specification!");
+		}
 	}
 	
 	private String getTemplateEloUri(RooloAccessor rooloAccessor, String eloUri) throws TupleSpaceException {
