@@ -12,4 +12,10 @@ public interface IEvaluator {
 	 */
 	public boolean doesMatch(Tuple t);
 	
+	/**
+	 * Returns the name of the tool, that this evaluator belongs to
+	 * @return
+	 */
+	public String getTool();
+	
 }

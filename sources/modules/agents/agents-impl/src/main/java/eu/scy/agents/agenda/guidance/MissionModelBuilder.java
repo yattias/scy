@@ -24,7 +24,6 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.agents.agenda.exception.AgentDoesNotRespondException;
 import eu.scy.agents.agenda.exception.InvalidMissionSpecificationException;
 import eu.scy.agents.agenda.guidance.model.Activity;
-import eu.scy.agents.agenda.guidance.model.Dependency;
 import eu.scy.agents.agenda.guidance.model.MissionModel;
 import eu.scy.agents.agenda.serialization.BasicMissionAnchorModel;
 import eu.scy.agents.agenda.serialization.MissionSpecificationParser;
@@ -68,8 +67,8 @@ public class MissionModelBuilder implements Runnable {
 			reconstructMissionModel();
 			missionModel.setInitialized();
 			
-			// after reconstructing the model, all tuples will be applied to it.
-			// if in the meantime a newer tuple arrives, these won't be applied to the model due to older timestamps
+			// after reconstructing the model, all tuples will be applied to it. if a newer tuple arrives
+			// in the meantime , tuples in this queue won't be applied to the model due to older timestamps
 			while(!tupleQueue.isEmpty()) {
 				Tuple tuple = tupleQueue.remove();
 				missionModel.processTuple(tuple);
@@ -104,7 +103,7 @@ public class MissionModelBuilder implements Runnable {
 	}
 	
 	private void createDependencyModel() throws TupleSpaceException {
-		logger.debug(String.format("Creating dependency model for user: '%s' and  mission '%s').", 
+		logger.debug(String.format("Creating dependency model [ user: %s | mission %s ]", 
 				missionModel.getUser(), 
 				missionModel.getName()));
 		

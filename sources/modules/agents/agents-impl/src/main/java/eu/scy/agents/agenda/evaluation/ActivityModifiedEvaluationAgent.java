@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import eu.scy.agents.agenda.evaluation.evaluators.ActionTypeEvaluator;
+import eu.scy.agents.agenda.evaluation.evaluators.IEvaluator;
 
 /**
  * This agent interprets users action logs and informs other agents about a semantic change done by a 
@@ -37,11 +38,12 @@ public class ActivityModifiedEvaluationAgent extends AbstractActivityEvaluationA
 
 	@Override
 	protected void initiateSignatures() {
-		initiateSCYMapperSignature();
+		IEvaluator scyMapperEvaluator = createSCYMapperEvaluator();
+		registerEvaluator(scyMapperEvaluator);
 	}
 	
-	private void initiateSCYMapperSignature() {
-		String toolName = "SCYMapper";
+	private static IEvaluator createSCYMapperEvaluator() {
+		String toolName = "scymapper";
 		List<String> scyMapperActionTypes = new ArrayList<String>();
 		scyMapperActionTypes.add("node_added");
 		scyMapperActionTypes.add("node_renamed");
@@ -50,13 +52,16 @@ public class ActivityModifiedEvaluationAgent extends AbstractActivityEvaluationA
 		scyMapperActionTypes.add("link_renamed");
 		scyMapperActionTypes.add("link_removed");
 		scyMapperActionTypes.add("link_flipped");
-		this.signatures.put(toolName, new ActionTypeEvaluator(toolName, scyMapperActionTypes));
+		return new ActionTypeEvaluator(toolName, scyMapperActionTypes);
 	}
 
 	@Override
-	protected void handleMatchingUserAction(long timestamp, String mission, String userName, String eloUri) {
+	protected void handleMatchingUserAction(long timestamp, String mission, String userName, String tool, String eloUri) {
 		// user modified an ELO, so write a tuple to the space
 		try {
+			logger.debug(String.format(
+					"Writing modification tuple to TupleSpace [ User: %s | Mission: %s | Tool: %s | EloURI: %s]", 
+					userName, mission, tool, eloUri));
 			Tuple modificationTuple = new Tuple(TYPE_MODIFIED, mission, userName, eloUri, timestamp);
 			this.commandSpace.write(modificationTuple);
 		} catch (TupleSpaceException e) {

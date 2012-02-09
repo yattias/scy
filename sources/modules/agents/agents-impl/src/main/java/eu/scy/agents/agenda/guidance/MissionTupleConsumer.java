@@ -27,6 +27,7 @@ class MissionTupleConsumer implements Runnable {
 	}
 	
 	public void addTuple(Tuple t) throws InterruptedException {
+		logger.debug("Adding tuple to queue " + t.toString());
 		this.tupleQueue.put(t);
 	}
 	
@@ -37,6 +38,7 @@ class MissionTupleConsumer implements Runnable {
 	@Override
 	public void run() {
 		this.keepRunning = true;
+		logger.debug("Mission tuple consumer started.");
 		while(this.keepRunning) {
 			try {
 				Tuple tuple = tupleQueue.poll(TAKE_TIMEOUT, TimeUnit.MILLISECONDS);
@@ -52,6 +54,7 @@ class MissionTupleConsumer implements Runnable {
 				e.printStackTrace();
 			}
 		}
+		logger.debug("Mission tuple consumer stopped.");
 	}
 
 }
