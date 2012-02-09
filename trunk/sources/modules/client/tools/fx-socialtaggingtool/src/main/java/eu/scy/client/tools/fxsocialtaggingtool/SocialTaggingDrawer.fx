@@ -26,6 +26,8 @@ import javafx.geometry.Insets;
 import eu.scy.collaboration.api.CollaborationStartable;
 import eu.scy.client.desktop.scydesktop.tools.DrawerUIIndicator;
 import eu.scy.client.desktop.desktoputils.XFX;
+import eu.scy.client.desktop.scydesktop.tools.EloSaver;
+import java.net.URI;
 
 public class SocialTaggingDrawer
         extends
@@ -155,7 +157,6 @@ public class SocialTaggingDrawer
         FX.deferAction(function() : Void {
             tagLines = createTagLines(tags);
         });
-        eloInterface.joinSession();
     }
 
 
@@ -286,4 +287,10 @@ public class SocialTaggingDrawer
    public override function getDrawerUIIndicator(): DrawerUIIndicator{
       return DrawerUIIndicator.SOCIAL_TAGGING;
    }
+
+
+   public override function loadedEloChanged(eloUri: URI) {
+        eloInterface.eloUri = eloUri;
+   }
+
 }
