@@ -9,7 +9,8 @@ import eu.scy.agents.session.Session;
 
 public class UserModel {
 
-	private final String name;
+	private static final String MISSION_PREFIX = "roolo://";
+	private final String userName;
 	private final Map<String, MissionModel> missionMap;
 	private final ReentrantReadWriteLock rwLock = new ReentrantReadWriteLock();
 	private final Session session;
@@ -18,18 +19,18 @@ public class UserModel {
 	public UserModel(RooloAccessor rooloAccessor, Session session, String name) {
 		this.rooloAccessor = rooloAccessor;
 		this.session = session;
-		this.name = name;
+		this.userName = name;
 		this.missionMap = new HashMap<String, MissionModel>();
 	}
 
-	public String getName() {
-		return this.name;
+	public String getUserName() {
+		return this.userName;
 	}
 
-	public MissionModel getMission(String mission) {
+	public MissionModel getMission(String missionRuntimeUri) {
 		this.rwLock.readLock().lock();
 		try {
-			return this.missionMap.get(mission);
+			return this.missionMap.get(missionRuntimeUri);
 		} finally {
 			this.rwLock.readLock().unlock();
 		}
@@ -38,23 +39,26 @@ public class UserModel {
 	public void addMission(MissionModel mission) {
 		this.rwLock.writeLock().lock();
 		try {
-			this.missionMap.put(mission.getName(), mission);
+			this.missionMap.put(mission.getMissionRuntimeUri(), mission);
 		} finally {
 			this.rwLock.writeLock().unlock();
 		}
 	}
 
-	public MissionModel getOrCreateMissionModel(String mission) {
+	public MissionModel getOrCreateMissionModel(String missionRuntimeUri) {
 		// ReentrantReadWriteLock usage taken from JavaDoc example
 		this.rwLock.readLock().lock();
-		if(!this.missionMap.containsKey(mission)) {
+		if(!this.missionMap.containsKey(missionRuntimeUri)) {
 			this.rwLock.readLock().unlock();
 			this.rwLock.writeLock().lock();
 			try {
-				MissionModel missionModel = this.missionMap.get(mission);
+				MissionModel missionModel = this.missionMap.get(missionRuntimeUri);
 				if(missionModel == null) {
-					missionModel = new MissionModel(this.rooloAccessor ,this.session, mission, this.name);
-					this.missionMap.put(mission, missionModel);
+					if(!missionRuntimeUri.startsWith(MISSION_PREFIX)) {
+						throw new IllegalArgumentException("Could not create mission model, MissionRuntimeUri was invalid: " + missionRuntimeUri);
+					}
+					missionModel = new MissionModel(this.rooloAccessor ,this.session, missionRuntimeUri, this.userName);
+					this.missionMap.put(missionRuntimeUri, missionModel);
 				}
 				return missionModel;
 			} finally {
@@ -62,7 +66,7 @@ public class UserModel {
 			}
 		} else {
 			try {
-				return this.missionMap.get(mission);
+				return this.missionMap.get(missionRuntimeUri);
 			} finally {
 				this.rwLock.readLock().unlock();
 			}

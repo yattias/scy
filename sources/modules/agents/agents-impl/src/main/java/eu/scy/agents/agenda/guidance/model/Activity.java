@@ -11,7 +11,7 @@ public class Activity {
 	private ActivityState state;
 	private String name;
 	private String eloUri;
-	private String templateEloUri;
+	private String templateUri;
 	private long latestModificationTime;
 	// we only need one listener, because one activity can be bind to only one mission
 	private ActivityModelChangedListener changelistener;
@@ -21,10 +21,10 @@ public class Activity {
 		this(ActivityState.Enabled, name, basicEloUri, Long.MIN_VALUE);
 	}
 	
-	public Activity(ActivityState state, String name, String basicEloUri, long latestModification) {
+	public Activity(ActivityState state, String name, String templateUri, long latestModification) {
 		setState(state);
 		setName(name);
-		setTemplateUri(basicEloUri);
+		setTemplateUri(templateUri);
 		setLatestModificationTime(latestModification);
 	}
 	
@@ -56,14 +56,14 @@ public class Activity {
 	}
 
 	public String getTemplateUri() {
-		return this.templateEloUri;
+		return this.templateUri;
 	}
 
-	public void setTemplateUri(String basicEloUri) {
-		this.templateEloUri = basicEloUri;
-		if(this.changelistener != null) {
-			this.changelistener.modelChanged(new ActivityModelChangedEvent(this));
-		}
+	public void setTemplateUri(String templateUri) {
+		this.templateUri = templateUri;
+//		if(this.changelistener != null) {
+//			this.changelistener.modelChanged(new ActivityModelChangedEvent(this));
+//		}
 	}
 
 	public long getLatestModificationTime() {

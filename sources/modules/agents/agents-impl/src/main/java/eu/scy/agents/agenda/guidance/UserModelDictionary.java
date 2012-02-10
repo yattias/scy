@@ -23,7 +23,7 @@ public class UserModelDictionary {
 	public void addUserModel(UserModel userModel) {
 		this.rwLock.writeLock().lock();
 		try {
-			this.userModelMap.put(userModel.getName(), userModel);
+			this.userModelMap.put(userModel.getUserName(), userModel);
 		} finally {
 			this.rwLock.writeLock().unlock();
 		}
@@ -73,12 +73,12 @@ public class UserModelDictionary {
 		}
 	}
 
-	public MissionModel getMissionModel(String user, String mission) {
+	public MissionModel getMissionModel(String user, String missionRuntimeUri) {
 		this.rwLock.readLock().lock();
 		try {
 			UserModel userModel = this.userModelMap.get(user);
 			if(userModel != null) {
-				return userModel.getMission(mission);
+				return userModel.getMission(missionRuntimeUri);
 			} else {
 				return null;
 			}
