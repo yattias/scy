@@ -12,6 +12,9 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import roolo.api.IRepository;
+import roolo.elo.api.IMetadataTypeManager;
+import eu.scy.agents.IRepositoryAgent;
 import eu.scy.agents.agenda.evaluation.ActivityFinishedEvaluationAgent;
 import eu.scy.agents.agenda.evaluation.ActivityModifiedEvaluationAgent;
 import eu.scy.agents.agenda.guidance.model.MissionModel;
@@ -21,7 +24,7 @@ import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.session.Session;
 
-public class PedagogicalGuidanceAgent extends AbstractThreadedAgent {
+public class PedagogicalGuidanceAgent extends AbstractThreadedAgent implements IRepositoryAgent {
 
 	private static final Logger logger = Logger.getLogger(PedagogicalGuidanceAgent.class.getName());
 	
@@ -30,13 +33,14 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent {
 	
 	private final List<Integer> registeredCallbacks = new ArrayList<Integer>();
 	private UserModelDictionary userModelDict;
-	
+	private RooloAccessor rooloAccessor;
 	private MissionTupleConsumer missionTupleConsumer; 
 
 	private TupleSpace actionSpace;
 	private TupleSpace commandSpace;
 
-	
+
+    
 	public PedagogicalGuidanceAgent(Map<String, Object> map) {
         super(PedagogicalGuidanceAgent.class.getName(), (String) map.get(AgentProtocol.PARAM_AGENT_ID), (String) map.get(AgentProtocol.TS_HOST), (Integer) map.get(AgentProtocol.TS_PORT));
 
@@ -44,7 +48,7 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent {
 			this.commandSpace = new TupleSpace(new User(getSimpleName()), host, port, false, false, AgentProtocol.COMMAND_SPACE_NAME);
 			this.actionSpace = new TupleSpace(new User(getSimpleName()), host, port, false, false, AgentProtocol.ACTION_SPACE_NAME);
 
-			RooloAccessor rooloAccessor = new RooloAccessor(this.commandSpace);
+			rooloAccessor = new RooloAccessor();
 			Session session = new Session(new TupleSpace(new User(getSimpleName()), host, port, false, false, AgentProtocol.SESSION_SPACE_NAME));
 			this.userModelDict = new UserModelDictionary(rooloAccessor, session);
 			
@@ -56,8 +60,8 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent {
 
 	@Override
 	protected void doRun() throws TupleSpaceException, AgentLifecycleException, InterruptedException {
-		startConsumer();
-		registerCallbacks();
+		startMissionTupleConsumer();
+		registerActivityCallbacks();
 		
 		while (this.status == Status.Running) {
             try {
@@ -89,12 +93,12 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent {
         return (this.status != Status.Running);
 	}
 	
-	private void startConsumer() {
+	private void startMissionTupleConsumer() {
 		Thread missionTupleConsumerThread = new Thread(this.missionTupleConsumer);
 		missionTupleConsumerThread.start();
 	}
 
-	private void registerCallbacks() throws TupleSpaceException {
+	private void registerActivityCallbacks() throws TupleSpaceException {
 		Callback amcb = new ActivityChangedCallback();
 		int id = this.commandSpace.eventRegister(Command.WRITE, TEMPLATE_FOR_MODIFIED_ACTIVITY, amcb, true);
 		this.registeredCallbacks.add(id);
@@ -106,16 +110,24 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent {
 		logger.debug("Registered callback for finished activities");
 	}
 	
+	class ActivityChangedCallback implements Callback {
+		
+		@Override
+		public void call(Command cmd, int seqnum, Tuple afterTuple, Tuple beforeTuple) {
+			processTuple(afterTuple);
+		}
+	}
+	
 	private void processTuple(Tuple tuple) {
 		// Signature: ("modified"/"finished":String, mission:String, userName:String, eloUri:String, timestamp:long)
 		String type = tuple.getField(0).getValue().toString();
-		String missionName = tuple.getField(1).getValue().toString();
+		String missionRuntimeUri = tuple.getField(1).getValue().toString();
 		String userName = tuple.getField(2).getValue().toString();
 			
 		try {
 			UserModel userModel = this.userModelDict.getOrCreateUserModel(userName);
-			MissionModel missionModel = userModel.getOrCreateMissionModel(missionName);
-			logger.debug(String.format("Received '%s' tuple [ user: %s | mission: %s ]", type, userName, missionName));
+			MissionModel missionModel = userModel.getOrCreateMissionModel(missionRuntimeUri);
+			logger.debug(String.format("Received activity change tuple [ type: %s | user: %s | missionRuntimeUri: %s ]", type, userName, missionRuntimeUri));
 			missionModel.processTuple(tuple);
 
 		} catch (IllegalArgumentException e) {
@@ -123,26 +135,16 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent {
 		}
 	}
 
-	class ActivityChangedCallback implements Callback {
+    @Override
+    public void setRepository(IRepository rep) {
+        this.rooloAccessor.setRepository(rep);
+    }
 
-		@Override
-		public void call(Command cmd, int seqnum, Tuple afterTuple, Tuple beforeTuple) {
-			processTuple(afterTuple);
-		}
-	}
+    @Override
+    public void setMetadataTypeManager(IMetadataTypeManager manager) {
+//        this.metadataTypeManager = manager;
+//        this.rooloAccessor.setTypeManager(manager);
+    }
 
-//	public static void main(String[] args) {
-//        try {
-//        	HashMap<String, Object> map = new HashMap<String, Object>();
-//        	map.put(AgentProtocol.PARAM_AGENT_ID, "pedagogical guidance id");
-//        	map.put(AgentProtocol.TS_HOST, "scy.collide.info");
-//        	map.put(AgentProtocol.TS_PORT, 2525);
-//        	PedagogicalGuidanceAgent agent = new PedagogicalGuidanceAgent(map);
-//			agent.start();
-//		} catch (AgentLifecycleException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
 }
 
