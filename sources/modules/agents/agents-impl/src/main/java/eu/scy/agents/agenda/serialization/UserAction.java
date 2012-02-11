@@ -1,8 +1,19 @@
 package eu.scy.agents.agenda.serialization;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.jdom.Element;
 
+import roolo.elo.JDomStringConversion;
+
 public class UserAction {
+	
+	public enum Type {
+		MODIFICATION,
+		COMPLETION;
+	}
 	
 	public static final String ELE_ROOT = "UserActions";
 	
@@ -15,6 +26,8 @@ public class UserAction {
 	private long timestamp;
 	
 	private String eloUri;
+	
+	private Type actiontype = Type.MODIFICATION;
 
 	public UserAction() {
 		this.timestamp = Long.MIN_VALUE;
@@ -33,6 +46,14 @@ public class UserAction {
 	public String getEloUri() {
 		return this.eloUri;
 	}
+	
+	public Type getActiontype() {
+		return this.actiontype;
+	}
+
+	public void setActiontype(Type actiontype) {
+		this.actiontype = actiontype;
+	}
 
 	public Element toXmlElement() {
     	Element action = new Element(ELE_USER_ACTION);
@@ -46,4 +67,18 @@ public class UserAction {
 		this.eloUri = action.getAttributeValue(ATTR_ELOURI);
 	}
 	
+	public static Map<String, UserAction> deserializeUserActions(String actionsAsString) {
+		JDomStringConversion stringConversion = new JDomStringConversion();
+		Element root = stringConversion.stringToXml(actionsAsString);
+
+		@SuppressWarnings("unchecked")
+		List<Element> children = (List<Element>)root.getChildren();
+		Map<String, UserAction> userActionMap = new HashMap<String, UserAction>(); 
+		for(Element child : children) {
+			UserAction userAction = new UserAction();
+			userAction.fromXmlElement(child);
+			userActionMap.put(userAction.getEloUri(), userAction);
+		}
+		return userActionMap;
+	}
 }

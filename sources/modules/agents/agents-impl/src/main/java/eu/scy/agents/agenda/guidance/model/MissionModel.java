@@ -1,6 +1,7 @@
 package eu.scy.agents.agenda.guidance.model;
 
 import info.collide.sqlspaces.commons.Tuple;
+import info.collide.sqlspaces.commons.TupleSpaceException;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -8,7 +9,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.activity.InvalidActivityException;
 
@@ -23,11 +27,17 @@ import eu.scy.agents.agenda.exception.MissionMapModelException;
 import eu.scy.agents.agenda.exception.NoMetadataTypeManagerAvailableException;
 import eu.scy.agents.agenda.exception.NoRepositoryAvailableException;
 import eu.scy.agents.agenda.guidance.MetadataAccessor;
-import eu.scy.agents.agenda.guidance.MissionModelBuilder;
 import eu.scy.agents.agenda.guidance.PedagogicalGuidanceAgent;
 import eu.scy.agents.agenda.guidance.RooloAccessor;
+import eu.scy.agents.agenda.guidance.event.ActivityModificationEvent;
+import eu.scy.agents.agenda.guidance.event.ActivityModificationListener;
+import eu.scy.agents.agenda.guidance.event.HistoryRequestEvent;
+import eu.scy.agents.agenda.guidance.event.HistoryRequestListener;
+import eu.scy.agents.agenda.guidance.model.Activity.ActivityState;
 import eu.scy.agents.agenda.serialization.BasicMissionAnchorModel;
 import eu.scy.agents.agenda.serialization.EloParser;
+import eu.scy.agents.agenda.serialization.UserAction;
+import eu.scy.agents.agenda.serialization.UserAction.Type;
 import eu.scy.agents.session.Session;
 
 public class MissionModel {
@@ -42,8 +52,10 @@ public class MissionModel {
 	
 	private final Map<String, Activity> userElo2Activity = new HashMap<String, Activity>();
 	private final Set<Dependency> dependencies = new HashSet<Dependency>();
+	private final List<ActivityModificationListener> modificationListeners = new ArrayList<ActivityModificationListener>();
 	private final Session session;
 	
+	private HistoryRequestListener historyListener;
 	private volatile ModelState state;
 	private final String missionRuntimeUri;
 	private final String user;
@@ -68,6 +80,12 @@ public class MissionModel {
 	public void setInitialized() {
 		synchronized (this) {
 			this.state = ModelState.Initialized;
+		}
+	}
+	
+	public boolean isEnabled() {
+		synchronized (this) {
+			return (this.state == ModelState.Enabled);
 		}
 	}
 	
@@ -123,7 +141,7 @@ public class MissionModel {
 	}
 	
 	private void applyTupleToModel(Tuple tuple) {
-		String type = tuple.getField(0).getValue().toString();
+		String type = tuple.getField(0).getValue().toString().toUpperCase();
 		String eloUri = tuple.getField(3).getValue().toString();
 		long timestamp = Long.valueOf(tuple.getField(4).getValue().toString());
 		// change activity
@@ -131,7 +149,6 @@ public class MissionModel {
 		if(timestamp > activity.getLatestModificationTime()) {
 			try {
 				Activity.ActivityState actState = Activity.ActivityState.valueOf(type);
-				activity.setState(actState);
 				activity.setLatestModificationTime(timestamp);
 				logger.debug(String.format("Set state %s for activity %s (user: %s | mission: %s).", 
 						type,
@@ -139,10 +156,18 @@ public class MissionModel {
 						getUser(), 
 						getMissionRuntimeUri()));
 				
-				List<Activity> dependingActivities = getDependingActivities(activity);
-				for(Activity act : dependingActivities) {
-					// TODO perform changes on the depending activities
-					// Maybe checks must be performed recursivly ... needs to be discussed
+				if(actState != activity.getState()) {
+					
+					if(actState == ActivityState.MODIFIED && activity.getState() == ActivityState.FINISHED) {
+						List<Activity> dependingActivities = getDependingActivities(activity);
+						for(Activity act : dependingActivities) {
+							ActivityModificationEvent event = new ActivityModificationEvent(this, act);
+							for(ActivityModificationListener listener : this.modificationListeners) {
+								listener.activityModified(event);
+							}
+						}
+					}
+					activity.setState(actState);
 				}
 			} catch (IllegalArgumentException e) {
 				logger.warn(String.format("Received tuple for user '%s' and mission '%s' has the unknown type: '%s'.", 
@@ -153,7 +178,7 @@ public class MissionModel {
 		}
 	}
 	
-	public void reconstruct() throws InvalidActivityException, MissionMapModelException, URISyntaxException, NoRepositoryAvailableException, NoMetadataTypeManagerAvailableException {
+	private void reconstruct() throws InvalidActivityException, MissionMapModelException, URISyntaxException, NoRepositoryAvailableException, NoMetadataTypeManagerAvailableException {
 
 		// Which one to use?
 //		String missionRuntimeURI = this.missionRuntimeUri;
@@ -164,6 +189,9 @@ public class MissionModel {
 		
 		// 2. option: use missionSpecificiation content 
 		reconstructMissionModelUsingMissionSpecification(missionRuntimeURI);
+		
+		// request history of this mission model
+		requestHistory();
 	}
 	
 	private void reconstructMissionModelUsingMissionRuntime(String missionRuntimeURI) throws MissionMapModelException, URISyntaxException, NoRepositoryAvailableException, InvalidActivityException {
@@ -295,5 +323,87 @@ public class MissionModel {
 		}
 		// No fork, so this is the template
 		return eloUri;
+	}
+	
+	private void requestHistory() {
+		if(this.historyListener == null) {
+			return;
+		}
+		HistoryRequestEvent event = new HistoryRequestEvent(this, this.userElo2Activity.values(), System.currentTimeMillis());
+		try {
+			List<UserAction> history = this.historyListener.requestHistory(event);
+			for(UserAction userAction : history) {
+				Activity activity = getActivityByEloUri(userAction.getEloUri());
+				activity.setLatestModificationTime(userAction.getTimestamp());
+				if(userAction.getActiontype() == Type.MODIFICATION) {
+					activity.setState(ActivityState.MODIFIED);
+				} else {
+					activity.setState(ActivityState.FINISHED);
+				}
+			}
+		} catch (TupleSpaceException e) {
+			// TODO handle error
+			e.printStackTrace();
+		}
+	}
+	
+	public void addActivityModificationListener(ActivityModificationListener listener) {
+		if(listener != null) {
+			this.modificationListeners.add(listener);
+		}
+	}
+	
+	public void setHistoryRequestListener(HistoryRequestListener listener) {
+		this.historyListener = listener;
+	}
+	
+	class MissionModelBuilder implements Runnable {
+		
+		private final BlockingQueue<Tuple> tupleQueue = new LinkedBlockingQueue<Tuple>();
+		private final MissionModel missionModel;
+		
+		public MissionModelBuilder(MissionModel missionModel) {
+			if(missionModel == null) {
+				throw new IllegalArgumentException("missionModel can not be null");
+			}
+			this.missionModel = missionModel;
+		}
+
+		public void addTuple(Tuple t) {
+			try {
+				this.tupleQueue.put(t);
+			} catch (InterruptedException e) {
+				logger.warn("Error while adding Tuple to creation queue.");
+			}
+		}
+		
+		@Override
+		public void run() {
+			try {
+				missionModel.reconstruct();
+				
+				// after reconstructing the model, all tuples will be applied to it. if a newer tuple arrives
+				// in the meantime , tuples in this queue won't be applied to the model due to older timestamps
+				missionModel.setInitialized();
+				while(!tupleQueue.isEmpty()) {
+					Tuple tuple = tupleQueue.remove();
+					missionModel.processTuple(tuple);
+				}
+			} catch (NoSuchElementException e) {
+				logger.warn("Tried to remove an element from an empty queue");
+			} catch (URISyntaxException e) {
+				logger.error("Could not create model because eloUri is no valid URL", e);
+			} catch (NoRepositoryAvailableException e) {
+				logger.error("Could not create mission model, because no repository available.", e);
+			} catch (NoMetadataTypeManagerAvailableException e) {
+				logger.error("Could not create mission model, because no MetadataTypeManager available.", e);
+			} catch (InvalidActivityException e) {
+				logger.error("Could not create mission model, because activities could not be created properly.", e);
+			} catch (MissionMapModelException e) {
+				logger.error("Could not create mission model, because reading of mission map model failed. " + e.getMessage(), e);
+			} catch (Exception e) {
+				logger.error("Could not create mission model! Reason: " + e.getMessage(), e);
+			}
+		}
 	}
 }

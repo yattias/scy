@@ -43,6 +43,9 @@ public class UserModel {
 	}
 
 	public MissionModel getOrCreateMissionModel(String missionRuntimeUri) {
+		if(!missionRuntimeUri.startsWith(MISSION_PREFIX)) {
+			throw new IllegalArgumentException("Ignoring tuple, because MissionRuntimeUri was invalid: " + missionRuntimeUri);
+		}
 		// ReentrantReadWriteLock usage taken from JavaDoc example
 		this.rwLock.readLock().lock();
 		if(!this.missionMap.containsKey(missionRuntimeUri)) {
@@ -51,9 +54,6 @@ public class UserModel {
 			try {
 				MissionModel missionModel = this.missionMap.get(missionRuntimeUri);
 				if(missionModel == null) {
-					if(!missionRuntimeUri.startsWith(MISSION_PREFIX)) {
-						throw new IllegalArgumentException("Could not create mission model, MissionRuntimeUri was invalid: " + missionRuntimeUri);
-					}
 					missionModel = new MissionModel(this.session, missionRuntimeUri, this.userName);
 					this.missionMap.put(missionRuntimeUri, missionModel);
 				}
