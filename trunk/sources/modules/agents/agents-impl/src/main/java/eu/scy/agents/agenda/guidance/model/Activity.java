@@ -3,9 +3,9 @@ package eu.scy.agents.agenda.guidance.model;
 public class Activity {
 
 	public enum ActivityState {
-		Enabled,
-		Modified,
-		Finished;
+		ENABLED,
+		MODIFIED,
+		FINISHED;
 	}
 	
 	private ActivityState state;
@@ -16,7 +16,7 @@ public class Activity {
 
 	
 	public Activity(String name) {
-		this(ActivityState.Enabled, name, Long.MIN_VALUE);
+		this(ActivityState.ENABLED, name, Long.MIN_VALUE);
 	}
 	
 	public Activity(ActivityState state, String name, long latestModification) {

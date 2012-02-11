@@ -20,9 +20,9 @@ import eu.scy.agents.agenda.evaluation.evaluators.IEvaluator;
  */
 public class ActivityModifiedEvaluationAgent extends AbstractActivityEvaluationAgent {
 
-	private static final String AGENT_NAME = "activitymodifiedevaluator";
+	public static final String AGENT_NAME = "activitymodifiedevaluator";
 	
-	private static final String REQUEST_TYPE = "last_modified";
+	public static final String REQUEST_TYPE = "last_modified";
 	
 	public static final String TYPE_MODIFIED = "modified";
 	
@@ -70,12 +70,12 @@ public class ActivityModifiedEvaluationAgent extends AbstractActivityEvaluationA
 		return new ActionTypeEvaluator(toolName, scyMapperActionTypes);
 	}
 	
-	private static IEvaluator createFitexEvaluator() {
-		String toolName = "fitex";
-		List<String> scyMapperActionTypes = new ArrayList<String>();
-		scyMapperActionTypes.add("data_edited");
-		return new ActionTypeEvaluator(toolName, scyMapperActionTypes);
-	}
+//	private static IEvaluator createFitexEvaluator() {
+//		String toolName = "fitex";
+//		List<String> scyMapperActionTypes = new ArrayList<String>();
+//		scyMapperActionTypes.add("data_edited");
+//		return new ActionTypeEvaluator(toolName, scyMapperActionTypes);
+//	}
 	
 	@Override
 	protected void handleMatchingUserAction(long timestamp, String mission, String userName, String tool, String eloUri) {

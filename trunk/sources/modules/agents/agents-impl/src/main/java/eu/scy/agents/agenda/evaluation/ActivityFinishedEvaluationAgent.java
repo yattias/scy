@@ -12,9 +12,9 @@ import eu.scy.agents.agenda.evaluation.evaluators.IEvaluator;
 
 public class ActivityFinishedEvaluationAgent extends AbstractActivityEvaluationAgent {
 
-	private static final String AGENT_NAME = "activityfinishedevaluator";
+	public static final String AGENT_NAME = "activityfinishedevaluator";
 	
-	private static final String REQUEST_TYPE = "last_finished";
+	public static final String REQUEST_TYPE = "last_finished";
 	
 	public static final String TYPE_FINISHED = "finished";
 	
