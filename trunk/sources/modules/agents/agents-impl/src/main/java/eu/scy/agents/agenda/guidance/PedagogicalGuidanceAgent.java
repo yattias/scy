@@ -31,14 +31,15 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent implements I
 	private static final Tuple TEMPLATE_FOR_MODIFIED_ACTIVITY = new Tuple(ActivityModifiedEvaluationAgent.TYPE_MODIFIED, String.class, String.class, String.class, Long.class);
 	private static final Tuple TEMPLATE_FOR_FINISHED_ACTIVITY = new Tuple(ActivityFinishedEvaluationAgent.TYPE_FINISHED, String.class, String.class, String.class, Long.class);
 	
+	private static final RooloAccessor rooloAccessor = new RooloAccessor();
+	private static final MetadataAccessor metadataAccessor = new MetadataAccessor();
+	
 	private final List<Integer> registeredCallbacks = new ArrayList<Integer>();
 	private UserModelDictionary userModelDict;
-	private RooloAccessor rooloAccessor;
 	private MissionTupleConsumer missionTupleConsumer; 
 
 	private TupleSpace actionSpace;
 	private TupleSpace commandSpace;
-
 
     
 	public PedagogicalGuidanceAgent(Map<String, Object> map) {
@@ -48,9 +49,8 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent implements I
 			this.commandSpace = new TupleSpace(new User(getSimpleName()), host, port, false, false, AgentProtocol.COMMAND_SPACE_NAME);
 			this.actionSpace = new TupleSpace(new User(getSimpleName()), host, port, false, false, AgentProtocol.ACTION_SPACE_NAME);
 
-			rooloAccessor = new RooloAccessor();
 			Session session = new Session(new TupleSpace(new User(getSimpleName()), host, port, false, false, AgentProtocol.SESSION_SPACE_NAME));
-			this.userModelDict = new UserModelDictionary(rooloAccessor, session);
+			this.userModelDict = new UserModelDictionary(session);
 			
 			this.missionTupleConsumer = new MissionTupleConsumer(this.userModelDict);
 		} catch (TupleSpaceException e) {
@@ -137,13 +137,20 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent implements I
 
     @Override
     public void setRepository(IRepository rep) {
-        this.rooloAccessor.setRepository(rep);
+        rooloAccessor.setRepository(rep);
     }
 
     @Override
     public void setMetadataTypeManager(IMetadataTypeManager manager) {
-//        this.metadataTypeManager = manager;
-//        this.rooloAccessor.setTypeManager(manager);
+    	metadataAccessor.setMetadataTypeManager(manager);
+    }
+
+    public static RooloAccessor getRooloAccessor() {
+    	return rooloAccessor;
+    }
+
+    public static MetadataAccessor getMetadataAccessor() {
+    	return metadataAccessor;
     }
 
 }

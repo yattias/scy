@@ -7,9 +7,12 @@ import java.util.NoSuchElementException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import javax.activity.InvalidActivityException;
+
 import org.apache.log4j.Logger;
 
-import eu.scy.agents.agenda.exception.InvalidMissionSpecificationException;
+import eu.scy.agents.agenda.exception.MissionMapModelException;
+import eu.scy.agents.agenda.exception.NoMetadataTypeManagerAvailableException;
 import eu.scy.agents.agenda.exception.NoRepositoryAvailableException;
 import eu.scy.agents.agenda.guidance.model.MissionModel;
 
@@ -49,12 +52,18 @@ public class MissionModelBuilder implements Runnable {
 			}
 		} catch (NoSuchElementException e) {
 			logger.warn("Tried to remove an element from an empty queue");
-		} catch (InvalidMissionSpecificationException e) {
-			logger.error("Could not create mission model, because mission specification was invalid", e);
 		} catch (URISyntaxException e) {
 			logger.error("Could not create model because eloUri is no valid URL", e);
 		} catch (NoRepositoryAvailableException e) {
-			logger.error("Could not create mission model, because repository could not be queried.", e);
+			logger.error("Could not create mission model, because no repository available.", e);
+		} catch (NoMetadataTypeManagerAvailableException e) {
+			logger.error("Could not create mission model, because no MetadataTypeManager available.", e);
+		} catch (InvalidActivityException e) {
+			logger.error("Could not create mission model, because activities could not be created properly.", e);
+		} catch (MissionMapModelException e) {
+			logger.error("Could not create mission model, because reading of mission map model failed. " + e.getMessage(), e);
+		} catch (Exception e) {
+			logger.error("Could not create mission model! Reason: " + e.getMessage(), e);
 		}
 	}
 

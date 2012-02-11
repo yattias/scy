@@ -10,23 +10,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
-import org.jdom.Document;
-import org.jdom.input.SAXBuilder;
+import javax.activity.InvalidActivityException;
 
+import org.apache.log4j.Logger;
+
+import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadata;
-import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataValueContainer;
+import roolo.elo.api.exceptions.MetaDataException;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-import eu.scy.agents.agenda.exception.InvalidMissionSpecificationException;
+import eu.scy.agents.agenda.exception.MissionMapModelException;
+import eu.scy.agents.agenda.exception.NoMetadataTypeManagerAvailableException;
 import eu.scy.agents.agenda.exception.NoRepositoryAvailableException;
+import eu.scy.agents.agenda.guidance.MetadataAccessor;
 import eu.scy.agents.agenda.guidance.MissionModelBuilder;
+import eu.scy.agents.agenda.guidance.PedagogicalGuidanceAgent;
 import eu.scy.agents.agenda.guidance.RooloAccessor;
 import eu.scy.agents.agenda.serialization.BasicMissionAnchorModel;
-import eu.scy.agents.agenda.serialization.MissionSpecificationParser;
+import eu.scy.agents.agenda.serialization.EloParser;
 import eu.scy.agents.session.Session;
 
-public class MissionModel implements ActivityModelChangedListener {
+public class MissionModel {
 
 	enum ModelState {
 		Enabled, 
@@ -40,7 +44,6 @@ public class MissionModel implements ActivityModelChangedListener {
 	private final Map<String, Activity> template2Activity = new HashMap<String, Activity>();
 	private final Set<Dependency> dependencies = new HashSet<Dependency>();
 	private final Session session;
-	private final RooloAccessor rooloAccessor;
 	
 	private volatile ModelState state;
 	private final String missionRuntimeUri;
@@ -48,8 +51,7 @@ public class MissionModel implements ActivityModelChangedListener {
 	private MissionModelBuilder umc;
 	
 	
-	public MissionModel(RooloAccessor rooloAccessor, Session session, String missionRuntimeUri, String userName) {
-		this.rooloAccessor = rooloAccessor;
+	public MissionModel(Session session, String missionRuntimeUri, String userName) {
 		this.session = session;
 		this.missionRuntimeUri = missionRuntimeUri;
 		this.user = userName;
@@ -70,48 +72,38 @@ public class MissionModel implements ActivityModelChangedListener {
 		}
 	}
 	
-	public Activity getActivityByUserElo(String eloUri) {
+	public Activity getActivityByEloUri(String eloUri) {
 		return this.userElo2Activity.get(eloUri);
-	}
-	
-	public Activity getActivityByTemplateUri(String templateUri) {
-		return this.template2Activity.get(templateUri);
 	}
 	
 	public List<Activity> getDependingActivities(Activity activity) {
 		ArrayList<Activity> list = new ArrayList<Activity>(); 
 		for(Dependency dep : this.dependencies) {
 			if(dep.getDependent().equals(activity)) {
-				list.add(dep.getDepending());
+				list.add(dep.getDependsOn());
 			}
 		}
 		return list;
 	}
 	
-	public void addActivity(Activity act) {
-		if(act.getTemplateUri() == null) {
-			return;
+	private void addActivity(Activity act) throws InvalidActivityException {
+		if(act.getEloUri() == null) {
+			throw new InvalidActivityException();
 		}
-		this.template2Activity.put(act.getTemplateUri(), act);
+		this.userElo2Activity.put(act.getEloUri(), act);
+		
+		if(act.getTemplateUri() != null) {
+			this.template2Activity.put(act.getTemplateUri(), act);
+		}
 		// we need to get informed if Activity's elo uri has been set
-		act.setActivityModelChangedListener(this);
 	}
 	
-	public void addDependency(Activity dependent, Activity depending) {
-		addDependency(new Dependency(dependent, depending));
+	private void addDependency(Activity dependent, Activity dependsOn) {
+		addDependency(new Dependency(dependent, dependsOn));
 	}
 	
-	public void addDependency(Dependency dep) {
+	private void addDependency(Dependency dep) {
 		this.dependencies.add(dep);
-	}
-	
-	@Override
-	public void modelChanged(ActivityModelChangedEvent event) {
-		// a call of this method means that the elo URI has been set, so we have to update the map
-		Activity act = (Activity)event.getSource();
-		if(act.getEloUri() != null) {
-			this.userElo2Activity.put(act.getEloUri(), act);
-		}
 	}
 	
 	public void processTuple(Tuple tuple) {
@@ -141,7 +133,7 @@ public class MissionModel implements ActivityModelChangedListener {
 		String eloUri = tuple.getField(3).getValue().toString();
 		long timestamp = Long.valueOf(tuple.getField(4).getValue().toString());
 		// change activity
-		Activity activity = getActivityByUserElo(eloUri);
+		Activity activity = getActivityByEloUri(eloUri);
 		if(timestamp > activity.getLatestModificationTime()) {
 			try {
 				Activity.ActivityState actState = Activity.ActivityState.valueOf(type);
@@ -167,86 +159,147 @@ public class MissionModel implements ActivityModelChangedListener {
 		}
 	}
 	
-	public void reconstruct() throws InvalidMissionSpecificationException, URISyntaxException, NoRepositoryAvailableException {
-		String missionRuntimeURI = this.session.getMissionRuntimeURI(getUser());
-		String missionId = this.session.getMissionId(missionRuntimeURI);
-		String missionSpecificationURI = this.session.getMissionSpecification(missionRuntimeURI);
+	public void reconstruct() throws InvalidActivityException, MissionMapModelException, URISyntaxException, NoRepositoryAvailableException, NoMetadataTypeManagerAvailableException {
 
-		createDependencyModel(missionRuntimeURI, missionId, missionSpecificationURI);		
+		// Which one to use?
+//		String missionRuntimeURI = this.missionRuntimeUri;
+		String missionRuntimeURI = this.session.getMissionRuntimeURI(getUser());
+
+		// 1. option: use missionRuntime content to get missionMapModelElo
+		reconstructMissionModelUsingMissionRuntime(missionRuntimeURI);
+		
+		// 2. option: use missionSpecificiation content 
+		reconstructMissionModelUsingMissionSpecification(missionRuntimeURI);
 	}
 	
-	private void createDependencyModel(String missionRuntimeURI, String missionId, String missionSpecUri) 
-					throws InvalidMissionSpecificationException, URISyntaxException, NoRepositoryAvailableException {
+	private void reconstructMissionModelUsingMissionRuntime(String missionRuntimeURI) throws MissionMapModelException, URISyntaxException, NoRepositoryAvailableException, InvalidActivityException {
 		logger.debug(String.format("Creating dependency model [ user: %s | missionRuntimeUri %s ]", 
 				getUser(), 
 				getMissionRuntimeUri()));
 		
-		// Get the mission specification and create dependency model (which contains template URIs)
+		// Get mission map model URI from mission runtime
+		IELO missionMapModel = getMissionMapModel(missionRuntimeURI);
 		
-//		IELO missionSpec = this.rooloAccessor.getElo(missionSpecificationURI);
-//		logger.debug("missionSpecURI: " + missionSpec.getUri());
-
-		Document doc = readMissionSpecification();
+		// MissionAnchorID -> MissionAnchorModel
+		Map<String, BasicMissionAnchorModel> anchorMap = EloParser.parseMissionMapModel(missionMapModel.getContent());
 		
-		// MissionID -> MissionModel
-		Map<String, BasicMissionAnchorModel> anchorMap = MissionSpecificationParser.parse(doc);
-		
-		// EloUri -> Activity
+		// MissionAnchorID -> Activity
 		Map<String, Activity> activityMap = new HashMap<String, Activity>();
 		
-		// create activities for all basic mission anchor models
-		for(String anchorId : anchorMap.keySet()) {
-			BasicMissionAnchorModel bmaModel = anchorMap.get(anchorId);
-			Activity activity = new Activity(bmaModel.getId(), bmaModel.getUri());
-			activityMap.put(bmaModel.getId(), activity);
+		// create the activities of this mission
+		for(BasicMissionAnchorModel anchorModel : anchorMap.values()) {
+			String eloUri = anchorModel.getUri();
+			String anchorId = anchorModel.getId();
+			
+			Activity activity = new Activity(anchorId);
+			activity.setEloUri(eloUri);
+			addActivity(activity);
+			activityMap.put(anchorId, activity);
 		}
 		
-		// now create the dependencies between the activities
+		// now add the dependencies for each activity
 		for(String anchorId : anchorMap.keySet()) {
-			BasicMissionAnchorModel bmaModel = anchorMap.get(anchorId);
 			Activity dependent = activityMap.get(anchorId);
-			for(String id : bmaModel.getDependingOnMissionIds()) {
-				Activity depending = activityMap.get(id);
-				addDependency(dependent, depending);
+			for(String dependingOnId : anchorMap.get(anchorId).getDependingOnMissionIds()) {
+				Activity dependsOn = activityMap.get(dependingOnId);
+				addDependency(dependent, dependsOn);
 			}
 		}
+	}
 
-		// dependency model has just template URIs, so we'll add the concrete ELO URIs
-		List<String> eloUris = this.rooloAccessor.getEloUrisForMissionRuntime(missionId, getUser());
+	private void reconstructMissionModelUsingMissionSpecification(String missionRuntimeURI) throws MissionMapModelException, URISyntaxException, NoRepositoryAvailableException, NoMetadataTypeManagerAvailableException, InvalidActivityException {
+		logger.debug(String.format("Creating dependency model [ user: %s | missionRuntimeUri %s ]", 
+				getUser(), 
+				missionRuntimeURI));
+		
+		// 1. option: Get missionID and specification from missionRuntime metadata
+		String missionId = readMetadataValue(missionRuntimeURI, CoreRooloMetadataKeyIds.MISSION_ID);
+		String missionSpecificationUri = readMetadataValue(missionRuntimeURI, CoreRooloMetadataKeyIds.MISSION_RUNNING);
+		
+		// 2. option: Get missionId and mission specification from session space
+//		String missionId = this.session.getMissionId(missionRuntimeURI);
+//		String missionSpecificationURI = this.session.getMissionSpecification(missionRuntimeURI);
+
+
+		// Get mission map model URI from mission specification
+		IELO missionMapModel = getMissionMapModel(missionSpecificationUri);
+		
+		Map<String, BasicMissionAnchorModel> anchorMap = EloParser.parseMissionMapModel(missionMapModel.getContent());
+		
+		// template URI -> Activity
+		Map<String, Activity> templateActivityMap = new HashMap<String, Activity>();
+		
+		// create the activities of this mission
+		for(BasicMissionAnchorModel anchorModel : anchorMap.values()) {
+			String templateUri = anchorModel.getUri();
+			String anchorId = anchorModel.getId();
+			
+			Activity activity = new Activity(anchorId);
+			activity.setTemplateUri(templateUri);
+			templateActivityMap.put(templateUri, activity);
+		}
+
+
+		// Now the activities are created, but has just template URIs set. 
+		// So we get all ELO URIs that belong to users current mission and retrieve their template URI.
+		// With that template URI, we get back the activity, set the ELO URI and add it to the model.
+		// You think this is weird? You are right!
+		RooloAccessor rooloAccessor = PedagogicalGuidanceAgent.getRooloAccessor();
+		List<String> eloUris = rooloAccessor.getEloUrisForMissionRuntime(missionId, getUser());
 		for(String eloUri : eloUris) {
-			String templateEloUri = getTemplateEloUri(this.rooloAccessor, eloUri);
-			Activity act = getActivityByTemplateUri(templateEloUri);
-			if(act != null) {
-				act.setEloUri(eloUri);
+			String templateUri = getTemplateEloUri(eloUri);
+			Activity activity = templateActivityMap.get(templateUri);
+			if(activity != null) {
+				activity.setEloUri(eloUri);
+				addActivity(activity);
+			} else {
+				logger.warn("Tried to add activity, but template URI is unknown. ELO URI: " + eloUri);
+			}
+		}
+		
+		// Activities are completed and added to the mission model. 
+		// Next step is to add the dependencies for each activity
+		for(String anchorId : anchorMap.keySet()) {
+			Activity dependent = templateActivityMap.get(anchorId);
+			for(String dependingOnId : anchorMap.get(anchorId).getDependingOnMissionIds()) {
+				Activity dependsOn = templateActivityMap.get(dependingOnId);
+				addDependency(dependent, dependsOn);
 			}
 		}
 	}
-	
-	private Document readMissionSpecification() throws InvalidMissionSpecificationException {
-		// TODO This is just for testing... don't blame me for that!
-		try {
-			return new SAXBuilder().build(MissionSpecificationParser.class.getResource("/pizzaMission.xml").toString());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			throw new InvalidMissionSpecificationException("Error while reading mission specification!");
-		}
-	}
-	
-	private String getTemplateEloUri(RooloAccessor rooloAccessor, String eloUri) throws URISyntaxException, NoRepositoryAvailableException {
-		IMetadata metadata =  rooloAccessor.getMetadata(eloUri);
 
-		// Search for the IS_FORK_OF metadata key
-		IMetadataValueContainer valueContainer = null;
-		for(IMetadataKey key : metadata.getAllMetadataKeys()){
-			if(key.getId().equals(CoreRooloMetadataKeyIds.IS_FORK_OF.getId())) {
-				valueContainer = metadata.getMetadataValueContainer(key);
-				break;
-			}
+	private IELO getMissionMapModel(String missionSpecOrRuntimeUri) throws MissionMapModelException, URISyntaxException, NoRepositoryAvailableException {
+		RooloAccessor rooloAccessor = PedagogicalGuidanceAgent.getRooloAccessor();
+		IELO missionSpecification = rooloAccessor.getElo(missionSpecOrRuntimeUri);
+		String missionMapModelUri = EloParser.getMissionMapModelUriFromMissionRuntimeContent(missionSpecification.getContent());
+		if(missionMapModelUri == null) {
+			throw new MissionMapModelException("Could not get mission map model ELO URI from ELO content");
 		}
-		if(valueContainer != null) {
-			return getTemplateEloUri(rooloAccessor, valueContainer.getValue().toString());
-		} 
+		return rooloAccessor.getElo(missionMapModelUri);
+	}
+	
+	private String readMetadataValue(String missionRuntimeURI, CoreRooloMetadataKeyIds metadataKey) throws URISyntaxException, NoRepositoryAvailableException, NoMetadataTypeManagerAvailableException {
+		RooloAccessor rooloAccessor = PedagogicalGuidanceAgent.getRooloAccessor();
+		MetadataAccessor metadataAccessor = PedagogicalGuidanceAgent.getMetadataAccessor();
+		IMetadata missionRuntimeMetadata = rooloAccessor.getMetadata(missionRuntimeURI);
+		IMetadataValueContainer valueContainer = metadataAccessor.readMetadataValue(missionRuntimeMetadata, metadataKey.getId());
+		if(valueContainer == null) {
+			throw new MetaDataException(String.format(
+					"MetadataValueContainer does not contain key '%s'", metadataKey.getId()));
+		}
+		return valueContainer.getValue().toString();
+	}
+	
+	private String getTemplateEloUri(String eloUri) throws URISyntaxException, NoRepositoryAvailableException, NoMetadataTypeManagerAvailableException {
+		RooloAccessor rooloAccessor = PedagogicalGuidanceAgent.getRooloAccessor();
+		MetadataAccessor metadataAccessor = PedagogicalGuidanceAgent.getMetadataAccessor();
+
+		IMetadata metadata =  rooloAccessor.getMetadata(eloUri);
+		IMetadataValueContainer forkOfContainer = metadataAccessor.readMetadataValue(metadata, CoreRooloMetadataKeyIds.IS_FORK_OF.getId());
+		if(forkOfContainer != null) {
+			return getTemplateEloUri(forkOfContainer.getValue().toString());
+		}
+		// No fork, so this is the template
 		return eloUri;
 	}
 }

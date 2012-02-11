@@ -13,10 +13,8 @@ public class UserModelDictionary {
 	private final Map<String, UserModel> userModelMap = new HashMap<String, UserModel>();
 	private final ReentrantReadWriteLock rwLock = new ReentrantReadWriteLock();
 	private final Session session;
-	private final RooloAccessor rooloAccessor;
 
-	public UserModelDictionary(RooloAccessor rooloAccessor, Session session) {
-		this.rooloAccessor = rooloAccessor;
+	public UserModelDictionary(Session session) {
 		this.session = session;
 	}
 	
@@ -48,7 +46,7 @@ public class UserModelDictionary {
 			try {
 				UserModel userModel = this.userModelMap.get(user);
 				if(userModel == null) {
-					userModel = new UserModel(this.rooloAccessor, this.session, user);
+					userModel = new UserModel(this.session, user);
 					this.userModelMap.put(user, userModel);
 				}
 				return userModel;
