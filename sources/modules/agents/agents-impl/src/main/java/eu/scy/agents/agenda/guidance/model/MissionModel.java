@@ -41,7 +41,6 @@ public class MissionModel {
 	private static final Logger logger = Logger.getLogger(MissionModel.class.getName());
 	
 	private final Map<String, Activity> userElo2Activity = new HashMap<String, Activity>();
-	private final Map<String, Activity> template2Activity = new HashMap<String, Activity>();
 	private final Set<Dependency> dependencies = new HashSet<Dependency>();
 	private final Session session;
 	
@@ -91,11 +90,6 @@ public class MissionModel {
 			throw new InvalidActivityException();
 		}
 		this.userElo2Activity.put(act.getEloUri(), act);
-		
-		if(act.getTemplateUri() != null) {
-			this.template2Activity.put(act.getTemplateUri(), act);
-		}
-		// we need to get informed if Activity's elo uri has been set
 	}
 	
 	private void addDependency(Activity dependent, Activity dependsOn) {
