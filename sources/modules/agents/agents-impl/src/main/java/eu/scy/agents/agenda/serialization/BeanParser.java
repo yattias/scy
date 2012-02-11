@@ -1,6 +1,5 @@
 package eu.scy.agents.agenda.serialization;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +10,7 @@ import org.jdom.Element;
 import eu.scy.agents.agenda.exception.InvalidMissionSpecificationException;
 
 
-public class MissionSpecificationParser {
+public class BeanParser {
 
 	private static final String ELEMENT_BEAN = "bean";
 	private static final String ATTRIBUTE_BEAN_NAME = "name";
@@ -28,22 +27,25 @@ public class MissionSpecificationParser {
 	private static final String ATTRIBUTE_DEPENDING_ON_MISSION = "dependingOnMissionAnchorIds";
 	private static final String ELEMENT_VALUE = "value";
 	
+	private BeanParser() {
+	}
+	
 	/**
-	 * Parses the XML document and creates a map with BasicMissionAnchor ID as key 
-	 * and BasicMissionAnchor ID as value.
+	 * Parses the mission model represented by a Spring Bean XML document and creates a map 
+	 * with BasicMissionAnchor ID as key and BasicMissionAnchor Model as value.
 	 *
 	 * @param doc the mission specification as xml doc
 	 * @return the map
 	 * @throws InvalidMissionSpecificationException mission specification file was not valid
 	 */
 	@SuppressWarnings("unchecked")
-	public static Map<String, BasicMissionAnchorModel> parse(Document doc) throws InvalidMissionSpecificationException {
+	public static Map<String, BasicMissionAnchorModel> parseMissionModelFromMissionSpecificationBean(Document doc) throws InvalidMissionSpecificationException {
 		Element root = doc.getRootElement();
 		if(root == null) {
 			throw new InvalidMissionSpecificationException("XML Document has no root!");
 		}
 		
-		Element missionConfigInputBean = getSingleElement(
+		Element missionConfigInputBean = ParserUtils.getFirstElement(
 				root, 
 				ELEMENT_BEAN, 
 				ATTRIBUTE_BEAN_NAME, 
@@ -52,7 +54,7 @@ public class MissionSpecificationParser {
 			throw new InvalidMissionSpecificationException("Top level bean element is missing!");
 		}
 		
-		Element basicMissionAnchorProperty = getSingleElement(
+		Element basicMissionAnchorProperty = ParserUtils.getFirstElement(
 				missionConfigInputBean, 
 				ELEMENT_PROPERTY, 
 				ATTRIBUTE_PROPERTY_NAME, 
@@ -61,12 +63,12 @@ public class MissionSpecificationParser {
 			throw new InvalidMissionSpecificationException("Property element with name 'basicMissionAnchor' is missing!");
 		}
 		
-		Element listElement = getFirstElement(basicMissionAnchorProperty, ELEMENT_LIST); 
+		Element listElement = ParserUtils.getFirstElement(basicMissionAnchorProperty, ELEMENT_LIST); 
 		if(listElement == null) {
 			throw new InvalidMissionSpecificationException("List element is missing!");
 		}
 		
-		List<Element> basicMissionAnchorList = getElements(listElement, ELEMENT_BEAN, ATTRIBUTE_CLASS, ATTRIBUTE_CLASS_BMA);
+		List<Element> basicMissionAnchorList = ParserUtils.getElements(listElement, ELEMENT_BEAN, ATTRIBUTE_CLASS, ATTRIBUTE_CLASS_BMA);
 
 		Map<String, BasicMissionAnchorModel> anchorMap = new HashMap<String, BasicMissionAnchorModel>(); 
 		for(Element anchorBean : basicMissionAnchorList) {
@@ -80,14 +82,14 @@ public class MissionSpecificationParser {
 					} else if(prop.getAttributeValue(ATTRIBUTE_PROPERTY_NAME).equals(ATTRIBUTE_NAME_URI)) {
 						bma.setUri(prop.getAttributeValue(ATTRIBUTE_VALUE));
 					} else if(prop.getAttributeValue(ATTRIBUTE_PROPERTY_NAME).equals(ATTRIBUTE_DEPENDING_ON_MISSION)) {
-						Element list = getFirstElement(prop, ELEMENT_LIST);
+						Element list = ParserUtils.getFirstElement(prop, ELEMENT_LIST);
 						if(list == null) {
 							continue;
 						}
-						List<Element> missionIds = (List<Element>)list.getChildren();
-						for(Element missionId : missionIds) {
-							if(missionId.getName().equals(ELEMENT_VALUE)) {
-								bma.getDependingOnMissionIds().add(missionId.getText());
+						List<Element> depAnchorIds = (List<Element>)list.getChildren();
+						for(Element depAnchorId : depAnchorIds) {
+							if(depAnchorId.getName().equals(ELEMENT_VALUE)) {
+								bma.getDependingOnMissionIds().add(depAnchorId.getText());
 							}
 						}
 					}
@@ -100,54 +102,4 @@ public class MissionSpecificationParser {
 		return anchorMap;
 	}
 	
-	@SuppressWarnings("unchecked")
-	private static Element getFirstElement(Element root, String elementName) {
-		List<Element> children = (List<Element>)root.getChildren();
-		for(Element child : children) {
-			if(child.getName().equals(elementName)) {
-				return child;
-			}
-		}
-		return null;
-	}
-	
-	@SuppressWarnings("unchecked")
-	private static Element getSingleElement(Element root, String elementName, String attributeKey, String attributeValue) {
-		List<Element> children = (List<Element>)root.getChildren();
-		for(Element child : children) {
-			String value = child.getAttributeValue(attributeKey);
-			if(value != null && value.equals(attributeValue)) {
-				return child;
-			}
-		}
-		return null;
-	}
-	
-	@SuppressWarnings("unchecked")
-	private static List<Element> getElements(Element root, String elementName, String attributeKey, String attributeValue) {
-		List<Element> result = new ArrayList<Element>();
-		List<Element> properties = (List<Element>)root.getChildren();
-		for(Element property : properties) {
-			if(property.getName().equals(elementName)) {
-				String value = property.getAttributeValue(attributeKey);
-				if(value != null && value.equals(attributeValue)) {
-					result.add(property);
-				}
-			}
-		}
-		return result;
-	}
-	
-//	public static void main(String[] args) {
-//		try {
-//			URL resource = MissionSpecificationParser.class.getResource("/pizzaMission.xml");
-//			Document doc = new SAXBuilder().build(resource.toString());
-//			Map<String, BasicMissionAnchorModel> anchorMap = MissionSpecificationParser.parse(doc);
-//			for(String id : anchorMap.keySet()) {
-//				System.out.println(anchorMap.get(id).toString());
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
 }

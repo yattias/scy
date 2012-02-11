@@ -3,20 +3,26 @@ package eu.scy.agents.agenda.guidance.model;
 public class Dependency {
 
 	private final Activity dependent;
-	private final Activity depending;
+	private final Activity dependsOn;
 	
 	
-	public Dependency(Activity dependent, Activity depending) {
+	public Dependency(Activity dependent, Activity dependsOn) {
+		if(dependent == null) {
+			throw new IllegalArgumentException("dependent was null");
+		}
+		if(dependsOn == null) {
+			throw new IllegalArgumentException("dependsOn was null");
+		}
 		this.dependent = dependent;
-		this.depending = depending;
+		this.dependsOn = dependsOn;
 	}
 
 	public Activity getDependent() {
 		return this.dependent;
 	}
 
-	public Activity getDepending() {
-		return this.depending;
+	public Activity getDependsOn() {
+		return this.dependsOn;
 	}
 	
 	@Override
@@ -28,7 +34,7 @@ public class Dependency {
 			return true;
 		}
 		Dependency thatDep = (Dependency)that;
-		return (this.dependent.equals(thatDep.getDependent()) && this.depending.equals(thatDep.getDepending()));
+		return (this.dependent.equals(thatDep.getDependent()) && this.dependsOn.equals(thatDep.getDependsOn()));
 	}
 	
 }

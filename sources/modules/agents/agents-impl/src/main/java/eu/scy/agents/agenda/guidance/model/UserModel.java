@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import eu.scy.agents.agenda.guidance.RooloAccessor;
 import eu.scy.agents.session.Session;
 
 public class UserModel {
@@ -14,10 +13,8 @@ public class UserModel {
 	private final Map<String, MissionModel> missionMap;
 	private final ReentrantReadWriteLock rwLock = new ReentrantReadWriteLock();
 	private final Session session;
-	private final RooloAccessor rooloAccessor;
 	
-	public UserModel(RooloAccessor rooloAccessor, Session session, String name) {
-		this.rooloAccessor = rooloAccessor;
+	public UserModel(Session session, String name) {
 		this.session = session;
 		this.userName = name;
 		this.missionMap = new HashMap<String, MissionModel>();
@@ -57,7 +54,7 @@ public class UserModel {
 					if(!missionRuntimeUri.startsWith(MISSION_PREFIX)) {
 						throw new IllegalArgumentException("Could not create mission model, MissionRuntimeUri was invalid: " + missionRuntimeUri);
 					}
-					missionModel = new MissionModel(this.rooloAccessor ,this.session, missionRuntimeUri, this.userName);
+					missionModel = new MissionModel(this.session, missionRuntimeUri, this.userName);
 					this.missionMap.put(missionRuntimeUri, missionModel);
 				}
 				return missionModel;

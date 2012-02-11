@@ -11,4 +11,5 @@ public class InvalidMissionSpecificationException extends Exception {
 	public InvalidMissionSpecificationException(String s) {
 		super(s);
 	}
+
 }
