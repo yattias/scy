@@ -80,6 +80,15 @@ public class RooloAccessor {
     	logger.debug(String.format("Retrieving ELO [ ELO Uri: %s ]", eloUri));
     	return repository.retrieveELO(eloURI);
     }
+    
+    public IELO getEloFirstVersion(String eloUri) throws URISyntaxException, NoRepositoryAvailableException {
+    	if (repository == null) {
+    		throw new NoRepositoryAvailableException("Could not retrieve ELO because no repository available");
+    	}
+    	URI eloURI = new URI(eloUri);
+    	logger.debug(String.format("Retrieving ELO [ ELO Uri: %s ]", eloUri));
+    	return repository.retrieveELOFirstVersion(eloURI);
+    }
 
 //    public void setTypeManager(IMetadataTypeManager typeManager) {
 //    	this.typeManager = typeManager;
