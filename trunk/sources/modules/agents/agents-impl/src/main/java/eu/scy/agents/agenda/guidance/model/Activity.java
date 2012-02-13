@@ -5,13 +5,14 @@ public class Activity {
 	public enum ActivityState {
 		ENABLED,
 		MODIFIED,
-		FINISHED;
+		FINISHED,
+		NEEDTOCHECK;
 	}
 	
 	private ActivityState state;
 	private String name;
 	private String eloUri;
-	private String templateUri;
+	private String firstVersionEloUri;
 	private long latestModificationTime;
 
 	
@@ -49,12 +50,12 @@ public class Activity {
 		this.eloUri = eloUri;
 	}
 
-	public String getTemplateUri() {
-		return this.templateUri;
+	public String getFirstVersionEloUri() {
+		return this.firstVersionEloUri;
 	}
 
-	public void setTemplateUri(String templateUri) {
-		this.templateUri = templateUri;
+	public void setFirstVersionEloUri(String firstVersionEloUri) {
+		this.firstVersionEloUri = firstVersionEloUri;
 	}
 
 	public long getLatestModificationTime() {

@@ -38,6 +38,9 @@ public class UserModelDictionary {
 	}
 	
 	public UserModel getOrCreateUserModel(String user) {
+		if(user == null) {
+			throw new IllegalArgumentException("user was null");
+		}
 		// ReentrantReadWriteLock usage taken from JavaDoc example
 		this.rwLock.readLock().lock();
 		if(!this.userModelMap.containsKey(user)) {
@@ -51,7 +54,7 @@ public class UserModelDictionary {
 				}
 				return userModel;
 			} finally {
-				this.rwLock.writeLock().lock();
+				this.rwLock.writeLock().unlock();
 			}
 		} else {
 			try {
