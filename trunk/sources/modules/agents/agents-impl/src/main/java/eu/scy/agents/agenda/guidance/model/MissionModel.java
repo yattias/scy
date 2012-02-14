@@ -17,11 +17,8 @@ import javax.activity.InvalidActivityException;
 
 import org.apache.log4j.Logger;
 
-import roolo.elo.api.IELO;
 import eu.scy.agents.agenda.exception.MissionMapModelException;
 import eu.scy.agents.agenda.exception.NoRepositoryAvailableException;
-import eu.scy.agents.agenda.guidance.EloUriCache;
-import eu.scy.agents.agenda.guidance.PedagogicalGuidanceAgent;
 import eu.scy.agents.agenda.guidance.event.ActivityModificationEvent;
 import eu.scy.agents.agenda.guidance.event.ActivityModificationListener;
 import eu.scy.agents.agenda.guidance.event.HistoryRequestEvent;
@@ -29,7 +26,6 @@ import eu.scy.agents.agenda.guidance.event.HistoryRequestListener;
 import eu.scy.agents.agenda.guidance.model.Activity.ActivityState;
 import eu.scy.agents.agenda.serialization.UserAction;
 import eu.scy.agents.agenda.serialization.UserAction.Type;
-import eu.scy.agents.session.Session;
 import eu.scy.common.mission.Las;
 import eu.scy.common.mission.MissionAnchor;
 import eu.scy.common.mission.MissionModelElo;
@@ -47,24 +43,24 @@ public class MissionModel {
 	
 	private static final Logger logger = Logger.getLogger(MissionModel.class.getName());
 	
-	private RooloServices rooloServices = PedagogicalGuidanceAgent.getRooloServices();
-	
-	// ELO URI (Version #0) -> Activity
-	private final Map<String, Activity> eloUriV0ToActivityMap = new HashMap<String, Activity>();
-	private final List<Dependency> dependencies = new ArrayList<Dependency>();
 	private final List<ActivityModificationListener> modificationListeners = new ArrayList<ActivityModificationListener>();
-	private final EloUriCache cache = new EloUriCache();
-	private final Session session;
+
+	// MissionID -> Activity
+	private final Map<String, Activity> missionIdToActivityMap = new HashMap<String, Activity>();
 	
+	// ELO URI -> MissionID
+	private final Map<String, String> eloUriV0ToMissionIdyMap = new HashMap<String, String>();
+
 	private final String missionRuntimeUri;
 	private final String user;
 	private volatile ModelState state;
 	private HistoryRequestListener historyListener;
 	private MissionModelBuilder mmb;
 	
+	private final RooloServices rooloServices;
 	
-	public MissionModel(Session session, String missionRuntimeUri, String userName) {
-		this.session = session;
+	public MissionModel(RooloServices rooloServices, String missionRuntimeUri, String userName) {
+		this.rooloServices = rooloServices;
 		this.missionRuntimeUri = missionRuntimeUri;
 		this.user = userName;
 		this.state = ModelState.Enabled;
@@ -94,39 +90,59 @@ public class MissionModel {
 	 * @throws NoRepositoryAvailableException the no repository available exception
 	 */
 	private Activity getActivityByEloUri(String eloUri) throws NoRepositoryAvailableException, URISyntaxException {
-		String firstVersionEloUri = this.cache.getFirstVersion(eloUri);
-		if(this.eloUriV0ToActivityMap.containsKey(firstVersionEloUri)) {
-			return this.eloUriV0ToActivityMap.get(firstVersionEloUri);
-		} else {
-			IELO firstVersionElo = PedagogicalGuidanceAgent.getRooloAccessor().getEloFirstVersion(eloUri);
-			firstVersionEloUri = firstVersionElo.getUri().toString();
+		String tempEloUri = eloUri;
+		while(true) {
+			// tempEloUri contains current version of ELO (Version #x)
 			
-			// TODO does not work atm
-//			while(this.eloUriV0ToActivityMap.containsKey(firstVersionEloUri)) {
-//				ScyElo scyElo = ScyElo.loadElo(URI.create(eloUri), PedagogicalGuidanceAgent.getRooloServices());
-//				firstVersionEloUri = scyElo.getIsForkedOfEloUri().toString();
-//				
-//			}
-//			while (! contains fveu) 
-//				firstVersionEloUri = loadfirstversionfromforkbase(firsv);
-//				if template break
-//			
-			if(this.eloUriV0ToActivityMap.containsKey(firstVersionEloUri)) {
-				this.cache.addEntry(firstVersionEloUri, eloUri);
-				return this.eloUriV0ToActivityMap.get(firstVersionEloUri);
+			if(this.eloUriV0ToMissionIdyMap.containsKey(tempEloUri)) {
+				// We already know the uri
+				String missionId = this.eloUriV0ToMissionIdyMap.get(tempEloUri);
+				return this.missionIdToActivityMap.get(missionId);
+			} else {
+				// We don't know, so get first version of ELO URI (Version #0)
+				logger.debug("Getting first version of ELO with URI: " + tempEloUri);
+				ScyElo scyElo = ScyElo.loadElo(URI.create(tempEloUri), this.rooloServices);
+
+				if(scyElo.getTemplate()) {
+					// template... stop here
+					logger.warn(String.format("Could not find activity for ELO with URI: %s (Template reached found)", eloUri));
+					return null;
+				}
+				URI uriFirstVersion = scyElo.getUriFirstVersion();
+				if(uriFirstVersion == null) {
+					// no template and this is the fist version... stop here
+					logger.warn(String.format("Could not find activity for ELO with URI: %s (ELO has no first version)", eloUri));
+					return null;
+				}
+				
+				// now working with the first version of ELO URI
+				tempEloUri = uriFirstVersion.toString();
+				scyElo = ScyElo.loadElo(URI.create(tempEloUri), this.rooloServices);
+				if(this.eloUriV0ToMissionIdyMap.containsKey(tempEloUri)) {
+					// We know the version#0 uri, so we'll save the version#x uri and return the activity
+					String missionId = this.eloUriV0ToMissionIdyMap.get(tempEloUri);
+					this.eloUriV0ToMissionIdyMap.put(eloUri, missionId);
+					Activity activity = this.missionIdToActivityMap.get(missionId);
+					activity.setCurrentEloUri(eloUri);
+					return activity;
+				} else {
+					// first version is unknown - maybe this ELO is a fork
+					URI forkedOfEloUri = scyElo.getIsForkedOfEloUri();
+					if(forkedOfEloUri != null) {
+						// try again with forkedOf ELO
+						logger.debug(String.format("Lookup forked version of ELO ( %s -> %s)", tempEloUri, forkedOfEloUri.toString()));
+						tempEloUri = forkedOfEloUri.toString();
+					} else {
+						// No first version and no fork... what the hell is going on?
+						logger.error(String.format(
+								"Could not find activity for ELO with URI: %s (Ended with elo with no first version and no forkOf: %s)",
+								eloUri,
+								tempEloUri));
+						return null;
+					}
+				}
 			}
-			throw new RuntimeException("No first version ELO found for uri: " + eloUri);
 		}
-	}
-	
-	private List<Activity> getDependingActivities(Activity activity) {
-		ArrayList<Activity> list = new ArrayList<Activity>(); 
-		for(Dependency dep : this.dependencies) {
-			if(dep.getDependent().equals(activity)) {
-				list.add(dep.getDependsOn());
-			}
-		}
-		return list;
 	}
 	
 	public void processTuple(Tuple tuple) {
@@ -161,20 +177,24 @@ public class MissionModel {
 		long timestamp = Long.valueOf(tuple.getField(4).getValue().toString());
 		// change activity
 		Activity activity = getActivityByEloUri(eloUri);
+		if(activity == null) {
+			// already logged
+			return;
+		}
 		if(timestamp > activity.getLatestModificationTime()) {
 			try {
 				Activity.ActivityState actState = Activity.ActivityState.valueOf(type);
 				activity.setLatestModificationTime(timestamp);
-				logger.debug(String.format("Set state %s for activity %s (user: %s | mission: %s).", 
-						type,
-						eloUri, 
-						getUser(), 
-						getMissionRuntimeUri()));
 				
 				if(actState != activity.getState()) {
+					logger.debug(String.format("Set state %s for activity %s (user: %s | mission: %s).", 
+							type,
+							eloUri, 
+							getUser(), 
+							getMissionRuntimeUri()));
 					
 					if(actState == ActivityState.MODIFIED && activity.getState() == ActivityState.FINISHED) {
-						List<Activity> dependingActivities = getDependingActivities(activity);
+						List<Activity> dependingActivities = activity.getDependencies();
 						for(Activity act : dependingActivities) {
 							ActivityModificationEvent event = new ActivityModificationEvent(this, act);
 							for(ActivityModificationListener listener : this.modificationListeners) {
@@ -212,38 +232,34 @@ public class MissionModel {
 //		// MissionAnchorID -> MissionAnchorModel
 		Map<String, MissionAnchor> missionIdToMissionAnchorModelMap = new HashMap<String, MissionAnchor>();
 		
-		// MissionAnchorID -> Activity
-		Map<String, Activity> missionIdToActivityMap = new HashMap<String, Activity>();
-		
 		if (missionMapModelEloUri != null) {
 			MissionModelElo missionModelElo = MissionModelElo.loadElo(missionMapModelEloUri, rooloServices);
 			List<Las> lasses = missionModelElo.getTypedContent().getLasses();
 			for (Las las : lasses) {
-				MissionAnchor missionAnchor = las.getMissionAnchor();
-				String anchorId = missionAnchor.getId();
-				String eloUri = missionAnchor.getEloUri().toString();
-				missionIdToMissionAnchorModelMap.put(anchorId, missionAnchor);
+				MissionAnchor mainAnchor = las.getMissionAnchor();
+				String mainAnchorId = mainAnchor.getId();
+				String mainAnchorEloUri = mainAnchor.getEloUri().toString();
+				missionIdToMissionAnchorModelMap.put(mainAnchorId, mainAnchor);
 				
-				Activity activity = new Activity(anchorId);
-				activity.setFirstVersionEloUri(eloUri);
-				this.eloUriV0ToActivityMap.put(eloUri, activity);
-				missionIdToActivityMap.put(anchorId, activity);
+				Activity mainActivity = new Activity(mainAnchorId, mainAnchorEloUri);
+				this.eloUriV0ToMissionIdyMap.put(mainAnchorEloUri, mainAnchorId);
+				this.missionIdToActivityMap.put(mainAnchorId, mainActivity);
 
 				List<MissionAnchor> intermediateAnchors = las.getIntermediateAnchors();
 				for (MissionAnchor intermediateAnchor : intermediateAnchors) {
-					String anchorId2 = intermediateAnchor.getId();
-					String eloUri2 = intermediateAnchor.getEloUri().toString();
-					missionIdToMissionAnchorModelMap.put(anchorId2, intermediateAnchor);
+					String intermediateAnchorId = intermediateAnchor.getId();
+					String intermediateAnchorEloUri = intermediateAnchor.getEloUri().toString();
+					missionIdToMissionAnchorModelMap.put(intermediateAnchorId, intermediateAnchor);
 					
-					Activity activity2 = new Activity(anchorId2);
-					activity2.setFirstVersionEloUri(eloUri2);
-					this.eloUriV0ToActivityMap.put(eloUri2, activity2);
-					missionIdToActivityMap.put(anchorId2, activity2);
+					Activity intermediateActivity = new Activity(intermediateAnchorId, intermediateAnchorEloUri);
+					this.eloUriV0ToMissionIdyMap.put(intermediateAnchorEloUri, intermediateAnchorId);
+					this.missionIdToActivityMap.put(intermediateAnchorId, intermediateActivity);
 				}
 			}
 		}
 		
 		// now add the dependencies for each activity
+		int dependencyCount = 0; 
 		for(String anchorId : missionIdToMissionAnchorModelMap.keySet()) {
 			Activity dependent = missionIdToActivityMap.get(anchorId);
 			for(String dependingOnId : missionIdToMissionAnchorModelMap.get(anchorId).getDependingOnMissionAnchorIds()) {
@@ -252,43 +268,40 @@ public class MissionModel {
 					logger.warn("Could not find Activity for: " + dependingOnId);
 					continue;
 				}
-				Dependency dep = new Dependency(dependent, dependingOn);
-				this.dependencies.add(dep);
+				dependent.getDependencies().add(dependingOn);
+				dependencyCount++;
 			}
 		}
 		logger.debug(String.format(
 				"MissionModel for user %s successfully created. Activities: %s, Dependencies: %s", 
 				this.user,
 				missionIdToActivityMap.size(),
-				dependencies.size()));
+				dependencyCount));
 	}
 	
-	private void requestHistory(long timestamp) {
+	private void requestHistory(long timestamp) throws TupleSpaceException, NoRepositoryAvailableException {
 		if(this.historyListener == null) {
 			return;
 		}
 		
-		HistoryRequestEvent event = new HistoryRequestEvent(this, this.eloUriV0ToActivityMap.values(), timestamp);
-		try {
-			List<UserAction> history = this.historyListener.requestHistory(event);
-			for(UserAction userAction : history) {
-				try {
-					Activity activity = getActivityByEloUri(userAction.getEloUri());
-					activity.setLatestModificationTime(userAction.getTimestamp());
-					if(userAction.getActiontype() == Type.MODIFICATION) {
-						activity.setState(ActivityState.MODIFIED);
-					} else {
-						activity.setState(ActivityState.FINISHED);
-					}
-				} catch (URISyntaxException e1) {
-					logger.warn("Could not process tuple, because no first version elo was found for ELO URI: " + userAction.getEloUri());
-				} catch (NoRepositoryAvailableException e1) {
-					logger.warn("Could not process tuple, because repository was not available");
+		HistoryRequestEvent event = new HistoryRequestEvent(this, this.missionIdToActivityMap.values(), timestamp);
+		List<UserAction> history = this.historyListener.requestHistory(event);
+		for(UserAction userAction : history) {
+			try {
+				Activity activity = getActivityByEloUri(userAction.getEloUri());
+				if(activity == null) {
+					logger.warn("Could not find activity for ELO with URI: " + userAction.getEloUri());
+					return;
 				}
+				activity.setLatestModificationTime(userAction.getTimestamp());
+				if(userAction.getActiontype() == Type.MODIFICATION) {
+					activity.setState(ActivityState.MODIFIED);
+				} else {
+					activity.setState(ActivityState.FINISHED);
+				}
+			} catch (URISyntaxException e1) {
+				logger.warn("Could not process tuple, because no first version elo was found for ELO URI: " + userAction.getEloUri());
 			}
-		} catch (TupleSpaceException e) {
-			// TODO handle error
-			e.printStackTrace();
 		}
 	}
 	
@@ -320,7 +333,6 @@ public class MissionModel {
 		@Override
 		public void run() {
 			try {
-				// 1. option: use missionRuntime content to get missionMapModelElo
 				buildMissionModel();
 				
 				// request history of this mission model
@@ -348,6 +360,8 @@ public class MissionModel {
 				logger.error("Could not create mission model, because reading of mission map model failed. " + e.getMessage(), e);
 //			} catch (ParseException e) {
 //				logger.error("Could not create mission model, because reading of mission map model failed. " + e.getMessage(), e);
+//			} catch (NoRepositoryAvailableException e1) {
+//				logger.warn("Could not process tuple, because repository was not available");
 			} catch (Exception e) {
 				logger.error("Could not create mission model! Reason: " + e.getMessage(), e);
 			}

@@ -41,9 +41,9 @@ public class ActivityFinishedEvaluationAgent extends AbstractActivityEvaluationA
 	}
 	
 	private IEvaluator createNotificationEvaluator() {
-		String toolName = "Notification";
+		String toolName = "scy-desktop";
 		List<String> actionTypes = new ArrayList<String>();
-		actionTypes.add("activity_finsihed");
+		actionTypes.add("elo_finished");
 		return new ActionTypeEvaluator(toolName, actionTypes);
 	}
 

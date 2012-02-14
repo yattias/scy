@@ -1,5 +1,8 @@
 package eu.scy.agents.agenda.guidance.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Activity {
 
 	public enum ActivityState {
@@ -11,18 +14,19 @@ public class Activity {
 	
 	private ActivityState state;
 	private String name;
-	private String eloUri;
 	private String firstVersionEloUri;
+	private String currentEloUri;
 	private long latestModificationTime;
-
+	private final List<Activity> dependencies = new ArrayList<Activity>();
 	
-	public Activity(String name) {
-		this(ActivityState.ENABLED, name, Long.MIN_VALUE);
+	public Activity(String id, String firstVersionEloUri) {
+		this(ActivityState.ENABLED, id, firstVersionEloUri, Long.MIN_VALUE);
 	}
 	
-	public Activity(ActivityState state, String name, long latestModification) {
+	public Activity(ActivityState state, String name, String firstVersionEloUri, long latestModification) {
 		setState(state);
-		setName(name);
+		this.name = name;
+		this.firstVersionEloUri = firstVersionEloUri;
 		setLatestModificationTime(latestModification);
 	}
 	
@@ -38,24 +42,8 @@ public class Activity {
 		return this.name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getEloUri() {
-		return this.eloUri;
-	}
-
-	public void setEloUri(String eloUri) {
-		this.eloUri = eloUri;
-	}
-
 	public String getFirstVersionEloUri() {
 		return this.firstVersionEloUri;
-	}
-
-	public void setFirstVersionEloUri(String firstVersionEloUri) {
-		this.firstVersionEloUri = firstVersionEloUri;
 	}
 
 	public long getLatestModificationTime() {
@@ -66,16 +54,29 @@ public class Activity {
 		this.latestModificationTime = latestModificationTime;
 	}
 	
-	@Override
-	public boolean equals(Object that) {
-	  if (that == null ) {
-		  return false; 
-	  }
-	  if (this == that) {
-		  return true;
-	  }
-	  // Two activities are considers equal, if both have the same ELO URI.
-	  return ((Activity)that).getEloUri().equals(this.getEloUri());
+	public String getCurrentEloUri() {
+		return this.currentEloUri;
 	}
+	
+	public void setCurrentEloUri(String currentEloUri) {
+		this.currentEloUri = currentEloUri;
+	}
+
+	public List<Activity> getDependencies() {
+		return this.dependencies;
+	}
+	
+	
+//	@Override
+//	public boolean equals(Object that) {
+//	  if (that == null ) {
+//		  return false; 
+//	  }
+//	  if (this == that) {
+//		  return true;
+//	  }
+//	  // Two activities are considers equal, if both have the same first version ELO URI.
+//	  return ((Activity)that).getFirstVersionEloUri().equals(this.getFirstVersionEloUri());
+//	}
 	
 }
