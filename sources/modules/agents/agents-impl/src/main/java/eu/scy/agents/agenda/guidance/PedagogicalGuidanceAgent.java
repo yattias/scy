@@ -29,10 +29,9 @@ import eu.scy.agents.agenda.guidance.model.UserModel;
 import eu.scy.agents.agenda.serialization.UserAction;
 import eu.scy.agents.agenda.serialization.UserAction.Type;
 import eu.scy.agents.api.AgentLifecycleException;
+import eu.scy.agents.conceptmap.model.EscapeUtils;
 import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.agents.session.Session;
-import eu.scy.common.scyelo.RooloServices;
 
 public class PedagogicalGuidanceAgent extends AbstractThreadedAgent implements IRepositoryAgent, ActivityModificationListener, HistoryRequestListener {
 
@@ -45,11 +44,9 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent implements I
 	private static final Tuple TEMPLATE_FOR_FINISHED_ACTIVITY = new Tuple(ActivityFinishedEvaluationAgent.TYPE_FINISHED, String.class, String.class, String.class, Long.class);
 	private static final Tuple TEMPLATE_FOR_USER_LOGIN = new Tuple("action", String.class, Long.class, "logged_in", String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class);
 	
-	private static final RooloAccessor rooloAccessor = new RooloAccessor();
-	private static final MetadataAccessor metadataAccessor = new MetadataAccessor();
-	private static AgentRooloServiceImpl rooloServices;
 
 	private final List<Integer> registeredCallbacks = new ArrayList<Integer>();
+	private AgentRooloServiceImpl rooloServices;
 	private UserModelDictionary userModelDict;
 	private MissionTupleConsumer missionTupleConsumer; 
 
@@ -60,15 +57,12 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent implements I
 	public PedagogicalGuidanceAgent(Map<String, Object> map) {
         super(PedagogicalGuidanceAgent.class.getName(), (String) map.get(AgentProtocol.PARAM_AGENT_ID), (String) map.get(AgentProtocol.TS_HOST), (Integer) map.get(AgentProtocol.TS_PORT));
         
-        this.rooloServices = new AgentRooloServiceImpl();
-        
         try {
         	this.actionSpace = new TupleSpace(new User(getSimpleName()), host, port, false, false, AgentProtocol.ACTION_SPACE_NAME);
 			this.commandSpace = new TupleSpace(new User(getSimpleName()), host, port, false, false, AgentProtocol.COMMAND_SPACE_NAME);
-			TupleSpace sessionSpace = new TupleSpace(new User(getSimpleName()), host, port, false, false, AgentProtocol.SESSION_SPACE_NAME);
 			
-			Session session = new Session(sessionSpace);
-			this.userModelDict = new UserModelDictionary(session);
+			this.rooloServices = new AgentRooloServiceImpl();
+			this.userModelDict = new UserModelDictionary(rooloServices);
 			
 			this.missionTupleConsumer = new MissionTupleConsumer(this.userModelDict);
 		} catch (TupleSpaceException e) {
@@ -194,26 +188,12 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent implements I
 
     @Override
     public void setRepository(IRepository rep) {
-        rooloAccessor.setRepository(rep);
         rooloServices.setRepository(rep);
     }
 
     @Override
     public void setMetadataTypeManager(IMetadataTypeManager manager) {
-    	metadataAccessor.setMetadataTypeManager(manager);
     	rooloServices.setMetadataTypeManager(manager);
-    }
-
-    public static RooloAccessor getRooloAccessor() {
-    	return rooloAccessor;
-    }
-
-    public static MetadataAccessor getMetadataAccessor() {
-    	return metadataAccessor;
-    }
-
-    public static RooloServices getRooloServices() {
-    	return rooloServices;
     }
 
 	@Override
@@ -227,7 +207,7 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent implements I
 		modificationTuple.add(missionModel.getUser());
 		modificationTuple.add(missionModel.getMissionRuntimeUri());
 		modificationTuple.add(activity.getLatestModificationTime());
-		modificationTuple.add(activity.getEloUri());
+		modificationTuple.add(activity.getCurrentEloUri());
 		
 		logger.debug(modificationTuple);
 		// TODO write tuple to tuple space
@@ -240,7 +220,11 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent implements I
 
 		Map<String, UserAction> modificationHistory = getHistory(event, ActivityModifiedEvaluationAgent.AGENT_NAME, ActivityModifiedEvaluationAgent.REQUEST_TYPE);
 		Map<String, UserAction> completionHistory = getHistory(event, ActivityFinishedEvaluationAgent.AGENT_NAME, ActivityFinishedEvaluationAgent.REQUEST_TYPE);
-		return mergeHistory(modificationHistory, completionHistory);
+		if(modificationHistory != null && completionHistory != null) {
+			return mergeHistory(modificationHistory, completionHistory);
+		} else {
+			return null;
+		}
 	}
 	
 	private List<UserAction> mergeHistory(Map<String, UserAction> modificationHistory, Map<String, UserAction> completionHistory) {
@@ -260,16 +244,14 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent implements I
 	private Map<String, UserAction> getHistory(HistoryRequestEvent event, String agentName, String requestType) throws TupleSpaceException {
 		MissionModel missionModel = (MissionModel) event.getSource();
 		
-		StringBuilder sb = new StringBuilder();
-		boolean start = true;
-		for(Activity act : event.getActivities()) {
-			if(start) {
-				start = false;
-			} else {
-				sb.append(",");
-			}
-			sb.append(act.getEloUri());
+		// FIXME problematic, because elo uris change... so activity evaluation agents won't find all corresponding tuples
+		String[] eloUris = new String[event.getActivities().size()];
+		int i = 0;
+		for (Activity activity : event.getActivities()) {
+			eloUris[i] = activity.getFirstVersionEloUri();
+			i++;
 		}
+		String escapedEloUris = EscapeUtils.escape(eloUris);
 		
 		VMID requestId = new VMID();
 		Tuple requestTuple = new Tuple(
@@ -279,13 +261,14 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent implements I
 				missionModel.getMissionRuntimeUri(), 
 				missionModel.getUser(),
 				event.getTimestamp(),
-				sb.toString());
+				escapedEloUris);
 		
 		Tuple responseSignature = new Tuple(REQUEST_HISTORY_RESPONSE, requestId, String.class);
 		this.commandSpace.write(requestTuple);
 		Tuple responseTuple = this.commandSpace.waitToTake(responseSignature, REQUEST_HISTORY_TIMEOUT);
 		if(responseTuple == null) {
-			// TODO handle agent down
+			logger.warn(String.format("Could not retrieve history from agent '%s', agent does not respond.", agentName));
+			return null;
 		}
 		String responseAsString = responseTuple.getField(2).getValue().toString();
 		return UserAction.deserializeUserActions(responseAsString);
