@@ -43,16 +43,13 @@ public class CompletingActionLogger implements IActionLogger {
     }
 
     private void autoComplete(IAction action) {
-        String mission = action.getContext(ContextConstants.mission);
-        // replace if mission is null or n/a
-        if (mission == null || mission.equalsIgnoreCase("n/a")) {
-			if (contextService.getMissionSpecificationURI() == null) {
-				action.addContext(ContextConstants.mission, "n/a");
-			} else {
-				action.addContext(ContextConstants.mission, contextService.getMissionSpecificationURI());
-			}
-        }
-        if (action.getContext(ContextConstants.session) == null && contextService.getSession() != null) {
+        // replace the mission uri with the correct value
+		if (contextService.getMissionSpecificationURI() == null) {
+			action.addContext(ContextConstants.mission, "n/a");
+		} else {
+			action.addContext(ContextConstants.mission, contextService.getMissionSpecificationURI());
+		}
+		if (action.getContext(ContextConstants.session) == null && contextService.getSession() != null) {
             action.addContext(ContextConstants.session, contextService.getSession());
         }
         String user = action.getUser();
