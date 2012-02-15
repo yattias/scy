@@ -284,6 +284,7 @@ public class MissionModel {
 			return;
 		}
 		
+		// FIXME problematic, because elo uris change... so activity evaluation agents won't find all corresponding tuples
 		HistoryRequestEvent event = new HistoryRequestEvent(this, this.missionIdToActivityMap.values(), timestamp);
 		List<UserAction> history = this.historyListener.requestHistory(event);
 		for(UserAction userAction : history) {
