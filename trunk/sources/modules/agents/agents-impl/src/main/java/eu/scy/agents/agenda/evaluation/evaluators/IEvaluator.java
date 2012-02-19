@@ -17,5 +17,5 @@ public interface IEvaluator {
 	 * @return
 	 */
 	public String getTool();
-	
+
 }

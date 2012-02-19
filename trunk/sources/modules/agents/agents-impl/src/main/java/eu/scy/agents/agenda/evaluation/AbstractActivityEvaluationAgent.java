@@ -2,7 +2,6 @@ package eu.scy.agents.agenda.evaluation;
 
 import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Callback;
-import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.User;
@@ -35,9 +34,9 @@ public abstract class AbstractActivityEvaluationAgent extends AbstractThreadedAg
 	
 	protected TupleSpace commandSpace;
 	
-	private final List<Integer> registeredCallbacks = new ArrayList<Integer>();
+	protected final List<Integer> registeredCallbacks = new ArrayList<Integer>();
 	
-	private final Map<String, IEvaluator> toolEvaluatorMap = new HashMap<String, IEvaluator>(); 
+	protected final Map<String, IEvaluator> toolEvaluatorMap = new HashMap<String, IEvaluator>(); 
 		
 	
 	protected AbstractActivityEvaluationAgent(String name, Map<String, Object> map) {
@@ -143,19 +142,12 @@ public abstract class AbstractActivityEvaluationAgent extends AbstractThreadedAg
         this.commandSpace.write(rebuildTuple);
 	}
 	
+	
 	/**
 	 * Registers callbacks for all initiated tools
 	 * @throws TupleSpaceException
 	 */
-	protected void registerCallbacks() throws TupleSpaceException {
-		for(String tool: this.toolEvaluatorMap.keySet()) {
-			Callback cb = new UserActionCallback();
-			Tuple actionSignature = new Tuple("action", String.class, Long.class, String.class, String.class, tool, Field.createWildCardField());
-			int id = this.actionSpace.eventRegister(Command.WRITE, actionSignature, cb, true);
-			this.registeredCallbacks.add(id);
-			logger.info("Registered user action callback for tool: " + tool);
-		}
-	}
+	protected abstract void registerCallbacks() throws TupleSpaceException;
 
 	protected void deregisterCallbacks() throws TupleSpaceException {
 		for(Integer i : this.registeredCallbacks) {
