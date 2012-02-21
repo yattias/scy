@@ -24,6 +24,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import roolo.api.IExtensionManager;
 import roolo.api.IRepository;
+import roolo.elo.api.IELO;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.utils.StringUtils;
@@ -542,6 +543,10 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
     @Override
     public void setMissionRuntimeURI(URI missionRuntimeURI) {
         logger.info("setMissionRuntimeURI: " + missionRuntimeURI);
+        IELO eloLastVersion = repository.retrieveELOLastVersion(missionRuntimeURI);
+        if (eloLastVersion != null) {
+            missionRuntimeURI = eloLastVersion.getUri();
+        }
         this.missionRuntimeURI = missionRuntimeURI;
         contextService.setMissionRuntimeURI(missionRuntimeURI.toString());
     }
