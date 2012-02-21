@@ -413,7 +413,6 @@ public class MissionModel {
 				this.userName,
 				missionIdToActivityMap.size(),
 				dependencyCount));
-		sendMessage("You have opened mission '" + this.missionTitle + "'", System.currentTimeMillis());
 		logger.debug(toString());
 	}
 	
