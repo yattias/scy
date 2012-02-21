@@ -45,10 +45,10 @@ public class MissionModel {
 	// ELO URI -> MissionID
 	private final Map<String, String> eloUriV0ToMissionIdyMap = new HashMap<String, String>();
 
-	private final String missionRuntimeUri;
-	private String missionTitle;
 	private final String userName;
 	private volatile ModelState state;
+	private String missionRuntimeUri;
+	private String missionTitle;
 	private MissionModelBuilder mmb;
 	
 	private final RooloServices rooloServices;
@@ -80,7 +80,7 @@ public class MissionModel {
 	}
 	
 	/**
-	 * Gets the activity by elo uri. Returns null if no first version ELO can be found for
+	 * Searchs the activity by elo uri. Returns null if no first version ELO can be found for
 	 * the given ELO URI.
 	 *
 	 * @param eloUri the elo uri
@@ -88,24 +88,24 @@ public class MissionModel {
 	 * @throws URISyntaxException the uRI syntax exception
 	 * @throws NoRepositoryAvailableException the no repository available exception
 	 */
-	private Activity getActivityByEloUri(String eloUri) throws NoRepositoryAvailableException, URISyntaxException {
+	private Activity searchActivityByEloUri(String eloUri) throws NoRepositoryAvailableException, URISyntaxException {
 		String tempEloUri = eloUri;
 		while(true) {
 			// tempEloUri contains current version of ELO (Version #x)
 			
 			if(this.eloUriV0ToMissionIdyMap.containsKey(tempEloUri)) {
-				// We already know the uri
+				// We already have the ELO URI cached
 				String missionId = this.eloUriV0ToMissionIdyMap.get(tempEloUri);
 				Activity activity = this.missionIdToActivityMap.get(missionId);
 				if(activity.getEloTitle() == null) {
-					// some ELOs seem to not increment their version number. In that case, we'll
-					// need to get the title here
+					// some ELOs do not increment their version number. So we have the ELO URI
+					// in our cache, but the activity has no ELO title set.
 					ScyElo scyElo = ScyElo.loadElo(URI.create(tempEloUri), this.rooloServices);
 					activity.setEloTitle(scyElo.getTitle());
 				}
 				return activity;
 			} else {
-				// We don't know, so get first version of ELO URI (Version #0)
+				// ELO URI not in cache, so get first version of ELO URI (Version #0)
 				logger.debug("Getting first version of ELO with URI: " + tempEloUri);
 				ScyElo scyElo = ScyElo.loadElo(URI.create(tempEloUri), this.rooloServices);
 
@@ -179,8 +179,8 @@ public class MissionModel {
 		String type = tuple.getField(0).getValue().toString().toUpperCase();
 		String eloUri = tuple.getField(3).getValue().toString();
 		long timestamp = Long.valueOf(tuple.getField(4).getValue().toString());
-		// change activity
-		Activity activity = getActivityByEloUri(eloUri);
+
+		Activity activity = searchActivityByEloUri(eloUri);
 		if(activity == null) {
 			// already logged
 			return;
@@ -191,8 +191,8 @@ public class MissionModel {
 		}
 		
 		try {
-			Activity.ActivityState activityOldState = activity.getState();
-			Activity.ActivityState activityNewState = Activity.ActivityState.valueOf(type);
+			ActivityState activityOldState = activity.getState();
+			ActivityState activityNewState = ActivityState.valueOf(type);
 			activity.setLastModificationTime(timestamp);
 			if(activityNewState == activityOldState) {
 				return;
@@ -209,15 +209,15 @@ public class MissionModel {
 			
 			if(activityNewState == ActivityState.MODIFIED) {
 				
+				sendStatusNotification(activity, activityNewState);
 				if(activityOldState == ActivityState.FINISHED) {
 					// finished -> modified
-					// check the state of all successors
-					// finished activities will be marked as NEEDTOCHECK
-					sendStatusNotification(activity, activityNewState);
 					sendMessage(
 							String.format("You have modified ELO '%s' which has already been marked as finished", activity.getEloTitle()), 
 							timestamp);
 					
+					// check the state of all successors
+					// finished activities will be marked as NEEDTOCHECK
 					for(Activity dependency : activity.getSuccessors()) {
 						ActivityState depOldState = dependency.getState();
 						if(depOldState == ActivityState.FINISHED) {
@@ -232,9 +232,33 @@ public class MissionModel {
 									timestamp);
 						}
 					}
+					
+				} else if(activityOldState == ActivityState.NEEDTOCHECK) {
+					// needtocheck -> modified
+					
+					sendMessage(
+							String.format("You have modified ELO '%s' which was marked as need to check", activity.getEloTitle()), 
+							timestamp);
+					
+					// check the state of all successors
+					// finished activities will be marked as NEEDTOCHECK
+					for(Activity dependency : activity.getSuccessors()) {
+						ActivityState depOldState = dependency.getState();
+						if(depOldState == ActivityState.FINISHED) {
+							ActivityState depNewState = ActivityState.NEEDTOCHECK;
+							
+							dependency.setState(depNewState);
+							sendStatusNotification(dependency, depNewState);
+							sendMessage(
+									String.format("Your modification of ELO '%s' means that you should have a look at ELO '%s'", 
+											activity.getEloTitle(),
+											dependency.getEloTitle()), 
+									timestamp);
+						}
+					}
+					
 				} else {
-					// enabled/needtocheck -> modified
-					sendStatusNotification(activity, activityNewState);
+					// enabled -> modified
 					sendMessage(
 							String.format("You have modified ELO '%s'", activity.getEloTitle()), 
 							timestamp);
@@ -248,9 +272,13 @@ public class MissionModel {
 						String.format("You have marked ELO '%s' as finished", activity.getEloTitle()), 
 						timestamp);
 
-				// add depending ELOs to curtain, that become available by finishing the activity
-				// a depending ELO (successor) will be displayed if all predecessors are finished
+				// Add following ELOs (successors) to curtain, that become available by finishing an activity.
+				// A following ELO will be displayed if all predecessors are finished
 				for(Activity successor : activity.getSuccessors()) {
+					if(successor.getState() != ActivityState.ENABLED) {
+						// when successor is modified, needtocheck or finished, it is already in the curtain
+						continue;
+					}
 					boolean allPredecessorsFinished = true;
 					for(Activity predecessor : successor.getPredecessors()) {
 						if(predecessor.getState() != ActivityState.FINISHED) {
@@ -260,6 +288,9 @@ public class MissionModel {
 					}
 					if(allPredecessorsFinished) {
 						// status has not changed, but maybe it was not visible
+						if(successor.getEloTitle() == null) {
+							searchActivityByEloUri(successor.getCurrentEloUri());
+						}
 						sendStatusNotification(successor, successor.getState());
 						sendMessage(
 								String.format(
@@ -372,7 +403,7 @@ public class MissionModel {
 			this.messageListener = listener;
 		}
 	}
-	
+
 //	public void setHistoryRequestListener(HistoryRequestListener listener) {
 //		this.historyListener = listener;
 //	}
