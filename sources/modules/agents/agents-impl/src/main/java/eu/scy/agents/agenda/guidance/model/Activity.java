@@ -25,9 +25,9 @@ public class Activity {
 	private ActivityState state;
 	private String anchorId;
 	private String eloTitle;
-	private String firstVersionEloUri;
 	private String currentEloUri;
 	private long lastModificationTime;
+	private final String firstVersionEloUri;
 	private final List<Activity> successors = new ArrayList<Activity>();
 	private final List<Activity> predecessors = new ArrayList<Activity>();
 	

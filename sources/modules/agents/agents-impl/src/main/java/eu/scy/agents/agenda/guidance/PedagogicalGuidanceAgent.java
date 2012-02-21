@@ -205,7 +205,7 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent implements I
             		activity.getEloTitle(), 
             		event.getNewState().getText(), 
             		activity.getLastModificationTime(), 
-            		activity.getCurrentEloUri());
+            		activity.getFirstVersionEloUri());
             logger.debug("Writing status changed tuple: " + statusNotificationTuple);
             commandSpace.write(statusNotificationTuple);
         } catch (TupleSpaceException e) {
