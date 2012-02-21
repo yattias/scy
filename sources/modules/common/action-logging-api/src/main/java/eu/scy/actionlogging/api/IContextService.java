@@ -22,6 +22,11 @@ public interface IContextService {
     public String getMissionSpecificationURI();
 
     /**
+     * @return the URI of the mission runtime
+     */
+    public String getMissionRuntimeURI();
+
+    /**
      * @return the name of the LAS, where the user is currently in
      */
     public String getCurrentLAS();
@@ -48,5 +53,11 @@ public interface IContextService {
      *            the URI to the mission specification
      */
     void setMissionSpecificationURI(String missionSpecificationURI);
+
+    /**
+     * @param missionRuntimeURI
+     *            the URI to the mission runtime
+     */
+    void setMissionRuntimeURI(String missionRuntimeURI);
 
 }
