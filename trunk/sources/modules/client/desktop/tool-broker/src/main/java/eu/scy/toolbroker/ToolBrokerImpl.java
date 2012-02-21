@@ -543,6 +543,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
     public void setMissionRuntimeURI(URI missionRuntimeURI) {
         logger.info("setMissionRuntimeURI: " + missionRuntimeURI);
         this.missionRuntimeURI = missionRuntimeURI;
+        contextService.setMissionRuntimeURI(missionRuntimeURI.toString());
     }
 
     @Override

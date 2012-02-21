@@ -44,12 +44,12 @@ public class CompletingActionLogger implements IActionLogger {
 
     private void autoComplete(IAction action) {
         // replace the mission uri with the correct value
-		if (contextService.getMissionSpecificationURI() == null) {
-			action.addContext(ContextConstants.mission, "n/a");
-		} else {
-			action.addContext(ContextConstants.mission, contextService.getMissionSpecificationURI());
-		}
-		if (action.getContext(ContextConstants.session) == null && contextService.getSession() != null) {
+        if (contextService.getMissionRuntimeURI() == null) {
+            action.addContext(ContextConstants.mission, "n/a");
+        } else {
+            action.addContext(ContextConstants.mission, contextService.getMissionRuntimeURI());
+        }
+        if (action.getContext(ContextConstants.session) == null && contextService.getSession() != null) {
             action.addContext(ContextConstants.session, contextService.getSession());
         }
         String user = action.getUser();

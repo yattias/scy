@@ -17,6 +17,8 @@ public class ContextService implements IActionLogger, IContextService {
 
     private String missionSpecificationURI;
 
+    private String missionRuntimeURI;
+
     private String currentLAS = "";
 
     private String session;
@@ -43,6 +45,7 @@ public class ContextService implements IActionLogger, IContextService {
         return missionSpecificationURI;
     }
 
+    @Override
     public void setMissionSpecificationURI(String missionSpecificationURI) {
         this.missionSpecificationURI = missionSpecificationURI;
     }
@@ -74,5 +77,14 @@ public class ContextService implements IActionLogger, IContextService {
         } else if (action.getType().equals("tool_closed")) {
             currentlyOpenedELOs.get(currentLAS).remove(action.getContext(ContextConstants.eloURI));
         }
+    }
+
+    public void setMissionRuntimeURI(String missionRuntimeURI) {
+        this.missionRuntimeURI = missionRuntimeURI;
+    }
+
+    @Override
+    public String getMissionRuntimeURI() {
+        return missionRuntimeURI;
     }
 }
