@@ -33,7 +33,7 @@ public class ActivityFinishedEvaluationAgent extends AbstractActivityEvaluationA
 		// ("action":String, <ID>:String, <Timestamp>:long, <Type>:String, <User>:String, <Tool>:String,
 		//  <Mission>:String, <Session>:String, <ELOUri>:String, <Key=Value>:String*)
 		Callback cb = new UserActionCallback();
-		Tuple eloFinishedSignature = new Tuple("action", String.class, Long.class, ACTION_TYPE_ELO_FINISHED, String.class, String.class, String.class, String.class, String.class, Field.createWildCardField());
+		Tuple eloFinishedSignature = new Tuple("action", String.class, Long.class, ACTION_TYPE_ELO_FINISHED, Field.createWildCardField());
 		int id = this.actionSpace.eventRegister(Command.WRITE, eloFinishedSignature, cb, true);
 		this.registeredCallbacks.add(id);
 		logger.info("Registered elo finished callback");

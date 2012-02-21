@@ -26,6 +26,7 @@ public class Activity {
 	private String anchorId;
 	private String eloTitle;
 	private String currentEloUri;
+	private boolean displayInCurtain;
 	private long lastModificationTime;
 	private final String firstVersionEloUri;
 	private final List<Activity> successors = new ArrayList<Activity>();
@@ -41,8 +42,17 @@ public class Activity {
 		this.firstVersionEloUri = firstVersionEloUri;
 		setLastModificationTime(latestModification);
 		setCurrentEloUri(firstVersionEloUri);
+		setDisplayInCurtain(false);
 	}
 	
+	public boolean isDisplayInCurtain() {
+		return this.displayInCurtain;
+	}
+
+	public void setDisplayInCurtain(boolean displayInCurtain) {
+		this.displayInCurtain = displayInCurtain;
+	}
+
 	public ActivityState getState() {
 		return this.state;
 	}
