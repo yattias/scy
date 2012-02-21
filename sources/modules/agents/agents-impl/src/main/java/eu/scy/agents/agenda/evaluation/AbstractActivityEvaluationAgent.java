@@ -64,8 +64,14 @@ public abstract class AbstractActivityEvaluationAgent extends AbstractThreadedAg
                 e.printStackTrace();
             }
             
+            Tuple requestTemplate = getRequestTemplate();
+            if(requestTemplate == null) {
+            	// if agent does not support requests, do nothing
+            	Thread.sleep(AgentProtocol.ALIVE_INTERVAL);
+            	continue;
+            }
             // Waits for requests to get last modification timestamp
-            Tuple returnTuple = commandSpace.waitToRead(getRequestTemplate(), AgentProtocol.COMMAND_EXPIRATION);
+            Tuple returnTuple = commandSpace.waitToRead(requestTemplate, AgentProtocol.COMMAND_EXPIRATION);
             if (returnTuple != null) {
             	try {
             		// searches for the last modification of a user in a 

@@ -4,12 +4,14 @@ import info.collide.sqlspaces.commons.Tuple;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.activity.InvalidActivityException;
 
@@ -45,17 +47,19 @@ public class MissionModel {
 	// ELO URI -> MissionID
 	private final Map<String, String> eloUriV0ToMissionIdyMap = new HashMap<String, String>();
 
+	private final List<Message> messageHistory = new ArrayList<Message>();
 	private final String userName;
 	private volatile ModelState state;
 	private String missionRuntimeUri;
 	private String missionTitle;
 	private MissionModelBuilder mmb;
+	private boolean reinitiateCurtain = false;
 	
 	private final RooloServices rooloServices;
 	private StatusChangedListener changeListener;
 	private SendMessageListener messageListener;
 //	private HistoryRequestListener historyListener;
-	
+	private ReentrantLock reinitCurtainLock = new ReentrantLock(true);
 	
 	public MissionModel(RooloServices rooloServices, String missionRuntimeUri, String userName) {
 		this.rooloServices = rooloServices;
@@ -79,6 +83,24 @@ public class MissionModel {
 		}
 	}
 	
+	public boolean isReinitiateCurtain() {
+		this.reinitCurtainLock.lock();
+		try {
+			return this.reinitiateCurtain;
+		} finally {
+			this.reinitCurtainLock.unlock();
+		}
+	}
+
+	public void setReinitiateCurtain(boolean reinitiateCurtain) {
+		this.reinitCurtainLock.lock();
+		try {
+			this.reinitiateCurtain = reinitiateCurtain;
+		} finally {
+			this.reinitCurtainLock.unlock();
+		}
+	}
+
 	/**
 	 * Searchs the activity by elo uri. Returns null if no first version ELO can be found for
 	 * the given ELO URI.
@@ -209,6 +231,7 @@ public class MissionModel {
 			
 			if(activityNewState == ActivityState.MODIFIED) {
 				
+				activity.setDisplayInCurtain(true);
 				sendStatusNotification(activity, activityNewState);
 				if(activityOldState == ActivityState.FINISHED) {
 					// finished -> modified
@@ -224,6 +247,10 @@ public class MissionModel {
 							ActivityState depNewState = ActivityState.NEEDTOCHECK;
 							
 							dependency.setState(depNewState);
+							if(dependency.getEloTitle() == null) {
+								searchActivityByEloUri(dependency.getCurrentEloUri());
+							}
+							dependency.setDisplayInCurtain(true);
 							sendStatusNotification(dependency, depNewState);
 							sendMessage(
 									String.format("Your modification of ELO '%s' means that you should have a look at ELO '%s'", 
@@ -248,6 +275,7 @@ public class MissionModel {
 							ActivityState depNewState = ActivityState.NEEDTOCHECK;
 							
 							dependency.setState(depNewState);
+							dependency.setDisplayInCurtain(true);
 							sendStatusNotification(dependency, depNewState);
 							sendMessage(
 									String.format("Your modification of ELO '%s' means that you should have a look at ELO '%s'", 
@@ -267,6 +295,7 @@ public class MissionModel {
 			} else if(activityNewState == ActivityState.FINISHED) {
 				// * -> finished
 				// display new state of this activity.
+				activity.setDisplayInCurtain(true);
 				sendStatusNotification(activity, activityNewState);
 				sendMessage(
 						String.format("You have marked ELO '%s' as finished", activity.getEloTitle()), 
@@ -291,6 +320,7 @@ public class MissionModel {
 						if(successor.getEloTitle() == null) {
 							searchActivityByEloUri(successor.getCurrentEloUri());
 						}
+						successor.setDisplayInCurtain(true);
 						sendStatusNotification(successor, successor.getState());
 						sendMessage(
 								String.format(
@@ -372,6 +402,12 @@ public class MissionModel {
 				dependencyCount++;
 			}
 		}
+		// All activities with dependencies will be initiated as finished.
+		for(Activity activity : this.missionIdToActivityMap.values()) {
+			if(activity.getPredecessors().size() > 0 || activity.getSuccessors().size() > 0) {
+				activity.setState(ActivityState.FINISHED);
+			}
+		}
 		logger.debug(String.format(
 				"MissionModel for user %s successfully created. Activities: %s, Dependencies: %s", 
 				this.userName,
@@ -381,15 +417,20 @@ public class MissionModel {
 		logger.debug(toString());
 	}
 	
-	private void sendMessage(String message, long timestamp) {
-		SendMessageEvent event = new SendMessageEvent(this, message, timestamp);
+	private void sendMessage(String text, long timestamp) {
+		Message message = new Message(timestamp, text);
+		sendMessage(message);
+		this.messageHistory.add(message);
+	}
+	
+	private void sendMessage(Message message) {
+		SendMessageEvent event = new SendMessageEvent(this, message.getMessage(), message.getTimestamp());
 		this.messageListener.sendMessage(event);
 	}
 	
 	private void sendStatusNotification(Activity activity, ActivityState afterState) {
 		StatusChangedEvent event = new StatusChangedEvent(this, activity, afterState);
 		this.changeListener.statusChanged(event);
-		
 	}
 	
 	public void setActivityModificationListener(StatusChangedListener listener) {
@@ -404,6 +445,59 @@ public class MissionModel {
 		}
 	}
 
+	/**
+	 * Reinitiates the curtain. This method will force a resent of all messages and will also
+	 * send messages to display the state of all activities (ELOs).
+	 */
+	public void reinitiateCurtain() {
+		this.reinitCurtainLock.lock();
+		try {
+			logger.debug(String.format("Reinitiating curtain for mission model [ user: %s | missionRuntimeUri %s ]", 
+					getUserName(), 
+					getMissionRuntimeUri()));
+			// resend messages
+			for(Message message : this.messageHistory) {
+				sendMessage(message);
+			}
+			
+			// resend activity states
+			for(Activity activity : this.missionIdToActivityMap.values()) {
+				if(!activity.isDisplayInCurtain()) {
+					continue;
+				}
+				if(activity.getState() != ActivityState.ENABLED) {
+					sendStatusNotification(activity, activity.getState());
+				} else {
+					
+					// Add ELOs to curtain whose predecessors are all finished
+					boolean allPredecessorsFinished = true;
+					for(Activity predecessor : activity.getPredecessors()) {
+						if(predecessor.getState() != ActivityState.FINISHED) {
+							allPredecessorsFinished = false;
+							break;
+						}
+					}
+					if(allPredecessorsFinished) {
+						// status has not changed, but maybe it was not visible
+						if(activity.getEloTitle() == null) {
+							try {
+								searchActivityByEloUri(activity.getCurrentEloUri());
+							} catch (URISyntaxException e1) {
+								logger.warn("Could not process tuple, because no first version elo was found for ELO URI", e1);
+							} catch (NoRepositoryAvailableException e1) {
+								logger.warn("Could not process tuple, because repository was not available");
+							}
+						}
+						sendStatusNotification(activity, activity.getState());
+					}
+				}
+			}
+		} finally {
+			this.reinitiateCurtain = false;
+			this.reinitCurtainLock.unlock();
+		}
+	}
+	
 //	public void setHistoryRequestListener(HistoryRequestListener listener) {
 //		this.historyListener = listener;
 //	}

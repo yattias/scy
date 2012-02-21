@@ -83,8 +83,6 @@ public class ActivityModifiedEvaluationAgent extends AbstractActivityEvaluationA
 		List<String> actionTypes = new ArrayList<String>();
 		actionTypes.add("text_inserted");
 		actionTypes.add("text_deleted");
-//		actionTypes.add("rtf_saved");
-//		actionTypes.add("rtf_printed");
 		return new ActionTypeEvaluator(toolName, actionTypes);
 	}
 	
@@ -93,8 +91,6 @@ public class ActivityModifiedEvaluationAgent extends AbstractActivityEvaluationA
 		List<String> actionTypes = new ArrayList<String>();
 		actionTypes.add("value_changed");
 		actionTypes.add("row_added");
-//		actionTypes.add("variables_contained");
-//		actionTypes.add("variables_selected");
 		return new ActionTypeEvaluator(toolName, actionTypes);
 	}
 	

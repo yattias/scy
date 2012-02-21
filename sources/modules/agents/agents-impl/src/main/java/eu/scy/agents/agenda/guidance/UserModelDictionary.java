@@ -79,7 +79,7 @@ public class UserModelDictionary {
 		try {
 			UserModel userModel = this.userModelMap.get(user);
 			if(userModel != null) {
-				return userModel.getMission(missionRuntimeUri);
+				return userModel.getMissionModel(missionRuntimeUri);
 			} else {
 				return null;
 			}

@@ -2,6 +2,7 @@ package eu.scy.agents.agenda.guidance;
 
 import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Callback;
+import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.User;
@@ -39,10 +40,14 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent implements I
 
 //	private static final String REQUEST_HISTORY_RESPONSE = "response";
 //	private static final long REQUEST_HISTORY_TIMEOUT = 5000;
-																										
+	
+	private static final String ACTION_TYPE_LOGGED_IN = "logged_in";
+	private static final String ACTION_TYPE_LAS_CHANGED = "las_changed";
+	private static final String TOOL_LAS_CHANGED = "scy-desktop";
 	private static final Tuple TEMPLATE_FOR_MODIFIED_ACTIVITY = new Tuple(ActivityModifiedEvaluationAgent.TYPE_MODIFIED, String.class, String.class, String.class, Long.class);
 	private static final Tuple TEMPLATE_FOR_FINISHED_ACTIVITY = new Tuple(ActivityFinishedEvaluationAgent.TYPE_FINISHED, String.class, String.class, String.class, Long.class);
-	private static final Tuple TEMPLATE_FOR_USER_LOGIN = new Tuple("action", String.class, Long.class, "logged_in", String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class);
+	private static final Tuple TEMPLATE_FOR_USER_LOGIN = new Tuple("action", String.class, Long.class, ACTION_TYPE_LOGGED_IN, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class);
+	private static final Tuple TEMPLATE_FOR_LAS_CHANGED = new Tuple("action", String.class, Long.class, ACTION_TYPE_LAS_CHANGED, String.class, TOOL_LAS_CHANGED, Field.createWildCardField());
 	
 
 	private final List<Integer> registeredCallbacks = new ArrayList<Integer>();
@@ -72,6 +77,7 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent implements I
 	protected void doRun() throws TupleSpaceException, AgentLifecycleException, InterruptedException {
 		registerActivityCallbacks();
 		registerLoginCallback();
+		registerLasChangedCallback();
 		
 		while (this.status == Status.Running) {
             try {
@@ -120,6 +126,13 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent implements I
 		logger.debug("Registered callback for user logins");
 	}
 	
+	private void registerLasChangedCallback() throws TupleSpaceException {
+		Callback lcc = new LasChangedCallback();
+		int id = this.actionSpace.eventRegister(Command.WRITE, TEMPLATE_FOR_LAS_CHANGED, lcc, true);
+		this.registeredCallbacks.add(id);
+		logger.debug("Registered callback for las changed logs");
+	}
+	
 	class UserLoginCallback implements Callback {
 
 		@Override
@@ -136,11 +149,35 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent implements I
 		UserModel userModel = this.userModelDict.getOrCreateUserModel(userName);
 		MissionModel missionModel = userModel.getOrCreateMissionModel(missionRuntimeUri);
 		if(missionModel.isEnabled()) {
-			// only register listener when no MissionModel exists
+			// first login: register listener when no MissionModel exists
 			missionModel.setActivityModificationListener(this);
 			missionModel.setSendMessageListener(this);
 //			missionModel.setHistoryRequestListener(this);
 			missionModel.build();
+		} else {
+			// model has already been built... fill the curtain with messages
+			missionModel.setReinitiateCurtain(true);
+		}
+	}
+	
+	class LasChangedCallback implements Callback {
+
+		@Override
+		public void call(Command cmd, int seqnum, Tuple afterTuple,
+				Tuple beforeTuple) {
+			processLasChangedTuple(afterTuple);
+		}
+	}
+	
+	private void processLasChangedTuple(Tuple tuple) {
+		String userName = tuple.getField(4).getValue().toString();
+		String missionRuntimeUri = tuple.getField(6).getValue().toString();
+		
+		// check if model is already present, if not create it
+		UserModel userModel = this.userModelDict.getUserModel(userName);
+		MissionModel missionModel = userModel.getMissionModel(missionRuntimeUri);
+		if(missionModel.isReinitiateCurtain()) {
+			missionModel.reinitiateCurtain();
 		}
 	}
 	
@@ -165,7 +202,7 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent implements I
 				logger.warn("No user model found for user: " + userName);
 				return;
 			}
-			MissionModel missionModel = userModel.getMission(missionRuntimeUri);
+			MissionModel missionModel = userModel.getMissionModel(missionRuntimeUri);
 			if(missionModel == null) {
 				logger.warn(String.format("No mission model found for user: %s and mission: %s", userName, missionRuntimeUri));
 				return;

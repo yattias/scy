@@ -26,7 +26,7 @@ public class UserModel {
 		return this.userName;
 	}
 
-	public MissionModel getMission(String missionRuntimeUri) {
+	public MissionModel getMissionModel(String missionRuntimeUri) {
 		this.rwLock.readLock().lock();
 		try {
 			return this.missionMap.get(missionRuntimeUri);
