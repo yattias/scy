@@ -4,8 +4,8 @@ import info.collide.sqlspaces.commons.TupleSpaceException;
 
 import java.util.EventListener;
 
-public interface SendMessageListener extends EventListener {
+public interface ClearCurtainListener extends EventListener {
 
-	public void sendCurtainMessage(SendMessageEvent event) throws TupleSpaceException;
+	public void clearCurtain(ClearCurtainEvent event) throws TupleSpaceException;
 	
 }

@@ -1,6 +1,8 @@
 package eu.scy.agents.agenda.guidance.model;
 
 import info.collide.sqlspaces.commons.Tuple;
+import info.collide.sqlspaces.commons.TupleID;
+import info.collide.sqlspaces.commons.TupleSpaceException;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -17,8 +19,15 @@ import javax.activity.InvalidActivityException;
 
 import org.apache.log4j.Logger;
 
-import eu.scy.agents.agenda.exception.MissionMapModelException;
-import eu.scy.agents.agenda.exception.NoRepositoryAvailableException;
+import eu.scy.agents.agenda.exception.InvalidActivityTupleException;
+import eu.scy.agents.agenda.guidance.event.ClearCurtainEvent;
+import eu.scy.agents.agenda.guidance.event.ClearCurtainListener;
+import eu.scy.agents.agenda.guidance.event.DialogNotificationEvent;
+import eu.scy.agents.agenda.guidance.event.DialogNotificationListener;
+import eu.scy.agents.agenda.guidance.event.LoadActivitiesEvent;
+import eu.scy.agents.agenda.guidance.event.LoadActivitiesListener;
+import eu.scy.agents.agenda.guidance.event.SaveActivityEvent;
+import eu.scy.agents.agenda.guidance.event.SaveActivityListener;
 import eu.scy.agents.agenda.guidance.event.SendMessageEvent;
 import eu.scy.agents.agenda.guidance.event.SendMessageListener;
 import eu.scy.agents.agenda.guidance.event.StatusChangedEvent;
@@ -41,25 +50,31 @@ public class MissionModel {
 	
 	private static final Logger logger = Logger.getLogger(MissionModel.class.getName());
 	
-	// MissionID -> Activity
-	private final Map<String, Activity> missionIdToActivityMap = new HashMap<String, Activity>();
+	// ELO URI -> AnchorID
+	private final Map<String, String> eloUriV0ToAnchorIdMap = new HashMap<String, String>();
+
+	// AnchorID -> Activity
+	private final Map<String, Activity> anchorIdToActivityMap = new HashMap<String, Activity>();
 	
-	// ELO URI -> MissionID
-	private final Map<String, String> eloUriV0ToMissionIdyMap = new HashMap<String, String>();
+	// AnchorID -> TupleID
+	private final Map<String, TupleID> anchorIdToTupleIdMap = new HashMap<String, TupleID>();
 
 	private final List<Message> messageHistory = new ArrayList<Message>();
+	private final RooloServices rooloServices;
 	private final String userName;
 	private volatile ModelState state;
 	private String missionRuntimeUri;
 	private String missionTitle;
 	private MissionModelBuilder mmb;
-	private boolean reinitiateCurtain = false;
+	private boolean curtainReloadNeeded = false;
 	
-	private final RooloServices rooloServices;
-	private StatusChangedListener changeListener;
-	private SendMessageListener messageListener;
-//	private HistoryRequestListener historyListener;
-	private ReentrantLock reinitCurtainLock = new ReentrantLock(true);
+	private StatusChangedListener statusChangedListener;
+	private SendMessageListener sendMessageListener;
+	private SaveActivityListener saveActivityListener;
+	private LoadActivitiesListener loadActivitiesListener;
+	private ClearCurtainListener clearCurtainListener;
+	private DialogNotificationListener dialogNotificationListener;
+	private ReentrantLock reloadCurtainLock = new ReentrantLock(true);
 	
 	public MissionModel(RooloServices rooloServices, String missionRuntimeUri, String userName) {
 		this.rooloServices = rooloServices;
@@ -83,24 +98,6 @@ public class MissionModel {
 		}
 	}
 	
-	public boolean isReinitiateCurtain() {
-		this.reinitCurtainLock.lock();
-		try {
-			return this.reinitiateCurtain;
-		} finally {
-			this.reinitCurtainLock.unlock();
-		}
-	}
-
-	public void setReinitiateCurtain(boolean reinitiateCurtain) {
-		this.reinitCurtainLock.lock();
-		try {
-			this.reinitiateCurtain = reinitiateCurtain;
-		} finally {
-			this.reinitCurtainLock.unlock();
-		}
-	}
-
 	/**
 	 * Searchs the activity by elo uri. Returns null if no first version ELO can be found for
 	 * the given ELO URI.
@@ -108,17 +105,16 @@ public class MissionModel {
 	 * @param eloUri the elo uri
 	 * @return the activity by elo uri
 	 * @throws URISyntaxException the uRI syntax exception
-	 * @throws NoRepositoryAvailableException the no repository available exception
 	 */
-	private Activity searchActivityByEloUri(String eloUri) throws NoRepositoryAvailableException, URISyntaxException {
+	private Activity searchActivityByEloUri(String eloUri) throws URISyntaxException {
 		String tempEloUri = eloUri;
 		while(true) {
 			// tempEloUri contains current version of ELO (Version #x)
 			
-			if(this.eloUriV0ToMissionIdyMap.containsKey(tempEloUri)) {
+			if(this.eloUriV0ToAnchorIdMap.containsKey(tempEloUri)) {
 				// We already have the ELO URI cached
-				String missionId = this.eloUriV0ToMissionIdyMap.get(tempEloUri);
-				Activity activity = this.missionIdToActivityMap.get(missionId);
+				String anchorId = this.eloUriV0ToAnchorIdMap.get(tempEloUri);
+				Activity activity = this.anchorIdToActivityMap.get(anchorId);
 				if(activity.getEloTitle() == null) {
 					// some ELOs do not increment their version number. So we have the ELO URI
 					// in our cache, but the activity has no ELO title set.
@@ -126,41 +122,40 @@ public class MissionModel {
 					activity.setEloTitle(scyElo.getTitle());
 				}
 				return activity;
+				
 			} else {
 				// ELO URI not in cache, so get first version of ELO URI (Version #0)
 				logger.debug("Getting first version of ELO with URI: " + tempEloUri);
 				ScyElo scyElo = ScyElo.loadElo(URI.create(tempEloUri), this.rooloServices);
 
 				URI uriFirstVersion = scyElo.getUriFirstVersion();
-				if(uriFirstVersion == null && scyElo.getTemplate()) {
-					// template... stop here
-					logger.warn(String.format("Could not find activity for ELO with URI: %s (Template reached)", eloUri));
-					return null;
-				} else if(uriFirstVersion == null && !scyElo.getTemplate()) {
-					// no template and this is the fist version... stop here
-					logger.warn(String.format("Could not find activity for ELO with URI: %s (ELO has no first version)", eloUri));
+				if(uriFirstVersion == null) {
+					if(scyElo.getTemplate()) {
+						// template... stop here
+						logger.warn(String.format("Could not find activity for ELO with URI: %s (Template reached)", eloUri));
+					} else {
+						// no template and this is the fist version... stop here
+						logger.warn(String.format("Could not find activity for ELO with URI: %s (ELO has no first version)", eloUri));
+					}
 					return null;
 				} 
 				
-				// now working with the first version of ELO URI
+				// now working with the first version ELO URI
 				tempEloUri = uriFirstVersion.toString();
 				scyElo = ScyElo.loadElo(URI.create(tempEloUri), this.rooloServices);
-				if(this.eloUriV0ToMissionIdyMap.containsKey(tempEloUri)) {
-					// We know the version#0 uri, so we'll save the version#x uri and return the activity
-					String missionId = this.eloUriV0ToMissionIdyMap.get(tempEloUri);
-					this.eloUriV0ToMissionIdyMap.put(eloUri, missionId);
-					Activity activity = this.missionIdToActivityMap.get(missionId);
+				if(this.eloUriV0ToAnchorIdMap.containsKey(tempEloUri)) {
+					// We already know version#0 ELO URI, so save version#x URI and return activity
+					String anchorId = this.eloUriV0ToAnchorIdMap.get(tempEloUri);
+					this.eloUriV0ToAnchorIdMap.put(eloUri, anchorId);
+
+					Activity activity = this.anchorIdToActivityMap.get(anchorId);
 					activity.setCurrentEloUri(eloUri);
 					activity.setEloTitle(scyElo.getTitle());
 					return activity;
 				} else {
 					// first version is unknown - maybe this ELO is a fork
 					URI forkedOfEloUri = scyElo.getIsForkedOfEloUri();
-					if(forkedOfEloUri != null) {
-						// try again with forkedOf ELO URI
-						logger.debug(String.format("Lookup forked version of ELO ( %s -> %s)", tempEloUri, forkedOfEloUri.toString()));
-						tempEloUri = forkedOfEloUri.toString();
-					} else {
+					if(forkedOfEloUri == null) {
 						// No first version and no fork... what the hell is going on?
 						logger.error(String.format(
 								"Could not find activity for ELO with URI: %s (Ended with elo with no first version and no forkOf: %s)",
@@ -168,6 +163,10 @@ public class MissionModel {
 								tempEloUri));
 						return null;
 					}
+					
+					// try again with forkedOf ELO URI
+					logger.debug(String.format("Lookup forked version of ELO ( %s -> %s)", tempEloUri, forkedOfEloUri.toString()));
+					tempEloUri = forkedOfEloUri.toString();
 				}
 			}
 		}
@@ -180,24 +179,18 @@ public class MissionModel {
 				this.mmb.addTuple(tuple);
 				break;
 			case Initialized:
-				// tidy up
-				if(this.mmb != null) {
-					this.mmb = null;
-				}
-				
 				try {
 					applyTupleToModel(tuple);
+					
 				} catch (URISyntaxException e1) {
 					logger.warn("Could not process tuple, because no first version elo was found for ELO URI", e1);
-				} catch (NoRepositoryAvailableException e1) {
-					logger.warn("Could not process tuple, because repository was not available");
 				}
 				break;
 			}
 		}
 	}
 	
-	private void applyTupleToModel(Tuple tuple) throws URISyntaxException, NoRepositoryAvailableException {
+	private void applyTupleToModel(Tuple tuple) throws URISyntaxException {
 		String type = tuple.getField(0).getValue().toString().toUpperCase();
 		String eloUri = tuple.getField(3).getValue().toString();
 		long timestamp = Long.valueOf(tuple.getField(4).getValue().toString());
@@ -208,19 +201,29 @@ public class MissionModel {
 			return;
 		}
 		if(timestamp <= activity.getLastModificationTime()) {
-			// action too old
+			// action too old, save
 			return;
 		}
 		
+		ActivityState activityOldState = activity.getState();
+		ActivityState activityNewState = null;
 		try {
-			ActivityState activityOldState = activity.getState();
-			ActivityState activityNewState = ActivityState.valueOf(type);
-			activity.setLastModificationTime(timestamp);
-			if(activityNewState == activityOldState) {
-				return;
-			}
+			activityNewState = ActivityState.valueOf(type);
+		} catch (IllegalArgumentException e) {
+			logger.warn(String.format("Received tuple for user '%s' and mission '%s' has the unknown type: '%s'.", 
+					getUserName(), 
+					getMissionRuntimeUri(),
+					type));
+			return;
+		}
+		
+		activity.setLastModificationTime(timestamp);
+		activity.setState(activityNewState);
+		activity.setDisplayInCurtain(true);
+		
+		if(activityOldState != activityNewState) {
+			sendStatusNotification(activity, activityNewState);
 			
-			activity.setState(activityNewState);
 			logger.debug(String.format(
 					"Activity state has been changed: %s -> %s ( User: %s | Mission: %s | ELO: %s )",
 					activityOldState.toString(),
@@ -228,117 +231,132 @@ public class MissionModel {
 					getUserName(), 
 					getMissionRuntimeUri(),
 					eloUri));
+		}
+
+		if(activityNewState == ActivityState.MODIFIED && activityOldState != ActivityState.MODIFIED) {
 			
-			if(activityNewState == ActivityState.MODIFIED) {
-				
-				activity.setDisplayInCurtain(true);
-				sendStatusNotification(activity, activityNewState);
+			if(activityOldState == ActivityState.NEEDTOCHECK || activityOldState == ActivityState.FINISHED) {
+				String message = null;
 				if(activityOldState == ActivityState.FINISHED) {
 					// finished -> modified
-					sendMessage(
-							String.format("You have modified ELO '%s' which has already been marked as finished", activity.getEloTitle()), 
-							timestamp);
-					
-					// check the state of all successors
-					// finished activities will be marked as NEEDTOCHECK
-					for(Activity dependency : activity.getSuccessors()) {
-						ActivityState depOldState = dependency.getState();
-						if(depOldState == ActivityState.FINISHED) {
-							ActivityState depNewState = ActivityState.NEEDTOCHECK;
-							
-							dependency.setState(depNewState);
-							if(dependency.getEloTitle() == null) {
-								searchActivityByEloUri(dependency.getCurrentEloUri());
-							}
-							dependency.setDisplayInCurtain(true);
-							sendStatusNotification(dependency, depNewState);
-							sendMessage(
-									String.format("Your modification of ELO '%s' means that you should have a look at ELO '%s'", 
-											activity.getEloTitle(),
-											dependency.getEloTitle()), 
-									timestamp);
-						}
-					}
-					
-				} else if(activityOldState == ActivityState.NEEDTOCHECK) {
-					// needtocheck -> modified
-					
-					sendMessage(
-							String.format("You have modified ELO '%s' which was marked as need to check", activity.getEloTitle()), 
-							timestamp);
-					
-					// check the state of all successors
-					// finished activities will be marked as NEEDTOCHECK
-					for(Activity dependency : activity.getSuccessors()) {
-						ActivityState depOldState = dependency.getState();
-						if(depOldState == ActivityState.FINISHED) {
-							ActivityState depNewState = ActivityState.NEEDTOCHECK;
-							
-							dependency.setState(depNewState);
-							dependency.setDisplayInCurtain(true);
-							sendStatusNotification(dependency, depNewState);
-							sendMessage(
-									String.format("Your modification of ELO '%s' means that you should have a look at ELO '%s'", 
-											activity.getEloTitle(),
-											dependency.getEloTitle()), 
-									timestamp);
-						}
-					}
-					
+					message = String.format("You have modified ELO '%s' which has already been marked as finished", activity.getEloTitle());
 				} else {
-					// enabled -> modified
-					sendMessage(
-							String.format("You have modified ELO '%s'", activity.getEloTitle()), 
-							timestamp);
+					// needtocheck -> modified
+					message = String.format("You have modified ELO '%s' which was marked as need to check", activity.getEloTitle());
+				}
+				sendMessage(message, timestamp);
+				
+				// check the state of all successors
+				// finished activities will be marked as NEEDTOCHECK
+				List<Activity> needToCheckDependencies = new ArrayList<Activity>();
+				for(Activity dependency : activity.getSuccessors()) {
+					ActivityState depOldState = dependency.getState();
+					if(depOldState == ActivityState.FINISHED) {
+						ActivityState depNewState = ActivityState.NEEDTOCHECK;
+						
+						if(dependency.getEloTitle() == null) {
+							ScyElo scyElo = ScyElo.loadElo(URI.create(dependency.getCurrentEloUri()), this.rooloServices);
+							dependency.setEloTitle(scyElo.getTitle());
+						}
+						dependency.setState(depNewState);
+						dependency.setDisplayInCurtain(true);
+						sendStatusNotification(dependency, depNewState);
+						sendMessage(
+								String.format("Your modification of ELO '%s' means that you should have a look at ELO '%s'", 
+										activity.getEloTitle(),
+										dependency.getEloTitle()), 
+										timestamp);
+						saveActivityInGuidanceSpace(dependency);
+						needToCheckDependencies.add(dependency);
+					}
 				}
 				
-			} else if(activityNewState == ActivityState.FINISHED) {
-				// * -> finished
-				// display new state of this activity.
-				activity.setDisplayInCurtain(true);
-				sendStatusNotification(activity, activityNewState);
-				sendMessage(
-						String.format("You have marked ELO '%s' as finished", activity.getEloTitle()), 
-						timestamp);
-
-				// Add following ELOs (successors) to curtain, that become available by finishing an activity.
-				// A following ELO will be displayed if all predecessors are finished
-				for(Activity successor : activity.getSuccessors()) {
-					if(successor.getState() != ActivityState.ENABLED) {
-						// when successor is modified, needtocheck or finished, it is already in the curtain
-						continue;
-					}
-					boolean allPredecessorsFinished = true;
-					for(Activity predecessor : successor.getPredecessors()) {
-						if(predecessor.getState() != ActivityState.FINISHED) {
-							allPredecessorsFinished = false;
-							break;
+				// print dialog notification to inform user about changes
+				if(needToCheckDependencies.size() > 0) {
+					String text = "";
+					if(needToCheckDependencies.size() == 1) {
+						text = String.format("Your modification of ELO '%s' means that you should have a look at ELO '%s", 
+								activity.getEloTitle(),
+								needToCheckDependencies.get(0).getEloTitle());
+					} else {
+						StringBuilder sb = new StringBuilder();
+						sb.append("Your modification of ELO '");
+						sb.append(activity.getEloTitle());
+						sb.append("' means that you should have a look at the following ELOs:\n");
+						for(Activity dependency : needToCheckDependencies) {
+							sb.append("\n");
+							sb.append(dependency.getEloTitle());
 						}
+						text = sb.toString();
 					}
-					if(allPredecessorsFinished) {
-						// status has not changed, but maybe it was not visible
-						if(successor.getEloTitle() == null) {
-							searchActivityByEloUri(successor.getCurrentEloUri());
-						}
-						successor.setDisplayInCurtain(true);
-						sendStatusNotification(successor, successor.getState());
-						sendMessage(
-								String.format(
-										"Your completion of ELO '%s' has enabled ELO '%s'", 
-										activity.getEloTitle(), 
-										successor.getEloTitle()), 
-								timestamp);
-					}
+					sendDialogNotification(text);
 				}
+			} else if(activityOldState == ActivityState.ENABLED) {
+				// enabled -> modified
+				sendMessage(
+						String.format("You have modified ELO '%s'", activity.getEloTitle()), 
+						timestamp);
 			}
 			
-		} catch (IllegalArgumentException e) {
-			logger.warn(String.format("Received tuple for user '%s' and mission '%s' has the unknown type: '%s'.", 
-					getUserName(), 
-					getMissionRuntimeUri(),
-					type));
+		} else if(activityNewState == ActivityState.FINISHED && activityOldState != ActivityState.FINISHED) {
+			// * -> finished
+			// display new state of this activity.
+			sendMessage(
+					String.format("You have marked ELO '%s' as finished", activity.getEloTitle()), 
+					timestamp);
+			
+			// Add following ELOs (successors) to curtain, that become available by finishing an activity.
+			// A following ELO will be displayed if all predecessors are finished
+			for(Activity successor : activity.getSuccessors()) {
+				if(successor.getState() != ActivityState.ENABLED) {
+					// when successor is modified, needtocheck or finished, it is already in the curtain
+					continue;
+				}
+				boolean allPredecessorsFinished = true;
+				for(Activity predecessor : successor.getPredecessors()) {
+					if(predecessor.getState() != ActivityState.FINISHED) {
+						allPredecessorsFinished = false;
+						break;
+					}
+				}
+				if(allPredecessorsFinished) {
+					if(successor.getEloTitle() == null) {
+						ScyElo scyElo = ScyElo.loadElo(URI.create(successor.getCurrentEloUri()), this.rooloServices);
+						activity.setEloTitle(scyElo.getTitle());
+					}
+					successor.setDisplayInCurtain(true);
+					sendStatusNotification(successor, successor.getState());
+					sendMessage(
+							String.format(
+									"Your completion of ELO '%s' has enabled ELO '%s'", 
+									activity.getEloTitle(), 
+									successor.getEloTitle()), 
+									timestamp);
+					saveActivityInGuidanceSpace(successor);
+				}
+			}
 		}
+		
+		// save changes applied to the model in the guidance space
+		saveActivityInGuidanceSpace(activity);
 		logger.debug(toString());
+	}
+	
+	private void saveActivityInGuidanceSpace(Activity activity) {
+		if(this.saveActivityListener == null) {
+			return;
+		}
+		TupleID tupleID = this.anchorIdToTupleIdMap.get(activity.getAnchorId());
+		SaveActivityEvent event = new SaveActivityEvent(this, activity, tupleID);
+		TupleID returnTupleID;
+		try {
+			returnTupleID = this.saveActivityListener.saveActivity(event);
+			if(tupleID == null) {
+				this.anchorIdToTupleIdMap.put(activity.getAnchorId(), returnTupleID);
+			}
+		} catch (TupleSpaceException e) {
+			logger.warn("Could not save activity, because connection to TupleSpace is lost.");
+		}
 	}
 
 	public void build() {
@@ -348,8 +366,17 @@ public class MissionModel {
 			new Thread(this.mmb).start();
 		}
 	}
-	
-	private void buildMissionModel() throws MissionMapModelException, URISyntaxException, NoRepositoryAvailableException, InvalidActivityException {
+
+	/**
+	 * Builds the mission model. This method gets missionRuntime from repository to look up the mission map model.
+	 * Mission map model is then parsed to build the activities of this model. Afterwards the dependencies will
+	 * be added to the activities. At last the states of all activities will be set.
+	 * After calling this method, the mission model will represent a fresh model with no user actions done.
+	 *
+	 * @throws URISyntaxException the uRI syntax exception
+	 * @throws InvalidActivityException the invalid activity exception
+	 */
+	private void buildMissionModel() throws URISyntaxException, InvalidActivityException {
 		logger.debug(String.format("Creating dependency model [ user: %s | missionRuntimeUri %s ]", 
 				getUserName(), 
 				getMissionRuntimeUri()));
@@ -358,41 +385,41 @@ public class MissionModel {
 		URI missionMapModelEloUri = missionRuntimeElo.getTypedContent().getMissionMapModelEloUri();
 		this.missionTitle = missionRuntimeElo.getTitle();
 		
-//		// MissionAnchorID -> MissionAnchorModel
-		Map<String, MissionAnchor> missionIdToMissionAnchorModelMap = new HashMap<String, MissionAnchor>();
+//		// AnchorID -> MissionAnchorModel
+		Map<String, MissionAnchor> anchorIdToMissionAnchorModelMap = new HashMap<String, MissionAnchor>();
 		
 		if (missionMapModelEloUri != null) {
 			MissionModelElo missionModelElo = MissionModelElo.loadElo(missionMapModelEloUri, rooloServices);
 			List<Las> lasses = missionModelElo.getTypedContent().getLasses();
 			for (Las las : lasses) {
 				MissionAnchor mainAnchor = las.getMissionAnchor();
-				String mainAnchorId = mainAnchor.getId();
+				String mainAnchorId = mainAnchor.getId().trim();
 				String mainAnchorEloUri = mainAnchor.getEloUri().toString();
-				missionIdToMissionAnchorModelMap.put(mainAnchorId, mainAnchor);
+				anchorIdToMissionAnchorModelMap.put(mainAnchorId, mainAnchor);
 				
 				Activity mainActivity = new Activity(mainAnchorId, mainAnchorEloUri);
-				this.eloUriV0ToMissionIdyMap.put(mainAnchorEloUri, mainAnchorId);
-				this.missionIdToActivityMap.put(mainAnchorId, mainActivity);
+				this.eloUriV0ToAnchorIdMap.put(mainAnchorEloUri, mainAnchorId);
+				this.anchorIdToActivityMap.put(mainAnchorId, mainActivity);
 
 				List<MissionAnchor> intermediateAnchors = las.getIntermediateAnchors();
 				for (MissionAnchor intermediateAnchor : intermediateAnchors) {
-					String intermediateAnchorId = intermediateAnchor.getId();
+					String intermediateAnchorId = intermediateAnchor.getId().trim();
 					String intermediateAnchorEloUri = intermediateAnchor.getEloUri().toString();
-					missionIdToMissionAnchorModelMap.put(intermediateAnchorId, intermediateAnchor);
+					anchorIdToMissionAnchorModelMap.put(intermediateAnchorId, intermediateAnchor);
 					
 					Activity intermediateActivity = new Activity(intermediateAnchorId, intermediateAnchorEloUri);
-					this.eloUriV0ToMissionIdyMap.put(intermediateAnchorEloUri, intermediateAnchorId);
-					this.missionIdToActivityMap.put(intermediateAnchorId, intermediateActivity);
+					this.eloUriV0ToAnchorIdMap.put(intermediateAnchorEloUri, intermediateAnchorId);
+					this.anchorIdToActivityMap.put(intermediateAnchorId, intermediateActivity);
 				}
 			}
 		}
 		
 		// now add the dependencies for each activity
 		int dependencyCount = 0; 
-		for(String anchorId : missionIdToMissionAnchorModelMap.keySet()) {
-			Activity activity = missionIdToActivityMap.get(anchorId);
-			for(String dependingOnId : missionIdToMissionAnchorModelMap.get(anchorId).getDependingOnMissionAnchorIds()) {
-				Activity dependingOn = missionIdToActivityMap.get(dependingOnId);
+		for(String anchorId : anchorIdToMissionAnchorModelMap.keySet()) {
+			Activity activity = anchorIdToActivityMap.get(anchorId);
+			for(String dependingOnId : anchorIdToMissionAnchorModelMap.get(anchorId).getDependingOnMissionAnchorIds()) {
+				Activity dependingOn = anchorIdToActivityMap.get(dependingOnId);
 				if(dependingOn == null) {
 					logger.warn("Could not find Activity for: " + dependingOnId);
 					continue;
@@ -403,7 +430,7 @@ public class MissionModel {
 			}
 		}
 		// All activities with dependencies will be initiated as finished.
-		for(Activity activity : this.missionIdToActivityMap.values()) {
+		for(Activity activity : this.anchorIdToActivityMap.values()) {
 			if(activity.getPredecessors().size() > 0 || activity.getSuccessors().size() > 0) {
 				activity.setState(ActivityState.FINISHED);
 			}
@@ -411,122 +438,229 @@ public class MissionModel {
 		logger.debug(String.format(
 				"MissionModel for user %s successfully created. Activities: %s, Dependencies: %s", 
 				this.userName,
-				missionIdToActivityMap.size(),
+				anchorIdToActivityMap.size(),
 				dependencyCount));
 		logger.debug(toString());
 	}
 	
-	private void sendMessage(String text, long timestamp) {
-		Message message = new Message(timestamp, text);
-		sendMessage(message);
-		this.messageHistory.add(message);
+	private void loadActivityStatesFromGuidanceSpace() {
+		if(this.loadActivitiesListener == null) {
+			return;
+		}
+		try {
+			List<Tuple> activityTuples = this.loadActivitiesListener.loadActivities(new LoadActivitiesEvent(this));
+			logger.debug(String.format(
+					"Loaded %s activities persisted in GuidanceSpace [ User: %s | MissionRuntimeUri: %s]",
+					activityTuples.size(),
+					getUserName(),
+					getMissionRuntimeUri()));
+			
+			for(Tuple tuple : activityTuples) {
+				String anchorId = tuple.getField(3).getValue().toString().trim();
+				Activity activity = this.anchorIdToActivityMap.get(anchorId);
+				if(activity == null) {
+					// ignore tuples with unknown anchor id.
+					continue;
+				}
+				try {
+					activity.loadFromTuple(tuple);
+					this.anchorIdToTupleIdMap.put(anchorId, tuple.getTupleID());
+				} catch (InvalidActivityTupleException e) {
+					logger.warn(String.format("Error loading activity '%s': %s", anchorId, e.getMessage()));
+				}
+			}
+			if(activityTuples.size() > 0) {
+				logger.debug(toString());
+			}
+		} catch (TupleSpaceException e) {
+			logger.warn("Could not load activity states, because connection to TupleSpace is lost.");
+		}
 	}
 	
-	private void sendMessage(Message message) {
-		SendMessageEvent event = new SendMessageEvent(this, message.getMessage(), message.getTimestamp());
-		this.messageListener.sendMessage(event);
+	private void sendMessage(String text, long timestamp) {
+		Message message = new Message(timestamp, text);
+		boolean success = sendMessage(message);
+		if(success) {
+			this.messageHistory.add(message);
+		}
+	}
+	
+	private boolean sendMessage(Message message) {
+		if(this.sendMessageListener != null) {
+			try {
+				SendMessageEvent event = new SendMessageEvent(this, message.getMessage(), message.getTimestamp());
+				this.sendMessageListener.sendCurtainMessage(event);
+				return true;
+			} catch (TupleSpaceException e) {
+				logger.warn("Could not send message, because connection to TupleSpace is lost.");
+			}
+		}
+		return false;
 	}
 	
 	private void sendStatusNotification(Activity activity, ActivityState afterState) {
-		StatusChangedEvent event = new StatusChangedEvent(this, activity, afterState);
-		this.changeListener.statusChanged(event);
+		if(this.statusChangedListener != null) {
+			try {
+				StatusChangedEvent event = new StatusChangedEvent(this, activity, afterState);
+				this.statusChangedListener.statusChanged(event);
+			} catch (TupleSpaceException e) {
+				logger.warn("Could not send status notification, because connection to TupleSpace is lost.");
+			}
+		}
+	}
+	
+	private void clearCurtain() {
+		if(this.clearCurtainListener != null) {
+			try {
+				this.clearCurtainListener.clearCurtain(new ClearCurtainEvent(this));
+			} catch (TupleSpaceException e) {
+				logger.warn("Could not send clear curtain message, because connection to TupleSpace is lost.");
+			}
+		}
+	}
+	
+	private void sendDialogNotification(String text) {
+		if(this.dialogNotificationListener != null) {
+			try {
+				DialogNotificationEvent event = new DialogNotificationEvent(this, text, "n/a");
+				this.dialogNotificationListener.sendDialogNotification(event);
+			} catch (TupleSpaceException e) {
+				logger.warn("Could not send dialog notification, because connection to TupleSpace is lost.");
+			}
+		}
 	}
 	
 	public void setActivityModificationListener(StatusChangedListener listener) {
 		if(listener != null) {
-			this.changeListener = listener;
+			this.statusChangedListener = listener;
 		}
 	}
 	
 	public void setSendMessageListener(SendMessageListener listener) {
 		if(listener != null) {
-			this.messageListener = listener;
+			this.sendMessageListener = listener;
 		}
 	}
 
+	public void setSaveActivityListener(SaveActivityListener listener) {
+		if(listener != null) {
+			this.saveActivityListener = listener;
+		}
+	}
+	
+	public void setLoadActivitiesListener(LoadActivitiesListener listener) {
+		if(listener != null) {
+			this.loadActivitiesListener = listener;
+		}
+	}
+	
+	public void setClearCurtainListener(ClearCurtainListener listener) {
+		if(listener != null) {
+			this.clearCurtainListener = listener;
+		}
+	}
+	
+	public void setDialogNotificationListener(DialogNotificationListener listener) {
+		if(listener != null) {
+			this.dialogNotificationListener = listener;
+		}
+	}
+	
 	/**
-	 * Reinitiates the curtain. This method will force a resent of all messages and will also
+	 * Checks if curtain should be reinitiated.
+	 *
+	 * @return true, if is reinitiate curtain
+	 */
+	public boolean isCurtainReloadNeeded() {
+		this.reloadCurtainLock.lock();
+		try {
+			return this.curtainReloadNeeded;
+		} finally {
+			this.reloadCurtainLock.unlock();
+		}
+	}
+
+	public void setCurtainReloadNeeded(boolean curtainReloadNeeded) {
+		this.reloadCurtainLock.lock();
+		try {
+			this.curtainReloadNeeded = curtainReloadNeeded;
+		} finally {
+			this.reloadCurtainLock.unlock();
+		}
+	}
+	
+	/**
+	 * Reloads the curtain. This method will force a resent of all messages and will also
 	 * send messages to display the state of all activities (ELOs).
 	 */
-	public void reinitiateCurtain() {
-		this.reinitCurtainLock.lock();
+	public void reloadCurtain() {
+		this.reloadCurtainLock.lock();
 		try {
 			logger.debug(String.format("Reinitiating curtain for mission model [ user: %s | missionRuntimeUri %s ]", 
 					getUserName(), 
 					getMissionRuntimeUri()));
+			
 			// resend messages
 			for(Message message : this.messageHistory) {
 				sendMessage(message);
 			}
 			
 			// resend activity states
-			for(Activity activity : this.missionIdToActivityMap.values()) {
-				if(!activity.isDisplayInCurtain()) {
-					continue;
-				}
-				if(activity.getState() != ActivityState.ENABLED) {
-					sendStatusNotification(activity, activity.getState());
-				} else {
-					
-					// Add ELOs to curtain whose predecessors are all finished
-					boolean allPredecessorsFinished = true;
-					for(Activity predecessor : activity.getPredecessors()) {
-						if(predecessor.getState() != ActivityState.FINISHED) {
-							allPredecessorsFinished = false;
-							break;
-						}
+			synchronized (this) {
+				for(Activity activity : this.anchorIdToActivityMap.values()) {
+					if(!activity.isDisplayInCurtain()) {
+						continue;
 					}
-					if(allPredecessorsFinished) {
-						// status has not changed, but maybe it was not visible
-						if(activity.getEloTitle() == null) {
-							try {
-								searchActivityByEloUri(activity.getCurrentEloUri());
-							} catch (URISyntaxException e1) {
-								logger.warn("Could not process tuple, because no first version elo was found for ELO URI", e1);
-							} catch (NoRepositoryAvailableException e1) {
-								logger.warn("Could not process tuple, because repository was not available");
+					if(activity.getState() != ActivityState.ENABLED) {
+						sendStatusNotification(activity, activity.getState());
+					} else {
+						
+						// Add ELOs to curtain whose predecessors are all finished
+						boolean allPredecessorsFinished = true;
+						for(Activity predecessor : activity.getPredecessors()) {
+							if(predecessor.getState() != ActivityState.FINISHED) {
+								allPredecessorsFinished = false;
+								break;
 							}
 						}
-						sendStatusNotification(activity, activity.getState());
+						if(allPredecessorsFinished) {
+							// status has not changed, but maybe it was not visible
+							if(activity.getEloTitle() == null) {
+								ScyElo scyElo = ScyElo.loadElo(URI.create(activity.getCurrentEloUri()), this.rooloServices);
+								activity.setEloTitle(scyElo.getTitle());
+							}
+							sendStatusNotification(activity, activity.getState());
+						}
 					}
 				}
 			}
 		} finally {
-			this.reinitiateCurtain = false;
-			this.reinitCurtainLock.unlock();
+			this.curtainReloadNeeded = false;
+			this.reloadCurtainLock.unlock();
 		}
 	}
 	
-//	public void setHistoryRequestListener(HistoryRequestListener listener) {
-//		this.historyListener = listener;
-//	}
-	
-//	private void requestHistory(long timestamp) throws TupleSpaceException, NoRepositoryAvailableException {
-//		if(this.historyListener == null) {
-//			return;
-//		}
-//		
-//		// FIXME problematic, because elo uris change... so activity evaluation agents won't find all corresponding tuples
-//		HistoryRequestEvent event = new HistoryRequestEvent(this, this.missionIdToActivityMap.values(), timestamp);
-//		List<UserAction> history = this.historyListener.requestHistory(event);
-//		for(UserAction userAction : history) {
-//			try {
-//				Activity activity = getActivityByEloUri(userAction.getEloUri());
-//				if(activity == null) {
-//					logger.warn("Could not find activity for ELO with URI: " + userAction.getEloUri());
-//					return;
-//				}
-//				activity.setLatestModificationTime(userAction.getTimestamp());
-//				if(userAction.getActiontype() == Type.MODIFICATION) {
-//					activity.setState(ActivityState.MODIFIED);
-//				} else {
-//					activity.setState(ActivityState.FINISHED);
-//				}
-//			} catch (URISyntaxException e1) {
-//				logger.warn("Could not process tuple, because no first version elo was found for ELO URI: " + userAction.getEloUri());
-//			}
-//		}
-//	}
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Title: ");
+		sb.append(this.missionTitle);
+		sb.append("\n");
+		sb.append("MissionRuntime URI: ");
+		sb.append(this.missionRuntimeUri);
+		sb.append("\n");
+		sb.append("UserName: ");
+		sb.append(this.userName);
+		sb.append("\n");
+		sb.append("Activities: ");
+		sb.append(this.anchorIdToActivityMap.size());
+		sb.append("\n");
+		for(Activity activity : this.anchorIdToActivityMap.values()) {
+			sb.append(activity.toString());
+			sb.append("\n");
+		}
+		return sb.toString();
+	}
 	
 	class MissionModelBuilder implements Runnable {
 		
@@ -549,14 +683,11 @@ public class MissionModel {
 		public void run() {
 			try {
 				buildMissionModel();
+				loadActivityStatesFromGuidanceSpace();
+				reloadCurtain();
 				
-				// request history of this mission model
-//				long date = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" ).parse("2012-01-01 00:00:00").getTime();
-//				requestHistory(date);
-				
-				// after reconstructing the model, all tuples will be applied to it. if a newer tuple arrives
-				// in the meantime , tuples in this queue won't be applied to the model due to older timestamps
 				synchronized (missionModel) {
+					// this will empty the queue... new tuples have to wait in the meantime
 					state = ModelState.Initialized;
 					while(!tupleQueue.isEmpty()) {
 						Tuple tuple = tupleQueue.remove();
@@ -567,42 +698,12 @@ public class MissionModel {
 				logger.warn("Tried to remove an element from an empty queue");
 			} catch (URISyntaxException e) {
 				logger.error("Could not create model because eloUri is no valid URL", e);
-			} catch (NoRepositoryAvailableException e) {
-				logger.error("Could not create mission model, because no repository available.", e);
 			} catch (InvalidActivityException e) {
 				logger.error("Could not create mission model, because activities could not be created properly.", e);
-			} catch (MissionMapModelException e) {
-				logger.error("Could not create mission model, because reading of mission map model failed. " + e.getMessage(), e);
-//			} catch (ParseException e) {
-//				logger.error("Could not create mission model, because reading of mission map model failed. " + e.getMessage(), e);
-//			} catch (NoRepositoryAvailableException e1) {
-//				logger.warn("Could not process tuple, because repository was not available");
 			} catch (Exception e) {
 				logger.error("Could not create mission model! Reason: " + e.getMessage(), e);
 			}
 		}
-	}
-	
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("Title: ");
-		sb.append(this.missionTitle);
-		sb.append("\n");
-		sb.append("MissionRuntime URI: ");
-		sb.append(this.missionRuntimeUri);
-		sb.append("\n");
-		sb.append("UserName: ");
-		sb.append(this.userName);
-		sb.append("\n");
-		sb.append("Activities: ");
-		sb.append(this.missionIdToActivityMap.size());
-		sb.append("\n");
-		for(Activity activity : this.missionIdToActivityMap.values()) {
-			sb.append(activity.toString());
-			sb.append("\n");
-		}
-		return sb.toString();
 	}
 	
 }

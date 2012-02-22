@@ -1,10 +1,10 @@
 package eu.scy.agents.agenda.exception;
 
-public class NoRepositoryAvailableException extends Exception {
+public class InvalidActivityTupleException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	public NoRepositoryAvailableException(String s) {
+	public InvalidActivityTupleException(String s) {
 		super(s);
 	}
 	

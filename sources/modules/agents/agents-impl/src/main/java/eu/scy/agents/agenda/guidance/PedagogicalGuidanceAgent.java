@@ -4,6 +4,7 @@ import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Callback;
 import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
+import info.collide.sqlspaces.commons.TupleID;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.User;
 
@@ -20,8 +21,14 @@ import eu.scy.agents.AgentRooloServiceImpl;
 import eu.scy.agents.IRepositoryAgent;
 import eu.scy.agents.agenda.evaluation.ActivityFinishedEvaluationAgent;
 import eu.scy.agents.agenda.evaluation.ActivityModifiedEvaluationAgent;
-import eu.scy.agents.agenda.guidance.event.HistoryRequestEvent;
-import eu.scy.agents.agenda.guidance.event.HistoryRequestListener;
+import eu.scy.agents.agenda.guidance.event.ClearCurtainEvent;
+import eu.scy.agents.agenda.guidance.event.ClearCurtainListener;
+import eu.scy.agents.agenda.guidance.event.DialogNotificationEvent;
+import eu.scy.agents.agenda.guidance.event.DialogNotificationListener;
+import eu.scy.agents.agenda.guidance.event.LoadActivitiesEvent;
+import eu.scy.agents.agenda.guidance.event.LoadActivitiesListener;
+import eu.scy.agents.agenda.guidance.event.SaveActivityEvent;
+import eu.scy.agents.agenda.guidance.event.SaveActivityListener;
 import eu.scy.agents.agenda.guidance.event.SendMessageEvent;
 import eu.scy.agents.agenda.guidance.event.SendMessageListener;
 import eu.scy.agents.agenda.guidance.event.StatusChangedEvent;
@@ -29,26 +36,26 @@ import eu.scy.agents.agenda.guidance.event.StatusChangedListener;
 import eu.scy.agents.agenda.guidance.model.Activity;
 import eu.scy.agents.agenda.guidance.model.MissionModel;
 import eu.scy.agents.agenda.guidance.model.UserModel;
-import eu.scy.agents.agenda.serialization.UserAction;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
 
-public class PedagogicalGuidanceAgent extends AbstractThreadedAgent implements IRepositoryAgent, StatusChangedListener, HistoryRequestListener, SendMessageListener {
+public class PedagogicalGuidanceAgent extends AbstractThreadedAgent 
+	implements IRepositoryAgent, StatusChangedListener, SendMessageListener, SaveActivityListener, 
+	LoadActivitiesListener, ClearCurtainListener, DialogNotificationListener {
 
 	private static final Logger logger = Logger.getLogger(PedagogicalGuidanceAgent.class.getName());
 
-//	private static final String REQUEST_HISTORY_RESPONSE = "response";
-//	private static final long REQUEST_HISTORY_TIMEOUT = 5000;
+	public static final String GUIDANCE_SPACE_NAME = "guidance";
 	
 	private static final String ACTION_TYPE_LOGGED_IN = "logged_in";
 	private static final String ACTION_TYPE_LAS_CHANGED = "las_changed";
 	private static final String TOOL_LAS_CHANGED = "scy-desktop";
+	
 	private static final Tuple TEMPLATE_FOR_MODIFIED_ACTIVITY = new Tuple(ActivityModifiedEvaluationAgent.TYPE_MODIFIED, String.class, String.class, String.class, Long.class);
 	private static final Tuple TEMPLATE_FOR_FINISHED_ACTIVITY = new Tuple(ActivityFinishedEvaluationAgent.TYPE_FINISHED, String.class, String.class, String.class, Long.class);
 	private static final Tuple TEMPLATE_FOR_USER_LOGIN = new Tuple("action", String.class, Long.class, ACTION_TYPE_LOGGED_IN, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class);
 	private static final Tuple TEMPLATE_FOR_LAS_CHANGED = new Tuple("action", String.class, Long.class, ACTION_TYPE_LAS_CHANGED, String.class, TOOL_LAS_CHANGED, Field.createWildCardField());
-	
 
 	private final List<Integer> registeredCallbacks = new ArrayList<Integer>();
 	private AgentRooloServiceImpl rooloServices;
@@ -56,6 +63,7 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent implements I
 
 	private TupleSpace actionSpace;
 	private TupleSpace commandSpace;
+	private TupleSpace guidanceSpace;
 	
     
 	public PedagogicalGuidanceAgent(Map<String, Object> map) {
@@ -64,6 +72,7 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent implements I
         try {
         	this.actionSpace = new TupleSpace(new User(getSimpleName()), host, port, false, false, AgentProtocol.ACTION_SPACE_NAME);
 			this.commandSpace = new TupleSpace(new User(getSimpleName()), host, port, false, false, AgentProtocol.COMMAND_SPACE_NAME);
+			this.guidanceSpace = new TupleSpace(new User(getSimpleName()), host, port, false, false, GUIDANCE_SPACE_NAME);
 			
 			this.rooloServices = new AgentRooloServiceImpl();
 			this.userModelDict = new UserModelDictionary(rooloServices);
@@ -126,6 +135,16 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent implements I
 		logger.debug("Registered callback for user logins");
 	}
 	
+    @Override
+    public void setRepository(IRepository rep) {
+        rooloServices.setRepository(rep);
+    }
+
+    @Override
+    public void setMetadataTypeManager(IMetadataTypeManager manager) {
+    	rooloServices.setMetadataTypeManager(manager);
+    }
+
 	private void registerLasChangedCallback() throws TupleSpaceException {
 		Callback lcc = new LasChangedCallback();
 		int id = this.actionSpace.eventRegister(Command.WRITE, TEMPLATE_FOR_LAS_CHANGED, lcc, true);
@@ -148,15 +167,17 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent implements I
 		// check if model is already present, if not create it
 		UserModel userModel = this.userModelDict.getOrCreateUserModel(userName);
 		MissionModel missionModel = userModel.getOrCreateMissionModel(missionRuntimeUri);
+		missionModel.setCurtainReloadNeeded(true);
+		
 		if(missionModel.isEnabled()) {
-			// first login: register listener when no MissionModel exists
+			// first login: build new model and register listeners
 			missionModel.setActivityModificationListener(this);
 			missionModel.setSendMessageListener(this);
-//			missionModel.setHistoryRequestListener(this);
+			missionModel.setSaveActivityListener(this);
+			missionModel.setLoadActivitiesListener(this);
+			missionModel.setClearCurtainListener(this);
+			missionModel.setDialogNotificationListener(this);
 			missionModel.build();
-		} else {
-			// model has already been built... fill the curtain with messages
-			missionModel.setReinitiateCurtain(true);
 		}
 	}
 	
@@ -173,11 +194,12 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent implements I
 		String userName = tuple.getField(4).getValue().toString();
 		String missionRuntimeUri = tuple.getField(6).getValue().toString();
 		
-		// check if model is already present, if not create it
 		UserModel userModel = this.userModelDict.getUserModel(userName);
-		MissionModel missionModel = userModel.getMissionModel(missionRuntimeUri);
-		if(missionModel.isReinitiateCurtain()) {
-			missionModel.reinitiateCurtain();
+		if(userModel != null) {
+			MissionModel missionModel = userModel.getMissionModel(missionRuntimeUri);
+			if(missionModel != null && missionModel.isCurtainReloadNeeded()) {
+				missionModel.reloadCurtain();
+			}
 		}
 	}
 	
@@ -197,19 +219,22 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent implements I
 		String eloUri = tuple.getField(3).getValue().toString();
 			
 		try {
-			UserModel userModel = this.userModelDict.getUserModel(userName);
-			if(userModel == null) {
-				logger.warn("No user model found for user: " + userName);
-				return;
-			}
-			MissionModel missionModel = userModel.getMissionModel(missionRuntimeUri);
-			if(missionModel == null) {
-				logger.warn(String.format("No mission model found for user: %s and mission: %s", userName, missionRuntimeUri));
-				return;
+			UserModel userModel = this.userModelDict.getOrCreateUserModel(userName);
+			MissionModel missionModel = userModel.getOrCreateMissionModel(missionRuntimeUri);
+			if(missionModel.isEnabled()) {
+				// user logged in before the agent has been started (i.e. agent restart)
+				// create models and register listeners
+				missionModel.setActivityModificationListener(this);
+				missionModel.setSendMessageListener(this);
+				missionModel.setSaveActivityListener(this);
+				missionModel.setLoadActivitiesListener(this);
+				missionModel.setClearCurtainListener(this);
+				missionModel.setDialogNotificationListener(this);
+				missionModel.build();
 			}
 			
 			logger.debug(String.format(
-					"Received activity change tuple [ type: %s | user: %s | missionRuntimeUri: %s | ELO URI: %s ]", 
+					"Received activity modified tuple [ type: %s | user: %s | missionRuntimeUri: %s | ELO URI: %s ]", 
 					type, 
 					userName, 
 					missionRuntimeUri,
@@ -221,71 +246,51 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent implements I
 		}
 	}
 
-    @Override
-    public void setRepository(IRepository rep) {
-        rooloServices.setRepository(rep);
-    }
-
-    @Override
-    public void setMetadataTypeManager(IMetadataTypeManager manager) {
-    	rooloServices.setMetadataTypeManager(manager);
-    }
-
 	@Override
-	public void statusChanged(StatusChangedEvent event) {
+	public void statusChanged(StatusChangedEvent event) throws TupleSpaceException {
 		MissionModel missionModel = (MissionModel) event.getSource();
 		Activity activity = event.getActivity();
 
-        try {
-            Tuple statusNotificationTuple = createStatusNotificationTuple(
-            		missionModel.getUserName(), 
-            		activity.getEloTitle(), 
-            		event.getNewState().getText(), 
-            		activity.getLastModificationTime(), 
-            		activity.getFirstVersionEloUri());
-            logger.debug("Writing status changed tuple: " + statusNotificationTuple);
-            commandSpace.write(statusNotificationTuple);
-        } catch (TupleSpaceException e) {
-            logger.info("Error in TupleSpace while load an object in roolo");
-        }
+        Tuple statusNotificationTuple = createStatusNotificationTuple(
+        		missionModel.getUserName(), 
+        		activity.getEloTitle(), 
+        		event.getNewState().getText(), 
+        		activity.getLastModificationTime(), 
+        		activity.getFirstVersionEloUri());
+        logger.debug("Writing status changed tuple: " + statusNotificationTuple);
+        commandSpace.write(statusNotificationTuple);
 	}
 
     private Tuple createStatusNotificationTuple(String user, String eloTitle, String status, long time, String eloUri) {
         Tuple notificationTuple = new Tuple();
-        notificationTuple.add(AgentProtocol.NOTIFICATION); // 1
-        notificationTuple.add(new VMID().toString()); // 2
-        notificationTuple.add(user); // 3
-        notificationTuple.add("scylab"); // 4
-        notificationTuple.add("process guidance agent"); // 5
-        notificationTuple.add("mission"); // 6
-        notificationTuple.add("session"); // 7
-        notificationTuple.add("type=agenda_notify"); // 8
-        notificationTuple.add("text=" + eloTitle); // 9
-        notificationTuple.add("timestamp=" + time); // 10
-        notificationTuple.add("state=" + status); // 11
-        notificationTuple.add("elouri=" + eloUri); // 12
+        notificationTuple.add(AgentProtocol.NOTIFICATION);
+        notificationTuple.add(new VMID().toString());
+        notificationTuple.add(user);
+        notificationTuple.add("scylab");
+        notificationTuple.add("process guidance agent");
+        notificationTuple.add("mission");
+        notificationTuple.add("session");
+        notificationTuple.add("type=agenda_notify");
+        notificationTuple.add("text=" + eloTitle);
+        notificationTuple.add("timestamp=" + time);
+        notificationTuple.add("state=" + status);
+        notificationTuple.add("elouri=" + eloUri);
         return notificationTuple;
     }
 
 	@Override
-	public void sendMessage(SendMessageEvent event) {
+	public void sendCurtainMessage(SendMessageEvent event) throws TupleSpaceException {
 		MissionModel missionModel = (MissionModel)event.getSource();
 
-        try {
-            Tuple messageNotificationTuple = createMessageNotificationTuple(
-            		missionModel.getUserName(), 
-            		event.getMessage(), 
-            		event.getTimestamp());
-            logger.debug("Writing message tuple: " + messageNotificationTuple);
-            commandSpace.write(messageNotificationTuple);
-        } catch (TupleSpaceException e) {
-            logger.error("Could not write message to TupleSpace!", e);
-        }
+        Tuple curtainMessageTuple = createCurtainMessageTuple(
+        		missionModel.getUserName(), 
+        		event.getMessage(), 
+        		event.getTimestamp());
+        logger.debug("Writing message tuple: " + curtainMessageTuple);
+        commandSpace.write(curtainMessageTuple);
 	}
 	
-    private Tuple createMessageNotificationTuple(String userName, String message, long time) {
-    	// ("notification":String, <id>:String, "userName":String, "scylab":String, "process guidance agent":String, 
-    	// "mission":String, "session":String, "type=agenda_notify":String, "text=<message>":String, "timestamp=<Timestamp>":String
+    private Tuple createCurtainMessageTuple(String userName, String message, long time) {
         Tuple notificationTuple = new Tuple();
         notificationTuple.add(AgentProtocol.NOTIFICATION);
         notificationTuple.add(new VMID().toString());
@@ -301,67 +306,88 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent implements I
     }
 
 	@Override
-	public List<UserAction> requestHistory(HistoryRequestEvent event) throws TupleSpaceException {
-		return new ArrayList<UserAction>();
-		// (<ID>:String, <AgentName>:String, "last_modified":String, <Mission>:String, <UserName>:String, 
-		// <Timestamp>:Long, <EloURIs>:String)
+	public void sendDialogNotification(DialogNotificationEvent event) throws TupleSpaceException {
+		MissionModel missionModel = (MissionModel)event.getSource();
 
-//		Map<String, UserAction> modificationHistory = getHistory(event, ActivityModifiedEvaluationAgent.AGENT_NAME, ActivityModifiedEvaluationAgent.REQUEST_TYPE);
-//		Map<String, UserAction> completionHistory = getHistory(event, ActivityFinishedEvaluationAgent.AGENT_NAME, ActivityFinishedEvaluationAgent.REQUEST_TYPE);
-//		if(modificationHistory != null && completionHistory != null) {
-//			return mergeHistory(modificationHistory, completionHistory);
-//		} else {
-//			return null;
-//		}
+        Tuple dialogTuple = createMessageNotificationTuple(
+        		missionModel.getUserName(), 
+        		missionModel.getMissionRuntimeUri(), 
+        		event.getSession(),
+        		new VMID().toString(),
+        		event.getText());
+        logger.debug("Writing dialog tuple: " + dialogTuple);
+        commandSpace.write(dialogTuple);
+	}
+
+    private Tuple createMessageNotificationTuple(String user, String mission, String session, String notificationId, String message) {
+        Tuple notificationTuple = new Tuple();
+        notificationTuple.add(AgentProtocol.NOTIFICATION);
+        notificationTuple.add(notificationId);
+        notificationTuple.add(user);
+        notificationTuple.add("no specific elo");
+        notificationTuple.add(PedagogicalGuidanceAgent.class.getName());
+        notificationTuple.add(mission);
+        notificationTuple.add(session);
+        notificationTuple.add("text=" + message.toString());
+        notificationTuple.add("title=Mission Guidance");
+        notificationTuple.add("type=message_dialog_show");
+        notificationTuple.add("modal=true");
+        notificationTuple.add("dialogType=OK_DIALOG");
+        return notificationTuple;
+    }
+	
+	@Override
+	public void clearCurtain(ClearCurtainEvent event) throws TupleSpaceException {
+		// FIXME curtain clear does not work
+//		MissionModel missionModel = (MissionModel)event.getSource();
+//		
+//        Tuple clearCurtainNotificationTuple = createClearCurtainTuple(
+//        		missionModel.getUserName(), 
+//        		System.currentTimeMillis());
+//        logger.debug("Writing clear curtain tuple: " + clearCurtainNotificationTuple);
+//        commandSpace.write(clearCurtainNotificationTuple);
 	}
 	
-//	private List<UserAction> mergeHistory(Map<String, UserAction> modificationHistory, Map<String, UserAction> completionHistory) {
-//		// chooses the useraction with the latest timestamp for each ELO
-//		List<UserAction> result = new ArrayList<UserAction>();
-//		for(UserAction modAction : modificationHistory.values()) {
-//			UserAction compAction = completionHistory.get(modAction.getEloUri());
-//			if(modAction.getTimestamp() > compAction.getTimestamp()) {
-//				result.add(modAction);
-//			} else {
-//				compAction.setActiontype(Type.COMPLETION);
-//				result.add(compAction);
-//			}
-//		}
-//		return result;
-//	}
-	
-//	private Map<String, UserAction> getHistory(HistoryRequestEvent event, String agentName, String requestType) throws TupleSpaceException {
-//		MissionModel missionModel = (MissionModel) event.getSource();
-//		
-//		// FIXME problematic, because elo uris change... so activity evaluation agents won't find all corresponding tuples
-//		String[] eloUris = new String[event.getActivities().size()];
-//		int i = 0;
-//		for (Activity activity : event.getActivities()) {
-//			eloUris[i] = activity.getFirstVersionEloUri();
-//			i++;
-//		}
-//		String escapedEloUris = EscapeUtils.escape(eloUris);
-//		
-//		VMID requestId = new VMID();
-//		Tuple requestTuple = new Tuple(
-//				requestId, 
-//				agentName,
-//				requestType,
-//				missionModel.getMissionRuntimeUri(), 
-//				missionModel.getUser(),
-//				event.getTimestamp(),
-//				escapedEloUris);
-//		
-//		Tuple responseSignature = new Tuple(REQUEST_HISTORY_RESPONSE, requestId, String.class);
-//		this.commandSpace.write(requestTuple);
-//		Tuple responseTuple = this.commandSpace.waitToTake(responseSignature, REQUEST_HISTORY_TIMEOUT);
-//		if(responseTuple == null) {
-//			logger.warn(String.format("Could not retrieve history from agent '%s', agent does not respond.", agentName));
-//			return null;
-//		}
-//		String responseAsString = responseTuple.getField(2).getValue().toString();
-//		return UserAction.deserializeUserActions(responseAsString);
-//	}
+//    private Tuple createClearCurtainTuple(String userName, long time) {
+//        Tuple notificationTuple = new Tuple();
+//        notificationTuple.add(AgentProtocol.NOTIFICATION);
+//        notificationTuple.add(new VMID().toString());
+//        notificationTuple.add(userName);
+//        notificationTuple.add("scylab");
+//        notificationTuple.add("process guidance agent");
+//        notificationTuple.add("mission");
+//        notificationTuple.add("session");
+//        notificationTuple.add("type=agenda_notify");
+//        notificationTuple.add("text=asd");
+//        notificationTuple.add("timestamp=" + time);
+//        notificationTuple.add("remove=all");
+//        return notificationTuple;
+//    }
+
+	@Override
+	public TupleID saveActivity(SaveActivityEvent event) throws TupleSpaceException {
+		MissionModel missionModel = (MissionModel)event.getSource();
+		TupleID tupleID = event.getTupleID();
+		Tuple tuple = event.getActivity().toTuple(missionModel.getUserName(), missionModel.getMissionRuntimeUri());
+		if(tupleID == null) {
+			// save tuple
+			tupleID = this.guidanceSpace.write(tuple);
+		} else {
+			// update tuple
+			this.guidanceSpace.update(tupleID, tuple);
+		}
+		return tupleID;
+	}
+
+	@Override
+	public List<Tuple> loadActivities(LoadActivitiesEvent event) throws TupleSpaceException {
+		MissionModel missionModel = (MissionModel)event.getSource();
+		List<Tuple> activities = new ArrayList<Tuple>();
+		Tuple signature = new Tuple(Activity.FIELD_ACTIVITY, missionModel.getUserName(), missionModel.getMissionRuntimeUri(), Field.createWildCardField());
+		for(Tuple t : this.guidanceSpace.readAll(signature, 30)) {
+			activities.add(t);
+		}
+		return activities;
+	}
 
 }
-

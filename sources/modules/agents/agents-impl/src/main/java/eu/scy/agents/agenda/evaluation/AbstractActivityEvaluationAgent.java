@@ -75,7 +75,7 @@ public abstract class AbstractActivityEvaluationAgent extends AbstractThreadedAg
             if (returnTuple != null) {
             	try {
             		// searches for the last modification of a user in a 
-            		String id = returnTuple.getField(0).getValue().toString();
+            		String requestId = returnTuple.getField(0).getValue().toString();
             		String mission = returnTuple.getField(3).getValue().toString();
             		String userName = returnTuple.getField(4).getValue().toString();
             		long timestamp = Long.valueOf(returnTuple.getField(5).getValue().toString());
@@ -84,7 +84,10 @@ public abstract class AbstractActivityEvaluationAgent extends AbstractThreadedAg
             				"Received rebuild request with data [ User: %s | Mission: %s | EloURIs: %s]", 
             				userName, mission, eloUris.toString()));
 
-            		performRebuild(id, mission, userName, timestamp, eloUris);
+            		LatestUserActionSearcher searcher = new LatestUserActionSearcher(this.actionSpace, this.toolEvaluatorMap);
+            		Map<String, Tuple> result = searcher.search(requestId, timestamp, mission, userName, eloUris);
+
+            		writeRebuildTuple(requestId, result.values());
             	        		
             	} catch (NumberFormatException e) {
             		logger.warn("Received history request tuple had an invalid timestamp: " + Long.valueOf(returnTuple.getField(5).getValue().toString()));
@@ -118,14 +121,7 @@ public abstract class AbstractActivityEvaluationAgent extends AbstractThreadedAg
 		logger.debug("Registered user action evaluator for tool: " + evaluator.getTool());
 	}
 	
-	protected void performRebuild(String id, String mission, String userName, long timestamp, String[] eloUris) throws TupleSpaceException {
-		LatestUserActionSearcher searcher = new LatestUserActionSearcher(actionSpace, this.toolEvaluatorMap);
-		Map<String, Tuple> result = searcher.search(id, timestamp, mission, userName, eloUris);
-
-		writeRebuildTuple(id, result.values());
-	}
-
-	private void writeRebuildTuple(String id, Collection<Tuple> tuples) throws TupleSpaceException {
+	private void writeRebuildTuple(String requestId, Collection<Tuple> tuples) throws TupleSpaceException {
     	Element root = new Element(UserAction.ELE_ROOT);
     	
     	for(Tuple tuple : tuples) {
@@ -144,7 +140,7 @@ public abstract class AbstractActivityEvaluationAgent extends AbstractThreadedAg
         JDomStringConversion stringConversion = new JDomStringConversion();
         String actionsAsXml = stringConversion.xmlToString(document);
         
-        Tuple rebuildTuple = new Tuple(RESPONSE_STRING, id, actionsAsXml);
+        Tuple rebuildTuple = new Tuple(RESPONSE_STRING, requestId, actionsAsXml);
         this.commandSpace.write(rebuildTuple);
 	}
 	
