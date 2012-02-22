@@ -21,6 +21,17 @@
             }
         </script>
 
+<script type="text/javascript">
+
+    function confSubmit(form) {
+        if (confirm("Are you sure you want to submit the form?")) {
+            form.submit();
+        } else {
+            alert("The portfolio was not submitted.");
+        }
+    }
+</script>
+
         <style type="text/css">
                 .feedbackHeader{
                         background-image:url(/webapp/themes/scy/default/images/feedback_header.png);
@@ -91,7 +102,9 @@
                         <tr>
                             <td style="text-align:center;">
                                 <input type="hidden" value="${missionRuntimeURI}" name="missionRuntimeURI"/>
-                                <input type="submit" value="<spring:message code="SUBMIT_PORTFOLIO"/>" id="submitEport"/>
+                                <c:if test="${showSubmitButton}">
+                                    <input type="submit" onClick="confSubmit(this.form);" value="<spring:message code="SUBMIT_PORTFOLIO"/>" id="submitEport"/>
+                                </c:if>
                             </td>
                         </tr>
                         </table>

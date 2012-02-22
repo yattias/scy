@@ -151,18 +151,18 @@
     <bean id="ajaxELOTextFieldController" class="eu.scy.server.controllers.AjaxELOTextFieldController">
         <property name="rooloServices" ref="missionELOService"/>
         <property name="actionLoggingService" ref="actionLoggingService"/>
-        <property name="agentParameterAPI" ref="agentParameterAPI"/>
+        <!--property name="agentParameterAPI" ref="agentParameterAPI"/-->
 	</bean>
 
     <bean id="ajaxELOSliderController" class="eu.scy.server.controllers.AjaxELOSliderController">
         <property name="rooloServices" ref="missionELOService"/>
         <property name="actionLoggingService" ref="actionLoggingService"/>
-        <property name="agentParameterAPI" ref="agentParameterAPI"/>
+        <!--property name="agentParameterAPI" ref="agentParameterAPI"/-->
         <property name="missionELOService" ref="missionELOService"/>
 	</bean>
 
     <bean id="agentParameterTextFieldController" class="eu.scy.server.controllers.AgentParameterTextFieldController">
-        <property name="agentParameterAPI" ref="agentParameterAPI"/>
+        <!--property name="agentParameterAPI" ref="agentParameterAPI"/-->
         <property name="actionLoggingService" ref="actionLoggingService"/>
 	</bean>
 
@@ -170,7 +170,7 @@
         <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
         <property name="missionELOService" ref="missionELOService"/>
         <property name="transferObjectMapService" ref="transferObjectMapService"/>
-        <property name="agentParameterAPI" ref="agentParameterAPI"/>
+        <!--property name="agentParameterAPI" ref="agentParameterAPI"/-->
 	</bean>
 
     <bean id="ajaxTransferObjectCheckBoxController" class="eu.scy.server.controllers.AjaxTransferObjectCheckBoxController">
@@ -197,7 +197,7 @@
     <bean id="fileUploadController" class="eu.scy.server.controllers.components.fileupload.FileUploadController">
         <property name="fileService" ref="fileService"/>
         <property name="commandClass" value="eu.scy.server.controllers.components.fileupload.FileUploadBean"/>
-        <!--property name="formView" value="fileuploadform"/-->
+
 	</bean>
 
     <bean id="profilePictureUploadController" class="eu.scy.server.controllers.components.fileupload.UserProfileUploadController">
@@ -326,9 +326,9 @@
 
     <bean name="jsonView" class="eu.scy.server.controllers.json.AbstractJSonView"/>
 
-    <bean name="agentParameterAPI" class="eu.scy.agents.impl.parameter.AgentParameterAPIImpl">
+    <!--bean name="agentParameterAPI" class="eu.scy.agents.impl.AgentParameterAPIImpl">
 
-    </bean>
+    </bean-->
 
     <bean id="portfolioELOService" class="eu.scy.core.roolo.PortfolioELOServiceImpl">
         <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
