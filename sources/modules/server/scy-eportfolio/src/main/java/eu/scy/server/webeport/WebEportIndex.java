@@ -52,16 +52,23 @@ public class WebEportIndex extends BaseController {
 
         List <AnchoELOWithStatus> anchoELOWithStatuses = new LinkedList<AnchoELOWithStatus>();
 
+        boolean allElosHaveBeenAddedAndIAmReadyToShowTheMissionReflectionPane = true;
+
         for (int i = 0; i < obligatoryAnchorElos.size(); i++) {
             TransferElo anchorElo = (TransferElo) obligatoryAnchorElos.get(i);
             AnchoELOWithStatus anchoELOWithStatus = new AnchoELOWithStatus();
             anchoELOWithStatus.setAnchorElo(anchorElo);
             if(portfolio != null) {
                 anchoELOWithStatus.setAddedElo(portfolio.getEloForAnchroElo(anchorElo));
-                if(portfolio.getHasEloBeenAddedForAnchorElo(anchorElo)) anchoELOWithStatus.setEloHasBeenAdded(true);
+                if(portfolio.getHasEloBeenAddedForAnchorElo(anchorElo)) {
+                    anchoELOWithStatus.setEloHasBeenAdded(true);
+                } else {
+                    allElosHaveBeenAddedAndIAmReadyToShowTheMissionReflectionPane = false;
+                }
             }
             anchoELOWithStatuses.add(anchoELOWithStatus);
         }
+
 
         String serverPort = "";
         if(request.getServerPort() != 80) {
@@ -79,7 +86,7 @@ public class WebEportIndex extends BaseController {
         modelAndView.addObject("anchorElosWithStatuses", anchoELOWithStatuses);
         modelAndView.addObject("missionReflectionQuestionAnswers", portfolio.getMissionReflectionQuestionAnswers());
         modelAndView.addObject("teacherReflectionOnMisionAnswers", portfolio.getTeachersReflectionsOnMissionAnswers());
-
+        modelAndView.addObject("allElosHaveBeenAddedAndIAmReadyToShowTheMissionReflectionPane", allElosHaveBeenAddedAndIAmReadyToShowTheMissionReflectionPane);
 
 
 

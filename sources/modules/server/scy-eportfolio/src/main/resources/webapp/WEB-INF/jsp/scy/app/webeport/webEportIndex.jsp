@@ -371,9 +371,14 @@ FB.init({
             </div>
 
         </div>
-            <div dojoType="dojox.layout.ContentPane" id="reflectionsPane" parseWidgets="true" parseOnLoad="true" executeScripts="true" style="height:40%;background-color:transparent;" href="reflectionOnMission.html?missionRuntimeURI=${missionRuntimeURI}">
 
-            </div>
+            <c:if test="${allElosHaveBeenAddedAndIAmReadyToShowTheMissionReflectionPane}">
+
+
+                <div dojoType="dojox.layout.ContentPane" id="reflectionsPane" parseWidgets="true" parseOnLoad="true" executeScripts="true" style="height:40%;background-color:transparent;" href="reflectionOnMission.html?missionRuntimeURI=${missionRuntimeURI}">
+
+                </div>
+            </c:if>
         </div>
     </tiles:putAttribute>
 </tiles:insertDefinition>

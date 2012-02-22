@@ -1,6 +1,6 @@
 package eu.scy.server.taglibs;
 
-import eu.scy.agents.api.parameter.AgentParameter;
+
 import eu.scy.core.XMLTransferObjectService;
 import eu.scy.core.model.transfer.BaseXMLTransfer;
 import eu.scy.core.roolo.MissionELOService;
