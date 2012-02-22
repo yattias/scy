@@ -24,7 +24,7 @@
 <script type="text/javascript">
 
     function confSubmit(form) {
-        if (confirm("Are you sure you want to submit the form?")) {
+        if (confirm("Are you sure you want to submit the portfolio?")) {
             form.submit();
         } else {
             alert("The portfolio was not submitted.");

@@ -54,17 +54,20 @@ public class AssessMission extends BaseController {
     }
 
     private void initializePortfolio(PedagogicalPlanTransfer pedagogicalPlan, Portfolio portfolio, MissionRuntimeElo missionRuntimeElo) {
-        for (int i = 0; i < pedagogicalPlan.getAssessmentSetup().getTeacherQuestionsToMission().size(); i++) {
-            TeacherQuestionToMission teacherQuestionToMission = pedagogicalPlan.getAssessmentSetup().getTeacherQuestionsToMission().get(i);
-            TeachersReflectionsOnMissionAnswer answer = new TeachersReflectionsOnMissionAnswer();
-            answer.setTeacherQuestionToMissionId(teacherQuestionToMission.getId());
-            answer.setTeacherQuestionToMission(teacherQuestionToMission.getQuestion());
-            portfolio.addTeacherReflectionOnMissionAnswer(answer);
-        }
+        if(portfolio.getTeachersReflectionsOnMissionAnswers().size() == 0 ) {
+            for (int i = 0; i < pedagogicalPlan.getAssessmentSetup().getTeacherQuestionsToMission().size(); i++) {
+                TeacherQuestionToMission teacherQuestionToMission = pedagogicalPlan.getAssessmentSetup().getTeacherQuestionsToMission().get(i);
+                TeachersReflectionsOnMissionAnswer answer = new TeachersReflectionsOnMissionAnswer();
+                answer.setTeacherQuestionToMissionId(teacherQuestionToMission.getId());
+                answer.setTeacherQuestionToMission(teacherQuestionToMission.getQuestion());
+                portfolio.addTeacherReflectionOnMissionAnswer(answer);
+            }
 
-        ScyElo portfolioElo = ScyElo.loadLastVersionElo(missionRuntimeElo.getTypedContent().getEPortfolioEloUri(), getMissionELOService());
-        portfolioElo.getContent().setXmlString(getXmlTransferObjectService().getToObjectXStream().toXML(portfolio));
-        portfolioElo.updateElo();
+            ScyElo portfolioElo = ScyElo.loadLastVersionElo(missionRuntimeElo.getTypedContent().getEPortfolioEloUri(), getMissionELOService());
+            portfolioElo.getContent().setXmlString(getXmlTransferObjectService().getToObjectXStream().toXML(portfolio));
+            portfolioElo.updateElo();
+
+        }
 
     }
 
