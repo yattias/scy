@@ -210,6 +210,12 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
 
    var scyDesktop = scyDesktopCreator.createScyDesktop();
 
+   if (Boolean.getBoolean("agenda")) {
+	scyDesktop.bottomLeftCornerTool = null;
+	scyDesktop.topLeftCornerTool = null;
+	scyDesktop.topRightCornerTool = null;
+   }
+
 //   scyDesktop.bottomLeftCornerTool = EloManagement {
 //      scyDesktop: scyDesktop;
 //      repository: scyDesktopCreator.config.getRepository();
