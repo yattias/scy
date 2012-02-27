@@ -2,26 +2,21 @@ package eu.scy.agents.agenda.guidance.event;
 
 import java.util.EventObject;
 
+import eu.scy.agents.agenda.guidance.model.Message;
+
 public class SendMessageEvent extends EventObject {
 
 	private static final long serialVersionUID = 1L;
 	
-	private String message;
+	private Message message;
 
-	private long timestamp;
-	
-	public SendMessageEvent(Object source, String message, long timestamp) {
+	public SendMessageEvent(Object source, Message message) {
 		super(source);
 		this.message = message;
-		this.timestamp = timestamp;
 	}
 
-	public String getMessage() {
+	public Message getMessage() {
 		return this.message;
 	}
 
-	public long getTimestamp() {
-		return this.timestamp;
-	}
-	
 }
