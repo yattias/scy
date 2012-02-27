@@ -132,16 +132,19 @@ public class SimulatorNode
       logger.severe("object received: {object.getClass()}");
       if (object instanceof ISynchronizable) {
          if ((object as ISynchronizable).getToolName().equals("fitex")) {
+			logger.severe("can accept: true");
             return true;
          }
       }
-      return false;
+	logger.severe("can accept: false");
+    return false;
    }
 
    public override function acceptDrop(object: Object) {
       logger.severe("drop accepted");
       var isSync = isSynchronizingWith(object as ISynchronizable);
-      if (isSync) {
+      logger.severe("isSync: {isSync}");
+	  if (isSync) {
          removeDatasync(object as ISynchronizable);
       } else {
          acceptDialog = AcceptSyncModalDialog {
@@ -375,7 +378,7 @@ public class SimulatorNode
       try {
          simquestViewer.run();
          // creating the datacollector
-         dataCollector = new DataCollector(simquestViewer, toolBrokerAPI, (scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI());
+         dataCollector = new DataCollector(simquestViewer, toolBrokerAPI, (scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI(), simConfig.getVariables());
          var simulationViewer = simquestViewer.getInterfacePanel();
          simulationViewer.setPreferredSize(simquestViewer.getRealSize());
          // adding simulation and datacollector to splitpane
@@ -385,7 +388,7 @@ public class SimulatorNode
          split.setDividerLocation(0.75);
          split.setResizeWeight(0.75);
 
-         dataCollector.setVariableValues(simConfig.getVariables());
+         //dataCollector.setVariableValues(simConfig.getVariables());
          dataCollector.setRelevantVariables(simConfig.getRelevantVariables());
          saveAsDatasetTitleBarButton.enabled = true;
          saveAsTitleBarButton.enabled = true;
