@@ -218,21 +218,19 @@ public class MissionModel {
 		}
 		
 		activity.setLastModificationTime(timestamp);
-		activity.setState(activityNewState);
-		activity.setDisplayInCurtain(true);
+		changeActivity(activity, activityNewState, true);
 		
 		if(activityOldState != activityNewState) {
-			sendStatusNotification(activity, activityNewState);
-			
 			logger.debug(String.format(
-					"Activity state has been changed: %s -> %s ( User: %s | Mission: %s | ELO: %s )",
+					"Activity state has been changed: %s -> %s ( User: %s | Mission: %s | ELO Title: %s | ELO: %s )",
 					activityOldState.toString(),
 					activityNewState.toString(),
 					getUserName(), 
 					getMissionRuntimeUri(),
+					activity.getEloTitle(),
 					eloUri));
 		}
-
+		
 		if(activityNewState == ActivityState.MODIFIED && activityOldState != ActivityState.MODIFIED) {
 			
 			if(activityOldState == ActivityState.NEEDTOCHECK || activityOldState == ActivityState.FINISHED) {
@@ -248,44 +246,23 @@ public class MissionModel {
 				
 				// check the state of all successors
 				// finished activities will be marked as NEEDTOCHECK
-				List<Activity> needToCheckDependencies = new ArrayList<Activity>();
-				for(Activity dependency : activity.getSuccessors()) {
-					ActivityState depOldState = dependency.getState();
-					if(depOldState == ActivityState.FINISHED) {
-						ActivityState depNewState = ActivityState.NEEDTOCHECK;
-						
-						if(dependency.getEloTitle() == null) {
-							ScyElo scyElo = ScyElo.loadElo(URI.create(dependency.getCurrentEloUri()), this.rooloServices);
-							dependency.setEloTitle(scyElo.getTitle());
-						}
-						dependency.setState(depNewState);
-						dependency.setDisplayInCurtain(true);
-						sendStatusNotification(dependency, depNewState);
-						sendMessage(
-								String.format("Your modification of ELO '%s' means that you should have a look at ELO '%s'", 
-										activity.getEloTitle(),
-										dependency.getEloTitle()), 
-										timestamp);
-						saveActivityInGuidanceSpace(dependency);
-						needToCheckDependencies.add(dependency);
-					}
-				}
+				List<Activity> needToCheckSuccessors = changeFinishedActivitiesInNeedToCheck(activity, timestamp);
 				
 				// print dialog notification to inform user about changes
-				if(needToCheckDependencies.size() > 0) {
+				if(needToCheckSuccessors.size() > 0) {
 					String text = "";
-					if(needToCheckDependencies.size() == 1) {
-						text = String.format("Your modification of ELO '%s' means that you should have a look at ELO '%s", 
+					if(needToCheckSuccessors.size() == 1) {
+						text = String.format("Your modification of ELO '%s' implies that you should have a look at ELO '%s'", 
 								activity.getEloTitle(),
-								needToCheckDependencies.get(0).getEloTitle());
+								needToCheckSuccessors.get(0).getEloTitle());
 					} else {
 						StringBuilder sb = new StringBuilder();
 						sb.append("Your modification of ELO '");
 						sb.append(activity.getEloTitle());
-						sb.append("' means that you should have a look at the following ELOs:\n");
-						for(Activity dependency : needToCheckDependencies) {
+						sb.append("' implies that you should have a look at the following ELOs:\n");
+						for(Activity successor : needToCheckSuccessors) {
 							sb.append("\n");
-							sb.append(dependency.getEloTitle());
+							sb.append(successor.getEloTitle());
 						}
 						text = sb.toString();
 					}
@@ -304,42 +281,70 @@ public class MissionModel {
 			sendMessage(
 					String.format("You have marked ELO '%s' as finished", activity.getEloTitle()), 
 					timestamp);
-			
-			// Add following ELOs (successors) to curtain, that become available by finishing an activity.
-			// A following ELO will be displayed if all predecessors are finished
-			for(Activity successor : activity.getSuccessors()) {
-				if(successor.getState() != ActivityState.ENABLED) {
-					// when successor is modified, needtocheck or finished, it is already in the curtain
-					continue;
-				}
-				boolean allPredecessorsFinished = true;
-				for(Activity predecessor : successor.getPredecessors()) {
-					if(predecessor.getState() != ActivityState.FINISHED) {
-						allPredecessorsFinished = false;
-						break;
-					}
-				}
-				if(allPredecessorsFinished) {
-					if(successor.getEloTitle() == null) {
-						ScyElo scyElo = ScyElo.loadElo(URI.create(successor.getCurrentEloUri()), this.rooloServices);
-						activity.setEloTitle(scyElo.getTitle());
-					}
-					successor.setDisplayInCurtain(true);
-					sendStatusNotification(successor, successor.getState());
-					sendMessage(
-							String.format(
-									"Your completion of ELO '%s' has enabled ELO '%s'", 
-									activity.getEloTitle(), 
-									successor.getEloTitle()), 
-									timestamp);
-					saveActivityInGuidanceSpace(successor);
-				}
-			}
+			displaySuccessorsIfDependenciesFinished(activity, timestamp);
 		}
 		
-		// save changes applied to the model in the guidance space
-		saveActivityInGuidanceSpace(activity);
 		logger.debug(toString());
+	}
+	
+	private List<Activity> changeFinishedActivitiesInNeedToCheck(Activity activity, long timestamp) {
+		List<Activity> needToCheckSuccessors = new ArrayList<Activity>();
+		for(Activity successor : activity.getSuccessors()) {
+			ActivityState succOldState = successor.getState();
+			if(succOldState == ActivityState.FINISHED) {
+				
+				changeActivity(successor, ActivityState.NEEDTOCHECK, true);
+				needToCheckSuccessors.add(successor);
+				sendMessage(
+						String.format("Your modification of ELO '%s' means that you should have a look at ELO '%s'", 
+								activity.getEloTitle(),
+								successor.getEloTitle()), 
+								timestamp);
+			}
+		}
+		return needToCheckSuccessors;
+	}
+	
+	private void displaySuccessorsIfDependenciesFinished(Activity activity, long timestamp) {
+		// Add following ELOs (successors) to curtain, that become available by finishing an activity.
+		// A following ELO will be displayed if all predecessors are finished
+		for(Activity successor : activity.getSuccessors()) {
+			if(successor.isDisplayedInCurtain()) {
+				continue;
+			}
+			boolean allPredecessorsFinished = true;
+			for(Activity predecessor : successor.getPredecessors()) {
+				if(predecessor.getState() != ActivityState.FINISHED) {
+					allPredecessorsFinished = false;
+					break;
+				}
+			}
+			if(allPredecessorsFinished) {
+				changeActivity(successor, successor.getState(), true);
+				sendMessage(
+						String.format(
+								"Your completion of ELO '%s' has enabled ELO '%s'", 
+								activity.getEloTitle(), 
+								successor.getEloTitle()), 
+								timestamp);
+			}
+		}
+	}
+	
+	private void changeActivity(Activity activity, ActivityState newState, boolean displayInCurtain) {
+		if(activity.getEloTitle() == null) {
+			ScyElo scyElo = ScyElo.loadElo(URI.create(activity.getCurrentEloUri()), this.rooloServices);
+			activity.setEloTitle(scyElo.getTitle());
+		}
+		if(activity.getState() == newState && activity.isDisplayedInCurtain() == displayInCurtain) {
+			// nothing has changed
+			return;
+		}
+		// this means that the activity has been changed
+		activity.setState(newState);
+		activity.setDisplayedInCurtain(displayInCurtain);
+		sendStatusNotification(activity, newState);
+		saveActivityInGuidanceSpace(activity);
 	}
 	
 	private void saveActivityInGuidanceSpace(Activity activity) {
@@ -608,7 +613,7 @@ public class MissionModel {
 			// resend activity states
 			synchronized (this) {
 				for(Activity activity : this.anchorIdToActivityMap.values()) {
-					if(!activity.isDisplayInCurtain()) {
+					if(!activity.isDisplayedInCurtain()) {
 						continue;
 					}
 					if(activity.getState() != ActivityState.ENABLED) {

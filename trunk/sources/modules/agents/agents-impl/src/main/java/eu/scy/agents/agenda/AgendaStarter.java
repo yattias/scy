@@ -28,7 +28,8 @@ public class AgendaStarter {
         	Logger rootLogger = Logger.getRootLogger();
         	rootLogger.setLevel(Level.DEBUG);
         	
-            ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/beans.xml");
+        	ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/beans.xml");
+//            ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("resources/beans.xml");
             IMetadataTypeManager metadataTypeManager = (IMetadataTypeManager) context.getBean("metadataTypeManager");
             IRepository repository = (IRepository) context.getBean("repository");
 
