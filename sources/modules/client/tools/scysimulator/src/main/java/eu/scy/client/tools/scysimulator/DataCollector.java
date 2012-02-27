@@ -105,7 +105,13 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
 	private ModelVariable allFeedbackVariable;
 
 	public DataCollector(SimQuestViewer simquestViewer, ToolBrokerAPI tbi, String eloURI) {
+		this(simquestViewer, tbi, eloURI, null);
+	}
+
+	public DataCollector(SimQuestViewer simquestViewer, ToolBrokerAPI tbi, String eloURI, HashMap<String, String> variableValues) {
 		this.bundle = new ResourceBundleWrapper(this);
+		this.simquestViewer = simquestViewer;
+		this.setVariableValues(variableValues);
 		// initialize the logger(s)
 		shownMessages = new Vector<String>();
 		this.tbi = tbi;
@@ -145,8 +151,7 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
 		
 		// initialize user interface
 		initGUI();
-		// setting some often-used variable
-		this.simquestViewer = simquestViewer;
+		// setting some often-used variables
 		simulationVariables = simquestViewer.getDataServer().getVariables("name is not relevant");
 		// register dataAgent
 		dataAgent = new SCYDataAgent(this, simquestViewer.getDataServer());
@@ -373,6 +378,9 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
 	}
 
 	public void setVariableValues(HashMap<String, String> variableValues) {
+		if (variableValues == null) {
+			return;
+		}
 		ModelVariable var;
 		for (Iterator<Entry<String, String>> it = variableValues.entrySet().iterator(); it.hasNext();) {
 			Entry<String, String> entry = it.next();
