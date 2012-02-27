@@ -39,7 +39,7 @@ public class Activity {
 	private final List<Activity> predecessors = new ArrayList<Activity>();
 	
 	public Activity(String anchorId, String firstVersionEloUri) {
-		this(ActivityState.ENABLED, anchorId, firstVersionEloUri, Long.MIN_VALUE);
+		this(ActivityState.ENABLED, anchorId, firstVersionEloUri, 0);
 	}
 	
 	public Activity(ActivityState state, String anchorId, String firstVersionEloUri, long latestModification) {
@@ -48,14 +48,14 @@ public class Activity {
 		this.firstVersionEloUri = firstVersionEloUri;
 		setLastModificationTime(latestModification);
 		setCurrentEloUri(firstVersionEloUri);
-		setDisplayInCurtain(false);
+		setDisplayedInCurtain(false);
 	}
 	
-	public boolean isDisplayInCurtain() {
+	public boolean isDisplayedInCurtain() {
 		return this.displayInCurtain;
 	}
 
-	public void setDisplayInCurtain(boolean displayInCurtain) {
+	public void setDisplayedInCurtain(boolean displayInCurtain) {
 		this.displayInCurtain = displayInCurtain;
 	}
 
