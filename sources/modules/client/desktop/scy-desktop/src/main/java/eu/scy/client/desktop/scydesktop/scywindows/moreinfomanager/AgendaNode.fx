@@ -147,7 +147,7 @@ public class AgendaNode extends CustomNode, Resizable {
                                 hpos: HPos.RIGHT
                             }
                             textAlignment: TextAlignment.RIGHT
-                            text: "Completion Time"
+                            text: "Time"
                             font: headerFont
                         }
                     ]
