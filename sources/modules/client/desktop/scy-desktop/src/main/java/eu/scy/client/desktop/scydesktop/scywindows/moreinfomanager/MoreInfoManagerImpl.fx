@@ -6,8 +6,10 @@ package eu.scy.client.desktop.scydesktop.scywindows.moreinfomanager;
 
 import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoManager;
 import javafx.scene.Node;
+import eu.scy.actionlogging.Action;
 import javafx.scene.Scene;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
+import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.client.desktop.desktoputils.art.ScyColors;
 import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 import org.apache.log4j.Logger;
@@ -149,6 +151,12 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       agendaWindow.setControlFunctionClose();
       ModalDialogLayer.addModalDialog(agendaWindow, false, true, false, 20);
       sceneSizeChanged();
+      
+      def action: Action = new Action();
+      action.setType("agenda_opened");
+      action.setUser(tbi.getContextService().getUsername());
+      action.addContext(ContextConstants.tool, "agenda");
+      tbi.getActionLogger().log(action);
    }
 
    function showInstructionWindow(): Void {
@@ -178,6 +186,12 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       if (agendaWindow.visible) {
          agendaWindow.setControlFunctionOpen();
          ModalDialogLayer.removeModalDialog(agendaWindow, true, false);
+
+         def action: Action = new Action();
+         action.setType("agenda_closed");
+         action.setUser(tbi.getContextService().getUsername());
+         action.addContext(ContextConstants.tool, "agenda");
+         tbi.getActionLogger().log(action);
       }
    }
 
