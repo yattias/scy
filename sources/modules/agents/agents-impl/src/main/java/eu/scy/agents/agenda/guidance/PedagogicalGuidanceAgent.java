@@ -27,6 +27,8 @@ import eu.scy.agents.agenda.guidance.event.DialogNotificationEvent;
 import eu.scy.agents.agenda.guidance.event.DialogNotificationListener;
 import eu.scy.agents.agenda.guidance.event.LoadActivitiesEvent;
 import eu.scy.agents.agenda.guidance.event.LoadActivitiesListener;
+import eu.scy.agents.agenda.guidance.event.LoadMessagesEvent;
+import eu.scy.agents.agenda.guidance.event.LoadMessagesListener;
 import eu.scy.agents.agenda.guidance.event.SaveActivityEvent;
 import eu.scy.agents.agenda.guidance.event.SaveActivityListener;
 import eu.scy.agents.agenda.guidance.event.SendMessageEvent;
@@ -34,6 +36,7 @@ import eu.scy.agents.agenda.guidance.event.SendMessageListener;
 import eu.scy.agents.agenda.guidance.event.StatusChangedEvent;
 import eu.scy.agents.agenda.guidance.event.StatusChangedListener;
 import eu.scy.agents.agenda.guidance.model.Activity;
+import eu.scy.agents.agenda.guidance.model.Message;
 import eu.scy.agents.agenda.guidance.model.MissionModel;
 import eu.scy.agents.agenda.guidance.model.UserModel;
 import eu.scy.agents.api.AgentLifecycleException;
@@ -42,7 +45,7 @@ import eu.scy.agents.impl.AgentProtocol;
 
 public class PedagogicalGuidanceAgent extends AbstractThreadedAgent 
 	implements IRepositoryAgent, StatusChangedListener, SendMessageListener, SaveActivityListener, 
-	LoadActivitiesListener, ClearCurtainListener, DialogNotificationListener {
+	LoadActivitiesListener, LoadMessagesListener, ClearCurtainListener, DialogNotificationListener {
 
 	private static final Logger logger = Logger.getLogger(PedagogicalGuidanceAgent.class.getName());
 
@@ -175,6 +178,7 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent
 			missionModel.setSendMessageListener(this);
 			missionModel.setSaveActivityListener(this);
 			missionModel.setLoadActivitiesListener(this);
+			missionModel.setLoadMessagesListener(this);
 			missionModel.setClearCurtainListener(this);
 			missionModel.setDialogNotificationListener(this);
 			missionModel.build();
@@ -228,6 +232,7 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent
 				missionModel.setSendMessageListener(this);
 				missionModel.setSaveActivityListener(this);
 				missionModel.setLoadActivitiesListener(this);
+				missionModel.setLoadMessagesListener(this);
 				missionModel.setClearCurtainListener(this);
 				missionModel.setDialogNotificationListener(this);
 				missionModel.build();
@@ -280,14 +285,18 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent
 
 	@Override
 	public void sendCurtainMessage(SendMessageEvent event) throws TupleSpaceException {
-		MissionModel missionModel = (MissionModel)event.getSource();
+		Message message = event.getMessage();
 
         Tuple curtainMessageTuple = createCurtainMessageTuple(
-        		missionModel.getUserName(), 
-        		event.getMessage(), 
-        		event.getTimestamp());
+        		message.getUserName(), 
+        		message.getText(), 
+        		message.getTimestamp());
         logger.debug("Writing message tuple: " + curtainMessageTuple);
         commandSpace.write(curtainMessageTuple);
+        
+        Tuple guidanceSpacetuple = message.toTuple();
+        logger.debug("Persisting message in guidance space: " + curtainMessageTuple);
+        this.guidanceSpace.write(guidanceSpacetuple);
 	}
 	
     private Tuple createCurtainMessageTuple(String userName, String message, long time) {
@@ -304,6 +313,17 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent
         notificationTuple.add("timestamp=" + time);
         return notificationTuple;
     }
+
+	@Override
+	public List<Tuple> loadMessages(LoadMessagesEvent event) throws TupleSpaceException {
+		MissionModel missionModel = (MissionModel)event.getSource();
+		List<Tuple> messages = new ArrayList<Tuple>();
+		Tuple signature = new Tuple(Message.FIELD_MESSAGE, missionModel.getUserName(), missionModel.getMissionRuntimeUri(), Field.createWildCardField());
+		for(Tuple t : this.guidanceSpace.readAll(signature, 30)) {
+			messages.add(t);
+		}
+		return messages;
+	}
 
 	@Override
 	public void sendDialogNotification(DialogNotificationEvent event) throws TupleSpaceException {
@@ -339,30 +359,30 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent
 	@Override
 	public void clearCurtain(ClearCurtainEvent event) throws TupleSpaceException {
 		// FIXME curtain clear does not work
-//		MissionModel missionModel = (MissionModel)event.getSource();
-//		
-//        Tuple clearCurtainNotificationTuple = createClearCurtainTuple(
-//        		missionModel.getUserName(), 
-//        		System.currentTimeMillis());
-//        logger.debug("Writing clear curtain tuple: " + clearCurtainNotificationTuple);
-//        commandSpace.write(clearCurtainNotificationTuple);
+		MissionModel missionModel = (MissionModel)event.getSource();
+		
+        Tuple clearCurtainNotificationTuple = createClearCurtainTuple(
+        		missionModel.getUserName(), 
+        		System.currentTimeMillis());
+        logger.debug("Writing clear curtain tuple: " + clearCurtainNotificationTuple);
+        commandSpace.write(clearCurtainNotificationTuple);
 	}
 	
-//    private Tuple createClearCurtainTuple(String userName, long time) {
-//        Tuple notificationTuple = new Tuple();
-//        notificationTuple.add(AgentProtocol.NOTIFICATION);
-//        notificationTuple.add(new VMID().toString());
-//        notificationTuple.add(userName);
-//        notificationTuple.add("scylab");
-//        notificationTuple.add("process guidance agent");
-//        notificationTuple.add("mission");
-//        notificationTuple.add("session");
-//        notificationTuple.add("type=agenda_notify");
-//        notificationTuple.add("text=asd");
-//        notificationTuple.add("timestamp=" + time);
-//        notificationTuple.add("remove=all");
-//        return notificationTuple;
-//    }
+    private Tuple createClearCurtainTuple(String userName, long time) {
+        Tuple notificationTuple = new Tuple();
+        notificationTuple.add(AgentProtocol.NOTIFICATION);
+        notificationTuple.add(new VMID().toString());
+        notificationTuple.add(userName);
+        notificationTuple.add("scylab");
+        notificationTuple.add("process guidance agent");
+        notificationTuple.add("mission");
+        notificationTuple.add("session");
+        notificationTuple.add("type=agenda_notify");
+        notificationTuple.add("text=asd");
+        notificationTuple.add("timestamp=" + time);
+        notificationTuple.add("remove=all");
+        return notificationTuple;
+    }
 
 	@Override
 	public TupleID saveActivity(SaveActivityEvent event) throws TupleSpaceException {

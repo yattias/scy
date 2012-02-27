@@ -20,12 +20,15 @@ import javax.activity.InvalidActivityException;
 import org.apache.log4j.Logger;
 
 import eu.scy.agents.agenda.exception.InvalidActivityTupleException;
+import eu.scy.agents.agenda.exception.InvalidMessageTupleException;
 import eu.scy.agents.agenda.guidance.event.ClearCurtainEvent;
 import eu.scy.agents.agenda.guidance.event.ClearCurtainListener;
 import eu.scy.agents.agenda.guidance.event.DialogNotificationEvent;
 import eu.scy.agents.agenda.guidance.event.DialogNotificationListener;
 import eu.scy.agents.agenda.guidance.event.LoadActivitiesEvent;
 import eu.scy.agents.agenda.guidance.event.LoadActivitiesListener;
+import eu.scy.agents.agenda.guidance.event.LoadMessagesEvent;
+import eu.scy.agents.agenda.guidance.event.LoadMessagesListener;
 import eu.scy.agents.agenda.guidance.event.SaveActivityEvent;
 import eu.scy.agents.agenda.guidance.event.SaveActivityListener;
 import eu.scy.agents.agenda.guidance.event.SendMessageEvent;
@@ -72,6 +75,7 @@ public class MissionModel {
 	private SendMessageListener sendMessageListener;
 	private SaveActivityListener saveActivityListener;
 	private LoadActivitiesListener loadActivitiesListener;
+	private LoadMessagesListener loadMessagesListener;
 	private ClearCurtainListener clearCurtainListener;
 	private DialogNotificationListener dialogNotificationListener;
 	private ReentrantLock reloadCurtainLock = new ReentrantLock(true);
@@ -448,6 +452,33 @@ public class MissionModel {
 		logger.debug(toString());
 	}
 	
+	private void reloadMessages() {
+		if(this.loadMessagesListener == null) {
+			return;
+		}
+		List<Tuple> messageTuples;
+		try {
+			messageTuples = this.loadMessagesListener.loadMessages(new LoadMessagesEvent(this));
+			logger.debug(String.format(
+					"Loaded %s messages persisted in GuidanceSpace [ User: %s | MissionRuntimeUri: %s]",
+					messageTuples.size(),
+					getUserName(),
+					getMissionRuntimeUri()));
+			this.messageHistory.clear();
+			for(Tuple tuple : messageTuples) {
+				Message message = new Message();
+				try {
+					message.loadFromTuple(tuple);
+					this.messageHistory.add(message);
+				} catch (InvalidMessageTupleException e) {
+					logger.warn(String.format("Error loading message from tuple %s : %s", tuple, e.getMessage()));
+				}
+			}
+		} catch (TupleSpaceException e) {
+			logger.warn("Could not load messages, because connection to TupleSpace is lost.");
+		}
+	}
+	
 	private void loadActivityStatesFromGuidanceSpace() {
 		if(this.loadActivitiesListener == null) {
 			return;
@@ -483,7 +514,7 @@ public class MissionModel {
 	}
 	
 	private void sendMessage(String text, long timestamp) {
-		Message message = new Message(timestamp, text);
+		Message message = new Message(timestamp, text, this.userName, this.missionRuntimeUri);
 		boolean success = sendMessage(message);
 		if(success) {
 			this.messageHistory.add(message);
@@ -493,7 +524,7 @@ public class MissionModel {
 	private boolean sendMessage(Message message) {
 		if(this.sendMessageListener != null) {
 			try {
-				SendMessageEvent event = new SendMessageEvent(this, message.getMessage(), message.getTimestamp());
+				SendMessageEvent event = new SendMessageEvent(this, message);
 				this.sendMessageListener.sendCurtainMessage(event);
 				return true;
 			} catch (TupleSpaceException e) {
@@ -556,6 +587,12 @@ public class MissionModel {
 	public void setLoadActivitiesListener(LoadActivitiesListener listener) {
 		if(listener != null) {
 			this.loadActivitiesListener = listener;
+		}
+	}
+	
+	public void setLoadMessagesListener(LoadMessagesListener listener) {
+		if(listener != null) {
+			this.loadMessagesListener = listener;
 		}
 	}
 	
@@ -689,6 +726,9 @@ public class MissionModel {
 			try {
 				buildMissionModel();
 				loadActivityStatesFromGuidanceSpace();
+				clearCurtain();
+				reloadMessages();
+				// messages will be displayed in curtain with reloadCurtain method
 				reloadCurtain();
 				
 				synchronized (missionModel) {
