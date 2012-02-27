@@ -304,8 +304,8 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent
         notificationTuple.add(AgentProtocol.NOTIFICATION);
         notificationTuple.add(new VMID().toString());
         notificationTuple.add(userName);
-        notificationTuple.add("scylab");
-        notificationTuple.add("process guidance agent");
+        notificationTuple.add("no specific elo");
+        notificationTuple.add(PedagogicalGuidanceAgent.class.getName());
         notificationTuple.add("mission");
         notificationTuple.add("session");
         notificationTuple.add("type=agenda_notify");
@@ -339,11 +339,11 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent
         commandSpace.write(dialogTuple);
 	}
 
-    private Tuple createMessageNotificationTuple(String user, String mission, String session, String notificationId, String message) {
+    private Tuple createMessageNotificationTuple(String userName, String mission, String session, String notificationId, String message) {
         Tuple notificationTuple = new Tuple();
         notificationTuple.add(AgentProtocol.NOTIFICATION);
         notificationTuple.add(notificationId);
-        notificationTuple.add(user);
+        notificationTuple.add(userName);
         notificationTuple.add("no specific elo");
         notificationTuple.add(PedagogicalGuidanceAgent.class.getName());
         notificationTuple.add(mission);
@@ -363,22 +363,23 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent
 		
         Tuple clearCurtainNotificationTuple = createClearCurtainTuple(
         		missionModel.getUserName(), 
+        		missionModel.getMissionRuntimeUri(),
         		System.currentTimeMillis());
         logger.debug("Writing clear curtain tuple: " + clearCurtainNotificationTuple);
         commandSpace.write(clearCurtainNotificationTuple);
 	}
 	
-    private Tuple createClearCurtainTuple(String userName, long time) {
+    private Tuple createClearCurtainTuple(String userName, String mission, long time) {
         Tuple notificationTuple = new Tuple();
         notificationTuple.add(AgentProtocol.NOTIFICATION);
         notificationTuple.add(new VMID().toString());
         notificationTuple.add(userName);
-        notificationTuple.add("scylab");
-        notificationTuple.add("process guidance agent");
-        notificationTuple.add("mission");
-        notificationTuple.add("session");
-        notificationTuple.add("type=agenda_notify");
+        notificationTuple.add("no specific elo");
+        notificationTuple.add(PedagogicalGuidanceAgent.class.getName());
+        notificationTuple.add(mission);
+        notificationTuple.add("n/a");
         notificationTuple.add("text=asd");
+        notificationTuple.add("type=agenda_notify");
         notificationTuple.add("timestamp=" + time);
         notificationTuple.add("remove=all");
         return notificationTuple;
