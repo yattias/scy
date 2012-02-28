@@ -11,6 +11,7 @@ import java.util.Map;
 
 import eu.scy.agents.agenda.evaluation.evaluators.ActionTypeEvaluator;
 import eu.scy.agents.agenda.evaluation.evaluators.IEvaluator;
+import eu.scy.agents.agenda.evaluation.evaluators.RichtTextEvaluator;
 
 /**
  * This agent interprets users action logs and informs other agents about a semantic change done by a 
@@ -83,7 +84,7 @@ public class ActivityModifiedEvaluationAgent extends AbstractActivityEvaluationA
 		List<String> actionTypes = new ArrayList<String>();
 		actionTypes.add("text_inserted");
 		actionTypes.add("text_deleted");
-		return new ActionTypeEvaluator(toolName, actionTypes);
+		return new RichtTextEvaluator(toolName, actionTypes);
 	}
 	
 	private static IEvaluator createSimulatorEvaluator() {

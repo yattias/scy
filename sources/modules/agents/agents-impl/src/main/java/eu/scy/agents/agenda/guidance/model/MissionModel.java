@@ -287,8 +287,6 @@ public class MissionModel {
 					timestamp);
 			displaySuccessorsIfDependenciesFinished(activity, timestamp);
 		}
-		
-		logger.debug(toString());
 	}
 	
 	private List<Activity> changeFinishedActivitiesInNeedToCheck(Activity activity, long timestamp) {
@@ -449,7 +447,6 @@ public class MissionModel {
 				this.userName,
 				anchorIdToActivityMap.size(),
 				dependencyCount));
-		logger.debug(toString());
 	}
 	
 	private void reloadMessages() {
