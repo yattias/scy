@@ -329,7 +329,7 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent
 	public void sendDialogNotification(DialogNotificationEvent event) throws TupleSpaceException {
 		MissionModel missionModel = (MissionModel)event.getSource();
 
-        Tuple dialogTuple = createMessageNotificationTuple(
+        Tuple dialogTuple = createDialogNotificationTuple(
         		missionModel.getUserName(), 
         		missionModel.getMissionRuntimeUri(), 
         		event.getSession(),
@@ -339,7 +339,7 @@ public class PedagogicalGuidanceAgent extends AbstractThreadedAgent
         commandSpace.write(dialogTuple);
 	}
 
-    private Tuple createMessageNotificationTuple(String userName, String mission, String session, String notificationId, String message) {
+    private Tuple createDialogNotificationTuple(String userName, String mission, String session, String notificationId, String message) {
         Tuple notificationTuple = new Tuple();
         notificationTuple.add(AgentProtocol.NOTIFICATION);
         notificationTuple.add(notificationId);
