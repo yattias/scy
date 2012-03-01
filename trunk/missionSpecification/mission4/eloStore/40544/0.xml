@@ -440,7 +440,7 @@
         <id>8931736f-f464-4c8e-be62-32a742b4b4af</id>
       </eu.scy.scymapper.impl.model.NodeModel>
       <eu.scy.scymapper.impl.model.NodeModel>
-        <label>Solvant</label>
+        <label>Solvent</label>
         <shape class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle" reference="../../eu.scy.scymapper.impl.model.NodeModel/shape" />
         <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
           <foregroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/foregroundColor" />
