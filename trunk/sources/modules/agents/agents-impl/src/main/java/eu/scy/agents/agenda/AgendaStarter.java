@@ -1,9 +1,12 @@
 package eu.scy.agents.agenda;
 
+import java.io.IOException;
 import java.util.HashMap;
 
+import org.apache.log4j.FileAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import roolo.api.IRepository;
@@ -21,12 +24,16 @@ public class AgendaStarter {
 
 	/**
 	 * @param args
+	 * @throws IOException 
 	 */
 	public static void main(String[] args) {
 
         try {
         	Logger rootLogger = Logger.getRootLogger();
         	rootLogger.setLevel(Level.DEBUG);
+        	PatternLayout layout = new PatternLayout( "%d{ISO8601} %-5p [%t] %c: %m%n" );
+        	FileAppender fileAppender = new FileAppender(layout, "pga.log");
+        	rootLogger.addAppender(fileAppender);
         	
         	ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/beans.xml");
 //            ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("resources/beans.xml");
@@ -61,6 +68,9 @@ public class AgendaStarter {
 			afeAgent.start();
 			ameAgent.start();
 		} catch (AgentLifecycleException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

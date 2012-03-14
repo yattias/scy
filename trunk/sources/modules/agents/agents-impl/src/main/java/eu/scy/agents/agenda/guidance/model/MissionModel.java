@@ -19,6 +19,7 @@ import javax.activity.InvalidActivityException;
 
 import org.apache.log4j.Logger;
 
+import edu.emory.mathcs.backport.java.util.Collections;
 import eu.scy.agents.agenda.exception.InvalidActivityTupleException;
 import eu.scy.agents.agenda.exception.InvalidMessageTupleException;
 import eu.scy.agents.agenda.guidance.event.ClearCurtainEvent;
@@ -471,6 +472,7 @@ public class MissionModel {
 					logger.warn(String.format("Error loading message from tuple %s : %s", tuple, e.getMessage()));
 				}
 			}
+			Collections.sort(this.messageHistory);
 		} catch (TupleSpaceException e) {
 			logger.warn("Could not load messages, because connection to TupleSpace is lost.");
 		}

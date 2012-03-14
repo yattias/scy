@@ -3,7 +3,7 @@ package eu.scy.agents.agenda.guidance.model;
 import info.collide.sqlspaces.commons.Tuple;
 import eu.scy.agents.agenda.exception.InvalidMessageTupleException;
 
-public class Message {
+public class Message implements Comparable<Message> {
 
 	public static final String FIELD_MESSAGE = "message";
 	
@@ -64,5 +64,10 @@ public class Message {
 		t.add(this.timestamp);
 		t.add(this.text);
 		return t;
+	}
+
+	@Override
+	public int compareTo(Message o) {
+		return (int)(this.getTimestamp() - o.getTimestamp());
 	}
 }
