@@ -280,13 +280,39 @@ public class MissionModel {
 						timestamp);
 			}
 			
-		} else if(activityNewState == ActivityState.FINISHED && activityOldState != ActivityState.FINISHED) {
+		} else if(activityNewState == ActivityState.FINISHED) {
 			// * -> finished
 			// display new state of this activity.
 			sendMessage(
 					String.format("You have marked ELO '%s' as finished", activity.getEloTitle()), 
 					timestamp);
 			displaySuccessorsIfDependenciesFinished(activity, timestamp);
+		} else if(activityNewState == ActivityState.MODIFIED && activityOldState == ActivityState.MODIFIED) {
+			// MODIFIED -> MODIFIED
+			// check the state of all successors
+			// finished activities will be marked as NEEDTOCHECK
+			List<Activity> needToCheckSuccessors = changeFinishedActivitiesInNeedToCheck(activity, timestamp);
+			
+			// print dialog notification to inform user about changes
+			if(needToCheckSuccessors.size() > 0) {
+				String text = "";
+				if(needToCheckSuccessors.size() == 1) {
+					text = String.format("Your modification of ELO '%s' implies that you should have a look at ELO '%s'", 
+							activity.getEloTitle(),
+							needToCheckSuccessors.get(0).getEloTitle());
+				} else {
+					StringBuilder sb = new StringBuilder();
+					sb.append("Your modification of ELO '");
+					sb.append(activity.getEloTitle());
+					sb.append("' implies that you should have a look at the following ELOs:\n");
+					for(Activity successor : needToCheckSuccessors) {
+						sb.append("\n");
+						sb.append(successor.getEloTitle());
+					}
+					text = sb.toString();
+				}
+				sendDialogNotification(text);
+			}
 		}
 	}
 	
