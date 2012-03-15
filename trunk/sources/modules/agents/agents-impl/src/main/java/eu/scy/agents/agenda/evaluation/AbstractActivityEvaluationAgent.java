@@ -152,9 +152,9 @@ public abstract class AbstractActivityEvaluationAgent extends AbstractThreadedAg
 	protected abstract void registerCallbacks() throws TupleSpaceException;
 
 	protected void deregisterCallbacks() throws TupleSpaceException {
-		for(Integer i : this.registeredCallbacks) {
-			this.actionSpace.eventDeRegister(i);
-		}
+//		for(Integer i : this.registeredCallbacks) {
+//			this.actionSpace.eventDeRegister(i);
+//		}
 	}
 
 	class UserActionCallback implements Callback {
