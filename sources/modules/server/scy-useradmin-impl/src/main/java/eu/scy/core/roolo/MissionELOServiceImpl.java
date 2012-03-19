@@ -237,6 +237,7 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
         final IMetadataKey technicalFormatKey = getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
         IQueryComponent missionSpecificationQueryComponent = new MetadataQueryComponent(technicalFormatKey, SearchOperation.EQUALS, MissionEloType.MISSION_SPECIFICATIOM.getType());
         IQuery missionSpecificationQuery = new Query(missionSpecificationQueryComponent);
+        missionSpecificationQuery.setMaxResults(99999999);
 
         return getRepository().search(missionSpecificationQuery);
     }
@@ -380,6 +381,7 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
         final IMetadataKey technicalFormatKey = getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
         IQueryComponent feedbackComponent = new MetadataQueryComponent(technicalFormatKey, SearchOperation.EQUALS, "scy/feedback");
         IQuery feedbackQuery = new Query(feedbackComponent);
+        feedbackQuery.setMaxResults(9999999);
 
         List<ISearchResult> results = getRepository().search(feedbackQuery);
         return results;
@@ -395,6 +397,7 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
         IQueryComponent authorComponent = new MetadataQueryComponent(auhtorKey, SearchOperation.EQUALS, currentUserName);
         AndQuery andQuery = new AndQuery(feedbackComponent, authorComponent);
         IQuery feedbackQuery = new Query(feedbackComponent);
+        feedbackQuery.setMaxResults(99999);
 
         List<ISearchResult> results = getRepository().search(feedbackQuery);
 
@@ -546,6 +549,7 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
 
         Set userNames = new HashSet();
         userNames.add(username);
+        query.setMaxResults(99999999);
 
         query.setIncludedUsers(userNames);
 
