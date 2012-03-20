@@ -256,7 +256,7 @@
     <bean id="agentConfigurationController" class="eu.scy.server.controllers.AgentConfigurationController">
         <property name="serverService" ref="serverService"/>
         <property name="urlInspector" ref="urlInspector"/>
-        <property name="agentParameterAPI" ref="agentParameterAPI"/>
+<!--         <property name="agentParameterAPI" ref="agentParameterAPI"/>  -->
         <property name="missionELOService" ref="missionELOService"/>
         <property name="portfolioTupleSpace" ref="portfolioTupleSpace"/>
     </bean>

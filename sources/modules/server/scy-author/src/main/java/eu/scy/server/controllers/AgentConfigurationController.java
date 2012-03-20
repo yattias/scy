@@ -40,7 +40,7 @@ public class AgentConfigurationController extends BaseController {
 
             MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(uri, getMissionELOService());
             modelAndView.addObject("missionSpecificationTransporter", getMissionELOService().getWebSafeTransporter(missionSpecificationElo));
-            modelAndView.addObject("agentParameterAPI", getAgentParameterAPI());
+//            modelAndView.addObject("agentParameterAPI", getAgentParameterAPI());
             //modelAndView.addObject("anchorElos", getMissionELOService().getWebSafeTransporters(getMissionELOService().getAnchorELOs(missionSpecificationElo)));
 
             missionSpecificationElo.getTypedContent().getMissionMapModelEloUri();
@@ -49,7 +49,7 @@ public class AgentConfigurationController extends BaseController {
             AgentParameter agentParameter = new AgentParameter();
             agentParameter.setParameterName("funkyParam");
             agentParameter.setParameterValue("42");
-            getAgentParameterAPI().setParameter("votat", agentParameter);
+//            getAgentParameterAPI().setParameter("votat", agentParameter);
             logger.info("DONE SETTING PARAMETERS FOR VOTAT!");
 
             Tuple tu = new Tuple(AgentProtocol.COMMAND_LINE, String.class, String.class, String.class, AgentProtocol.ALIVE);
@@ -71,19 +71,19 @@ public class AgentConfigurationController extends BaseController {
                         logger.info("Will not get parameters for: eu.scy.agents.sensors.behaviourclassifier.ScySimBehaviourClassifier");
                     } else {
                         logger.info("GEtting parameters for agent: " + agentConfigurationWrapper.getName());
-                        List<String> agentParameters = getAgentParameterAPI().listAgentParameter(agentConfigurationWrapper.getName());
-                        for (int j = 0; j < agentParameters.size(); j++) {
-                            String param = agentParameters.get(j);
-                            logger.info("PARAM IS: " + param);
-                            if (param.equals("sleepMillis")) {
-                                logger.info("WILL NOT ADD PARAMETER: sleepMillis");
-                            } else {
-                                AgentParameterConfigurationWrapper agentParameterConfigurationWrapper = new AgentParameterConfigurationWrapper();
-                                agentParameterConfigurationWrapper.setParameterName(param);
-                                agentConfigurationWrapper.addAgentParameterConfiguration(agentParameterConfigurationWrapper);
-                            }
-
-                        }
+//                        List<String> agentParameters = getAgentParameterAPI().listAgentParameter(agentConfigurationWrapper.getName());
+//                        for (int j = 0; j < agentParameters.size(); j++) {
+//                            String param = agentParameters.get(j);
+//                            logger.info("PARAM IS: " + param);
+//                            if (param.equals("sleepMillis")) {
+//                                logger.info("WILL NOT ADD PARAMETER: sleepMillis");
+//                            } else {
+//                                AgentParameterConfigurationWrapper agentParameterConfigurationWrapper = new AgentParameterConfigurationWrapper();
+//                                agentParameterConfigurationWrapper.setParameterName(param);
+//                                agentConfigurationWrapper.addAgentParameterConfiguration(agentParameterConfigurationWrapper);
+//                            }
+//
+//                        }
 
 
                         agentConfigurationWrappers.add(agentConfigurationWrapper);
@@ -105,7 +105,7 @@ public class AgentConfigurationController extends BaseController {
         }
     }
 
-    public AgentParameterAPI getAgentParameterAPI() {
+    public AgentParameterAPI XgetAgentParameterAPI() {
         return agentParameterAPI;
     }
 
