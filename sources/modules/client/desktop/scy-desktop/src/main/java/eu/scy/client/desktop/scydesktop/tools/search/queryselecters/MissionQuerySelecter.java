@@ -6,6 +6,7 @@ package eu.scy.client.desktop.scydesktop.tools.search.queryselecters;
 
 import eu.scy.client.desktop.desktoputils.StringUtils;
 import eu.scy.client.desktop.scydesktop.tools.search.QuerySelecterUsage;
+import eu.scy.common.scyelo.ScyElo;
 import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.net.URI;
@@ -46,7 +47,15 @@ public class MissionQuerySelecter extends AbstractSimpleQuerySelecter
       this.missionRunningKey = getMetadataKey(ScyRooloMetadataKeyIds.MISSION_RUNNING);
       this.missionIdKey = getMetadataKey(CoreRooloMetadataKeyIds.MISSION_ID);
       myMissionSpecificationUri = tbi.getMissionSpecificationURI();
-      myMissionId = "";
+      if (myMissionSpecificationUri != null)
+      {
+         final ScyElo missionSpecificationElo = ScyElo.loadMetadata(myMissionSpecificationUri, tbi);
+         myMissionId = missionSpecificationElo.getMissionId();
+      }
+      else
+      {
+         myMissionId = "";
+      }
    }
 
    @Override
@@ -56,7 +65,7 @@ public class MissionQuerySelecter extends AbstractSimpleQuerySelecter
       switch (getQuerySelectorUsage())
       {
          case TEXT:
-            if (isDebugMode() &&  myMissionSpecificationUri != null)
+            if (isDebugMode() && myMissionSpecificationUri != null)
             {
                displayOptions.add(MissionOptions.THIS.toString());
                displayOptions.add(MissionOptions.NOT_THIS.toString());
