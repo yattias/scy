@@ -19,6 +19,7 @@ import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.metadata.keys.ConceptMapEvaluation;
+import roolo.search.IQuery;
 import roolo.search.ISearchResult;
 import roolo.search.MetadataQueryComponent;
 import roolo.search.Query;
@@ -27,6 +28,7 @@ import eu.scy.agents.IRepositoryAgent;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
+import eu.scy.common.scyelo.QueryFactory;
 
 public class RooloAccessorAgent extends AbstractThreadedAgent implements IRepositoryAgent {
 
@@ -143,7 +145,9 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements IReposi
                 String keywords = new String(tuple.getField(3).getValue().toString());
                 if (rooloServices != null) {
                     logger.debug("Request to search for: " + keywords + " RequestID was: " + requestUID);
-                    List<ISearchResult> searchResults = rooloServices.search(new Query(new MetadataQueryComponent("contents", keywords)));
+                    IQuery q = QueryFactory.createSimpleQueryForExperts(keywords);
+//                    List<ISearchResult> searchResults = rooloServices.search(new Query(new MetadataQueryComponent("contents", keywords)));
+                    List<ISearchResult> searchResults = rooloServices.search(q);
                     sendResponse(searchResults, requestUID);
                 } else {
                     logger.debug("Request to search for ELOs, but Repository is null: " + keywords + " RequestID was: " + requestUID);
