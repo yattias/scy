@@ -70,8 +70,14 @@ public class TechnicalFormatQuerySelector extends AbstractSimpleQuerySelecter
                notAllowedTypes.add(getBasedOnElo().getTechnicalFormat());
                break;
          }
-         query.setIncludedEloTypes(allowedTypes);
-         query.setExcludedEloTypes(notAllowedTypes);
+         if (!allowedTypes.isEmpty())
+         {
+            query.setIncludedEloTypes(allowedTypes);
+         }
+         if (!notAllowedTypes.isEmpty())
+         {
+            query.setExcludedEloTypes(notAllowedTypes);
+         }
       }
    }
 }
