@@ -281,7 +281,7 @@
                 <!--<ref local="pga"/>-->
                 <ref local="scaffoldNotificator"/>
                 <ref local="conceptMapEvaluation"/>
-                <!--ref local="searchEnricher"/-->
+                <ref local="searchEnricher"/>
                 <ref local="eloProposer"/>
             </set>
         </property>
