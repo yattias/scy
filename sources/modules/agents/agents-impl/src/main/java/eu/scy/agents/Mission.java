@@ -14,7 +14,7 @@ public enum Mission {
     MISSION3_DUTCH("http://www.scy.eu/pizza#", "Een gezonde pizza", "mission3", "pizza2"),
     MISSION3_GREEK("http://www.scy.eu/pizza#", "Υγιεινή πίτσα", "mission3", "pizza2"),
 
-    MISSION4("http://www.scy.eu/dna#", "Forensic mission", "mission4", "forensic"),
+    MISSION4("http://www.scy.eu/forensic#", "Forensic mission", "mission4", "forensic"),
     MISSION4_FRENCH("http://www.scy.eu/dna#", "Le laboratoire de police scientifique", "mission4", "forensic"),
     GMO("http://www.scy.eu/dna#", "GMO mission", "mission4", "forensic"),
 
