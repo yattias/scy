@@ -83,7 +83,7 @@ public class SearchResultEnricherAgent extends SCYAbstractThreadedAgent {
 
     private static final String DEFAULT_FIELD = "contents";
 
-    private static final String LANGUAGE_PREFIX = "stopword_";
+    private static final String LANGUAGE_PREFIX = "stopwords";
 
     // Configuration values
     /**
@@ -187,9 +187,10 @@ public class SearchResultEnricherAgent extends SCYAbstractThreadedAgent {
 
         currentSearches = new HashMap<String, String>();
         // TODO keyword files should be set by configuration
-        this.config.put(LANGUAGE_PREFIX + "en", "/en_stopwords.txt");
-        this.config.put(LANGUAGE_PREFIX + "de", "/ger_stopwords.txt");
-        this.config.put(LANGUAGE_PREFIX + "es", "/est_stopwords.txt");
+        this.config.put(LANGUAGE_PREFIX + "_en", "/en_stopwords.txt");
+        this.config.put(LANGUAGE_PREFIX + "_de", "/de_stopwords.txt");
+        this.config.put(LANGUAGE_PREFIX + "_es", "/et_stopwords.txt");
+        this.config.put(LANGUAGE_PREFIX + "_fr", "/fr_stopwords.txt");
 
         configure(map);
 
@@ -258,8 +259,8 @@ public class SearchResultEnricherAgent extends SCYAbstractThreadedAgent {
         }
         for (String lang : Locale.getISOLanguages()) {
             try {
-                if (config.containsKey(LANGUAGE_PREFIX + lang)) {
-                    this.stopwordMap.put(lang, readStopwords((String) config.get(LANGUAGE_PREFIX + lang)));
+                if (config.containsKey(LANGUAGE_PREFIX + "_" + lang)) {
+                    this.stopwordMap.put(lang, readStopwords((String) config.get(LANGUAGE_PREFIX+ "_" + lang)));
                 }
             } catch (IOException e) {
                 logger.debug("Could not open stopword file for language: " + lang);
@@ -423,12 +424,15 @@ public class SearchResultEnricherAgent extends SCYAbstractThreadedAgent {
      */
     private String parseQuery(String rawQuery) {
         // TODO: parsing won't work on contents:(bla bla)
-        int queryStartPos = rawQuery.indexOf('"') + 1;
-        int queryStopPos = rawQuery.lastIndexOf('"');
-        if (queryStartPos == 0 || queryStartPos == queryStopPos) {
-            return "";
+        String startMark = "contents:(*";
+        String finishMark = "*)";
+        int queryStartPos = rawQuery.indexOf(startMark);
+        int queryStopPos = rawQuery.lastIndexOf(finishMark);
+        if (queryStartPos == -1 || queryStartPos == queryStopPos) {
+            return rawQuery.replaceAll("\"", "");
         }
-        return rawQuery.substring(queryStartPos, queryStopPos);
+        String result = rawQuery.substring(queryStartPos + startMark.length(), queryStopPos);
+        return result;
     }
 
     /**
@@ -505,7 +509,7 @@ public class SearchResultEnricherAgent extends SCYAbstractThreadedAgent {
             // Number of results is ok, so we do nothing
             // System.out.println("Search result for query: " + searchQuery +
             // " performed well, no enrichment will be forced.");
-            logger.debug("Search result for query: " + searchQuery + " performed well, no enrichment will be forced.");
+            System.out.println("Search result for query: " + searchQuery + " performed well, no enrichment will be forced.");
         }
 
         // Propose search queries, if found
@@ -519,6 +523,8 @@ public class SearchResultEnricherAgent extends SCYAbstractThreadedAgent {
                 logger.error("Connection to TupleSpace lost!", e);
                 // System.out.println("Connection to TupleSpace lost!");
             }
+        } else {
+            System.out.println("No better suggestion found");
         }
     }
 
@@ -550,6 +556,9 @@ public class SearchResultEnricherAgent extends SCYAbstractThreadedAgent {
             Set<String> items = new HashSet<String>();
             items.addAll(Arrays.asList(searchQuery.split(" ")));
 
+            items.remove(OPERATOR_AND);
+            items.remove(OPERATOR_OR);
+            
             // Replace AND by OR
             String last = query.toLuceneString();
             for (int i = 1; i <= this.maxReplaceNumber; i++) {
@@ -756,7 +765,7 @@ public class SearchResultEnricherAgent extends SCYAbstractThreadedAgent {
                 return null;
             }
         } catch (TupleSpaceException e) {
-            // e.printStackTrace();
+            e.printStackTrace();
             logger.error("Connection to TupleSpace lost!", e);
         }
         return synonyms;
@@ -818,7 +827,7 @@ public class SearchResultEnricherAgent extends SCYAbstractThreadedAgent {
                 // Bag contains duplicate entries...
                 continue;
             }
-            if (stopwordMap.get(language).contains(term)) {
+            if (stopwordMap.get(language) != null && stopwordMap.get(language).contains(term)) {
                 // Keyword is in stopword list
                 continue;
             }

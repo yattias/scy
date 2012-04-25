@@ -32,6 +32,8 @@ public class Query {
     private Query rightChild;
 
     private boolean hasBracket;
+    
+    private final static boolean USE_DEFAULT_FIELD = false;
 
 
 //    public static void main(String[] args) {
@@ -53,7 +55,7 @@ public class Query {
      * @param term the term
      */
     private Query(String term) {
-        this.term = term;
+        this.term = term.replaceAll("\"", "");
         this.hasBracket = false;
     }
 
@@ -244,9 +246,9 @@ public class Query {
     public String replaceOperator(String from, String to, AtomicInteger numberOfReplacements) {
         if(this.term != null) {
             if(this.hasBracket()) {
-                return "(" + DEFAULT_FIELD + ":\"" + this.term + "\")";
+                return "(" + (USE_DEFAULT_FIELD ? (DEFAULT_FIELD + ":\"") : "\"") + this.term + "\")";
             } else {
-                return DEFAULT_FIELD + ":\"" + this.term + "\"";
+                return (USE_DEFAULT_FIELD ? (DEFAULT_FIELD + ":\"") : "\"") + this.term + "\"";
             }
         } else {
             String result;
@@ -287,9 +289,9 @@ public class Query {
     public String toLuceneString() {
         if(this.term != null) {
             if(this.hasBracket()) {
-                return "(" + DEFAULT_FIELD + ":\"" + this.term + "\")";
+                return "(" + (USE_DEFAULT_FIELD ? (DEFAULT_FIELD + ":\"") : "\"") + this.term + "\")";
             } else {
-                return DEFAULT_FIELD + ":\"" + this.term + "\"";
+                return (USE_DEFAULT_FIELD ? (DEFAULT_FIELD + ":\"") : "\"") + this.term + "\"";
             }
         } else {
             String result = this.leftChild.toLuceneString() + " " + this.operator + " " + this.rightChild.toLuceneString();
