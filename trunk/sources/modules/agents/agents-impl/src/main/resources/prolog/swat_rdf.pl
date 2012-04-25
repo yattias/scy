@@ -46,8 +46,8 @@ rdf(ont(TS, _, _), S, P, O) :-
 	tspl_tuple([F,SF,PF,OF], T),
 	tspl_read_all(TS, T, Tuples),
 	Tuples \== [],
-	member(Tuple,Tuples),
 	!,
+	member(Tuple,Tuples),
 	field_to_var(Tuple, 1, S),
 	field_to_var(Tuple, 2, P),
 	field_to_var(Tuple, 3, O).
@@ -58,9 +58,9 @@ prdf(S, P, O) :-
 	prdf(ont(TS, ON, NS), S, P, O).
 	
 prdf(Ont, S, P, O) :-
-	(plain(S) -> plain_entity(Ont, SP, S); true),
-	(plain(P) -> plain_entity(Ont, PP, P); true),
-	(plain(O) -> plain_entity(Ont, OP, O); true),
+	(plain(S) -> plain_entity(Ont, SP, S); S = SP),
+	(plain(P) -> plain_entity(Ont, PP, P); P = PP),
+	(plain(O) -> plain_entity(Ont, OP, O); O = OP),
 	rdf(Ont, SP, PP, OP),
 	plain_entity(Ont, SP, S),
 	plain_entity(Ont, PP, P),
@@ -89,7 +89,7 @@ plain(_, Ent) :-
 	!,
 	fail.
 plain(_, Ent) :-
-	id(_, Ent),
+	id(Ent, _),
 	!.
 plain(ont(_, _, NS), Ent) :-
 	sub_atom(Ent, 0, _, _, NS),

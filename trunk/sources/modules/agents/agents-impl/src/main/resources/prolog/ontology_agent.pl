@@ -217,7 +217,7 @@ surrounding(OntName, Label, Language, Surrounding) :-
 	ont_connect(_, OntName, _),
 	label_lookup(OntName, Label, Language, Term, Category),
 	expand(Term, Category, SurroundingTerms),
-	setof(L, (member(STerm, SurroundingTerms), prdf(STerm, label, SLabel), sub_string(SLabel, _, _, 0, Language), trim_label(SLabel, L)), Surrounding). 
+	findall(L, (member(STerm, SurroundingTerms), prdf(STerm, label, SLabel), sub_string(SLabel, _, _, 0, Language), trim_label(SLabel, L)), Surrounding). 
 surrounding(_, _, _, []).
 
 expand(Term, individual, Surrounding) :-
