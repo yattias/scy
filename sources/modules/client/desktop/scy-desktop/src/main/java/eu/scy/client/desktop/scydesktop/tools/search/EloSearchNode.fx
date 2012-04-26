@@ -383,7 +383,7 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
       if (QuerySelecterUsage.TEXT == querySelecterUsage) {
          def queryText = queryBox.rawText.trim();
          if (not StringUtils.isEmpty(queryText)) {
-            theQuery =  QueryFactory.createSimpleQueryForExperts(queryText);
+            theQuery = QueryFactory.createSimpleQueryForExperts(queryText);
             currentQuery = HistoryEntry {
                        query: queryText
                        selecterOptions: for (querySelecterDisplay in querySelecterDisplays) {
@@ -468,7 +468,9 @@ public class EloSearchNode extends GridSearchResultsNode, Resizable, ScyToolFX, 
    }
 
    public function setSuggestions(suggestions: HistoryEntry[]): Void {
-      suggestionsAndHistoryNode.setSuggestions(suggestions);
+      if (QuerySelecterUsage.TEXT == querySelecterUsage) {
+         suggestionsAndHistoryNode.setSuggestions(suggestions);
+      }
    }
 
    override function showSearchResult(results: Object[]): Void {
