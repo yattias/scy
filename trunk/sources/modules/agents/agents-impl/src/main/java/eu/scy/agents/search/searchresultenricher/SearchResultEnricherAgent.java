@@ -500,10 +500,12 @@ public class SearchResultEnricherAgent extends SCYAbstractThreadedAgent {
         // Choose strategy
         SearchResultRanking ranking = null;
         if (referenceResults.size() < this.infGoodSearchInverval) {
-            String language = getLanguage(user);
+//            String language = getLanguage(user);
+            String language = "en";
             ranking = extendSearchResult(user, language, searchQuery, referenceResults);
         } else if (referenceResults.size() > this.supGoodSearchInterval) {
-            String language = getLanguage(user);
+//            String language = getLanguage(user);
+            String language = "en";
             ranking = pruneSearchResult(user, language, searchQuery, referenceResults);
         } else {
             // Number of results is ok, so we do nothing
@@ -555,7 +557,6 @@ public class SearchResultEnricherAgent extends SCYAbstractThreadedAgent {
 
             Set<String> items = new HashSet<String>();
             items.addAll(Arrays.asList(searchQuery.split(" ")));
-
             items.remove(OPERATOR_AND);
             items.remove(OPERATOR_OR);
             
@@ -649,7 +650,7 @@ public class SearchResultEnricherAgent extends SCYAbstractThreadedAgent {
             // String queryWithNewKeyword = userQuery + " " + operator + " " + DEFAULT_FIELD + ":\""
             // + termList.get(i).getTerm() + "\"";
             String term = removeBadChars(termList.get(i).getTerm());
-            String queryWithNewKeyword = userQuery + " " + operator + " " + "\"" + term + "\"";
+            String queryWithNewKeyword = userQuery + " " + operator + " " + term;
             List<ISearchResult> result = getHits(commandSpace, queryWithNewKeyword);
             if (result != null) {
                 if (result.size() > referenceResultCount) {
@@ -893,6 +894,8 @@ public class SearchResultEnricherAgent extends SCYAbstractThreadedAgent {
         SearchResultRanking ranking = new SearchResultRanking(this.maxProposalNumber, referenceResults, this.config, this.infGoodSearchInverval, this.supGoodSearchInterval);
         Set<String> items = new HashSet<String>();
         items.addAll(Arrays.asList(searchQuery.split(" ")));
+        items.remove(OPERATOR_AND);
+        items.remove(OPERATOR_OR);
 
         try {
             Query query = Query.parse(searchQuery);
