@@ -245,10 +245,14 @@ public class Query {
      */
     public String replaceOperator(String from, String to, AtomicInteger numberOfReplacements) {
         if(this.term != null) {
+            String t = this.term;
+            if (t.contains(" ")) {
+                t = "\"" + t + "\"";
+            }
             if(this.hasBracket()) {
-                return "(" + (USE_DEFAULT_FIELD ? (DEFAULT_FIELD + ":\"") : "\"") + this.term + "\")";
+                return "(" + (USE_DEFAULT_FIELD ? (DEFAULT_FIELD + ":") : "") + t + ")";
             } else {
-                return (USE_DEFAULT_FIELD ? (DEFAULT_FIELD + ":\"") : "\"") + this.term + "\"";
+                return (USE_DEFAULT_FIELD ? (DEFAULT_FIELD + ":") : "") + t;
             }
         } else {
             String result;
@@ -288,10 +292,14 @@ public class Query {
      */
     public String toLuceneString() {
         if(this.term != null) {
+            String t = this.term;
+            if (t.contains(" ")) {
+                t = "\"" + t + "\"";
+            }
             if(this.hasBracket()) {
-                return "(" + (USE_DEFAULT_FIELD ? (DEFAULT_FIELD + ":\"") : "\"") + this.term + "\")";
+                return "(" + (USE_DEFAULT_FIELD ? (DEFAULT_FIELD + ":") : "") + t + ")";
             } else {
-                return (USE_DEFAULT_FIELD ? (DEFAULT_FIELD + ":\"") : "\"") + this.term + "\"";
+                return (USE_DEFAULT_FIELD ? (DEFAULT_FIELD + ":") : "") + t;
             }
         } else {
             String result = this.leftChild.toLuceneString() + " " + this.operator + " " + this.rightChild.toLuceneString();
