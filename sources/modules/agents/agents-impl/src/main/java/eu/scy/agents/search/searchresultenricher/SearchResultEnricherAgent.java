@@ -701,7 +701,7 @@ public class SearchResultEnricherAgent extends SCYAbstractThreadedAgent {
         for (String keyword : keywords) {
             // String queryWithNewKeyword = userQuery + " " + operator + " " + DEFAULT_FIELD + ":\""
             // + keyword + "\"";
-            String queryWithNewKeyword = userQuery + " " + operator + " " + "\"" + keyword + "\"";
+            String queryWithNewKeyword = userQuery + " " + operator + " " + keyword;
             List<ISearchResult> result = getHits(commandSpace, queryWithNewKeyword);
             if (result != null) {
                 if (result.size() > referenceResultCount) {
