@@ -625,7 +625,7 @@ public class SearchResultEnricherAgent extends SCYAbstractThreadedAgent {
         }
         return ranking;
     }
-
+    
     /**
      * Extracts a list of keywords out of the reference results titles. After extraction, those
      * results are evaluated.
@@ -645,7 +645,7 @@ public class SearchResultEnricherAgent extends SCYAbstractThreadedAgent {
     private boolean extractAndTestKeywords(SearchResultRanking ranking, Set<String> items, Query query, String language, String operator, int referenceResultCount) throws TupleSpaceException {
         List<TermEntry> termList = extractKeywordsFromSearchResults(items, language, ranking.getReferenceResults());
 
-        String userQuery = query.toLuceneString();
+        String userQuery = removeBadChars(query.toLuceneString());
         for (int i = 0; i < Math.min(this.numberOfTermsToTest, termList.size()); i++) {
             // String queryWithNewKeyword = userQuery + " " + operator + " " + DEFAULT_FIELD + ":\""
             // + termList.get(i).getTerm() + "\"";
@@ -667,12 +667,12 @@ public class SearchResultEnricherAgent extends SCYAbstractThreadedAgent {
         return true;
     }
 
-    private String removeBadChars(String term) {
-        return term.replaceAll("\\(|\\)", "");
+    private static String removeBadChars(String term) {
+        return term.replaceAll("\\(|\\)", "").replaceAll(":", "");
     }
 
     private boolean extractAndTestOntologyKeywords(SearchResultRanking ranking, String mission, Set<String> items, String language, Query query, String operator, int referenceResultCount) throws TupleSpaceException {
-        List<String> keywords = new ArrayList<String>();
+        HashSet<String> keywords = new HashSet<String>();
 
         // Collect keywords
         for (String item : items.toArray(EMPTY_STRING_ARRAY)) {
@@ -697,11 +697,11 @@ public class SearchResultEnricherAgent extends SCYAbstractThreadedAgent {
         }
 
         // Test words
-        String userQuery = query.toLuceneString();
+        String userQuery = removeBadChars(query.toLuceneString());
         for (String keyword : keywords) {
             // String queryWithNewKeyword = userQuery + " " + operator + " " + DEFAULT_FIELD + ":\""
             // + keyword + "\"";
-            String queryWithNewKeyword = userQuery + " " + operator + " " + keyword;
+            String queryWithNewKeyword = userQuery + " " + operator + " " + removeBadChars(keyword);
             List<ISearchResult> result = getHits(commandSpace, queryWithNewKeyword);
             if (result != null) {
                 if (result.size() > referenceResultCount) {
