@@ -13,7 +13,6 @@
 		<term>glucose_in_bloed</term>
 		<term>glucosegehalte_in_bloed</term>
 		<term>glucosegehalte_bloed</term>
-		<term>bloed_glucose</term>
 		<term>bloed_glucose_spiegel</term>
 		<term>concentratie_glucose</term>
 		<term>glucose_concentratie</term>
@@ -21,11 +20,8 @@
 		<term>concentratie_suiker</term>
 		<term>bloedglucosespiegel</term>
 		<term>bloedglucose_spiegel</term>
-		<term>bloed_glucose_spiegel</term>
-		<term>bloed_glucosespiegel</term>
 		<term>glucose_gehalte</term>
 		<term>gehalte_glucose</term>
-		<term>hoeveelheid_glucose</term>
 		<term>bloed_glucosegehalte</term>
 		<term>bloedglucoseniveau</term>
 		<term>glucosehoeveelheid</term>
@@ -38,7 +34,6 @@
 		<term>insuline</term>
 		<term>insuline_hoeveelheid</term>
 		<term>hoeveelheid_insuline</term>
-		<term>insuline_hoeveelheid</term>
 		<term>insuline_level</term>
 		<term>bloed_insuline_level</term>
 		<term>insulinelevel</term>
@@ -53,7 +48,6 @@
 	<concept name="glucose_release" type="constant">
 		<term>glucose_constante</term>
 		<term>constante_glucose</term>
-		<term>glucose_release</term>
 		<term>glucose_afgifte</term>
 		<term>glucose_release</term>
 		<term>glucose_afgifte_constant</term>
@@ -73,10 +67,8 @@
 		<term>afgave_glucose</term>
 		<term>afgeving_glucose</term>
 		<term>afgifte_glucose</term>
-		<term>afgifte_glucose</term>
 		<term>glucoseafgifte</term>
 		<term>glucoseafgiftelichaam</term>
-		<term>constante_toevoer</term>
 	</concept>
 
 	<concept name="eating" type="constant">
@@ -159,25 +151,19 @@
 		<term>glucoseproductie_totaal</term>
 		<term>aanmaak_glucose_totaal</term>
 		<term>totaal_aanmaak_glucose_totaal</term>
-		<term>totaal_productie_glucose</term>
 		<term>productie_glucose_totaal</term>
 		<term>glucose_toevoer_totaal</term>
 		<term>koolhydraten_afgifte_totaal</term>
 		<term>totaal_koolhydraten_afgifte</term>
-		<term>totaal_glucose_toevoer</term>
-		<term>glucose_toevoer_totaal</term>
 		<term>totale_toevoer</term>
 		<term>samen_glucose_toevoer</term>
 		<term>samen_glucose_aanmaak</term>
 		<term>glucose_aanmaak_samen</term>
-		<term>samen_glucose_aanmaak</term>
 		<term>glucose_release_samen</term>
 		<term>glucose_afgifte_samen</term>
 		<term>afgifte_samen</term>
-		<term>glucose_aanmaak_samen</term>
 		<term>glucose_productie_samen</term>
 		<term>samen_glucose_productie</term>
-		<term>samen_productie_glucose</term>
 		<term>glucoseproductie_samen</term>
 		<term>aanmaak_glucose_samen</term>
 		<term>totaal_aanmaak_glucose_samen</term>
@@ -186,8 +172,6 @@
 		<term>glucose_toevoer_samen</term>
 		<term>koolhydraten_afgifte_samen</term>
 		<term>samen_koolhydraten_afgifte</term>
-		<term>samen_glucose_toevoer</term>
-		<term>glucose_toevoer_samen</term>
 		<term>samen_toevoer</term>
 	</concept>
 
@@ -277,7 +261,6 @@
 		<term>insuline_storing</term>
 		<term>insuline_verbruik</term>
 		<term>jaron</term>
-		<term>koolhydraten</term>
 		<term>lichaam</term>
 		<term>lichaamsbeweging</term>
 		<term>lichaamscellen</term>
