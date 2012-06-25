@@ -21,7 +21,7 @@
 #end
   <resources>
     <j2se version="$j2seVersion"/>
-    <extension name="JavaFX Runtime" href="http://dl.javafx.com/1.1/javafx-rt.jnlp"/>
+    <!-- <extension name="JavaFX Runtime" href="http://dl.javafx.com/1.1/javafx-rt.jnlp"/>-->
     <property name="jnlp.packEnabled" value="true"/>
     <property name="jnlp.versionEnabled" value="true"/>
      $dependencies

@@ -18,7 +18,7 @@ public class ModellingApplet extends JApplet {
 
     public void init() {
         JPanel panel = new JPanel();
-        editor = new ModelEditor(getProperties());
+        editor = new ModelEditor(getProperties(), AbstractModellingStandalone.getUsername(getProperties()), null);
         panel.setLayout(new BorderLayout());
         panel.add(editor, BorderLayout.CENTER);
         panel.setSize(600, 400);
@@ -26,7 +26,12 @@ public class ModellingApplet extends JApplet {
         this.getContentPane().add(panel);
 
         if (getParameter("file") != null) {
-            editor.getFileToolbar().load(getParameter("file"));
+            try {
+				editor.getSCYDynamicsStore().loadModel(getParameter("file"));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         }
     }
 

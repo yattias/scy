@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.IllegalComponentStateException;
 
 //import colab.all.logging.SQLSpacesLogger;
+import colab.all.logging.SQLSpacesLogger;
 import colab.um.draw.JdAux;
 import colab.um.draw.JdConst;
 import colab.um.draw.JdFigure;
@@ -15,15 +16,21 @@ import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
+import eu.scy.client.desktop.localtoolbroker.LocalFileActionLogger;
+import eu.scy.client.tools.scydynamics.main.AbstractModellingStandalone;
+
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class ModellingLogger implements IModellingLogger {
 
-    private IAction action;
-    private IActionLogger logger;
+	private final static Logger debugLogger = Logger.getLogger(ModellingLogger.class.getName());
+	
+    protected IAction action;
+    protected IActionLogger logger;
     private String username;
-    private String missionRuntimeURI = "mission1";
+    private String missionRuntimeURI = "n/a";
     private String toolname = "scy-dynamics";
     private String session = "n/a";
     private String eloURI = "n/a";
@@ -43,8 +50,17 @@ public class ModellingLogger implements IModellingLogger {
     public static final String SPECIFICATION_CHANGED = "specification_changed";
     public static final String WINDOW_ACTIVATED = "window_activated";
     public static final String MODEL_RAN = "model_ran";
+    public static final String MODEL_RAN_ERROR = "model_ran_error";
     public static final String GRAPH_VIEWED = "graph_viewed";
     public static final String TABLE_VIEWED = "table_viewed";
+    public static final String MODEL_CLEARED = "model_cleared";
+    public static final String MODEL_LOADED = "model_loaded";
+    public static final String MODEL_SAVED = "model_saved";
+    public static final String MODEL_NEW = "model_new";
+    public static final String MODEL_RESET = "model_reset";
+    public static final String NEXT_PHASE = "next_phase";
+    public static final String EXIT_APPLICATION = "exit_application";
+    public static final String START_APPLICATION = "start_application";
 
     public ModellingLogger(IActionLogger logger, String username, String missionRuntimeURI) {
         this.logger = logger;
@@ -57,10 +73,13 @@ public class ModellingLogger implements IModellingLogger {
     }
 
     public void close() {
-    	//System.out.println("ModellingLogger.close logger: "+logger);
-        //if (logger instanceof SQLSpacesLogger) {
-        //	((SQLSpacesLogger)logger).close();
-        //}
+    	debugLogger.info("logger: "+logger);
+        if (logger instanceof SQLSpacesLogger) {
+        	((SQLSpacesLogger)logger).close();
+        }
+    	if (logger instanceof LocalFileActionLogger) {
+    		((LocalFileActionLogger)logger).close();
+    	}
     }
 
     public IAction createBasicAction(String type) {
@@ -281,5 +300,35 @@ public class ModellingLogger implements IModellingLogger {
         action.addAttribute("injected_values", injectedVariables);
         logger.log(action);
     }
+    
+    @Override
+    public void logModelRanError(String modelString, String injectedVariables) {
+        action = createBasicAction(MODEL_RAN_ERROR);
+        action.addAttribute("model", modelString);
+        action.addAttribute("injected_values", injectedVariables);
+        logger.log(action);
+    }
+
+	@Override
+	public void logLoadAction(String filename, String modelString) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void logFeedbackRequested(String modelXML, String string) {
+		// TODO Auto-generated method stub	
+	}
+
+	@Override
+	public void logTermNotRecognized(String term) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void logTermNotRecognizedProposals(String term) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

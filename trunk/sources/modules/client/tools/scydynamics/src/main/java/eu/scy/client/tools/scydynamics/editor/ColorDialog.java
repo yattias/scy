@@ -18,10 +18,27 @@ import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 public class ColorDialog extends JDialog implements
 java.awt.event.ActionListener {
 	
-	private static final Color[] colors = { Color.BLACK, Color.BLUE, Color.CYAN, Color.GREEN.darker(), Color.MAGENTA, Color.ORANGE, Color.PINK, Color.RED.darker(), Color.YELLOW.darker()};
+	private static final Color[] colors = {
+		Color.GRAY,
+		new Color(184, 62, 62),
+		new Color(182, 111, 45),
+		new Color(182, 179, 62),
+		new Color(113, 178, 50),
+		new Color(51, 178, 45),
+		new Color(49, 178, 114),
+		new Color(45, 181, 181),
+		new Color(49, 114, 182),
+		new Color(50, 50, 182),
+		new Color(110, 49, 178),
+		new Color(180, 52, 175),
+		new Color(181, 48, 113)};		
 	private static final int size = 20;
 	private VariableDialog variableDialog;
-
+	
+	public static Color getColor(int index) {
+		index = index % colors.length;
+		return colors[index];
+	}
 	
 	public ColorDialog(Frame frame, Point position, VariableDialog variableDialog, ResourceBundleWrapper bundle) {
 		super(frame, true);

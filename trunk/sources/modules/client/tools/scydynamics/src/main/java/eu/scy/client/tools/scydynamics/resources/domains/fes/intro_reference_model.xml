@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<reference_model name="fes_glucose"
+		 notation="system_dynamics"
+		 concept_set="fes_glucose">
+
+<!-- the stock nodes -->
+<!--  -->
+	<node id="banksaldo" concept="banksaldo"
+		type="stock"
+		low_value="1"
+		high_value="400"
+		default_value="200"
+	/>
+
+<!-- the constant nodes -->
+<!-- -->
+	<node id="uurloon" concept="uurloon"
+		type="constant"
+		low_value="4"
+		high_value="20"
+		default_value="12"
+	/>
+	
+	<node id="uur" concept="uur"
+		type="constant"
+		low_value="1"
+		high_value="30"
+		default_value="15"
+	/>
+		
+	<node id="contributie" concept="contributie"
+		type="constant"
+		low_value="15"
+		high_value="55"
+		default_value="35"
+	/>
+	
+<!-- the auxilliary nodes -->
+<!-- -->
+	<node id="maandinkomsten" concept="maandinkomsten"
+		type="auxiliary"
+	/>
+	
+	<node id="vrienden" concept="vrienden"
+		type="auxiliary"
+	/>
+
+	<node id="maanduitgaven" concept="maanduitgaven"
+		type="auxiliary"
+	/>
+
+<!-- the flow nodes -->
+<!-- -->
+	<node id="banksaldo_in" concept=""
+		type="flow"
+	/>
+	
+	<node id="banksaldo_out" concept=""
+		type="flow"
+	/>
+
+<!-- the edges -->
+<!--  -->
+	<!-- these are the flow relations from/to a stock to/from an anonymous container -->
+	<edge from="" to="banksaldo"/>
+	<edge from="banksaldo" to=""/>
+
+	<!-- these are the relations that point to a incoming or outgoing flow -->
+	<!-- it is important to stick to the naming scheme with _in and _out -->
+	<edge from="maandinkomsten" to="banksaldo_in"/>
+	<edge from="maanduitgaven" to="banksaldo_out"/>	
+
+	<edge from="banksaldo" to="vrienden">
+		<!-- generalised logistic function to get a nice s-shaped behavior -->
+		<expression type="s_shaped" formula="3+22/(1+0.000002*exp(-0.1*(banksaldo-470)))^1/2"/>
+	</edge>
+	<edge from="uurloon" to="maandinkomsten"/>
+	<edge from="uur" to="maandinkomsten"/>
+	<edge from="vrienden" to="maanduitgaven"/>
+	<edge from="contributie" to="maanduitgaven"/>
+	    
+</reference_model>

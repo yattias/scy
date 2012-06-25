@@ -24,9 +24,17 @@ public interface IModellingLogger {
 
     public abstract void logInspectVariablesAction(String type, String selectedVariables);
 
-    //public abstract void logLoadAction(String modelString);
+    public abstract void logLoadAction(String filename, String modelString);
     
     public abstract void logActivateWindow(String window, String id, Component comp);
 
     public void logModelRan(String modelString, String injectedValues);
+
+	void logModelRanError(String modelString, String injectedVariables);
+
+	public abstract void logFeedbackRequested(String modelXML, String string);
+
+	void logTermNotRecognized(String term);
+
+	void logTermNotRecognizedProposals(String term);
 }

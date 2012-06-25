@@ -8,9 +8,14 @@ import javax.xml.bind.annotation.XmlElement;
 public class Concept {
 	
 	private String name;
+	private String type;
 	private List<Term> terms;
 	
 	public Concept() {}
+	
+	public String toString() {
+		return name;
+	}
 	
 	@XmlAttribute
 	public String getName() {
@@ -19,6 +24,15 @@ public class Concept {
 	
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	@XmlAttribute
+	public String getType() {
+		return type;
+	}
+	
+	public void setType(String type) {
+		this.type = type;
 	}
 	
 	@XmlElement(name = "term")

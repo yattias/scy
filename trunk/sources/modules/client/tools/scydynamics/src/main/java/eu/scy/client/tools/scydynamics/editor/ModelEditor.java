@@ -2,6 +2,8 @@ package eu.scy.client.tools.scydynamics.editor;
 
 import java.awt.Adjustable;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.AdjustmentEvent;
@@ -14,6 +16,7 @@ import java.util.Vector;
 import java.util.logging.Logger;
 
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
@@ -33,6 +36,7 @@ import colab.um.draw.JdNode;
 import colab.um.draw.JdObject;
 import colab.um.draw.JdPopups;
 import colab.um.draw.JdRelation;
+import colab.um.draw.JdStock;
 import colab.um.draw.JdTools;
 import colab.um.parser.JParserException;
 import colab.um.parser.JParserExpr;
@@ -50,9 +54,12 @@ import eu.scy.client.tools.scydynamics.listeners.EditorActionListener;
 import eu.scy.client.tools.scydynamics.listeners.EditorMouseListener;
 import eu.scy.client.tools.scydynamics.logging.IModellingLogger;
 import eu.scy.client.tools.scydynamics.logging.ModellingLogger;
-import eu.scy.client.tools.scydynamics.logging.ModellingSQLSpacesLogger;
+import eu.scy.client.tools.scydynamics.main.AbstractModellingStandalone;
 import eu.scy.client.tools.scydynamics.model.Model;
 import eu.scy.client.tools.scydynamics.model.ModelUtils;
+import eu.scy.client.tools.scydynamics.store.FileStore;
+import eu.scy.client.tools.scydynamics.store.SCYDynamicsStore;
+import eu.scy.client.tools.scydynamics.store.SCYDynamicsStore.StoreType;
 import eu.scy.common.datasync.ISyncObject;
 import eu.scy.elo.contenttype.dataset.DataSet;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
@@ -70,7 +77,12 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	public static final int SMALL_POSITIVE = 1;
 	public static final int LARGE_POSITIVE = 2;
 
-	private final static Logger DEBUGLOGGER = Logger.getLogger(ModelEditor.class.getName());
+	public static final int TABINDEX_EDITOR = 0;
+	public static final int TABINDEX_FEEDBACK = 1;
+	public static final int TABINDEX_GRAPH = 2;
+	public static final int TABINDEX_TABLE = 3;
+
+	private final static Logger debugLogger = Logger.getLogger(ModelEditor.class.getName());
 	public final static String DEFAULT_ACTION = "cursor";
 	public final static int LNK_DRAG_POINT = 0;
 	public final static int LNK_LOOP = 1;
@@ -84,7 +96,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	private Mode mode = Mode.QUANTITATIVE_MODELLING;
 	private JdPopups aPopups;
 	private Model model = null;
-	private ModelSelection aSelection;
+	private ModelSelection selection;
 	private EditorPanel editorPanel;
 	private EditorMouseListener mouseListener;
 	private int currentCursor;
@@ -97,110 +109,162 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	protected JTabbedPane tabbedPane;
 	private SimulationPanel graphTab;
 	private TableTab tableTab;
+	private FeedbackTab feedbackTab;
 	private final ResourceBundleWrapper bundle;
 	private ModelSyncControl modelSyncControl = null;
 	private ToolBrokerAPI toolBroker;
 	private Domain domain;
-	//private ModellingSQLSpacesLogger sqlspacesLogger;
-
-	public ModelEditor() {
-		this(ModelEditor.getDefaultProperties());
-	}
-
-	public ModelEditor(Properties newProps) {
+	// private ModellingSQLSpacesLogger sqlspacesLogger;
+	private EditorActionListener actionListener;
+	private String username = "unknown_user";
+	private SCYDynamicsStore scyDynamicsStore = null;
+	private AbstractModellingStandalone abstractModelling;
+	
+	public ModelEditor(Properties newProps, String username, AbstractModellingStandalone abstractModelling) {
 		this.setName("Model Editor");
+		this.username = username;
+		debugLogger.info("setting username: " + username);
 		this.domain = ModelUtils.loadDomain(newProps);
 		this.bundle = new ResourceBundleWrapper(this);
 		this.properties = getDefaultProperties();
+		this.abstractModelling = abstractModelling;
 		properties.putAll(newProps);
-		DEBUGLOGGER.info("using properties: " + properties);
+		debugLogger.info("using properties: " + properties);
 		// TODO username
-		//sqlspacesLogger = new ModellingSQLSpacesLogger("dummy-user");
+		// sqlspacesLogger = new ModellingSQLSpacesLogger("dummy-user");
 		actionLogger = new ModellingLogger(new DevNullActionLogger(), "username", "nullmission");
-		// actionLogger = new ModellingLogger(new SystemOutActionLogger(), "username");
+		// actionLogger = new ModellingLogger(new SystemOutActionLogger(),"username");
 		new JTools(JColab.JCOLABAPP_RESOURCES, JColab.JCOLABSYS_RESOURCES);
-		aSelection = new ModelSelection();
 		initComponents();
 		setNewModel();
+		selection = new ModelSelection();
 		setMode(properties.getProperty("editor.mode", "quantitative_modelling"));
 	}
 
-	public void setToolBroker(ToolBrokerAPI tbi) {
-        toolBroker = tbi;
-        if (toolBroker != null) {
-			actionLogger = new ModellingLogger(toolBroker.getActionLogger(), toolBroker.getLoginUserName(), toolBroker.getMissionRuntimeURI().toString());
+	
+	public void setSCYDynamicsStore(SCYDynamicsStore store) {
+		this.scyDynamicsStore = store;
+	}
+	
+	public SCYDynamicsStore getSCYDynamicsStore() {
+		if (scyDynamicsStore == null) {
+			setSCYDynamicsStore(new FileStore(this));
 		}
-    }
+		return scyDynamicsStore;
+	}
+
+	public void setToolBroker(ToolBrokerAPI tbi) {
+		toolBroker = tbi;
+		if (toolBroker != null) {
+			actionLogger = new ModellingLogger(toolBroker.getActionLogger(), toolBroker.getLoginUserName(), toolBroker.getMissionRuntimeURI().toString());
+			setUsername(toolBroker.getLoginUserName());
+		}
+	}
+	
+	private void setUsername(String username) {
+		this.username  = username;
+	}
+	
+	public String getUsername() {
+		return this.username;
+	}
 
 	public void joinSession_(ISyncSession session) {
 		System.out.println("***** ModelEditor.joinSession(isyncsession) called.");
-		DEBUGLOGGER.info("joining session: " + session);
+		debugLogger.info("joining session: " + session);
 		modelSyncControl = new ModelSyncControl(this);
 		modelSyncControl.setSession(session, true);
-//        DataSyncDiagramController diagramController = new DataSyncDiagramController(conceptMap.getDiagram(), session);
-//        diagramController.setSession(currentSession, true);
-//        conceptDiagramView.setController(diagramController);
-//        conceptDiagramView.setElementControllerFactory(new DataSyncElementControllerFactory(session));
-    }
+		// DataSyncDiagramController diagramController = new
+		// DataSyncDiagramController(conceptMap.getDiagram(), session);
+		// diagramController.setSession(currentSession, true);
+		// conceptDiagramView.setController(diagramController);
+		// conceptDiagramView.setElementControllerFactory(new
+		// DataSyncElementControllerFactory(session));
+	}
 
 	public void leaveSession() {
-		DEBUGLOGGER.info("leaving session");
+		debugLogger.info("leaving session");
 		modelSyncControl.getSession().leaveSession();
 		modelSyncControl = null;
-//        DiagramController dc = new DiagramController(conceptMap.getDiagram(), conceptMap.getDiagram().getSelectionModel());
-//        currentSession.leaveSession();
-//        currentSession = null;
-//        conceptDiagramView.setController(dc);
-//        conceptDiagramView.setElementControllerFactory(new DefaultElementControllerFactory());
-    }
+		// DiagramController dc = new DiagramController(conceptMap.getDiagram(),
+		// conceptMap.getDiagram().getSelectionModel());
+		// currentSession.leaveSession();
+		// currentSession = null;
+		// conceptDiagramView.setController(dc);
+		// conceptDiagramView.setElementControllerFactory(new
+		// DefaultElementControllerFactory());
+	}
 
 	public ISyncSession joinSession(String sessId) {
 		System.out.println("***** ModelEditor.joinSession(string) called.");
-		DEBUGLOGGER.info("joining session: " + sessId);
-       return joinSession(sessId, true);
-    }
+		debugLogger.info("joining session: " + sessId);
+		return joinSession(sessId, true);
+	}
 
 	private ISyncListener dummySyncListener = new ISyncListener() {
 
-        @Override
-        public void syncObjectAdded(ISyncObject iSyncObject) {}
+		@Override
+		public void syncObjectAdded(ISyncObject iSyncObject) {
+		}
 
-        @Override
-        public void syncObjectChanged(ISyncObject iSyncObject) {}
+		@Override
+		public void syncObjectChanged(ISyncObject iSyncObject) {
+		}
 
-        @Override
-        public void syncObjectRemoved(ISyncObject iSyncObject) {}
-    };
+		@Override
+		public void syncObjectRemoved(ISyncObject iSyncObject) {
+		}
+	};
 
-	 public ISyncSession joinSession(String sessId, boolean writeCurrentStateToServer) {
-        System.out.println("***** ModelEditor.joinSession(string, boolean) called.");
+	public ISyncSession joinSession(String sessId, boolean writeCurrentStateToServer) {
+		System.out.println("***** ModelEditor.joinSession(string, boolean) called.");
 
-		 ISyncSession currentSession = null;
-		 if (sessId != null) {
-            try {
-                //DataSyncDiagramController diagramController = new DataSyncDiagramController(conceptMap.getDiagram());
+		ISyncSession currentSession = null;
+		if (sessId != null) {
+			try {
+				// DataSyncDiagramController diagramController = new
+				// DataSyncDiagramController(conceptMap.getDiagram());
 				modelSyncControl = new ModelSyncControl(this);
 				currentSession = toolBroker.getDataSyncService().joinSession(sessId, dummySyncListener, "scy-dynamics");
-                //currentSession = toolBroker.getDataSyncService().joinSession(sessId, modelSyncControl, "scy-dynamics");
-                modelSyncControl.setSession(currentSession, writeCurrentStateToServer);
-				//diagramController.setSession(currentSession, writeCurrentStateToServer);
-                //conceptDiagramView.setController(diagramController);
-                //conceptDiagramView.setElementControllerFactory(new DataSyncElementControllerFactory(currentSession));
-            } catch (DataSyncException e) {
-                e.printStackTrace();
-            }
-        }
-        return currentSession;
-    }
+				// currentSession =
+				// toolBroker.getDataSyncService().joinSession(sessId,
+				// modelSyncControl, "scy-dynamics");
+				modelSyncControl.setSession(currentSession, writeCurrentStateToServer);
+				// diagramController.setSession(currentSession,
+				// writeCurrentStateToServer);
+				// conceptDiagramView.setController(diagramController);
+				// conceptDiagramView.setElementControllerFactory(new
+				// DataSyncElementControllerFactory(currentSession));
+			} catch (DataSyncException e) {
+				e.printStackTrace();
+			}
+		}
+		return currentSession;
+	}
 
 	public Domain getDomain() {
 		return domain;
 	}
+	
+	public void updateTitle() {
+		try {
+			if (this.abstractModelling != null) {
+				String modeString = this.getMode().toString().toLowerCase().replace("_", " ");
+				String modelName = this.getSCYDynamicsStore().getModelName();
+				if (modelName == null) {
+					modelName = "unsaved model";
+				}
+				abstractModelling.setTitle("SCYDynamics - "+modeString+" - "+modelName);
+			}
+		} catch (Exception ex) {
+			//ex.printStackTrace();
+		}
+	}
 
 	public void setMode(String newMode) {
-		DEBUGLOGGER.info("setting mode to " + newMode);
+		debugLogger.info("setting mode to " + newMode);
 		if (newMode == null) {
-			DEBUGLOGGER.info("setting mode to 'null' not allowed, setting to default mode 'modelling'");
+			debugLogger.info("setting mode to 'null' not allowed, setting to default mode 'modelling'");
 			setMode(Mode.QUANTITATIVE_MODELLING);
 		} else if (newMode.equalsIgnoreCase("black_box")) {
 			setMode(Mode.BLACK_BOX);
@@ -213,33 +277,47 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		} else if (newMode.equalsIgnoreCase("quantitative_modelling")) {
 			setMode(Mode.QUANTITATIVE_MODELLING);
 		} else {
-			DEBUGLOGGER.info("unknown mode '" + newMode + "', setting to default mode 'modelling'");
+			debugLogger.info("unknown mode '" + newMode + "', setting to default mode 'modelling'");
 			setMode(Mode.QUANTITATIVE_MODELLING);
 		}
+		updateTitle();
 	}
 
 	public void setMode(Mode newMode) {
-		System.out.println("ModelEditor: setting mode from "+this.mode+" to "+newMode);
+		System.out.println("ModelEditor: setting mode from " + this.mode + " to " + newMode);
 		if (newMode != this.mode) {
 			this.mode = newMode;
 			switch (mode) {
 			case BLACK_BOX:
 			case CLEAR_BOX:
-				addGraph();
-				addTable();
+				enableTab(TABINDEX_GRAPH);
+				enableTab(TABINDEX_TABLE);
 				toolbar.toCursorAction();
 				toolbar.setEnabled(false);
 				clearSelectedObjects();
 				break;
 			case MODEL_SKETCHING:
-				removeGraphAndTable();
+				disableTab(TABINDEX_GRAPH);
+				disableTab(TABINDEX_TABLE);
 				toolbar.setEnabled(true);
+				// clear qualitative relation icons
+				model.clearQualitativeRelations();
+				// reset the phase button
+				if (editorTab.getFileToolbar().getPhaseButton()!= null) {
+					editorTab.getFileToolbar().getPhaseButton().setEnabled(true);
+				}
 				break;
 			case QUALITATIVE_MODELLING:
-			case QUANTITATIVE_MODELLING:
-				addGraph();
-				addTable();
+				enableTab(TABINDEX_GRAPH);
+				disableTab(TABINDEX_TABLE);
 				toolbar.setEnabled(true);
+				break;
+			case QUANTITATIVE_MODELLING:
+				enableTab(TABINDEX_GRAPH);
+				enableTab(TABINDEX_TABLE);
+				toolbar.setEnabled(true);
+				// clear qualitative relation icons
+				model.clearQualitativeRelations();
 				break;
 			}
 		}
@@ -272,7 +350,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		props.put("show.graph", "true");
 		props.put("show.table", "true");
 		props.put("show.filetoolbar", "true");
-		props.put("editor.fixedcalculationmethod", "false");
+		//props.put("editor.fixedcalculationmethod", null);
 		props.put("show.popouttabs", "false");
 		props.put("editor.mode", "quantitative_modelling");
 		props.put("editor.modes_selectable", "false");
@@ -290,41 +368,31 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	public void setActionLogger(IActionLogger newLogger, String username, String missionRuntimeUri) {
 		this.actionLogger = new ModellingLogger(newLogger, username, missionRuntimeUri);
 	}
+	
+	public void setActionLogger(IModellingLogger newLogger) {
+		this.actionLogger = newLogger;
+	}
 
 	public FileToolbar getFileToolbar() {
 		return editorTab.getFileToolbar();
 	}
 
 	private void initComponents() {
-		EditorActionListener actionListener = new EditorActionListener(this);
+		actionListener = new EditorActionListener(this);
+		// same color as background -> invisible
+		UIManager.put("TabbedPane.focus", new Color(200,221,242));
 		tabbedPane = new JTabbedPane();
 		tabbedPane.addChangeListener(new ChangeListener() {
-
 			@Override
 			public void stateChanged(ChangeEvent evt) {
 				JTabbedPane pane = (JTabbedPane) evt.getSource();
 				((ChangeListener) pane.getSelectedComponent()).stateChanged(evt);
 			}
 		});
+
 		this.setLayout(new BorderLayout());
 		this.add(tabbedPane, BorderLayout.CENTER);
-
-		editorTab = new EditorTab(this, actionListener, bundle);
-		this.editorPanel = (editorTab).getEditorPanel();
-		this.toolbar = (editorTab).getToolbar();
-		graphTab = new GraphTab(this, bundle);
-		tableTab = new TableTab(this, bundle);
-
-		// tabbedPane.addTab(bundle.getString("PANEL_EDITOR"),
-		// Util.getImageIcon("editor_22.png"), editorTab);
-		tabbedPane.add(editorTab, 0);
-		tabbedPane.setTabComponentAt(0, new TabPanel(bundle.getString("PANEL_EDITOR"), editorTab, this, properties));
-		if (properties.get("show.graph").equals("true")) {
-			addGraph();
-		}
-		if (properties.get("show.table").equals("true") && this.mode != Mode.QUALITATIVE_MODELLING) {
-			addTable();
-		}
+		addTabs();
 
 		this.registerKeyboardAction(actionListener, EditorToolbar.DELETE + "", KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
 		this.registerKeyboardAction(actionListener, EditorToolbar.COPY + "", KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK, false), JComponent.WHEN_IN_FOCUSED_WINDOW);
@@ -333,19 +401,42 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		this.registerKeyboardAction(actionListener, EditorToolbar.ALL + "", KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK, false), JComponent.WHEN_IN_FOCUSED_WINDOW);
 	}
 
-	public void addGraph() {
-		tabbedPane.add(graphTab, 1);
-		tabbedPane.setTabComponentAt(1, new TabPanel("Graph", graphTab, this, properties));
+	public void addTabs() {
+		editorTab = new EditorTab(this, actionListener, bundle);
+		this.editorPanel = (editorTab).getEditorPanel();
+		this.toolbar = (editorTab).getToolbar();
+		tabbedPane.setBackground(Color.GRAY.brighter());
+		tabbedPane.add(editorTab, TABINDEX_EDITOR);
+		tabbedPane.setTabComponentAt(TABINDEX_EDITOR, new TabPanel(bundle.getString("PANEL_EDITOR"), Util.getImageIcon("editor_24.png"), editorTab, this, properties));
+		feedbackTab = new FeedbackTab(this, bundle);
+		tabbedPane.add(feedbackTab, TABINDEX_FEEDBACK);
+		tabbedPane.setTabComponentAt(TABINDEX_FEEDBACK, new TabPanel("Bar chart", Util.getImageIcon("feedback_24.png"), feedbackTab, this, properties));
+		graphTab = new GraphTab(this, bundle);
+		tabbedPane.add(graphTab, TABINDEX_GRAPH);
+		tabbedPane.setTabComponentAt(TABINDEX_GRAPH, new TabPanel("Graph", Util.getImageIcon("graph_24.png"), graphTab, this, properties));
+		tableTab = new TableTab(this, bundle);
+		tabbedPane.add(tableTab, TABINDEX_TABLE);
+		tabbedPane.setTabComponentAt(TABINDEX_TABLE, new TabPanel("Table", Util.getImageIcon("table_24.png"), tableTab, this, properties));		
+		
+		if (!Boolean.parseBoolean(properties.getProperty("showFeedback"))) {
+			disableTab(TABINDEX_FEEDBACK);
+		}
 	}
 
-	public void addTable() {
-		tabbedPane.add(tableTab, tabbedPane.getComponentCount() - 1);
-		tabbedPane.setTabComponentAt(tabbedPane.getComponentCount() - 2, new TabPanel("Table", tableTab, this, properties));
+	public void disableTab(int index) {
+		tabbedPane.setEnabledAt(index, false);
+		for (Component comp : ((TabPanel) tabbedPane.getTabComponentAt(index)).getComponents()) {
+			comp.setEnabled(false);
+			//comp.setVisible(false);			
+		}
 	}
 
-	public void removeGraphAndTable() {
-		tabbedPane.remove(graphTab);
-		tabbedPane.remove(tableTab);
+	public void enableTab(int index) {
+		tabbedPane.setEnabledAt(index, true);
+		for (Component comp : ((TabPanel) tabbedPane.getTabComponentAt(index)).getComponents()) {
+			comp.setEnabled(true);
+			//comp.setVisible(true);
+		}
 	}
 
 	public Model getModel() {
@@ -360,10 +451,6 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		return toolbar.getCurrentAction();
 	}
 
-	public String getColabToolName() {
-		return "editor";
-	}
-
 	public void setNewModel() {
 		editorPanel.removeMouseListener(mouseListener);
 		editorPanel.removeMouseMotionListener(mouseListener);
@@ -373,10 +460,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		mouseListener = new EditorMouseListener(this, model);
 		editorPanel.addMouseListener(mouseListener);
 		editorPanel.addMouseMotionListener(mouseListener);
-	}
-
-	private JxmModel getXmModel() {
-		return (model == null) ? null : model.getXmModel();
+		this.getActionLogger().logSimpleAction(ModellingLogger.MODEL_CLEARED);
 	}
 
 	public void setJxmModel(JxmModel m) {
@@ -419,20 +503,20 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		if (name == null) {
 			// userMessage =
 			// JTools.getAppResourceString("editorMsgYouMustIntroduceVariableName");
-			DEBUGLOGGER.info("invalid variable name: null");
+			debugLogger.info("invalid variable name: null");
 		} else if (name.length() < 1) {
 			// userMessage =
 			// JTools.getAppResourceString("editorMsgYouMustIntroduceVariableName");
-			DEBUGLOGGER.info("invalid variable name: length < 1");
+			debugLogger.info("invalid variable name: length < 1");
 		} else if (model.hasObjectOfName(name)) {
 			// userMessage =
 			// JTools.getAppResourceString("editorMsgDuplicateVariableName",
 			// name);
-			DEBUGLOGGER.info("invalid variable name: duplicate name");
+			debugLogger.info("invalid variable name: duplicate name");
 		} else if (JParserExpr.isToken(name)) {
 			// userMessage =
 			// JTools.getAppResourceString("editorMsgReservedWord",name);
-			DEBUGLOGGER.info("invalid variable name: expression token");
+			debugLogger.info("invalid variable name: expression token");
 		} else {
 			b = true;
 		}
@@ -555,17 +639,27 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 			// case JdFigure.DATASET:
 			case JdFigure.AUX:
 			case JdFigure.STOCK:
-				JdNode n = (JdNode) o;
+				JdNode node = (JdNode) o;
 				boolean b3 = true;
-				if (!n.isGraphExpr()) // do not check GRAPH(...) expressions
+				if (!node.isGraphExpr()) // do not check GRAPH(...) expressions
 				{
-					b3 = checkExpr(n.getLabel(), n.getExpr(), model.getLinkedVariablesTo(n, false), true);
+					b3 = checkExpr(node.getLabel(), node.getExpr(), model.getLinkedVariablesTo(node, false), true);
 				}
 				o.setSpecified(b3);
 				if (!b3 && !b) {
 					b = false;
 				}
-				break;
+				
+				if (node instanceof JdStock) {
+					// check if a stock node is used properly
+					Vector<JdFigure> incoming = model.getIncomingFigures((JdStock)node);
+					Vector<JdFigure> outgoing = model.getOutgoingFigures((JdStock)node);
+					if (incoming.isEmpty() && outgoing.isEmpty()) {
+						modelCheckMessages.add("* the Stock '" + o.getLabel() + "' has no incoming or outgoing flows. Please correct this or use a Const or Aux instead.");
+						b = false;
+					}
+				}
+ 				break;
 			}
 		}
 		return b;
@@ -609,7 +703,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		} catch (JParserException ex) {
 		}
 		if (!b) {
-			modelCheckMessages.add("* the expression parser encoutered an error in element " + vName);
+			modelCheckMessages.add("* The expression parser encoutered an error in element " + vName);
 			return false;
 		}
 		// all linked variables used?
@@ -619,7 +713,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 				// userMessage =
 				// JTools.getAppResourceString("editorMsgYouMustUseAllLinkedVariables");
 				// showStatusMsg(userMessage, true);
-				DEBUGLOGGER.info("not all linked variables used (1)");
+				debugLogger.info("not all linked variables used");
 				return false;
 			}
 			// create vector of linked variables in lowercase
@@ -639,7 +733,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 					// userMessage =
 					// JTools.getAppResourceString("editorMsgYouMustUseAllLinkedVariables");
 					// showStatusMsg(userMessage, true);
-					DEBUGLOGGER.info("not all linked variables used (2)");
+					debugLogger.info("not all linked variables used");
 					return false;
 				}
 			}
@@ -651,7 +745,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 					// userMessage =
 					// JTools.getAppResourceString("editorMsgYouMustUseAllLinkedVariables");
 					// showStatusMsg(userMessage, true);
-					DEBUGLOGGER.info("not all linked variables used (3)");
+					debugLogger.info("not all linked variables used");
 					return false;
 				}
 			}
@@ -696,43 +790,27 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	// selection: undo/copy/paste/cut
 	// ---------------------------------------------------------------------------
 	public ModelSelection getSelection() {
-		return aSelection;
-	}
-
-	// ---------------------------------------------------------------------------
-	public void copySelection() {
-		aSelection.copySelection();
-	}
-
-	public void pasteSelection() {
-		aSelection.pasteSelection(this, model);
-	}
-
-	public void cutSelection() {
-		aSelection.cutSelection(this);
-	}
-
-	public void deleteSelection() {
-		aSelection.deleteSelection(this);
+		return selection;
 	}
 
 	// public void undoModel() {
 	// aSelection.undoModel(this);
 	// }
+	
 	public void saveModel() {
-		aSelection.saveModel(this);
+		selection.saveModel(this);
 	}
 
 	public void clearSaveFirstModel() {
-		aSelection.clearSaveFirstModel();
+		selection.clearSaveFirstModel();
 	}
 
 	public void saveFirstModel() {
-		aSelection.saveFirstModel(this);
+		selection.saveFirstModel(this);
 	}
 
 	public void clearUndoModel() {
-		aSelection.clearUndoModel();
+		selection.clearUndoModel();
 	}
 
 	// ---------------------------------------------------------------------------
@@ -741,17 +819,17 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	// }
 	// ---------------------------------------------------------------------------
 	public Hashtable<String, JdObject> getCopySelection() {
-		return aSelection.getCopySelection();
+		return selection.getCopySelection();
 	}
 
 	// ---------------------------------------------------------------------------
 	public void setCopySelection(Vector<JdObject> v) {
-		aSelection.setCopySelection(v);
+		selection.setCopySelection(v);
 	}
 
 	// ---------------------------------------------------------------------------
 	public void clearSelectedObjects() {
-		aSelection.unselectAll();
+		selection.unselectAll();
 		updateCanvas();
 		// this.updateSpecDialog(true);
 	}
@@ -761,9 +839,9 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		if (model == null) {
 			return;
 		}
-		aSelection.unselectAll();
+		selection.unselectAll();
 		for (JdObject o : model.getObjects().values()) {
-			aSelection.selectObject(o, true);
+			selection.selectObject(o, true);
 		}
 		updateCanvas();
 		// updateSpecDialog(true);
@@ -774,10 +852,10 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		if (model == null) {
 			return;
 		}
-		aSelection.unselectAll();
+		selection.unselectAll();
 		for (String objName : v) {
 			JdObject o = model.getObjectOfName(objName);
-			aSelection.selectObject(o, true);
+			selection.selectObject(o, true);
 		}
 		updateCanvas();
 		// updateSpecDialog(true);
@@ -788,10 +866,10 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		if (model == null) {
 			return;
 		}
-		aSelection.unselectAll();
+		selection.unselectAll();
 		for (JdObject o : model.getObjects().values()) {
 			if (JdTools.testR1ContainsR2(r, o.getBounds())) {
-				aSelection.selectObject(o, true);
+				selection.selectObject(o, true);
 			}
 		}
 		updateCanvas();
@@ -803,7 +881,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		if (model == null) {
 			return;
 		}
-		aSelection.selectObject(o, bToggle);
+		selection.selectObject(o, bToggle);
 		updateCanvas();
 		// updateSpecDialog(true);
 	}
@@ -813,9 +891,9 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		if (model == null) {
 			return;
 		}
-		aSelection.unselectAll();
+		selection.unselectAll();
 		JdObject o = model.getObjectOfName(s);
-		aSelection.selectObject(o, false);
+		selection.selectObject(o, false);
 		updateCanvas();
 		// if (bEvent)
 		// sendVisualToolEvent("SelectObject", s);
@@ -856,8 +934,8 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 
 	public Vector<String> getSelectedObjects() {
 		Vector<String> v = new Vector<String>();
-		if (aSelection != null) {
-			for (JdObject o : aSelection.getObjects().values()) {
+		if (selection != null) {
+			for (JdObject o : selection.getObjects().values()) {
 				v.add(o.getLabel());
 			}
 		}
@@ -876,7 +954,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		if (model == null || name == null) {
 			return;
 		}
-		deleteFigure(model.getObjectOfName(name), bEvent);	
+		deleteFigure(model.getObjectOfName(name), bEvent);
 	}
 
 	public void deleteFigure(JdObject object, boolean bEvent) {
@@ -890,19 +968,20 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		setModelChanged();
 		checkModel();
 		if (isSynchronized()) {
-			System.out.println("ModelEditor.deleteFigure called for "+object.getID());
+			System.out.println("ModelEditor.deleteFigure called for " + object.getID());
 			getModelSyncControl().removeObject(object);
-        }
+		}
 		// if (bEvent)
 		// sendVisualToolEvent("DeleteFigure", name);
 	}
-	
+
 	public void setFigureProperties(String oldName, Hashtable<String, Object> h) {
 		if (model == null || oldName == null) {
 			return;
 		}
 		JdObject o = model.getObjectOfName(oldName);
 		if (o == null || h == null) {
+			debugLogger.warning("couldn't find object "+oldName+", doing nothing");
 			return;
 		}
 		boolean bChangeRel = false;
@@ -946,7 +1025,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		String newName = h.containsKey("label") ? (String) h.get("label") : null;
 		if (newName != null && !oldName.equals(newName)) {
 			model.renameObjectKey(oldName, newName);
-			aSelection.renameObjectKey(oldName, newName);
+			selection.renameObjectKey(oldName, newName);
 		}
 		if (h.containsKey("relations")) {
 			model.updateNodeRelations(((JdNode) o).getLabel(), (Hashtable) h.get("relations"));
@@ -977,4 +1056,22 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	public EditorToolbar getEditorToolbar() {
 		return this.editorTab.getEditorToolbar();
 	}
+
+	public void doAutosave(StoreType type) {
+		if (this.getProperties().getProperty("autoSave", "false").equalsIgnoreCase("true")) {
+			// autosaving...
+			try {
+				String originalFilename = this.getSCYDynamicsStore().getModelName();
+				this.getSCYDynamicsStore().doAutoSave(type);
+				this.getSCYDynamicsStore().setModelName(originalFilename);
+			} catch (Exception ex) {
+				debugLogger.severe(ex.getMessage());
+				JOptionPane.showMessageDialog(javax.swing.JOptionPane.getFrameForComponent(this),
+					    "The model could not be automatically stored:\n"+ex.getMessage(),
+					    "Warning",
+					    JOptionPane.WARNING_MESSAGE);
+			}
+		}
+	}
+	
 }

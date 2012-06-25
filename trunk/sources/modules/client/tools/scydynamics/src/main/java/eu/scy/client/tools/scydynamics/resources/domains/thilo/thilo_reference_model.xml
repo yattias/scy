@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<reference_model name="photosyntesis"
+		 notation="system_dynamics"
+		 concept_set="thilo_photosynthesis">
+
+<!-- the constant nodes -->
+<!-- -->
+	<node id="daylight" concept="daylight"
+		type="constant"
+		low_value="0"
+		high_value="100"
+		default_value="50"
+	/>
+	
+	<node id="temperature" concept="temperature"
+		type="constant"
+		low_value="284"
+		high_value="330"
+		default_value="307"
+	/>
+	
+<!-- the auxilliary nodes -->
+<!-- -->
+	<node id="photosynthesis" concept="photosynthesis"
+		type="auxiliary"
+	/>
+	
+	<node id="vegetation" concept="vegetation"
+		type="auxiliary"
+	/>
+
+	<node id="glucose_usage" concept="glucose_usage"
+		type="auxiliary"
+	/>
+	
+	<node id="dissimilation" concept="dissimilation"
+		type="auxiliary"
+	/>
+	
+	<!-- the stock nodes -->
+<!--  -->
+	<node id="glucose" concept="glucose"
+		type="stock"
+		low_value="20"
+		high_value="60"
+		default_value="40"
+	/>
+	        
+	<node id="co2" concept="co2"
+		type="stock"
+		low_value="20"
+		high_value="50"
+		default_value="35"
+	/>
+	
+	<node id="o2" concept="o2"
+		type="stock"
+		low_value="80"
+		high_value="120"
+		default_value="100"
+	/>
+
+<!-- the flow nodes -->
+<!-- it is important to stick to the naming scheme with _in and _out -->
+<!-- -->
+	<node id="glucose_in" concept=""
+		type="flow"
+	/>
+	
+	<node id="glucose_out" concept=""
+		type="flow"
+	/>
+	
+	<node id="co2_in" concept=""
+		type="flow"
+	/>
+	
+	<node id="co2_out" concept=""
+		type="flow"
+	/>
+	
+	<node id="o2_in" concept=""
+		type="flow"
+	/>
+	
+	<node id="o2_out" concept=""
+		type="flow"
+	/>
+
+<!-- the edges -->
+<!--  -->
+	<!-- these are the flow relations from/to a stock to/from an anonymous container -->
+	<edge from="" to="glucose"/>
+	<edge from="glucose" to=""/>
+	<edge from="" to="co2"/>
+	<edge from="co2" to=""/>
+	<edge from="" to="o2"/>
+	<edge from="o2" to=""/>
+
+	<!-- these are the relations that point to a incoming or outgoing flow -->
+	<!-- it is important to stick to the naming scheme with _in and _out -->
+	<edge from="photosynthesis" to="glucose_in"/>
+	<edge from="glucose_usage" to="glucose_out"/>	
+	<edge from="dissimilation" to="co2_in"/>
+	<edge from="photosynthesis" to="co2_out"/>
+	<edge from="photosynthesis" to="o2_in"/>
+	<edge from="dissimilation" to="o2_out"/>
+
+	<!-- these are the relations that point to a incoming or outgoing flow -->
+	<!-- it is important to stick to the naming scheme with _in and _out -->
+	<edge from="glucose" to="vegetation">		
+		<expression type="linear_up" formula="(0.2*glucose-20)"/>
+	</edge>
+	
+	<edge from="vegetation" to="glucose_usage">
+		<!-- trick: "/dissimilaton" creates an additon of vegetation rather than a multiplication in glucose_usage -->
+		<expression type="linear_up" formula="(0.01+vegetation/dissimilation)"/>
+	</edge>
+	
+	<edge from="dissimilation" to="glucose_usage">		
+		<expression type="linear_up" formula="dissimilation"/>
+	</edge>
+
+	<edge from="glucose" to="dissimilation">		
+		<expression type="linear_up" formula="(glucose+10)"/>
+	</edge>
+	
+	<edge from="o2" to="dissimilation">		
+		<expression type="linear_up" formula="0.01*(o2-50)"/>
+	</edge>
+	
+	<edge from="temperature" to="dissimilation">		
+		<expression type="bell" formula="exp(0.001*temperature)"/>
+	</edge>
+	
+	<edge from="daylight" to="photosynthesis">
+		<!-- trick: "0*daylight" prevents the modeleditor from being worried about a not-used-variable -->
+		<expression type="linear_up" formula="(0.01*daylight*(1-exp(-0.1*(1-cos(time * 3.141593/12)))))"/>
+		<expression type="linear_down" formula="(0.01*daylight*(1-exp(-0.1*(1-cos(time * 3.141593/12)))))"/>
+	</edge>
+	
+	<edge from="co2" to="photosynthesis">		
+		<expression type="linear_up" formula="co2"/>
+	</edge>
+	
+	<edge from="temperature" to="photosynthesis">		
+		<expression type="bell" formula="0.95*35*(exp(-(temperature-308)*(temperature-308)/70))"/>
+	</edge>
+	    
+</reference_model>

@@ -74,8 +74,8 @@ public class SimquestModelQualitative extends SimquestModelQuantitative {
 				parseEquation(equation, node.getExpr());
 				code.addContent(equation);
 			} else if (node.getType() == JdFigure.STOCK) {
-				Vector<JdFigure> incomingFigs = getIncomingFigs((JdStock) node);
-				Vector<JdFigure> outgoingFigs = getOutgoingFigs((JdStock) node);
+				Vector<JdFigure> incomingFigs = model.getIncomingFigures((JdStock) node);
+				Vector<JdFigure> outgoingFigs = model.getOutgoingFigures((JdStock) node);
 				equation = new Element("equation");
 				equation.addContent(new Element("variable").setText(node.getLabel() + "_dot"));
 				String expression = new String();

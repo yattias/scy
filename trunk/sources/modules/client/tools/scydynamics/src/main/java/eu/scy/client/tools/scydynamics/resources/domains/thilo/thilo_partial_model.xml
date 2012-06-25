@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.co-lab.nl/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.co-lab.nl/xml Model.xsd" mode="QUALITATIVE_MODELLING">
+  <descriptor>
+    <symbol>model</symbol>
+  </descriptor>
+  <variables>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>glukoseverbrauch</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#b83e3e</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression />
+          <unit>?</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>o2</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#3232b6</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <stockSpec>
+          <initial>50.0</initial>
+          <unit>?</unit>
+        </stockSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>photosynthese</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#33b22d</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression />
+          <unit>?</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>time</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#000000</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <timeSpec>
+          <unit>?</unit>
+          <time start="0.0" stop="100.0" />
+          <integration method="euler" step="0.0010" />
+        </timeSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>wachstum</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#b434af</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression />
+          <unit>?</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>tageslicht</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#b6b33e</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression>50.0</expression>
+          <unit>?</unit>
+        </constSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>co2</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#b83e3e</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <stockSpec>
+          <initial>35.0</initial>
+          <unit>?</unit>
+        </stockSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>glukose</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#808080</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <stockSpec>
+          <initial>40.0</initial>
+          <unit>?</unit>
+        </stockSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>temperatur</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#b66f2d</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression>50.0</expression>
+          <unit>K</unit>
+        </constSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>dissimilation</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#2db5b5</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression />
+          <unit>?</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+  </variables>
+  <layout>
+    <nodes>
+      <nstock symbol="co2" id="268b2510-3e36-4f88-8496-251e8fff3774" x1="451" y1="244" x2="483" y2="264" label="south" color="#000000" labelColor="#b83e3e" />
+      <nstock symbol="o2" id="328fb240-c9aa-489d-8244-59837812ef3c" x1="456" y1="387" x2="488" y2="407" label="south" color="#000000" labelColor="#3232b6" />
+      <nstock symbol="glukose" id="4fc3054a-9de5-4da0-8ef4-0c478205b771" x1="455" y1="99" x2="487" y2="119" label="south" color="#000000" labelColor="#808080" />
+      <naux symbol="dissimilation" id="8593664c-c180-4c16-9f08-fa09ecf6cfad" x1="49" y1="245" x2="81" y2="277" label="south" color="#000000" labelColor="#2db5b5" />
+      <naux symbol="wachstum" id="bd7ce58f-597f-43ec-8cab-f4afed880d5e" x1="47" y1="26" x2="79" y2="58" label="south" color="#000000" labelColor="#b434af" />
+      <naux symbol="glukoseverbrauch" id="4e7929ac-87f3-4f14-b2d0-21688ab36cce" x1="44" y1="97" x2="76" y2="129" label="south" color="#000000" labelColor="#b83e3e" />
+      <naux symbol="photosynthese" id="896b715a-9c07-46f0-be14-f872e27dbfb3" x1="43" y1="315" x2="75" y2="347" label="south" color="#000000" labelColor="#33b22d" />
+      <nconst symbol="tageslicht" id="292aabf9-7df9-4735-8340-daaf9631a01f" x1="45" y1="390" x2="77" y2="422" label="south" color="#000000" labelColor="#b6b33e" />
+      <nconst symbol="temperatur" id="8b831852-6023-4ced-8d56-dc8245de164f" x1="46" y1="178" x2="78" y2="210" label="south" color="#000000" labelColor="#b66f2d" />
+    </nodes>
+    <links>
+      <lflow symbol="Flow_6" id="d7cdd629-aaad-4548-8be2-370990bacee6" start="o2" x1="488" y1="396" x2="633" y2="396" cx1="633" cy1="396" type="lineal" color="#000000" />
+      <lflow symbol="Flow_5" id="fb162640-4d8f-4d8b-b7c8-fbafda5acda8" end="co2" x1="279" y1="256" x2="451" y2="256" cx1="451" cy1="256" type="lineal" color="#000000" />
+      <lflow symbol="Flow_4" id="b4c669a7-d716-446e-9556-ca959dbbe105" start="glukose" x1="487" y1="108" x2="602" y2="108" cx1="602" cy1="108" type="lineal" color="#000000" />
+      <lflow symbol="Flow_3" id="92a50a45-86a1-47f8-8492-05a0eb2eca0c" end="o2" x1="267" y1="396" x2="456" y2="396" cx1="456" cy1="396" type="lineal" color="#000000" />
+      <lflow symbol="Flow_2" id="af6662f9-a000-4430-b03d-fda862dd239e" start="co2" x1="483" y1="255" x2="621" y2="255" cx1="621" cy1="255" type="lineal" color="#000000" />
+      <lflow symbol="Flow_1" id="3f835adc-5c36-4a35-87c5-715615f62bae" end="glukose" x1="269" y1="108" x2="455" y2="108" cx1="455" cy1="108" type="lineal" color="#000000" />
+    </links>
+  </layout>
+</model>
+

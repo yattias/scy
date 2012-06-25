@@ -9,6 +9,7 @@ import javax.swing.JScrollPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+@SuppressWarnings("serial")
 public class EditorTab extends JPanel implements ChangeListener {
 
     private ModelEditor editor;
@@ -29,10 +30,10 @@ public class EditorTab extends JPanel implements ChangeListener {
         if (editor.getProperties().get("show.filetoolbar").equals("true")) {
             this.add(filetoolbar, BorderLayout.NORTH);
         }
-	JScrollPane scroller = new JScrollPane();
-	scroller.setViewportView(editorPanel);
-	scroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-	scroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		JScrollPane scroller = new JScrollPane();
+		scroller.setViewportView(editorPanel);
+		scroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         this.add(scroller, BorderLayout.CENTER);
     }
 

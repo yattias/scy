@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.co-lab.nl/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.co-lab.nl/xml Model.xsd" mode="QUALITATIVE_MODELLING">
+  <descriptor>
+    <symbol>model</symbol>
+  </descriptor>
+  <variables>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>temperatuur</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#b66f2d</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression>50.0</expression>
+          <unit>K</unit>
+        </constSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>o2</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#3232b6</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <stockSpec>
+          <initial>50.0</initial>
+          <unit>?</unit>
+          <inflow>photosynthese</inflow>
+          <outflow>dissimilation</outflow>
+        </stockSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>photosynthese</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#33b22d</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression>co2*0.95*35*(exp(-(temperatuur-308)*(temperatuur-308)/70))*(0.01*daglicht*(1-exp(-0.1*(1-cos(time * 3.141593/12)))))</expression>
+          <unit>?</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>time</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#000000</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <timeSpec>
+          <unit>?</unit>
+          <time start="0.0" stop="100.0" />
+          <integration method="euler" step="0.0010" />
+        </timeSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>glucoseverbruik</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#b83e3e</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression>(0.01+plantengroei/dissimilation)*dissimilation</expression>
+          <unit>?</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>daglicht</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#b6b33e</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression>50.0</expression>
+          <unit>?</unit>
+        </constSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>co2</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#b83e3e</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <stockSpec>
+          <initial>35.0</initial>
+          <unit>?</unit>
+          <inflow>dissimilation</inflow>
+          <outflow>photosynthese</outflow>
+        </stockSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>plantengroei</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#b434af</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression>(0.2*glucose-20)</expression>
+          <unit>?</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>glucose</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#808080</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <stockSpec>
+          <initial>40.0</initial>
+          <unit>?</unit>
+          <inflow>photosynthese</inflow>
+          <outflow>glucoseverbruik</outflow>
+        </stockSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>dissimilation</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#2db5b5</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression>exp(0.001*temperatuur)*0.01*(o2-50)*(glucose+10)</expression>
+          <unit>?</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+  </variables>
+  <layout>
+    <nodes>
+      <nstock symbol="glucose" id="4fc3054a-9de5-4da0-8ef4-0c478205b771" x1="455" y1="99" x2="487" y2="119" label="south" color="#000000" labelColor="#808080" />
+      <nstock symbol="o2" id="328fb240-c9aa-489d-8244-59837812ef3c" x1="453" y1="400" x2="485" y2="420" label="south" color="#000000" labelColor="#3232b6" />
+      <nstock symbol="co2" id="268b2510-3e36-4f88-8496-251e8fff3774" x1="451" y1="244" x2="483" y2="264" label="south" color="#000000" labelColor="#b83e3e" />
+      <naux symbol="glucoseverbruik" id="4e7929ac-87f3-4f14-b2d0-21688ab36cce" x1="739" y1="134" x2="771" y2="166" label="south" color="#000000" labelColor="#b83e3e" />
+      <naux symbol="dissimilation" id="8593664c-c180-4c16-9f08-fa09ecf6cfad" x1="768" y1="316" x2="800" y2="348" label="south" color="#000000" labelColor="#2db5b5" />
+      <naux symbol="plantengroei" id="bd7ce58f-597f-43ec-8cab-f4afed880d5e" x1="636" y1="14" x2="668" y2="46" label="south" color="#000000" labelColor="#b434af" />
+      <naux symbol="photosynthese" id="896b715a-9c07-46f0-be14-f872e27dbfb3" x1="77" y1="284" x2="109" y2="316" label="south" color="#000000" labelColor="#33b22d" />
+      <nconst symbol="temperatuur" id="8b831852-6023-4ced-8d56-dc8245de164f" x1="392" y1="487" x2="424" y2="519" label="south" color="#000000" labelColor="#b66f2d" />
+      <nconst symbol="daglicht" id="292aabf9-7df9-4735-8340-daaf9631a01f" x1="33" y1="156" x2="65" y2="188" label="south" color="#000000" labelColor="#b6b33e" />
+    </nodes>
+    <links>
+      <lflow symbol="Flow_6" id="d7cdd629-aaad-4548-8be2-370990bacee6" start="o2" x1="485" y1="409" x2="630" y2="409" cx1="630" cy1="409" type="lineal" color="#000000" />
+      <lflow symbol="Flow_5" id="fb162640-4d8f-4d8b-b7c8-fbafda5acda8" end="co2" x1="625" y1="253" x2="483" y2="253" cx1="483" cy1="253" type="lineal" color="#000000" />
+      <lflow symbol="Flow_4" id="b4c669a7-d716-446e-9556-ca959dbbe105" start="glucose" x1="487" y1="108" x2="602" y2="108" cx1="602" cy1="108" type="lineal" color="#000000" />
+      <lflow symbol="Flow_3" id="92a50a45-86a1-47f8-8492-05a0eb2eca0c" end="o2" x1="264" y1="409" x2="453" y2="409" cx1="453" cy1="409" type="lineal" color="#000000" />
+      <lflow symbol="Flow_2" id="af6662f9-a000-4430-b03d-fda862dd239e" start="co2" x1="451" y1="253" x2="285" y2="253" cx1="285" cy1="253" type="lineal" color="#000000" />
+      <lflow symbol="Flow_1" id="3f835adc-5c36-4a35-87c5-715615f62bae" end="glucose" x1="269" y1="108" x2="455" y2="108" cx1="455" cy1="108" type="lineal" color="#000000" />
+      <lrelation symbol="Relation_23" id="b9e488f5-850d-4896-9774-995657ef1eaa" start="o2" end="dissimilation" type="1" x1="473" y1="400" x2="769" y2="335" cx1="516" cy1="293" cx2="662" cy2="356" color="#000000" />
+      <lrelation symbol="Relation_21" id="84931ebc-0cee-4ddd-8d6d-dc6582ff9034" start="glucose" end="dissimilation" type="1" x1="487" y1="116" x2="772" y2="324" cx1="597" cy1="164" cx2="672" cy2="257" color="#000000" />
+      <lrelation symbol="Relation_19" id="cc55b4e3-c53f-4029-b655-35b4b80d1f51" start="dissimilation" end="glucoseverbruik" type="1" x1="783" y1="317" x2="758" y2="166" cx1="780" cy1="266" cx2="767" cy2="217" color="#000000" />
+      <lrelation symbol="Relation_20" id="0570d32f-1044-4bac-af99-8a8a9bb14531" start="glucoseverbruik" end="Flow_4" type="0" x1="740" y1="148" x2="548" y2="101" cx1="667" cy1="139" cx2="579" cy2="28" color="#000000" />
+      <lrelation symbol="Relation_18" id="a027f287-1760-496e-9b9f-c7b4a72ff9ef" start="plantengroei" end="glucoseverbruik" type="1" x1="662" y1="42" x2="746" y2="139" cx1="690" cy1="75" cx2="719" cy2="106" color="#000000" />
+      <lrelation symbol="Relation_9" id="ad5e26b3-6166-4917-bdee-ab81f246a8d6" start="dissimilation" end="Flow_5" type="0" x1="770" y1="329" x2="561" y2="260" cx1="695" cy1="313" cx2="619" cy2="318" color="#000000" />
+      <lrelation symbol="Relation_8" id="244631d0-d4f7-4577-88f5-50d1aa321ec1" start="dissimilation" end="Flow_6" type="0" x1="770" y1="337" x2="565" y2="402" cx1="697" cy1="363" cx2="621" cy2="346" color="#000000" />
+      <lrelation symbol="Relation_7" id="8d6ba349-5520-44d4-8e27-54d286cba9b9" start="glucose" end="plantengroei" type="1" x1="471" y1="99" x2="638" y2="36" cx1="471" cy1="35" cx2="579" cy2="61" color="#000000" />
+      <lrelation symbol="Relation_6" id="cc0e671d-b19c-44c9-b7c3-7ee4a221499d" start="photosynthese" end="Flow_2" type="0" x1="109" y1="300" x2="361" y2="260" cx1="196" cy1="300" cx2="239" cy2="299" color="#000000" />
+      <lrelation symbol="Relation_5" id="92d5a9ee-b4d2-4021-81bf-20b8f4fbe4d0" start="photosynthese" end="Flow_3" type="0" x1="102" y1="313" x2="352" y2="402" cx1="143" cy1="375" cx2="245" cy2="359" color="#000000" />
+      <lrelation symbol="Relation_4" id="5d02c7ac-290f-4196-9786-e0e708a85fa2" start="photosynthese" end="Flow_1" type="0" x1="107" y1="293" x2="355" y2="115" cx1="201" cy1="246" cx2="276" cy2="194" color="#000000" />
+      <lrelation symbol="Relation_10" id="82237bbb-b427-488e-86c4-d3f75d43ce0b" start="temperatuur" end="dissimilation" type="10" x1="419" y1="498" x2="784" y2="348" cx1="548" cy1="440" cx2="784" cy2="493" color="#000000" />
+      <lrelation symbol="Relation_3" id="561668bd-c319-44be-9c56-2a3d2fbb6509" start="co2" end="photosynthese" type="1" x1="463" y1="264" x2="108" y2="307" cx1="425" cy1="382" cx2="197" cy2="348" color="#000000" />
+      <lrelation symbol="Relation_2" id="3badf335-8b58-477c-99fc-270c945d8ec0" start="temperatuur" end="photosynthese" type="10" x1="392" y1="503" x2="97" y2="316" cx1="195" cy1="506" cx2="119" cy2="409" color="#000000" />
+      <lrelation symbol="Relation_1" id="247c3c6b-aa46-4080-bdf0-2c56bc849c9e" start="daglicht" end="photosynthese" type="1" x1="52" y1="184" x2="90" y2="286" cx1="60" cy1="219" cx2="83" cy2="250" color="#000000" />
+    </links>
+  </layout>
+</model>
+

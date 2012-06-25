@@ -15,6 +15,10 @@ public class Edge {
 
 	public Edge() {}
 
+	public String toString() {
+		return "Edge: from '"+from+"' to '"+to+"'.";
+	}
+	
 	@XmlAttribute
 	public String getFrom() {
 		return from;
