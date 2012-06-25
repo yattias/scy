@@ -26,11 +26,11 @@ public class EditorActionListener implements ActionListener {
 		} else if (aCmd.equals(EditorToolbar.ALL+"")) {
 			editor.selectAllObjects();
 		} else if (aCmd.equals(EditorToolbar.COPY+"")) {
-			editor.copySelection();
+			editor.getSelection().copySelection();
 		} else if (aCmd.equals(EditorToolbar.PASTE+"")) {
-			editor.pasteSelection();
+			editor.getSelection().pasteSelection(editor);
 		} else if (aCmd.equals(EditorToolbar.CUT+"")) {
-			editor.cutSelection();
+			editor.getSelection().cutSelection(editor);
 		}
 	}
 	

@@ -38,20 +38,20 @@ public class EditorToolbar extends JToolBar implements ActionListener {
 		this.actionListener = actionListener;
 		setFloatable(false);
 		buttonMap = new HashMap<String, JToggleButton>();
-		add(createToolbarToggleButton(CURSOR, "pointer_22.png", bundle.getString("EDITOR_CURSOR")));
-		add(createToolbarToggleButton(STOCK, "stock_22.png", bundle.getString("EDITOR_STOCK")));
-		add(createToolbarToggleButton(AUX, "aux_22.png", bundle.getString("EDITOR_AUX")));
-		add(createToolbarToggleButton(CONSTANT, "const_22.png", bundle.getString("EDITOR_CONSTANT")));
-		add(createToolbarToggleButton(FLOW, "flow_22.png", bundle.getString("EDITOR_FLOW")));
-		add(createToolbarToggleButton(RELATION, "relation_22.png", bundle.getString("EDITOR_RELATION")));
+		add(createToolbarToggleButton(STOCK, "stock24.png", bundle.getString("EDITOR_STOCK")));
+		add(createToolbarToggleButton(AUX, "aux24.png", bundle.getString("EDITOR_AUX")));
+		add(createToolbarToggleButton(CONSTANT, "const24.png", bundle.getString("EDITOR_CONSTANT")));
+		add(createToolbarToggleButton(FLOW, "flow24.png", bundle.getString("EDITOR_FLOW")));
+		add(createToolbarToggleButton(RELATION, "relation24.png", bundle.getString("EDITOR_RELATION")));
 		//add(createButton(DATASET, "EdDataset.gif"));
 		add(new JToolBar.Separator());
 		add(new JToolBar.Separator());
 		//add(createButton(DELETE, "EditorDeleteTB", "delete"));
-		add(createToolbarButton(DELETE, "delete_22.png", bundle.getString("EDITOR_DELETE")));
-		add(createToolbarButton(CUT, "cut_22.png", bundle.getString("EDITOR_CUT")));
-		add(createToolbarButton(COPY, "copy_22.png", bundle.getString("EDITOR_COPY")));
-		add(createToolbarButton(PASTE, "paste_22.png", bundle.getString("EDITOR_PASTE")));
+		add(createToolbarToggleButton(CURSOR, "pointer24.png", bundle.getString("EDITOR_CURSOR")));
+		add(createToolbarButton(CUT, "cut24.png", bundle.getString("EDITOR_CUT")));
+		add(createToolbarButton(COPY, "copy24.png", bundle.getString("EDITOR_COPY")));
+		add(createToolbarButton(PASTE, "paste24.png", bundle.getString("EDITOR_PASTE")));
+		add(createToolbarButton(DELETE, "delete24.png", bundle.getString("EDITOR_DELETE")));
 		buttonMap.get(CURSOR+"").setSelected(true);
 		currentAction = CURSOR;
 	}
@@ -84,27 +84,6 @@ public class EditorToolbar extends JToolBar implements ActionListener {
 		button.addActionListener(actionListener);
 		return button;
 	}
-
-//	private JToggleButton createToggleButton(int cmd, String icon, String tooltip) {
-//		URL url = JTools.getSysResourceImage(icon);
-//		JToggleButton button = new JToggleButton(new ImageIcon(url));
-//		button.setActionCommand(cmd+"");
-//		button.setToolTipText(tooltip);
-//		button.addActionListener(this);
-//		button.setSelected(false);
-//		buttonMap.put(cmd+"", button);
-//		return button;
-//	}
-//	
-//	private JButton createButton(int cmd, String icon, String tooltip) {
-//		URL url = JTools.getSysResourceImage(icon);
-//		JButton button = new JButton(new ImageIcon(url));
-//		button.setActionCommand(cmd+"");
-//		button.setToolTipText(tooltip);
-//		button.addActionListener(actionListener);
-//		return button;
-//	}
-
 
 	public int getCurrentAction() {
 		return currentAction;

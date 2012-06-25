@@ -215,8 +215,9 @@ public class ModelSelection {
     selectObject(o,true);
   }
   //-------------------------------------------------------------------------
-  public void pasteSelection(ModelEditor modelEditor, Model aModel) {
+  public void pasteSelection(ModelEditor modelEditor) {
     if (cObj.size()<1) return;
+    Model aModel = modelEditor.getModel();
     saveModel(modelEditor);
     Hashtable<String,String> hNames = new Hashtable<String,String>();
     unselectAll();

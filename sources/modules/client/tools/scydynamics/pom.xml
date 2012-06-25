@@ -29,7 +29,19 @@
 	</developers>
 
 	<dependencies>
-
+	
+		<dependency>
+			<groupId>com.toedter</groupId>
+			<artifactId>jcalendar</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+            
+		<dependency>
+			<artifactId>local-tool-broker</artifactId>
+        	<groupId>eu.scy.client.desktop</groupId>
+       	 	<version>${pom.version}</version>
+       	 </dependency>
+       	 
 		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>data-sync-common</artifactId>
@@ -46,6 +58,12 @@
 			<groupId>eu.scy.common</groupId>
 			<artifactId>data-sync-api</artifactId>
 			<version>${pom.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>jfree</groupId>
+			<artifactId>jfreechart</artifactId>
+			<version>1.0.13</version>
 		</dependency>
 
 		<dependency>
@@ -98,10 +116,11 @@
 			<version>${project.version}</version>
 		</dependency>
  
+ <!-- -->
  		<dependency>
 			<groupId>nl.utwente</groupId>
 			<artifactId>colab.um</artifactId>
-			<version>0.1.8</version>
+			<version>0.1.9</version>
 		</dependency>
 		
 		<dependency>

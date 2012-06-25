@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.co-lab.nl/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.co-lab.nl/xml Model.xsd" mode="QUALITATIVE_MODELLING">
+  <descriptor>
+    <symbol>model</symbol>
+  </descriptor>
+  <variables>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>glucose_increase</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#2db5b5</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression>(1+eating*(1/(1+exp(-(5*(time-30))))-1/(1+exp(-(5*(time-40)))))/glucose_release)*glucose_release</expression>
+          <unit>?</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>time</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#000000</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <timeSpec>
+          <unit>?</unit>
+          <time start="0.0" stop="120.0" />
+          <integration method="euler" step="1.0" />
+        </timeSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>insulin_secretion</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#808080</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression>42.5/((1+0.02*exp(-0.05*(blood_glucose_level-200)))^1/0.4)</expression>
+          <unit>mg/dl</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>glucose_usage_fraction</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#b53071</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression>0.0075+0.1057/((1+0.01*exp(-0.7*(insulin_level-14)))^1/0.5)</expression>
+          <unit />
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>eating</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#3232b6</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression>0.0</expression>
+          <unit>?</unit>
+        </constSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>blood_glucose_level</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#b83e3e</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <stockSpec>
+          <initial>50.0</initial>
+          <unit>mg/dl</unit>
+          <inflow>glucose_increase</inflow>
+          <outflow>glucose_used_by_cells</outflow>
+        </stockSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>insulin_level</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#3232b6</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <stockSpec>
+          <initial>49.0</initial>
+          <unit>mg/dl</unit>
+          <inflow>insulin_secretion</inflow>
+          <outflow>insulin_breakdown</outflow>
+        </stockSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>glucose_used_by_cells</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#6e31b2</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression>glucose_usage_fraction*2*blood_glucose_level</expression>
+          <unit>mg</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>insulin_breakdown</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#71b232</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression>insulin_level*0.8</expression>
+          <unit>?</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>glucose_release</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#b66f2d</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression>50.0</expression>
+          <unit>?</unit>
+        </constSpec>
+      </specification>
+    </varspec>
+  </variables>
+  <layout>
+    <nodes>
+      <nstock symbol="blood_glucose_level" id="c463c995-a5bd-42f6-ae78-29035450ce87" x1="317" y1="129" x2="349" y2="149" label="south" color="#000000" labelColor="#b83e3e" />
+      <nstock symbol="insulin_level" id="7a5e37ec-c4a3-45dc-a0b1-e7782d997bb3" x1="333" y1="355" x2="365" y2="375" label="south" color="#000000" labelColor="#3232b6" />
+      <naux symbol="glucose_increase" id="04902ad7-9b5e-474d-ab88-028a9f99d5a7" x1="174" y1="70" x2="206" y2="102" label="south" color="#000000" labelColor="#2db5b5" />
+      <naux symbol="glucose_used_by_cells" id="963562de-14b9-47f4-9584-02de0d2f9172" x1="393" y1="178" x2="425" y2="210" label="south" color="#000000" labelColor="#6e31b2" />
+      <naux symbol="insulin_breakdown" id="86b8a6d3-6b8e-4f49-9e7e-26976c51989b" x1="411" y1="416" x2="443" y2="448" label="south" color="#000000" labelColor="#71b232" />
+      <naux symbol="insulin_secretion" id="15b0b95a-30dc-40af-b98d-f476dd208d0e" x1="252" y1="229" x2="284" y2="261" label="south" color="#000000" labelColor="#808080" />
+      <naux symbol="glucose_usage_fraction" id="673185eb-6e6c-4416-b9f3-932cd083ebd8" x1="391" y1="257" x2="423" y2="289" label="south" color="#000000" labelColor="#b53071" />
+      <nconst symbol="glucose_release" id="45186828-4fdd-4dee-bacf-042e69f6dc34" x1="84" y1="40" x2="116" y2="72" label="south" color="#000000" labelColor="#b66f2d" />
+      <nconst symbol="eating" id="a44b436b-12d1-4993-a2d6-fbc7efa61ba5" x1="254" y1="24" x2="286" y2="56" label="south" color="#000000" labelColor="#3232b6" />
+    </nodes>
+    <links>
+      <lflow symbol="Flow_4" id="b376028d-13c5-4411-aa25-752b1468e0cb" start="insulin_level" x1="365" y1="365" x2="592" y2="365" cx1="592" cy1="365" type="lineal" color="#000000" />
+      <lflow symbol="Flow_3" id="152aae92-2007-41e8-afaa-e6642ca86afd" end="insulin_level" x1="95" y1="365" x2="333" y2="365" cx1="333" cy1="365" type="lineal" color="#000000" />
+      <lflow symbol="Flow_2" id="2941e3e8-fa96-479e-a960-e21be0a5ad01" start="blood_glucose_level" x1="349" y1="138" x2="585" y2="138" cx1="585" cy1="138" type="lineal" color="#000000" />
+      <lflow symbol="Flow_1" id="986c8292-841e-4ea0-9e34-4dd3c5662e90" end="blood_glucose_level" x1="114" y1="138" x2="317" y2="138" cx1="317" cy1="138" type="lineal" color="#000000" />
+      <lrelation symbol="Relation_9" id="95a01dd9-f336-4220-9fc9-06696a3f0b47" start="insulin_secretion" end="Flow_3" type="0" x1="263" y1="260" x2="212" y2="358" cx1="251" cy1="297" cx2="202" cy2="321" color="#000000" />
+      <lrelation symbol="Relation_8" id="bb7b156b-64bc-4535-952c-7a84ef29b931" start="blood_glucose_level" end="glucose_used_by_cells" type="1" x1="349" y1="146" x2="398" y2="185" cx1="368" cy1="154" cx2="382" cy2="172" color="#000000" />
+      <lrelation symbol="Relation_7" id="2ca0cbd9-d831-4802-9a3d-951503ba4dd0" start="insulin_breakdown" end="Flow_4" type="0" x1="443" y1="429" x2="486" y2="372" cx1="471" cy1="424" cx2="507" cy2="393" color="#000000" />
+      <lrelation symbol="Relation_6" id="61e7e54c-143e-4a41-b348-ef4539ba8959" start="glucose_used_by_cells" end="Flow_2" type="0" x1="421" y1="185" x2="460" y2="145" cx1="435" cy1="175" cx2="446" cy2="159" color="#000000" />
+      <lrelation symbol="Relation_5" id="16cf0a0d-b474-4a27-ac19-6c36f3f12d89" start="insulin_level" end="insulin_breakdown" type="1" x1="355" y1="375" x2="416" y2="423" cx1="369" cy1="398" cx2="396" cy2="407" color="#000000" />
+      <lrelation symbol="Relation_11" id="f0a72e63-1116-494c-a9a0-a32f03b2190b" start="eating" end="glucose_increase" type="1" x1="259" y1="45" x2="201" y2="75" cx1="240" cy1="54" cx2="216" cy2="60" color="#000000" />
+      <lrelation symbol="Relation_4" id="2b69ee02-38fe-431d-91f7-1bff944c5970" start="insulin_level" end="glucose_usage_fraction" type="1" x1="353" y1="355" x2="400" y2="287" cx1="364" cy1="327" cx2="387" cy2="313" color="#000000" />
+      <lrelation symbol="Relation_10" id="662733db-0c0a-4a5f-9bb6-9d656f02e5a5" start="glucose_increase" end="Flow_1" type="0" x1="201" y1="97" x2="217" y2="131" cx1="210" cy1="106" cx2="218" cy2="119" color="#000000" />
+      <lrelation symbol="Relation_3" id="4617f28c-9ae0-4c3d-90f2-83a6c3cd3c53" start="glucose_release" end="glucose_increase" type="1" x1="112" y1="59" x2="178" y2="78" cx1="134" cy1="64" cx2="159" cy2="66" color="#000000" />
+      <lrelation symbol="Relation_2" id="240c8bab-f7c0-42ae-8b36-90837969b074" start="glucose_usage_fraction" end="glucose_used_by_cells" type="1" x1="408" y1="258" x2="409" y2="210" cx1="409" cy1="242" cx2="409" cy2="226" color="#000000" />
+      <lrelation symbol="Relation_1" id="2fe1fa8d-86a0-496d-a03e-b06b8e5c66de" start="blood_glucose_level" end="insulin_secretion" type="8" x1="324" y1="149" x2="276" y2="232" cx1="302" cy1="173" cx2="293" cy2="205" color="#000000" />
+    </links>
+  </layout>
+</model>
+

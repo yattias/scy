@@ -47,7 +47,6 @@ public class VariableDialog extends JDialog {
 	private JdFigure figure;
 	private Hashtable<String, Object> props;
 	private ModelEditor editor;
-	private String label;
 	private String[] units = {"?", "items", "m", "m/s", "kg", "kg*m/s", "s", "A", "V", "W", "K", "C", "mol", "cd", "J", "Hz", "N", "N*m", "Pa"};
 	private JComboBox unitsBox;
 	private JLabel colorLabelBox;
@@ -64,9 +63,8 @@ public class VariableDialog extends JDialog {
 		this.figure = figure;
 		this.props = figure.getProperties();
 		this.editor = editor;
-		this.label = (String) props.get("label");
 		listener = new VariableDialogListener(this);
-		setTitle(bundle.getString("VARIABLEDIALOG_TITLE")+" '" + this.label + "'");
+		setTitle(bundle.getString("VARIABLEDIALOG_TITLE")+" '" + props.get("label") + "'");
 		editor.getActionLogger().logActivateWindow("specification", figure.getID(), this);
 		getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
 		getContentPane().add(getSpecsPanel());
@@ -163,7 +161,7 @@ public class VariableDialog extends JDialog {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		panel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("VARIABLEDIALOG_VARIABLES")));
-		infoList = new javax.swing.JList(ModelUtils.getInputVariableNames(editor.getModel(), this.label));
+		infoList = new javax.swing.JList(ModelUtils.getInputVariableNames(editor.getModel(), (String)props.get("label")));
 		infoList.addMouseListener(listener);
 		javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane(
 				infoList);
@@ -177,19 +175,22 @@ public class VariableDialog extends JDialog {
 		panel.setBorder(javax.swing.BorderFactory.createTitledBorder("Qualitative relations"));
 		listPanel.setLayout(new GridLayout(0,3));
 		qualitativeComboboxes = new ArrayList<JComboBox>();
-		for (String varName: ModelUtils.getInputVariableNames(editor.getModel(), this.label)) {
+		for (String varName: ModelUtils.getInputVariableNames(editor.getModel(), (String)props.get("label"))) {
 			listPanel.add(new JLabel(varName));
 			JComboBox box = new JComboBox(createQualitativeRelationsIcons());
 			box.setName(varName);
-			JdRelation relation = ModelUtils.getRelationBetween(editor.getModel(), varName, this.label);
+			box.setSelectedIndex(0);
+			JdRelation relation = ModelUtils.getRelationBetween(editor.getModel(), varName, (String)props.get("label"));
 			if (relation != null) {
-				if (relation.getRelationType() == 6) {
-					System.out.println("*** 6");
-					box.setSelectedIndex(0);
-				} else {
-					box.setSelectedIndex(relation.getRelationType());
+				QualitativeInfluenceType relationType = QualitativeInfluenceType.fromInt(relation.getRelationType());
+				// find and select the according item
+				for (int i=0; i<box.getItemCount(); i++) {
+					if ( ((ImageIcon)box.getItemAt(i)).getDescription().equals(relationType.toString())) {
+						box.setSelectedIndex(i);
+					}
 				}
 			}
+
 			qualitativeComboboxes.add(box);
 			listPanel.add(box);
 			listPanel.add(new JLabel(" "+props.get("label")));
@@ -202,23 +203,93 @@ public class VariableDialog extends JDialog {
 	private Vector<ImageIcon> createQualitativeRelationsIcons() {
 		Vector<ImageIcon> icons = new Vector<ImageIcon>();
 		ImageIcon icon;
+		// this "unspecified relation" is always needed
+		// at index position 0 (as a default)
 		icon = new ImageIcon(JTools.getSysResourceImage("ESQrel6a"));
-		icon.setDescription("6");
+		icon.setDescription(QualitativeInfluenceType.UNSPECIFIED.toString());
 		icons.add(icon);
+		// linear up
 		icon = new ImageIcon(JTools.getSysResourceImage("ESQrel1a"));
-		icon.setDescription("1");
+		icon.setDescription(QualitativeInfluenceType.LINEAR_UP.toString());
 		icons.add(icon);
-		icon = new ImageIcon(JTools.getSysResourceImage("ESQrel2a"));
-		icon.setDescription("2");
-		icons.add(icon);
+		// linear down
 		icon = new ImageIcon(JTools.getSysResourceImage("ESQrel3a"));
-		icon.setDescription("3");
+		icon.setDescription(QualitativeInfluenceType.LINEAR_DOWN.toString());
 		icons.add(icon);
+		// constant low
+		icon = new ImageIcon(JTools.getSysResourceImage("ESQrel9a"));
+		icon.setDescription(QualitativeInfluenceType.CONSTANT.toString());
+		icons.add(icon);
+		// s-shaped up
+		icon = new ImageIcon(JTools.getSysResourceImage("ESQrel8a"));
+		icon.setDescription(QualitativeInfluenceType.S_SHAPED.toString());
+		icons.add(icon);
+		// curve up
 		icon = new ImageIcon(JTools.getSysResourceImage("ESQrel4a"));
-		icon.setDescription("4");
+		icon.setDescription(QualitativeInfluenceType.CURVE_UP.toString());
 		icons.add(icon);
+		// asymptote up
 		icon = new ImageIcon(JTools.getSysResourceImage("ESQrel5a"));
-		icon.setDescription("5");
+		icon.setDescription(QualitativeInfluenceType.ASYMPTOTE_UP.toString());
+		icons.add(icon);
+		// curve down
+		icon = new ImageIcon(JTools.getSysResourceImage("ESQrel2a"));
+		icon.setDescription(QualitativeInfluenceType.CURVE_DOWN.toString());
+		icons.add(icon);
+
+		// icon = new ImageIcon(JTools.getSysResourceImage("ESQrel7a"));
+		// icon.setDescription("7");
+		// icons.add(icon);
+
+		// bell curve
+//		icon = new ImageIcon(JTools.getSysResourceImage("ESQrel10a"));
+//		icon.setDescription(QualitativeInfluenceType.BELL.toString());
+//		icons.add(icon);
+		return icons;
+	}
+	
+	private Vector<ImageIcon> _createQualitativeRelationsIcons() {
+		Vector<ImageIcon> icons = new Vector<ImageIcon>();
+		ImageIcon icon;
+		// this "unspecified relation" is always needed
+		// at index position 0 (as a default)
+		icon = new ImageIcon(JTools.getSysResourceImage("ESQrel6a"));
+		icon.setDescription(QualitativeInfluenceType.UNSPECIFIED.toString());
+		icons.add(icon);
+		// linear up
+		icon = new ImageIcon(JTools.getSysResourceImage("ESQrel1a"));
+		icon.setDescription(QualitativeInfluenceType.LINEAR_UP.toString());
+		icons.add(icon);
+		// curve down
+		icon = new ImageIcon(JTools.getSysResourceImage("ESQrel2a"));
+		icon.setDescription(QualitativeInfluenceType.CURVE_DOWN.toString());
+		icons.add(icon);
+		// linear down
+		icon = new ImageIcon(JTools.getSysResourceImage("ESQrel3a"));
+		icon.setDescription(QualitativeInfluenceType.LINEAR_DOWN.toString());
+		icons.add(icon);
+		// curve up
+		icon = new ImageIcon(JTools.getSysResourceImage("ESQrel4a"));
+		icon.setDescription(QualitativeInfluenceType.CURVE_UP.toString());
+		icons.add(icon);
+		// asymptote up
+		icon = new ImageIcon(JTools.getSysResourceImage("ESQrel5a"));
+		icon.setDescription(QualitativeInfluenceType.ASYMPTOTE_UP.toString());
+		icons.add(icon);
+		// icon = new ImageIcon(JTools.getSysResourceImage("ESQrel7a"));
+		// icon.setDescription("7");
+		// icons.add(icon);
+		// s-shaped up
+		icon = new ImageIcon(JTools.getSysResourceImage("ESQrel8a"));
+		icon.setDescription(QualitativeInfluenceType.S_SHAPED.toString());
+		icons.add(icon);
+		// constant low
+		icon = new ImageIcon(JTools.getSysResourceImage("ESQrel9a"));
+		icon.setDescription(QualitativeInfluenceType.CONSTANT.toString());
+		icons.add(icon);
+		// bell curve
+		icon = new ImageIcon(JTools.getSysResourceImage("ESQrel10a"));
+		icon.setDescription(QualitativeInfluenceType.BELL.toString());
 		icons.add(icon);
 		return icons;
 	}
@@ -319,15 +390,18 @@ public class VariableDialog extends JDialog {
 	}
 	
 	private void setSliderValue(String valueString) {
+		// default value
+		int value = 50;
 		try {
-			int value = (int)Math.round(Double.valueOf(valueString));
-			System.out.println(" -> "+value);
-			setSliderValue(value);
+			// 
+			value = (int)Math.round(Double.valueOf(valueString));
+			if (value < 0 || value >= 100) {
+				// value is out of range; possibly after switching from quantitative to qualitative?
+				value = 50;
+			}
 		} catch (Exception ex) {
-			// setting default value 50
-			System.out.println(" -> 50 (default)");
-			setSliderValue(50);
 		}
+		setSliderValue(value);
 	}
 	
 	private void setSliderValue(int value) {
@@ -352,7 +426,7 @@ public class VariableDialog extends JDialog {
 		qualitativeValueSlider.setMinorTickSpacing(10);
 		qualitativeValueSlider.setPaintTicks(true);
 		qualitativeValueSlider.setSnapToTicks(false);
-		System.out.print("setting slider value to: " + figure.getProperties().get("expr"));
+		//System.out.print("setting slider value to: " + figure.getProperties().get("expr"));
 		setSliderValue(figure.getProperties().get("expr").toString());
 		return qualitativeValueSlider;
 	}
@@ -420,7 +494,7 @@ public class VariableDialog extends JDialog {
 
 	void setQualitativeRelations() {
 		for (JComboBox box: qualitativeComboboxes) {
-			JdRelation relation = ModelUtils.getRelationBetween(editor.getModel(), box.getName(), this.label);
+			JdRelation relation = ModelUtils.getRelationBetween(editor.getModel(), box.getName(), (String)props.get("label"));
 			// default value
 			int relationType = 6;
 			try {
@@ -434,27 +508,11 @@ public class VariableDialog extends JDialog {
 
 	public HashMap<JdFigure, QualitativeInfluenceType> getQualitativeRelations() {
 		HashMap<JdFigure, QualitativeInfluenceType> relations = new HashMap<JdFigure, QualitativeInfluenceType>();
-
 		for (JComboBox box: qualitativeComboboxes) {
 			JdFigure figure = editor.getModel().getObjectOfName(box.getName());			
-			JdRelation relation = ModelUtils.getRelationBetween(editor.getModel(), box.getName(), this.label);
-			int relationType = 6;
-			try {
-				relationType = Integer.parseInt(((ImageIcon)box.getSelectedItem()).getDescription());
-			} catch (NumberFormatException ex) {}
-			if (relation != null) {
-				relation.setRelationType(relationType);
-			}
-			QualitativeInfluenceType type;
-			switch (relationType) {
-			case 1: type = QualitativeInfluenceType.LINEAR_UP; break;
-			case 2: type = QualitativeInfluenceType.CURVE_DOWN; break;
-			case 3: type = QualitativeInfluenceType.LINEAR_DOWN; break;
-			case 4: type = QualitativeInfluenceType.CURVE_UP; break;
-			case 5: type = QualitativeInfluenceType.ASYMPTOTE_UP; break;
-			case 6: type = QualitativeInfluenceType.UNSPECIFIED; break;			
-			default: type = QualitativeInfluenceType.UNSPECIFIED; break;
-			}
+			JdRelation relation = ModelUtils.getRelationBetween(editor.getModel(), box.getName(), (String)props.get("label"));
+			QualitativeInfluenceType type = QualitativeInfluenceType.fromValue(((ImageIcon)box.getSelectedItem()).getDescription());
+			relation.setRelationType(QualitativeInfluenceType.getInt(type));
 			relations.put(figure, type);			
 		}
 		return relations;

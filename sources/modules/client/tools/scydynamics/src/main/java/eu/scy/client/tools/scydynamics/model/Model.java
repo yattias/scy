@@ -7,6 +7,7 @@ import colab.um.draw.JdConst;
 import colab.um.draw.JdDataset;
 import colab.um.draw.JdFigure;
 import colab.um.draw.JdFlow;
+import colab.um.draw.JdFlowCtr;
 import colab.um.draw.JdHandle;
 import colab.um.draw.JdLink;
 import colab.um.draw.JdNode;
@@ -40,8 +41,8 @@ import java.util.Hashtable;
 import java.util.Vector;
 import java.util.logging.Logger;
 
+import eu.scy.client.tools.scydynamics.editor.ColorDialog;
 import eu.scy.client.tools.scydynamics.editor.ModelEditor;
-import eu.scy.client.tools.scydynamics.logging.IModellingLogger;
 
 public class Model {
 	@SuppressWarnings("unused")
@@ -80,7 +81,7 @@ public class Model {
 	
 	public void setDefaultTimes() {
 		start  = 0.0;
-		stop   = 10.0;
+		stop   = 100.0;
 		method = "Euler";
 		step   = 0.1;
 	}
@@ -95,7 +96,8 @@ public class Model {
 	public void addObject(JdObject aObj, boolean bNewLabelColor) {
 		if (aObj.isNode()) {
 			if (bNewLabelColor)
-				aObj.setLabelColor(JdColor.getNewFreeColor());
+				//aObj.setLabelColor(JdColor.getNewFreeColor());
+				aObj.setLabelColor(ColorDialog.getColor(this.getObjects().size()));
 			else
 				JdColor.registerColor(aObj.getLabelColor());
 		}
@@ -103,6 +105,12 @@ public class Model {
 		// this has to be logged in the EditorMouseListener
 		// because of the "adding link in progress problem"
 		//logger.logAddAction(aObj);
+	}
+	
+	public void clearQualitativeRelations() {
+		for (JdRelation relation: getRelations()) {
+			relation.setRelationType(JdRelation.R_FX);
+		}
 	}
 
 	public void removeObject(JdObject aObj) {
@@ -136,7 +144,9 @@ public class Model {
 	public JdObject getObjectOfName(Hashtable<String,JdObject> h, String s) {
 		if (s==null) return null;
 		for (JdObject o : h.values()) {
-			if (o.getLabel().equals(s)) { return o; }
+			if (o.getLabel().equals(s)) {
+				return o;
+			}
 		}
 		return null;
 	}
@@ -674,5 +684,31 @@ public class Model {
 			}
 		}
 		return null;
+	}
+	
+
+	public Vector<JdFigure> getIncomingFigures(JdStock stock) {
+		Vector<JdFigure> list = new Vector<JdFigure>();
+		for (JdRelation rel : this.getRelations()) {
+			if (rel.getFigure2().getType() == JdFigure.FLOWCTR) {
+				if (((JdFlow) ((JdFlowCtr) rel.getFigure2()).getParent()).getFigure2() == stock) {
+					list.add((JdFigure) rel.getFigure1());
+				}
+			}
+		}
+		return list;
+	}
+	
+
+	public Vector<JdFigure> getOutgoingFigures(JdStock stock) {
+		Vector<JdFigure> list = new Vector<JdFigure>();
+		for (JdRelation rel : this.getRelations()) {
+			if (rel.getFigure2().getType() == JdFigure.FLOWCTR) {
+				if (((JdFlow) ((JdFlowCtr) rel.getFigure2()).getParent()).getFigure1() == stock) {
+					list.add((JdFigure) rel.getFigure1());
+				}
+			}
+		}
+		return list;
 	}
 }

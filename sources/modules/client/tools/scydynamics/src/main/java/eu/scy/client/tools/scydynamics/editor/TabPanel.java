@@ -1,85 +1,72 @@
 package eu.scy.client.tools.scydynamics.editor;
 
-import colab.um.tools.JTools;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Properties;
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+@SuppressWarnings("serial")
 public class TabPanel extends JPanel implements ActionListener, WindowListener {
 
 	private JPanel panel;
 	private String title;
-	private int index;
-	private Properties properties;
+	//private int index;
+	//private Properties properties;
 	private ModelEditor modelEditor;
+	//private Icon icon;
+	private JFrame frame;
 
-	private class TabButton extends JButton {
-
-		public TabButton() {
-			super(Util.getImageIcon("popout_16.png"));
-			setUI(new BasicButtonUI());
-			int size = 17;
-			setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-			setPreferredSize(new Dimension(size, size));
-			setToolTipText("pop out");
-			setContentAreaFilled(false);
-			setFocusable(false);
-			setBorder(BorderFactory.createEtchedBorder());
-			setBorderPainted(false);
-			addMouseListener(TabPanel.buttonMouseListener);
-			setRolloverEnabled(true);
-		}
-	}
-
-	public TabPanel(String title, JPanel panel, ModelEditor modelEditor,
-			Properties properties) {
+	public TabPanel(String title, Icon icon, JPanel panel, ModelEditor modelEditor, Properties properties) {
+		super();
 		this.title = title;
 		this.panel = panel;
 		this.modelEditor = modelEditor;
-		this.properties = properties;
+		//this.properties = properties;
+		//this.icon = icon;
 		setOpaque(false);
 		setLayout(new FlowLayout(0, 0, 0));
-		//setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 0));
 		setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		JLabel label;
-		if (title.equalsIgnoreCase("graph")) {
-			label = new JLabel(Util.getImageIcon("graph_22.png"));
-		} else if (title.equalsIgnoreCase("table")) {
-			label = new JLabel(Util.getImageIcon("table_22.png"));
-		} else if (title.equalsIgnoreCase("editor")) {
-			label = new JLabel(Util.getImageIcon("editor_22.png"));
-		} else {
-			label = new JLabel("unknown");
-		}
-		//label.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 5));
+		JLabel label = new JLabel(icon);
 		label.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 5));
 		add(label);
 		label = new JLabel(title);
-		//label.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 10));
 		label.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 5));
 		add(label);
-		if (!title.equalsIgnoreCase("editor") && properties.getProperty("show.popouttabs", "false").equals("true")) {
+		if (!title.equalsIgnoreCase("model") && properties.getProperty("show.popouttabs", "false").equals("true")) {
 			JButton butt = new TabButton();
 			butt.addActionListener(this);
+			butt.addMouseListener(buttonMouseListener);
 			add(butt);
 		}
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		modelEditor.tabbedPane.remove(panel);
-		modelEditor.tabbedPane.setSelectedIndex(0);
-		JFrame frame = new JFrame(title);
-		frame.getContentPane().add(panel);
+		if (title.equalsIgnoreCase("graph")) {
+			modelEditor.tabbedPane.setSelectedIndex(modelEditor.TABINDEX_EDITOR);
+			modelEditor.disableTab(modelEditor.TABINDEX_GRAPH);
+	    	modelEditor.tabbedPane.setComponentAt(modelEditor.TABINDEX_GRAPH, new JLabel("dummy"));					
+		} else if (title.equalsIgnoreCase("table")) {
+			modelEditor.tabbedPane.setSelectedIndex(modelEditor.TABINDEX_EDITOR);
+			modelEditor.disableTab(modelEditor.TABINDEX_TABLE);
+			modelEditor.tabbedPane.setComponentAt(modelEditor.TABINDEX_TABLE, new JLabel("dummy"));
+		} else {
+			return;
+		}
+		
+    	frame = new JFrame(title);
+		frame.setLayout(new BorderLayout());		
+    	frame.getContentPane().add(panel, BorderLayout.CENTER);
+		panel.setEnabled(true);
+    	panel.setVisible(true);
 		frame.setPreferredSize(new Dimension(600, 400));
 		frame.setSize(new Dimension(600, 400));
 		frame.addWindowListener(this);
 		((ChangeListener) panel).stateChanged(new ChangeEvent(this));
 		frame.setVisible(true);
+
 	}
 
 	@Override
@@ -92,10 +79,12 @@ public class TabPanel extends JPanel implements ActionListener, WindowListener {
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		if (title.equals("graph")) {
-			modelEditor.addGraph();
-		} else {
-			modelEditor.addTable();
+		if (title.equalsIgnoreCase("graph")) {
+			modelEditor.tabbedPane.setComponentAt(modelEditor.TABINDEX_GRAPH, panel);
+			modelEditor.enableTab(modelEditor.TABINDEX_GRAPH);
+		} else if (title.equalsIgnoreCase("table")){
+			modelEditor.tabbedPane.setComponentAt(modelEditor.TABINDEX_TABLE, panel);
+			modelEditor.enableTab(modelEditor.TABINDEX_TABLE);
 		}
 	}
 
@@ -114,6 +103,7 @@ public class TabPanel extends JPanel implements ActionListener, WindowListener {
 	@Override
 	public void windowOpened(WindowEvent windowevent) {
 	}
+	
 	private static final MouseListener buttonMouseListener = new MouseAdapter() {
 
 		@Override

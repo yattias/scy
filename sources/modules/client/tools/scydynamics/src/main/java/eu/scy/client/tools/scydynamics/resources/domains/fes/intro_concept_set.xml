@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<concept_set name="intro_salary" word_order="any">
+
+	<concept name="maandinkomsten" type="auxiliary">
+		<term>maandinkomsten</term>
+		<term>inkomsten</term>
+	</concept>
+
+	<concept name="uurloon" type="constant">
+		<term>uurloon</term>
+		<term>loon</term>
+	</concept>
+
+	<concept name="uur" type="constant">
+		<term>uur</term>
+	</concept>
+
+	<concept name="banksaldo" type="stock">
+		<term>banksaldo</term>
+		<term>bank</term>
+		<term>saldo</term>
+	</concept>
+
+	<concept name="vrienden" type="constant">
+		<term>aantal_vrienden</term>
+		<term>vrienden</term>
+		<term>release</term>
+	</concept>
+
+	<concept name="maanduitgaven" type="auxiliary">
+		<term>maanduitgaven</term>
+		<term>uitgaven</term>
+	</concept>
+
+	<concept name="contributie" type="constant">
+		<term>contributie</term>
+	</concept>
+
+</concept_set>
+

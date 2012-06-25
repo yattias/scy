@@ -11,10 +11,7 @@ import org.nfunk.jep.Node;
 import org.nfunk.jep.ParseException;
 
 import colab.um.draw.JdFigure;
-import colab.um.draw.JdFlow;
-import colab.um.draw.JdFlowCtr;
 import colab.um.draw.JdObject;
-import colab.um.draw.JdRelation;
 import colab.um.draw.JdStock;
 import eu.scy.client.tools.scydynamics.editor.ModelEditor;
 
@@ -114,8 +111,8 @@ public class SimquestModelQuantitative extends Element {
 				parseEquation(equation, node.getExpr());
 				code.addContent(equation);
 			} else if (node.getType() == JdFigure.STOCK) {
-				Vector<JdFigure> incomingFigs = getIncomingFigs((JdStock) node);
-				Vector<JdFigure> outgoingFigs = getOutgoingFigs((JdStock) node);
+				Vector<JdFigure> incomingFigs = model.getIncomingFigures((JdStock) node);
+				Vector<JdFigure> outgoingFigs = model.getOutgoingFigures((JdStock) node);
 				equation = new Element("equation");
 				equation.addContent(new Element("variable").setText(node.getLabel() + "_dot"));
 				String expression = new String();
@@ -134,30 +131,6 @@ public class SimquestModelQuantitative extends Element {
 
 		computationalModel.addContent(code);
 		this.addContent(computationalModel);
-	}
-
-	protected Vector<JdFigure> getOutgoingFigs(JdStock stock) {
-		Vector<JdFigure> list = new Vector<JdFigure>();
-		for (JdRelation rel : model.getRelations()) {
-			if (rel.getFigure2().getType() == JdFigure.FLOWCTR) {
-				if (((JdFlow) ((JdFlowCtr) rel.getFigure2()).getParent()).getFigure1() == stock) {
-					list.add((JdFigure) rel.getFigure1());
-				}
-			}
-		}
-		return list;
-	}
-
-	protected Vector<JdFigure> getIncomingFigs(JdStock stock) {
-		Vector<JdFigure> list = new Vector<JdFigure>();
-		for (JdRelation rel : model.getRelations()) {
-			if (rel.getFigure2().getType() == JdFigure.FLOWCTR) {
-				if (((JdFlow) ((JdFlowCtr) rel.getFigure2()).getParent()).getFigure2() == stock) {
-					list.add((JdFigure) rel.getFigure1());
-				}
-			}
-		}
-		return list;
 	}
 
 	protected void parseEquation(Element equation, String expr) {

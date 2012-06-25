@@ -2,6 +2,8 @@ package eu.scy.client.tools.scydynamics.domain;
 
 import java.io.File;
 import java.io.FileReader;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +15,7 @@ import javax.xml.bind.Unmarshaller;
 
 public class Domain {
 
-	private final static Logger LOGGER = Logger.getLogger(Domain.class.getName());
+	private final static Logger debugLogger = Logger.getLogger(Domain.class.getName());
 	
 	private ReferenceModel referenceModel;
 	private ConceptSet conceptSet;
@@ -25,6 +27,10 @@ public class Domain {
 		this.conceptSet = (ConceptSet) unmarshal(concepSetFilename);
 		this.simulationSettings = (SimulationSettings) unmarshal(simulationSettingsFilename);
 		getTermConceptMap();
+		debugLogger.info("domain loaded.");
+		debugLogger.info("concepts in concept set: "+conceptSet.getConcepts());
+		debugLogger.info("nodes in reference model: "+referenceModel.getNodes());
+		debugLogger.info("edges in reference model: "+referenceModel.getEdges().size());
 	}
 	
 	public ReferenceModel getReferenceModel() {
@@ -42,9 +48,7 @@ public class Domain {
 	private HashMap<String, String> getTermConceptMap() {
 		if (termConceptMap == null) {
 			termConceptMap = new HashMap<String, String>();
-			Concept concept;
-			for (Node node: referenceModel.getNodes()) {
-				concept = conceptSet.getConcept(node.getConcept());
+			for (Concept concept: conceptSet.getConcepts()) {			
 				if (concept != null) {
 					for (Term term: concept.getTerms()) {
 						termConceptMap.put(term.getTerm(), concept.getName());
@@ -59,10 +63,16 @@ public class Domain {
 		Object returnObject = null;
 		JAXBContext context = JAXBContext.newInstance(ReferenceModel.class, ConceptSet.class, SimulationSettings.class); 
 		Unmarshaller um = context.createUnmarshaller();
-		File f = new File(fileName);
-		LOGGER.info("loading from: "+f.getAbsolutePath());
-		LOGGER.info("file exists: "+f.exists());
-		returnObject = um.unmarshal(new FileReader(fileName));
+		InputStream stream = getClass().getResourceAsStream(fileName);
+		if (stream != null) {
+			debugLogger.info("loading from stream: "+fileName);
+			returnObject = um.unmarshal(stream);
+		} else {
+			File f = new File(fileName);
+			debugLogger.info("loading from: "+f.getAbsolutePath());
+			debugLogger.info("file exists: "+f.exists());
+			returnObject = um.unmarshal(new FileReader(fileName));
+		}
 		return returnObject;
 	}
 	
@@ -104,22 +114,40 @@ public class Domain {
 		return null;
 	}
 
-	public Edge getEdgeBetweenNodeTerms(String fromNodeTerm, String toNodeTerm) {
+	public Edge getEdgeBetweenNodes(Node fromNode, Node toNode) {
 		Edge returnEdge = null;
 		try {
+			for (Edge edge: referenceModel.getEdges()) {
+				if (edge.getFrom().equals(fromNode.getId()) && edge.getTo().equals(toNode.getId())) {
+					returnEdge = edge;
+				}
+			}
+		} catch (Exception ex) {
+			debugLogger.warning(ex.getMessage());
+		}
+		return returnEdge;		
+	}
+	
+	public Edge getEdgeBetweenNodeIds(String fromNodeId, String toNodeId) {
+		Edge returnEdge = null;
+		try {
+			for (Edge edge: referenceModel.getEdges()) {
+				if (edge.getFrom().equals(fromNodeId) && edge.getTo().equals(toNodeId)) {
+					returnEdge = edge;
+				}
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return returnEdge;		
+	}
+	
+	public Edge getEdgeBetweenNodeTerms(String fromNodeTerm, String toNodeTerm) {
 		String fromConcept = getConceptByTerm(fromNodeTerm);
 		String toConcept = getConceptByTerm(toNodeTerm);
 		Node fromNode = getNodeByConcept(fromConcept);
 		Node toNode = getNodeByConcept(toConcept);	
-		for (Edge edge: referenceModel.getEdges()) {
-			if (edge.getFrom().equals(fromNode.getId()) && edge.getTo().equals(toNode.getId())) {
-				returnEdge = edge;
-			}
-		}
-		} catch (Exception ex) {
-			// nothing
-		}
-		return returnEdge;
+		return getEdgeBetweenNodes(fromNode, toNode);
 	}
 	
 }

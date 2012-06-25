@@ -5,7 +5,6 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.util.LinkedList;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -28,6 +27,7 @@ import eu.scy.client.tools.scydynamics.editor.ModelEditor.Mode;
 import eu.scy.client.tools.scydynamics.logging.ModellingLogger;
 import eu.scy.client.tools.scydynamics.model.SimquestModelQualitative;
 import eu.scy.client.tools.scydynamics.model.SimquestModelQuantitative;
+import eu.scy.client.tools.scydynamics.store.SCYDynamicsStore.StoreType;
 
 @SuppressWarnings("serial")
 public class GraphTab extends SimulationPanel implements ChangeListener {
@@ -77,7 +77,7 @@ public class GraphTab extends SimulationPanel implements ChangeListener {
 	private JPanel createGraphPanel() {
 		graphPanel = new JPanel();
 		graphPanel.setLayout(new BorderLayout());
-		graphPanel.setBorder(BorderFactory.createTitledBorder(bundle.getString("PANEL_GRAPH")));
+		//graphPanel.setBorder(BorderFactory.createTitledBorder(bundle.getString("PANEL_GRAPH")));
 		curves = new LinkedList<Curve>();
 		graphWidget = new GraphWidget();
 		if (editor.getMode().equals(Mode.QUALITATIVE_MODELLING)) {
@@ -90,8 +90,11 @@ public class GraphTab extends SimulationPanel implements ChangeListener {
 		flow.setAlignment(FlowLayout.RIGHT);
 		axisPanel.setLayout(flow);
 		multiPlotsCheckBox = new JCheckBox();
-		axisPanel.add(new JLabel("Multiple plots"));
-		axisPanel.add(multiPlotsCheckBox);
+		multiPlotsCheckBox.setSelected(true);
+		if (Boolean.parseBoolean(editor.getProperties().getProperty("multiPlotCheckbox", "true"))) {
+			axisPanel.add(new JLabel("Multiple plots"));
+			axisPanel.add(multiPlotsCheckBox);
+		}
 		JButton button = new JButton("Clear graph");
 		button.setActionCommand("clear");
 		button.addActionListener(this);
@@ -108,6 +111,10 @@ public class GraphTab extends SimulationPanel implements ChangeListener {
 		variablePanel.updateVariables();
 		simulationSettingsPanel.updateSettings();
 		this.updateXAxisSelector();
+		if (editor.getMode().equals(Mode.QUALITATIVE_MODELLING)) {
+			graphWidget.getGraph().setDrawLabels(false);
+		}
+		graphPanel.updateUI();
 		editor.getActionLogger().logActivateWindow("graph", null, this);
 	}
 	
@@ -135,6 +142,7 @@ public class GraphTab extends SimulationPanel implements ChangeListener {
 				messages = messages + msg + "\n";
 			}
 			JOptionPane.showMessageDialog(null, messages);
+			editor.getActionLogger().logModelRanError(editor.getModelXML(), "");
 			return;
 		}
 		// can the variable values be parsed?
@@ -164,11 +172,14 @@ public class GraphTab extends SimulationPanel implements ChangeListener {
 		} else {
 			sqModel = new SimquestModelQuantitative(editor, variablePanel.getValues());
 		}
+		
 		sqvModel = new sqv.Model(sqModel, dataServer);
-
+		
 		//fade out existing curves
 		for (Curve curve : curves) {
-			curve.setColor(curve.getColor().brighter());
+			if (Util.getBrightness(curve.getColor()) < 175) {
+				curve.setColor(curve.getColor().brighter());
+			}
 			curve.setLineWidth(1);
 		}
 
@@ -187,7 +198,7 @@ public class GraphTab extends SimulationPanel implements ChangeListener {
 			if (variablePanel.getSelectedVariables().contains(var.getName())) {
 				curves.add(new Curve(curves.size(), xAxisVariable, new VariableRef(var),
 						editor.getModel().getNodes().get(var.getName()).getLabelColor(),
-						(float) 2, null));
+						(float) 3, null));
 			}
 		}
 
@@ -208,8 +219,13 @@ public class GraphTab extends SimulationPanel implements ChangeListener {
 			for (String varName: variablePanel.getValues().keySet()) {
 				injectedVariables = injectedVariables + editor.getModel().getObjectOfName(varName).getID() + "=" + variablePanel.getValues().get(varName)+"; ";
 			}
-			editor.getActionLogger().logModelRan(editor.getModelXML(), injectedVariables.substring(0, injectedVariables.length()-2));
+			String injection = "";
+			if (injectedVariables.length()>=2) {
+				injection = injectedVariables.substring(0, injectedVariables.length()-2);
+			}
+			editor.getActionLogger().logModelRan(editor.getModelXML(), injection);
 			editor.getActionLogger().logInspectVariablesAction(ModellingLogger.GRAPH_VIEWED, variableIdList.substring(0, variableIdList.length()-2));
+			editor.doAutosave(StoreType.ON_SIMULATE_GRAPH);
 		} else {
 			JOptionPane.showMessageDialog(null,
 					bundle.getString("PANEL_SELECTVARIABLE"));
@@ -228,13 +244,13 @@ public class GraphTab extends SimulationPanel implements ChangeListener {
 	public void run() {
 		simulationSettingsPanel.setRunning(true);
 		sqvModel.getSimulation().Simulate();
-		simulationSettingsPanel.setRunning(false);
 		SwingUtilities.invokeLater( new Runnable() 
 		{ 
 		  public void run() { 
 				graphWidget.update();
 				graphPanel.updateUI();
 				graphPanel.repaint();
+				simulationSettingsPanel.setRunning(false);
 		  } 
 		} );
 

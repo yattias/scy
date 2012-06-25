@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.co-lab.nl/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.co-lab.nl/xml Model.xsd" mode="QUALITATIVE_MODELLING">
+  <descriptor>
+    <symbol>model</symbol>
+  </descriptor>
+  <variables>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>uurloon</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#33b22d</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression>39.0</expression>
+          <unit>euro</unit>
+        </constSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>maanduitgaven</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#71b232</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression>contributie*vrienden</expression>
+          <unit>euro</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>maandinkomsten</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#b6b33e</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression>uurloon*uur</expression>
+          <unit>euro</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>uur</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#b83e3e</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression>56.0</expression>
+          <unit>items</unit>
+        </constSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>banksaldo</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#808080</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <stockSpec>
+          <initial>50.0</initial>
+          <unit>euro</unit>
+          <inflow>maandinkomsten</inflow>
+          <outflow>maanduitgaven</outflow>
+        </stockSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>contributie</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#31b272</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression>47.0</expression>
+          <unit>euro</unit>
+        </constSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>time</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#000000</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <timeSpec>
+          <unit>?</unit>
+          <time start="0.0" stop="10.0" />
+          <integration method="euler" step="0.1" />
+        </timeSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>vrienden</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#b434af</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression>3+22/(1+0.000002*exp(-0.1*(banksaldo-470)))^1/2</expression>
+          <unit>persons</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+  </variables>
+  <layout>
+    <nodes>
+      <nstock symbol="banksaldo" id="4e81af85-0cb4-4bfb-a428-dc16ddea7372" x1="267" y1="83" x2="299" y2="103" label="south" color="#000000" labelColor="#808080" />
+      <naux symbol="maanduitgaven" id="06d3e1ef-f4e1-438a-9bf5-cf20a44b9724" x1="394" y1="156" x2="426" y2="188" label="south" color="#000000" labelColor="#71b232" />
+      <naux symbol="maandinkomsten" id="32b241ab-3ba1-496e-811a-e7ff943a760c" x1="144" y1="151" x2="176" y2="183" label="south" color="#000000" labelColor="#b6b33e" />
+      <naux symbol="vrienden" id="15818f5e-c46d-4ec2-b265-50bb6271011f" x1="271" y1="171" x2="303" y2="203" label="south" color="#000000" labelColor="#b434af" />
+      <nconst symbol="uurloon" id="77fe66e8-9d57-4de3-903b-961ac78d8039" x1="68" y1="220" x2="100" y2="252" label="south" color="#000000" labelColor="#33b22d" />
+      <nconst symbol="uur" id="47d0fddc-1826-4dba-ba55-e0a26cb96589" x1="151" y1="236" x2="183" y2="268" label="south" color="#000000" labelColor="#b83e3e" />
+      <nconst symbol="contributie" id="63272a11-42e8-4738-b1c6-9fb4e8b8a6e1" x1="396" y1="246" x2="428" y2="278" label="south" color="#000000" labelColor="#31b272" />
+    </nodes>
+    <links>
+      <lflow symbol="Flow_2" id="61afdec7-20ed-477e-afbd-92585fb8c4a0" end="banksaldo" x1="124" y1="92" x2="267" y2="92" cx1="267" cy1="92" type="lineal" color="#000000" />
+      <lflow symbol="Flow_1" id="2bed0b59-8881-4913-9d4e-0ffadfda5d1f" start="banksaldo" x1="299" y1="92" x2="441" y2="92" cx1="441" cy1="92" type="lineal" color="#000000" />
+      <lrelation symbol="Relation_5" id="f85de5dd-e88a-49a2-94d7-d082f01e592f" start="banksaldo" end="vrienden" type="8" x1="283" y1="103" x2="285" y2="172" cx1="283" cy1="126" cx2="282" cy2="149" color="#000000" />
+      <lrelation symbol="Relation_4" id="04df920a-e167-4a49-975a-7cd3c0d847f4" start="contributie" end="maanduitgaven" type="1" x1="410" y1="247" x2="410" y2="188" cx1="408" cy1="228" cx2="410" cy2="207" color="#000000" />
+      <lrelation symbol="Relation_3" id="aea3677e-ecfa-42ca-bb72-c5cf99c5a877" start="maanduitgaven" end="Flow_1" type="0" x1="403" y1="159" x2="370" y2="99" cx1="392" cy1="138" cx2="370" cy2="122" color="#000000" />
+      <lrelation symbol="Relation_2" id="618d7725-60ca-4f22-8857-a3615806719e" start="maandinkomsten" end="Flow_2" type="0" x1="168" y1="154" x2="192" y2="99" cx1="178" cy1="137" cx2="182" cy2="116" color="#000000" />
+      <lrelation symbol="Relation_1" id="b447445a-6894-4ceb-8ffb-ed87318a554b" start="uurloon" end="maandinkomsten" type="1" x1="93" y1="229" x2="150" y2="178" cx1="113" cy1="213" cx2="133" cy2="197" color="#000000" />
+      <lrelation symbol="Relation_7" id="dea87acf-23d5-4990-81d7-fdfb9e525daa" start="uur" end="maandinkomsten" type="1" x1="173" y1="242" x2="163" y2="183" cx1="184" cy1="224" cx2="166" cy2="203" color="#000000" />
+      <lrelation symbol="Relation_6" id="a2fd98a6-ebf7-4c00-94d1-aa07bc12175f" start="vrienden" end="maanduitgaven" type="1" x1="303" y1="191" x2="395" y2="175" cx1="334" cy1="198" cx2="364" cy2="181" color="#000000" />
+    </links>
+  </layout>
+</model>
+

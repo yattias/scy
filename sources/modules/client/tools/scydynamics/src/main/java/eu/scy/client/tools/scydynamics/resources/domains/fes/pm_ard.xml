@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.co-lab.nl/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.co-lab.nl/xml Model.xsd" mode="MODEL_SKETCHING">
+  <descriptor>
+    <symbol>model</symbol>
+  </descriptor>
+  <variables>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>insuline_niveau</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#000080</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <stockSpec>
+          <initial>6.75</initial>
+          <unit>mg/dl</unit>
+        </stockSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>time</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#000000</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <timeSpec>
+          <unit>?</unit>
+          <time start="0.0" stop="120.0" />
+          <integration method="euler" step="1.0" />
+        </timeSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>bloedglucosespiegel</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#fa0000</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <stockSpec>
+          <initial>100</initial>
+          <unit>mg/dl</unit>
+        </stockSpec>
+      </specification>
+    </varspec>
+  </variables>
+  <layout>
+    <nodes>
+      <nstock symbol="insuline_niveau" id="7a5e37ec-c4a3-45dc-a0b1-e7782d997bb3" x1="334" y1="327" x2="366" y2="347" label="south" color="#000000" labelColor="#000080" />
+      <nstock symbol="bloedglucosespiegel" id="c463c995-a5bd-42f6-ae78-29035450ce87" x1="318" y1="101" x2="350" y2="121" label="south" color="#000000" labelColor="#fa0000" />
+    </nodes>
+    <links>
+      <lflow symbol="Flow_4" id="b376028d-13c5-4411-aa25-752b1468e0cb" start="insuline_niveau" x1="366" y1="334" x2="593" y2="334" cx1="593" cy1="334" type="lineal" color="#000000" />
+      <lflow symbol="Flow_3" id="152aae92-2007-41e8-afaa-e6642ca86afd" end="insuline_niveau" x1="96" y1="337" x2="334" y2="337" cx1="334" cy1="337" type="lineal" color="#000000" />
+      <lflow symbol="Flow_2" id="2941e3e8-fa96-479e-a960-e21be0a5ad01" start="bloedglucosespiegel" x1="350" y1="112" x2="586" y2="112" cx1="586" cy1="112" type="lineal" color="#000000" />
+      <lflow symbol="Flow_1" id="986c8292-841e-4ea0-9e34-4dd3c5662e90" end="bloedglucosespiegel" x1="115" y1="112" x2="318" y2="112" cx1="318" cy1="112" type="lineal" color="#000000" />
+    </links>
+  </layout>
+</model>
+

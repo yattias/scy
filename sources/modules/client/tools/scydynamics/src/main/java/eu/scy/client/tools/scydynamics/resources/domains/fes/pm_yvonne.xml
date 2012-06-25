@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.co-lab.nl/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.co-lab.nl/xml Model.xsd" mode="MODEL_SKETCHING">
+  <descriptor>
+    <symbol>model</symbol>
+  </descriptor>
+  <variables>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>constante_glucose_aanmaak</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#33b22d</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression>0</expression>
+          <unit>?</unit>
+        </constSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>insuline_afbraak</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#9a7c32</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression>0</expression>
+          <unit>mg/dl</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>insuline_niveau</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#000080</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <stockSpec>
+          <initial>0</initial>
+          <unit>mg/dl</unit>
+          <outflow>insuline_afbraak</outflow>
+        </stockSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>time</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#000000</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <timeSpec>
+          <unit>?</unit>
+          <time start="0.0" stop="120.0" />
+          <integration method="euler" step="1.0" />
+        </timeSpec>
+      </specification>
+    </varspec>
+  </variables>
+  <layout>
+    <nodes>
+      <nstock symbol="insuline_niveau" id="7a5e37ec-c4a3-45dc-a0b1-e7782d997bb3" x1="334" y1="327" x2="366" y2="347" label="south" color="#000000" labelColor="#000080" />
+      <naux symbol="insuline_afbraak" id="8a4ce50a-2d50-4c2c-9acc-e205376e3d0a" x1="397" y1="375" x2="429" y2="407" label="south" color="#000000" labelColor="#9a7c32" />
+      <nconst symbol="constante_glucose_aanmaak" id="20a8f56f-c26a-4a70-9d89-9e7cb09ac7bf" x1="137" y1="22" x2="169" y2="54" label="south" color="#000000" labelColor="#33b22d" />
+    </nodes>
+    <links>
+      <lflow symbol="Flow_4" id="b376028d-13c5-4411-aa25-752b1468e0cb" start="insuline_niveau" x1="366" y1="337" x2="593" y2="337" cx1="593" cy1="337" type="lineal" color="#000000" />
+      <lflow symbol="Flow_3" id="152aae92-2007-41e8-afaa-e6642ca86afd" end="insuline_niveau" x1="96" y1="337" x2="334" y2="337" cx1="334" cy1="337" type="lineal" color="#000000" />
+      <lflow symbol="Flow_1" id="986c8292-841e-4ea0-9e34-4dd3c5662e90" x1="115" y1="110" x2="318" y2="110" cx1="318" cy1="110" type="lineal" color="#000000" />
+      <lrelation symbol="Relation_5" id="e5a1838d-8daa-4042-a3df-0766a7a4729c" start="constante_glucose_aanmaak" end="Flow_1" type="0" x1="168" y1="37" x2="216" y2="103" cx1="194" cy1="36" cx2="215" cy2="79" color="#000000" />
+      <lrelation symbol="Relation_3" id="78067650-9a16-4fc7-b28f-10304309c41c" start="insuline_niveau" end="insuline_afbraak" type="0" x1="356" y1="347" x2="401" y2="382" cx1="366" cy1="364" cx2="386" cy2="371" color="#000000" />
+      <lrelation symbol="Relation_10" id="fbd04534-31c0-472d-9db3-678c37a6f464" start="insuline_afbraak" end="Flow_4" type="0" x1="426" y1="383" x2="473" y2="344" cx1="443" cy1="373" cx2="458" cy2="359" color="#000000" />
+    </links>
+  </layout>
+</model>
+

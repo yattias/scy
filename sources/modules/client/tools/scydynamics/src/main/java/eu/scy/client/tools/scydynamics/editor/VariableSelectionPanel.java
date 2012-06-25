@@ -4,8 +4,11 @@ import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.FontMetrics;
 import java.awt.GridLayout;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -20,7 +23,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 
 import colab.um.draw.JdFigure;
 import colab.um.draw.JdObject;
@@ -41,10 +43,6 @@ public class VariableSelectionPanel extends JPanel {
 	private Model model;
 	private FlowLayout leftFlow;
 	private FlowLayout rightFlow;
-
-	private int tempValue;
-
-	private JSlider tempSlider;
 
 	public VariableSelectionPanel(ModelEditor editor, ResourceBundleWrapper bundle, boolean showTime) {
 		super();
@@ -103,14 +101,16 @@ public class VariableSelectionPanel extends JPanel {
 			JPanel vPanel;
 			if (showTime) {
 				vPanel = new JPanel(leftFlow);			
-				colorLabel = new JLabel("\u2588");
-				colorLabel.setForeground(Color.BLACK);
-				vPanel.add(colorLabel);
-				box = new JCheckBox(" (time) ");
+				
+				box = new JCheckBox();
 				if (oldSelection.contains("time")) {
 					box.setSelected(true);
 				}
 				vPanel.add(box);
+				colorLabel = new JLabel("\u25A0");
+				colorLabel.setForeground(Color.BLACK);
+				vPanel.add(colorLabel);
+				vPanel.add(new JLabel(" (time) "));
 				variablesPanel.add(vPanel);
 				variables.put("time", box);
 			}
@@ -118,33 +118,42 @@ public class VariableSelectionPanel extends JPanel {
 			while (objects.hasMoreElements()) {
 				object = objects.nextElement();			
 				if (object.getType() == JdFigure.STOCK) {
-					vPanel = new JPanel(leftFlow);
-					colorLabel = new JLabel("\u2588");
-					colorLabel.setForeground(object.getLabelColor());
-					//vPanel.setBackground(object.getLabelColor());
-					vPanel.add(colorLabel);
-					box = new JCheckBox(" ("+bundle.getString("EDITOR_STOCK")+") "+object.getLabel());
+					vPanel = new JPanel(leftFlow);			
+					box = new JCheckBox();
 					if (oldSelection.contains(object.getLabel())) {
 						box.setSelected(true);
 					}
 					vPanel.add(box);
+					colorLabel = new JLabel("\u25A0");
+					colorLabel.setForeground(object.getLabelColor());
+					vPanel.add(colorLabel);
+					vPanel.add(new JLabel(object.getLabel()));
 					variablesPanel.add(vPanel);
 					variables.put(object.getLabel(), box);
 				} else if (object.getType() == JdFigure.AUX) {
 					vPanel = new JPanel(leftFlow);
-					colorLabel = new JLabel("\u2588");
-					colorLabel.setForeground(object.getLabelColor());
-					vPanel.add(colorLabel);
-					box = new JCheckBox(" ("+bundle.getString("EDITOR_AUX")+") "+object.getLabel());
+					
+					box = new JCheckBox();
 					if (oldSelection.contains(object.getLabel())) {
 						box.setSelected(true);
 					}
 					vPanel.add(box);
+					colorLabel = new JLabel("\u25CF");
+					colorLabel.setForeground(object.getLabelColor());
+					vPanel.add(colorLabel);
+					vPanel.add(new JLabel(object.getLabel()));
 					variablesPanel.add(vPanel);
 					variables.put(object.getLabel(), box);
 				}
 			}
-			variablesPanel.setBorder(BorderFactory.createTitledBorder(bundle.getString("PANEL_VARIABLESELECTION")));
+			//variablesPanel.setBorder(BorderFactory.createTitledBorder(bundle.getString("PANEL_VARIABLESELECTION")));
+			if (showTime) {
+				// the table tab
+				variablesPanel.setBorder(BorderFactory.createTitledBorder("Show in table"));
+			} else {
+				// the graph tab
+				variablesPanel.setBorder(BorderFactory.createTitledBorder("Show in graph"));
+			}
 			
 			JPanel contentPanel = new JPanel();
 			contentPanel.setLayout(new BorderLayout());
@@ -157,43 +166,66 @@ public class VariableSelectionPanel extends JPanel {
 	private JPanel getValuesPanel() {
 		valueComponents.clear();
 		JPanel panel = new JPanel();
-		panel.setBorder(BorderFactory.createTitledBorder(bundle.getString("PANEL_VARIABLEVALUES")));
+		//panel.setBorder(BorderFactory.createTitledBorder(bundle.getString("PANEL_VARIABLEVALUES")));
+		
+		panel.setBorder(BorderFactory.createTitledBorder("Set values"));
 		int variablecount = model.getConstants().size() + model.getStocks().size();
-		if (editor.getMode().equals(Mode.QUALITATIVE_MODELLING)) {
-			panel.setLayout(new GridLayout(variablecount, 1));
-		} else {
-			panel.setLayout(new GridLayout(variablecount, 2));
-		}
+		panel.setLayout(new GridLayout(variablecount, 1));
 		
 		JdObject object;
 		JPanel vPanel;
 		JLabel colorLabel;
 		JTextField textField;
 		JSlider slider;
-		Enumeration<JdObject> objects = model.getNodes().elements();
+		
 		Hashtable<Integer, JLabel> labelTable = new Hashtable<Integer, JLabel>();
 		labelTable.put(0, new JLabel("low"));
 		labelTable.put(50, new JLabel("medium"));
 		labelTable.put(100, new JLabel("high"));
 
+		// find longest variable name of a constant or stock
+		FontMetrics fontMetrics = this.getFontMetrics(this.getFont());
+		
+		Rectangle2D largestBounds = new Rectangle2D.Double(0, 0, 0, 0);
+		Rectangle2D currentBounds = null;
+		Enumeration<JdObject> objects = model.getNodes().elements();
+		while (objects.hasMoreElements()) {
+			object = objects.nextElement();			
+			if (object.getType() == JdFigure.STOCK || object.getType() == JdFigure.CONSTANT) {
+				currentBounds = fontMetrics.getStringBounds(object.getLabel(), this.getGraphics());
+				if (currentBounds.getWidth() > largestBounds.getWidth()) {
+					largestBounds = currentBounds;
+				}
+			}
+		}
+		int boundsExtension = 20;
+		
+		objects = model.getNodes().elements();
 		while (objects.hasMoreElements()) {
 			object = objects.nextElement();			
 			if (object.getType() == JdFigure.STOCK || object.getType() == JdFigure.CONSTANT) {
 				vPanel = new JPanel(leftFlow);
-				colorLabel = new JLabel("\u2588");
+				if (object.getType() == JdFigure.STOCK) {
+					colorLabel = new JLabel("\u25A0");
+				} else {
+					colorLabel = new JLabel("\u25C6");
+				}
 				colorLabel.setForeground(object.getLabelColor());
 				vPanel.add(colorLabel);
-				vPanel.add(new JLabel(object.getLabel()));
-				
+				JLabel nameLabel = new JLabel(object.getLabel());
+				nameLabel.setHorizontalAlignment(JLabel.LEFT);
+				nameLabel.setSize((int)Math.round(largestBounds.getWidth())+boundsExtension, (int)Math.round(largestBounds.getHeight()));
+				nameLabel.setPreferredSize(new Dimension((int)Math.round(largestBounds.getWidth())+boundsExtension, (int)Math.round(largestBounds.getHeight())));
+				vPanel.add(nameLabel);
+				vPanel.add(new JLabel(""));
 				if (!editor.getMode().equals(Mode.QUALITATIVE_MODELLING)) {
-					panel.add(vPanel);
 					textField = new JTextField(6);
 					textField.setHorizontalAlignment(JTextField.RIGHT);
 					textField.setName(object.getLabel());
 					textField.setText(object.getExpr());
 					valueComponents.add(textField);
-					panel.add(textField);
-				} else if (editor.getMode().equals(Mode.QUALITATIVE_MODELLING)) {					
+					vPanel.add(textField);
+				} else if (editor.getMode().equals(Mode.QUALITATIVE_MODELLING)) {						
 					slider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
 					slider.setName(object.getLabel());
 					slider.setLabelTable(labelTable);
@@ -205,8 +237,9 @@ public class VariableSelectionPanel extends JPanel {
 					setSliderValue(object.getProperties().get("expr").toString(), slider);
 					valueComponents.add(slider);
 					vPanel.add(slider);
-					panel.add(vPanel);
 				}
+				
+				panel.add(vPanel);
 			}
 		}
 		return panel;

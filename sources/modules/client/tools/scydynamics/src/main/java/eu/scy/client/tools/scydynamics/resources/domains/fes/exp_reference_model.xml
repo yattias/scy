@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<reference_model name="fes_glucose"
+		 notation="system_dynamics"
+		 concept_set="fes_glucose">
+
+<!-- the stock nodes -->
+<!--  -->
+	<node id="gl" concept="blood_glucose_level"
+		type="stock"
+		low_value="50"
+		high_value="150"
+		default_value="100"
+	/>
+	        
+	<node id="il" concept="insulin_level"
+		type="stock"
+		low_value="3.75"
+		high_value="9.75"
+		default_value="6.75"
+	/>
+
+<!-- the constant nodes -->
+<!-- -->
+	<node id="gr" concept="glucose_release"
+		type="constant"
+		low_value="1.33"
+		high_value="5.33"
+		default_value="3.33"
+	/>
+	
+	<node id="eating" concept="eating"
+		type="constant"
+		low_value="0"
+		high_value="20"
+		default_value="40"
+	/>
+	
+<!-- the auxilliary nodes -->
+<!-- -->
+	<node id="ib" concept="insulin_breakdown"
+		type="auxiliary"
+	/>
+	
+	<node id="is" concept="insulin_secretion"
+		type="auxiliary"
+	/>
+
+	<node id="gu" concept="glucose_used_by_cells"
+		type="auxiliary"
+	/>
+	
+	<node id="guf" concept="glucose_usage_fraction"
+		type="auxiliary"
+	/>
+	
+	<node id="gi" concept="glucose_increase"
+		type="auxiliary"
+	/>
+
+<!-- the flow nodes -->
+<!-- -->
+	<node id="gl_in" concept=""
+		type="flow"
+	/>
+	
+	<node id="gl_out" concept=""
+		type="flow"
+	/>
+	
+	<node id="il_in" concept=""
+		type="flow"
+	/>
+	
+	<node id="il_out" concept=""
+		type="flow"
+	/>
+
+<!-- the edges -->
+<!--  -->
+	<!-- these are the flow relations from/to a stock to/from an anonymous container -->
+	<edge from="" to="gl"/>
+	<edge from="gl" to=""/>
+	<edge from="" to="il"/>
+	<edge from="il" to=""/>
+
+	<!-- these are the relations that point to a incoming or outgoing flow -->
+	<!-- it is important to stick to the naming scheme with _in and _out -->
+	<edge from="gr" to="gl_in"/>
+	<edge from="gu" to="gl_out"/>	
+	<edge from="is" to="il_in"/>
+	<edge from="ib" to="il_out"/>
+	<!-- alternative for temporal intake model -->
+	<edge from="gi" to="gl_in"/>
+
+	<!-- the default relation are fine here -->
+	<edge from="gr" to="gi"/>
+	
+	<!-- trick: "/glucose_release" creates an additon rather than a multiplication in glucose_increase -->	
+	<edge from="eating" to="gi">
+		<expression type="linear_up" formula="(1+eating*(1/(1+exp(-(5*(time-30))))-1/(1+exp(-(5*(time-40)))))/glucose_release)"/>
+	</edge>
+	
+	<edge from="gr" to="gi">
+		<expression type="linear_up" formula="glucose_release"/>
+	</edge>
+	
+	<edge from="gl" to="is">
+		<!-- generalised logistic function to get a nice s-shaped behavior -->
+		<expression type="s_shaped" formula="42.5/((1+0.02*exp(-0.05*(blood_glucose_level-200)))^1/0.4)"/>
+		<expression type="constant" formula="blood_glucose_level*0.001"/>
+	</edge>
+
+	<edge from="gl" to="gu">
+		<expression type="linear_up" formula="blood_glucose_level"/>
+	</edge>
+
+	<edge from="guf" to="gu">
+		<expression type="linear_up" formula="glucose_usage_fraction*2"/>
+	</edge>
+
+	<edge from="il" to="guf">
+		<!-- generalised logistic function to get a nice s-shaped behavior -->
+		<expression type="s_shaped" formula="0.0075+0.1057/((1+0.01*exp(-0.7*(insulin_level-14)))^1/0.5)"/>
+		<expression type="linear_up" formula="0.0075+0.1057/((1+0.01*exp(-0.7*(insulin_level-14)))^1/0.5)"/>
+	</edge>
+	
+	<edge from="il" to="ib">
+		<expression type="linear_up" formula="insulin_level*0.8"/>
+		<expression type="linear_down" formula="0.8/insulin_level"/>
+	</edge>
+	    
+</reference_model>

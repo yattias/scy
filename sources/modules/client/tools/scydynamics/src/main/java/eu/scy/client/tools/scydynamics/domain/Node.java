@@ -14,6 +14,10 @@ public class Node {
 
 	public Node() {
 	}
+	
+	public String toString() {
+		return id;
+	}
 
 	@XmlAttribute
 	public String getId() {

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<concept_set name="fes_glucose"
+             word_order="any">
+
+  <concept name="blood_glucose_level" type="stock">
+    <term>niveau van glucose in het bloed</term>
+    <term>glucose</term>
+    <term>glucose_niveau</term>
+    <term>bloed_glucose</term>
+    <term>bloedglucose</term>
+    <term>bloedsuiker</term>
+    <term>bloedsuikerspiegel</term>
+    <term>glucose_in_bloed</term>
+	<term>glucosegehalte_in_bloed</term>
+	<term>glucosegehalte_bloed</term>
+    <term>bloed_glucose</term>
+	<term>bloed_glucose_spiegel</term>
+    <term>concentratie_glucose</term>
+	<term>glucose_concentratie</term>
+	<term>suiker_concentratie</term>
+	<term>concentratie_suiker</term>
+	<term>bloedglucosespiegel</term>
+	<term>bloedglucose_spiegel</term>
+	<term>bloed_glucose_spiegel</term>
+	<term>bloed_glucosespiegel</term>
+	<term>glucose_gehalte</term>
+	<term>gehalte_glucose</term>
+  </concept>
+  
+  <concept name="insulin_level" type="stock">
+    <term>insuline_niveau</term>
+    <term>insuline</term>
+	<term>insuline_hoeveelheid</term>
+	<term>hoeveelheid_insuline</term>
+	<term>insuline_hoeveelheid</term>
+	<term>insuline_level</term>
+    <term>bloed_insuline_level</term>
+    <term>insulinelevel</term>
+    <term>insulineniveau</term>
+	<term>insuline_concentratie</term>
+	<term>concentratie_insuline</term>
+	<term>insuline_gehalte</term>
+	<term>gehalte_insuline</term>
+  </concept>
+    
+  <concept name="glucose_release" type="constant">
+	<term>glucose_constante</term>
+	<term>constante_glucose</term>
+    <term>glucose_release</term>
+	<term>glucose_afgifte</term>
+	<term>glucose_release</term>
+	<term>glucose_afgifte_constant</term>
+   	<term>release_glucose_constant</term>
+   	<term>afgifte</term>
+	<term>glucose_aanmaak</term>    
+	<term>glucose_productie</term>
+	<term>glucoseproductie</term>
+	<term>aanmaak_glucose</term>    
+	<term>productie_glucose</term>
+	<term>glucose_toevoer</term>
+	<term>constante_glucose_aanmaak</term>
+	<term>koolhydraten_afgifte</term>
+	<term>constant_glucose_toevoer</term>
+	<term>glucose_toevoer_constant</term>
+	<term>constante_toevoer</term>
+  </concept>
+  
+   <concept name="eating" type="constant">
+    <term>inname</term>
+    <term>eten</term>
+	<term>voedsel</term>
+	<term>pizza</term>
+	<term>mars</term>
+	<term>koolhydraten</term>
+	<term>glucose_aanmaak_door_eten</term>
+	<term>incidentele_glucose_aanmaak</term>
+  </concept>
+  
+  <concept name="insulin_secretion" type="auxiliary">
+   	<term>insuline_afgifte</term>
+   	<term>afgifte_insuline</term>
+   	<term>insuline_afscheiding</term>
+  	<term>afscheiding_insuline</term>
+   	<term>afgifte_van_insuline</term>
+	<term>insuline_productie</term>
+	<term>productie_insuline</term>
+	<term>insuline_aanmaak</term>
+	<term>aanmaak_insuline</term>
+  </concept>
+  
+  <concept name="glucose_usage_fraction" type="auxiliary">
+    <term>deel_glucose_gebruik</term>
+    <term>glucose_gebruik_deel</term>
+	<term>glucose_gebruik_percentagen</term>
+   	<term>glucose_opname_percentage</term>
+	<term>glucose_opname_deel</term>
+	<term>percentage_glucose_gebruik</term>
+	<term>deel_opname_glucose</term>
+	<term>deel_glucose_opname</term>
+	<term>percentage_opname_glucose</term>
+	<term>percentage_glucose_opname</term>
+	<term>glucose_percentage</term>
+	<term>percentage_glucose</term>	
+  </concept>
+ 
+  <concept name="insulin_breakdown" type="auxiliary">
+    <term>insuline_afbraak</term>
+	<term>insulineafbraak</term>
+	<term>afbraak_insuline</term>
+	<term>afbraak_van_insuline</term>
+	<term>vergankelijk_insuline</term>
+	<term>insuline_vergankelijkheid</term>
+    </concept>
+  
+  <concept name="glucose_used_by_cells" type="auxiliary">
+    <term>glucose_gebruikt_door_cellen</term>
+    <term>glucose_gebruik</term>
+	<term>gebruik_glucose</term>
+    <term>cellen_gebruik_glucose</term>
+	<term>glucose_opname_door_cellen</term>
+	<term>glucose_naar_cellen</term>
+  </concept>
+  
+  <concept name="glucose_increase" type="auxiliary">
+	<term>totaal_glucose_toevoer</term>
+	<term>glucose_in</term>
+	<term>glucose_inkomst</term>
+	<term>totale_glucose_aanmaak</term>
+	<term>glucose_aanmaak_totaal</term>
+  	<term>totaal_glucose_aanmaak</term> 
+    <term>glucose_release_totaal</term>
+	<term>glucose_afgifte_totaal</term>
+   	<term>afgifte_totaal</term>
+	<term>glucose_productie_totaal</term>
+	<term>totaal_glucose_productie</term>
+	<term>totaal_productie_glucose</term>
+	<term>glucoseproductie_totaal</term>
+	<term>aanmaak_glucose_totaal</term>   
+	<term>totaal_aanmaak_glucose_totaal</term>   
+	<term>totaal_productie_glucose</term>
+	<term>productie_glucose_totaal</term>
+	<term>glucose_toevoer_totaal</term>
+	<term>koolhydraten_afgifte_totaal</term>
+	<term>totaal_koolhydraten_afgifte</term>
+	<term>totaal_glucose_toevoer</term>
+	<term>glucose_toevoer_totaal</term>
+	<term>totale_toevoer</term>
+	<term>samen_glucose_toevoer</term>
+	<term>samen_glucose_aanmaak</term>
+	<term>glucose_aanmaak_samen</term>
+  	<term>samen_glucose_aanmaak</term> 
+    <term>glucose_release_samen</term>
+	<term>glucose_afgifte_samen</term>
+   	<term>afgifte_samen</term>
+	<term>glucose_aanmaak_samen</term>    
+	<term>glucose_productie_samen</term>
+	<term>samen_glucose_productie</term>
+	<term>samen_productie_glucose</term>
+	<term>glucoseproductie_samen</term>
+	<term>aanmaak_glucose_samen</term>   
+	<term>totaal_aanmaak_glucose_samen</term>   
+	<term>samen_productie_glucose</term>
+	<term>productie_glucose_samen</term>
+	<term>glucose_toevoer_samen</term>
+	<term>koolhydraten_afgifte_samen</term>
+	<term>samen_koolhydraten_afgifte</term>
+	<term>samen_glucose_toevoer</term>
+	<term>glucose_toevoer_samen</term>
+	<term>samen_toevoer</term>
+</concept>
+
+  
+  <concept name="unused_terms" type="unused">
+  	<term>spijsvertering</term>
+	<term>spijsverteringsproces</term>
+  	<term>darm</term>
+  	<term>verteringssappen</term>
+  	<term>organen</term>
+	<term>monitoren</term>
+  	<term>alvleesklier</term>
+  	<term>hormoon</term>
+  	<term>eilandjes_van_langerhans</term>
+  	<term>brood</term>
+  	<term>vlees</term>
+  	<term>chocolade</term>
+  	<term>fruit</term>
+	<term>groente</term>
+  	<term>dunne_darm</term>
+  	<term>hypofyse</term>
+	<term>nieren</term>
+  	<term>bijnieren</term>
+  	<term>overtollige</term>
+  	<term>aanmaak glucagon</term>
+  	<term>afgifte_glucagon</term>
+	<term>glucagon_aanmaak</term>
+  	<term>glucagon_afgifte</term>
+  	<term>aanmaak_glycogeen</term>
+  	<term>afgifte_glycogeen</term>
+	<term>glycogeen_aanmaak</term>
+	<term>glycogeen_afgifte</term>	
+  </concept>
+  
+</concept_set>
+

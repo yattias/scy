@@ -10,7 +10,6 @@ import javax.swing.JTextField;
 import colab.um.draw.JdFigure;
 import colab.um.draw.JdLink;
 import colab.um.draw.JdRelation;
-import eu.scy.client.tools.scydynamics.domain.Concept;
 import eu.scy.client.tools.scydynamics.domain.Domain;
 import eu.scy.client.tools.scydynamics.domain.Edge;
 import eu.scy.client.tools.scydynamics.editor.ModelEditor;
@@ -18,6 +17,17 @@ import eu.scy.client.tools.scydynamics.editor.ModelEditor;
 public class ModelUtils {
 	
 	private final static Logger DEBUGLOGGER = Logger.getLogger(ModelUtils.class.getName());
+	
+	public static String cleanVariableName(String name) {
+		// removing spaces and special chars in variable name
+		// (as they may crash the simulation engine or xml serialising)
+
+		// replacing non-character and non-number character by _
+		name = name.replaceAll("[^a-zA-Z0-9]", "_");
+		// removes _ from beginning and end
+		name = name.replaceAll("_$|^_", "");
+		return name.toLowerCase();
+	}
 	
 	public static JdRelation getRelationBetween(Model model, String start, String end) {	
 		JdLink link = model.getLink(start, end);
@@ -63,22 +73,30 @@ public class ModelUtils {
 				expression = expression+"*"+newExpression;
 			}
 		}
+		System.out.println("compound expression: "+expression);
 		return expression;
 	}
 	
 	private static String getExpressionFromDomain(JdFigure thisFigure, JdFigure otherFigure, HashMap<JdFigure, QualitativeInfluenceType> qualitativeRelations, ModelEditor modelEditor) {
+		String expression = null;
 		try {
 			String thisName = (String) thisFigure.getProperties().get("label");
 			String otherName = (String) otherFigure.getProperties().get("label");
 			Edge edge = modelEditor.getDomain().getEdgeBetweenNodeTerms(otherName.toLowerCase(), thisName.toLowerCase());
-			String expression = edge.getExpression(qualitativeRelations.get(otherFigure));
+			expression = edge.getExpression(qualitativeRelations.get(otherFigure));
+			System.out.println("generating expression for "+otherName+" -> "+thisName);
 			System.out.println("expression from domain: "+expression);
-			expression = expression.replaceAll(modelEditor.getDomain().getConceptByTerm(otherName), otherName);
+			// replacing domain variable names with model variable names
+			for (JdFigure replaceFigure: qualitativeRelations.keySet()) {
+				String replaceName = (String) replaceFigure.getProperties().get("label");
+				System.out.println("replacing "+modelEditor.getDomain().getConceptByTerm(replaceName)+" with "+replaceName);
+				expression = expression.replaceAll(modelEditor.getDomain().getConceptByTerm(replaceName), replaceName);
+			}	
 			System.out.println("expression adapted: "+expression);
-			return expression;
 		} catch (Exception ex) {
-			return null;
+			System.out.println("ModelUtils.getExpressionFromDomain(...): exception caught: "+ex.getMessage());
 		}
+		return expression;
 	}
 
 	public static String generateExpressionFromRelation(String varName, QualitativeInfluenceType relationType) {
@@ -93,6 +111,13 @@ public class ModelUtils {
 			return "1/"+varName;
 		case ASYMPTOTE_UP:
 			return "(1-exp("+varName+"))";
+		case S_SHAPED:
+			return "(1/(1+exp(-"+varName+")))";
+		case CONSTANT:
+			return "("+varName+"*0+1)"; // varName*0 is included because the variable has to be used to prevent errors
+		case BELL:
+			return "(exp(-("+varName+"-50)^2/200)*100)";
+			// a bell curve from 0 to 100, peak of 100 at x=50 
 		default:
 			return " error ";
 		}
@@ -106,8 +131,7 @@ public class ModelUtils {
 		try {
 			domain = new Domain(referenceModelFilename, conceptSetFilename, simulationSettingsFilename);
 		} catch (Exception e) {
-			DEBUGLOGGER.info("domain could not be loaded, will be ignored.");
-			DEBUGLOGGER.info(e.getMessage());
+			DEBUGLOGGER.info("domain could not be loaded, will be ignored: "+e.getMessage());
 		}
 		return domain;
 	}
@@ -124,5 +148,19 @@ public class ModelUtils {
 		+ oldText.substring(end, oldText.length());
 		field.setText(newText);
 	}
+	
+	public static String removeSpecialCharacters(String str) {
+		   if (str == null) {
+			   return null;
+		   }
+		   StringBuilder sb = new StringBuilder();
+		   for (char c: str.toCharArray()) {
+		      if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '.' || c == '_') {
+		         sb.append(c);
+		      }
+		   }
+		   return sb.toString();
+		}
+	
 
 }

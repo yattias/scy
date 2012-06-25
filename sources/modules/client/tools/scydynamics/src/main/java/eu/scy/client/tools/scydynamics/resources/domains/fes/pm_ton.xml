@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.co-lab.nl/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.co-lab.nl/xml Model.xsd" mode="MODEL_SKETCHING">
+  <descriptor>
+    <symbol>model</symbol>
+  </descriptor>
+  <variables>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>Stock_2</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#33b22d</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <stockSpec>
+          <initial />
+          <unit>?</unit>
+          <inflow>Aux_2</inflow>
+          <outflow>Aux_4</outflow>
+        </stockSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>Stock_1</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#71b232</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <stockSpec>
+          <initial />
+          <unit>?</unit>
+          <inflow>Const_1</inflow>
+          <outflow>Aux_1</outflow>
+        </stockSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>Aux_4</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#3232b6</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression />
+          <unit>?</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>Aux_3</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#3172b6</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression />
+          <unit>?</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>Const_1</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#6e31b2</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression />
+          <unit>?</unit>
+        </constSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>Aux_2</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#2db5b5</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression />
+          <unit>?</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>Aux_1</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#31b272</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression />
+          <unit>?</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>time</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#000000</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <timeSpec>
+          <unit>?</unit>
+          <time start="0.0" stop="120.0" />
+          <integration method="euler" step="1.0" />
+        </timeSpec>
+      </specification>
+    </varspec>
+  </variables>
+  <layout>
+    <nodes>
+      <nstock symbol="Stock_2" id="206b801b-c48b-4bbe-adc3-3db9d41762e2" x1="330" y1="324" x2="362" y2="344" label="south" color="#000000" labelColor="#33b22d" />
+      <nstock symbol="Stock_1" id="b41f14cc-80a4-41d5-9525-cc8e01909727" x1="320" y1="96" x2="352" y2="116" label="south" color="#000000" labelColor="#71b232" />
+      <naux symbol="Aux_4" id="90bf8fc1-4c28-4e02-8cba-d3246a854f96" x1="413" y1="387" x2="445" y2="419" label="south" color="#000000" labelColor="#3232b6" />
+      <naux symbol="Aux_3" id="1d99b14f-6bc1-404d-8b9a-8055fb543849" x1="387" y1="250" x2="419" y2="282" label="south" color="#000000" labelColor="#3172b6" />
+      <naux symbol="Aux_2" id="f8aa225b-3724-4716-bfab-59ccb86afd00" x1="249" y1="209" x2="281" y2="241" label="south" color="#000000" labelColor="#2db5b5" />
+      <naux symbol="Aux_1" id="af884e2d-9f14-443d-b24b-5004e1f256bf" x1="402" y1="156" x2="434" y2="188" label="south" color="#000000" labelColor="#31b272" />
+      <nconst symbol="Const_1" id="d8becb79-e0d4-462e-bd46-bc7d225c6366" x1="161" y1="39" x2="193" y2="71" label="south" color="#000000" labelColor="#6e31b2" />
+    </nodes>
+    <links>
+      <lflow symbol="Flow_4" id="b376028d-13c5-4411-aa25-752b1468e0cb" start="Stock_2" x1="362" y1="335" x2="593" y2="335" cx1="593" cy1="335" type="lineal" color="#000000" />
+      <lflow symbol="Flow_3" id="152aae92-2007-41e8-afaa-e6642ca86afd" end="Stock_2" x1="96" y1="336" x2="330" y2="336" cx1="330" cy1="336" type="lineal" color="#000000" />
+      <lflow symbol="Flow_2" id="2941e3e8-fa96-479e-a960-e21be0a5ad01" start="Stock_1" x1="352" y1="106" x2="586" y2="106" cx1="586" cy1="106" type="lineal" color="#000000" />
+      <lflow symbol="Flow_1" id="986c8292-841e-4ea0-9e34-4dd3c5662e90" end="Stock_1" x1="115" y1="106" x2="320" y2="106" cx1="320" cy1="106" type="lineal" color="#000000" />
+      <lrelation symbol="Relation_9" id="d4480378-c4a1-4a60-8040-e7db9fdc47d0" start="Aux_4" end="Flow_4" type="0" x1="443" y1="396" x2="479" y2="342" cx1="467" cy1="384" cx2="485" cy2="369" color="#000000" />
+      <lrelation symbol="Relation_8" id="c111f009-ed7c-43d6-a456-81dbf18727f4" start="Stock_2" end="Aux_4" type="0" x1="362" y1="342" x2="415" y2="400" cx1="389" cy1="357" cx2="394" cy2="394" color="#000000" />
+      <lrelation symbol="Relation_7" id="77882f25-2943-41f8-9d69-37899251b76b" start="Aux_2" end="Flow_3" type="0" x1="250" y1="225" x2="206" y2="329" cx1="210" cy1="225" cx2="175" cy2="298" color="#000000" />
+      <lrelation symbol="Relation_6" id="1a7c9ef8-dfb1-4c65-8de9-e1eb6b042c1d" start="Stock_2" end="Aux_3" type="0" x1="350" y1="324" x2="388" y2="266" cx1="359" cy1="300" cx2="364" cy2="266" color="#000000" />
+      <lrelation symbol="Relation_5" id="0055e2b3-df9a-42b5-9594-0fc42106a98f" start="Aux_3" end="Aux_1" type="0" x1="407" y1="252" x2="406" y2="181" cx1="413" cy1="231" cx2="382" cy2="196" color="#000000" />
+      <lrelation symbol="Relation_4" id="e071e0f1-e4b7-45a7-9f67-78e0f3ffbf22" start="Aux_1" end="Flow_2" type="0" x1="428" y1="161" x2="462" y2="113" cx1="442" cy1="146" cx2="447" cy2="128" color="#000000" />
+      <lrelation symbol="Relation_3" id="da2fbd34-7bd7-4c8f-9d36-02fa4b783609" start="Stock_1" end="Aux_1" type="0" x1="352" y1="115" x2="407" y2="163" cx1="373" cy1="127" cx2="389" cy2="148" color="#000000" />
+      <lrelation symbol="Relation_2" id="a0f715fc-5319-4ac3-877f-18a9c289a793" start="Stock_1" end="Aux_2" type="0" x1="320" y1="115" x2="267" y2="210" cx1="287" cy1="133" cx2="272" cy2="173" color="#000000" />
+      <lrelation symbol="Relation_1" id="0b22ef80-abec-4949-ad1c-6d94ebee240c" start="Const_1" end="Flow_1" type="0" x1="185" y1="62" x2="222" y2="99" cx1="199" cy1="74" cx2="231" cy2="83" color="#000000" />
+    </links>
+  </layout>
+</model>
+

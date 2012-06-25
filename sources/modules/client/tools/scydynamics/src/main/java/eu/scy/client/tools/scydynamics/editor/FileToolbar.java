@@ -1,5 +1,6 @@
 package eu.scy.client.tools.scydynamics.editor;
 
+import java.awt.Dimension;
 import java.awt.FileDialog;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -12,6 +13,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
+import javax.swing.Box;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -26,8 +29,11 @@ import org.jdom.input.SAXBuilder;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
+import colab.um.draw.JdLink;
 import colab.um.xml.model.JxmModel;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
+import eu.scy.client.tools.scydynamics.logging.ModellingLogger;
+import eu.scy.client.tools.scydynamics.store.SCYDynamicsStore.StoreType;
 import eu.scy.elo.contenttype.dataset.DataSet;
 import eu.scy.elo.contenttype.dataset.DataSetColumn;
 import eu.scy.elo.contenttype.dataset.DataSetRow;
@@ -37,7 +43,7 @@ import java.util.logging.Logger;
 @SuppressWarnings("serial")
 public class FileToolbar extends JToolBar implements ActionListener {
 
-	private final static Logger LOGGER = Logger.getLogger(FileToolbar.class.getName());
+	private final static Logger debugLogger = Logger.getLogger(FileToolbar.class.getName());
 	private final static String LINE_SEP = ",";
 	private ModelEditor editor;
 	private String filename = null;
@@ -46,6 +52,7 @@ public class FileToolbar extends JToolBar implements ActionListener {
 	private FileFilter xmlFileFilter;
 	private JComboBox modeBox;
 	private ResourceBundleWrapper bundle;
+	private JButton phaseButton = null;
 
 	public FileToolbar(ModelEditor editor, ResourceBundleWrapper newBundle) {
 		super(JToolBar.HORIZONTAL);
@@ -54,50 +61,34 @@ public class FileToolbar extends JToolBar implements ActionListener {
 		this.csvFileFilter = new CSVFileFilter();
 		this.xmlFileFilter = new XMLFileFilter();
 		setFloatable(false);
-		add(Util.createJButton(bundle.getString("EDITOR_NEW"), "new", "editorNew", this));
-		add(Util.createJButton(bundle.getString("EDITOR_OPEN"), "open", "editorOpen", this));
-		add(Util.createJButton(bundle.getString("EDITOR_SAVE"), "save", "editorSave", this));
-		add(Util.createJButton(bundle.getString("EDITOR_SAVEAS"), "saveas", "editorSave", this));
+		add(Util.createJButton(bundle.getString("EDITOR_NEW"), "new", "new16.png", this));
+		add(Util.createJButton(bundle.getString("EDITOR_OPEN"), "open", "open16.png", this));
+		add(Util.createJButton(bundle.getString("EDITOR_SAVE"), "save", "save16.png", this));
+		add(Util.createJButton(bundle.getString("EDITOR_SAVEAS"), "saveas", "saveas16.png", this));
+		if (Boolean.parseBoolean(editor.getProperties().getProperty("editor.saveasdataset"))) {
+			this.addSeparator();
+			add(Util.createJButton(bundle.getString("EDITOR_SAVEAS_DATASET"), "saveasdataset", "saveas16.png", this));
+		}
 		this.addSeparator();
-		add(Util.createJButton(bundle.getString("EDITOR_SAVEAS_DATASET"), "saveasdataset", "editorSave", this));
-		this.addSeparator();
-		// testing the modes
 		modeBox = new JComboBox(ModelEditor.Mode.values());
 		modeBox.setSelectedItem(editor.getMode());
 		modeBox.addActionListener(this);
-		if (editor.getProperties().getProperty("editor.modes_selectable", "false").equals("true")) {
-			add(new JLabel("mode: "));
+		if (Boolean.parseBoolean(editor.getProperties().getProperty("editor.modes_selectable"))) {
+			add(new JLabel("Phase: "));
 			add(modeBox);
+		}
+		
+		if (Boolean.parseBoolean(editor.getProperties().getProperty("showPhaseChangeButton"))) {
+			this.add(Box.createHorizontalGlue());
+			ActionListener phaseListener = new PhaseListener(editor);
+			phaseButton = Util.createJButton("next phase", "nextPhase", "nextphase.png", phaseListener);
+			add(phaseButton);
+			add(Util.createJButton("reset model", "reset", "resetmodel.png", phaseListener));
 		}
 	}
 	
-	public void load(String filename) {
-		Document doc = null;
-		SAXBuilder sb = new SAXBuilder();
-		try {
-			doc = sb.build(new File(filename));
-			Element modelElement = null;
-			if (doc.getRootElement().getName().equals("model")) {
-				// root element is <model>, so everything is fine
-				modelElement = doc.getRootElement();
-			} else {
-				// root element is not <model>, try to find it
-				modelElement = findTag(doc.getRootElement(), "model");
-			}
-			if (modelElement != null) {
-				editor.setModel(modelElement);
-				this.setFilename(filename);
-			} else {
-				throw new JDOMException("Couldn't find <model> element in file " + filename);
-			}
-		} catch (JDOMException e) {
-			JOptionPane.showMessageDialog(null, "Could load a model from this file.\nPlease check if it really contains one.");
-			e.printStackTrace();
-		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Error while reading from that file.");
-			e.printStackTrace();
-		}
-
+	public JButton getPhaseButton() {
+		return this.phaseButton;
 	}
 
 	private String getFilename() {
@@ -111,34 +102,6 @@ public class FileToolbar extends JToolBar implements ActionListener {
 
 	public void updateMode() {
 		modeBox.setSelectedItem(editor.getMode());
-	}
-
-	private void save(String fileName) {
-		LOGGER.info("saving model to " + fileName);
-		this.setFilename(fileName);
-		SAXBuilder builder = new SAXBuilder();
-		try {
-			Document doc = builder.build(new StringReader(editor.getModelXML()));
-			doc.getRootElement().setAttribute("mode", editor.getMode().toString());
-			XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
-			FileWriter writer = new FileWriter(fileName);
-			out.output(doc, writer);
-			writer.flush();
-			writer.close();
-		} catch (JDOMException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void saveAs() {
-		FileDialog dialog = new FileDialog(parentFrame, "Save model to a file...", FileDialog.SAVE);
-		dialog.setFile("*.xml");
-		dialog.setVisible(true);
-		if (dialog.getFile() != null) {
-			save(dialog.getDirectory() + dialog.getFile());
-		}
 	}
 
 	private void saveasDataset() {
@@ -165,7 +128,7 @@ public class FileToolbar extends JToolBar implements ActionListener {
 		if (!fileName.endsWith(".csv")) {
 			fileName = fileName + ".csv";
 		}
-		LOGGER.log(Level.INFO, "saving dataset(csv) to {0}", fileName);
+		debugLogger.log(Level.INFO, "saving dataset(csv) to {0}", fileName);
 		try {
 			FileWriter fstream = new FileWriter(fileName);
 			BufferedWriter out = new BufferedWriter(fstream);
@@ -192,7 +155,7 @@ public class FileToolbar extends JToolBar implements ActionListener {
 			}
 			out.close();
 		} catch (Exception e) {
-			LOGGER.warning(e.getMessage());
+			debugLogger.warning(e.getMessage());
 		}
 	}
 
@@ -200,7 +163,7 @@ public class FileToolbar extends JToolBar implements ActionListener {
 		if (!fileName.endsWith(".xml")) {
 			fileName = fileName + ".xml";
 		}
-		LOGGER.log(Level.INFO, "saving dataset(xml) to {0}", fileName);
+		debugLogger.log(Level.INFO, "saving dataset(xml) to {0}", fileName);
 		try {
 			Document doc = new Document(dataSet.toXML());
 			XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
@@ -209,55 +172,51 @@ public class FileToolbar extends JToolBar implements ActionListener {
 			writer.flush();
 			writer.close();
 		} catch (IOException e) {
-			LOGGER.warning(e.getMessage());
+			debugLogger.warning(e.getMessage());
 		}
 	}
-
-	public static Element findTag(Element root, String tag) throws IllegalArgumentException {
-		if (root == null) {
-			throw new IllegalArgumentException("Element is null.");
-		}
-		List enumChilds = root.getChildren();
-		Iterator iter = enumChilds.iterator();
-		while (iter.hasNext()) {
-			Element childElement = (Element) iter.next();
-			if (childElement.getName().equals(tag)) {
-				return childElement;
-			}
-			try {
-				Element foundElement = FileToolbar.findTag(childElement, tag);
-				if (foundElement != null) {
-					return foundElement;
-				}
-			} catch (IllegalArgumentException e) {
-			}
-		}
-		return null;
-	}
-
+	
 	public void actionPerformed(ActionEvent evt) {
 		if (evt.getSource() instanceof JComboBox) {
 			editor.setMode(((JComboBox) evt.getSource()).getSelectedItem().toString());
 		}
 		if (evt.getActionCommand().equals("new")) {
 			editor.setNewModel();
+			editor.doAutosave(StoreType.ON_NEW);
+			editor.getActionLogger().logSimpleAction(ModellingLogger.MODEL_NEW);
 			this.setFilename(null);
 		} else if (evt.getActionCommand().equals("saveas")) {
-			saveAs();
+			try {
+				editor.getSCYDynamicsStore().saveAsModel();
+			} catch (Exception ex) {
+				debugLogger.severe(ex.getMessage());
+				JOptionPane.showMessageDialog(javax.swing.JOptionPane.getFrameForComponent(editor),
+					    "The model could not be stored:\n"+ex.getMessage(),
+					    "Warning",
+					    JOptionPane.WARNING_MESSAGE);
+			}
 		} else if (evt.getActionCommand().equals("saveasdataset")) {
 			saveasDataset();
 		} else if (evt.getActionCommand().equals("save")) {
-			if (getFilename() != null) {
-				save(getFilename());
-			} else {
-				saveAs();
+			try {
+				editor.getSCYDynamicsStore().saveModel();
+			} catch (Exception ex) {
+				debugLogger.severe(ex.getMessage());
+				JOptionPane.showMessageDialog(javax.swing.JOptionPane.getFrameForComponent(editor),
+					    "The model could not be stored:\n"+ex.getMessage(),
+					    "Warning",
+					    JOptionPane.WARNING_MESSAGE);
 			}
+			
 		} else if (evt.getActionCommand().equals("open")) {
-			FileDialog dialog = new FileDialog(parentFrame, "Load model...", FileDialog.LOAD);
-			// dialog.setFile("*.xml");
-			dialog.setVisible(true);
-			if (dialog.getFile() != null) {
-				load(dialog.getDirectory() + dialog.getFile());
+			try {
+				editor.getSCYDynamicsStore().loadModel();
+			} catch (Exception ex) {
+				debugLogger.severe(ex.getMessage());
+				JOptionPane.showMessageDialog(javax.swing.JOptionPane.getFrameForComponent(editor),
+					    "The model could not be loaded:\n"+ex.getMessage(),
+					    "Warning",
+					    JOptionPane.WARNING_MESSAGE);
 			}
 		}
 	}

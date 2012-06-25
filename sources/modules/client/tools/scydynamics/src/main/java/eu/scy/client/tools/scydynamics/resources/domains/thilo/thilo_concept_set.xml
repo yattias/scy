@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<concept_set name="thilo_photosynthesis"
+             word_order="any">
+
+  <concept name="daylight" type="constant">
+    <term>daylight</term>
+    <term>tageslicht</term>
+    <term>daglicht</term>
+    <term>licht</term>
+    <term>light</term>
+  </concept>
+  
+   <concept name="temperature" type="constant">
+    <term>temperature</term>
+    <term>temperatur</term>
+    <term>temperatuur</term>
+    <term>heat</term>
+    <term>warmth</term>
+  </concept>
+  
+  <concept name="glucose" type="stock">
+    <term>glucose</term>
+    <term>glukose</term>
+  </concept>
+  
+  <concept name="co2" type="stock">
+    <term>co2</term>
+    <term>carbon_dioxide</term>
+  </concept>
+  
+   <concept name="o2" type="stock">
+    <term>o2</term>
+    <term>oxygen</term>
+  </concept>
+  
+  <concept name="photosynthesis" type="auxiliary">
+    <term>photosynthese</term>
+    <term>photosynthesis</term>
+  </concept>
+    
+  <concept name="vegetation" type="auxiliary">
+    <term>plantengroei</term>
+    <term>wachstum</term>
+    <term>plants</term>
+    <term>vegetation</term>
+  </concept>
+  
+  <concept name="glucose_usage" type="auxiliary">
+    <term>glucose_usage</term>
+    <term>glucoseverbruik</term>
+    <term>glukoseverbrauch</term>
+  </concept>
+  
+  <concept name="dissimilation" type="auxiliary">
+    <term>dissimilation</term>
+  </concept>
+  
+</concept_set>
+

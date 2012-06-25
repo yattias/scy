@@ -39,13 +39,18 @@ public class SimulationSettingsPanel extends JPanel {
 		this.editor = editor;
 		calculationMethod = (String) editor.getProperties().get("editor.fixedcalculationmethod");
 		this.setLayout(new BorderLayout());
-		this.setBorder(BorderFactory.createTitledBorder("Simulation settings"));
+		this.setBorder(BorderFactory.createTitledBorder("Model run"));
 		initUI(listener, withDigitSpinner);
 	}
 
 	private void initUI(ActionListener listener, boolean withDigitSpinner) {
 		northPanel = new JPanel();
-		northPanel.setLayout(new java.awt.GridLayout(5, 2));
+		//northPanel.setLayout(new java.awt.GridLayout(5, 2));
+		if (withDigitSpinner) {
+			northPanel.setLayout(new java.awt.GridLayout(5, 2));
+		} else {
+			northPanel.setLayout(new java.awt.GridLayout(5, 2));
+		}
 		startField = new JTextField(6);
 		startField.setHorizontalAlignment(JTextField.RIGHT);
 		startField.setEditable(true);
@@ -62,8 +67,10 @@ public class SimulationSettingsPanel extends JPanel {
 		northPanel.add(stopField);
 		northPanel.add(new JLabel("Time step"));
 		northPanel.add(stepField);
-		northPanel.add(new JLabel("Method"));
-		northPanel.add(methodbox);
+		if (editor.getProperties().get("editor.fixedcalculationmethod") == null) {
+			northPanel.add(new JLabel("Method"));
+			northPanel.add(methodbox);
+		}
 		if (withDigitSpinner) {
 			northPanel.add(new JLabel("Digits in table"));
 			northPanel.add(digitSpinner);
@@ -71,8 +78,9 @@ public class SimulationSettingsPanel extends JPanel {
 		this.add(northPanel, BorderLayout.NORTH);
 		
 		JPanel southPanel = new JPanel();
-		FlowLayout flowCenter = new FlowLayout();
-		flowCenter.setAlignment(FlowLayout.CENTER);
+		FlowLayout leftFlow = new FlowLayout();
+		leftFlow.setAlignment(FlowLayout.LEFT);
+		southPanel.setLayout(leftFlow);
 		runButton = new JButton(Util.getImageIcon("media-playback-start.png"));
 		runButton.setSize(36, 36);
 		runButton.setPreferredSize(new Dimension(36, 36));
@@ -85,11 +93,12 @@ public class SimulationSettingsPanel extends JPanel {
 		stopButton.setActionCommand("stop");
 		stopButton.setSize(36, 36);
 		stopButton.setPreferredSize(new Dimension(36, 36));
-		
 		stopButton.setToolTipText("Stop model");
 		stopButton.setEnabled(false);
 		stopButton.addActionListener(listener);
-		southPanel.add(stopButton);
+		if (Boolean.parseBoolean(editor.getProperties().getProperty("editor.showStopButton"))) {
+			southPanel.add(stopButton);
+		}
 		
 		JButton button = new JButton(Util.getImageIcon("media-floppy.png"));
 		button.setActionCommand("export");
@@ -97,7 +106,7 @@ public class SimulationSettingsPanel extends JPanel {
 		button.setPreferredSize(new Dimension(36, 36));
 		button.setToolTipText("Export to SQX");
 		button.addActionListener(listener);
-		if (editor.getProperties().getProperty("editor.export_to_sqv", "false").equals("true")) {
+		if (Boolean.parseBoolean(editor.getProperties().getProperty("editor.export_to_sqv"))) {
 			southPanel.add(button);
 		}
 		this.add(southPanel, BorderLayout.SOUTH);
@@ -118,8 +127,6 @@ public class SimulationSettingsPanel extends JPanel {
 	}
 
 	public void updateSettings() {
-		System.out.println("SimulationSettingsPanel.updateSettings: Mode = "+editor.getMode());
-
 		Model model = editor.getModel();
 		startField.setText(model.getStart() + "");
 		stopField.setText(model.getStop() + "");
