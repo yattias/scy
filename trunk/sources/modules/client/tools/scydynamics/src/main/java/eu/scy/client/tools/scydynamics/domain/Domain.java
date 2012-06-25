@@ -3,7 +3,6 @@ package eu.scy.client.tools.scydynamics.domain;
 import java.io.File;
 import java.io.FileReader;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,6 +50,9 @@ public class Domain {
 			for (Concept concept: conceptSet.getConcepts()) {			
 				if (concept != null) {
 					for (Term term: concept.getTerms()) {
+						if (termConceptMap.containsKey(term.getTerm())) {
+							debugLogger.warning("duplicate term: "+term+" present in concepts "+concept+" + "+termConceptMap.get(term.getTerm()));
+						}
 						termConceptMap.put(term.getTerm(), concept.getName());
 					}
 				}
