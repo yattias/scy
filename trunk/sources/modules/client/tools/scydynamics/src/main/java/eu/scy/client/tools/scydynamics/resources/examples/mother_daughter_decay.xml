@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.co-lab.nl/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.co-lab.nl/xml Model.xsd" mode="QUANTITATIVE_MODELLING">
+  <descriptor>
+    <symbol>model</symbol>
+  </descriptor>
+  <variables>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>decay_rate_b</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#ef1385</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression>0.03</expression>
+          <unit>?</unit>
+        </constSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>element_c</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#008000</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <stockSpec>
+          <initial>0</initial>
+          <unit>items</unit>
+          <inflow>decay_b</inflow>
+        </stockSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>decay_rate_a</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#010101</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression>0.02</expression>
+          <unit>?</unit>
+        </constSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>element_b</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#000080</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <stockSpec>
+          <initial>0</initial>
+          <unit>items</unit>
+          <inflow>decay_a</inflow>
+          <outflow>decay_b</outflow>
+        </stockSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>element_a</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#fa0000</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <stockSpec>
+          <initial>1000</initial>
+          <unit>items</unit>
+          <outflow>decay_a</outflow>
+        </stockSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>decay_b</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#f46510</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression>decay_rate_b*element_b</expression>
+          <unit>items</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>decay_a</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#2c92bb</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression>decay_rate_a*element_a</expression>
+          <unit>items</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>time</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#000000</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <timeSpec>
+          <unit>?</unit>
+          <time start="0.0" stop="200.0" />
+          <integration method="euler" step="0.1" />
+        </timeSpec>
+      </specification>
+    </varspec>
+  </variables>
+  <layout>
+    <nodes>
+      <nstock symbol="element_c" id="6c35c4b8-0f59-4775-abf4-6c91beef2103" x1="482" y1="48" x2="514" y2="68" label="south" color="#000000" labelColor="#008000" />
+      <nstock symbol="element_b" id="94cd6933-362d-49c1-9d01-9e1f9c14b765" x1="251" y1="49" x2="283" y2="69" label="south" color="#000000" labelColor="#000080" />
+      <nstock symbol="element_a" id="ae1cd536-5cd0-490e-83d0-d67917b84bfc" x1="42" y1="48" x2="74" y2="68" label="south" color="#000000" labelColor="#fa0000" />
+      <naux symbol="decay_b" id="2f924336-b072-40ee-b5a7-22219d3945f2" x1="341" y1="99" x2="373" y2="131" label="south" color="#000000" labelColor="#f46510" />
+      <naux symbol="decay_a" id="33a83de1-17b8-4844-87a5-a6071d331bac" x1="158" y1="112" x2="190" y2="144" label="south" color="#000000" labelColor="#2c92bb" />
+      <nconst symbol="decay_rate_b" id="e7f19aa5-c645-43ee-997d-d29a790abda3" x1="277" y1="132" x2="309" y2="164" label="south" color="#000000" labelColor="#ef1385" />
+      <nconst symbol="decay_rate_a" id="5d011c1d-e628-4c47-a9a1-24605782031c" x1="84" y1="132" x2="116" y2="164" label="south" color="#000000" labelColor="#010101" />
+    </nodes>
+    <links>
+      <lflow symbol="Flow_2" id="c07eb21c-ce24-4360-90ac-07480b568ab5" start="element_b" end="element_c" x1="283" y1="58" x2="482" y2="58" cx1="482" cy1="58" type="lineal" color="#000000" />
+      <lflow symbol="Flow_1" id="158321e7-f021-43e9-964d-ab27a3fee8fc" start="element_a" end="element_b" x1="74" y1="57" x2="251" y2="57" cx1="251" cy1="57" type="lineal" color="#000000" />
+      <lrelation symbol="Relation_5" id="e8f27082-6f48-409c-8cdf-a44278a06e9f" start="decay_rate_a" end="decay_a" type="0" x1="112" y1="144" x2="160" y2="132" cx1="128" cy1="139" cx2="144" cy2="136" color="#000000" />
+      <lrelation symbol="Relation_4" id="76a3c7e4-9c55-4f3b-9b0f-5164b3d7e51a" start="decay_b" end="Flow_2" type="0" x1="363" y1="101" x2="376" y2="65" cx1="368" cy1="89" cx2="366" cy2="75" color="#000000" />
+      <lrelation symbol="Relation_3" id="284e47a3-fedc-4e76-997b-2d8da0728395" start="element_b" end="decay_b" type="0" x1="261" y1="69" x2="343" y2="109" cx1="243" cy1="100" cx2="312" cy2="96" color="#000000" />
+      <lrelation symbol="Relation_2" id="a4a85dc1-42c1-411e-b412-ec5b4f1342a8" start="decay_a" end="Flow_1" type="0" x1="174" y1="113" x2="165" y2="64" cx1="174" cy1="97" cx2="169" cy2="80" color="#000000" />
+      <lrelation symbol="Relation_1" id="b5fbb6de-2f52-44bf-9ffa-3f88a4205d2e" start="element_a" end="decay_a" type="0" x1="74" y1="63" x2="162" y2="120" cx1="108" cy1="73" cx2="133" cy2="101" color="#000000" />
+      <lrelation symbol="Relation_6" id="1d4a855b-6939-413c-9767-9804e17a6292" start="decay_rate_b" end="decay_b" type="0" x1="304" y1="143" x2="348" y2="127" cx1="318" cy1="137" cx2="339" cy2="139" color="#000000" />
+    </links>
+  </layout>
+</model>
+

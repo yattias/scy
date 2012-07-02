@@ -11,6 +11,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 import colab.um.draw.JdFigure;
+import colab.um.xml.model.JxmModel;
 import eu.scy.client.tools.scydynamics.editor.ModelEditor.Mode;
 import eu.scy.client.tools.scydynamics.model.ModelUtils;
 
@@ -38,12 +39,15 @@ public class VariableDialogListener extends MouseAdapter implements ActionListen
 				variableDialog.setQualitativeRelations();
 			}
 
+			// potentially needed to create an undo-point
+			JxmModel oldModelState = variableDialog.getEditor().getModel().getXmModel();
+			
 			String oldName = (String) variableDialog.getFigureProperty("label");
 			String oldExpr = (String) variableDialog.getFigureProperty("expr");
 			String oldUnit = (String) variableDialog.getFigureProperty("unit");
 
-			String newName = ModelUtils.cleanVariableName(variableDialog.getNewName());			
-
+			String newName = ModelUtils.cleanVariableName(variableDialog.getNewName());
+			
 			boolean closeDialog = true;
 			variableDialog.setFigureProperty("label", newName);
 			if (variableDialog.getEditor().getDomain()!= null && !newName.equals(oldName)) {
@@ -94,6 +98,7 @@ public class VariableDialogListener extends MouseAdapter implements ActionListen
 					|| !oldExpr.equals(variableDialog.getQuantitativeExpression())
 					|| !oldUnit.equals(variableDialog.getUnit())) {
 				// name, expression, unit or color has changed, send a change-specification-logevent
+				variableDialog.getEditor().getSelection().addUndoPoint(oldModelState);
 				variableDialog.getEditor().getActionLogger().logChangeSpecification(variableDialog.getFigure().getID(), newName, variableDialog.getQuantitativeExpression(), variableDialog.getUnit(), variableDialog.getEditor().getModelXML());
 				// and set the (possibly new) color of the object
 				variableDialog.getEditor().getModel().getObjectOfName((String) variableDialog.getFigureProperty("label")).setLabelColor(variableDialog.getNewColor());
@@ -102,7 +107,7 @@ public class VariableDialogListener extends MouseAdapter implements ActionListen
 			if (variableDialog.getEditor().isSynchronized()) {
 				variableDialog.getEditor().getModelSyncControl().changeObject(this.variableDialog.getFigure());
             }
-
+			
 			if (closeDialog) {
 				variableDialog.closeDialog();
 			} else {

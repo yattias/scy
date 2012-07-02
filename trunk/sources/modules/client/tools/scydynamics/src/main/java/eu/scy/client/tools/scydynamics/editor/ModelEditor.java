@@ -5,22 +5,18 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Properties;
 import java.util.Vector;
 import java.util.logging.Logger;
 
-import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
-import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -50,7 +46,6 @@ import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import eu.scy.client.tools.scydynamics.collaboration.ModelSyncControl;
 import eu.scy.client.tools.scydynamics.domain.Domain;
-import eu.scy.client.tools.scydynamics.listeners.EditorActionListener;
 import eu.scy.client.tools.scydynamics.listeners.EditorMouseListener;
 import eu.scy.client.tools.scydynamics.logging.IModellingLogger;
 import eu.scy.client.tools.scydynamics.logging.ModellingLogger;
@@ -115,7 +110,6 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	private ToolBrokerAPI toolBroker;
 	private Domain domain;
 	// private ModellingSQLSpacesLogger sqlspacesLogger;
-	private EditorActionListener actionListener;
 	private String username = "unknown_user";
 	private SCYDynamicsStore scyDynamicsStore = null;
 	private AbstractModellingStandalone abstractModelling;
@@ -137,8 +131,25 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		new JTools(JColab.JCOLABAPP_RESOURCES, JColab.JCOLABSYS_RESOURCES);
 		initComponents();
 		setNewModel();
-		selection = new ModelSelection();
+		selection = new ModelSelection(this);
 		setMode(properties.getProperty("editor.mode", "quantitative_modelling"));
+	}
+	
+	public boolean isEditable() {
+		if (getMode()==Mode.BLACK_BOX || getMode()==Mode.CLEAR_BOX) {
+    		// editing the model is not allowed
+    		return false;
+    	} else {
+    		return true;
+    	}
+	}
+	
+	public ModelSelection getModelSelection() {
+		return this.selection;
+	}
+	
+	public AbstractModellingStandalone getAbstractModelling() {
+		return this.abstractModelling;
 	}
 
 	
@@ -378,7 +389,6 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	}
 
 	private void initComponents() {
-		actionListener = new EditorActionListener(this);
 		// same color as background -> invisible
 		UIManager.put("TabbedPane.focus", new Color(200,221,242));
 		tabbedPane = new JTabbedPane();
@@ -393,16 +403,16 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		this.setLayout(new BorderLayout());
 		this.add(tabbedPane, BorderLayout.CENTER);
 		addTabs();
-
-		this.registerKeyboardAction(actionListener, EditorToolbar.DELETE + "", KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
-		this.registerKeyboardAction(actionListener, EditorToolbar.COPY + "", KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK, false), JComponent.WHEN_IN_FOCUSED_WINDOW);
-		this.registerKeyboardAction(actionListener, EditorToolbar.PASTE + "", KeyStroke.getKeyStroke(KeyEvent.VK_V, ActionEvent.CTRL_MASK, false), JComponent.WHEN_IN_FOCUSED_WINDOW);
-		this.registerKeyboardAction(actionListener, EditorToolbar.CUT + "", KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.CTRL_MASK, false), JComponent.WHEN_IN_FOCUSED_WINDOW);
-		this.registerKeyboardAction(actionListener, EditorToolbar.ALL + "", KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK, false), JComponent.WHEN_IN_FOCUSED_WINDOW);
+//
+//		this.registerKeyboardAction(actionListener, EditorToolbar.DELETE + "", KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+//		this.registerKeyboardAction(actionListener, EditorToolbar.COPY + "", KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK, false), JComponent.WHEN_IN_FOCUSED_WINDOW);
+//		this.registerKeyboardAction(actionListener, EditorToolbar.PASTE + "", KeyStroke.getKeyStroke(KeyEvent.VK_V, ActionEvent.CTRL_MASK, false), JComponent.WHEN_IN_FOCUSED_WINDOW);
+//		this.registerKeyboardAction(actionListener, EditorToolbar.CUT + "", KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.CTRL_MASK, false), JComponent.WHEN_IN_FOCUSED_WINDOW);
+//		this.registerKeyboardAction(actionListener, EditorToolbar.ALL + "", KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK, false), JComponent.WHEN_IN_FOCUSED_WINDOW);
 	}
 
 	public void addTabs() {
-		editorTab = new EditorTab(this, actionListener, bundle);
+		editorTab = new EditorTab(this, bundle);
 		this.editorPanel = (editorTab).getEditorPanel();
 		this.toolbar = (editorTab).getToolbar();
 		tabbedPane.setBackground(Color.GRAY.brighter());
@@ -768,56 +778,10 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		return (parser.isConstant() && valid);
 	}
 
-	// ---------------------------------------------------------------------------
-	// set/get editor action
-	// ---------------------------------------------------------------------------
-	// private void setAction(String aCmd, int a) {
-	// JTools.setToolBarToggleButtonSelected(aToolbar, aCmd);
-	// //aControl.setAction(a);
-	// }
-	// -------------------------------------------------------------------------
-	// public void setFixAction(boolean b) {
-	// fixAction = b;
-	// aEditorVT.setFixAction(b);
-	// }
-	// -------------------------------------------------------------------------
-	// public void restoreAction() {
-	// if (!fixAction && !"cursor".equals(eAction))
-	// setAction("cursor");
-	// }
-	// -------------------------------------------------------------------------
-	// ---------------------------------------------------------------------------
-	// selection: undo/copy/paste/cut
-	// ---------------------------------------------------------------------------
 	public ModelSelection getSelection() {
 		return selection;
 	}
 
-	// public void undoModel() {
-	// aSelection.undoModel(this);
-	// }
-	
-	public void saveModel() {
-		selection.saveModel(this);
-	}
-
-	public void clearSaveFirstModel() {
-		selection.clearSaveFirstModel();
-	}
-
-	public void saveFirstModel() {
-		selection.saveFirstModel(this);
-	}
-
-	public void clearUndoModel() {
-		selection.clearUndoModel();
-	}
-
-	// ---------------------------------------------------------------------------
-	// public void enableUndoButton(boolean b) {
-	// aEditorVT.enableUndoButton(b);
-	// }
-	// ---------------------------------------------------------------------------
 	public Hashtable<String, JdObject> getCopySelection() {
 		return selection.getCopySelection();
 	}
@@ -831,10 +795,8 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	public void clearSelectedObjects() {
 		selection.unselectAll();
 		updateCanvas();
-		// this.updateSpecDialog(true);
 	}
 
-	// -------------------------------------------------------------------------
 	public void selectAllObjects() {
 		if (model == null) {
 			return;
@@ -844,10 +806,8 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 			selection.selectObject(o, true);
 		}
 		updateCanvas();
-		// updateSpecDialog(true);
 	}
 
-	// ---------------------------------------------------------------------------
 	public void selectObjects(Vector<String> v) {
 		if (model == null) {
 			return;
@@ -1047,6 +1007,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		}
 	}
 
+	@Override
 	public void adjustmentValueChanged(AdjustmentEvent e) {
 		Hashtable<String, Object> h = new Hashtable<String, Object>();
 		h.put("orientation", (e.getAdjustable().getOrientation() == Adjustable.HORIZONTAL) ? "horizontal" : "vertical");

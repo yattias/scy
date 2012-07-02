@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.co-lab.nl/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.co-lab.nl/xml Model.xsd" mode="QUANTITATIVE_MODELLING">
+  <descriptor>
+    <symbol>model</symbol>
+  </descriptor>
+  <variables>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>r</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#9a7c32</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression>0.5</expression>
+          <unit>?</unit>
+        </constSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>gains_predator</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#73be1e</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression>d*prey*predator</expression>
+          <unit>?</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>prey</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#008000</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <stockSpec>
+          <initial>4</initial>
+          <unit>?</unit>
+          <inflow>gains_prey</inflow>
+          <outflow>losses_prey</outflow>
+        </stockSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>time</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#000000</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <timeSpec>
+          <unit>?</unit>
+          <time start="0.0" stop="100.0" />
+          <integration method="euler" step="0.01" />
+        </timeSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>gains_prey</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#4c47ff</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression>prey*r</expression>
+          <unit>?</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>predator</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#2c92bb</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <stockSpec>
+          <initial>2</initial>
+          <unit>?</unit>
+          <inflow>gains_predator</inflow>
+          <outflow>losses_predator</outflow>
+        </stockSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>losses_prey</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#f86856</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression>b*predator*prey</expression>
+          <unit>?</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>d</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#7c009f</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression>0.1</expression>
+          <unit>?</unit>
+        </constSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>losses_predator</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#5ad8ff</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression>c*predator</expression>
+          <unit>?</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>c</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#f79900</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression>0.2</expression>
+          <unit>?</unit>
+        </constSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>b</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#b20000</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression>0.1</expression>
+          <unit>?</unit>
+        </constSpec>
+      </specification>
+    </varspec>
+  </variables>
+  <layout>
+    <nodes>
+      <nstock symbol="predator" id="90f13b66-afe9-4678-b8d9-11c7f5a0a8b4" x1="274" y1="229" x2="306" y2="249" label="south" color="#000000" labelColor="#2c92bb" />
+      <nstock symbol="prey" id="54d9b131-731f-4581-807b-9dcc4ab4073b" x1="279" y1="51" x2="311" y2="71" label="south" color="#000000" labelColor="#008000" />
+      <naux symbol="gains_predator" id="44d8d084-8a0c-4b41-8e8f-ae361b37fdfb" x1="150" y1="292" x2="182" y2="324" label="south" color="#000000" labelColor="#73be1e" />
+      <naux symbol="gains_prey" id="f789de23-ec3c-4aa2-a29c-9c6d7387ba38" x1="157" y1="105" x2="189" y2="137" label="south" color="#000000" labelColor="#4c47ff" />
+      <naux symbol="losses_prey" id="b1bddc1e-df38-4f2f-a4d1-4abbb8d15ba7" x1="383" y1="104" x2="415" y2="136" label="south" color="#000000" labelColor="#f86856" />
+      <naux symbol="losses_predator" id="f3c78b61-1621-4ff7-a3a3-81242901d434" x1="377" y1="282" x2="409" y2="314" label="south" color="#000000" labelColor="#5ad8ff" />
+      <nconst symbol="b" id="046fedeb-ff03-4ea8-86db-4723f57e1ca1" x1="496" y1="147" x2="528" y2="179" label="south" color="#000000" labelColor="#b20000" />
+      <nconst symbol="r" id="1dc1691b-2a1f-417c-98db-d0d247bd868a" x1="61" y1="125" x2="93" y2="157" label="south" color="#000000" labelColor="#9a7c32" />
+      <nconst symbol="d" id="eb244a18-79fe-4b4e-bf3c-6bb1e6753561" x1="78" y1="361" x2="110" y2="393" label="south" color="#000000" labelColor="#7c009f" />
+      <nconst symbol="c" id="684f77fb-08ca-49fd-8446-4be968a01aa2" x1="460" y1="345" x2="492" y2="377" label="south" color="#000000" labelColor="#f79900" />
+    </nodes>
+    <links>
+      <lflow symbol="Flow_4" id="0f278e40-50b6-48de-9dbc-25b0ae3c2628" end="predator" x1="53" y1="239" x2="274" y2="239" cx1="274" cy1="239" type="lineal" color="#000000" />
+      <lflow symbol="Flow_3" id="34e3a378-c35c-436a-a099-ce79ee1b9061" end="prey" x1="64" y1="61" x2="279" y2="61" cx1="279" cy1="61" type="lineal" color="#000000" />
+      <lflow symbol="Flow_2" id="cbfc4f62-4d15-48c7-b278-42e5eace9faa" start="predator" x1="306" y1="241" x2="482" y2="241" cx1="482" cy1="241" type="lineal" color="#000000" />
+      <lflow symbol="Flow_1" id="733e5342-c905-46a1-aa21-c9c8ce0cc73d" start="prey" x1="311" y1="62" x2="491" y2="62" cx1="491" cy1="62" type="lineal" color="#000000" />
+      <lrelation symbol="Relation_9" id="be32d234-577a-4615-a904-ec0b833d4168" start="prey" end="gains_prey" type="0" x1="279" y1="70" x2="186" y2="113" cx1="249" cy1="87" cx2="215" cy2="95" color="#000000" />
+      <lrelation symbol="Relation_8" id="12a3ce4a-8d9c-49ae-a2d6-24fd2aea06f0" start="d" end="gains_predator" type="0" x1="96" y1="363" x2="155" y2="318" cx1="99" cy1="337" cx2="135" cy2="336" color="#000000" />
+      <lrelation symbol="Relation_14" id="d34365a7-cbea-4ee2-b5c7-4782dec5f62f" start="predator" end="losses_prey" type="0" x1="306" y1="229" x2="384" y2="120" cx1="347" cy1="203" cx2="337" cy2="120" color="#000000" />
+      <lrelation symbol="Relation_7" id="cfb96e99-046c-4697-907f-ad69415bfbee" start="c" end="losses_predator" type="0" x1="474" y1="346" x2="407" y2="306" cx1="471" cy1="319" cx2="430" cy2="319" color="#000000" />
+      <lrelation symbol="Relation_13" id="eb89c421-0e8e-4715-a3ec-ba8cf5d0e00c" start="prey" end="gains_predator" type="0" x1="284" y1="71" x2="174" y2="295" cx1="218" cy1="131" cx2="218" cy2="223" color="#000000" />
+      <lrelation symbol="Relation_6" id="cd0691d4-161c-4aba-ad80-638f88f93a03" start="b" end="losses_prey" type="0" x1="504" y1="154" x2="414" y2="126" cx1="483" cy1="130" cx2="444" cy2="138" color="#000000" />
+      <lrelation symbol="Relation_12" id="827a8275-e957-4f1d-9a47-e3c76c216d98" start="predator" end="losses_predator" type="0" x1="306" y1="248" x2="378" y2="298" cx1="332" cy1="262" cx2="349" cy2="298" color="#000000" />
+      <lrelation symbol="Relation_5" id="580c1fdb-543d-4263-bc74-fd41003e1b9e" start="r" end="gains_prey" type="0" x1="85" y1="133" x2="161" y2="112" cx1="104" cy1="114" cx2="140" cy2="96" color="#000000" />
+      <lrelation symbol="Relation_11" id="06d282f7-5476-4cea-bdc1-b87e8f4cb4bd" start="predator" end="gains_predator" type="0" x1="274" y1="248" x2="180" y2="302" cx1="242" cy1="266" cx2="213" cy2="288" color="#000000" />
+      <lrelation symbol="Relation_4" id="4e56ae13-0856-4d2e-9cc9-9370bff82fd1" start="losses_predator" end="Flow_2" type="0" x1="401" y1="285" x2="396" y2="248" cx1="407" cy1="275" cx2="399" cy2="260" color="#000000" />
+      <lrelation symbol="Relation_10" id="8730ea62-94b0-4eb4-823c-d06edd213209" start="prey" end="losses_prey" type="0" x1="305" y1="71" x2="389" y2="110" cx1="327" cy1="93" cx2="367" cy2="88" color="#000000" />
+      <lrelation symbol="Relation_3" id="60008926-1a74-4f62-8a85-4355b1a0292a" start="gains_predator" end="Flow_4" type="0" x1="166" y1="293" x2="157" y2="246" cx1="166" cy1="276" cx2="144" cy2="259" color="#000000" />
+      <lrelation symbol="Relation_2" id="a9d71eeb-b2bb-4f3c-ac4a-02d0d69d6013" start="losses_prey" end="Flow_1" type="0" x1="399" y1="105" x2="394" y2="69" cx1="399" cy1="92" cx2="384" cy2="79" color="#000000" />
+      <lrelation symbol="Relation_1" id="7e0f3915-4026-45a7-a6bb-5e76bc1be736" start="gains_prey" end="Flow_3" type="0" x1="176" y1="106" x2="179" y2="68" cx1="178" cy1="94" cx2="188" cy2="77" color="#000000" />
+    </links>
+  </layout>
+</model>
+

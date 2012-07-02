@@ -131,8 +131,6 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
 
     public void setAction(int action) {
         editor.setCursor(action);
-        // TODO
-        // clearSelectedObjects();
     }
 
     private JdObject getObjectAt(int x, int y) {
@@ -197,8 +195,8 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
     	}
         fStart = model.getSmallFigureAt(x, y);
         if (fStart == null) { // free position?
-            editor.saveModel();
-            model.addObject(aNode, true);
+        	editor.getSelection().addUndoPoint();            
+        	model.addObject(aNode, true);
             editor.setModelChanged();
             editor.selectObject(aNode, false);
             editor.getEditorToolbar().toCursorAction();
@@ -216,8 +214,8 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
     	}
         fStart = model.getSmallFigureAt(x, y);
         if (validateLinkFig1(aLink, fStart)) { // can link start on object?
-            editor.saveModel();
-            allowDrag = true;
+        	editor.getSelection().addUndoPoint();
+        	allowDrag = true;
             dragPoint = JdHandle.H_P2;
             fLink = aLink;
             fOver = fStart;
@@ -242,7 +240,6 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
             editor.startRect(x, y);
             allowDrag = true;
         } else { // click in figure -> what do we do?
-            editor.clearSaveFirstModel();
             editor.getSelection().setStart(x, y);
             switch (fStart.getType()) {
                 case JdFigure.STOCK:
@@ -283,9 +280,9 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
     }
 
     private void actionDelete(int x, int y) {
-        editor.saveModel();
-        fStart = getObjectAt(x, y);
+    	fStart = getObjectAt(x, y);
         if (fStart != null) {
+        	editor.getSelection().addUndoPoint();
             editor.deleteFigure(((JdObject) fStart).getLabel(), false);
             editor.getEditorToolbar().toCursorAction();
         }
@@ -293,8 +290,7 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
 
     private void actionDragCursor(int x, int y) {
         if (fStart != null) {
-            editor.saveFirstModel();
-            if (fStart.isObject()) { // move selected objects
+        	if (fStart.isObject()) { // move selected objects
                 editor.getSelection().translate(x, y, model.getLinks());
             } else if (fStart.isHandle()) { // drag link
                 JdHandle h = (JdHandle) fStart;
@@ -322,8 +318,7 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
 
     private void dragLink(int x, int y) {
         boolean b = true;
-        editor.saveFirstModel();
-        switch (dragPoint) {
+    	switch (dragPoint) {
             case JdHandle.H_P1:
                 JdFigure f1 = model.getFigureAt(x, y, fLink);
                 if (fOver != null) {
@@ -500,6 +495,7 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
 
     private void actionEndLink() {
         if (!allowDrag) {
+        	// go here when link has been started on nothing
             return;
         }
         boolean b = true;
@@ -509,13 +505,16 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
                 if (b) { // can link stop on object?
                     fLink.setFigure1(fOver);
                 } else {
+                	System.out.println("actionEndLink (bot) - consume undo point");
+                	editor.getSelection().consumeFirstUndoPoint();
                     model.removeObjectAndRelations(fLink);
                 }
                 editor.setModelChanged();
                 break;
             case JdHandle.H_P2:
                 b = allowConnection2(fLink, fOver);
-                if (b) { // can link stop on object?
+                if (b) {
+                	// go here is link starts and ends on valid objects
                     if (fLink.isRelation() && fOver.isAux()) {
                         if (((JdRelation) fLink).getRelationType() != JdRelation.R_FX) {
                             ((JdAux) fOver).setExprType(JdNode.EXPR_QUALITATIVE);
@@ -528,19 +527,24 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
                     	editor.getModelSyncControl().addLink(fLink);
                     }
                 } else {
+                	// go here if link is released not on a valid object
+                	System.out.println("actionEndLink (top) - consume undo point");
+                	editor.getSelection().consumeFirstUndoPoint();
                     model.removeObjectAndRelations(fLink);
                 }
                 editor.setModelChanged();
                 break;
         }
         if (fOver != null) {
-            if (fOver.isNode()) {
+        	if (fOver.isNode()) {
                 editor.selectObject((JdNode) fOver, false);
             }
             fOver.setEnhanced(false);
             fOver = null;
         }
         //setEditorCursor(lastCursor);
+        
+        
         fLink = null;
         editor.getSelection().setEnhanced(true);
         editor.setModelChanged();
