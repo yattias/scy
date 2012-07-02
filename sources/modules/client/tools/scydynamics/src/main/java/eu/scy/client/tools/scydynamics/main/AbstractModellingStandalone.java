@@ -10,23 +10,26 @@ import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
 
 import eu.scy.client.tools.scydynamics.editor.ModelEditor;
-import eu.scy.client.tools.scydynamics.logging.ModellingLogger;
+import eu.scy.client.tools.scydynamics.editor.menu.EditorMenuBar;
+import eu.scy.client.tools.scydynamics.editor.menu.file.ExitAction;
 import eu.scy.client.tools.scydynamics.model.ModelUtils;
 import eu.scy.client.tools.scydynamics.store.FileStore;
-import eu.scy.client.tools.scydynamics.store.SCYDynamicsStore.StoreType;
 
 @SuppressWarnings("serial")
 public abstract class AbstractModellingStandalone extends JFrame implements WindowListener {
 	
 	private ModelEditor editor;
+	private EditorMenuBar menuBar;
+	@SuppressWarnings("unused")
 	private final static Logger debugLogger = Logger.getLogger(AbstractModellingStandalone.class.getName());
 	
 	public AbstractModellingStandalone(String title) {
 		super(title);
 		Locale.setDefault(new Locale("en"));
-		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		this.addWindowListener(this);
 		editor = new ModelEditor(getProperties(), getUsername(getProperties()), this);
 		editor.setSCYDynamicsStore(new FileStore(editor));
@@ -36,6 +39,18 @@ public abstract class AbstractModellingStandalone extends JFrame implements Wind
 		this.pack();
 		this.setVisible(true);
 		editor.updateTitle();
+		menuBar = new EditorMenuBar(editor);
+		
+		if (Boolean.parseBoolean(editor.getProperties().getProperty("editor.showMenu"))) {
+			this.setJMenuBar(menuBar);
+		}
+		// trick to get the menu showing up 100%
+		this.setSize(this.getWidth()+1, this.getHeight());
+		this.setSize(this.getWidth()-1, this.getHeight());
+	}
+	
+	public EditorMenuBar getMenu() {
+		return this.menuBar;
 	}
 	
 	public static String getUsername(Properties props) {
@@ -76,28 +91,7 @@ public abstract class AbstractModellingStandalone extends JFrame implements Wind
 	
 	@Override
 	public void windowClosing(WindowEvent e) {
-		int n = JOptionPane.showConfirmDialog(this, "Do you want to save the model\nbefore exiting?", "exiting...", JOptionPane.YES_NO_CANCEL_OPTION);
-		if (n == JOptionPane.YES_OPTION) {
-			try {
-				editor.getSCYDynamicsStore().saveAsModel();	
-			} catch (Exception ex) {
-				debugLogger.severe(ex.getMessage());
-				JOptionPane.showMessageDialog(javax.swing.JOptionPane.getFrameForComponent(editor),
-					    "The model could not be stored:\n"+ex.getMessage(),
-					    "Warning",
-					    JOptionPane.WARNING_MESSAGE);
-			}
-		} else if (n == JOptionPane.NO_OPTION){
-			// doing nothing
-		} else if (n == JOptionPane.CANCEL_OPTION) {
-			return;
-		}
-		editor.getActionLogger().logSimpleAction(ModellingLogger.EXIT_APPLICATION);
-		editor.getActionLogger().close();
-		editor.doAutosave(StoreType.ON_EXIT);
-		this.setVisible(false);
-		this.dispose();
-		System.exit(0);
+		new ExitAction(editor).actionPerformed(null);
 	}
 	
 	@Override

@@ -13,6 +13,8 @@ public class ModellingStandalone extends AbstractModellingStandalone {
 	public Properties getProperties() {
 		Properties props = new Properties();
 		props.put("editor.saveasdataset", "true");
+		props.put("editor.showMenu", "true");
+		props.put("editor.filetoolbar", "false");		
 		props.put("show.popouttabs", "true");
 		props.put("editor.mode", "quantitative_modelling");
 		props.put("editor.modes_selectable", "false");

@@ -2,7 +2,6 @@ package eu.scy.client.tools.scydynamics.editor;
 
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import java.awt.BorderLayout;
-import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -16,18 +15,16 @@ public class EditorTab extends JPanel implements ChangeListener {
     private EditorPanel editorPanel;
     private EditorToolbar toolbar;
     private FileToolbar filetoolbar;
-    private final ResourceBundleWrapper bundle;
-
-    public EditorTab(ModelEditor editor, ActionListener listener, ResourceBundleWrapper bundle) {
+    
+    public EditorTab(ModelEditor editor, ResourceBundleWrapper bundle) {
         super();
         this.editor = editor;
-        this.bundle = bundle;
         this.setLayout(new BorderLayout());
         editorPanel = new EditorPanel();
-        toolbar = new EditorToolbar(listener, bundle);
+        toolbar = new EditorToolbar(editor, bundle);
         filetoolbar = new FileToolbar(editor, bundle);
         this.add(toolbar, BorderLayout.WEST);
-        if (editor.getProperties().get("show.filetoolbar").equals("true")) {
+        if (editor.getProperties().getProperty("editor.filetoolbar", "true").equals("true")) {
             this.add(filetoolbar, BorderLayout.NORTH);
         }
 		JScrollPane scroller = new JScrollPane();

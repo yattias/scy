@@ -295,7 +295,7 @@ public class ModelSyncControl implements ISyncListener {
 			}
 			newNode.setID((String) syncObject.getProperty(id));
 			newNode.setUnit((String) syncObject.getProperty(unit));
-			editor.saveModel();
+			editor.getModelSelection().addUndoPoint();
 			editor.getModel().addObject(newNode, true);
 			editor.setModelChanged();
 			editor.updateCanvas();
@@ -321,7 +321,7 @@ public class ModelSyncControl implements ISyncListener {
 		synchronized(changeLock) {
 			System.out.println("----- syncObjectChanged: applying changes to local object "+object.getLabel());
 			System.out.println("----- property keys: "+syncObject.getProperties().keySet());
-			editor.saveModel();
+			editor.getModelSelection().addUndoPoint();
 			String oldName = object.getLabel();
 			Hashtable<String, Object> properties = object.getProperties();
 			for (String key : syncObject.getProperties().keySet()) {
@@ -380,7 +380,7 @@ public class ModelSyncControl implements ISyncListener {
 				return;
 			}
 			System.out.println("--- deleting object with label "+object.getLabel());
-			editor.saveModel();
+			editor.getModelSelection().addUndoPoint();
 			editor.getModel().removeObjectAndRelations(object);
 			editor.setModelChanged();
 			editor.checkModel();

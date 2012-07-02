@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.co-lab.nl/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.co-lab.nl/xml Model.xsd" mode="QUANTITATIVE_MODELLING">
+  <descriptor>
+    <symbol>model</symbol>
+  </descriptor>
+  <variables>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>water_level</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#b83e3e</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <stockSpec>
+          <initial>100</initial>
+          <unit>?</unit>
+          <inflow>inflow_tap</inflow>
+          <outflow>outflow_hole</outflow>
+        </stockSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>inflow_tap</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#6e31b2</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression>5</expression>
+          <unit>?</unit>
+        </constSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>hole_size</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#31b272</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression>0.1</expression>
+          <unit>?</unit>
+        </constSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>time</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#000000</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <timeSpec>
+          <unit>?</unit>
+          <time start="0.0" stop="100.0" />
+          <integration method="euler" step="0.1" />
+        </timeSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>outflow_hole</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#33b22d</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression>water_level*hole_size</expression>
+          <unit>?</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+  </variables>
+  <layout>
+    <nodes>
+      <nstock symbol="water_level" id="6d889229-ce4e-434a-9958-21ca3005b540" x1="239" y1="105" x2="271" y2="125" label="south" color="#000000" labelColor="#b83e3e" />
+      <naux symbol="outflow_hole" id="2ba1511f-2a5b-4f20-8d0e-ad81e6ad1382" x1="288" y1="172" x2="320" y2="204" label="south" color="#000000" labelColor="#33b22d" />
+      <nconst symbol="inflow_tap" id="21c111c6-3bd1-482f-9ff4-d552c2eb0163" x1="95" y1="34" x2="127" y2="66" label="south" color="#000000" labelColor="#6e31b2" />
+      <nconst symbol="hole_size" id="a7857b9b-af71-4cbe-aaaf-4dd331b01cf4" x1="187" y1="185" x2="219" y2="217" label="south" color="#000000" labelColor="#31b272" />
+    </nodes>
+    <links>
+      <lflow symbol="Flow_2" id="da1017cf-3d2e-4e4c-98d5-587b57480b21" start="water_level" x1="271" y1="116" x2="426" y2="116" cx1="426" cy1="116" type="lineal" color="#000000" />
+      <lflow symbol="Flow_1" id="f3be390c-062a-41c9-8044-f23652c31a89" end="water_level" x1="51" y1="116" x2="239" y2="116" cx1="239" cy1="116" type="lineal" color="#000000" />
+      <lrelation symbol="Relation_4" id="2f6ebb64-9187-4844-98aa-555db55853fd" start="water_level" end="outflow_hole" type="0" x1="256" y1="125" x2="291" y2="181" cx1="258" cy1="147" cx2="271" cy2="170" color="#000000" />
+      <lrelation symbol="Relation_3" id="db3a783b-6a84-44b6-8a4b-b7c86f5512ad" start="outflow_hole" end="Flow_2" type="0" x1="318" y1="181" x2="349" y2="123" cx1="340" cy1="170" cx2="349" cy2="147" color="#000000" />
+      <lrelation symbol="Relation_2" id="1a831fef-5d3f-4fb9-8833-4321b244ab4d" start="hole_size" end="outflow_hole" type="0" x1="218" y1="200" x2="292" y2="197" cx1="242" cy1="199" cx2="273" cy2="211" color="#000000" />
+      <lrelation symbol="Relation_1" id="6bea9f38-a5cf-42ab-8119-53d8a8e4a539" start="inflow_tap" end="Flow_1" type="0" x1="120" y1="56" x2="149" y2="109" cx1="139" cy1="69" cx2="159" cy2="91" color="#000000" />
+    </links>
+  </layout>
+</model>
+
