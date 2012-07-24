@@ -34,6 +34,7 @@ import eu.scy.actionlogging.Action;
 import eu.scy.client.tools.scydynamics.domain.Domain;
 import eu.scy.client.tools.scydynamics.logging.ModellingLogger;
 import eu.scy.client.tools.scydynamics.logging.ModellingLoggerFES;
+import eu.scy.client.tools.scydynamics.logging.parser.actions.FeedbackTimelineAction;
 import eu.scy.client.tools.scydynamics.logging.parser.actions.FilterTimeAction;
 import eu.scy.client.tools.scydynamics.logging.parser.actions.ReleaseFilterAction;
 import eu.scy.client.tools.scydynamics.logging.parser.actions.ShowStatisticsAction;
@@ -60,6 +61,7 @@ public class ParserControl implements ActionListener, Runnable {
 		view.filterTimeButton.setAction(new FilterTimeAction(view, model, domain));
 		view.statisticsButton.setAction(new ShowStatisticsAction(view, model, domain));
 		view.releaseFilterButton.setAction(new ReleaseFilterAction(view, model, domain));
+		view.feedbackButton.setAction(new FeedbackTimelineAction(view, model, domain));
 	}
 	
 	private void chooseFolder() {

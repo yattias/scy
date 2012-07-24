@@ -54,14 +54,13 @@ public class Model {
 	private String method;
 	private String name = "model";
 	private boolean bQualitative = true; // allow qualitative modelling?
-	//private IModellingLogger logger;
 	private ModelEditor editor;
 
 	public Model(ModelEditor editor) {
 		this.editor = editor;
 		setDefaultTimes();
 	}
-
+	
 	public void  setForeground(Color c) { fColor = c; }
 	public void  setBackground(Color c) { bColor = c; }
 	public Color getForeground()        { return fColor; }
@@ -104,7 +103,6 @@ public class Model {
 		objs.put(aObj.getLabel(), aObj);
 		// this has to be logged in the EditorMouseListener
 		// because of the "adding link in progress problem"
-		//logger.logAddAction(aObj);
 	}
 	
 	public void clearQualitativeRelations() {

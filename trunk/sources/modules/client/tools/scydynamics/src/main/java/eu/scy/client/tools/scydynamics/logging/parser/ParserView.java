@@ -34,6 +34,7 @@ public class ParserView extends JFrame {
 	protected JButton filterTimeButton;
 	private UserTimeline userTimeline;
 	protected JButton releaseFilterButton;
+	protected JButton feedbackButton;
 	
 	public ParserView(ParserModel model) {
 		super("log parser");
@@ -42,12 +43,13 @@ public class ParserView extends JFrame {
 	}
 	
 	private void initUI() {
-		this.getContentPane().setLayout(new BorderLayout());
+		this.getContentPane().setLayout(new BorderLayout());		
 		this.getContentPane().add(createNorthPanel(), BorderLayout.NORTH);
 		this.getContentPane().add(createCenterPanel(), BorderLayout.CENTER);
 		this.getContentPane().add(createWestPanel(), BorderLayout.WEST);
 		this.getContentPane().add(createSouthPanel(), BorderLayout.SOUTH);		
 		this.pack();
+		this.setSize(1000, 750);
 	}
 
 	public void setActionListener(ActionListener listener) {
@@ -80,18 +82,19 @@ public class ParserView extends JFrame {
 //		panel.add(notRecognizedProposalButton);
 		
 		statisticsButton = new JButton("statistics");
-		//statisticsButton.setActionCommand("statistics");
 		panel.add(statisticsButton);
 		
 		termsButton = new JButton();
 		panel.add(termsButton);
 		
 		filterTimeButton = new JButton();
-		filterTimeButton.setActionCommand("filter");
 		panel.add(filterTimeButton);
 		
 		releaseFilterButton = new JButton();
 		panel.add(releaseFilterButton);
+		
+		feedbackButton = new JButton();
+		panel.add(feedbackButton);
 		return panel;
 	}
 	

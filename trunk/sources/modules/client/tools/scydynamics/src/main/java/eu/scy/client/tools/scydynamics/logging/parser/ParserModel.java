@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import eu.scy.actionlogging.api.IAction;
+import eu.scy.client.tools.scydynamics.domain.Domain;
 
 public class ParserModel {
 
@@ -13,8 +14,10 @@ public class ParserModel {
 	// users are organized by username in this hashmap
 	private HashMap<String, UserModel> userModels;
 	private HashMap<String, UserModel> backupUserModels;
+	private Domain domain;
 	
-	public ParserModel() {
+	public ParserModel(Domain domain) {
+		this.domain = domain;
 		userModels = new HashMap<String, UserModel>();
 		backupUserModels = new HashMap<String, UserModel>();
 	}
@@ -65,7 +68,7 @@ public class ParserModel {
 		// add action to user-specific action list
 		if (userModels.get(newAction.getUser()) == null) {
 			// user does not exist yet -> create
-			userModels.put(newAction.getUser(), new UserModel(newAction.getUser()));
+			userModels.put(newAction.getUser(), new UserModel(newAction.getUser(), domain));
 		}
 		userModels.get(newAction.getUser()).addAction(newAction);
 	}

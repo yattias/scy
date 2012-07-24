@@ -5,14 +5,18 @@ import java.util.LinkedList;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import eu.scy.actionlogging.api.ContextConstants;
+import colab.um.xml.model.JxmModel;
+
 import eu.scy.actionlogging.api.IAction;
+import eu.scy.client.tools.scydynamics.domain.Domain;
+import eu.scy.client.tools.scydynamics.domain.Feedback;
 import eu.scy.client.tools.scydynamics.logging.ModellingLogger;
 import eu.scy.client.tools.scydynamics.logging.ModellingLoggerFES;
+import eu.scy.client.tools.scydynamics.model.Model;
 
 public class UserModel {
 
-	public static final String STATISTICS_TEMPLATE = "name, actions[#], duration[minutes], phase_changes[#], feedback_requested[#], model_ran[#], model_ran_error[#]";
+	public static final String STATISTICS_TEMPLATE = "name, actions, duration[minutes], phase_changes, feedback_requested, model_ran, model_ran_error, model_score, correctNodeNames, incorrectNodeNames, correctRelations, incorrectRelations, correctDirections, incorrectDirections, links_added, links_deleted";
 	private String userName;
 	// actions are organized by timestamp in this treemap
 	private TreeMap<Long, IAction> actions;
@@ -22,9 +26,14 @@ public class UserModel {
 	private boolean statisticsValid;
 	private LinkedList<IAction> modelRanActions;
 	private LinkedList<IAction> modelRanErrorActions;
+	private Domain domain;
+	private int linksDeleted = 0;
+	private int linksAdded = 0;
+	private Feedback bestFeedback;
 
-	public UserModel(String userName) {
+	public UserModel(String userName, Domain domain) {
 		this.userName = userName;
+		this.domain = domain;
 		actions = new TreeMap<Long, IAction>();
 		backupActions = new TreeMap<Long, IAction>();
 		nextPhaseActions = new LinkedList<IAction>();
@@ -80,36 +89,72 @@ public class UserModel {
 		}
 		return duration;
 	}
-
+	
+	public LinkedList<IAction> getAction(String type) {
+		LinkedList<IAction> typedActions = new LinkedList<IAction>();
+		for (IAction action: actions.values()) {
+			if (action.getType().equals(ModellingLoggerFES.FEEDBACK_REQUESTED)) {
+				typedActions.add(action);
+			}
+		}
+		return typedActions;
+	}
+	
 	@Override
 	public String toString() {
 		if (!statisticsValid) {
 			calculateStatistics();
 		}
-		String returnString;
-		returnString = userName + ", " + actions.size() + ", " + getDurationMinutes() + ", " + nextPhaseActions.size() +", "+feedbackActions.size()+", "+modelRanActions.size()+", "+modelRanErrorActions.size();
-		return returnString;
+		
+		// setting default values
+		int modelScore = -99;
+		int correctNodeNames = -99;
+		int incorrectNodeNames = -99;
+		int correctRelations = -99;
+		int incorrectRelations = -99;
+		int correctDirections = -99;
+		int incorrectDirections = -99;
+		if (bestFeedback != null) {
+			// best model & feedback has been found -> fill in real values;
+			modelScore = bestFeedback.getCorrectnessRatio();
+			correctNodeNames = bestFeedback.getCorrectNames();
+			incorrectNodeNames = bestFeedback.getIncorrectNames();
+			correctRelations = bestFeedback.getCorrectRelations();
+			incorrectRelations = bestFeedback.getIncorrectRelations();
+			correctDirections = bestFeedback.getCorrectDirections();
+			incorrectDirections = bestFeedback.getIncorrectDirections();
+		}
+		return userName + ", " + actions.size() + ", " + getDurationMinutes() + ", " + nextPhaseActions.size() +", "+feedbackActions.size()+", "+modelRanActions.size()+", "+modelRanErrorActions.size()+", "+modelScore+", "+correctNodeNames+", "+incorrectNodeNames+", "+correctRelations+", "+incorrectRelations+", "+correctDirections+", "+incorrectDirections+", "+linksAdded+", "+linksDeleted;
+
 	}
 
-	private void calculateStatistics() {
+	public void calculateStatistics() {
+		System.out.println("calculating statistics for user '"+this.userName+"'.");
 		nextPhaseActions = new LinkedList<IAction>();
 		for (IAction action : actions.values()) {
 			if (action.getType().equals(ModellingLogger.NEXT_PHASE)) {
 				nextPhaseActions.add(action);
-			}
-
-			if (action.getType().equals(ModellingLoggerFES.FEEDBACK_REQUESTED)) {
+			} else if (action.getType().equals(ModellingLoggerFES.FEEDBACK_REQUESTED)) {
 				addFeedback(action);
-			}
-			
-			if (action.getType().equals(ModellingLogger.MODEL_RAN)) {
+			} else if (action.getType().equals(ModellingLogger.MODEL_RAN)) {
 				modelRanActions.add(action);
+			} else if (action.getType().equals(ModellingLogger.MODEL_RAN_ERROR)) {
+				modelRanErrorActions.add(action);
+			} else if (action.getType().equals(ModellingLogger.RELATION_DELETED)
+					|| action.getType().equals(ModellingLogger.FLOW_DELETED)) {
+				linksDeleted++;
+			} else if (action.getType().equals(ModellingLogger.RELATION_ADDED)
+					|| action.getType().equals(ModellingLogger.FLOW_ADDED)) {
+				linksAdded++;
 			}
 			
-			if (action.getType().equals(ModellingLogger.MODEL_RAN_ERROR)) {
-				modelRanErrorActions.add(action);
+			Model bestModel = getBestModel();
+			if (bestModel != null) {
+				bestFeedback = new Feedback(bestModel, domain);
 			}
+				
 		}
+		
 		statisticsValid = true;
 	}
 
@@ -157,6 +202,36 @@ public class UserModel {
 		}
 	}
 
+	private Model getBestModel() {
+		Model tempBestModel = null;
+		Feedback tempBestModelFeedback = null;
+		Model tempModel = null;
+		Feedback tempModelFeedback = null;
+		for (IAction action: actions.values()) {
+			//System.out.println("reading action type '"+action.getType()+"' at "+action.getTimeInMillis()+" for user "+action.getUser());
+			String modelString = action.getAttribute("model");
+			if ( modelString != null) {
+				//System.out.println("... model found: "+modelString.substring(0, 20)+"...");
+				if (tempBestModel == null) {
+					// setting the first best model;
+					tempBestModel = new Model(null);
+					tempBestModel.setXmModel(JxmModel.readStringXML(modelString));
+					tempBestModelFeedback = new Feedback(tempBestModel, domain);
+				} else {
+					tempModel = new Model(null);
+					tempModel.setXmModel(JxmModel.readStringXML(modelString));
+					tempModelFeedback = new Feedback(tempModel, domain);
+					if (tempModelFeedback.getCorrectnessRatio() > tempBestModelFeedback.getCorrectnessRatio()) {
+						//System.out.println("...ratio "+tempModelFeedback.getCorrectnessRatio()+" > "+tempBestModelFeedback.getCorrectnessRatio());
+						tempBestModel = tempModel;
+						tempBestModelFeedback = tempModelFeedback;
+					}
+				}
+			}
+		}
+		return tempBestModel;
+	}
+	
 	public Collection<IAction> getActions() {
 		return this.actions.values();
 	}

@@ -31,6 +31,7 @@ public class ShowStatisticsAction extends AbstractAction {
 		this.view = view;
 		this.model = model;
 		this.domain = domain;
+		System.out.println("domain: "+domain+" concepts: "+domain.getConceptSet().getConcepts().size());
 	}
 
 	@Override
@@ -39,17 +40,29 @@ public class ShowStatisticsAction extends AbstractAction {
 		view.addInfo("users found: "+model.getUserModels().size());
 		view.addInfo("");
 		view.addInfo(UserModel.STATISTICS_TEMPLATE);
+		
+		long startTime = System.currentTimeMillis();
+		
+		for (UserModel user: model.getUserModels().values()) {
+			user.calculateStatistics();
+		}
+		
+		long stopTime = System.currentTimeMillis();
+		
 		for (UserModel user: model.getUserModels().values()) {
 			view.addInfo(user.toString());
 		}
-		
+				
 		JFrame frame = new JFrame("action timeline");
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout());
-		frame.getContentPane().add(new UserTimeline(model), BorderLayout.SOUTH);
+		frame.getContentPane().add(new UserTimeline(model), BorderLayout.CENTER);
         frame.pack();
         frame.setVisible(true);
         RefineryUtilities.centerFrameOnScreen(frame);
+        
+        System.out.println("start: "+startTime);
+        System.out.println("stop: "+stopTime);
 	}
 
 }
