@@ -303,7 +303,7 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
                  tooltipManager: scyWindow.tooltipManager
                  tooltipText: getBundleString("FX-FITEX.TOOLTIP_SYNC")
               };
-      insert syncAttrib into scyWindow.scyWindowAttributes;
+      // insert syncAttrib into scyWindow.scyWindowAttributes;
       fitexPanel.initActionLogger();
       fitexPanel.initFitex();
    }
