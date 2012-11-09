@@ -410,7 +410,7 @@ public class SimulatorNode
                     tooltipManager: scyWindow.tooltipManager
                     tooltipText: ##"Drag to connect"
                  };
-         insert syncAttrib into scyWindow.scyWindowAttributes;
+         // insert syncAttrib into scyWindow.scyWindowAttributes;
       } catch (e: java.lang.Exception) {
          e.printStackTrace();
          logger.info("exception caught: {e.getMessage()}");
