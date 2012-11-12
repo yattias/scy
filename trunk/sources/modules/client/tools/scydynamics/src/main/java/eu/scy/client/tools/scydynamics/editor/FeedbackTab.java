@@ -62,10 +62,13 @@ public class FeedbackTab extends JPanel implements ChangeListener, ActionListene
 		leftPanel.add(buttonPanel);
 		
 		leftPanel.add(getVariablesPanel());
-		//leftPanel.add(new JLabel("press 'play' to get feedback"));
 		splitPane.setLeftComponent(leftPanel);
-		feedbackPanel = new FeedbackPanel(editor);
-		splitPane.setRightComponent(feedbackPanel);
+		try {
+			feedbackPanel = new FeedbackPanel(editor);
+			splitPane.setRightComponent(feedbackPanel);
+		} catch (Exception e) {
+			splitPane.setRightComponent(new JPanel());
+		}
 		splitPane.setDividerLocation((int)variablesPanel.getPreferredSize().getWidth());
     	this.add(splitPane, BorderLayout.CENTER);
     }

@@ -116,6 +116,25 @@ public class Feedback {
 						tempIncorrectRelations++;
 						incorrectLinkTypes++;
 					}
+				} else if (link instanceof JdFlow) {
+					String fromNode = (String) link.getFigure1().getProperties().get("label");
+					String toNode = (String) link.getFigure2().getProperties().get("label");
+					System.out.println("fig1: "+fromNode+" | fig2: "+toNode);
+					if (fromNode != null && toNode != null) {
+						if (isRelationInDomain(model, domain, link.getFigure1(), link.getFigure2())) {
+							// flow edge found, direction correct
+							tempCorrectRelations++;
+							tempCorrectDirections++;
+						} else if (isRelationInDomain(model, domain, link.getFigure2(), link.getFigure1())) {
+							// flow edge found, direction incorrect
+							tempCorrectRelations++;
+							tempIncorrectDirections++;
+						} else {
+							// wrong flow edge
+							System.out.println("flow incorrect");
+							tempIncorrectRelations++;
+						}
+					}
 				}
 			}
 			this.setCorrectRelations(tempCorrectRelations);

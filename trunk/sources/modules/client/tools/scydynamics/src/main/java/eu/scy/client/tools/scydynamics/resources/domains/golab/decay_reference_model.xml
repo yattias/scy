@@ -42,14 +42,14 @@
 <!-- -->
 	<node id="decay_rate_uranium" concept="decay_rate_uranium"
 		type="constant"
-		low_value="0.01"
+		low_value="00"
 		high_value="0.1"
 		default_value="0.02"
 	/>
 	
 	<node id="decay_rate_radium" concept="decay_rate_radium"
 		type="constant"
-		low_value="0.01"
+		low_value="00"
 		high_value="0.1"
 		default_value="0.03"
 	/>
