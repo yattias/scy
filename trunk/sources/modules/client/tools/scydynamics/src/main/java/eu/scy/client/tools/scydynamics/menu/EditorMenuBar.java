@@ -1,11 +1,11 @@
-package eu.scy.client.tools.scydynamics.editor.menu;
+package eu.scy.client.tools.scydynamics.menu;
 
 import javax.swing.JMenuBar;
 
 import eu.scy.client.tools.scydynamics.editor.ModelEditor;
-import eu.scy.client.tools.scydynamics.editor.menu.edit.EditMenu;
-import eu.scy.client.tools.scydynamics.editor.menu.examples.ExamplesMenu;
-import eu.scy.client.tools.scydynamics.editor.menu.file.FileMenu;
+import eu.scy.client.tools.scydynamics.menu.edit.EditMenu;
+import eu.scy.client.tools.scydynamics.menu.examples.ExamplesMenu;
+import eu.scy.client.tools.scydynamics.menu.file.FileMenu;
 
 @SuppressWarnings("serial")
 public class EditorMenuBar extends JMenuBar {

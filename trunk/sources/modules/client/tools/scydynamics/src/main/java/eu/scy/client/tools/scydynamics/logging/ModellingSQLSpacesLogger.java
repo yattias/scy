@@ -1,6 +1,5 @@
 package eu.scy.client.tools.scydynamics.logging;
 
-import colab.all.logging.Action;
 //import colab.all.logging.SQLSpacesLogger;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
@@ -26,13 +25,13 @@ public class ModellingSQLSpacesLogger// extends SQLSpacesLogger
 		throw(new UnsupportedOperationException());
 	}
 	
-	private Action createAction(IAction iAction) {
+//	private Action createAction(IAction iAction) {
 //		Action action = createBasicAction(iAction.getType());
 //		action.addContext("id", iAction.getId());
 //		action.addContext("time", iAction.getTimeInMillis()+"");
 //		action.addContext("user", iAction.getUser());
 		//TODO the rest...
-		return null;
-	}
+//		return null;
+//	}
 
 }

@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -43,9 +45,19 @@ public class ShowStatisticsAction extends AbstractAction {
 		
 		long startTime = System.currentTimeMillis();
 		
-		for (UserModel user: model.getUserModels().values()) {
-			user.calculateStatistics();
+		// multi-threading on multi-cores
+		int nrOfProcessors = Runtime.getRuntime().availableProcessors();
+		System.out.println(nrOfProcessors+" processors available.");
+		ExecutorService executor = Executors.newFixedThreadPool(nrOfProcessors);
+		for (UserModel user: model.getUserModels().values()) {			
+			executor.execute(user);
 		}
+		executor.shutdown();
+		// wait until all threads are finished
+		while(!executor.isTerminated()) {
+			// wait...
+		}
+		
 		
 		long stopTime = System.currentTimeMillis();
 		
@@ -64,5 +76,36 @@ public class ShowStatisticsAction extends AbstractAction {
         System.out.println("start: "+startTime);
         System.out.println("stop: "+stopTime);
 	}
+	
+//	@Override
+//	public void actionPerformed(ActionEvent e) {
+//		view.addInfo("");
+//		view.addInfo("users found: "+model.getUserModels().size());
+//		view.addInfo("");
+//		view.addInfo(UserModel.STATISTICS_TEMPLATE);
+//		
+//		long startTime = System.currentTimeMillis();
+//		
+//		for (UserModel user: model.getUserModels().values()) {
+//			user.calculateStatistics();
+//		}
+//		
+//		long stopTime = System.currentTimeMillis();
+//		
+//		for (UserModel user: model.getUserModels().values()) {
+//			view.addInfo(user.toString());
+//		}
+//				
+//		JFrame frame = new JFrame("action timeline");
+//		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//		frame.getContentPane().setLayout(new BorderLayout());
+//		frame.getContentPane().add(new UserTimeline(model), BorderLayout.CENTER);
+//        frame.pack();
+//        frame.setVisible(true);
+//        RefineryUtilities.centerFrameOnScreen(frame);
+//        
+//        System.out.println("start: "+startTime);
+//        System.out.println("stop: "+stopTime);
+//	}
 
 }

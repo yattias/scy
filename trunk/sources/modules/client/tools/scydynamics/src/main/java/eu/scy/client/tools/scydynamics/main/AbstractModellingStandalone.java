@@ -13,8 +13,8 @@ import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 
 import eu.scy.client.tools.scydynamics.editor.ModelEditor;
-import eu.scy.client.tools.scydynamics.editor.menu.EditorMenuBar;
-import eu.scy.client.tools.scydynamics.editor.menu.file.ExitAction;
+import eu.scy.client.tools.scydynamics.menu.EditorMenuBar;
+import eu.scy.client.tools.scydynamics.menu.file.ExitAction;
 import eu.scy.client.tools.scydynamics.model.ModelUtils;
 import eu.scy.client.tools.scydynamics.store.FileStore;
 
@@ -40,7 +40,7 @@ public abstract class AbstractModellingStandalone extends JFrame implements Wind
 		this.setVisible(true);
 		editor.updateTitle();
 		menuBar = new EditorMenuBar(editor);
-		
+		editor.setEditorMenuBar(menuBar);
 		if (Boolean.parseBoolean(editor.getProperties().getProperty("editor.showMenu"))) {
 			this.setJMenuBar(menuBar);
 		}
@@ -55,16 +55,21 @@ public abstract class AbstractModellingStandalone extends JFrame implements Wind
 	
 	public static String getUsername(Properties props) {
 		String username = "";
-		//asking for the username
-		if (props != null && props.getProperty("askUsername", "false").equalsIgnoreCase("true")) {	
-			username = JOptionPane.showInputDialog("Please enter a username:", System.getProperty("user.name"));
-			username = ModelUtils.removeSpecialCharacters(username);
-		}
-		if (username == null || username.isEmpty()) {
-			username = System.getProperty("user.name");
-		}
-		if (username == null || username.isEmpty()) {
-			username = "unknow_user";
+		try {
+			//asking for the username
+			if (props != null && props.getProperty("askUsername", "false").equalsIgnoreCase("true")) {	
+				username = JOptionPane.showInputDialog("Please enter a username:", System.getProperty("user.name"));
+				username = ModelUtils.removeSpecialCharacters(username);
+			}
+			if (username == null || username.isEmpty()) {
+				username = System.getProperty("user.name");
+			}
+			if (username == null || username.isEmpty()) {
+				username = "unknow_user";
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return username;
 	}

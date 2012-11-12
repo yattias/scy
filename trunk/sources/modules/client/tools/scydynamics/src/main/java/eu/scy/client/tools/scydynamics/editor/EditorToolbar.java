@@ -10,10 +10,10 @@ import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
-import eu.scy.client.tools.scydynamics.editor.menu.edit.CopyAction;
-import eu.scy.client.tools.scydynamics.editor.menu.edit.CutAction;
-import eu.scy.client.tools.scydynamics.editor.menu.edit.DeleteAction;
-import eu.scy.client.tools.scydynamics.editor.menu.edit.PasteAction;
+import eu.scy.client.tools.scydynamics.menu.edit.CopyAction;
+import eu.scy.client.tools.scydynamics.menu.edit.CutAction;
+import eu.scy.client.tools.scydynamics.menu.edit.DeleteAction;
+import eu.scy.client.tools.scydynamics.menu.edit.PasteAction;
 
 @SuppressWarnings("serial")
 public class EditorToolbar extends JToolBar implements ActionListener {

@@ -47,7 +47,7 @@ public class ShowTermsAction extends AbstractAction {
 				// it's an unnamed const, stock or aux
 				// ignore
 			} else {
-				concept = domain.getConceptByTerm(term);
+				concept = domain.getConceptNameByTerm(term);
 				if (concept == null) {
 					concept = "";
 				}

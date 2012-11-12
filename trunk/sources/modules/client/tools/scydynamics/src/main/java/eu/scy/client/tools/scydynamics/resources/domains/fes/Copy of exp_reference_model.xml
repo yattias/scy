@@ -92,6 +92,9 @@
 	<edge from="ib" to="il_out"/>
 	<!-- alternative for temporal intake model -->
 	<edge from="gi" to="gl_in"/>
+
+	<!-- the default relation are fine here -->
+	<edge from="gr" to="gi"/>
 	
 	<!-- trick: "/glucose_release" creates an additon rather than a multiplication in glucose_increase -->	
 	<edge from="eating" to="gi">

@@ -99,7 +99,7 @@ public class FeedbackPanel extends JPanel {
 		
 		StackedBarRenderer renderer = new StackedBarRenderer();
 		StandardBarPainter barPainter = new StandardBarPainter();
-		renderer.setMaximumBarWidth(.1);
+		renderer.setMaximumBarWidth(0.1);
 		renderer.setBarPainter(barPainter);
 		renderer.setSeriesPaint(0, Color.GREEN);
 		renderer.setSeriesPaint(1, Color.RED);

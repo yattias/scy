@@ -1,4 +1,4 @@
-package eu.scy.client.tools.scydynamics.editor.menu.file;
+package eu.scy.client.tools.scydynamics.menu.file;
 
 import java.awt.event.ActionEvent;
 import java.util.logging.Logger;
@@ -29,7 +29,7 @@ public class ExitAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		int n = JOptionPane.showConfirmDialog(editor.getAbstractModelling(), "Do you want to save the model\nbefore exiting?", "exiting...", JOptionPane.YES_NO_CANCEL_OPTION);
+		int n = JOptionPane.showConfirmDialog(editor, "Do you want to save the model\nbefore exiting?", "exiting...", JOptionPane.YES_NO_CANCEL_OPTION);
 		if (n == JOptionPane.YES_OPTION) {
 			try {
 				editor.getSCYDynamicsStore().saveAsModel();	
@@ -48,8 +48,8 @@ public class ExitAction extends AbstractAction {
 		editor.getActionLogger().logSimpleAction(ModellingLogger.EXIT_APPLICATION);
 		editor.getActionLogger().close();
 		editor.doAutosave(StoreType.ON_EXIT);
-		editor.getAbstractModelling().setVisible(false);
-		editor.getAbstractModelling().dispose();
+		editor.getParent().setVisible(false);
+		//editor.dispose();
 		System.exit(0);
 	}
 

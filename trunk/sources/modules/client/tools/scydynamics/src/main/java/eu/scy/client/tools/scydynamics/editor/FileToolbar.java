@@ -9,11 +9,12 @@ import javax.swing.JLabel;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
-import eu.scy.client.tools.scydynamics.editor.menu.file.NewAction;
-import eu.scy.client.tools.scydynamics.editor.menu.file.OpenFileAction;
-import eu.scy.client.tools.scydynamics.editor.menu.file.SaveAsDatasetFileAction;
-import eu.scy.client.tools.scydynamics.editor.menu.file.SaveAsFileAction;
-import eu.scy.client.tools.scydynamics.editor.menu.file.SaveFileAction;
+import eu.scy.client.tools.scydynamics.menu.file.NewAction;
+import eu.scy.client.tools.scydynamics.menu.file.OpenFileAction;
+import eu.scy.client.tools.scydynamics.menu.file.SaveAsDatasetFileAction;
+import eu.scy.client.tools.scydynamics.menu.file.SaveAsFileAction;
+import eu.scy.client.tools.scydynamics.menu.file.SaveFileAction;
+
 import java.util.logging.Logger;
 
 @SuppressWarnings("serial")

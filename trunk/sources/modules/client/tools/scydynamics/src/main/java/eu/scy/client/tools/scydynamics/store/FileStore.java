@@ -41,6 +41,11 @@ public class FileStore extends SCYDynamicsStore {
 	}
 
 	private void prepareStore() throws Exception {
+		if (getEditor().getProperties().getProperty("autoSave").equalsIgnoreCase("false")) {
+			// the "store" is not needed; don't create it
+			return;
+		}
+		
 		File storeDir = new File(storeDirName);
 		if (!storeDir.exists()) {
 			debugLogger.log(Level.INFO, "creating store directory: " + storeDir.mkdir());

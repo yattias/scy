@@ -23,19 +23,6 @@ public class ModellingStandalone extends AbstractModellingStandalone {
 		props.put("editor.showStopButton", "true");
 		props.put("autoSave", "false");
 		props.put("editor.fixedcalculationmethod", "euler");
-
-		//
-		// File confFile = new File("scydynamics.properties");
-		// try {
-		// LOGGER.log(Level.INFO,
-		// "ModellingStandalone.getProperties(). expecting file at {0}",
-		// confFile.getAbsolutePath());
-		// if (confFile.exists()) {
-		// props.load(new FileInputStream(confFile));
-		// }
-		// } catch (IOException ex) {
-		// LOGGER.warning(ex.getMessage());
-		// }
 		return props;
 	}
 

@@ -89,8 +89,8 @@ public class ModelUtils {
 			// replacing domain variable names with model variable names
 			for (JdFigure replaceFigure: qualitativeRelations.keySet()) {
 				String replaceName = (String) replaceFigure.getProperties().get("label");
-				System.out.println("replacing "+modelEditor.getDomain().getConceptByTerm(replaceName)+" with "+replaceName);
-				expression = expression.replaceAll(modelEditor.getDomain().getConceptByTerm(replaceName), replaceName);
+				System.out.println("replacing "+modelEditor.getDomain().getConceptNameByTerm(replaceName)+" with "+replaceName);
+				expression = expression.replaceAll(modelEditor.getDomain().getConceptNameByTerm(replaceName), replaceName);
 			}	
 			System.out.println("expression adapted: "+expression);
 		} catch (Exception ex) {
@@ -128,10 +128,17 @@ public class ModelUtils {
 		String referenceModelFilename = props.getProperty("editor.reference_model");
 		String conceptSetFilename = props.getProperty("editor.concept_set");
 		String simulationSettingsFilename = props.getProperty("editor.simulation_settings");
+		if (referenceModelFilename==null
+				|| conceptSetFilename==null
+				|| simulationSettingsFilename==null) {
+			DEBUGLOGGER.info("domain wasn't fully specified -> null");
+			return null;
+		}
 		try {
 			domain = new Domain(referenceModelFilename, conceptSetFilename, simulationSettingsFilename);
 		} catch (Exception e) {
 			DEBUGLOGGER.info("domain could not be loaded, will be ignored: "+e.getMessage());
+			e.printStackTrace();
 		}
 		return domain;
 	}

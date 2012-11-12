@@ -29,14 +29,9 @@ import eu.scy.client.tools.scydynamics.logging.parser.ParserView;
 @SuppressWarnings("serial")
 public class ReleaseFilterAction extends AbstractAction implements ActionListener {
 
-	private static JDateChooser endDateChooser;
-	private static SpinnerDateModel endTimeModel;
-	private static JDateChooser startDateChooser;
-	private static SpinnerDateModel startTimeModel;
 	private ParserView view;
 	private ParserModel model;
 	private Domain domain;
-	private JDialog dialog;
 
 	public ReleaseFilterAction(ParserView view, ParserModel model, Domain domain) {
 		putValue(Action.NAME, "release filter");
@@ -49,5 +44,8 @@ public class ReleaseFilterAction extends AbstractAction implements ActionListene
 	public void actionPerformed(ActionEvent e) {
 		model.releaseFilters();
 		view.updateView();
+		view.addInfo("");
+		view.addInfo("filters released:");
+    	view.addInfo(model.getUserModels().size()+" users with "+model.getActions().size()+" actions.");
 	}
 }

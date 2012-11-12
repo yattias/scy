@@ -54,7 +54,8 @@ public class ModellingStandalone_FES extends AbstractModellingStandalone impleme
 		props.put("editor.concept_set", "/eu/scy/client/tools/scydynamics/resources/domains/fes/exp_concept_set.xml");
 		props.put("editor.simulation_settings", "/eu/scy/client/tools/scydynamics/resources/domains/fes/exp_simulation_settings.xml");
 
-		props.put("loadOnStart", "/eu/scy/client/tools/scydynamics/resources/domains/fes/complete_model.xml");
+		//props.put("loadOnStart", "/eu/scy/client/tools/scydynamics/resources/domains/fes/complete_model.xml");
+		props.put("loadOnStart", "/eu/scy/client/tools/scydynamics/resources/domains/fes/complete_model_english.xml");
 
 		return props;
 	}

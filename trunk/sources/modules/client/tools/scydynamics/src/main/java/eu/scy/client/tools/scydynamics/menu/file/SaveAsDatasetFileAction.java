@@ -1,4 +1,4 @@
-package eu.scy.client.tools.scydynamics.editor.menu.file;
+package eu.scy.client.tools.scydynamics.menu.file;
 
 import java.awt.event.ActionEvent;
 import java.io.BufferedWriter;

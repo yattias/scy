@@ -1,4 +1,4 @@
-package eu.scy.client.tools.scydynamics.editor.menu.edit;
+package eu.scy.client.tools.scydynamics.menu.edit;
 
 import java.awt.event.ActionEvent;
 import java.util.logging.Logger;
@@ -12,30 +12,24 @@ import eu.scy.client.tools.scydynamics.editor.ModelEditor;
 import eu.scy.client.tools.scydynamics.editor.Util;
 
 @SuppressWarnings("serial")
-public class SelectAllAction extends AbstractAction {
+public class UndoAction extends AbstractAction {
 	
-	private final static Logger debugLogger = Logger.getLogger(SelectAllAction.class.getName());
-	private final Icon smallIcon = Util.getImageIcon("selectall16.png");
+	private final static Logger debugLogger = Logger.getLogger(UndoAction.class.getName());
+	private final Icon smallIcon = Util.getImageIcon("undo16.png");
 	private ModelEditor editor;
-	
-	public SelectAllAction(ModelEditor editor, boolean showName) {
+
+	public UndoAction(ModelEditor editor) {
 		super();
 		this.editor = editor;
-		if (showName) {
-			putValue(Action.NAME, "Select all");
-		}
+		putValue(Action.NAME, "Undo");
 		putValue(Action.SMALL_ICON, smallIcon);
-		putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke("control A"));
-	}
-	
-	public SelectAllAction(ModelEditor editor) {
-		this(editor, true);
+		putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke("control Z"));
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			editor.selectAllObjects();
+			editor.getSelection().undo();
 		} catch (Exception ex) {
 			debugLogger.warning(ex.getMessage());
 		}

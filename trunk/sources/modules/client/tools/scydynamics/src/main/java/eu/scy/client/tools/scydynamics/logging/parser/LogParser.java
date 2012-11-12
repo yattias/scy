@@ -13,7 +13,6 @@ public class LogParser {
 	
 	public LogParser(Properties props) {
 		new JTools(JColab.JCOLABAPP_RESOURCES, JColab.JCOLABSYS_RESOURCES);
-		
 		Domain domain = ModelUtils.loadDomain(props);
 		ParserModel model = new ParserModel(domain);
 		ParserView view = new ParserView(model);	
@@ -28,9 +27,11 @@ public class LogParser {
 		props.put("editor.reference_model", "/eu/scy/client/tools/scydynamics/resources/domains/fes/exp_reference_model.xml");
 		props.put("editor.concept_set", "/eu/scy/client/tools/scydynamics/resources/domains/fes/exp_concept_set.xml");
 		props.put("editor.simulation_settings", "/eu/scy/client/tools/scydynamics/resources/domains/fes/exp_simulation_settings.xml");
-		props.put("parser.directory", "D:\\media\\dropbox\\Dropbox\\FES_SCYDynamics\\data\\marianum");
-		//props.put("parser.directory", "D:\\media\\dropbox\\Dropbox\\Thilo_SCYDynamics\\store\\store von den PP");
-		new LogParser(props);
+		
+		//props.put("parser.directory", "D:\\media\\Dropbox\\FES_SCYDynamics\\data\\exp_sessies\\marianum");
+		//props.put("parser.directory", "D:\\media\\Dropbox\\FES_SCYDynamics\\data\\exp_sessies\\lesgroep5");
+		props.put("parser.directory", "D:\\media\\Dropbox\\FES_SCYDynamics\\data\\exp_sessies");
+		LogParser parser = new LogParser(props);
 	}
 	
 }

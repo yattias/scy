@@ -101,7 +101,7 @@ public class SimquestModelQualitative extends SimquestModelQuantitative {
 		if (modelEditor.getDomain() == null) {
 			return getDefaultQualitativeValue(value);
 		}
-		String concept = modelEditor.getDomain().getConceptByTerm(name);
+		String concept = modelEditor.getDomain().getConceptNameByTerm(name);
 		Node node = modelEditor.getDomain().getNodeByConcept(concept);
 		if (node == null) {
 			return getDefaultQualitativeValue(value);

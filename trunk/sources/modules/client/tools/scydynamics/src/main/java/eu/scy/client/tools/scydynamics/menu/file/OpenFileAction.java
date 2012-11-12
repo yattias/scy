@@ -1,4 +1,4 @@
-package eu.scy.client.tools.scydynamics.editor.menu.file;
+package eu.scy.client.tools.scydynamics.menu.file;
 
 import java.awt.event.ActionEvent;
 import java.util.logging.Logger;
@@ -33,7 +33,8 @@ public class OpenFileAction extends AbstractAction {
 			editor.getSelection().addUndoPoint();
 			editor.getSCYDynamicsStore().loadModel();
 		} catch (Exception ex) {
-			debugLogger.severe(ex.getMessage());
+			//debugLogger.severe(ex.getMessage());
+			ex.printStackTrace();
 			JOptionPane.showMessageDialog(javax.swing.JOptionPane.getFrameForComponent(editor),
 				    "The model could not be loaded:\n"+ex.getMessage(),
 				    "Warning",

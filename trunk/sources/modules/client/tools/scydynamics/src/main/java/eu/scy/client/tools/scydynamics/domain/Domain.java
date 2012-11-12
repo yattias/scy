@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
@@ -16,16 +17,16 @@ public class Domain {
 
 	private final static Logger debugLogger = Logger.getLogger(Domain.class.getName());
 	
-	private ReferenceModel referenceModel;
-	private ConceptSet conceptSet;
-	private SimulationSettings simulationSettings;
-	private HashMap<String, String> termConceptMap;
+	private final ReferenceModel referenceModel;
+	private final ConceptSet conceptSet;
+	private final SimulationSettings simulationSettings;
+	private final HashMap<String, String> termConceptMap;
 	
 	public Domain(String referenceModelFilename, String concepSetFilename, String simulationSettingsFilename) throws Exception {
 		this.referenceModel = (ReferenceModel) unmarshal(referenceModelFilename);
 		this.conceptSet = (ConceptSet) unmarshal(concepSetFilename);
 		this.simulationSettings = (SimulationSettings) unmarshal(simulationSettingsFilename);
-		getTermConceptMap();
+		termConceptMap = createTermConceptMap();
 		debugLogger.info("domain loaded.");
 		debugLogger.info("concepts in concept set: "+conceptSet.getConcepts());
 		debugLogger.info("nodes in reference model: "+referenceModel.getNodes());
@@ -44,21 +45,19 @@ public class Domain {
 		return simulationSettings;
 	}
 	
-	private HashMap<String, String> getTermConceptMap() {
-		if (termConceptMap == null) {
-			termConceptMap = new HashMap<String, String>();
+	private HashMap<String, String> createTermConceptMap() {
+		HashMap<String, String> returnMap = new HashMap<String, String>();
 			for (Concept concept: conceptSet.getConcepts()) {			
 				if (concept != null) {
 					for (Term term: concept.getTerms()) {
-						if (termConceptMap.containsKey(term.getTerm())) {
-							debugLogger.warning("duplicate term: "+term+" present in concepts "+concept+" + "+termConceptMap.get(term.getTerm()));
+						if (returnMap.containsKey(term.getTerm())) {
+							debugLogger.warning("duplicate term: "+term+" present in concepts "+concept+" + "+returnMap.get(term.getTerm()));
 						}
-						termConceptMap.put(term.getTerm(), concept.getName());
+						returnMap.put(term.getTerm(), concept.getName());
 					}
 				}
 			}
-		}
-		return termConceptMap;
+		return returnMap;
 	}
 	
 	private Object unmarshal(String fileName) throws Exception {
@@ -78,18 +77,17 @@ public class Domain {
 		return returnObject;
 	}
 	
-	
 	/**
 	 * @param name The name that will be used to look for proposals.
 	 * @return Returns a list of similar names from the current Domain (with Levenshtein-Distance
 	 * < 5). If the given name can be found in the domain as is, null is returned.
 	 */
 	public List<String> proposeNames(String name) {
-		ArrayList<String> proposed = new ArrayList<String>();
-		if (getTermConceptMap().keySet().contains(name)) {
+		if (termConceptMap.keySet().contains(name)) {
 			return null;
 		}
-		for (Entry<String, String> entry: getTermConceptMap().entrySet()) {
+		ArrayList<String> proposed = new ArrayList<String>();
+		for (Entry<String, String> entry: termConceptMap.entrySet()) {
 			if (DomainUtils.getLevenshteinDistance(entry.getKey(), name)<5) {
 				proposed.add(entry.getKey());
 			}
@@ -97,10 +95,26 @@ public class Domain {
 		return proposed;
 	}
 	
-	public String getConceptByTerm(String term) {
-		return getTermConceptMap().get(term);
+	public String getConceptNameByTerm(String term) {
+		return termConceptMap.get(term);
 	}
 	
+	public Concept getConceptByTerm(String term) {
+		if (term == null) {
+			return null;
+		} else {
+			String conceptName = getConceptNameByTerm(term);
+			if (conceptName == null) {
+				return null;
+			}
+			for (Concept concept: this.getConceptSet().getConcepts()) {
+				if (concept.getName().toLowerCase().equals(conceptName.toLowerCase())) {
+					return concept;
+				}
+			}
+			return null;
+		}
+	}
 	
 	public Node getNodeByConcept(Concept concept) {
 		return getNodeByConcept(concept.getName());
@@ -115,6 +129,17 @@ public class Domain {
 		}
 		return null;
 	}
+	
+	public Concept getConceptByName(String conceptName) {
+		Iterator<Concept> itr = conceptSet.getConcepts().iterator();
+		while (itr.hasNext()) {
+			Concept concept = itr.next();
+			if (concept.getName().toLowerCase().equals(conceptName.toLowerCase())) {
+				return concept;
+			}
+		}
+		return null;
+	}
 
 	public Edge getEdgeBetweenNodes(Node fromNode, Node toNode) {
 		Edge returnEdge = null;
@@ -125,7 +150,7 @@ public class Domain {
 				}
 			}
 		} catch (Exception ex) {
-			debugLogger.warning(ex.getMessage());
+			//debugLogger.warning(ex.getMessage());
 		}
 		return returnEdge;		
 	}
@@ -145,8 +170,8 @@ public class Domain {
 	}
 	
 	public Edge getEdgeBetweenNodeTerms(String fromNodeTerm, String toNodeTerm) {
-		String fromConcept = getConceptByTerm(fromNodeTerm);
-		String toConcept = getConceptByTerm(toNodeTerm);
+		String fromConcept = getConceptNameByTerm(fromNodeTerm);
+		String toConcept = getConceptNameByTerm(toNodeTerm);
 		Node fromNode = getNodeByConcept(fromConcept);
 		Node toNode = getNodeByConcept(toConcept);	
 		return getEdgeBetweenNodes(fromNode, toNode);
