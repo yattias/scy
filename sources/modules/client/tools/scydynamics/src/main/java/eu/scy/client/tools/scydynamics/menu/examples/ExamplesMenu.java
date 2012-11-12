@@ -1,4 +1,4 @@
-package eu.scy.client.tools.scydynamics.editor.menu.examples;
+package eu.scy.client.tools.scydynamics.menu.examples;
 
 import javax.swing.JMenu;
 

@@ -1,4 +1,4 @@
-package eu.scy.client.tools.scydynamics.editor.menu.edit;
+package eu.scy.client.tools.scydynamics.menu.edit;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<concept_set name="decay" word_order="any">
+
+	<concept name="uranium" type="STOCK">
+		<term>uranium</term>
+		<term>u</term>
+	</concept>
+
+	<concept name="radium" type="STOCK">
+		<term>radium</term>
+		<term>ra</term>
+	</concept>
+	
+	<concept name="lead" type="STOCK">
+		<term>lead</term>
+		<term>pb</term>
+	</concept>
+
+	<concept name="decay_uranium" type="AUXILIARY">
+		<term>decay_uranium</term>
+		<term>uranium_decay</term>
+		<term>decay_u</term>
+		<term>u_decay</term>	
+	</concept>
+	
+	<concept name="decay_radium" type="AUXILIARY">
+		<term>decay_radium</term>
+		<term>radium_decay</term>
+		<term>decay_ra</term>
+		<term>ra_decay</term>	
+	</concept>
+
+	<concept name="decay_rate_uranium" type="CONSTANT">
+		<term>decay_rate_uranium</term>
+		<term>decay_rate_u</term>
+		<term>rate_u</term>
+		<term>rate_uranium</term>
+	</concept>
+	
+	<concept name="decay_rate_radium" type="CONSTANT">
+		<term>decay_rate_radium</term>
+		<term>decay_rate_ra</term>
+		<term>rate_ra</term>
+		<term>rate_radium</term>
+	</concept>
+
+</concept_set>
+

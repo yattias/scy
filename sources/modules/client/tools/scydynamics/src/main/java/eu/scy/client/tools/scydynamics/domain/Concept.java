@@ -4,11 +4,21 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlEnum;
 
 public class Concept {
 	
+	@XmlEnum(String.class)
+	public enum ConceptType {
+		STOCK,
+		CONSTANT,
+		AUXILIARY,
+		DOMAIN_RELATED,
+		DOMAIN_UNRELATED
+	}
+	
 	private String name;
-	private String type;
+	private ConceptType type;
 	private List<Term> terms;
 	
 	public Concept() {}
@@ -27,11 +37,11 @@ public class Concept {
 	}
 	
 	@XmlAttribute
-	public String getType() {
+	public ConceptType getType() {
 		return type;
 	}
 	
-	public void setType(String type) {
+	public void setType(ConceptType type) {
 		this.type = type;
 	}
 	

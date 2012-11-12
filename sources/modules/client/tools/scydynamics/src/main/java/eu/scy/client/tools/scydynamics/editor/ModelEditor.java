@@ -50,6 +50,7 @@ import eu.scy.client.tools.scydynamics.listeners.EditorMouseListener;
 import eu.scy.client.tools.scydynamics.logging.IModellingLogger;
 import eu.scy.client.tools.scydynamics.logging.ModellingLogger;
 import eu.scy.client.tools.scydynamics.main.AbstractModellingStandalone;
+import eu.scy.client.tools.scydynamics.menu.EditorMenuBar;
 import eu.scy.client.tools.scydynamics.model.Model;
 import eu.scy.client.tools.scydynamics.model.ModelUtils;
 import eu.scy.client.tools.scydynamics.store.FileStore;
@@ -113,6 +114,11 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	private String username = "unknown_user";
 	private SCYDynamicsStore scyDynamicsStore = null;
 	private AbstractModellingStandalone abstractModelling;
+	private EditorMenuBar menuBar;
+	
+	public ModelEditor(Properties newProps) {
+		this(newProps, "unknown_user", null);
+	}
 	
 	public ModelEditor(Properties newProps, String username, AbstractModellingStandalone abstractModelling) {
 		this.setName("Model Editor");
@@ -148,11 +154,18 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		return this.selection;
 	}
 	
-	public AbstractModellingStandalone getAbstractModelling() {
+	private AbstractModellingStandalone getAbstractModelling() {
 		return this.abstractModelling;
 	}
-
 	
+	public EditorMenuBar getEditorMenuBar() {
+		return this.menuBar;
+	}
+	
+	public void setEditorMenuBar(EditorMenuBar menuBar) {
+		this.menuBar = menuBar;
+	}
+
 	public void setSCYDynamicsStore(SCYDynamicsStore store) {
 		this.scyDynamicsStore = store;
 	}

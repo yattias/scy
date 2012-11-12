@@ -21,6 +21,9 @@ import eu.scy.actionlogging.api.IAction;
 import eu.scy.client.tools.scydynamics.domain.Domain;
 import eu.scy.client.tools.scydynamics.logging.ModellingLogger;
 import eu.scy.client.tools.scydynamics.logging.ModellingLoggerFES;
+import eu.scy.client.tools.scydynamics.logging.parser.actiongraph.ActionGraph;
+import eu.scy.client.tools.scydynamics.logging.parser.actiongraph.ActionSequenceMatrix;
+import eu.scy.client.tools.scydynamics.logging.parser.actiongraph.ActionSequenceMatrix.ActionType;
 import eu.scy.client.tools.scydynamics.logging.parser.FeedbackTimeline;
 import eu.scy.client.tools.scydynamics.logging.parser.ParserModel;
 import eu.scy.client.tools.scydynamics.logging.parser.ParserView;
@@ -28,15 +31,15 @@ import eu.scy.client.tools.scydynamics.logging.parser.UserModel;
 import eu.scy.client.tools.scydynamics.logging.parser.UserTimeline;
 
 @SuppressWarnings("serial")
-public class FeedbackTimelineAction extends AbstractAction {
+public class ActionMatrixAction extends AbstractAction {
 
 	private ParserView view;
 	private ParserModel model;
 	private Domain domain;
 	private ArrayList<JFrame> frames;
 
-	public FeedbackTimelineAction(ParserView view, ParserModel model, Domain domain) {
-		putValue(Action.NAME, "show feedback");
+	public ActionMatrixAction(ParserView view, ParserModel model, Domain domain) {
+		putValue(Action.NAME, "show action matrix");
 		this.view = view;
 		this.model = model;
 		this.domain = domain;
@@ -45,19 +48,49 @@ public class FeedbackTimelineAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		ActionSequenceMatrix jointMatrix = new ActionSequenceMatrix();
 		for (UserModel user: model.getUserModels().values()) {
-			JFrame frame = new JFrame("feedback timeline for user "+user.getUserName());
-			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			frame.getContentPane().setLayout(new BorderLayout());
-			frame.getContentPane().add(new FeedbackTimeline(user), BorderLayout.CENTER);
-			frame.setName(user.getUserName());
-	        frame.pack();
-	        frame.setVisible(true);
-	        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-	        RefineryUtilities.centerFrameOnScreen(frame);
-	        frames.add(frame);
+			ActionSequenceMatrix actionSequenceMatrix = new ActionSequenceMatrix(user);
+			double[][] matrix = actionSequenceMatrix.getActionMatrix();
+			jointMatrix.add(matrix);
+			showGraph(user.getUserName(), matrix);
 		}
+		showGraph("all users", jointMatrix.getActionMatrix());
+		dumpMatrix("all users", jointMatrix.getActionMatrix());
 		storeScreenshots();
+	}
+	
+	private void showGraph(String username, double[][] matrix) {
+		JFrame frame = new JFrame("action matrix for "+username);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.getContentPane().setLayout(new BorderLayout());		
+		dumpMatrix(username, matrix);
+		frame.getContentPane().add(new ActionGraph(matrix), BorderLayout.CENTER);
+		frame.pack();
+		frame.setName(username);
+        frame.setVisible(true);
+        //frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setSize(800, 800);
+        RefineryUtilities.centerFrameOnScreen(frame);
+        frames.add(frame);
+	}
+	
+	private void dumpMatrix(String userName, double[][] matrix) {
+		view.addInfo("");
+		view.addInfo("action sequence for user: "+userName);
+		String header = " ";
+		for (ActionType type: ActionSequenceMatrix.ActionType.values()) {
+			header = header+", "+type.toString();
+		}
+		view.addInfo(header);
+		for (int row=0; row<matrix.length; row++) {
+			String rowString = ActionSequenceMatrix.ActionType.values()[row].toString();
+			for (int column=0; column<matrix.length; column++) {
+				double value = matrix[row][column];
+				rowString = rowString+" ,"+Math.round(value);
+			}
+			view.addInfo(rowString);
+		}	
 	}
 
 	private void storeScreenshots() {

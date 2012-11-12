@@ -71,7 +71,7 @@
 		<term>glucoseafgiftelichaam</term>
 	</concept>
 
-	<concept name="eating" type="CONSTANT">
+	<concept name="eating" type="constant">
 		<term>inname</term>
 		<term>eten</term>
 		<term>voedsel</term>
@@ -178,114 +178,123 @@
 	<!-- terms related to the domain,
 	but not needed in the model -->
 	<concept name="unused_terms" type="DOMAIN_RELATED">
-		<term>alvleesklier</term>
-		<term>brood</term>
-		<term>darm</term>
-		<term>hormoon</term>
-		<term>organen</term>
 		<term>spijsvertering</term>
+		<term>spijsverteringsproces</term>
+		<term>darm</term>
+		<term>verteringssappen</term>
+		<term>organen</term>
+		<term>monitoren</term>
+		<term>alvleesklier</term>
+		<term>hormoon</term>
+		<term>brood</term>
 		<term>vlees</term>
+		<term>chocolade</term>
+		<term>fruit</term>
+		<term>groente</term>
+		<term>dunne_darm</term>
+		<term>hypofyse</term>
+		<term>nieren</term>
+		<term>bijnieren</term>
+		<term>overtollige</term>
+		<term>aanmaak glucagon</term>
+		<term>afgifte_glucagon</term>
+		<term>glucagon_aanmaak</term>
+		<term>glucagon_afgifte</term>
+		<term>aanmaak_glycogeen</term>
+		<term>afgifte_glycogeen</term>
+		<term>glycogeen_aanmaak</term>
+		<term>glycogeen_afgifte</term>
 		<term>aantal_koolhydraten</term>
 		<term>activiteiten</term>
 		<term>alfa_cellen</term>
-		<term>alfa_cellen:_glucagon</term>
+		<term>alfa_cellen_glucagon</term>
 		<term>alfa-cel</term>
 		<term>alfa-cellen</term>
+		<term>banksaldo</term>
 		<term>beta_cellen</term>
 		<term>beta_cellen_insuline</term>
 		<term>beta-cel</term>
 		<term>betacellen</term>
 		<term>beta-cellen</term>
-		<term>bèta-cellen</term>
 		<term>betacellen_scheiden_insuline_af</term>
 		<term>beta-cellen_van_eilandjes</term>
 		<term>beweging</term>
 		<term>beweging_inspanning</term>
-		<term>bloed</term>
+		<term>bil</term>
 		<term>bloed</term>
 		<term>bloed_eind</term>
 		<term>bloedbaan</term>
+		<term>bloedsomloop</term>
+		<term>bolletje</term>
+		<term>boudewijn</term>
 		<term>brandstof</term>
 		<term>cellen</term>
+		<term>celopslag</term>
+		<term>cosntante_afgifte_lichaam</term>
 		<term>darmen</term>
+		<term>darmflora</term>
 		<term>drinken</term>
-		<term>drinkjes</term>
+		<term>drinkjes</term>	
 		<term>drinkuh</term>
+		<term>drukmaken</term>
 		<term>energie</term>
+		<term>energie_afgifte</term>
+		<term>energiestroom</term>
 		<term>enzymen</term>
+		<term>eten_dus_koolhydraten_dus_suikers</term>
+		<term>gebruiks_onderdeel</term>
 		<term>glucagon</term>
 		<term>glucose_afbraak</term>
+		<term>glucose_afvoer</term>
 		<term>glucose_uit_koolhydraten</term>
 		<term>glycagon</term>
 		<term>hersenen</term>
 		<term>hoeveelheid_voedsel</term>
+		<term>hoi</term>
 		<term>homeostase</term>
+		<term>honger</term>
+		<term>hongergevoel</term>
 		<term>hormoonproducerende_cellen</term>
-		<term>hyopthalamus</term>
-		<term>hypohtalamus</term>
-		<term>hypotalamus</term>
-		<term>hypothalames</term>
-		<term>hypothalamuis</term>
 		<term>hypothalamus</term>
-		<term>hypothalimus</term>
 		<term>inname_voedsel</term>
 		<term>inspannende_activiteiten</term>
-		<term>koolhydraten_</term>
+		<term>inspanning</term>
+		<term>insuline_storing</term>
+		<term>insuline_verbruik</term>
+		<term>jaron</term>
 		<term>lichaam</term>
 		<term>lichaamsbeweging</term>
 		<term>lichaamscellen</term>
 		<term>lichamelijke_activiteiten</term>
-		<term>mond</term>
+		<term>opslag</term>
+		<term>opslag_glucose</term>
+		<term>opslag_vet</term>
+		<term>rustheidzelfe</term>
 		<term>spier</term>
 		<term>suiker</term>
 		<term>suikers</term>
 		<term>suikers_uit_koolhydraten</term>
+		<term>uitgaven</term>
+		<term>vast_afgifte_lichaam</term>
+		<term>verbranding</term>
+		<term>verbranding_glucose</term>
+		<term>verleiding</term>
 		<term>vertering</term>
+		<term>voedsel_glucose</term>
+		<term>vrijgekomen_glucose</term>
+		<term>waarneming_hypothalamus</term>
+		<term>wat_een_moeilijke_opdracht_voor_een_abioloog</term>
 		<term>zetmeel</term>
 	</concept>
 	
 	<!-- terms completely unrelated to the domain,
 	but their appeared frequently and should be recognized -->
 	<concept name="unrelated_terms" type="DOMAIN_UNRELATED">
-		<term>nieren</term>
-		<term>banksaldo</term>
-		<term>bil</term>
-		<term>bloedsomloop</term>
-		<term>bolletje</term>
-		<term>boudewijn</term>
-		<term>celopslag</term>
-		<term>cosntante_afgifte_lichaam</term>
-		<term>darmflora</term>
-		<term>drukmaken</term>
-		<term>energie_afgifte</term>
-		<term>energiestroom</term>
-		<term>eten_dus_koolhydraten_dus_suikers</term>
-		<term>gebruiks_onderdeel</term>
-		<term>glucose_afvoer</term>
-		<term>hoi</term>
-		<term>honger</term>
-		<term>hongergevoel</term>
-		<term>inspanning</term>
-		<term>insuline_gebruik</term>
-		<term>insuline_storing</term>
-		<term>insuline_verbruik</term>
-		<term>jaron</term>
+		<term>eilandjes_van_langerhans</term>	
 		<term>maandinkomen</term>
 		<term>maandinkomsten</term>
-		<term>opslag</term>
-		<term>opslag_glucose</term>
-		<term>opslag_vet</term>
-		<term>rustheidzelfe</term>
-		<term>uitgaven</term>
-		<term>vast_afgifte_lichaam</term>
-		<term>verbranding</term>
-		<term>verbranding_glucose</term>
-		<term>verleiding</term>
-		<term>voedsel/glucose</term>
+		<term>mond</term>
 		<term>vrienden</term>
-		<term>vrijgekomen_glucose</term>
-		<term>waarneming_hypothalamus</term>
-		<term>wat_een_moeilijke_opdracht_voor_een_abioloog</term>
 	</concept>
 
 </concept_set>

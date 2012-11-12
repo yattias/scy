@@ -1,4 +1,4 @@
-package eu.scy.client.tools.scydynamics.editor.menu.examples;
+package eu.scy.client.tools.scydynamics.menu.examples;
 
 import java.awt.event.ActionEvent;
 import java.util.logging.Logger;
@@ -27,7 +27,7 @@ public class ExampleAction extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 		int answer = JOptionPane.NO_OPTION;
 		if (!editor.getModel().getObjects().isEmpty()) {
-			answer = JOptionPane.showConfirmDialog(editor.getAbstractModelling(), "Do you want to save the current model\nbefore loading the example?", "load example...", JOptionPane.YES_NO_CANCEL_OPTION);
+			answer = JOptionPane.showConfirmDialog(editor, "Do you want to save the current model\nbefore loading the example?", "load example...", JOptionPane.YES_NO_CANCEL_OPTION);
 		}
 		if (answer == JOptionPane.YES_OPTION) {
 			try {

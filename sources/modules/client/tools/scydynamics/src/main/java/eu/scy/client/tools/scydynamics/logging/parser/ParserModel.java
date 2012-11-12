@@ -3,6 +3,7 @@ package eu.scy.client.tools.scydynamics.logging.parser;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import eu.scy.actionlogging.api.IAction;
@@ -43,6 +44,13 @@ public class ParserModel {
 		cleanModel();
 	}
 
+	public void filterForMissions(HashSet<String> selectedMissions) {
+		for (UserModel userModel: userModels.values()) {
+			userModel.filterForMissions(selectedMissions);
+		}
+		cleanModel();
+	}
+	
 	private void cleanModel() {
 		HashMap<String, UserModel> userModelsClone = (HashMap<String, UserModel>) userModels.clone();
 		for (UserModel userModel: userModelsClone.values()) {

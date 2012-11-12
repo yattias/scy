@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.co-lab.nl/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.co-lab.nl/xml Model.xsd" mode="QUALITATIVE_MODELLING">
+  <descriptor>
+    <symbol>model</symbol>
+  </descriptor>
+  <variables>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>decay_radium</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#33b22d</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression />
+          <unit>items</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>decay_uranium</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#b6b33e</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression />
+          <unit>items</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>lead</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#3172b6</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <stockSpec>
+          <initial>0</initial>
+          <unit>items</unit>
+        </stockSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>radium</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#71b232</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <stockSpec>
+          <initial>0</initial>
+          <unit>items</unit>
+        </stockSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>decay_rate_radium</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#2db5b5</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression>0.03</expression>
+          <unit>?</unit>
+        </constSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>decay_rate_uranium</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#b66f2d</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression>0.02</expression>
+          <unit>?</unit>
+        </constSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>time</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#000000</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <timeSpec>
+          <unit>?</unit>
+          <time start="0.0" stop="200.0" />
+          <integration method="euler" step="0.1" />
+        </timeSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>uranium</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#b83e3e</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <stockSpec>
+          <initial>100</initial>
+          <unit>items</unit>
+        </stockSpec>
+      </specification>
+    </varspec>
+  </variables>
+  <layout>
+    <nodes>
+      <nstock symbol="lead" id="6c35c4b8-0f59-4775-abf4-6c91beef2103" x1="436" y1="61" x2="468" y2="81" label="south" color="#000000" labelColor="#3172b6" />
+      <nstock symbol="radium" id="94cd6933-362d-49c1-9d01-9e1f9c14b765" x1="251" y1="49" x2="283" y2="69" label="south" color="#000000" labelColor="#71b232" />
+      <nstock symbol="uranium" id="ae1cd536-5cd0-490e-83d0-d67917b84bfc" x1="42" y1="48" x2="74" y2="68" label="south" color="#000000" labelColor="#b83e3e" />
+      <naux symbol="decay_radium" id="2f924336-b072-40ee-b5a7-22219d3945f2" x1="351" y1="132" x2="383" y2="164" label="south" color="#000000" labelColor="#33b22d" />
+      <naux symbol="decay_uranium" id="33a83de1-17b8-4844-87a5-a6071d331bac" x1="169" y1="108" x2="201" y2="140" label="south" color="#000000" labelColor="#b6b33e" />
+      <nconst symbol="decay_rate_radium" id="e7f19aa5-c645-43ee-997d-d29a790abda3" x1="301" y1="210" x2="333" y2="242" label="south" color="#000000" labelColor="#2db5b5" />
+      <nconst symbol="decay_rate_uranium" id="5d011c1d-e628-4c47-a9a1-24605782031c" x1="90" y1="171" x2="122" y2="203" label="south" color="#000000" labelColor="#b66f2d" />
+    </nodes>
+  </layout>
+</model>
+

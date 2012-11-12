@@ -47,8 +47,8 @@ public class ModelSelection {
 		if (undoModels.size()>maxUndoPoints) {
 			undoModels.removeLast();
 		}
-		editor.getAbstractModelling().getMenu().setUndoEnabled(true);
-		editor.getAbstractModelling().getMenu().setRedoEnabled(false);
+		editor.getEditorMenuBar().setUndoEnabled(true);
+		editor.getEditorMenuBar().setRedoEnabled(false);
 	}
 	
 	public void addUndoPoint() {
@@ -59,10 +59,10 @@ public class ModelSelection {
 		if (!undoModels.isEmpty()) {
 			redoModels.addFirst(editor.getModel().getXmModel());
 			editor.setJxmModel(undoModels.removeFirst());
-			editor.getAbstractModelling().getMenu().setRedoEnabled(true);
+			editor.getEditorMenuBar().setRedoEnabled(true);
 		}
 		if (undoModels.isEmpty()) {
-			editor.getAbstractModelling().getMenu().setUndoEnabled(false);
+			editor.getEditorMenuBar().setUndoEnabled(false);
 		}
 	}
 	
@@ -70,10 +70,10 @@ public class ModelSelection {
 		if (!redoModels.isEmpty()) {
 			undoModels.addFirst(editor.getModel().getXmModel());
 			editor.setJxmModel(redoModels.removeFirst());
-			editor.getAbstractModelling().getMenu().setUndoEnabled(true);
+			editor.getEditorMenuBar().setUndoEnabled(true);
 		}
 		if (redoModels.isEmpty()) {
-			editor.getAbstractModelling().getMenu().setRedoEnabled(false);
+			editor.getEditorMenuBar().setRedoEnabled(false);
 		}
 	}
 

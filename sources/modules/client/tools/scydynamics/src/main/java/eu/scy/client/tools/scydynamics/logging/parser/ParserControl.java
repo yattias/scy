@@ -34,7 +34,9 @@ import eu.scy.actionlogging.Action;
 import eu.scy.client.tools.scydynamics.domain.Domain;
 import eu.scy.client.tools.scydynamics.logging.ModellingLogger;
 import eu.scy.client.tools.scydynamics.logging.ModellingLoggerFES;
+import eu.scy.client.tools.scydynamics.logging.parser.actions.ActionMatrixAction;
 import eu.scy.client.tools.scydynamics.logging.parser.actions.FeedbackTimelineAction;
+import eu.scy.client.tools.scydynamics.logging.parser.actions.FilterMissionAction;
 import eu.scy.client.tools.scydynamics.logging.parser.actions.FilterTimeAction;
 import eu.scy.client.tools.scydynamics.logging.parser.actions.ReleaseFilterAction;
 import eu.scy.client.tools.scydynamics.logging.parser.actions.ShowStatisticsAction;
@@ -59,7 +61,9 @@ public class ParserControl implements ActionListener, Runnable {
 		view.setActionListener(this);
 		view.termsButton.setAction(new ShowTermsAction(view, model, domain));
 		view.filterTimeButton.setAction(new FilterTimeAction(view, model, domain));
+		view.filterMissionButton.setAction(new FilterMissionAction(view, model, domain));
 		view.statisticsButton.setAction(new ShowStatisticsAction(view, model, domain));
+		view.actionMatrixButton.setAction(new ActionMatrixAction(view, model, domain));
 		view.releaseFilterButton.setAction(new ReleaseFilterAction(view, model, domain));
 		view.feedbackButton.setAction(new FeedbackTimelineAction(view, model, domain));
 	}
@@ -151,6 +155,7 @@ public class ParserControl implements ActionListener, Runnable {
 	            		firstAction.addContext(ContextConstants.eloURI, parsedAction.getContext(ContextConstants.eloURI));
 	            		firstAction.addContext(ContextConstants.mission, parsedAction.getContext(ContextConstants.mission));
 	            		firstAction.addContext(ContextConstants.session, parsedAction.getContext(ContextConstants.session));
+	            		model.addAction(firstAction);
 	            	}
 					model.addAction(parsedAction);
 				} catch (Exception e) {
@@ -215,7 +220,7 @@ public class ParserControl implements ActionListener, Runnable {
 		SwingUtilities.invokeLater(new Runnable() {
 		    public void run() {
 		    	view.stopProgressBar();
-		    	view.addInfo("found "+model.getActions().size()+" actions in "+files.size()+" files.");
+		    	view.addInfo("found "+model.getUserModels().size()+" users with "+model.getActions().size()+" actions in "+files.size()+" files.");
 		    }
 		  });
 	}

@@ -35,6 +35,8 @@ public class ParserView extends JFrame {
 	private UserTimeline userTimeline;
 	protected JButton releaseFilterButton;
 	protected JButton feedbackButton;
+	protected JButton filterMissionButton;
+	protected JButton actionMatrixButton;
 	
 	public ParserView(ParserModel model) {
 		super("log parser");
@@ -84,11 +86,17 @@ public class ParserView extends JFrame {
 		statisticsButton = new JButton("statistics");
 		panel.add(statisticsButton);
 		
+		actionMatrixButton = new JButton();
+		panel.add(actionMatrixButton);
+		
 		termsButton = new JButton();
 		panel.add(termsButton);
 		
 		filterTimeButton = new JButton();
 		panel.add(filterTimeButton);
+		
+		filterMissionButton = new JButton();
+		panel.add(filterMissionButton);
 		
 		releaseFilterButton = new JButton();
 		panel.add(releaseFilterButton);

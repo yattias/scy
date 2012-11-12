@@ -1,4 +1,4 @@
-package eu.scy.client.tools.scydynamics.editor.menu.file;
+package eu.scy.client.tools.scydynamics.menu.file;
 
 import javax.swing.JMenu;
 

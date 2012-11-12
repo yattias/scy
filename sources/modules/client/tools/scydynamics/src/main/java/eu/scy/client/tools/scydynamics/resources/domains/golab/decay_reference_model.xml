@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<reference_model name="decay"
+		 notation="system_dynamics"
+		 concept_set="decay">
+
+<!-- the stock nodes -->
+<!--  -->
+	<node id="uranium" concept="uranium"
+		type="stock"
+		low_value="0"
+		high_value="100"
+		default_value="100"
+	/>
+	        
+	<node id="radium" concept="radium"
+		type="stock"
+		low_value="0"
+		high_value="100"
+		default_value="0"
+	/>
+
+	<node id="lead" concept="lead"
+		type="stock"
+		low_value="0"
+		high_value="100"
+		default_value="0"
+	/>
+	
+
+<!-- the auxilliary nodes -->
+<!-- -->
+	<node id="decay_uranium" concept="decay_uranium"
+		type="auxiliary"
+	/>
+
+	<node id="decay_radium" concept="decay_radium"
+		type="auxiliary"
+	/>
+	
+<!-- the constant nodes -->
+<!-- -->
+	<node id="decay_rate_uranium" concept="decay_rate_uranium"
+		type="constant"
+		low_value="0.01"
+		high_value="0.1"
+		default_value="0.02"
+	/>
+	
+	<node id="decay_rate_radium" concept="decay_rate_radium"
+		type="constant"
+		low_value="0.01"
+		high_value="0.1"
+		default_value="0.03"
+	/>
+
+<!-- the flow nodes -->
+<!-- -->
+
+	<node id="uranium_out" concept=""
+		type="flow"
+	/>
+	
+	<node id="radium_in" concept=""
+		type="flow"
+	/>
+	
+	<node id="radium_out" concept=""
+		type="flow"
+	/>
+	
+	<node id="lead_in" concept=""
+		type="flow"
+	/>
+
+<!-- the edges -->
+<!--  -->
+	<!-- these are the flow relations from/to a stock -->
+	<edge from="uranium" to="radium"/>
+	<edge from="radium" to="lead"/>
+
+	<!-- these are the relations that point to a incoming or outgoing flow -->
+	<!-- it is important to stick to the naming scheme with _in and _out -->
+	<edge from="decay_uranium" to="radium_in"/>
+	<edge from="decay_radium" to="lead_in"/>	
+	
+	<edge from="uranium" to="decay_uranium"/>	
+	<edge from="decay_rate_uranium" to="decay_uranium"/>
+
+	<edge from="radium" to="decay_radium"/>	
+	<edge from="decay_rate_radium" to="decay_radium"/>
+	    
+</reference_model>
