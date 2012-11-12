@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<model xmlns="http://www.co-lab.nl/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.co-lab.nl/xml Model.xsd" mode="QUALITATIVE_MODELLING">
+<model xmlns="http://www.co-lab.nl/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.co-lab.nl/xml Model.xsd" mode="MODEL_SKETCHING">
   <descriptor>
     <symbol>model</symbol>
   </descriptor>

@@ -3,5 +3,5 @@
     <calculationMethod>euler</calculationMethod>
     <startTime>0.0</startTime>
     <stepSize>1.0</stepSize>
-    <stopTime>120.0</stopTime>
+    <stopTime>240.0</stopTime>
 </simulation_settings>

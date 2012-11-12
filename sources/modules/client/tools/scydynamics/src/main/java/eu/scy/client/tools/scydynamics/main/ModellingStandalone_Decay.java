@@ -47,28 +47,13 @@ public class ModellingStandalone_Decay extends AbstractModellingStandalone imple
 		props.put("askUsername", "false");
 		props.put("multiPlotCheckbox", "false");
 		props.put("autoSave", "false");
-
 		props.put("editor.showStopButton", "false");
 
-		//props.put("editor.reference_model", "intro_reference_model.xml");
 		props.put("editor.reference_model", "/eu/scy/client/tools/scydynamics/resources/domains/golab/decay_reference_model.xml");
 		props.put("editor.concept_set", "/eu/scy/client/tools/scydynamics/resources/domains/golab/decay_concept_set.xml");
 		props.put("editor.simulation_settings", "/eu/scy/client/tools/scydynamics/resources/domains/golab/decay_simulation_settings.xml");
-
 		props.put("loadOnStart", "/eu/scy/client/tools/scydynamics/resources/domains/golab/pm_decay.xml");
 
-		// loading from a file is not longer used
-		// File confFile = new File("scydynamics_FES.properties");
-		// try {
-		// LOGGER.log(Level.INFO,
-		// "ModellingStandalone.getProperties(). expecting file at {0}",
-		// confFile.getAbsolutePath());
-		// if (confFile.exists()) {
-		// props.load(new FileInputStream(confFile));
-		// }
-		// } catch (IOException ex) {
-		// LOGGER.warning(ex.getMessage());
-		// }
 		return props;
 	}
 
