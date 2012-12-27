@@ -102,7 +102,7 @@ public class Initializer {
    public-init var useBigMissionMap = true;
    public-init var showOnlyStartedMissions = false;
    public-init var globalReadOnlyMode = false;
-   public-init var showHelpBubbles = true;
+   public-init var showHelpBubbles = false;
    public-init var showQuitConfirmation = true;
    public-init var useRepositoryTimer = false;
    public-read var languages: String[];

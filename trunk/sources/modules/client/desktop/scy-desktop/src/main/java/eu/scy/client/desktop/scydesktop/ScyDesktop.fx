@@ -575,9 +575,9 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       topRightCorner = TopRightCorner {
                  content: VBox {
                     content: [
-                       scyFeedbackGetButton,
-                       scyFeedbackGiveButton,
-                       ePortfolioSpacer,
+//                       scyFeedbackGetButton,
+//                       scyFeedbackGiveButton,
+//                       ePortfolioSpacer,
                        eportfolioButton
                     ]
                     spacing: 0
