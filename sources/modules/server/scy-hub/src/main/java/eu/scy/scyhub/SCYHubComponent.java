@@ -2,6 +2,8 @@ package eu.scy.scyhub;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import eu.scy.core.openfire.ScyAuthorRuntimeModule;
 import org.apache.log4j.Logger;
@@ -32,9 +34,12 @@ public class SCYHubComponent implements Component, ApplicationContextAware {
 
     private ApplicationContext applicationContext;
 
+    private ExecutorService executorService;
+
     public SCYHubComponent() {
         logger.info("INITIALIZING SCY HUB COMPONENT!");
         modules = new ArrayList<SCYHubModule>();
+        executorService = Executors.newFixedThreadPool(25);
     }
 
     /**
@@ -62,11 +67,18 @@ public class SCYHubComponent implements Component, ApplicationContextAware {
     	logger.debug("Received packet" + packet);
         // Only process Message packets
         if (packet instanceof Message) {
-            Message message = (Message) packet;
+           final  Message message = (Message) packet;
             
-            for (SCYHubModule module : modules) {
+            for (final SCYHubModule module : modules) {
 				if(module.accept(message)) {
-					module.process(message);
+                    if (!executorService.isShutdown()) {
+                        executorService.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                module.process(message);
+                            }
+                        });
+                    }
 				}
 			}
         } else {
@@ -78,7 +90,7 @@ public class SCYHubComponent implements Component, ApplicationContextAware {
      * initialize
      */
     public void initialize(JID jid, ComponentManager componentManager) {
-        initModules();
+        //initModules();
     }
     
     /**
@@ -104,6 +116,7 @@ public class SCYHubComponent implements Component, ApplicationContextAware {
      */
     public void shutdown() {
         logger.debug("SCYHubComponent.shutdown()");
+        executorService.shutdown();
         for(SCYHubModule module : modules) {
         	module.shutdown();
         }
