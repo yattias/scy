@@ -344,7 +344,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
             this.userName = userName;
             this.password = password;
 
-            XMPPConnection.DEBUG_ENABLED = false;
+            // XMPPConnection.DEBUG_ENABLED = false;
             SmackConfiguration.setKeepAliveInterval(10000);
             config = new ConnectionConfiguration(Configuration.getInstance().getOpenFireHost(), Configuration.getInstance().getOpenFirePort());
             config.setCompressionEnabled(true);
