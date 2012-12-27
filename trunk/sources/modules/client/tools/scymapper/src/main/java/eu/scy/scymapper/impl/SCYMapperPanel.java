@@ -307,6 +307,7 @@ public class SCYMapperPanel extends JPanel implements INotifiable {
     }
 
     public void setConceptMap(IConceptMap conceptMap) {
+        logger.debug("setting new concept map");
         removeAll();
         this.conceptMap = conceptMap;
         initComponents();
@@ -319,6 +320,14 @@ public class SCYMapperPanel extends JPanel implements INotifiable {
             // add actionlogger as listener to all links, needed for logging!
             link.addListener(actionLogger);
         }
+
+        if (currentSession != null) {
+            logger.debug("initializing the sync controller due to connection to session " + currentSession.getId());
+            DataSyncDiagramController diagramController = new DataSyncDiagramController(conceptMap.getDiagram(), currentSession);
+            conceptDiagramView.setController(diagramController);
+            conceptDiagramView.setElementControllerFactory(new DataSyncElementControllerFactory(currentSession));
+        }
+
         repaint();
     }
 
@@ -378,6 +387,7 @@ public class SCYMapperPanel extends JPanel implements INotifiable {
     }
 
     public ISyncSession joinSession(String sessId, boolean writeCurrentStateToServer) {
+        logger.debug("Joining session " + sessId + " and writeCurrentStateToServer=" + writeCurrentStateToServer);
         if (sessId != null) {
             try {
                 DataSyncDiagramController diagramController = new DataSyncDiagramController(conceptMap.getDiagram());
