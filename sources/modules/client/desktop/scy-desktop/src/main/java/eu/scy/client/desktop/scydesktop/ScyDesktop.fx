@@ -578,7 +578,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
 //                       scyFeedbackGetButton,
 //                       scyFeedbackGiveButton,
 //                       ePortfolioSpacer,
-                       eportfolioButton
+//                       eportfolioButton
                     ]
                     spacing: 0
                  };

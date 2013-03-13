@@ -277,7 +277,7 @@ public class LoginDialog extends CustomNode, TbiReady {
                  }
          var stage = scene.stage;
          var stageTitle = stage.title;
-         stage.title = "{initialStageTitle} : {userName} in {missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getTitle()}{serverHostTitle}";
+         stage.title = "{initialStageTitle} : {userName} - {missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getTitle()}{serverHostTitle}";
          FX.deferAction(function(): Void {
             finishTbi(missionRunConfigs);
             logLoggedIn(missionRunConfigs);
