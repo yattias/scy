@@ -65,13 +65,13 @@ public class ShowStatisticsAction extends AbstractAction {
 			view.addInfo(user.toString());
 		}
 				
-		JFrame frame = new JFrame("action timeline");
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.getContentPane().setLayout(new BorderLayout());
-		frame.getContentPane().add(new UserTimeline(model), BorderLayout.CENTER);
-        frame.pack();
-        frame.setVisible(true);
-        RefineryUtilities.centerFrameOnScreen(frame);
+//		JFrame frame = new JFrame("action timeline");
+//		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//		frame.getContentPane().setLayout(new BorderLayout());
+//		frame.getContentPane().add(new UserTimeline(model), BorderLayout.CENTER);
+//        frame.pack();
+//        frame.setVisible(true);
+//        RefineryUtilities.centerFrameOnScreen(frame);
         
         System.out.println("start: "+startTime);
         System.out.println("stop: "+stopTime);

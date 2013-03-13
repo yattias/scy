@@ -48,18 +48,19 @@ public class ModellingApplet_Decay extends JApplet {
 	
 	public Properties getProperties() {
 		Properties props = new Properties();
-		props.put("editor.saveasdataset", "true");
-		props.put("editor.showMenu", "true");
-		props.put("editor.filetoolbar", "false");
+		props.put("editor.saveasdataset", "false");
 		props.put("show.popouttabs", "false");
-		props.put("editor.mode", "quantitative_modelling");
+		props.put("editor.mode", "model_sketching");
 		props.put("editor.modes_selectable", "false");
 		props.put("editor.export_to_sqv", "false");
-		props.put("showFeedback", "false");
-		props.put("editor.showStopButton", "true");
-		props.put("autoSave", "false");
 		props.put("editor.fixedcalculationmethod", "euler");
-		
+		props.put("showFeedback", "true");
+		props.put("showPhaseChangeButton", "true");
+		props.put("askUsername", "false");
+		props.put("multiPlotCheckbox", "false");
+		props.put("autoSave", "false");
+		props.put("editor.showStopButton", "false");
+
 		props.put("editor.reference_model", "/eu/scy/client/tools/scydynamics/resources/domains/golab/decay_reference_model.xml");
 		props.put("editor.concept_set", "/eu/scy/client/tools/scydynamics/resources/domains/golab/decay_concept_set.xml");
 		props.put("editor.simulation_settings", "/eu/scy/client/tools/scydynamics/resources/domains/golab/decay_simulation_settings.xml");

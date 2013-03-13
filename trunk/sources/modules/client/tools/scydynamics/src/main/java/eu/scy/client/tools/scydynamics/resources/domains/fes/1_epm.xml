@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model xmlns="http://www.co-lab.nl/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.co-lab.nl/xml Model.xsd" mode="QUALITATIVE_MODELLING">
+  <descriptor>
+    <symbol>model</symbol>
+  </descriptor>
+  <variables>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>constante_glucose_aanmaak</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#b66f2d</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression>50.0</expression>
+          <unit>?</unit>
+        </constSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>glucose_gebruikt_door_cellen</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#6e31b2</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression>glucose_opname_percentage*2*bloedglucosespiegel</expression>
+          <unit>mg</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>insulineafbraak</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#71b232</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression>insuline_niveau*0.8</expression>
+          <unit>?</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>insuline_niveau</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#3232b6</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <stockSpec>
+          <initial>49.0</initial>
+          <unit>mg/dl</unit>
+        </stockSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>insuline_aanmaak</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#808080</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression>42.5/((1+0.02*exp(-0.05*(bloedglucosespiegel-200)))^1/0.4)</expression>
+          <unit>mg/dl</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>glucose_opname_percentage</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#b53071</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression>0.0075+0.1057/((1+0.01*exp(-0.7*(insuline_niveau-14)))^1/0.5)</expression>
+          <unit />
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>time</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#000000</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <timeSpec>
+          <unit>?</unit>
+          <time start="0.0" stop="120.0" />
+          <integration method="euler" step="1.0" />
+        </timeSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>bloedglucosespiegel</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#b83e3e</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <stockSpec>
+          <initial>50.0</initial>
+          <unit>mg/dl</unit>
+        </stockSpec>
+      </specification>
+    </varspec>
+  </variables>
+  <layout>
+    <nodes>
+      <nstock symbol="insuline_niveau" id="7a5e37ec-c4a3-45dc-a0b1-e7782d997bb3" x1="333" y1="355" x2="365" y2="375" label="south" color="#000000" labelColor="#3232b6" />
+      <nstock symbol="bloedglucosespiegel" id="c463c995-a5bd-42f6-ae78-29035450ce87" x1="317" y1="129" x2="349" y2="149" label="south" color="#000000" labelColor="#b83e3e" />
+      <naux symbol="glucose_gebruikt_door_cellen" id="963562de-14b9-47f4-9584-02de0d2f9172" x1="719" y1="16" x2="751" y2="48" label="south" color="#000000" labelColor="#6e31b2" />
+      <naux symbol="insulineafbraak" id="86b8a6d3-6b8e-4f49-9e7e-26976c51989b" x1="720" y1="325" x2="752" y2="357" label="south" color="#000000" labelColor="#71b232" />
+      <naux symbol="insuline_aanmaak" id="15b0b95a-30dc-40af-b98d-f476dd208d0e" x1="719" y1="244" x2="751" y2="276" label="south" color="#000000" labelColor="#808080" />
+      <naux symbol="glucose_opname_percentage" id="673185eb-6e6c-4416-b9f3-932cd083ebd8" x1="719" y1="85" x2="751" y2="117" label="south" color="#000000" labelColor="#b53071" />
+      <nconst symbol="constante_glucose_aanmaak" id="45186828-4fdd-4dee-bacf-042e69f6dc34" x1="718" y1="163" x2="750" y2="195" label="south" color="#000000" labelColor="#b66f2d" />
+    </nodes>
+    <links>
+      <lflow symbol="Flow_4" id="b376028d-13c5-4411-aa25-752b1468e0cb" start="insuline_niveau" x1="365" y1="365" x2="592" y2="365" cx1="592" cy1="365" type="lineal" color="#000000" />
+      <lflow symbol="Flow_3" id="152aae92-2007-41e8-afaa-e6642ca86afd" end="insuline_niveau" x1="95" y1="365" x2="333" y2="365" cx1="333" cy1="365" type="lineal" color="#000000" />
+      <lflow symbol="Flow_2" id="2941e3e8-fa96-479e-a960-e21be0a5ad01" start="bloedglucosespiegel" x1="349" y1="138" x2="585" y2="138" cx1="585" cy1="138" type="lineal" color="#000000" />
+      <lflow symbol="Flow_1" id="986c8292-841e-4ea0-9e34-4dd3c5662e90" end="bloedglucosespiegel" x1="114" y1="138" x2="317" y2="138" cx1="317" cy1="138" type="lineal" color="#000000" />
+    </links>
+  </layout>
+</model>
+
