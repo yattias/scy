@@ -20,11 +20,15 @@ import javafx.geometry.Insets;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolGetter;
 import eu.scy.client.desktop.scydesktop.tools.ScyTool;
+import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import javafx.ext.swing.SwingComponent;
 
 /**
  * @author sikkenj
  */
+
+def resourceBundleWrapper = new ResourceBundleWrapper(FlyingSaucerBrowser.class);
+
 public class FlyingSaucerBrowser extends CustomNode, Resizable, ScyToolGetter {
 
    public override var width on replace { resizeBrowser()
@@ -45,11 +49,10 @@ public class FlyingSaucerBrowser extends CustomNode, Resizable, ScyToolGetter {
          flyingSaucer.setPreferredSize(new Dimension(width - 2 * spacing, height - 2 * spacing));
       }
    }
-
    def drawerDescription = Text {
               font: Font.font("Verdana", FontWeight.BOLD, 12);
               fill: scyWindow.windowColorScheme.mainColor
-              content: if (urlSource != null) "{urlSource.name().charAt(0)}{urlSource.name().substring(1).toLowerCase()}" else ""
+              content: if (urlSource != null) resourceBundleWrapper.getString(urlSource.name()) else ""
            }
    def spacing = 5.0;
 
