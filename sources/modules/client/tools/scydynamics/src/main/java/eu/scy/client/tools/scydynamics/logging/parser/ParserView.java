@@ -37,6 +37,7 @@ public class ParserView extends JFrame {
 	protected JButton feedbackButton;
 	protected JButton filterMissionButton;
 	protected JButton actionMatrixButton;
+	protected JButton scoreButton;
 	
 	public ParserView(ParserModel model) {
 		super("log parser");
@@ -51,6 +52,7 @@ public class ParserView extends JFrame {
 		this.getContentPane().add(createWestPanel(), BorderLayout.WEST);
 		this.getContentPane().add(createSouthPanel(), BorderLayout.SOUTH);		
 		this.pack();
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(1000, 750);
 	}
 
@@ -103,6 +105,9 @@ public class ParserView extends JFrame {
 		
 		feedbackButton = new JButton();
 		panel.add(feedbackButton);
+		
+		scoreButton = new JButton();
+		panel.add(scoreButton);
 		return panel;
 	}
 	

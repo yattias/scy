@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -70,7 +69,8 @@ public abstract class SimulationPanel extends JPanel implements ActionListener, 
  		}
     }
 	
-    public void stop() {
+    @SuppressWarnings("deprecation")
+	public void stop() {
 		simulationSettingsPanel.setRunning(false);
 		simulationThread.stop();
     }
@@ -121,7 +121,6 @@ public abstract class SimulationPanel extends JPanel implements ActionListener, 
                 writer.flush();
                 writer.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }

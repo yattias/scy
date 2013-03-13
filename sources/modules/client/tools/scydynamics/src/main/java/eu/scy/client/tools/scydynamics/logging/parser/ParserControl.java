@@ -38,6 +38,7 @@ import eu.scy.client.tools.scydynamics.logging.parser.actions.ActionMatrixAction
 import eu.scy.client.tools.scydynamics.logging.parser.actions.FeedbackTimelineAction;
 import eu.scy.client.tools.scydynamics.logging.parser.actions.FilterMissionAction;
 import eu.scy.client.tools.scydynamics.logging.parser.actions.FilterTimeAction;
+import eu.scy.client.tools.scydynamics.logging.parser.actions.ModelScoreAction;
 import eu.scy.client.tools.scydynamics.logging.parser.actions.ReleaseFilterAction;
 import eu.scy.client.tools.scydynamics.logging.parser.actions.ShowStatisticsAction;
 import eu.scy.client.tools.scydynamics.logging.parser.actions.ShowTermsAction;
@@ -66,6 +67,7 @@ public class ParserControl implements ActionListener, Runnable {
 		view.actionMatrixButton.setAction(new ActionMatrixAction(view, model, domain));
 		view.releaseFilterButton.setAction(new ReleaseFilterAction(view, model, domain));
 		view.feedbackButton.setAction(new FeedbackTimelineAction(view, model, domain));
+		view.scoreButton.setAction(new ModelScoreAction(view, model, domain));
 	}
 	
 	private void chooseFolder() {
@@ -86,14 +88,16 @@ public class ParserControl implements ActionListener, Runnable {
 		String[] list = directory.list();
 		File file;
 		for (String fileName: list) {
-			file = new File(directory+"\\"+fileName);
+			file = new File(directory+System.getProperty("file.separator")+fileName);
+			//file = new File(directory+"\\"+fileName);
 			System.out.println("parsing "+fileName);
 			if (file.isDirectory()) {
 				// recursively go deeper...
 				collectFiles(file, files);
 			} else if (fileName.endsWith("txt")) {
 				// add file to list
-				files.add(new File(directory+"\\"+fileName));
+				//files.add(new File(directory+"\\"+fileName));
+				files.add(new File(directory+System.getProperty("file.separator")+fileName));
 			}
 		}
 	}

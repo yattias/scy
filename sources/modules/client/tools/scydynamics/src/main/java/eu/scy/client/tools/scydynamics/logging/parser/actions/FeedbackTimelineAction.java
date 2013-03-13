@@ -57,7 +57,7 @@ public class FeedbackTimelineAction extends AbstractAction {
 	        RefineryUtilities.centerFrameOnScreen(frame);
 	        frames.add(frame);
 		}
-		storeScreenshots();
+		//storeScreenshots();
 	}
 
 	private void storeScreenshots() {

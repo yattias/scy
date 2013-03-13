@@ -31,6 +31,7 @@ public class LogParser {
 		//props.put("parser.directory", "D:\\media\\Dropbox\\FES_SCYDynamics\\data\\exp_sessies\\marianum");
 		//props.put("parser.directory", "D:\\media\\Dropbox\\FES_SCYDynamics\\data\\exp_sessies\\lesgroep5");
 		props.put("parser.directory", "D:\\media\\Dropbox\\FES_SCYDynamics\\data\\exp_sessies");
+		//props.put("parser.directory", "."+System.getProperty("file.separator")+"data"+System.getProperty("file.separator")+"exp_sessies");
 		LogParser parser = new LogParser(props);
 	}
 	

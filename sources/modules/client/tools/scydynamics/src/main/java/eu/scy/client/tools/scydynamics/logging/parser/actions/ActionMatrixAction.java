@@ -57,7 +57,7 @@ public class ActionMatrixAction extends AbstractAction {
 		}
 		showGraph("all users", jointMatrix.getActionMatrix());
 		dumpMatrix("all users", jointMatrix.getActionMatrix());
-		storeScreenshots();
+		//storeScreenshots();
 	}
 	
 	private void showGraph(String username, double[][] matrix) {
