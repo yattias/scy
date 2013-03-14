@@ -21,7 +21,7 @@ public class SaveAsFileAction extends AbstractAction {
 	public SaveAsFileAction(ModelEditor editor) {
 		super();
 		this.editor = editor;
-		putValue(Action.NAME, "Save as...");
+		putValue(Action.NAME, editor.getBundle().getString("EDITOR_SAVEAS"));
 		putValue(Action.SMALL_ICON, smallIcon);
 	}
 

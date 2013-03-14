@@ -21,7 +21,7 @@ public class NewAction extends AbstractAction {
 	public NewAction(ModelEditor editor) {
 		super();
 		this.editor = editor;
-		putValue(Action.NAME, "New");
+		putValue(Action.NAME, editor.getBundle().getString("EDITOR_NEW"));
 		putValue(Action.SMALL_ICON, smallIcon);
 		putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke("control N"));
 	}

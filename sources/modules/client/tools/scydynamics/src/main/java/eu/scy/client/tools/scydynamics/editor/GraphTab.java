@@ -92,10 +92,10 @@ public class GraphTab extends SimulationPanel implements ChangeListener {
 		multiPlotsCheckBox = new JCheckBox();
 		multiPlotsCheckBox.setSelected(true);
 		if (Boolean.parseBoolean(editor.getProperties().getProperty("multiPlotCheckbox", "true"))) {
-			axisPanel.add(new JLabel("Multiple plots"));
+			axisPanel.add(new JLabel(editor.getBundle().getString("SIMULATION_MULTIPLE")));
 			axisPanel.add(multiPlotsCheckBox);
 		}
-		JButton button = new JButton("Clear graph");
+		JButton button = new JButton(editor.getBundle().getString("SIMULATION_CLEAR"));
 		button.setActionCommand("clear");
 		button.addActionListener(this);
 		axisPanel.add(button);
