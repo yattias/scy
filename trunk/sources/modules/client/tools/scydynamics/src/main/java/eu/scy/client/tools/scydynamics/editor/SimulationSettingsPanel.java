@@ -39,7 +39,7 @@ public class SimulationSettingsPanel extends JPanel {
 		this.editor = editor;
 		calculationMethod = (String) editor.getProperties().get("editor.fixedcalculationmethod");
 		this.setLayout(new BorderLayout());
-		this.setBorder(BorderFactory.createTitledBorder("Model run"));
+		this.setBorder(BorderFactory.createTitledBorder(editor.getBundle().getString("SIMULATION_MODELRUN")));
 		initUI(listener, withDigitSpinner);
 	}
 
@@ -61,18 +61,18 @@ public class SimulationSettingsPanel extends JPanel {
 		methodbox = getMethodBox();
 		digitSpinner = new JSpinner(new SpinnerNumberModel( 2, 0, 5, 1));
 		
-		northPanel.add(new JLabel("Start time"));
+		northPanel.add(new JLabel(editor.getBundle().getString("SIMULATION_START")));
 		northPanel.add(startField);
-		northPanel.add(new JLabel("Stop time"));
+		northPanel.add(new JLabel(editor.getBundle().getString("SIMULATION_STOP")));
 		northPanel.add(stopField);
-		northPanel.add(new JLabel("Time step"));
+		northPanel.add(new JLabel(editor.getBundle().getString("SIMULATION_STEP")));
 		northPanel.add(stepField);
 		if (editor.getProperties().get("editor.fixedcalculationmethod") == null) {
-			northPanel.add(new JLabel("Method"));
+			northPanel.add(new JLabel(editor.getBundle().getString("SIMULATION_METHOD")));
 			northPanel.add(methodbox);
 		}
 		if (withDigitSpinner) {
-			northPanel.add(new JLabel("Digits in table"));
+			northPanel.add(new JLabel(editor.getBundle().getString("SIMULATION_DIGITS")));
 			northPanel.add(digitSpinner);
 		}
 		this.add(northPanel, BorderLayout.NORTH);

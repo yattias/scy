@@ -110,7 +110,7 @@ public class VariableSelectionPanel extends JPanel {
 				colorLabel = new JLabel("\u25A0");
 				colorLabel.setForeground(Color.BLACK);
 				vPanel.add(colorLabel);
-				vPanel.add(new JLabel(" (time) "));
+				vPanel.add(new JLabel(" ("+bundle.getString("VARIABLES_TIME")+") "));
 				variablesPanel.add(vPanel);
 				variables.put("time", box);
 			}
@@ -149,10 +149,10 @@ public class VariableSelectionPanel extends JPanel {
 			//variablesPanel.setBorder(BorderFactory.createTitledBorder(bundle.getString("PANEL_VARIABLESELECTION")));
 			if (showTime) {
 				// the table tab
-				variablesPanel.setBorder(BorderFactory.createTitledBorder("Show in table"));
+				variablesPanel.setBorder(BorderFactory.createTitledBorder(bundle.getString("VARIABLES_TABLE")));
 			} else {
 				// the graph tab
-				variablesPanel.setBorder(BorderFactory.createTitledBorder("Show in graph"));
+				variablesPanel.setBorder(BorderFactory.createTitledBorder(bundle.getString("VARIABLES_GRAPH")));
 			}
 			
 			JPanel contentPanel = new JPanel();
@@ -168,7 +168,7 @@ public class VariableSelectionPanel extends JPanel {
 		JPanel panel = new JPanel();
 		//panel.setBorder(BorderFactory.createTitledBorder(bundle.getString("PANEL_VARIABLEVALUES")));
 		
-		panel.setBorder(BorderFactory.createTitledBorder("Set values"));
+		panel.setBorder(BorderFactory.createTitledBorder(bundle.getString("VARIABLES_VALUES")));
 		int variablecount = model.getConstants().size() + model.getStocks().size();
 		panel.setLayout(new GridLayout(variablecount, 1));
 		

@@ -433,13 +433,13 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		tabbedPane.setTabComponentAt(TABINDEX_EDITOR, new TabPanel(bundle.getString("PANEL_EDITOR"), Util.getImageIcon("editor_24.png"), editorTab, this, properties));
 		feedbackTab = new FeedbackTab(this, bundle);
 		tabbedPane.add(feedbackTab, TABINDEX_FEEDBACK);
-		tabbedPane.setTabComponentAt(TABINDEX_FEEDBACK, new TabPanel("Bar chart", Util.getImageIcon("feedback_24.png"), feedbackTab, this, properties));
+		tabbedPane.setTabComponentAt(TABINDEX_FEEDBACK, new TabPanel(bundle.getString("PANEL_BARCHART"), Util.getImageIcon("feedback_24.png"), feedbackTab, this, properties));
 		graphTab = new GraphTab(this, bundle);
 		tabbedPane.add(graphTab, TABINDEX_GRAPH);
-		tabbedPane.setTabComponentAt(TABINDEX_GRAPH, new TabPanel("Graph", Util.getImageIcon("graph_24.png"), graphTab, this, properties));
+		tabbedPane.setTabComponentAt(TABINDEX_GRAPH, new TabPanel(bundle.getString("PANEL_GRAPH"), Util.getImageIcon("graph_24.png"), graphTab, this, properties));
 		tableTab = new TableTab(this, bundle);
 		tabbedPane.add(tableTab, TABINDEX_TABLE);
-		tabbedPane.setTabComponentAt(TABINDEX_TABLE, new TabPanel("Table", Util.getImageIcon("table_24.png"), tableTab, this, properties));		
+		tabbedPane.setTabComponentAt(TABINDEX_TABLE, new TabPanel(bundle.getString("PANEL_TABLE"), Util.getImageIcon("table_24.png"), tableTab, this, properties));		
 		
 		if (!Boolean.parseBoolean(properties.getProperty("showFeedback"))) {
 			disableTab(TABINDEX_FEEDBACK);
@@ -1048,4 +1048,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		}
 	}
 	
+	public ResourceBundleWrapper getBundle() {
+		return this.bundle;
+	}
 }

@@ -22,7 +22,7 @@ public class OpenFileAction extends AbstractAction {
 	public OpenFileAction(ModelEditor editor) {
 		super();
 		this.editor = editor;
-		putValue(Action.NAME, "Open...");
+		putValue(Action.NAME, editor.getBundle().getString("EDITOR_OPEN"));
 		putValue(Action.SMALL_ICON, smallIcon);
 		putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke("control O"));
 	}

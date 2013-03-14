@@ -22,7 +22,7 @@ public class SaveFileAction extends AbstractAction {
 	public SaveFileAction(ModelEditor editor) {
 		super();
 		this.editor = editor;
-		putValue(Action.NAME, "Save");
+		putValue(Action.NAME, editor.getBundle().getString("EDITOR_SAVE"));
 		putValue(Action.SMALL_ICON, smallIcon);
 		putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke("control S"));
 	}
