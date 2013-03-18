@@ -85,7 +85,7 @@ public class SimulationSettingsPanel extends JPanel {
 		runButton.setSize(36, 36);
 		runButton.setPreferredSize(new Dimension(36, 36));
 		runButton.setActionCommand("run");
-		runButton.setToolTipText("Run model");
+		runButton.setToolTipText(editor.getBundle().getString("SIMULATION_RUN"));
 		runButton.addActionListener(listener);
 		southPanel.add(runButton);
 		
@@ -93,7 +93,7 @@ public class SimulationSettingsPanel extends JPanel {
 		stopButton.setActionCommand("stop");
 		stopButton.setSize(36, 36);
 		stopButton.setPreferredSize(new Dimension(36, 36));
-		stopButton.setToolTipText("Stop model");
+		stopButton.setToolTipText(editor.getBundle().getString("SIMULATION_STOP"));
 		stopButton.setEnabled(false);
 		stopButton.addActionListener(listener);
 		if (Boolean.parseBoolean(editor.getProperties().getProperty("editor.showStopButton"))) {
