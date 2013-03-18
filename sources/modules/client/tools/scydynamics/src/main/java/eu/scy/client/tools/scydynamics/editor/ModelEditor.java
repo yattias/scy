@@ -180,7 +180,14 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	public void setToolBroker(ToolBrokerAPI tbi) {
 		toolBroker = tbi;
 		if (toolBroker != null) {
-			actionLogger = new ModellingLogger(toolBroker.getActionLogger(), toolBroker.getLoginUserName(), toolBroker.getMissionRuntimeURI().toString());
+			String missionURI = "unknown_missionRuntimeURI";;
+			try {
+				missionURI = toolBroker.getMissionRuntimeURI().toString();
+			} catch (Exception ex) {
+				debugLogger.warning("Couldn't get the missionRuntimeURI from toolBroker, using default value.");
+			} finally {
+				actionLogger = new ModellingLogger(toolBroker.getActionLogger(), toolBroker.getLoginUserName(), missionURI);				
+			}
 			setUsername(toolBroker.getLoginUserName());
 		}
 	}
