@@ -62,7 +62,8 @@ class EloCopier(val stateModel: StateModel) {
   }
 
   private def loadElos(eloUris: scala.collection.Seq[URI]): Seq[IELO] = {
-    val elos = stateModel.source.repository.retrieveELOs(eloUris)
+//    val elos = stateModel.source.repository.retrieveELOs(eloUris)
+    val elos = eloUris.map(stateModel.source.repository.retrieveELO(_))
     elos.filter(_ != null)
   }
 
