@@ -1,17 +1,17 @@
 package eu.scy.utils.missioncopier.copying
 
-import eu.scy.common.mission.MissionSpecificationElo
+import eu.scy.common.mission._
 import roolo.search.MetadataQueryComponent
 import roolo.search.Query
 import roolo.search.SearchOperation
-import eu.scy.common.mission.MissionEloType
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds
 import scala.collection.JavaConversions._
 import java.net.URI
-import eu.scy.common.mission.MissionModelElo
 import scala.collection.mutable.ArrayBuffer
 import eu.scy.utils.missioncopier.{RepositoryDefinition, StateModel}
 import eu.scy.utils.missioncopier.commands.Utils
+import scala.Some
+import eu.scy.utils.missioncopier.RepositoryDefinition
 
 class RealMissionCopier(val stateModel: StateModel) {
   private val technicalFormatKey = stateModel.metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT)
@@ -81,6 +81,8 @@ class RealMissionCopier(val stateModel: StateModel) {
   private def getAllEloUris(missionSpecificationElo: MissionSpecificationElo): Seq[URI] = {
     def missionSpecificationEloContent = missionSpecificationElo.getTypedContent()
     val missionMapModelElo = MissionModelElo.loadElo(missionSpecificationEloContent.getMissionMapModelEloUri(), stateModel.source.rooloServices);
+    val templateElosElo = TemplateElosElo.loadElo(missionSpecificationEloContent.getTemplateElosEloUri(), stateModel.source.rooloServices)
+    val runtimeSettingsElo = RuntimeSettingsElo.loadElo(missionSpecificationEloContent.getRuntimeSettingsEloUri(), stateModel.source.rooloServices)
     val eloUris = ArrayBuffer[URI]()
     eloUris += missionSpecificationEloContent.getMissionMapModelEloUri()
     eloUris += missionSpecificationEloContent.getEloToolConfigsEloUri()
@@ -90,7 +92,11 @@ class RealMissionCopier(val stateModel: StateModel) {
     eloUris += missionSpecificationEloContent.getPedagogicalPlanSettingsEloUri()
     eloUris += missionSpecificationEloContent.getColorSchemesEloUri()
     eloUris ++= missionMapModelElo.getTypedContent().getEloUris(true)
+    eloUris ++= templateElosElo.getTypedContent().getTemplateEloUris()
+
+    eloUris ++= runtimeSettingsElo.getTypedContent.getAllSettings().filter(_.getKey().getName().equals("groupformation.referenceElo")).map(_.getValue()).map(new URI(_))
     //      eloUris += missionSpecificationElo.getUri()
     eloUris.filter(_ != null)
   }
+
 }
