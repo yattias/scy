@@ -218,7 +218,7 @@ public class BasicMissionModelEloContent implements MissionModelEloContent
    {
       if (eloUris != null)
       {
-         for (UriScyElo uriScyElo : getLoEloUris())
+         for (UriScyElo uriScyElo : eloUris)
          {
             allEloUris.add(uriScyElo.getUri());
          }
